@@ -1,0 +1,2618 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.6)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[ascii]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{nlr}{nolistsep,label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+
+% multi-line align space
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% smaller fractions
+\newcommand{\sfrac}[2]{\ensuremath{\frac{\scriptstyle #1}{\scriptstyle #2}}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptscriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Disjoint Union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremnumbering{roman}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\hfuzz=1000pt
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\Cl}{Cl}
+
+
+% formatting -------------------------------------------------------------------
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Define Document Variables
+\newcommand{\subject}{Algebraic Number Theory}
+\newcommand{\topic}{REPLACE}
+\newcommand{\semester}{Winter 2019}
+
+% Format Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+
+% Format Section / Subsection headers
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Format Chapter Headers
+\chapterstyle{verville}
+
+% Format Page Headers / Footers
+\setsecnumdepth{section}
+\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+
+% Format Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Field Theory in \texorpdfstring{$\C$}{C}}
+\section{Fields over \texorpdfstring{$\Q$}{Q}}
+\subsection{Algebraic Numbers}
+\begin{definition}
+    An \textbf{algebraic integer} is a root of a monic polynomial in $\Z[x]$.
+    An \textbf{algebraic number} is the root of any non-zero polynomial in $\Z[x]$.
+    A \textbf{number field} is a finite extension of $\Q$.
+    If $K,L$ are fields and $K\subseteq L$, we say that $L$ is an \textbf{extension field} of $K$ and $K$ is a \textbf{subfield} of $L$.
+    We write $[L:K]=\dim_KL$, the dimension of $L$ over $K$.
+\end{definition}
+\begin{example}
+    Equivalently, algebraic numbers are the roots of polynomials in $\Q[x]$.
+    $\sqrt{-5}$ is a root of $x^2+5\in\Z[x]$ is an algebraic integer, and $[\Q(\sqrt{-5}):\Q]=2$.
+    A basis for $\Q(\sqrt{-5})$ over $\Q$ is given by $\{1,\sqrt{-5}\}$.
+\end{example}
+\begin{definition}
+    If $K$ is a field, then $f\in K[x]$ is \textbf{irreducible} if whenever $f=gh$, $g,h\in K[x]$, then $g$ or $h$ is constant.
+\end{definition}
+\begin{proposition}
+    Let $K\subseteq\C$ is a subfield and suppose $f\in K[x]$ is irreducible.
+    Then, $f$ has distinct roots in $\C$.
+\end{proposition}
+\begin{proof}
+    Suppose not and write $f(x)=a_n(x-\alpha)^2g(x)$ in $\C[x]$.
+    Then $f'(x)=2a_n(x-\alpha)g(x)+a_n(x-\alpha)^2g(x)$, and $f'(\alpha)=0$.
+    Let $p$ be the minimal polynomial of $\alpha$.
+    Then $p|f$ so $p=f$ up to a constant.
+    As well, $f=p|f'$, a contradiction.
+\end{proof}
+\subsection{Field Extensions}
+\begin{definition}
+    If $K\subseteq L$ are fields, then we write $L/K$ and say that $L$ is a \textbf{extension} of $K$.
+    If $K\subseteq\C$ is a field $\theta\in\C$, then the field $K$ \textbf{adjoin} $\theta$, denoted $K(\theta)$, is defined to be the smallest subfield of $\C$ containing $K$ and $\theta$.
+\end{definition}
+\begin{example}
+    Set $L:=\{a+b\sqrt{-5}:a,b\in\Q\}$; why is it that $\Q(\sqrt{-5})=L$?
+    Certainly $L$ is a field: the inverse of $a+b\sqrt{-5}$ is given by $\frac{a-b\sqrt{-5}}{a^2+5b^2}$, which always since $a^2+5b^2$ is not zero whenever $\alpha\neq 0$.
+    To see equality, let $M$ be any field containing $\Q$ and $\sqrt{-5}$.
+    Then if $a,b$ are both rational, then $a\in M$ and $b\sqrt{-5}\in M$ so $a+b\sqrt{-5}\in M$.
+    Thus $L$ is the smallest field containing $\Q$ and $\sqrt{-5}$.
+\end{example}
+\begin{example}
+    Consider $\zeta=e^{2\pi i/3}$.
+    Then one can verify that $\Q(\zeta)=\{a+b\zeta+c\zeta^2:a,b,c\in\Q\}$.
+\end{example}
+\begin{definition}
+    Let $K\subseteq\C$ be a subfield.
+    Then we say $\theta\in\C$ is \textbf{algebraic over $K$} if there exists a polynomial $f\in K[x]$ such that $f(\theta)=0$.
+    We say $p\in K[x]$ is the \textbf{minimal polynomial} of $\theta$ if it is monic, has $\theta$ as a root, and if it has minimal degree.
+    The \textbf{degree of $\theta$ over $K$} is $\deg p(x)$.
+\end{definition}
+\begin{example}
+    $\sqrt{-5}$ has minimal polynomial $x^2+5$, and $\zeta$ has minimal polynomial $x^2+x+1$.
+\end{example}
+\begin{proposition}[Properties of the Minimal Polynomial]
+    Let $K\subseteq\C$ be a subfield, $\theta\in\C$ algebraic over $K$.
+    Then there exists a unique minimal polynomial $p(x)$ of $\theta$ over $K$.
+    In particular, the following hold:
+    \begin{enumerate}[nolistsep]
+        \item If $f(\theta)=0$, $p|f$.
+        \item $p$ is irreducible in $K[x]$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    If $p,q\in K[x]$ are both minimal polynomials, then $r=p-q$ has lower degree and $r(\theta)=0$.
+    If $r$ is non-zero, let it have leading coefficient $c$ so that $r(x)/c$ is monic.
+    But then $\deg(r/c)<\deg p$ and $r(\theta)/c=0$, contradicting minimality of $p$.
+    \begin{enumerate}[nolistsep]
+        \item By the division algorithm, write $f=pq+r$.
+            If $r\neq 0$, then $\deg r<\deg p$ and $r(\theta)=0$, a contradiction by the same reasoning above.
+        \item If $p$ is reducible, write $p=fg$ where $f,g$ are not constant.
+            Since $F[x]$ is a UFD, $0=p(\theta)=f(\theta)g(\theta)$ so $\theta$ is a root of $f$ or $g$, contradicting minimality.
+    \end{enumerate}
+    Thus the result holds.
+\end{proof}
+\begin{remark}
+    Since $p$ is irreducible, $p$ has $n=\deg p$ distinct roots in $\C$.
+\end{remark}
+\begin{definition}
+    Suppose $\theta$ has minimal polynomial $p(x)$.
+    The roots $\theta_1,\ldots,\theta_n\in\C$ of $p$ are called the \textbf{conjugates} of $\theta$.
+\end{definition}
+\begin{proposition}
+    Let $K\subseteq\C$, $\theta\in \C$ algebraic over $K$, and let $n=\deg p$ be the degree of the minimal polynomial.
+    Then every element $\alpha\in K(\theta)$ has a unique representation in the form
+    \begin{equation*}
+        \alpha=a_0+a_1\theta+\cdots+a_{n-1}\theta^{n-1}
+    \end{equation*}
+    where $a_i\in K$.
+\end{proposition}
+\begin{proof}
+    First note that
+    \begin{equation*}K(\theta)=\left\{\frac{f(\theta)}{g(\theta)}: f,g\in K[x],g(\theta)\neq 0\right\}\end{equation*}
+    Set $\alpha=f(\theta)/g(\theta)\in K(\theta)$.
+    Let's first see that $p$ and $g$ are coprime.
+    Suppose not; then there exists non-constant $h\in K[x]$ such that $h|p$ and $h|g$.
+    Since $p$ is irreducible, $h=cp$ for some $c\in K^\times$.
+    Then since $h|g$, $p|g$ as well and $g(\theta)=0$, a contradiction.
+
+    Since $K[x]$ is a PID and $p,g$ are coprime, there exist polynomials $s,t\in K[x]$ so that $sp+tg=1$.
+    Evaluating at $g$, we must have $t(\theta)g(\theta)=1$ and
+    \begin{equation*}
+        \alpha=\frac{f(\theta)}{g(\theta)}=f(\theta)t(\theta)
+    \end{equation*}
+    so $\alpha$ is a polynomial in $\theta$.
+    By the division algorithm, $ft=pq+r$ where $\deg r\leq n-1$ and $\alpha=r(\theta)$ is a polynomial expression in $\theta$ with degree $n-1$.
+
+    It remains to see uniqueness.
+    Suppose $\alpha=r_1(\theta)=r_2(\theta)$ where $r_1,r_2\in K[x]$ and $\deg r_i<n$.
+    If $r_1(x)-r_2(x)\neq 0$, then $\deg(r_1-r_2)<n$.
+    But then $r_1-r_2$ has $\theta$ as a root and $\deg(r_1-r_2)<n$, contradicting minimality of $p$.
+\end{proof}
+\begin{remark}
+    This says that $\{1,\theta,\ldots,\theta^{n-1}\}$ is a basis for $K(\theta)$ over $K$.
+    In general, when $\theta$ is algebraic over $K$, $K(\theta)=K[\theta]$.
+\end{remark}
+\begin{corollary}
+    Suppose $M/L/K$.
+    Then $[M:K]=[M:L][L:K]$.
+\end{corollary}
+\begin{proof}
+    Exercise.
+\end{proof}
+\section{Finite Extensions and Embeddings}
+\begin{definition}
+    An injective ring homomorphism $\phi:R\to S$ is called an \textbf{embedding}.
+    We write $R\hookrightarrow S$ is the inclusion map.
+\end{definition}
+\begin{theorem}
+    Let $K\subseteq\C$ is a subfield, $L/K$ is a finite extension field.
+    If $\sigma:K\hookrightarrow \C$ is an embedding, then $\sigma$ extends to an embedding $L\hookrightarrow \C$ in exactly $[L:K]$ ways.
+\end{theorem}
+\begin{proof}
+    First, let's prove the theorem for extensions of the form $K(\alpha)/K$.
+    Let $p(x)=a_0+\cdots+a_mx^m\in K[x]$ be the minimal polynomial of $\alpha$ over $K$.
+    Since $\sigma$ is injective, $K\cong\sigma(K)\subseteq\C$.
+    Let $g(x)=\sigma(a_0)+\cdots+\sigma(a_{m-1})x^{m-1}+x^m$, which is irreducible over $\sigma(K)$.
+    To see this, if $(c_0+c_1x+\cdots+c_u x^u)(d_0+d_1x+\cdots+d_vx^v)$ is any factorization (with $c_i,d_i\in\sigma(K)$), then $(\sigma^{-1}(c_0)+\sigma^{-1}(c_1)x+\cdots+x^u)(\sigma^{-1}(d_0)+\sigma^{-1}(d_1)x+\cdots+x^v)$ is a factorization of $p(x)$, so it must be trivial.
+    Now, let $\beta_1,\ldots,\beta_m\in\C$ be the distinct roots of $g(x)$, and let $\beta:=\beta_i$ be arbitrary.
+    Given an element $\gamma=b_0+b_1\alpha+b_2\alpha^2+\cdots+b_{m-1}\alpha^{m-1}$ in $K(\alpha)$, let
+    \begin{equation*}\lambda_\beta(\gamma)=\sigma(b_0)+\sigma(b_1)\beta+\cdots+\sigma(b_{m-1})\beta^{m-1}\end{equation*}
+    One can verify that this is a ring homomorphism which respects $\sigma$.
+    Furthermore, there no other embeddings $\lambda$ since $0=\lambda(0)=\lambda(p(\alpha))=g(\lambda(\alpha))$.
+    Thus, $\lambda(\alpha)$ is a root of $g$, so $\lambda(\alpha)=\beta_i$ for some $i$.
+    Since $\lambda$ is a homomorphism, if $\lambda_1(\alpha)=\lambda_2(\alpha)$, then $\lambda_1=\lambda_2$, so there are at most $[K(\alpha):K]$ embeddings.
+
+    Now, the proof follows by induction.
+    If $[L:K]=1$, we are done; if $[L:K]>1$, get $\alpha\in L\setminus K$.
+    From above, $\sigma$ extends to $[K(\alpha):K]$ embeddings $\lambda:K(\alpha)\to\C$, and by induction, any such embedding extends to $[L:K(\alpha)]$ embeddings $\lambda:L\to\C$.
+    Thus there are $[L:K(\alpha)][K(\alpha):K]=[L:K]$ embeddings extending $\sigma$, as desired.
+\end{proof}
+\begin{remark}
+    Our most common use case will be when $\sigma$ is the identity map on $K$.
+\end{remark}
+\begin{example}
+    Consider the embedding of $\Q\hookrightarrow\C$.
+    If $\Q(\sqrt{d})/\Q$, then the two embeddings are given by $\sqrt{d}\mapsto\sqrt{d}$ or $\sqrt{d}\mapsto-\sqrt{d}$. (TODO: understand)
+    Note that $\pm\sqrt{d}$ are conjugates: both are roots of the minimal polynomial $x^2-d$.
+\end{example}
+\begin{example}
+    Suppose $K=\Q$, and $L=\Q(\sqrt[3]{2})$.
+    Since $x^3-2$ is the minimal polynoial of $\sqrt[3]{2}$, its conjugates are $\sqrt[3]{2},\sqrt[3]{2}\omega,\sqrt[3]{2}\omega^2$ where $\omega=e^{2\pi i/3}$.
+    All embedings extend $\Q\subseteq\C$ are given by $\sqrt[3]{2}\mapsto\sqrt[3]{2}\omega^k$ for $k=0,1,2$.
+\end{example}
+\begin{theorem}
+    Let $K\subseteq L\subseteq\C$ with $[L:K]<\infty$.
+    Then there $\theta\in L$ such that $L=K(\theta)$.
+\end{theorem}
+\begin{proof}
+    Since $[L:K]<\infty$, we have $L=K(\alpha_1,\alpha_2,\ldots,\alpha_m)$ for some $m$.
+    By induction on $m$, it suffices to handle the case $L=K(\alpha,\beta)$.
+
+    Let $\{\alpha_1,\ldots,\alpha_n\}$ be the conjugates of $\alpha$ and $\{\beta_1,\ldots,\beta_m\}$ are conjugates of $\beta$ (over $K$).
+    Let $c\in K^\times$ be such that $\alpha+c\beta\neq\alpha_i+c\beta_j$ for any $(i,j)\neq(1,1)$ ($K$ is an infinite field, so such a $c$ certainly exists), and set $\theta:=\alpha+c\beta$.
+    Certainly $K(\theta)\subseteq K(\alpha,\beta)$; for the reverse inclusion, it suffices to show that $\beta\in K(\theta)$.
+    Let $f(x)$ be the minimal polynomial of $\alpha$ over $K$, and $g(x)$ the minimal polynomial of $\beta$ over $K$.
+    Note that $\beta$ is a root of both $f(\theta-cx)$ and $g(x)$; and by choice of $c$, there are no others in common.
+
+    Let $h(x)$ be the minimal polynomial of $\beta$ over $K(\theta)$.
+    Since $\beta$ is a root of both $f(\theta-cx)$ and $g(x)\in K[x]\subseteq K(\theta)[x]$, we must have $h|f(\theta-cx)$ and $h|g(x)$, so $\deg h=1$ and $\beta\in K(\theta)$.
+\end{proof}
+\subsection{Normal Extensions}
+\begin{definition}
+    Let $K\subseteq L\subseteq\C$, $[L:K]<\infty$.
+    We say $L$ is a \textbf{normal extension} of $K$ if it is closed under taking conjugates over $K$.
+\end{definition}
+\begin{example}
+    For example, $\Q(\sqrt{d})/\Q$ is a normal extension.
+    If $\alpha\in L$, then $\alpha=a+b\sqrt{d}$.
+    The conjugate of $\alpha$ is $a-b\sqrt{d}$, which is also an element of $L$.
+    On the other hand, a classic non-example is $L=\Q(\sqrt[3]{2})/\Q$.
+    Then $\sqrt[3]{2}\in L$ but $\omega\sqrt[3]{2}\notin L$, since $\omega\sqrt[3]{2}\notin\R$.
+\end{example}
+\begin{proposition}
+    Let $K\subseteq L\subseteq\C$, $[L:K]<\infty$.
+    Then $L/K$ is normal if and only if for all $\sigma:L\hookrightarrow\C$ such that $\sigma|_K=\id_K$, $\sigma$ is an automorphism of $L$.
+\end{proposition}
+\begin{proof}
+    Note that $\sigma$ is an automorphism of $L$ if and only if $\sigma(L)=L$.
+
+    If $L/K$ is normal, let $\alpha\in L$ be such that $L=K(\alpha)$.
+    Then $\sigma:L\hookrightarrow\C$ is specified fully by $\sigma(\alpha)=\alpha_i$, where $\alpha_i$ is a conjugate of $\alpha$.
+    But then $\sigma:K(\alpha)\to K(\alpha_i)$ is an isomorphism, and since $L/K$ is normal, $K(\alpha)=K(\alpha_i)$ and $\sigma$ is an automorphism of $L$.
+
+    Conversely, let's show that $L/K$ is normal.
+    Let $\alpha\in L$, let $\alpha_i$ be the conjugates of $\alpha$ over $K$: we need to show that $\alpha_i\in L$.
+    Let $\sigma(\alpha)=\alpha_i$ extend $\id_K$, and by hypothesis, $\sigma$ is an automorphism so $\alpha_i\in K(\alpha)=L$.
+\end{proof}
+\begin{remark}
+    Recall that there are $[L:K]$ embeddings that fix $K$; in other words, $\sigma:L\hookrightarrow\C$ such that $\sigma|_K=\id_K$.
+    The corollary says that $L/K$ is normal if and only if all of these embeddings are automorphisms.
+    Thus $L/K$ is normal if and only if exactly $[L:K]$ automorphisms of $L$ fixing $K$.
+\end{remark}
+\begin{corollary}
+    Let $K\subseteq\C$, $\alpha_i\in\C$ algebraic over $K$.
+    Then $L=K(\alpha_1,\ldots,\alpha_n)$ is normal over $K$ if all the conjugates of $\alpha_i$ are in $L$.
+\end{corollary}
+\begin{proof}
+    Let $\sigma:L\hookrightarrow\C$ be an embedding extending $\id_K$.
+    If $\theta\in L$, then $\theta=f(\alpha_1,\ldots,\alpha_n)$ for $f(x)\in K[x_1,x_2,\ldots,x_n]$.
+    Then $\sigma(\theta)=f(\sigma(\alpha_1),\ldots,\sigma(\alpha_n))$ where $\sigma(\alpha_i)$ is some conjugate of $\alpha_i$, an element of $L$ by hypothesis.
+    Thus $\sigma(\theta)\in L$ so $\theta\in L$ as well.
+\end{proof}
+\begin{corollary}
+    $K\subseteq L\subseteq\C$, $[L:K]<\infty$.
+    Then there exists a finite extension $M/L$ such that $M/K$ is normal.
+\end{corollary}
+\begin{proof}
+    Get $\alpha\in L$ so that $L=K(\alpha)$.
+    Let $\alpha_1,\ldots,\alpha_n$ be the conjugates of $\alpha$ over $K$.
+    Set $M=K(\alpha_1,\ldots,\alpha_n)$, and by the previous corollary, $M/K$ is normal.
+\end{proof}
+\begin{example}
+    Let $L=\Q(\sqrt[3]{2})$, $K=\Q$.
+    $L/K$ is not normal, but $M=\Q(\sqrt[3]{2},\sqrt[3]{2}\omega,\sqrt[3]{2}\omega^2)/\Q$ is normal.
+\end{example}
+\section{Galois Theory over \texorpdfstring{$\Q$}{Q}}
+\begin{definition}
+    Let $L/K$ be any finite extension.
+    The \textbf{Galois group} of $L/K$ is defined
+    \begin{equation*}
+        \Gal(L/K)=\{\text{automorphisms }\sigma:L\to L\text{ s.t. }\sigma|_K=\id_K\}
+    \end{equation*}
+    Now if $H\leq\Gal(L/K)$, $L^H=\{\alpha\in L:\sigma(\alpha)=\alpha\forall\sigma\in H\}$ is called the \textbf{fixed field of $H$}.
+\end{definition}
+\begin{remark}
+    Recall that $|\Gal(L/K)|\leq[L:K]$, with equality if and only if $L/K$ is normal.
+    As well, one can verify that $L^H$ is indeed a field, so $L/L^H$ is an extension.
+    In particular, this extension has certain properties:
+\end{remark}
+\begin{theorem}\label{thm:galfix}
+    Given $K\subseteq L\subseteq\C$, $L/K$ a finite normal extension.
+    Let $G=\Gal(L/K)$.
+    Then
+    \begin{itemize}[nolistsep]
+        \item $L^G=K$
+        \item If $H\leq G$ and $L^H=K$, then $H=G$
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    We first see that $K=L^G$.
+    Let $\sigma:L\hookrightarrow\C$ be an embedding fixing $K$.
+    Since $L$ is normal, $\sigma\in\Gal(L/K)$, so by definition of $L^G$, $\sigma$ fixes $L^G$.
+    But then $[L:L^G][L^G:K]\leq[L:L^G]$, so $[L^G:K]\leq 1$ and $L^G=K$.
+
+    Suppose now that $L^H=K$.
+    Set $L=K(\alpha)$ and consider the polynomial
+    \begin{align*}
+        f(x) &= \prod_{\sigma\in H}(x-\sigma(\alpha))= x^{|H|}-e_1x^{|H|-1}+\cdots+e_{|H|}(-1)^{|H|}
+    \end{align*}
+    where the $e_i$ are elementary symmetric functions in the $\sigma(\alpha)$.
+    If $\tau\in H$, then
+    \begin{align*}
+        \tau(e_1)&=\sum\limits_{\sigma\in H}\tau\sigma(\alpha)= \sum\limits_{\sigma\in H}\sigma(\alpha)=e_1
+    \end{align*}
+    since $\tau\in H$ permutes the $\sigma(\alpha)$ and $e_1$ is a symmetric polynomial in $\sigma(\alpha)$.
+    The same argument holds for any $e_i$, so $e_i\in L^H=K$ for all $i$; thus, $f(x)\in K[x]$.
+    Since $\id\in H$, $f(\alpha)=0$; and $\deg f=|H|$.
+    Since the minimal polynomial of $\alpha$ over $K$ has degree $\leq|H|$,
+    \begin{align*}
+        [L:K] &= [K(\alpha):K]\leq|H|\leq|G|=[L:K]
+    \end{align*}
+    so $H=G$.
+\end{proof}
+\begin{remark}
+    Suppose $L/K$ is normal, and $L\supseteq F\supseteq K$ where $F$ is a field.
+    Then $L/F$ is also normal since conjugates of $\alpha\in L$ over $F$ are a subset of conjugates of $\alpha$ over $K$.
+\end{remark}
+\begin{theorem}[Fundamental Theorem of Galois Theory]\label{th:ftfg}
+    Let $K\subseteq L\subseteq\C$, $L/K$ normal, with $L/F/K$.
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $L^{\Gal(L/F)}=F$
+        \item If $H\leq G=\Gal(L/K)$, then $\Gal(L/L^H)=H$.
+        \item $F/K$ is normal if and only if $\Gal(L/F)\trianglelefteq\Gal(L/K)$.
+            In this case,
+            \begin{equation*}
+                \Gal(F/K)\cong\quot{\Gal(L/K)}{\Gal(L/F)}
+            \end{equation*}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item Since $L/K$ is normal, $L/F$ is normal and \cref{thm:galfix} states that $F=L^{\Gal(L/F)}$.
+        \item Let $H'=\Gal(L/L^H)$.
+            By definition, $H$ fixes $L^H$, so $H\leq H'=\Gal(L/L^H)$.
+            Since $L/L^H$ is normal and $H\leq\Gal(L/L^H)$ has $L^H$ as its fixed field, by the previous theorem, $H=\Gal(L/L^H)=H'$.
+        \item Let $H=\Gal(L/F)$.
+            If $\sigma\in\Gal(L/K)$, then $\sigma:F\longrightarrow\sigma(F)$ is an isomorphism and $\sigma\Gal(L/F)\sigma^{-1}=\Gal(L/\sigma(G))$.
+            Thus,
+            \begin{align*}
+                \Gal(L/F)\trianglelefteq\Gal(L/K) &\Longleftrightarrow \Gal(L/\sigma(F))=\sigma\Gal(L/F)\sigma^{-1}=\Gal(L/F)\\
+                                                  &\Longleftrightarrow \sigma(F)=F\text{ for all }\sigma\\
+                                                  &\Longleftrightarrow F/K\text{ is normal}
+            \end{align*}
+            since a field is normal if and only if it is fixed by all its automorphisms.
+
+            When this holds, we can compute $\Gal(F/K)$.
+            Since $\sigma(F)=F$, we have a well-defined map $\Gal(L/K)\to\Gal(F/K)$ given by $\sigma\mapsto\sigma|_F$.
+            The kernel is $\{\sigma\in\Gal(L/K):\sigma|_F=\id_F\}=\Gal(L/F)$.
+            Then by first isomorphism theorem,
+            \begin{equation*}
+                \Gal(F/K)\cong\quot{\Gal(L/K)}{\Gal(L/F)}
+            \end{equation*}
+            as required.
+    \end{enumerate}
+\end{proof}
+\chapter{The Ring of Algebraic Integers}
+\section{Number Fields}
+We now focus our attention on extensions, in particular finite extensions, of $\Q$ in $\C$.
+\begin{definition}
+    $K$ is a \textbf{number field} if $K$ is a finite extension of $\Q$.
+    We write $\mathcal{O}_K\subseteq K$ to denote the subset of \textbf{algebraic integers} of $K$.
+    The field of \textbf{algebraic numbers} over $\Q$ is denoted $\overline{\Q}$.
+    The set of \textbf{algebraic integers} is denoted $\mathcal{O}_{\overline{\Q}}$.
+\end{definition}
+Recall that $\alpha$ is an algebraic integer if it has a minimal polynomial in $\Z[x]$.
+\begin{proposition}
+    If $f,g\in\Z[x]$ are primitive (their coefficients have no non-trivial common factor), then $fg$ is also primitive.
+\end{proposition}
+We can prove Gauss' Lemma by hiding the work under the observation that $\Z_p[x]$ is a UFD.
+\begin{proof}
+    Suppose $f,g\in\Z[x]$ are primitive.
+    If $fg$ is not primitive, then some prime $p$ divides all coefficients of $fg$.
+    Consider modulo $p$, so $\overline{f}\overline{g}=0$.
+    Then $\overline{f}=0$ or $\overline{g}=0$, so $p$ divides all coefficients of $f$ or $g$ and $f,g$ are not primitive.
+\end{proof}
+\begin{proposition}
+    Let $\alpha$ be an algebraic integer.
+    Then the minimal polynomial of $\alpha$ over $\Q$ is in $\Z[x]$.
+\end{proposition}
+\begin{proof}
+    Let $\alpha$ be an algebraic integer, so there exists $h\in\Z[x]$ monic such that $h(\alpha)=0$.
+    Let $f\in\Q[x]$ be the minimal polynomial of $\alpha$ over $\Q$.
+    Then $h=fg$ in $\Q[x]$.
+    Since $h,f$ are monic, $g$ is also monic.
+    Let $a,b\in\Z$ so that $af,bg\in\Z[x]$ and $af,bg$ are primitive polynomials.
+    (Recall that $F\in\Z[x]$ is primitive if the coefficients of $F$ have no non-trivial common factor.)
+    Then by Gauss's Lemma, $abh=(af)(bg)\in\Z[x]$ is primitive, so $ab=\pm1$, so $a,b=\pm1$ and $f,g\in\Z[x]$ to begin with.
+\end{proof}
+A simple observation following from this fact is that $\mathcal{O}_{\Q}=\Z$.
+\begin{example}[Quadratic Extensions]
+    Let $d$ be a squarefree integer.
+    Then
+    \begin{equation*}
+        \mathcal{O}_{\Q(\sqrt{d})}=\begin{cases}
+            \Z[d] &:d\equiv 2,3\pmod{4}\\
+            \left\{\frac{a+b\sqrt{d}}{2}: a\equiv b\pmod{2}\right\} &:d\equiv 1\pmod{4}
+        \end{cases}
+    \end{equation*}
+    Let $\alpha=r+s\sqrt{d}$, $r,s\in\Q$.
+    If $s=0$, then $\alpha=r\in\Q$, so $\alpha\in\mathcal{O}_{\Q(\sqrt{d})}$.
+    Now consider $s\neq 0$.
+    The minimal polynomial of $\alpha$ over $\Q$ is
+    \begin{align*}
+        \left(x-(r+s\sqrt{d})\right)\left(x-(r-s\sqrt{d})\right) = x^2-2rx+(r^2-ds^2)
+    \end{align*}
+    By $\alpha\in\mathcal{O}_{\Q(\sqrt{d})}$ if and only if $2r\in\Z$, $r^2-ds^2\in\Z$.
+
+    First, if $r\in\Z$, so $ds^2\in\Z$ and since $d$ is squarefree, $s\in\Z$.
+
+    The other case is $r=\frac{a}{2}$, where $a$ is an odd integer.
+    Then $ds^2=\text{integer}+a^2/4$, so $s=b/2$ where $b$ is an odd integer.
+    Since $r^2-ds^2\in\Z$, we need $4\mid(a^2-db^2)$.
+    Modulo 4, $a^2\equiv db^2$, and since $a,b$ are odd, $a^2=b^2\equiv 1\pmod{4}$ and $d\equiv 1\pmod{4}$.
+\end{example}
+\begin{remark}
+    Notice in all of these examples, we got
+    \begin{equation*}
+        \mathcal{O}_{\Q}=\Z,\qquad\mathcal{O}_{\Q(\sqrt{d})}=\begin{cases}
+            \Z[\sqrt{d}]\\\Z\left[\frac{1+\sqrt{d}}{2}\right]
+        \end{cases}
+    \end{equation*}
+    which are all rings!
+\end{remark}
+\begin{theorem}\label{thm:algint}
+    Let $\alpha\in\C$.
+    Then the following are equivalent:
+    \begin{enumerate}[nlr]
+        \item $\alpha$ is an algebraic integer
+        \item $\Z[\alpha]$ is finitely generated as an additive group
+        \item $\alpha$ is an element of some subring of $\C$ having finitely generated additive group.
+        \item $\alpha A\subseteq A$ for some finitely generated additive subgroup $A\subseteq\C$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \imp{i}{ii}.
+    We know $\Z[\alpha]=\{a_0+a_1\alpha+\cdots+a_{n-1}\alpha^{n-1}:a_i\in\Z\}$ where $n$ is the degree of $\alpha$ over $\Q$.
+    Then it is generated over $\Z$ by $\{1,\alpha,\alpha^2,\ldots,\alpha^{n-1}\}$.
+
+    \imp{ii}{iii}.
+    $\alpha\in\Z[\alpha]$ and $\Z[\alpha]$ is a subring of $\C$ with finitely generated additive group.
+
+    \imp{iii}{iv}.
+    Let $A\subseteq\C$ denote the subring with $\alpha\in A$; then $\alpha A\subseteq A$.
+
+    \imp{iv}{i}.
+    Let $\{a_1,\ldots,a_n\}$ generate $A$ as an additive group with $\alpha A\subseteq A$.
+    In particular, $\alpha a_i\in A$, so there exists $\{m_{ij}:j=1,\ldots,n\}\subset\Z$ such that $\alpha a_i=\sum_{j=1}^n m_{ij}a_j$.
+    Let $M=(m_{ij})$ in $\Z$, so that
+    \begin{equation*}
+        (\alpha I_n-M)\begin{bmatrix}a_1\\\vdots\\a_n\end{bmatrix}=0
+    \end{equation*}
+    Thus, $\alpha$ is a root of $\det(xI_n-M)\in\Z[x]$.
+\end{proof}
+\begin{remark}
+    The proof of \imp{4}{1} gives a general method for computing polynomials which have a specific algebraic integer as a root.
+\end{remark}
+\begin{corollary}
+    $\mathcal{O}_{\overline{\Q}}$ is a ring.
+    In particular, $\mathcal{O}_K$ is a ring for any number field $K$.
+\end{corollary}
+\begin{proof}
+    Say $\alpha$ has degree $n$ and $\beta$ has degree $m$ over $\Q$.
+    Then $\Z[\alpha,\beta]\subseteq\C$ is a subring with a finitely generated additive group because it is generated by $\alpha^i\beta^j$ where $0\leq i<n$, $0\leq j<m$.
+    Since $\alpha\beta,\alpha+\beta\in\Z[\alpha,\beta]$ we are done by condition (3) in \cref{thm:algint}.
+    Finally, $\mathcal{O}_K=K\cap\mathcal{O}_{\overline{\Q}}$ is an intersection of rings and thus also a ring.
+\end{proof}
+\begin{proposition}
+    Let $\alpha$ be an algebraic number.
+    Then there exists $r\in\Z^+$ such that $r\alpha$ is an algebraic integer.
+\end{proposition}
+This essentially says that if $\alpha\in K$ and $K$ is a number field, then there exists $r\in\Z^+$ such that $r\alpha\in\mathcal{O}_K$.
+\begin{proof}
+    Since $\alpha$ is an algebraic number, $\alpha$ satisfies a polynomial in $\Q[x]$.
+    Clear denominators to get $h\in\Z[x]$ so $h(\alpha)=0$.
+    Write $h(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0$.
+    Then
+    \begin{align*}
+        a_n^{n-1}h(x)&=a_n^nx^n+a_n^{n-1}a_{n-1}x^{n-1}+\cdots+a_n^{n-1}a_0\\
+                     &= (a_nx)^n+a_{n-1}(a_nx)^{n-1}+\cdots+a_n^{n-1}a_0
+    \end{align*}
+    Let $g(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_n^{n-1}a_0$, so $g(a_n\alpha)=0$ and $a_n\alpha$ is an algebraic integer.
+    If $a_n$ is negative, take $-a_n\alpha$ instead.
+\end{proof}
+\subsection{Cyclotomic Extensions}
+\begin{definition}
+    We say $\zeta_n$ is a \textbf{primitive n\textsuperscript{th} root of unity} if $\zeta_n^n=1$ and $\zeta_n^k\neq 1$ for any $k<n$.
+    We call the extension $\Q(\zeta_n)$ a \textbf{cyclotomic field}.
+\end{definition}
+\begin{example}
+    The $4^\text{th}$ roots of unity are $1,i,-1,-i$, so $i$ and $-i$ are the primitive $4^\text{th}$ roots of unity.
+\end{example}
+The cyclotomic fields play a fundamental role in number theory.
+For example, in class field theory, we have the following theorem:
+\begin{theorem}[Kronecker-Weber]
+    If $K/\Q$ is a finite normal extension and $\Gal(K/\Q)$ is abelian, then $K\subseteq\Q(\zeta_n)$ for some $n$.
+\end{theorem}
+We will not prove this theorem in full generality, but we will see partial results on assignments.
+\begin{theorem}
+    $\zeta_n$ is an algebraic integer with minimal polynomial
+    \begin{equation*}
+        \Phi_n(x):=\prod_{j\in(\Z_n)^\times}(x-\zeta_n^j)
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Note that $\zeta_n$ is a root of $x^n-1$, so $\zeta_n$ is an algebraic integer.
+    Let $f(x)\in\Z[x]$ be the minimal polynomial of $\zeta_n$ over $\Q$ so that $f(x)\div(x^n-1)$ over $\Z[x]$.
+    Recall that
+    \begin{equation*}
+        x^n-1=\prod\limits_{j\in\Z_n}(x-\zeta_n^j)
+    \end{equation*}
+    If $j\notin(\Z_n)^\times$, then $\zeta_n^j$ satisfies $x^{\frac{n}{\gcd(n,j)}}-1$ but $\zeta_n$ does not, so $\zeta$ and $\zeta_n^j$ are not conjugates.
+    Thus the only possible conjugates for $\zeta_n$ are the $\zeta_n^j$ where $j\in(\Z_n)^\times$; it suffices to show that these are precisely the conjugates.
+    In particular, let's show that if $\theta=\zeta_n^t$ and $p$ is prime with $p\nmid n$, then $\theta^p$ is conjugate to $\theta$.
+    With this, the result follows: if $j$ is coprime to $n$, write $j=p_1^{e_1}\cdots p_m^{e_m}$ with $p_i\nmid n$ and repeatedly apply the above result to $\zeta_n$ for each $p_i$, $e_i$ times.
+
+    Thus let's prove the claim.
+    Write $x^n-1=f(x)g(x)$ with $f,g\in\Z[x]$; since $\theta^p$ is a root of $x^n-1$, either it is a root of $f(x)$ - in which case we're done - or it is a root of $g(x)$.
+    Suppose $g(\theta^p)=0$, so $\theta$ is a root of $g(x^p)\in\Z[x]$ so $f(x)\div g(x^p)$ over $\Z[x]$.
+    Modulo $p$, $\overline{f}(x)\div\overline{g}(x^p)=\overline{g}(x)^p$ in $\Z_p[x]$.
+    Since $\Z_p[x]$ is a UFD, let $s(x)$ be an irreducible factor of $f(x)$ so that $s|\overline{f}$ and thus $s|\overline{g}$.
+    But then $x^{n}-\overline{1}=\overline{f}\overline{g}$, so $s^2\div(x^n-1)$ and $s\div\overline{n}x^{n-1}$.
+    Since $n$ is coprime to $p$, this implies $s=cx$ for some $c\in\Z_p$.
+    But then $cx\div x^n-\overline{1}$, a contradiction.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl]
+        \item For $p$ prime, we have
+            \begin{align*}
+                \Phi_p(x) &= \prod\limits_{j=1}^{p-1}(x-\zeta_p^j)= \frac{x^p-1}{x-1}= x^{p-1}+x^{p-2}+\cdots+1
+            \end{align*}
+        \item $\Q(\zeta_n)/\Q$ is a normal extension since conjugates of $\zeta_n$ are $\zeta_n^j\in\Q(\zeta_n)$.
+            As well, $[Q(\zeta_n):\Q]=|(\Z_n)^\times|=\phi(n)$.
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    $\Gal(\Q(\zeta_n)/\Q)\cong(\Z/n)^\times$.
+\end{proposition}
+\begin{proof}
+    Set $G=\Gal(\Q(\zeta_n)/\Q)$, which consists of automorphisms $\sigma:\Q(\zeta_n)\to\Q(\zeta_n)$ fixing $\Q$.
+    For such a $\sigma$, we must have $\sigma(\zeta_n)=\zeta_n^j$ for some $\gcd(j,n)=1$.
+    Thus to every $\sigma\in G$, we can associate the index $j\in(Z_n)^\times$ so that $\sigma_j(\zeta_n)=\zeta_n^j$.
+    This gives us a map $G\to(\Z_n)^\times$ by $\sigma_j\mapsto j$.
+    This map is a homomorphism:
+    \begin{equation*}
+        \sigma_k\sigma_j(\zeta_n)=\sigma_k(\zeta_n^j)=\sigma_k(\zeta_n)^j=\zeta_n^{jk}=\sigma_{jk}(\zeta_n)
+    \end{equation*}
+    and bijectivity is left as a straightforward exercise.
+\end{proof}
+\section{Traces, Norms, and Units}
+\begin{definition}
+    Suppose $K$ is a number field with $[K:\Q]=n$, and let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ be the usual embeddings extending $\Q\subseteq\C$.
+    Given $\alpha\in K$, we say its \textbf{trace} is
+    \begin{equation*}
+        \Tr_{\Q}^K=Tr_{\Q}^K(\alpha)=\sum\limits_{i=1}^n\sigma_i(\alpha)
+    \end{equation*}
+    and its \textbf{norm}
+    \begin{equation*}
+        N_{\Q}^K(\alpha)=\prod\limits_{i=1}^n\sigma_i(\alpha)
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    Let $r\in\Q$, $\alpha,\beta\in K$ as above.
+    Then
+    \begin{enumerate}[nlr]
+        \item $\Tr_{\Q}^K(r\alpha)=r\Tr_{\Q}^k(\alpha)$
+        \item $\Tr_{\Q}^K(\alpha+\beta)=\Tr_{\Q}^K(\alpha)+\Tr_{\Q}^K(\beta)$
+        \item $N_{\Q}^K(\alpha\beta)=N_{\Q}^K(\alpha)N_{\Q}^K(\beta)$
+        \item $N_{\Q}^K(r\alpha)=r^nN_{\Q}^K(\alpha)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{example}
+    Consider $\sqrt{2}\in\Q(\sqrt{2},\sqrt{3})=K$.
+    The minimal polynomial of $\sqrt{2}$ is $x^2-2$.
+    The 4 embeddings $K\hookrightarrow\C$ are given by $\sqrt{2},\sqrt{3}\mapsto\pm\sqrt{2},\pm\sqrt{3}$, so $N_{\Q}^K(\sqrt{2})=\sqrt{2}\sqrt{2}(-\sqrt{2})(-\sqrt{2})=4$.
+\end{example}
+\begin{theorem}\label{thm:relntr}
+    If $[K:\Q]=n$, $\alpha\in K$, then
+    \begin{equation*}
+        \frac{1}{[K:\Q]}\Tr_{\Q}^K(\alpha)=\frac{1}{[\Q(\alpha):\Q]}\Tr_{\Q}^{\Q(\alpha)}(\alpha)
+    \end{equation*}
+    and
+    \begin{equation*}
+        N_{\Q}^K(\alpha)^{\frac{1}{[K:\Q]}}=N_{\Q}^{\Q(\alpha)}(\alpha)^{\frac{1}{[\Q(\alpha):\Q]}}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Each of the $[\Q(\alpha):\Q]$ embeddings $\Q\hookrightarrow\Q(\alpha)$ extend to $[K:\Q(\alpha)]$ embeddings $\Q\hookrightarrow K$.
+    So, letting $\sigma_i$ be the embeddings $\Q(\alpha)\hookrightarrow\C$, let $\sigma_{ij}$ be the $[K:\Q(\alpha)]$ extensions.
+    Then
+    \begin{align*}
+        \Tr_{\Q}^K(\alpha) = \sum_{j=1}^{[K:\Q(\alpha)]}\sum_{i=1}^n\sigma_{ij}(\alpha)= \sum_{j=1}^{[K:\Q(\alpha)]}\left(\sum_{i=1}^n\sigma_{i}(\alpha)\right)=[K:\Q(\alpha)]\Tr_{\Q}^{\Q(\alpha)}\sigma_i(\alpha)
+    \end{align*}
+    and the proof is identical for $N_{\Q}^K(\alpha)$.
+\end{proof}
+\begin{remark}
+    Given $\alpha$ an algberaic integer, the value $\Tr(\alpha)$ does not really make sense, since you need to choose the number field $K$ containing $\alpha$.
+    However, this proposition says that this distinction does not matter too much since if we divide by $1/[K:\Q]$, the trace does not depend on $K$ containing $\alpha$.
+\end{remark}
+\begin{corollary}
+    If $\alpha\in K$, $K$ is a number field, then $\Tr_{\Q}^K(\alpha)$, $N_{\Q}^K(\alpha)\in\Q$.
+    In particular, if $\alpha\in\mathcal{O}_K$, then $\Tr_{\Q}^K(\alpha)$, $N_{\Q}^K(\alpha)\in\Z$.
+\end{corollary}
+\begin{proof}
+    Let $\alpha$ have minimal polynomial $x^n+a_{n-1}x^{n-1}+\cdots+a_0$.
+    Note that $\Tr_{\Q}^{\Q(\alpha)}$ is the $-a_{n-1}$ coefficient and $N_{\Q}^{\Q(\alpha)}$ is the $\pm a_0$ coefficient of the minimal polynomial.
+    These are both rationals, and if $\alpha$ is an algebraic integer, then they are both integers.
+    Then by the previous proposition, $\Tr_{\Q}^K$ and $\N_{\Q}^K$ are integer multples / powers, and are thus still rational or integer.
+\end{proof}
+Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
+\begin{proposition}
+    Let $K$ be a number field, and $\alpha\in\mathcal{O}_K$.
+    Then $\alpha\in\mathcal{O}_K^\times$ if and only if $N_{\Q}^K(\alpha)=\pm 1$.
+\end{proposition}
+\begin{proof}
+    If $\alpha\in\mathcal{O}_K^\times$, then $\alpha\beta=1$ for some $\beta\in\mathcal{O}_K$.
+    Then $1=N_{\Q}^K(1)=N_{\Q}^K(\alpha\beta)=N_{\Q}^K(\alpha)N_{\Q}^K(\beta)$ is a product of integers, so they must be $\pm 1$.
+
+    Otherwise, suppose $\alpha\in\mathcal{O}_K$ and $N_{\Q}^K(\alpha)=1$, so that $N_{\Q}^{\Q(\alpha)}(\alpha)=\pm 1$.
+    Then if $\sigma_i$ are the embeddings $\Q(\alpha)\hookrightarrow\C$ fixing $\Q$, $\sigma_1=\id$,
+    \begin{equation*}
+        \pm 1 =\prod_{i=1}^n\sigma_i(\alpha)=\alpha\prod_{i=2}^n\sigma_i(\alpha)
+    \end{equation*}
+    Note that each $\sigma_i(\alpha)\in\mathcal{O}_{\overline{Q}}$, but since $\Q(\alpha)$ may not be normal, $\sigma_i(\alpha)$ may not be in $\Q(\alpha)$.
+    However $\prod_{i=2}^n\sigma_i(\alpha)=\pm\alpha^{-1}\in\Q(\alpha)$ is an algebraic integeer and thus in $\mathcal{O}_K$, so $\alpha$ is a unit.
+\end{proof}
+\begin{example}
+    In $K=\Q(i)$, $\mathcal{O}_K^\times=\Z[i]^\times$ and $N(a+bi)=a^2+b^2$.
+    Thus the units are given by $\{\pm 1,\pm i\}$
+    More generally, if $\zeta$ is a root of unity and $\zeta\in K$, then $\zeta\in\mathcal{O}_K^\times$.
+    This follows since $N_{\Q}^{\Q(\zeta)}(\zeta)=1$ and we can apply \cref{thm:relntr}.
+\end{example}
+\subsection{Units in Quadratic Extensions}
+\begin{proposition}
+    Let $d$ be a square-free negative integer.
+    Then $\mathcal{O}_{\Q(\sqrt{d})}^\times=\{\pm 1\}$ unless
+    \begin{itemize}[nolistsep]
+        \item $d=-1$, in which case the units are $\{\pm 1$, $\pm i\}$.
+        \item $d=-3$, in which case the units are $\left\{\pm 1,\frac{\pm 1\pm\sqrt{-3}}{2}\right\}$.
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    First suppose $\alpha\in\mathcal{O}_{\Q(\sqrt{d})}^\times$, where $d$ is square-free.
+    If $d\nequiv 1\pmod{4}$, then $\alpha=a+b\sqrt{d}$, so $\alpha\in\Z[\sqrt{d}]^\times$ if and only if $N(\alpha)=a^2-db^2=\pm 1$.
+    So $a+b\sqrt{d}$ is a unit if and only if $(a,b)$ is a solution to the diophantine equation $x^2-dy^2=\pm1$.
+    Similarly, $\frac{a+b\sqrt{d}}{2}\in\mathcal{O}_{\Q(\sqrt{d})}$ for $d\equiv 1\pmod{4}$ is a unit if and only if $a^2-db^2=\pm 4$.
+    Now suppose additionally that $d<1$.
+
+    \textit{Case 1:} $d\nequiv 1\pmod{4}$.
+    If $d<-1$, then the only solution to $x^2-dy^2=\pm 1$ is $(\pm 1,0)$.
+    If $d=-1$, then solutions to $x^2+y^2=\pm 1$ are $(\pm 1,0)$ and $(0,\pm 1)$.
+
+    \textit{Case 2:} $d\equiv 1\pmod{4}$.
+    We want solutions to $x^2-dy^2=\pm 4$.
+    If $d<-3$, then the only solutions are $(\pm 2,0)$, which correspond to $\{\pm 1\}\in\mathcal{O}_K$.
+    If $d=-3$, then the solutions are $(\pm 1,0)$ and $(0,\pm 1)$.
+\end{proof}
+\begin{remark}
+    When $d<0$, the graph of $x^2-dy^2$ is an ellipse so there are only a finite number of integer pair solutions.
+    Consider $d=2$, so the graph is a hyperbola with asymptotes $\pm\sqrt{2}$.
+    Integer solutions mean you're looking for $b/a$ close to $\sqrt{2}$, so we're looking for (good) rational apprximations to $\sqrt{2}$.
+    In a precise sense, one can define the ``best'' rational approximation to $\sqrt{2}$.
+    One intuition about ``best'' is to bound the denominator and be close to $\sqrt{2}$.
+    Given $\alpha$, its continued fraction approximation of $\alpha$ is
+    \begin{equation*}
+        \alpha=a_0+\frac{1}{a_1+\frac{1}{a_2+\cdots}}
+    \end{equation*}
+    The first few convergents to the continued fraction expansion of $\sqrt{2}$ are $1,3/2,7/5$.
+
+    Consider $\epsilon=1+\sqrt{2}\in\Z[\sqrt{2}]^\times$, so $N(\epsilon)=-1$.
+    As well, $\epsilon^n$ is also a unit for any $n$.
+    For example, $\epsilon^2=3+2\sqrt{2}$, $\epsilon^3=7+5\sqrt{2}$.
+    It turns out that $\epsilon^n=p_n+q_n\sqrt{2}$, where $p_n/q_n$ is the $n^\text{th}$ convergent of the continued fraction expansion of $\sqrt{2}$.
+\end{remark}
+\begin{theorem}[Dirichlet Approximation]
+    Let $\alpha\in\R\setminus\Q$, let $Q>1$, $Q\in\Z$.
+    Then there exists $p,q\in\Z$ such that $1\leq q\leq Q$ and $|q\alpha-p|<\frac{1}{Q}$.
+    In particular, there are infinitely many pairs $(p,q)\in\Z^2$ for which $|\alpha-p/q|<1/q^2$.
+\end{theorem}
+\begin{proof}
+    The ``in particular'' statement follows from the first statement because $|\alpha-p/q|<\frac{1}{Qq}\leq\frac{1}{q^2}$.
+    Since $Q$ can be chosen arbitrarily, there are infinitely many such solutions.
+
+    Let's now prove the main statement.
+    For any $x\in\R$, let $\{x\}=x-\lfloor x\rfloor$ denote the integer part of $x$.
+    Consider the $Q$ intervals
+    \begin{equation*}
+        \left\{\left(0,\frac{1}{Q}\right),\left(\frac{1}{Q},\frac{2}{Q}\right),\ldots,\left(\frac{Q-1}{Q},1\right)\right\}
+    \end{equation*}
+    and consider the $Q+1$ numbers $\left\{\{\alpha\},\{2\alpha\},\ldots,\{(Q+1)\alpha\}\}$.
+    Since $\alpha$ is irrational, each of these numbers lies in one of the above intervals.
+    By the pidgeonhole principle, get $1\leq m<n\leq Q$ such that $|\{n\alpha\}-\{m\alpha\}|<1/Q$ so that
+    \begin{equation*}
+        \left\lvert n\alpha-\lfloor n\alpha\rfloor-m\alpha+\lfloor m\alpha\rfloor\right\rvert=\left\lvert(n-m)\alpha-(\lfloor n\alpha\rfloor-\lfloor m\alpha\rfloor)\right\rvert<\frac{1}{Q}
+    \end{equation*}
+    Take $q=n-m$, $p=\lfloor n\alpha\rfloor-\lfloor m\alpha\rfloor$, and we are done.
+\end{proof}
+\begin{theorem}
+    If $d>1$ be squarefree and set $K=\Q(\sqrt{d})$.
+    Then, there exists a smallest unit $\epsilon>1$ and $\mathcal{O}_K^\times=\{\pm\epsilon^n:n\in\Z\}\cong \Z_2\times\Z$.
+\end{theorem}
+\begin{proof}
+    We treat the case where $d\nequiv 1\pmod{4}$; the proof when $d\equiv 1\pmod{4}$ follows identically.
+
+    Let $\theta=p+q\sqrt{d}$, $p,q\in\Z$, $q>0$.
+    Then,
+    \begin{align*}
+        |N(\theta)| &= |p+q\sqrt{d}||p-q\sqrt{d}| = \left\lvert\frac{p}{q}+\sqrt{d}\right\rvert\left\lvert\frac{p}{q}-\sqrt{d}\right\rvert q^2
+    \end{align*}
+    By Dirichlet approximation, there are infinitely many pairs $(p,q)\in\Z^2$ such that $|p/q-\sqrt{d}|<1/q^2$.
+    For such $(p,q)$, $\left\lvert\frac{p}{q}+\sqrt{d}\right\rvert<2\sqrt{d}+1$.
+    Since $2\sqrt{d}+1$ is independent of the value of $(p,q)$, by the pidgeonhole principle, there exists $m\in\Z^+$ such that there are infinintely many $\theta=p+q\sqrt{d}$ with $|N(\theta)|=m$.
+    Enumerate these by $\theta_i=p_i+q_i\sqrt{d}$ for $i\in\N$.
+
+    Let's show that $\mathcal{O}_K^\times$ is an infinite set.
+    We might take $\theta_i/\theta_1$ for infinitely many $\theta_i$ (which certainly has norm 1), but $\theta_i/\theta_1$ might not be an algebraic integer.
+    We can, however, amend this as follows.
+    Again by the pidgeonhole principle, there exists some $\theta_0:=\theta_j$ such there are infinitely many $\theta_i$ with $p_i\equiv p_0\pmod{m}$ and $q_i\equiv q_0\pmod{m}$.
+    Let $\theta_0'$ be the conjugate of $\theta_0$, so that
+    \begin{align*}
+        \frac{\theta_i}{\theta_0} &= 1+\frac{\theta_i-\theta_0}{\theta_0}= 1+\frac{\theta_i-\theta_0}{\theta_0\theta_0'}\theta_0'\\
+                                  &= 1+\frac{(p_i-p_0)+(q_i-q_0)\sqrt{d}}{m}\theta_0'\in\mathcal{O}_K
+    \end{align*}
+    Thus, we have infinitely many $\beta\in\mathcal{O}_K^\times$.
+
+    Now, let $S=\{\gamma\in\mathcal{O}_K^\times:\gamma>0\}$, so $|S|=\infty$; let's show that $S$ has a minimal element.
+    Assuming this, let $\epsilon\in S$ be minimal and set $\lambda\in\mathcal{O}_K^\times$: taking $-\lambda$ if necessary, we may assume $\lambda>0$.
+    Then there exists $n\in\Z$ so that $\epsilon^n\leq\lambda<\epsilon^{n+1}$.
+    Then $1\leq\lambda\epsilon^n<\epsilon$, and since $\epsilon>1$ is minimal, we must have $\lambda/\epsilon^n=1$; i.e. $\lambda=\epsilon^n$.
+
+    Now, note the following: if $1<\gamma=x+y\sqrt{d}$ is a unit, then $x,y\geq 1$.
+    Consider the four values $\gamma,-\gamma,\gamma^{-1},-\gamma^{-1}$, which are $\frac{\pm x\pm y\sqrt{d}}{2}$.
+    Since $x$ and $x^{-1}$ cannot both be greater than 1, exactly one of the four values are greater than 1, so it must be the largest one; i.e. the one with $x,y\geq 1$.
+
+    But now let $\gamma>1$ be arbitrary; by positivity, there are only finitely many $\gamma_0<\gamma$, so there must be some minimal element.
+\end{proof}
+What happens in other number fields?
+If $K$ is cubic, then $\mathcal{O}_K^\times$ sometimes has a smallest unit $\epsilon>1$ and sometimes not.
+\section{Discriminants and Integral Bases}
+\begin{definition}
+    Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ be embeddings extending $\Q\subseteq\C$.
+    Given $\alpha_1,\ldots,\alpha_n\in K$, we let the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} be
+    \begin{equation*}
+        \disc(\alpha_1,\ldots,\alpha_n)=\det((\sigma_i(\alpha_j))_{i,j})^2
+    \end{equation*}
+\end{definition}
+For example, of $K=\Q(\sqrt{d})$, then
+\begin{equation*}\disc(1,\sqrt{d})=\det\begin{pmatrix}1&1\\\sqrt{d}&-\sqrt{d}\end{pmatrix}^2=4d\end{equation*}
+
+Note that $\disc(\alpha_1,\ldots,\alpha_n)$ is independent of the ordering of the $\alpha_i$ (swapping rows or columns only changes sign).
+\begin{proposition}
+    Let $K$ be a number field of degree $n$.
+    Then
+    \begin{equation*}
+        \disc(\alpha_1,\ldots,\alpha_n)=\det((\Tr_{\Q}^K(\alpha_i\alpha_j))_{ij})
+    \end{equation*}
+\end{proposition}
+In our example,
+\begin{equation*}
+    \disc(1,\sqrt{d})=\det\begin{pmatrix}\Tr(1)&\Tr(\sqrt{d})\\\Tr(\sqrt{d})&\Tr(d)\end{pmatrix}=\det\begin{pmatrix}2&0\\0&2d\end{pmatrix}=4d
+\end{equation*}
+\begin{proof}
+    Let $M=(\sigma_i(\alpha_j))_{ij}$.
+    Then
+    \begin{align*}
+        \disc(\alpha_1,\ldots,\alpha_n) &= \det(M)^2\\
+                                        &= \det(M^tM)
+    \end{align*}
+    where $(MM^t)_{ij}=\sum_k M_{ik}M_{jk}=\sum_k\sigma_k(\alpha_i)\sigma_k(\alpha_j)=\sum_k\sigma_k(\alpha_i\alpha_j)$.
+\end{proof}
+\begin{corollary}
+    $\disc(\alpha_1,\ldots,\alpha_n)$ and if the $\alpha_i\in\mathcal{O}_K$, then $\disc(\alpha_1,\ldots,\alpha_n)$.
+    Furthermore, if $K\subseteq\R$, then $\disc(\alpha_1,\ldots,\alpha_n)\geq0$.
+\end{corollary}
+\begin{proof}
+    $\Tr(\alpha_i\alpha_j)\in\Q$ and if the $\alpha_i\in\mathcal{O}_K$, then $\Tr(\alpha_i\alpha_j)\in\Z$.
+\end{proof}
+Let's now understand how discriminants change under change of basis.
+Suppose $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$, and let $\beta_1,\ldots,\beta_n\in K$ (possibly not a basis).
+We know $\sigma_i(\beta_k)=\sum_{j=1}^n c_{kj}\sigma_i(\alpha_j)$.
+Then
+\begin{align*}
+    \begin{pmatrix}
+        \sigma_1(\beta_1) &\hdots&\sigma_n(\beta_1)\\
+        \vdots&&\vdots\\
+        \sigma_1(\beta_n)&\hdots&\sigma_n(\beta_n)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        c_{11} &\hdots&c_{1n}\\
+        \vdots&&\vdots\\
+        c_{n1}&\hdots&c_{nn}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \sigma_1(\alpha_1) &\hdots&\sigma_n(\alpha_1)\\
+        \vdots&&\vdots\\
+        \sigma_1(\alpha_n)&\hdots&\sigma_n(\alpha_n)
+    \end{pmatrix}
+\end{align*}
+If $K/\Q$ is a finite extension, then we know there exists $\theta\in K$ such that $K=\Q(\theta)$.
+Thus, $1,\theta,\ldots,\theta^{n-1}$ is a basis for $K/Q$.
+Then
+\begin{align*}
+    \disc(1,\theta,\ldots,\theta^{n-1}) &= \det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\hdots&\sigma_1(\theta^{n-1})\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\hdots&\sigma_n(\theta^{n-1})\end{pmatrix}\\
+                                        &=\det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\hdots&\sigma_1(\theta)^{n-1}\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\hdots&\sigma_n(\theta)^{n-1}\end{pmatrix}\\
+                                        &= \prod_{i<j}(\sigma_i(\theta)-\sigma_j(\theta))^2
+\end{align*}
+since this is a Vandermonde determinant.
+This value is nonzero since the $\sigma_i(\theta)$ are distinct.
+\begin{theorem}
+    Let $\alpha_1,\ldots,\alpha_n\in K$, $n=[K:\Q]$.
+    Then $\disc(\alpha_1,\ldots,\alpha_n)\neq 0$ if and only if $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$.
+\end{theorem}
+\begin{proof}
+    $\disc(\alpha_1,\ldots,\alpha_n)=\det(C)^2\disc(1,\theta,\ldots,\theta^{n-1})$, so $\disc(\alpha_1,\ldots,\alpha_n)=0$ iff $\det(C)=0$ iff $\alpha_1,\ldots,\alpha_n$ are linearly independent.
+\end{proof}
+\begin{theorem}
+    Let $K=\Q(\theta)$, $[K:\Q]=n$.
+    Then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^\frac{n(n-1)}{2}N_{\Q}^K(f'(\theta))$ where $f(x)\in\Q[x]$ is the minimal polynomial of $\theta$ over $\Q$.
+\end{theorem}
+\begin{proof}
+    Let $\theta_1,\ldots,\theta_n$ be the conjugates of $\theta$.
+    Then $f(x)=\prod(x-\theta_i)$, so $f'(x)=\sum_{j=1}^n\prod_{i\neq j}(x-\theta_i)$.
+    Thus
+    \begin{align*}
+        N_{\Q}^K(f'(\theta))&=\prod_{k=1}^nf'(\theta_k)\\
+                          &= \prod_k\prod_{i\neq k}(\theta_k-\theta_i)\\
+                          &= \prod_{i<k}(\theta_k-\theta_i)(\theta_i-\theta_k)\\
+                          &= (-1)^{\binom{n}{2}}\prod_{i<k}(\theta_i-\theta_k)^2\\
+                          &= \disc(1,\theta,\ldots,\theta^{n-1})
+    \end{align*}
+\end{proof}
+Recall if $[K:\Q]=n$ and $\alpha_1,\ldots,\alpha_n\in K$, then $\disc(\alpha_1,\ldots,\alpha_n)=\det(\sigma_i(\alpha_j))^2$.
+Recall if $K=\Q(\theta)$, then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^{\frac{n(n-1)}{2}}N(f'(\theta))$.
+\begin{theorem}
+    Let $\zeta_n=e^{2\pi i/n}$.
+    Consider $d=\disc(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}$.
+    Then $d|n^{phi(n)}$, and if $p$ is an odd prime,
+    \begin{equation*}
+        d=(-1)^{\frac{p(p-1)}{2}}p^{p-2}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Let $\Phi_n(x)$ be the minimal polynomial of $\zeta_n$, and write $x^n-\Phi_n(x)g(x)$, where $g(x)\in\Z[x]$.
+    We have $nx^{n-1}=\Phi'_n(x)g(x)=\Phi_n(x)g'(x)$, so $n\zeta_n^{n-1}=\Phi'(\zeta_n)g(\zeta_n)$.
+    Thus
+    \begin{equation*}
+        N(n\zeta_n^{n-1})=N(\Phi'(\zeta_n))N(g(\zeta_n))
+    \end{equation*}
+    Since $\zeta_n\in\mathcal{O}^\times_{\Q(\zeta_n)}$, $N(\zeta_n)=\pm 1$.
+    Thus
+    \begin{equation*}
+        \pm n^{\phi(n)}=(-1)^\frac{\phi(n)(\phi(n)-1)}{2}N(\Phi'_n(\zeta_n))N(g(\zeta_n))
+    \end{equation*}
+    so $\pm\disc(\zeta_n)N(g(\zeta_n))=n^{\phi(n)}$.
+    Since $g\in\Z[x]$, $g(\zeta_n)\in\mathcal{O}_{\Q(\zeta_n)}$, so $N(g(\zeta_n))\in\Z$ and $\disc(\zeta_n)$ divides $n^{\phi(n)}$.
+
+    Now, if $p$ is an odd prime, $x^p-1=\Phi_p(x)(x-1)$, so $px^{p-1}=\Phi'_p(x)(x-1)+\Phi_p(x)$.
+    Thus $p\zeta_p^{p-1}=\Phi_p(\zeta_p)(\zeta_p-1)$.
+    Note that $N(\zeta_p^{p-1})=N(\zeta_p)^{p-1}$, and since $p-1$ is even, this value is always 1.
+    We also have
+    \begin{equation*}
+        N(\zeta_p-1)=(-1)^{p-1}\prod(1-\zeta_p^i)=\Phi_p(1)=p
+    \end{equation*}
+    Then
+    \begin{align*}
+        p\zeta_p^{p-1}&=\Phi_p'(\zeta_p)(\zeta_p-1)\\
+        p^{p-1} &= N(\Phi_p'(\zeta_p))p\\
+        p^{p-2}(-1)^{\frac{(p-1)(p-2)}{2}}&=\disc(\zeta_p)
+    \end{align*}
+\end{proof}
+\begin{definition}
+    Let $K$ be a number field, $[K:\Q]=n$.
+    We say $\alpha_1,\ldots,\alpha_n$ is an \textbf{integral basis} for $K$ if every $\gamma\in\mathcal{O}_K$ as a unique expression $\gamma=m_1\alpha_1+\cdots+m_n\alpha_n$ with $m_i\in\Z$.
+\end{definition}
+Note that we must have $\alpha_i\in\mathcal{O}_K$.
+As well, $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$: given $\theta\in K$, there exists $r\in\Z^+$ such that $r\theta\in\mathcal{O}_K$, so $r\theta\in\spn\Z(\alpha_i)$ and $\theta$ is in the $\Q-$span of the $\alpha_i$.
+Since $[K:\Q]=n$, $\alpha_1,\ldots,\alpha_n$ is a basis.
+\begin{theorem}
+    If $K$ is a number field, then $K$ has an integral basis.
+    Write $K=\Q(\theta)$ where $\theta\in\mathcal{O}_K$.
+    Run through all choices of $\{\alpha_1,\ldots,\alpha_n\}$ basis for $K/\Q$ and $\alpha_i\in\mathcal{O}_K$.
+    Such a basis always exists since, given any basis, scale to get them in $\mathcal{O}_K$.
+    Choose the one where $|\disc(\alpha_1,\ldots,\alpha_n)|$ is minimal; let's show that this is an integral basis.
+
+    Suppose not.
+    Then there exists $\gamma\in\mathcal{O}_K$ where $\gamma=a_1\alpha_1+\cdots+a_n\alpha_n$ where $a_1\notin\Z$.
+    Let $a_1=a+r$, $a\in\Z$, $0<r<1$, and consider the basis $\{\alpha_1',\ldots,\alpha_n'\}$ where $\alpha_i'=\alpha_i$ for $i>1$, and $\alpha_1'=\gamma-a\alpha_1$.
+    Then
+    \begin{align*}
+        \disc(\alpha_1',\alpha_2',\ldots,\alpha_n') &= \det\left(\begin{pmatrix}a_1-a&a_2&a_3&\cdots&a_n\\&1&0&&\\&&1&0\end{pmatrix}\right)^2\disc(\alpha_1,\ldots,\alpha_n)\\
+                                                         &= r^2\disc(\alpha_1,\ldots,\alpha_n)
+    \end{align*}
+    and since $0<r<1$, $|\disc(\alpha_1',\ldots,\alpha_n')|<|\disc(\alpha_1,\ldots,\alpha_n)|$.
+\end{theorem}
+\begin{proposition}
+    If $K$ is a number field, then all integral bases have the same discriminant.
+\end{proposition}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_n$ and $\beta_1,\ldots,\beta_n$ be two integral bases, then
+    \begin{equation*}
+        \alpha_j=\sum\limits_{i=1}^n c_{ij}\beta_i
+    \end{equation*}
+    for $\alpha_j\in\mathcal{O}_K$, $\beta_1,\ldots,\beta_n$ integral basis, so $c_{ij}\in\Z$.
+    By symmetry, $(c_{ij})^{-1}\in\Z$ as well, so $\det((c_{ij}))^2=1$.
+    Thus
+    \begin{equation*}
+        \disc(\alpha_1,\ldots,\alpha_n)=\det((c_{ij}))^2\disc(\beta_1,\ldots,\beta_n)
+    \end{equation*}
+\end{proof}
+\begin{definition}
+    If $K$ is a number field, we say its \textbf{discriminant} $\disc(K)$ is a disc of any integral basis.
+\end{definition}
+index of subgroup in $\mathcal{O}_K$ is given by $\det((c_{ij}))^2$.
+\begin{example}
+    Consider $\Q(\sqrt{d})$.
+    If $d\nequiv 1\pmod{4}$, then $1,\sqrt{d}$ is an integral basis, so $\disc(\Q(\sqrt{d}))=4d$.
+    If $d\equiv 1\pmod{4}$, then $1,\frac{1+\sqrt{d}}{2}$ is an integra basis and $\disc(\Q(\sqrt{d}))=d$.
+\end{example}
+\begin{proposition}
+    Let $K$ be a number field, $\alpha_1,\ldots,\alpha_n$ a basis for $K/\Q$.
+    If $d=\disc(\alpha_1,\ldots,\alpha_n)$, then for all $\alpha\in\mathcal{O}_K$, there exists $m_i\in\Z$ such that $\alpha=\sum m_i\alpha_i/d$ and such that $d|m_i^2$.
+\end{proposition}
+\begin{example}
+    Consider $\Q(\sqrt{d})$, where $d\equiv 1\pmod{4}$.
+    Then $1,\sqrt{d}$ is q $\Q-$basis, and $\disc(1,\sqrt{d})=4d$.
+\end{example}
+\begin{proof}
+    Let $\alpha\in\mathcal{O}_K$.
+    Then $\alpha=a_1\alpha_1+\cdots+a_n\alpha_n$.
+    Let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$.
+    We get equations $\sigma_j(\alpha)=a_1\sigma_j(\alpha_1)+\cdots+a_n\sigma_j(\alpha_n)$; i.e.
+    \begin{equation*}
+        \begin{pmatrix}
+            \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
+            \vdots&&\vdots\\
+            \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
+        \end{pmatrix}
+        \begin{pmatrix}
+            a_1\\\vdots\\a_n
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \sigma_1(\alpha)\\\vdots\\\sigma_n(\alpha)
+        \end{pmatrix}
+    \end{equation*}
+    By Cramer's Rule,
+    \begin{equation*}
+        a_j=\frac{\det\begin{pmatrix}\sigma_1(\alpha_1)&\cdots&\sigma_1(\alpha)&\hdots&\sigma_1(\alpha_n)\\\vdots&&\vdots&&\vdots\\\sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha)&\hdots&\sigma_n(\alpha_n)\end{pmatrix}}{\det(\sigma_j(\alpha)i)}=\frac{\gamma_j}{\delta}
+    \end{equation*}
+    where $\gamma_j,\delta\in\mathcal{O}_k$.
+    But then $da_j=\delta^2a_j=\delta\gamma_j\in\mathcal{O}_K$, so $da_1=:m_j\in\Z$.
+    This handles the first part.
+
+    For the second part,
+    \begin{align*}
+        \frac{m_j^2}{d} &= da_j^2\\
+                        &=d\left(\frac{\delta_j}{j}\right)^2\\
+                        &= \frac{d\gamma_j^2}{\delta^2}=\delta_j^2\in\mathcal{O}_K
+    \end{align*}
+    so $m_j^2/d\in\Z$.
+\end{proof}
+\begin{theorem}
+    If $p$ is prime, $r\in\Z^+$, then $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$.
+\end{theorem}
+\begin{proof}
+    Let $\zeta=\zeta_{p^r}$.
+    Then $\Q(\zeta)=\Q(1-\zeta)$.
+    Let $s=\phi(p^r)$, so $\{1,1-\zeta,\ldots,(1-\zeta)^{s-1}\}$ is a $\Q-$basis.
+    Let's show that it is an integral basis.
+
+    By the proposition, we know if $\alpha\in\mathcal{O}_K$, there exist $m_i\in\Z$ such that $\alpha=\sum m_j(1-\zeta)^j/d$ were
+    \begin{align*}
+        d &= \disc(1-\zeta)\\
+          &= \prod_{i<j,i,j\in(\Q/p^r)^\times}((1-\zeta^i)-(1-\zeta^j))\\
+          &= \prod_{i<j,i,j\in(\Z/p^r)^\times}(\zeta^i-\zeta^j)^2\\
+          &= \disc(\zeta)=\pm p^{p-2}
+    \end{align*}
+    (can compute discriminant of polynomial as well, given minimal polynomial).
+
+    If $\mathcal{O}_K\neq\Z[1-\zeta]$, then there exists $\alpha\in\mathcal{O}_K$ with $p^{p-2}\nmid m_j$.
+    After multiplying $\alpha$ by a suitable power of $p$, we have $\beta\in\mathcal{O}_K$ with $\beta=\frac{l_1+l_2(1-\zeta)+\cdots+l_s(1-\zeta)^{s-1}}{p}$ where $p\nmid l_i$, $l_i\in\Z$.
+    Let $i$ be minimal so that $p\nmid l_i$.
+    Set $\gamma=\frac{l_i(1-\zeta)^{i-1}+\cdots+l_s(1-\zeta)^{s-1}}{p}\in\mathcal{O}_K$.
+
+    Since $p=\Phi_{p^r}(1)=\prod_{p\nmid j}(1-\zeta^j)$.
+    Since $(1-x)\mid(1-x^j)$ in $\Z[x]$, $(1-\zeta)|(1-\zeta^j)$ in $\mathcal{O}_K$.
+    Thus $(1-\zeta)^s|p$ in $\mathcal{O}_K$ and $p=(1-\zeta)^2\lambda$, $\lambda\in\mathcal{O}_K$.
+    Thus $\lambda,\gamma,1-\zeta\in\mathcal{O}_K$ so $(1-\zeta)^{s-i}\lambda\gamma\in\mathcal{O}_K$.
+    However,
+    \begin{align*}
+        (1-\zeta)^{s-i}\lambda\gamma &= \lambda\frac{l_i(1-\zeta)^{s-1}}{p}+\lambda\frac{l_{i+1}(1-\zeta)^2}{p}+\cdots
+    \end{align*}
+    where the tail terms are all algebraic integers, so $\lambda(l_i(1-\zeta)^{s-1})/p\in\mathcal{O}_K$.
+    Thus $\theta:=l_i/(1-\zeta)\in\mathcal{O}_K$, so $(1-\zeta)\theta=l_i$ and, taking norms, $N(1-\zeta)N(\theta)=N(l_i)\Rightarrow pN(\theta)=l_i^s$, so $p|l_i^s$ and $p|l_i$.
+\end{proof}
+Let $K$ be a number field, and get embeddings $\sigma_1,\ldots,\sigma_n:K\to\C$.
+Let $r_1$ denote the number of embeddings where $K\hookrightarrow\R$.
+Then the other embeddings come in pairs: if $\sigma:K\hookrightarrow\C$, then $\overline{\sigma}:K\hookrightarrow\C$ are also embeddings.
+We say $2r_2$ is the number of ``complex'' embeddings, and $n=r_1+2r_2$.
+\begin{proposition}
+    $\disc(K)\in\Z$ has sign $(-1)^{r_2}$; i.e. $r_2$ is even iff $\disc(K)>0$.
+\end{proposition}
+\section{Composita}
+Recall that $[K:\Q]=n$, we have $n$ embeddings $\sigma_i:K\to\C$.
+These embeddings can be divided into 2 types: $\sigma_i:K\hookrightarrow\R\subseteq \C$, $r_1$ are the real embeddings, and $2r_2$ complex embeddings.
+$\Q(\sqrt{d})$ for $d>0$ has $r_1=2$, $r_2=0$, while $\Q(\sqrt{d})$ for $d<0$ has $r_1=0$, $r_2=1$.
+\begin{proposition}
+    Let $[K:\Q]=n$.
+    The sign of $\disc K$ is $(-1)^{r_2}$.
+\end{proposition}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $K/\Q$.
+    Consider
+    \begin{equation*}
+        \delta=\det
+        \begin{pmatrix}
+            \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
+            \vdots&&\vdots\\
+            \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
+        \end{pmatrix}
+    \end{equation*}
+    where $\disc(K)=\delta^2$.
+    Then
+    \begin{equation*}
+        \overline{\delta}=\det
+        \begin{pmatrix}
+            \overline{\sigma_1(\alpha_1)}&\hdots&\overline{\sigma_1(\alpha_n)}\\
+            \vdots&&\vdots\\
+            \overline{\sigma_n(\alpha_1)}&\hdots&\overline{\sigma_n(\alpha_n)}
+        \end{pmatrix}
+    \end{equation*}
+    If $\sigma_i$ is real, then $\overline{\sigma_i}=\sigma_i$.
+    If $(\sigma_i,\sigma_j)$ are complex conjugate pairs, then in $\overline{\delta}$ we swap column $i$ with column $j$.
+    Thus $\overline{\delta}=(-1)^{r_2}\delta$, so $\delta$ is purely imaginary if $r_2$ is odd, and real if $r_2$ is even.
+    This proves the claim.
+\end{proof}
+If $n=p_1^{e_1}\cdots p_n^{e_n}$, how is $\Q(\zeta_n)$ related to $\Q(\zeta_{p_i^{e_i}})$?
+\begin{definition}
+    If $L,K$ are number fields, then the \textbf{compositum} of $L$ and $K$ is the smallest field containing $L\cup K$.
+    We denote it by $LK=KL$.
+\end{definition}
+We'll relate $\mathcal{O}_K$, $\mathcal{O}_L$, $\mathcal{O}_{KL}$.
+\begin{lemma}
+    If $[K:\Q]=m$, $[L:\Q]=n$, and $[KL:\Q]=mn$, then if $\sigma:K\hookrightarrow\C$, $\tau:L\hookrightarrow\C$ are embeddings, then there exists $\epsilon:LK\hookrightarrow\C$ embeddings such that $\epsilon|_K=\sigma$, $\epsilon|_L=\tau$.
+\end{lemma}
+\begin{proof}
+    Start with $\sigma:K\hookrightarrow\C$.
+    Since $[KL:K]=n$,s tarting with any embeddings $\sigma_i:K\hookrightarrow\C$, it has $n$ lifts $\epsilon_{ij}:KL\hookrightarrow\C$.
+    We also have at most $nm$ emeddings $KL\hookrightarrow\C$, so this must be all of them.
+    Alternatively, start with $\tau$ and lift to some $\epsilon:KL\hookrightarrow\C$, so $\epsilon=\epsilon_{ij}$.
+\end{proof}
+\begin{theorem}
+    Let $[K:\Q]=n$, $[L:\Q]=m$.
+    Suppose $[KL:\Q]=mn$.
+    Let $d=\gcd(\disc(K),\disc(L))$.
+    Then $\mathcal{O}_{KL}\subseteq\frac{1}{d}\mathcal{O}_K\mathcal{O}_L$.
+\end{theorem}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $K/\Q$.
+    Let $\beta_1,\ldots,\beta_m$ be integral bases for $L/\Q$.
+    Then $KL=\spn_{\Q}\{\alpha_i\beta_j:i=1,\ldots,n;j=1,\ldots,m\}$.
+    Since $[KL:\Q]=mn$, then $\alpha_i\beta_j$ are a $\Q-$basis.
+    Then $\alpha\in KL$ can be represented as
+    \begin{equation*}
+        \alpha=\sum\limits_{i=1}^m\sum\limits_{j=1}^n\frac{\alpha_i\beta_ja_{ij}}{r}
+    \end{equation*}
+    with $a_{ij},r\in\Z$ and $\gcd(\{a_{ij}\},r)=1$.
+    We want if $\alpha\in\mathcal{O}_{KL}$, then $r|\disc(K)$ and $r|\disc(L)$.
+    By symmetry, we just show $r|\disc(K)$.
+    Given $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$, by Lemma, there exists $\sigma_i':KL\hookrightarrow\to\C$ so that $\sigma_i'|_K=\sigma_i$ and $\sigma_i'|_L=\id_L$.
+    \begin{align*}
+        \sigma_i'(\alpha) &= \sum\limits_{i=1}^m\underbrace{\sum\limits_{j=1}^n\frac{a_{ij}\beta_j}{r}}_{x_i}\sigma(\alpha_i)\\
+    \end{align*}
+    Equivalently,
+    \begin{equation*}
+        \begin{pmatrix}
+            \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
+            \vdots&&\vdots\\
+            \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1\\\vdots\\x_n
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \sigma_1'(\alpha)\\\vdots\\\sigma_n'(\alpha)
+        \end{pmatrix}
+    \end{equation*}
+    By Cramer's Rule,
+    \begin{equation*}
+        x_i=\frac{\det\begin{pmatrix}\sigma_1(\alpha)1&\cdots&\sigma_1'(\alpha_1)&\cdots&\sigma_1(\alpha_n)\\
+                \vdots&&\vdots&&\vdots\\
+                \sigma_n(\alpha_1)&\hdots&\sigma_n'(\alpha_n)&\cdots&\sigma_n(\alpha_n)
+        \end{pmatrix}}{\delta}
+    \end{equation*}
+    so $x_i=\gamma_i/\delta$ where $\gamma_i,\delta\in\mathcal{O}_K$.
+    Thus $\delta^2x_i=\disc(K)x_i\in\Q$, so $\disc(K)xi\in\Z$.
+    However,
+    \begin{equation*}
+        \disc(K)x_i = \sum\limits_{j=1}^m\frac{\disc(K)a_{ij}}{r}\beta_j
+    \end{equation*}
+    where $\disc(K)x_i\in\Z\subseteq\mathcal{O}_L$.
+    However, $\beta_j$ are integral basis for $L$, so $\disc(K)a_{ij}/r\in\Z$.
+    Since $\gcd(a_{ij},r)=1$, so $r|\disc(K)$.
+\end{proof}
+Recall that we showed $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$ for $p$ prime.
+Recall that the compositum $KL$ of $K$ and $L$ is the smallest field containing both $K$ and $L$.
+\begin{theorem}
+    $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
+\end{theorem}
+\begin{proof}
+    Let's do this by induction on the number of prime factors of $n$.
+    We already know the base case $n=p^r$.
+    Say $n=p_1^{e_1}\cdots p_k^{e_k}$, $k\geq 2$.
+    Let $K=\Q(\zeta_{p_1^{e_1}\cdots p_{k-1}^{e_{k-1}}})$, $L=\Q(\zeta_{p_k^{e_k}})$.
+    First, let's see that $KL=\Q(\zeta_n)$.
+    Note that $\zeta_n\in KL$ since $m:=p_1^{e_1}\cdots p_{k-1}^{e_{k-1}}$ and $p_k^{e_k}$ are coprime, so there exists $x,y\in\Z$ so that $xm+yp_k^{e_k}=1$.
+    Then $\zeta_m^y\zeta_{p_k^{e_k}}^x=e^{2\pi i/n}$, so $\Q(\zeta_n)\subseteq KL$.
+    As well, $\phi(n)=\phi(m)\phi(p_k^{e_k})=[K:\Q]\cdot[L:\Q]\geq [KL:\Q]\geq[\Q(\zeta_n):\Q]=\phi(n)$, so $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$.
+
+    Thus, $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$ so $\mathcal{O}_{\Q(\zeta_n)}\subseteq\frac{1}{d}\mathcal{O}_{\Q(\zeta_m)}\mathcal{O}_{\Q(\zeta_{p_k^{e_k}}}=\Z[\zeta_m]\Z[\zeta_{p_k^{e_k}}]=\Z[\zeta_n]$.
+    Let $d=\gcd(\disc K,\disc L)$.
+    A while ago, we showed $\disc(\Q(\zeta_n))\div n^{\phi(n)}$, so $\disc K\div m^{\phi(m)}$ and $\disc L\div (p_k^{e_k})^{\phi(p_k^{e_k})}$, so $d=1$ and $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
+\end{proof}
+\section{Resultants}
+If $f(x),g(x)\in\Q[x]$, how do I describe $\{x:f(x)=g(x)=0\}$?
+The answer: when the resultant $R(f,g)=0$.
+\begin{definition}
+    Let $f(x),g(x)\in\C[x]$, so $f(x)=a_nx^n+\cdots+a_1x+a_0$, $g(x)=b_mx^m+\cdots+b_1x+b_0$.
+    The \textbf{resultant} of $f$ and $g$ is
+    \begin{equation*}
+        R(f,g) =\det
+        \begin{pmatrix}
+            a_n&a_{n-1}&a_{n-2}\cdots&a_0&&
+        \end{pmatrix}
+    \end{equation*}
+\end{definition}
+$R(f,g)$ is homoeneous of degree $m$ in the $a_i$ and degree $n$ in the $b_j$.
+We want to show that if $f,g\in\Q[x]$, then $R(f,g)=0$ if and only if $f$ and $g$ have a common factor in $\Q[x]$.
+Equivalently, if $f,g\in\C[x]$, then $F(f,g)=0$ if and only if $f,g$ have a common root.
+\begin{proposition}
+    $f$ and $g$ have a common root in $\C$ if and only if there exists $h,k\in\C[x]$ such that $hf=kg$ and $\deg(h)\leq m-1$, $\deg(k)\leq n-1$.
+\end{proposition}
+\begin{proof}
+    If $f,g$ have a common root $\alpha\in\C$, then $(x-\alpha)|f,g$.
+    Then $f=(x-\alpha)k$, $g=(x-\alpha)h$ and $hf=(x-\alpha)kh=kg$.
+    Conversely, if $hf=kg$, $\deg h\leq m-1$, $\deg k\leq n-1$, then by Pigeonhole principle, the roots of $k$ cannot contain all the roots of $f$, so one root must be a root of $g$.
+\end{proof}
+At this point, we can turn our question into one of linear algebra.
+Let $h=c_{m-1}x^{m-1}+\cdots+c_1x+c_0$, $k=d_{n-1}x^{n-1}+\cdots+x_0$.
+Treat $c_i$, $d_j$ as indeterminants.
+Then we need to solve the system of equations $hf=kg$.
+For example, the $x^{n+m-2}$ coefficient on both sides is $a_nc_{m-2}+a_{n-1}c_{m-1}=b_md_{n-2}+b_{m-1}d_{n-1}$.
+Thus, $hf=kg$ encodes $n+m$ equations, and $(c_0,\ldots,c_{m-1};-d_0,\ldots,-d_{n-1})$ is a solution if and only if it is in the kernel of the matrix
+\begin{equation*}
+    A=
+    \begin{bmatrix}
+        a_n&0&0&b_m&0&0\\
+        a_{n-1}&a_n&0&b_{m-1}&b_m&0\\
+        a_{n-2}&a_{n-1}&a_n&b_{m-2}&b_{m-1}&b_m\\
+               &\vdots&&\vdots&
+    \end{bmatrix}
+\end{equation*}
+But this matrix has non-trivial kernel if and only if $0=\det(A)=\det(A^t)=R(f,g)$.
+
+Let $x_1,\ldots,x_n$ roots of $f$, $y_1,\ldots,y_n$ roots of $g$.
+Then $a_1,\ldots,a_n$ are $a_n$ times an elementary symmetric function in the $x_i$, $b_1,\ldots,b_{m-1}$ are $b_m$ times an elementary symmetric function in the $y_i$.
+Thus $R(f,g)\in \C[x_1,\ldots,x_n,y_1,\ldots,y_n]=:P$ is a symmetric polynomial times $a_n^mb_m^n$.
+From last time, if $x_i=y_j$, then $R(f,g)=0$, i.e. $(x_i-y_j)|R(f,g)$.
+The $x_i-y_j$ are irreducible coprime elements of $P$, so $\prod_{i,j}(x_i-y_j)|R(f,g)$.
+Set $S:=a_n^mb_m^n\prod_{i,j}(x_i-y_j)$, so $g(x)=b_m\prod_{j=1}^m(x-y_j)$.
+In particular, $a_n^m\prod_{i=1}^ng(x_i)=S$, so that
+\begin{align}
+    S&=a_n^m\prod_{i=1}^ng(x_i)\\
+    S&=b_m^n\prod_{i=1}^nf(y_i)(-1)^{mn}
+\end{align}
+(1.1) tells us that $S$ is homogeneous of degree $n$ in the $b_j$'s, and (1.2) says $S$ is homogenous of degree $m$ in the $a_i$.
+The resultant has the same property, and $S|R$, so $R=cS$ for some $c\in\C$.
+But the constant term in $S$ is $a_n^mb_m^n$ and same for $R$, so $R=S$.
+Thus we've shown that $R(f,g)=a_n^mb_m^n\prod_{i,j}(x_i-y_j)$.
+Let's consider the case $g=f'$.
+Then $R(f,f')=0$ iff $f$ has a double root, i.e. when $\disc(f)=0$.
+
+Let $f(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0=(x-\alpha_1)\cdots(x-\alpha_n)$.
+Then $R(f,f')=\prod_{i=1}^n f'(\alpha_i)$.
+But then $f'(x)=\sum_{i=1}^n\prod_{j\neq i}(x-\alpha_j)$, so $f'(\alpha_k)=\prod_{j\neq k}(x-\alpha_j)$.
+Thus
+\begin{align*}
+    R(f,f') &= \prod_{i}\prod_{j\neq i}(\alpha_i-\alpha_j)\\
+            &= (-1)^{\binom{n}{2}}\prod_{i<j}(\alpha_i-\alpha_j)^2\\
+            &= \disc(1,\alpha,\ldots,\alpha^{n-1})
+\end{align*}
+Thus we've shown
+\begin{proposition}
+    $\disc(\alpha)=R(f,f')(-1)^{\binom{n}{2}}$ for $\alpha$ algebraic and $f$ the minimal polynomial of $\alpha$.
+\end{proposition}
+\begin{example}
+    Let $\theta$ be a root of $f(x)=x^3+x^2-2x+8$, $K=\Q(\theta)$.
+    Let's calculate $\mathcal{O}_K$.
+    First, we have
+    \begin{equation*}
+        \disc(\theta)=-R(f,f')=
+        \det
+        \begin{pmatrix}
+            1&1&-2&8&0\\
+            0&1&1&-2&8\\
+            3&2&-2&0&0\\
+            0&3&2&-2&0\\
+            0&0&3&2&-2
+        \end{pmatrix}^2
+        =-4\cdot 503
+    \end{equation*}
+    Either this is the minimal discriminant of a basis of algebraic integers, or the basis has discriminant $503$: when we change basis, the factor must change by a square of an integer.
+    We know from Q3 HW1 that $\mathcal{O}_K\neq\Z[\theta]$, e.g. because $(\theta-\theta^2)/2\in\mathcal{O}_K$ and $\disc(K)=-503$.
+    One can check that $\disc(1,\theta,\frac{\theta^2-\theta}{2})=-503$ using a change of basis matrix.
+    Thus $1,\theta,\frac{\theta^2-\theta}{2}$ is an integral basis of $\mathcal{O}_K$.
+\end{example}
+\begin{definition}
+    A \textbf{power basis} for $\mathcal{O}_K$ is an integral basis of the form $\{1,\alpha,\cdots,\alpha^{n-1}\}$; i.e. $\mathcal{O}_K=\Z[\alpha]$.
+\end{definition}
+\begin{proposition}
+    Let $\theta$ be a root of $f(x)=x^3+x^2-2x+8$, and $K=\Q(\theta)$.
+    Then $\mathcal{O}_K$ has no power basis.
+\end{proposition}
+\begin{proof}
+    Given $\lambda\in\mathcal{O}_K$, we'll compute $\disc(\lambda)$ and show $2|\disc(\lambda)$, so $\disc(\lambda)\neq -503$.
+    Since $\lambda\in\mathcal{O}_K$, we can write $\lambda=a+b\theta+c\frac{\theta^2-\theta}{2}$ for $a,b,c\in\Z$.
+    One can compute $\lambda^2=A_1+A_2\theta+A_3\frac{\theta^2-\theta}{2}$, where
+    \begin{align*}
+        A_1&=a^2-2c^2-8bc\\
+        A_2&=-2c^2+2ab+2bc-b^2\\
+        A_3&= 2b^2+2ac+c^2
+    \end{align*}
+    Then
+    \begin{align*}
+        \disc(\lambda)&=(-503)\cdot\det
+        \begin{pmatrix}
+            1&0&0\\
+            a&b&c\\
+            A_1&A_2&A_3
+        \end{pmatrix}^2\\
+        &= (-503)(bA_3-cA_2)^2\\
+        &=-503\cdot(2b^3-bc^2+b^2c+2c^3)^2\equiv 0\pmod{2}
+    \end{align*}
+\end{proof}
+\chapter{Dedekind Domains}
+\section{Noetherian Domains}
+\begin{definition}
+    $R$ is \textbf{Noetherian} if every ideal of $R$ is finitely generated; i.e. $I=(r_1,\ldots,r_n)$.
+\end{definition}
+\begin{proposition}\label{noe}
+    The following are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item Every ascending chain of ideals in $R$ stabilizes.
+        \item Every non-empty set $S$ of ideals of $R$ has a maximal element in $S$.
+        \item $R$ is Noetherian.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $(1)\Rightarrow (2)$.
+    Let $S$ be a non-empty set of ideals with no maximal element.
+    Since $S$ is non-empty, get $I_1\in S$.
+    Then for any $I_k\in S$, $I_k$ is not maximal and get $I_{k+1}\supsetneq I_k$.
+    This is an infinite chain of ideal which does not stabilize.
+
+    $(2)\Rightarrow(1)$.
+    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and let $S=\{I_k:k\in\N\}$.
+    By assumption, $S$ has a maximal element, $I_N$; but then for any $n\geq N$, $I_n=I_N$ and the chain stabilizes.
+
+    $(3)\Rightarrow(1)$.
+    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and set $I=\bigcup_{i=1}^\infty I_n$.
+    By assumption, $I=(x_1,\ldots,x_n)$.
+    Since each $x_i\in I_j$ for some $j$, get $k$ so that $x_1,\ldots,x_n\in I_k$; but then $I_k=I_n$ and the chain stabilizes.
+
+    $(1)\Rightarrow(3)$.
+    Let $I$ be an ideal of $R$ not finitely generated.
+    Then $I\neq(0)$, so get $a_1\in I$.
+    For any finite $a_1,\ldots,a_k\in I$, since $I$ is not finitely generated, there exists $a_{k+1}\in I\setminus(a_1,\ldots,a_k)$.
+    Thus by the axiom of choice, choose $a_i,i\in\N$ so that $\{(a_1,\ldots,a_i):i\in\N\}$ does not stabilize, a contradiction.
+\end{proof}
+\begin{theorem}[Hilbert]
+    If $R$ is Noetherian, then $R[x]$ is Noetherian.
+\end{theorem}
+\begin{remark}
+    The canonical example of a Noetherian domain are PIDs
+    It is also easy to see that if $R$ is Noetherian, $R/I$ is also Noetherian.
+    This means that a lot of rings are Noetherian.
+\end{remark}
+\section{Reducibility}
+\begin{definition}
+    We say that $0\neq\alpha\in\mathcal{O}_K\setminus \mathcal{O}_K^\times$ is \textbf{reducible} if there exists $\beta,\gamma\in\mathcal{O}_K\setminus\mathcal{O}_K^\times$ such that $\alpha=\beta\gamma$.
+    If $\alpha$ is not reducible, then we say $\alpha$ is \textbf{irreducible}.
+\end{definition}
+\begin{definition}
+    A \textbf{Dedekind domain} is an integral domain $R$ satisfying $3$ properties:
+    \begin{enumerate}[nolistsep]
+        \item $R$ is Noetherian.
+        \item Every prime ideal is maximal.
+        \item $R$ is integrally closed in its field of fractions.
+    \end{enumerate}
+\end{definition}
+Note that Property (2) says that ``$R$ is 1-dimensional as a geometric object''.
+\begin{definition}
+    If $R\subseteq S$ subrings with $R,S$ integral domains, we say $s\in S$ is \textbf{integral over $R$} if there exists $f(x)\in R[x]$, $f$ monic, such that $f(s)=0$.
+    We say $R$ is \textbf{integrally closed in $S$} if $s\in S$ is integral over $R$ iff $s\in R$.
+\end{definition}
+Let $K$ be a number field, $\Z\subseteq K$.
+Then $\{\alpha\in K:\alpha\text{ is integral over }\Z\}=\mathcal{O}_K$.
+
+If $R=\Z$, $D^{-1}R=\Q$ and $\alpha\in\Q$ is integral iff $\alpha\in\Z$, so $\Z$ is integrally closed in $\Q$.
+
+If $R=\Z[\sqrt{5}]$, then $D^{-1}R=\Q(\sqrt{5})$.
+Note that $(1+\sqrt{5})/2$ is integral over $\Z[\sqrt{5}]$ (it has a minimal polynomial over $\Z$), so $\Z[\sqrt{5}]$ is not integrally closed in $\Q(\sqrt{5})$.
+
+\begin{proposition}
+    Let $K$ be a number field, $0\neq I\subseteq\mathcal{O}_K$ an ideal.
+    Then there exists $a\in\Z\setminus\{0\}$ such that $a\in I$.
+\end{proposition}
+\begin{proof}
+    Say $\alpha\in I$, $\alpha\neq 0$.
+    Let $\alpha_1,\ldots,\alpha_n$ be conjugates of $\alpha=\alpha_1$.
+    Then $a:=N_{\Q}^{\Q(\alpha)}(\alpha)=\alpha_1\cdots\alpha_n\in\Z\setminus\{0\}$.
+    Since $\alpha_2\cdots\alpha_n=a/\alpha\in\Q(\alpha)\subseteq K$ is an algebraic integer, $\alpha_2\cdots\alpha_n\in\mathcal{O}_K$ and $a\in I$.
+\end{proof}
+\begin{remark}
+    If $0\neq I\subseteq\mathcal{O}_K$, $I\cap\Z\subseteq\Z$ is a non-zero ideal.
+\end{remark}
+\begin{definition}
+    Given $I\subseteq\mathcal{O}_K$ an ideal, then $\{\alpha_1,\ldots,\alpha_n\}$ is called an \textbf{integral basis} of $I$ if $\alpha_i\in I$ and every element of $I$ has a unique representation as an integer linear combination of the $\alpha_i$.
+\end{definition}
+\begin{theorem}
+    Every non-zero ideal $I\subseteq\mathcal{O}_K$ has an integral basis.
+    More specifically, if $\omega_1,\ldots,\omega_n$ is an integral basis for $\mathcal{O}_K$, then there exists $a_{ij}\in\Z$, $a_{ii}\in\Z^+$ such that $\alpha_1,\ldots,\alpha_n$ is an integral basis for $I$ where
+    \begin{align*}
+        \alpha_1 &= a_{11}\omega_1\\
+        \alpha_2 &= a_{21}\omega_1+a_{22}\omega_2\\
+                 &\vdots\\
+        \alpha_n &= a_{n1}\omega_1+\cdots+a_{n,n-1}\omega_{n-1}+a_{nn}\omega_n
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    We already know there exists $a\in I$, $a\in\Z^+$ such that $a\omega_i\in I$.
+    Let $a_{11}\in\Z^+$ be minimal such that $\alpha_1:=a_{11}\omega_1\in I$.
+    Let $\alpha_2:=a_{21}\omega_1+a_{22}\omega_2$ with $a_{22}$ minimal and $\alpha_2-a_{22}\omega_2\in(\omega_1)\cap I$.
+    In general, let $\alpha_i:=a_{i1}\omega_1+\cdots+a_{ii}\omega_i$ with $a_{ii}\in\Z^+$ minimal.
+    Note that $\alpha_1,\ldots,\alpha_n$ is a basis for $I$, since
+    \begin{equation*}
+        \begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix} = \begin{pmatrix}a_{11}&0&\hdots&0\\a_{21}&a_{22}&\hdots&0\\\vdots&\vdots&\ddots&\vdots\\a_{n1}&a_{n2}&\hdots&a_{nn}\end{pmatrix}
+        \begin{pmatrix}\omega_1\\\vdots\\\omega_n\end{pmatrix}
+    \end{equation*}
+    Since $\omega_1,\ldots,\omega_n$ is a basis for $K/\Q$, $\alpha_1,\ldots,\alpha_n$ is as well.
+    Now let $\beta\in I$.
+    Since $\omega_1,\ldots,\omega_n$ is an integral basis for $\mathcal{O}_K$, so there exists $b_i\in\Z$ such that $\beta=b_1\omega_1+\cdots+b_n\omega_n$.
+    Let's see that $a_{nn}|b_n$.
+    If not, then $b_n=a_{nn}q+r$, $0<r<a_{nn}$, $q,r\in\Z$.
+    Then $b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+r\omega_n=\beta-q\alpha_n\in I$, contradicting minimality of $a_{nn}$.
+    Thus $\beta=b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+qa_{nn}\omega_n$ where $a_{nn}\omega_n=\alpha_n+$ a linear combination of $\omega_i$ for $i<n$.
+    Thus $I\ni\beta-q\alpha_n=b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}$.
+    Apply the same argument to $\beta-q\alpha_n$.
+\end{proof}
+\begin{example}
+    Consider $I=(7)\subseteq\Z[\sqrt{2}]$.
+    An integral basis for $(7)$ is $7,7\sqrt{2}$ since $7,7\sqrt{2}\in I$ and every element of $I$ is of the form $7(a+b\sqrt{2})$ for $a,b\in\Z$.
+\end{example}
+\begin{theorem}
+    If $K$ is a number field, then $\mathcal{O}_K$ is a Dedekind domain.
+\end{theorem}
+\begin{proof}
+    $\mathcal{O}_K$ is Noetherian: if $I\subseteq\mathcal{O}_K$, if $I=(0)$ we're done, else choose an integral basis $\alpha_1,\ldots,\alpha_n$ for $I$ and $I=(\alpha_1,\ldots,\alpha_n)$.
+
+    Every non-zero prime ideal is maximal: let $0\neq \rho\subseteq\mathcal{O}_K$.
+    Let's show $|\mathcal{O}_K/\rho|<\infty$.
+    This is enough: because $\mathcal{O}_K/\rho$ is an integral domain and it is finite, it must be a field.
+    [To see this, consider $\alpha:R\to R$ by $\alpha(x)=xr$.
+    This is injective, and since $R$ is finite, it is surjective, so there exists $s\in R$ with $rs=1$.]
+    Choose an integral basis $\{\alpha_1,\ldots,\alpha_n\}$ of $\mathcal{O}_K$.
+    We know there exists $a\in\Z$ with $0\neq a\in\rho$, so $a\omega_i\in\rho$ and there are at most $a^n$ possible integral combinations.
+
+    $\mathcal{O}_K$ is integrally closed in $K$: let $\gamma\in K$ which is integral over $\mathcal{O}_K$, so $\gamma^n+\alpha_{n-1}\gamma^{n-1}+\cdots+\alpha_1\gamma+\alpha_0=0$.
+    Note that $\gamma\in\Z[\alpha_0,\alpha_1,\ldots,\alpha_{n-1},\gamma]=A$.
+    If we show $A$ is finitely generated (as an additive group), then $\gamma$ is an algebraic integer, and hence in $\mathcal{O}_K$.
+    Since $A$ is generated over $\Z$ by all $\alpha_0^{m_0}\cdots\alpha_{n-1}^{m_{n-1}}\gamma^{m_n}$, we need to show that only finitely many products are necessary to generate (over $\Z$).
+    If $\alpha_i\in\mathcal{O}_K$, we can take $m_i<[K:\Q]$, and we can take $m<n$ since $\gamma^n$ is expressible as a product over the $\alpha_i$ (from its minimal polynomial).
+\end{proof}
+Let $I\subseteq R$ an ideal and let $S$ be the set of finitely generated ideals $J\subseteq I$.
+Get a maximal element $M\in S$.
+If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, contraicting maximality of $M$.
+\begin{lemma}
+    If $R$ is a Dedekind domain, then every non-zero ideal contains a product of prime ideals.
+\end{lemma}
+\begin{proof}
+    Let $S$ be the set of non-zero ideals that don't contain a product of primes.
+    Suppose $S\neq\emptyset$.
+    Then let $M\in S$ be maximal: $M$ can't be a prime ideal, so get $r,s\in R\setminus M$ with $rs\in M$.
+    Then $M_1:=M+(r)$, $M_2:=M+(s)$ are not in $S$, so $M_1$ and $M_2$ both contains products of primes.
+    But then $M_1M_2\subseteq M$ contains a product of primes, so $S=\emptyset$ (this is called Noetherian induction).
+\end{proof}
+\begin{lemma}
+    If $I\subsetneq R$ is an ideal, $R$ is a Dedekind domain, and $K=\Frac(R)$.
+    Then there exists $\gamma\in K\setminus R$ such that $\gamma I\subseteq\R$.
+\end{lemma}
+\begin{proof}
+    It's clear if $I=(0)$.
+    Thus, assume $I\neq (0)$, and get $0\neq a\in I$.
+    Since $I\subsetneq R$, so $a$ is not a unit, so $1/a\in K\setminus R$.
+    Let $(a)\supseteq\rho_1\cdots\rho_r$ where $\rho_i$ are prime ideals and $r$ is minimal.
+    Let $m$ be a maximal ideal containing $I$, so $m\supseteq I\supseteq(a)\supseteq\rho_1\cdots\rho_r$, and since $m$ is maximal, $m$ is prime.
+    In general, if $q$ is a prime ideal and $q\supseteq J_1\cdots J_r$, then $q\supseteq J_i$ for some $i$.
+    [Let $j_i\in J_i$ for $i<r$ with $j_i\notin q$, and $\alpha\in J_r$ arbitrary.
+    Then $j_1\cdots j_{r-1}\alpha\in q$, so by primality, $\alpha\in q$.]
+    Thus without loss of generality $p_1\subseteq m$.
+    Since $R$ is Dedekind, $m=\rho_1$.
+
+    If $r=1$, then $I=(a)$ is principal, then $\gamma=1/a$ works.
+    If $r>1$, choose $b\in\rho_2\cdots\rho_r$ and set $\gamma=\frac{b}{a}$.
+    Then
+    \begin{equation*}
+        \gamma I=\frac{b}{a}I\subseteq\frac{b}{a}\rho_1\subseteq\frac{1}{a}\rho_1\cdots\rho_r\subseteq\frac{1}{a}(a)=R
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    If $R$ is a Dedekind domain, $I$ an ideal of $R$, then there exists an ideal $J$ of $R$ such that $IJ$ is principal.
+\end{proposition}
+\begin{proof}
+    This is clear if $I=(0)$.
+    Otherwise, let $0\neq\alpha\in I$.
+    Set $J=\{\beta\in R:\beta I\subseteq(\alpha)\}$.
+    $IJ\subseteq(\alpha)$ by definition, so we need to show that $(\alpha)\subseteq IJ$.
+    Let $B=\frac{1}{\alpha}IJ$; we know $B\subseteq R$ is an ideal; we want to show that $B=R$.
+    If $B\neq R$, then by the lemma, get $\gamma\in K\setminus R$ such that $\gamma B\subseteq R$.
+    Then $J\subseteq B$ since $\alpha\in I$, so $\gamma J\subseteq\gamma B\subseteq R$; that is, $\gamma J$ consists of elements of $R$.
+    Since $\gamma B=\gamma\frac{1}{\alpha} IJ$, $\gamma JI\subseteq(\alpha)$, and by definition of $J$, $\gamma J\subseteq J$.
+
+    $J$ has an integral basis, so has a finitely generated additive group.
+    Thus we cannot have $J\supseteq\gamma J\supseteq\gamma J^2\supseteq\cdots$ since $\gamma\in K\setminus R$.
+    However, this is a contradiction to the assumption that $B\neq R$, so $IJ=(\alpha)$.
+\end{proof}
+\begin{definition}
+    If $A,B$ are ideals, we say $A|B$ ($A$ \textbf{divides} $B$) if there exists an ideal $C$ such that $AC=B$.
+\end{definition}
+\begin{corollary}
+    Let $A,B,C$ be ideals in a Dedekind domain, with $C\neq 0$.
+    Then
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $A\supseteq B$ if and only if $A|B$.
+        \item $AC=BC$ implies $A=B$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item There exists $I$ such that $CI=(\alpha)$.
+            Then $(\alpha)A=ACI=BCI=\alpha(B)$, so $A=B$.
+        \item If $A|B$, then get $C$ such that $B=AC\subseteq A$.
+            Conversely, if $A\supseteq B$, this is clear if $A=(0)$; else, let $0\neq A$.
+            Then there exists $J$ such that $JA=(\alpha)$, $\alpha\neq 0$.
+            Then $(\alpha)=JA\supseteq JB$, so $R\supseteq\frac{1}{\alpha}JB$.
+            Let $C=\frac{1}{\alpha}JB$, and $AC=\frac{1}{\alpha}AJB=B$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}
+    If $F$ is a Dedekind domain, then every proper non-zero ideal factors uniquely into a product of prime ideals.
+\end{theorem}
+\begin{proof}
+    Let $S$ be the set of non-zero proper ideals that cannot be written as a product of primes.
+    If $S\neq\emptyset$, let $M\in S$ be a maximal element.
+    $M$ can't be a maximal ideal of $F$; otherwise, $M$ is prime.
+    Let $\rho$ be a maximal ideal with $M\subsetneq\rho$.
+    Since $M\subseteq\rho$, $\rho|M$ so there is an ideal $C$ such that $M=\rho C$.
+    Since $M\neq\rho$, $C\neq R$.
+    $C$ cannot be a product of prime ideals, or $M$ is a product of prime ideals.
+    Thus $C\in S$, but $M\subseteq C$ and $M\in S$ is maximal, so $M=C$.
+    But then $M=\rho C=\rho M$ and can cancel $M$, so that $\rho=R$, a contradiction.
+
+    It remains to show unique factorization.
+    Given $I\neq 0$, $R$, say $I=\rho_1\ldots\rho_r=q_1\ldots q_s$.
+    Then $I\subseteq\rho_1$, so $\rho_1$ contains some $q_i$.
+    Without loss of generality, $\rho_1\supseteq q_1$.
+    Then $\rho_1=q_1$ since prime ideals are maximal, and cancel from both sides to get $\rho_2\ldots\rho_r=q_2\ldots q_s$, and we're done by induction.
+\end{proof}
+\begin{example}
+    Consider the ring $\Z[\sqrt{-5}]$, which does not have unique factorization: $6=2\cdot 4=(1+\sqrt{-5})(1-\sqrt{-5})$.
+    However, $(2)$ is not a prime ideal since $1+\sqrt{-5},1-\sqrt{-5}\notin(2)$, but $6\in(2)$.
+    Note that $(2)=(2,1+\sqrt{-5})(2,1-\sqrt{-5})$ and $(6)=(2,1+\sqrt{-5})(2,1-\sqrt{-5})(3,1+\sqrt{5})(3,1-\sqrt{-5})$.
+\end{example}
+\begin{theorem}
+    $R$ is a PID if and only if $R$ is a UFD and a Dedekind domain.
+\end{theorem}
+\begin{theorem}
+    If $K$ is a number field, then $\mathcal{O}_K$ has unique factorization into primes iff $\mathcal{O}_K$ is a PID.
+\end{theorem}
+\begin{proof}
+    ($\Rightarrow$) By (unique) factorization into prime ideals, it is enough to show that every prime ideal $\rho$ is principal.
+    Get $0\neq a\in\Z$ such that $a\in\rho$.
+    Write $a=\pi_1\ldots\pi_r$ where $\pi_i\in\mathcal{O}_K$ are primes.
+    Without loss of generality, $\pi_1\in P$.
+    We know that $(\pi_1)\subseteq\rho$.
+    However, $(\pi_1)$ is prime, so equality holds since $(\pi_1)$ is maximal.
+
+    ($\Leftarrow$) Say $\pi_1\ldots\pi_r=\lambda_1\ldots\lambda_s$ where $\pi_i$, $\lambda_j$ are prime.
+    Note that $(\pi_i)$ and $(\lambda_j)$ are prime ideals, so we are done by unique factorization into prime ideals.
+\end{proof}
+\begin{example}
+    Consider $K=\Q(\sqrt{-d})$, for $d>0$.
+    When is $\mathcal{O}_K$ a PID?
+    When $d=1,2$, $K$ is a Euclidean domain
+    It was conjectured (correctly) by Gauss that this is true when $d\in\{1,2,3,7,11,19,43,67,163\}$.
+\end{example}
+If $\rho\subseteq\mathcal{O}_K$ is a prime ideal, then $0\neq 1\in\rho$.
+Write $a=p_1^{e_1}\cdots p_r^{e_r}$, so by primality, some $p_i\in\rho$.
+Then $(p)=p\mathcal{O}_K\subseteq\rho$, so $\rho|(p)$ and $\rho\cdot q_1\cdots q_s=(p)$ for some ideals $q_i$.
+Thus every prime ideal of $\mathcal{O}_K$ shows up as a factor in $(p)$ for some prime $p\in\Z$.
+Furthermore, $\rho$ cannot be a factor of $(p)$ and $(q)$ for distinct primes $p,q\in\Z$: otherwise, $p,q\in\rho$ so $1\in\rho$.
+If $p$ is the unique prime in $\Z$ for whoch $p\in\rho$, then we say \textbf{$\rho$ lies over $p$}.
+\section{Ramification}
+\begin{definition}
+    Let $K$ be a number field, $p\in\Z$ a prime.
+    We say $p$ \textbf{ramifies} in $K$ if there exists $\rho\subseteq\mathcal{O}_K$ prime ideal such that $\rho^2\mid(p)$ in $\mathcal{O}_K$.
+\end{definition}
+\begin{theorem}
+    If $D=\disc(K)$, then $p\in\Z$ and $p\nmid D$, then $p$ is unramified.
+\end{theorem}
+\begin{proof}
+    Note that $\rho q=\rho^2q$, we can cancel so $\rho=\mathcal{O}_K$.
+    Thus let $\alpha\in\rho q\setminus\rho^2 q$ such that $\alpha/p\notin\mathcal{O}_K$.
+    Then $\alpha^2\in\rho^2 q^2\subseteq(p)$, so $\frac{\alpha^2}{p}\in\mathcal{O}_K$.
+    In particular, if $\beta\in\mathcal{O}_K$, then $\frac{(\alpha\beta)^p}{p}\in\mathcal{O}_K$.
+    Note that $\Tr((\alpha\beta)^p)=p\Tr\left(\frac{(\alpha\beta)^p}{p}\right)$, so $p|\Tr((\alpha\beta)^p)$.
+    Then
+    \begin{align*}
+        \Tr(\alpha\beta)^p &=\left(\sum_\sigma\sigma(\alpha\beta)\right)^p=\sum_\sigma\sigma(\alpha\beta)^p+p\gamma\\
+                           &= \Tr((\alpha\beta)^p)+p\gamma
+    \end{align*}
+    for some $\gamma\in\mathcal{O}_K$.
+    Thus $p\mid\Tr(\alpha\beta)^p$, so $p|\Tr(\alpha\beta)$.
+
+    Let $\omega_1,\ldots,\omega_n$ be an integral basis for $K$.
+    Then $\alpha=a_1\omega_1+\cdots+a_n\omega_n$ for $a_i\in\Z$.
+    Since $\frac{\alpha}{p}\notin\mathcal{O}_K$, $p\nmid a_i$ for some $a_i$.
+    Without loss of generality, $p\nmid a_1$.
+    Since $p|\Tr(\alpha\omega_i)$ for all $i$, then $p|\Tr(\alpha\omega_1)$ where
+    \begin{equation*}
+        \Tr(\alpha\omega_1)=\Tr((a_1\omega_1+\cdots+a_n\omega_n)\omega_i)=\sum_j a_j\Tr(\omega_j\omega_1)
+    \end{equation*}
+    Now,
+    \begin{equation*}
+        D=\disc(K)=\det
+        \begin{pmatrix}
+            \Tr(\omega_1\omega_1) &\hdots&\Tr(\omega_1\omega_n)\\
+            \vdots&&\vdots\\
+            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
+        \end{pmatrix}
+    \end{equation*}
+    so that
+    \begin{align*}
+        a_1D &=\det
+        \begin{pmatrix}
+            a_1\Tr(\omega_1\omega_1) &\hdots&\Tr(\omega_1\omega_n)\\
+            \Tr(\omega_2\omega_1) &\hdots&\Tr(\omega_2\omega_n)\\
+            \vdots&&\vdots\\
+            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
+        \end{pmatrix}\\
+        &=\det
+        \begin{pmatrix}
+            a_1\Tr(\omega_1\omega_1)+\cdots+a_n\Tr(\omega_1\omega_n) &\hdots &a_1\Tr(\omega_1\omega_n)+\cdots+\Tr(\omega_n\omega_n)\\
+            \Tr(\omega_2\omega_1) &\hdots&\Tr(\omega_2\omega_n)\\
+            \vdots&&\vdots\\
+            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
+        \end{pmatrix}
+    \end{align*}
+    so $p|a_1D$, but $p\nmid a_i$ so $p|D$.
+\end{proof}
+\begin{remark}
+    In fact, $p$ ramifies if and only if $p\mid\disc(K)$.
+\end{remark}
+\begin{example}
+    Consider $\Z[\sqrt{3}]=\mathcal{O}_K$, so $\disc(K)=12$.
+    Let's see that 3 ramifies: then $(3)=(\sqrt{3})^2$.
+\end{example}
+\section{Norms of Ideals}
+\begin{definition}
+    The norm of $0\neq I\subseteq\mathcal{O}_K$ is defined to be $N_{\Q}^K(I):=N(I):=\norm{I}:=|\mathcal{O}_K/I|=[\mathcal{O}_K:I]$.
+\end{definition}
+\begin{theorem}
+    Let $K$ be a number field, $I\subseteq\mathcal{O}_K$.
+    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $I$.
+    Then
+    \begin{equation*}
+        N(I)=\left\lvert\frac{\disc(\alpha_1,\ldots,\alpha_n)}{\disc(K)}\right\rvert^{1/2}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    If $\alpha_1,\ldots,\alpha_n$ and $\beta_1,\ldots,\beta_n$ are choices of integral bases for $I$, then they have the same discriminant.
+    To see this, if $P$ is a change of basis, then $P\in\GL_n(\Z)$ so $\det(P)=\pm 1$.
+    Let's choose the integral basis for $I$ that we constructed earlier.
+    Let
+    \begin{align*}
+        \alpha_1 &= a_{11}\omega_1\\
+        \alpha_2 &= a_{21}\omega_1+a_{22}\omega_2\\
+                 &\vdots\\
+        \alpha_n &= a_{n1}\omega_1+\cdots+a_{nn}\omega_n
+    \end{align*}
+    so
+    \begin{equation*}
+        \disc(\alpha_1,\ldots,\alpha_n) = \det
+        \begin{pmatrix}a_{11}&0&\hdots&0\\a_{21}&a_{22}&\hdots&0\\\vdots&\vdots&\ddots&\vdots\\a_{n1}&a_{n2}&\hdots&a_{nn}\end{pmatrix}^2\disc(\omega_1,\ldots,\omega_n)
+    \end{equation*}
+    Thus,
+    \begin{equation*}
+        \frac{\disc(\alpha_1,\ldots,\alpha_n)}{\disc(K)}=(a_{11}\cdots a_{nn})^2
+    \end{equation*}
+    Thus we need to show that $N(I)=\prod_{i=1}^n a_{ii}$.
+    Let's show that every element of $\mathcal{O}_K/I$ has a unique representation as $r_1\omega_1+\cdots+r_n\omega_n$.
+
+    Every $\gamma\in\mathcal{O}_K$ can be represented in this form since $\gamma=\sum b_i\omega_i$.
+    Write $b_n=q_na_{nn}+r_n$, where $0\leq r_n<a_{nn}$.
+    Replace $\gamma$ by $\gamma-q_n\alpha_n$, and divide $a_{n-1,m-1}$ into the $\omega_{n-1}$ coefficient of $\gamma-q_n\alpha_n$.
+    Repeat.
+    But then $\sum(r_i-s_i)\omega_i\in I$, and $a_{nn}\in\Z^+$ was chosen minimally, so $a_{nn}|(r_n-s_n)$.
+    Thus $r_n=s_n+q_na_{nn}$ where $0\leq r_n,s_n<a_{nn}$ so $r_n=s_n$.
+    Thus $\sum_{i=1}^{n-1}(r_i-s_i)\omega_i\in I$, and $a_{n-1,n-1}$ was chosen minimally with this property, so $r_{n-1}=s_{n-1}$.
+\end{proof}
+\begin{remark}
+    $N(I)$ is supposed to be a generalization of norms of elements.
+\end{remark}
+\begin{proposition}
+    Let $K$ be a number field, $I=(\alpha)$.
+    Then $N(I)=|N(\alpha)|$.
+\end{proposition}
+\begin{proof}
+    Let $\sigma_1,\ldots,\sigma_n$ be the embeddings of $K\hookrightarrow\C$.
+    Then
+    \begin{equation*}
+        \begin{pmatrix}
+            \sigma_1(\alpha\omega_1) &\hdots&\sigma_1(\alpha\omega_n)\\
+            \vdots&&\vdots\\
+            \sigma_n(\alpha\omega_1) &\hdots&\sigma_n(\alpha\omega_n)
+        \end{pmatrix}
+    =
+        \begin{pmatrix}
+            \sigma_1(\alpha) &&\\
+                             &\ddots&\\
+                             &&\sigma_n(\alpha)
+        \end{pmatrix}
+        \begin{pmatrix}
+            \sigma_1(\omega_1) &\hdots&\sigma_1(\omega_n)\\
+            \vdots&&\vdots\\
+            \sigma_n(\omega_1) &\hdots&\sigma_n(\omega_n)
+        \end{pmatrix}
+    \end{equation*}
+    Apply $(\det)^2$ to both sides so that $\disc(\alpha\omega_1,\ldots,\alpha\omega_n)=N(\alpha)^2\disc(\omega_1,\ldots,\omega_n)$.
+    Then $N(I)=|N(\alpha)|$ by the previous theorem.
+\end{proof}
+\begin{remark}
+    Let $f:\C\to\C$ be given by $x\mapsto x^n$.
+    Most points $z\in\C$ have $n$ distinct preimages (all except $z=0$).
+
+    Now consider $x\mapsto\prod(x-\lambda_i)^{e_i}$ where $n=\sum e_i=\deg f$.
+    If $x\neq\lambda_i$, then there are $n$ preimages (counting multiplicity), but $\lambda_i$ has $n-e_i$ preimages $\lambda_i$ ramified.
+
+    In algebraic geometry, $\Spec(\mathcal{O}_K)\to\Spec(\Z)$ we have the map $\pi$ given by $\rho\mapsto\rho\cap\Z$.
+    If $[K:\Q]=n$, then there are usually $n$ preimages to this map.
+    Then $p$ is ramified if and only if $\pi^{-1}(p)|<n$.
+\end{remark}
+\begin{theorem}[Fermat]
+    Let $K$ be a number field, $\rho\subseteq\mathcal{O}_K$ a prime ideal, $\alpha\in\mathcal{O}_K$, and $\rho\nmid(\alpha)$, then $\alpha^{N(p)-1}\equiv 1\pmod{p}$.
+\end{theorem}
+\begin{proof}
+    $\mathcal{O}_K/\rho$ is a field, so $(\mathcal{O}_K/\rho)^\times$ is a group with size $N(\rho)-1$.
+    Then $\rho\nmid(\alpha)$ if and only if $\alpha\notin\rho$ and the result follows by Lagrange.
+\end{proof}
+\begin{proposition}
+    If $I\subseteq\mathcal{O}_K$ is an ideal, then $N(I)\in I$.
+\end{proposition}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_{N(I)}$ be the distinct classes in $\mathcal{O}_K/I$.
+    Then $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ are also distinct.
+    Thus $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ is a permutation, so in $\mathcal{O}_K/I$, $N(I)+\sum\alpha_i=\sum\alpha_i$ and $N(I)=0$ in $\mathcal{O}_K/I$, i.e. $N(I)\in I$.
+\end{proof}
+\begin{remark}
+    Alternatively, apply Lagrange to the aditive group $\mathcal{O}_K/I$.
+\end{remark}
+\begin{corollary}
+    If $K$ is a number field and $a\in\Z^+$, then there are only finitely many ideals $I\subseteq\mathcal{O}_K$ with $N(I)=a$.
+\end{corollary}
+\begin{proof}
+    If $I\subseteq\mathcal{O}_K$ is an ideal, and $N(I)=a$, then $a\in I$.
+    Thus $(a)\subseteq I$ so $I|(a)$.
+    Factor $(a)=\prod p_i^{e_i}$ prime ideals, and since $I\div\prod p_i^{e_i}$ so $I=\prod p_i^{f_i}$ for some $0\leq f_i\leq p_i$.
+\end{proof}
+\begin{example}
+    Which $I\subseteq\Z[i]$ have norm 5?
+    Since $5=(1+2i)(1-2i)$ is a factorization into primes, since if $N(I)=5$, then $I=(1+2i)^a(1-2i)^b$ for $a,b\in\{0,1\}$.
+    In this case, you can check $N(I)=5$ if and only if $I=(1+2i)$ or $I=(1-2i)$.
+\end{example}
+\begin{remark}
+    Note: if $N(I)=I$ if and only if $I=\mathcal{O}_K$.
+    If $[K:\Q]=n$ and $\rho$ is a prime ideal, we already showed $\rho|(p)$ for some prime $p\in\Z$.
+    Thus, once we show $N$ is multiplicative, we will know $(p)=\rho J$, so $N((p))=N(\rho)N(J)$ so $N(\rho)=p^f$ (prove directly) for some $1\leq f\leq n$.
+    We write $f(\rho|p):=f$.
+    If $N(I)$ is prime, then $I$ is a prime ideal.
+\end{remark}
+\begin{definition}
+    If $B,C\subseteq\mathcal{O}_K$ are ideals, we say $D\subseteq\mathcal{O}_K$ is the \textbf{gcd of $B,C$} if $D|B$, $D|C$, and whenever $E|B$ and $E|C$, we have $E|D$.
+\end{definition}
+One can see that the gcd exists and is unique by factorization of ideals into primes.
+Here's another proof of existence: write $B=(\alpha_1,\ldots,\alpha_r)$ and $C=(\beta_1,\ldots,\beta_s)$.
+Then $\gcd(B,C)=(\alpha_1,\ldots,\alpha_r,\beta_1,\ldots,\beta_s)$.
+If the $\gcd$ exists, then $D|E$ and $E|D$ so $D\subseteq E\subseteq D$ and equality holds.
+\begin{lemma}
+    Suppose $0\neq B,C\subseteq\mathcal{O}_K$ are ideals.
+    Then there exists $\alpha\in B$ such that $\gcd((\alpha)/B,C)=1$ (this makes sense since $\alpha\in B$ implies $B|(\alpha)$, so $(\alpha)=B\frac{(\alpha)}{B}$).
+\end{lemma}
+\begin{proof}
+    If $C=\mathcal{O}_K$, choose any $\alpha\in B$.
+    Otherwise, $C=\prod_{i=1}^4\rho_i^{e_i}$ is a product of prime ideals.
+    If $r=1$, then $C=\rho^e$.
+    Choose $\alpha\in B\setminus B\rho$, so $\gcd\left(\frac{(\alpha)}{\beta},\rho^e\right)=\rho^m$.
+    Suppose $m\geq 1$, so $\rho\div\frac{(\alpha)}{B}$ so $(\alpha)=B\frac{(\alpha)}{B}=B\rho E\subseteq B\rho$.
+    Thus $\alpha\in B\rho$, a contradiction.
+
+    For $r>1$, let $B_m:=B\frac{\rho_1\cdots\rho_r}{\rho_m}$.
+    We can find $\alpha_m\in B_m$ such that $\gcd\left(\frac{(\alpha_m)}{B_m},\rho_m\right)=1$.
+    Let $\alpha:=\sum\alpha_i$.
+    Then $B\supseteq B_i$, so $\alpha_i\in B$ and $\alpha\in B$.
+    For $i\neq $, $\alpha_i\in B_i\subseteq B\rho_m$.
+    Let's show that $\alpha\notin B\rho_m$ fr any $m$.
+    If $\alpha\in B\rho_m$, then since $\alpha_i\in B\rho_m$ for $i\neq m$, we have $\alpha_m\in B\rho_m$.
+    Thus $(\alpha_m)\subseteq B\rho_m$, so $B\rho_m\div(\alpha_m)$ and $(\alpha_m)=B\rho_mD$.
+    Thus $\alpha_m\in B_m$, so $(\alpha_m)=B_mE$, where $E=\frac{(\alpha_m)}{B_m}$.
+    But then $B\rho_mD=(\alpha_m)=B_mE=B\frac{\rho_1\cdots\rho_r}{\rho_m}E$ so $\rho_mD=\frac{\rho_1\cdots\rho_r}{\rho_m}E$.
+    But then $\gcd(E,\rho_m)=1$ so $\rho_m\div\frac{\rho_1\cdots\rho_r}{\rho_m}$, a contradiction.
+
+    Now suppose $\gcd((\alpha)/B,C)\neq 1$.
+    Then there exists $M$ such that $\rho_m|(\alpha)/B$, so $B\rho_m|(\alpha)$ and $\alpha\in B\rho_m$, a contradiction.
+\end{proof}
+\begin{lemma}
+    Suppose $0\neq B,C\subseteq\mathcal{O}_K$.
+    If $\alpha\beta\equiv 0\pmod{BC}$, then $\gcd\left(\frac{(\alpha)}{B},C\right)=1$, then $\beta\equiv 0\pmod{C}$.
+\end{lemma}
+\begin{proof}
+    Since $\alpha\beta\in BC$, $BC|(\alpha)(\beta)$ so $(\alpha)(\beta)=BCD$, so $\frac{(\alpha)}{B}(\beta)=CD$.
+\end{proof}
+\begin{theorem}
+    If $B,C\subseteq\mathcal{O}_K$ are ideals, then $N(BC)=N(B)N(C)$.
+\end{theorem}
+\begin{proof}
+    The lemma says there exists $\gamma\in B$ such that $\gcd\left(\frac{(\gamma)}{B},C\right)=1$.
+    Let $\alpha_1,\ldots,\alpha_{N(B)}\in\mathcal{O}_K$ represent the distinct classes in $\mathcal{O}_K/B$.
+    Let $\beta_1,\ldots,\beta_{N(C)}$ represent the distinct classes in $\mathcal{O}_K/C$.
+    Let's show that $\alpha_i+\gamma\beta_j$ represent the distinct classes in $\mathcal{O}_K/BC$, so $N(BC)=N(B)N(C)$.
+
+    First note that $\alpha_i+\gamma\beta_j$ are distinct modulo $BC$:
+    \begin{align*}
+        \alpha_i+\gamma\beta_j &\equiv\alpha_k+\gamma\beta_l\pmod{BC}\\
+        \alpha_i-\alpha_k &\equiv\gamma(\beta_l-\beta_i)\\
+        \alpha_i-\alpha_k &\equiv 0\pmod{B}
+    \end{align*}
+    so that $I=k$; i.e. $\alpha_i=\alpha_k$ in $\mathcal{O}_K$.
+    Then $0\equiv\gamma(\beta_l-\beta_j)\pmod{BC}$, so by the second lemma, $\beta_l-\beta_j\equiv \pmod{C}$ and $j=l$.
+    Next, we need to show if $\alpha\in\mathcal{O}_K$, then there exists $i,j$ such that $\alpha\equiv\alpha_i+\gamma\beta_j\pmod{BC}$.
+
+    Let $i$ be such that $\alpha\equiv\alpha_i\pmod{B}$.
+    Then $\alpha-\alpha_i\in B=\gcd((\alpha),BC)=(\alpha)+BC$, so $\alpha-\alpha_i=\gamma\beta+\lambda$, $\beta\in\mathcal{O}_K$, $\lambda\in BC$.
+    Let $j$ be such that $\beta\equiv\beta_j\pmod{C}$.
+    Thus $\alpha=\alpha_i+\gamma\beta_j+\gamma(\beta-\beta_j)+\lambda$, $\gamma\in B$, $\beta-\beta_j\in C$.
+    Then $\gamma(\beta-\beta_j)=\lambda\in BC$, so $\alpha=\alpha_i+\gamma\beta_j\pmod{BC}$.
+\end{proof}
+\section{Class Group}
+\begin{definition}
+    The \textbf{class group of $K$} is $\Cl(\mathcal{O}_K)$ is the set of ideals modulo the set of principal ideals, where the group operation is multiplication of ideals.
+    We write $h_K:=|\Cl(\mathcal{O}_K)|$.
+\end{definition}
+We'll show that $h_k<\infty$.
+Consider $\Spec(\mathcal{O}_K)$.
+It turns out that $\Cl(\mathcal{O}_K)$ is the set of line bundles on $\Spec(\mathcal{O}_K)$.
+
+If $E$ is an elliptic curve, we can define an addition on points $p,q$, and the points form a group.
+Then the class group of the elliptic curve is $E\times\Z$.
+If $f:\C\to\C$ is $x\mapsto x^2$, then $d(x^2)=2x$ vanishes at $x=0$ if and only if $0$ is ramified.
+\begin{theorem}
+    If $K$ is a number fiel, then there exists $c_K$ constant such that for all $0\neq A\subseteq\mathcal{O}_K$ ideal, there exists $\alpha\in A$ such that $|N(\alpha)|\leq C_KN(A)$.
+\end{theorem}
+\begin{proof}
+    Let $\omega_1,\ldots,\omega_n$ be an integral basis for $\mathcal{O}_K$.
+    Let $t:=\lfloor N(A)^{1/m}\rfloor$.
+    Consider all elements of $\mathcal{O}_K$ of the form $c_1\omega_1+\cdots+c_n\omega_n$ where $0\leq c_i\leq t$.
+    There are $(t+1)^n$ such elements, and $(t+1)^n>N(A)$.
+    By pidgeonhole, there exists some $\beta_i\neq\beta_j$ so that $\beta_1\equiv\beta_2\pmod{A}$.
+    Set $\alpha=\beta_1-\beta_1\in A$; then, $\alpha=t_1\omega_1+\cdots+t_n\omega_n$ with $|t_i|\leq t$.
+    Then
+    \begin{align*}
+        |N(\alpha)| &= \left\lvert\prod_{j=1}^n\sigma_j(\alpha)\right\rvert\\
+                    &= \left\lvert\prod_{j=1}^nt_1\sigma_j(\omega_1)+\cdots+t_n\sigma_j(\omega_n)\right\rvert\\
+                    &\leq \prod_{j=1}^n\left(|t_1||\sigma_j(\omega_1)|+\cdots+|t_n||\sigma_j(\omega_n)|\right)\\
+                    &\leq t^n\prod_{j=1}^n(|\sigma_j(\omega_1)|+\cdots+|\sigma_j(\omega_n)|)\\
+                    &<N(A)c_K
+    \end{align*}
+    where $c_K=\prod_{j=1}^n\left(\sum_{j=1}^n|\sigma_j(\omega_i)|\right)$.
+\end{proof}
+\begin{remark}
+    Later, we'll show we can take $c_K=\sqrt{|\disc(K)|}$.
+\end{remark}
+\begin{theorem}
+    If $K$ is a number field, then the class number $h_K<\infty$.
+\end{theorem}
+\begin{proof}
+    We'll show that every ideal class contains an ideal with norm at most $c_K$.
+    Then we are done from the previous theorem.
+
+    Let $0\neq I\subseteq\mathcal{O}_K$; then, get $0\neq A$ such that $IA$ is principal.
+    The previous theorem tells us there exists $0\neq\alpha\in A$ such that $|N((\alpha))|\leq C_KN(A)$.
+    Since $\alpha\in A$, it follows that $(\alpha)\subseteq A$, so $(\alpha)=AB$ for some $B$.
+    Thus, in the class group $\Cl(\mathcal{O}_K)$, we have $A=I^{-1}$ and $B=A^{-1}$, so $B=I$ in $\Cl(\mathcal{O}_K)$.
+    Since $AB=(\alpha)$, $N(A)N(B)\leq C_KN(A)$, so $N(B)\leq C_K$.
+    In other words, $B$ and $I$ are in the same class and $N(B)\leq C_K$.
+\end{proof}
+\section{Fermat's Last Theorem}
+We will prove FLT for ``regular primes''; i.e. tere are no ``non-trivial'' $\Z-$solutions to $x^p+y^p=z^p$ where $p$ is a regular prime.
+\begin{definition}
+    We say that $p$ is regular if $p\nmid h_{\Q(\zeta_p)}$.
+\end{definition}
+The key point: if $I\subseteq\mathcal{O}_{\Q(\zeta_p)}$ is any ideal and $I^p$ is principal, then $I$ is principal.
+If $K$ is a number field, then you can prove there exists a number field $L$ such that $L/K$ is normal with $\Gal(L/K)=\Cl(\mathcal{O}_K)$.
+$L$ is called the Hilbert class field.
+This has the property that every ideal $I\subseteq\mathcal{O}_K$ becomes principal in $\mathcal{O}_L$; i.e. $\mathcal{O}_LI=(\alpha)$ for some $\alpha\in\mathcal{O}_L$.
+\subsection{Computing an ideal class group}
+Last time, we showed every ideal class has a representation of norm at most $c_K$.
+You can take $C_k=\sqrt{|\disc(K)|}$.
+How to determine $\Cl(\mathcal{O}_K)$?
+First, we want to write down all the ideals $I$ with $N(I)<C_K$.
+Write $I=\prod\rho_i e^i$, so it suffices to determine the primes with $N(\rho)<C_K$.
+To do this, we go through all the primes $p\in\Z$ with $p<C_K$, and factor $(p)$ in $\mathcal{O}_K$.
+\begin{example}
+    Consider $\Cl(\Q(\sqrt{-23}))$, so $C_K=\sqrt{23}<5$.
+    Thus we need ideals with norm a most 4, so it suffices to consider $(2),(3)$.
+    Current HW gives method to find factorization, we have
+    \begin{align*}
+        (2)&=\underbrace{\left(2,\frac{1+\sqrt{-23}}{2}\right)}{p}\underbrace{\left(2,\sqrt{1-\sqrt{-23}}{2}\right)}{p'}\\
+        (3)&=\underbrace{\left(3,\sqrt{1-\sqrt{-23}}{2}\right)}{q}\underbrace{\left(3,\sqrt{1+\sqrt{-23}}{2}\right)}{q'}
+    \end{align*}
+    is a product of primes.
+    Thus all the ideals of norm at most 4 are products of the above primes.
+    Write $I\sim J$ if $I=J$ in $\Cl(K)$.
+    Note that $pp'(2)$, so $p'=p^{-1}$
+    Similarly,
+    \begin{equation*}
+        pq=\left(6,2\sqrt{1-\sqrt{-23}}{2},3\left(\frac{1-\sqrt{-23}}{2}\right),\left(\frac{1-\sqrt{-23}}{2}\right)^2\right)=(6)
+    \end{equation*}
+    so $q=p^{-1}$ and $q\sim p'$.
+    An analoguous computation shows $p',q'\sim(1)$ so $q'\sim p$.
+    We now have
+    \begin{equation*}
+        N\left(\frac{3+\sqrt{-23}}{2}\right)=8=N\left(\frac{3-\sqrt{-23}}{2}\right)
+    \end{equation*}
+    and these two ideals are distinct.
+    Since $p$ is not principal b/c there is no principal ideal of norm 2.
+    Similarly, $p'$ is not principal.
+    Since we know there are at last two distinct principal ideals of norm 8, we must have $p,p'$ not principal.
+    Thus $p^3,p'^3$ are not principal, so $p^3\sim 1$ and $p$ has order 3 in $\Cl(K)$.
+\end{example}
+\section{Quadratic Reciprocity}
+This is about solving quadratic equations modulo $p$.
+Let's solve $x^2+bx+c$ in $\F_p$.
+This reduces to the question of solving $x^2=a\pmod{p}$; i.e. when is $a$ a square mod $p$?
+\begin{definition}
+    We define the \textbf{Legendre symbol} by
+    \begin{equation*}
+        \lgs{a}{p}=\begin{cases}1&\text{$a$ is a square in $\F_p$}\\-1&:\text{otherwise}\end{cases}
+    \end{equation*}
+\end{definition}
+Let $H$ be the set of squares in $(\Z_p)^\times$.
+On homework 2, we showeded $[(\Z_p)^\times:H]=2$.
+Since it is index 2, $(\Z/p)^\times/H\cong\Z_2$.
+Thus if $a,b$ are not squares, then $ab$ is a square.
+Similarly, if $a$ is not square, $b$ is square, so $ab$ is not square.
+This says that
+\begin{equation*}
+    \lgs{ab}{p}=\lgs{a}{p}\lgs{b}{p}
+\end{equation*}
+Said another way, he map $\phi:(\Z_p)^\times\to\Z_2$ with $a\mapsto\lgs{a}{p}$ is a homomorphism, and $\ker\phi=H$.
+By multiplicity of the Legendre symbol, we need to look for squares which are primes modulo $p$.
+When $q$ is square, modulo $p$, for $q\neq p$ and $q$ prime.
+\begin{example}
+    Let's compute $\lgs{-1}{p}$ for some small $p$.
+    \begin{equation*}
+        \begin{array}{c|c|c|c|c|c}
+            p&3&5&7&11&13\\
+            \lgs{-1}{p}&-1&1&-1&-1&1
+        \end{array}
+    \end{equation*}
+    This leads us to the following proposition:
+\end{example}
+\begin{proposition}
+    We have
+    \begin{equation*}
+        \lgs{-1}{p}=
+        \begin{cases}
+            1&p\equiv 1\pmod{4}\\
+            -1&p\equiv 3\pmod{4}
+        \end{cases}
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    We first show in general that for all $a$, $\lgs{a}{p}\equiv a^{p-1}{2}\pmod{p}$.
+    Note that $\left(a^{(p-1)/2}\right)^2=a^{p-1}\equiv 1\pmod{p}$, so $a^{(p-1)/2}=\pm 1$ in $\F_p$.
+    If $\lgs{a}{p}=1$, then $a=b^2\pmod{p}$ so $a^{(p-1)/2}\equiv b^{p-1}\equiv 1\pmod{p}$.
+    Note that $x^{(p-1)/2}-1$ has at most $(p-1)/2$ roots in $\F_p$, and there are $(p-1)/2$ squares, each which is a root of $x^{(p-1)/2}-1$.
+    Thus the non-squares are not roots, i.e. if $\lgs{a}{p}=-1$, then $a^{(p-1)/2}\nequiv 1\pmod{p}$.
+    \begin{center}
+        \begin{tikzcd}
+            (\Z_p)^\times\arrow[r,"x\mapsto x^2"]\{\text{squares}\}\subseteq(\Z_p)^\times\\
+            \Z_{p-1}\arrow[r,"x\mapsto 2x"]2\Z_{p-1}\subseteq\Z_{p-1}
+        \end{tikzcd}
+    \end{center}
+    Thus $2\Z_{p-1}=\ker(\Z_{p-1}\to\Z_2)$ where the map is multiplication by $(p-1)/2$.
+
+    The result follows by applying with $a=-1$.
+\end{proof}
+We want to find $\lgs{p}{q}$ where $p\neq q$ are odd primes.
+Let's view $(\Z_p)^\times=\Gal(\Q(\zeta_p)/\Q)$ and let $H$ denote the squares in $(\Z_p)^\times$.
+This corresponds to $\Q(\sqrt{p^*})\subseteq\Q(\zeta_p)$.
+Let $H=\Gal(\Q(\zeta_p)/\Q(\sqrt{p^*}))$.
+Given $a\in(\Z_p)^\times$, let $\sigma_a$ denote the Galois gropu element $\sigma_a:\zeta_p\mapsto\zeta_p^a$.
+Now $\lgs{q}{p}=1$ if and only if $q\in H$ if and only if $\sigma_q$ fixes $\Q(\sqrt{p^*})$.
+
+Consider $Q$ the unique ideal of $\Z[\zeta_p]$ lying over $q$, so $\sigma_q$ acts on $\Z[\zeta_p]/Q$ via
+\begin{align*}
+    \sigma_q\left(\sum a_i\zeta_p^i\right)&\equiv\sum a_i\zeta_p^{qi}\\
+                                          &\equiv \left(\sum a_i\zeta^i\right)^q
+\end{align*}
+since $\Z[\zeta]/Q$ has characteristic $q$.
+Thus for all $\alpha\in\Z[\zeta_p]/Q$, $\sigma_q(\alpha)=\alpha^q$, so we say that $\sigma_q$ is the Frobenous associated to $q$.
+We say $\sigma_q=\Frob_q$ in $\Gal(\Q(\zeta_p)/\Q)$, so also $\sigma_q=\Frob_q$ in $\Gal(\Q(\sqrt{p^\times})/\Q)$.
+Suppose $\rho\subseteq\Q(\sqrt{p^\times})=K$.
+Then $\sigma_q=\id$ if and only if $\mathcal{O}_K/\rho=\F_q$ (exercise).
+From homework, we see that $q$ is not prime.
+Thus
+$\lgs{q}{p}=1$ if and only if $(q)$ is not prime in $\Q(\sqrt{p^*})$ if and only if $\lgs{p^*}{q}=1$.
+Thus
+\begin{equation*}
+    \lgs{q}{p}=\lgs{p^*}{q}
+\end{equation*}
+One way of thinking about reciprocity is that $(q)$ splits in $\Q(\sqrt{p^*})$ if and only if $\sigma_q=\id$ in $\Gal(\Q(\sqrt{p^*})/\Q)$.
+\begin{align*}
+    \lgs{p^*}{q}=\lgs{(-1)^{\frac{p-1}{2}}o}{1}=\lgs{(-1)^{\frac{p-1}{2}}}{q}\lgs{p}{q}=(-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}\lgs{p}{q}
+\end{align*}
+Additionally,
+\begin{equation*}
+    \lgs{2}{p}=
+    \begin{cases}
+        1 &p\equiv \pm1\pmod{8}\\
+        -1&p\equiv \pm3\pmod{8}
+    \end{cases}
+\end{equation*}
+\begin{example}
+    We habe
+    \begin{align*}
+        \lgs{17}{113} &= \lgs{113}{17}\\
+                      &= \lgs{11}{17}\\
+                      &= \lgs{17}{11}\\
+                      &=\lgs{6}{11}\\
+                      &= \lgs{2}{11}\lgs{3}{11}\\
+                      &= -\lgs{11}{3}=-\lgs{-1}{3}=1
+    \end{align*}
+\end{example}
+\begin{remark}
+    Let $G=\Gal(\Q(\zeta_p)/\Q)\cong(\Z_p)^\times$.
+    If $q$ is prime, we say $\sigma\in G$ is $\Frob_q$ if, given $Q$ lying over $q$, $\sigma(\alpha)=\alpha^1\pmod{Q}$.
+    Which elements of $G$ are of the form $\Frob_q$ for some $q$?
+
+    The answer is ``all of them'': fix $\sigma_a\in G$; how many $q$ have $\Frob_q=\sigma_a$?
+    THe answer is all $a$, for infinitely many such $q$.
+    This is Dirichlet's Theorem for primes in arithmetic progressions.
+
+    In fact, this generalizes to all Galois groups, and is called the Chebotarev Density.
+    One consequence: if $K$ is a number field, then $\{p\in\Z:p\text{ splits completely in}\mathcal{O}_K\}$.
+\end{remark}
+\section{Fermat's Last Theorem}
+\begin{definition}
+    We say $p$ is a \textbf{regular prime} if $p\nmid h_{\Q(\zeta_p)}$.
+\end{definition}
+\begin{theorem}[Kummer]
+    If $p\geq 3$ is a regular prime an $p\nmid x,y,z$, for $x,y,z\in\Z\setminus\{0\}$, then $x^p+y^p\neq z^p$.
+\end{theorem}
+\begin{lemma}
+    Let $\zeta=\zeta_p$.
+    In $\Z[\zeta]$
+    \begin{itemize}[nl]
+        \item the elements $1-\zeta,1-\zeta^2,\ldots,1-\zeta^{p-1}$ are associates.
+        \item $1+\zeta$ is a unit
+        \item $p=u(1-\zeta)^{p=1}$, $u\in\Z[\zeta]^\times$, $(1-\zeta)$ is the only prime dividing $p$.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    Consider $\frac{1-\zeta^j}{1-\zeta}=1+\zeta+\cdots+\zeta^{j-1}\in\Z[\zeta]$.
+    As well, $\frac{1-\zeta}{1-\zeta^p}=\frac{1-\zeta^{jk}}{1-\zeta^j}\in\Z[\zeta]$ where $jk\equiv 1\pmod{p}$.
+    Thus $1-\zeta,\ldots,1-\zeta^p$ are associates.
+    Note that $1+\zeta=\frac{1-\zeta^2}{1-\zeta}$, so it is a unit.
+    As well,
+    \begin{equation*}
+        1+x+\cdots+x^{p-1}=\prod(x-\zeta^j)
+    \end{equation*}
+    so $p=\prod(1-\zeta^j)=u(1-zeta)^{p-1}$, $u\in\Z[\zeta]^\times$.
+\end{proof}
+\begin{lemma}
+    If $u\in\Z[\zeta]^\times$, then $\frac{u}{\overline{u}}$ is a root of unity.
+    Let $\sigma\in\Gal(\Q(\zeta)/\Q)$.
+    Then $\sigma(\zeta)=\zeta^a$ for some $a$, so $\overline{\sigma(\zeta)}=\zeta^{-a}=\sigma(\overline{\zeta})$.
+    Thus for any $\sigma$,
+    \begin{equation*}
+        \left\lvert\sigma\left(\frac{u}{\overline{u}}\right)\right\rvert^2=\sigma\left(\frac{u}{\overline{u}}\right)\overline{\sigma\left(\frac{u}{\overline{u}}\right)}=1
+    \end{equation*}
+    so all the conjugates of $\frac{u}{\overline{u}}$ have compelx norm 1.
+    It is a fun exercise to show that if $\alpha$ is an algebraic integer and all its conjugates have norm 1, then $\alpha$ is a root of unity.
+\end{lemma}
+On a HW a while ago, we showd that the roots of unity in $\Z[\zeta_p]$ are $\pm\zeta^j$.
+In $\Z[\zeta]$, $z^p=x^p+y^p=\prod_j(x+\zeta^jy)$.
+Let's show that the ideals $(x+\zeta^jy)$ are relatively prime.
+Let $\rho$ be a common prime factor of $(x+\zeta^j)(x+\zeta^{j'}y)$.
+It's a factor of
+\begin{equation*}
+    (x+\zeta^jy)-(x+\zeta^{j'}y)=\left(\zeta^jy(1-\zeta^{j'-j})\right)=(y(1-\zeta))
+\end{equation*}
+and $(y(1-\zeta))\div(yp)$.
+Thus, $\rho\div(yp)$; but also, $\rho\div(z^p)$.
+Since $(z^p)$, $(yp)$ are coprime, $\rho|(1)$, a contradiction.
+
+Since the $(x+y\zeta^j)$ are coprime and $\prod_j(x+y\zeta^j)$ is a $p^\text{th}$ power, we must have each $(x+y\zeta^j)=I_j^p$.
+Since $p\nmid h_{\Q(\zeta)}$ and $I_j^p$ is trivial in $\Cl(\Q(\zeta))$, we have that $I_j$ is principal.
+
+Take $j=1$, and we have $(x+\zeta y)=(t)^p$ for some $t\in\Z[\zeta]$, so $x+\zeta y=ut^p$.
+Consider $t=b_0+b_1\zeta+\cdots+b_{p-2}\zeta^{p-2}$.
+Then modulo $p\Z[\zeta]$, we have $t^p\equiv b_0+b_1+\cdots+b_{p-2}\pmod{p}$.
+But then $\overline{t}=b_0+\cdots+b_{p-2}\zeta^{-1}$, so $\overline{t}^p\equiv b_0+\cdots+b_{p-2}\pmod{p}$ and $t^p\equiv \overline{t}^p\pmod{p}$.
+Furthermore, $\frac{u}{\overline{u}}=\pm\zeta^j$.
+Consider the case where $+$, so
+\begin{equation*}
+    x+y\zeta=ut^p=\zeta^j\overline{u}t^p\equiv\zeta^j\overline{u}\overline{t}^o=\zeta^j(x+\overline{\zeta}y)
+\end{equation*}
+Set $\zeta^j=\frac{u}{\overline{u}}$, then $x+y\zeta-y\zeta^{j-1}-x\zeta^j\equiv 0\pmod{p} (*)$.
+But now,
+\begin{align*}
+    \Z[\zeta]/(p) = \Z[x]/(p,x^{p-1}+\cdots+x+1) = F_p[x]/(x^{p-1}+\cdots+x+1)=\F_p[x]/(x-1)^{p-1}
+\end{align*}
+so, modulo $p$, $1,\zeta,\zeta^2,\ldots,\zeta^{p-2}$ form a basis.
+If $j\notin\{0,1,2,p-1\}$, then ($*$) contradicts linear independence.
+\section{Lattices and Minkowski's Theorem}
+\begin{definition}
+    A \textbf{lattice} is an Abelian subgroup $\Lambda$ of $\R^n$ such that $\Lambda\cong\Z^n$.
+\end{definition}
+\begin{example}
+    If $[K:\Q]=n$, then $\mathcal{O}_K$ is a lattice in $K\cong\Q^n\subseteq\R^n$.
+    $\mathcal{O}_K$ is a lattice since we have an integral basis.
+\end{example}
+\begin{example}
+    Consider $\C\cong\R^2$, and let $\tau$ be in the upper half plane.
+    Then $\Lambda=\Z\oplus\Z\tau$, and $\quot{\C}{\Lambda}=\mathcal{T}$ is the torus.
+    We say that $\mathcal{T}$ is an elliptic curve, and every elliptic curve arises like this.
+\end{example}
+Choose a basis $\alpha_1,\ldots,\alpha_n$ for $\Lambda$; this basis is also an $\R-$basis for $\R^n$.
+If $\alpha_1,\ldots,\alpha_n$ is a basis for $\Lambda$ and $\alpha_1',\ldots,\alpha_n'$ is a basis for $\Lambda$, then we have a change of basis matrix
+\begin{equation*}
+    \begin{pmatrix}\alpha_1'\\\vdots\\\alpha_n'\end{pmatrix}=P\begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix}
+\end{equation*}
+Since $P\in\GL_n(\Z)$, $\det P=\pm 1$.
+Thus, we can define the \textbf{volume of $\Lambda$} to be
+\begin{equation*}
+    d(\Lambda)=|\det(\alpha_1,\ldots,\alpha_n)|
+\end{equation*}
+This is independent of the choice of basis since any change of basis matrix has determinant 1.
+\begin{theorem}[Blichfeldt]
+    If $\Lambda\subseteq\R^n$ is a lattice, $m\in\Z^+$, $S\subseteq\R^n$ with Lebesgue measure $\mu(S)$.
+    Suppose $\mu(S)>md(\Lambda)$, or $\mu(S)\geq md(\Lambda)$ and $S$ is compact, then there exist distinct $x_1,\ldots,x_{m+1}\in S$ such that $x_i-x_j\in\Lambda$.
+\end{theorem}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_n\in\Lambda$ be a basis.
+    Let $P=\left\{\sum_{i=1}^n\theta_i\alpha_i\mid 0\leq\theta_i<1\}$, so that $\mu(P)=d(\Lambda)$.
+    For each $\lambda\in\Lambda$, let $R(\lambda)=\{\nu\in P\mid\lambda+\nu\in S\}$.
+    Then $\sum_{\lambda\in\Lambda}\mu(R(\lambda))=\mu(S)>m\mu(P)$.
+    Thus, there exists $v_0\in P$ which occurs in at least $m+1$ of the $R(\lambda)$'s.
+    If instead $S$ is compact, for any $\epsilon_r>0$, get $\nu_r\in P$ which occurs in at least $m+1$ of $R(\lambda)$'s, and take a convergent subsequence with limit $\nu_0$.
+
+    Let $\lambda_1,\ldots,\lambda_{m+1}$ distinct such that $v_\in R(\lambda_i)$; then $x_i=\lambda_i+v_0\in S$.
+    Then $x_i-x_j=\lambda_i-\lambda_j\in\Lambda$.
+
+    Now consider the case $\mu(S)=m\mu(P)$ and $S$ compact.
+    For any $\epsilon_r>0$, let $S_r=(1+\epsilon_r)S$ so that $\mu(S_r)>m\mu(P)$.
+    Then get $(x_1^r,\ldots,x_{m+1}^r)$ such that $x_{ir}-x_{jr}\in\Lambda$.
+    Taking a convergent subsequence such that $\lim_{r\to\infty}x_{j,r}=x_j$ exists.
+    Since $\Lambda$ is discrete, if $x_i=x_j$, then we would have some $r$ such that $x_{i,r}=x_{j,r}$.
+\end{proof}
+\begin{theorem}[Minkowski]
+    Let $\Lambda\subseteq\R^n$ be a lattice, $m\in\Z^+$, $S\subseteq\R^n$.
+    Then if $\mu(S)>m2^nd(\Lambda)$ or $S$ is compact and $\mu(S)=m2^nd(\Lambda)$, then there exist $m$ pairs $(\lambda_1,-\lambda_1),\ldots,(\lambda_m,-\lambda_m)$ with $\lambda_j\in\Lambda\setminus\{0\}$, $\lambda_j\in S$.
+\end{theorem}
+\begin{proof}
+    Either $\mu(S/2)>md(\Lambda)$ or $\mu(S/2)=md(\Lambda)$ and $S/2$ is compact.
+    Thus, the previous theorem tells is there exist $x_1,\ldots,x_{m+1}\in S$ such that $x_i/2-x_j/2\in\Lambda$.
+    Order these $x_i$ such that $x_1>x_2>\cdots>x_{m+1}$ where we say $x_i>x_j$ if the first non-zero coordinate of $x_i-x_j$ is positive.
+    Take $\lambda_j=x_j/2-x_{m+1}/2$.
+    By choice of ordering, the $\pm\lambda_j$ are distinct.
+    Since $S$ is symmetric, $-x_{m+1}/2\in S$.
+    Since $S$ is convex, $\lambda_j=x_j/2+(-x_{m+1})/2\in S$.
+\end{proof}
+\begin{remark}
+    The bound is sharp: consider $S=\{(x_1,\ldots,x_n)\in\R^n:|x_1|<m,|x_j|<1\}$.
+    Then $\mu(S)=m2^n=m2^nd(\Z^n)$ contains exactly $m$ lattice points.
+\end{remark}
+Suppose $[K:\Q]=n$, $K=\Q(\theta)$.
+Let $\sigma_1,\ldots,\sigma_n\hookrightarrow\C$ be the embeddings, so $r_1$ is the number of real embeddings $\{\sigma_1,\ldots\sigma_{r_1}\}$ and $r_2$ pairs of complex embeddings $\{\sigma_{r_1+1},\overline{\sigma}_{r_1+1},\ldots,\sigma_{r_1+r_2},\overline{\sigma}_{r_1+r_2}\}$.
+Put these together into $\sigma:K\hookrightarrow\R^n$ by
+\begin{equation*}
+    \sigma\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha))
+\end{equation*}
+\begin{lemma}
+    Let $A\neq 0$ be an ideal of $\mathcal{O}_K$.
+    Then $\sigma(A)$ is a lattice $\Lambda\subseteq\R^n$ and $d(\Lambda)=2^{-r_2}\sqrt{|\disc(K)|}N(A)$.
+\end{lemma}
+\begin{proof}
+    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $A$.
+    Let $D_0$ be the determinant of the matrix whose $i^\th$ row is
+    \begin{equation*}
+        (\sigma_1(\alpha_i),\ldots,\sigma_{r_1}(\alpha_i),\Re\sigma_{r_1+1}(\alpha_i),\Im\sigma_{r_1+1}(\alpha_i),\ldots)
+    \end{equation*}
+    From a long time ago, we know $\det(\sigma_j(\alpha_i))=\sqrt{|\disc(K)|}N(A)$.
+    Using the fact that $\Re\sigma=\frac{\sigma+\overline{\sigma}}{2}$ and $\Im\sigma=\frac{\sigma-\overline{\sigma}}{2i}$ and row operations to see $D_0=\left(\frac{1}{-2i}\right)^{r_2}\det(\sigma_j(\alpha_i))$.
+    In particular, $D_0\neq 0$ so $\Lambda$ is a lattice and $d(\Lambda)=D_0$.
+\end{proof}
+\begin{theorem}
+    If $A\neq 0$ is an ideal in $\mathcal{O}_K$, then there exists $\alpha\neq 0$, $\alpha\in A$ such that $|N(\alpha)|\leq\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
+\end{theorem}
+\begin{proof}
+    Given $t\in\R^+$, let $S_t=\{(x_1,\ldots,x_n)\in\R^n:|x_i|\leq t,i=1,\ldots,r_1; x_{r_1+2j+1}^2^2+x_{r_1+2j+2}^2\leq t^2, j=0,\ldots,r_2-1\}$.
+    $S_t$ is clearly convex and symmetric, and $\mu(S_t)=2^{r_1}\pi^{r_2}t^n$.
+    Choose $t$ such that $2^{r_1}\pi^{r_2}t^n=2^n\frac{1}{r^{r_2}}\sqrt{|\disc(K)|}N(A)$, i.e.
+    \begin{equation*}
+        t=\left(\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}N(A)\right)^{1/n}
+    \end{equation*}
+    Apply Minkowski's Theorem with $m=1$.
+    Thus there exists $0\neq\alpha\in A$ such that $\sigma(\alpha)\in S_t$.
+    Then
+    \begin{equation*}
+        |N(\alpha)|=\left\lvert\prod_{i=1}^{r_1}\right\rvert\cdot\left\lvert\prod_{i=1}^{r_2}\sigma_{i+r_2}(\alpha)\overline{\sigma_{i+r_2}(\alpha)}\right\rvert
+        \leq t^{r_1+r_2}
+    \end{equation*}
+    since $\sigma(\alpha)\in S_t$.
+    Thus, $|N(\alpha)|\leq t^n=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}N(A)$.
+\end{proof}
+\begin{corollary}
+    We can take $C_k=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
+\end{corollary}
+\begin{theorem}
+    If $p$ is an odd prime, then $\lgs{-1}{p}=1$ if and only if $p\equiv 1\pmod{4}$ if and only if there exists $x,y\in\Z$ such that $p=x^2+y^2$.
+\end{theorem}
+\begin{proof}
+    We already know $\lgs{-1}{p}=1$ if and only if $p\equiv 1\pmod{4}$.
+    First suppose $p=x^2+y^2$.
+    The modulo 4, the squares are 0,1 and since $p$ is odd, we see that $p\equiv 1\pmod{4}$.
+
+    Conversely, suppose $p\equiv 1\pmod{4}$.
+    Since $\lgs{-1}{p}=1$, $p$ splits in $\Z[i]$.
+    Then $p=\rho q$ in $\Z[i]$, where $p,q$ are primes.
+    Then $p^2=N(p)=N(\rho)N(q)$.
+    Thus $N(\rho)=p$, and since $\Z[i]$ is a PID, $\rho=(a+bi)$.
+    Then $p=N(\rho)=a^2+b^2$.
+\end{proof}
+\begin{proof}
+    We show $\lgs{-1}{p}=1$ implies $p=x^2+y^2$.
+    There exists $l\in\Z$ such that $l^2\equiv -1\pmod{p}$.
+    Let $\Lambda\subseteq\R^2$ be the lattice with $\Z-$basis $(1,l)$ and $(0,p)$.
+    Then $d(\Lambda)=p$.
+    Let $S$ be a disc with radius $r$.
+    Then $\mu(S)=\pi r^2\geq 2^2p$.
+    Choose $r=2\sqrt{p/\pi}$.
+    By Minkowski, $S$ contains a non-zero lattice point $(m,n)\in\Z^2\setminus\{(0,0)\}$ with $m(1,l)+n(0,p)$, so the lattice point is $(m,ml+np)$.
+    It's in $S$, so $0<m^2+(ml+np)^2\leq r^2=2p$.
+    Then, $m^2+(ml+np)^2\equiv m^2+(ml)^2\equiv m^2(1+l^2)\equiv 0$, so $m^2+(ml+np)^2=p$.
+\end{proof}
+\begin{remark}
+    If $a_i,b_i\in\Z$, then $(a_1^2+b_1^2)(a_2^2+b_2^2)=c_1^2+c_2^2$.
+    To see thus, $a:=a_1^2+a_2^2=N(a_1+ia_2)$ and $b:=b_1^2+b_2^2=N(b_1+ib_2)$.
+    Then $ab=N(z2)=c_1^2+c_2^2$.
+    In particular, if $n=\prod p_i$ where $p_i\equiv 1\pmod{4}$, then $n=x^2+y^2$.
+    In fact, you can prove $n=x^2+y^2$ iff the prime factors $p\equiv 3\pmod{4}$ occur to even exponents.
+\end{remark}
+\begin{proposition}[Euler's Four Squares Identity]
+    We have
+    \begin{equation*}
+        \left(\sum_{i=1}^4 a_i^2\right)\cdot\left(\sum_{i=1}^4 b_i^2\right)=\sum_{i=1}^4 c_i^2
+    \end{equation*}
+    where
+    \begin{align*}
+        c_1 &= a_1b_1-a_2b_2-a_3b_3-a_4b_4\\
+        c_2 &= a_1b_2+a_2b_1+a_3b_4-a_4b_3\\
+        c_3 &= a_1b_3-a_2b_4+a_3b_1+a_4b_2\\
+        c_4 &= a_1b_4+a_2b_3-a_3b_2+a_4b_1
+    \end{align*}
+    This follows since the norm on $\mathcal{H}$ (quaternions) is multiplicative.
+\end{proposition}
+\begin{theorem}[Four Squares]
+    If $n\in\Z^+$, then there exists $x,y,z,\in\Z$ such that $n=x^2+y^2+z^2+w^2$.
+\end{theorem}
+\begin{proof}
+    In light of the Four Squares identity, it suffices to show that primes are sums of four squares.
+
+    Claim: If $p$ is prime, then there exists $x,y\in\Z$ such that $x^2+y^2\equiv -1\pmod{p}$.
+    proof later
+
+    Given $p$ prime, choose $a,b\in\Z$ such that $a^2+b^2\equiv -1\pmod{p}$.
+    Consider the lattice $\Lambda$ with basis
+    \begin{equation*}
+        \{(1,0,a,b),(0,1,b,-a),(0,0,p,0),(0,0,0,p)\}
+    \end{equation*}
+    so $d(\Lambda)=p^2$.
+    Let $S$ be a ball of radius $r$.
+    Then $\mu(S)=\pi^2r^4/2$.
+    Choose $r^2=4p/\pi\sqrt{2}$, so $\mu(S)=p^2$.
+    By Minkowski, $S$ contains a non-zero lattice point $(x,y,z,w)$ with $0<x^2+y^2+z^2+w^2\leq r^2<2p$.
+    Note that $(x,y,z,w)=\alpha v_1+\beta v_2+\gamma v_3+\delta v_4$.
+    Then $x=\alpha$, $y=\beta$, $z=a\alpha+b\beta+p\gamma$, $w=b\alpha-a\beta+p\delta$.
+    Modulo $p$, we see that
+    \begin{align*}
+        x^2+y^2+z^2+w^2 &\equiv x^2+y^2+(ax+by)^2+(bx-ay)^2\\
+                        &\equiv x^2+y^2+a^2x^2+b^2y^2+b^2x^2+a^2y^2\\
+                        &\equiv (1+a^2+b^2)x^2+(1+a^2+b^2)y^2\equiv 0
+    \end{align*}
+    we have $a^2+b^2\equiv -1\pmod{p}$.
+\end{proof}
+\begin{lemma}
+    For every prime $p$, there exists $x,y\in\Z$ such that $x^2+y+2\equiv -1\pmod{p}$.
+\end{lemma}
+\begin{proof}
+    If $p\equiv 1\pmod{4}$, then $\lgs{-1}{p}=1$, so you can solve with $y=0$.
+    Thus, we can assume $\lgs{-1}{p}=-1$.
+    Equivalently, we want to solve $y^2+1\equiv -x^2\pmod{p}$.
+    Note that $|\{y^2+1\mid y\in\F_p\}|=(p+1)/2$.
+    Furthermore, $y^2+1$ is not $0$ since $\lgs{-1}{p}=-1$.
+    Thus $y^2+1$ only takes non-zero values, $(p+1)/2$ such values.
+    Only $(p-1)/2$ non-zer squares, so $y^2+1$ must be non-square for some $y=y_0$.
+    Thus $(-y_0^2+1)$ is a square, i.e. there exists $x$ such that $x^2\equiv-(y_0^2+1)$.
+\end{proof}
+\begin{theorem}[Dirichlet Unit]
+    If $K$ is a number field with $r_1$ real embeddings and $2r_2$ complex embeddings, then $\mathcal{O}_K^\times\cong\mu_k\times\Z^{r_1+r_2-1}$, where $\mu_k$ is the set of roots of unity in $K$.
+\end{theorem}
+\begin{proof}
+    Let $\theta:K\to V:=\R^{r_1}\times\C^{r_2}$ by
+    \begin{equation*}
+        \alpha\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha))
+    \end{equation*}
+    where $\sigma_1,\ldots,\sigma_r$ are the real emebddings and $\sigma_{r_1+1},\overline{\sigma}_{r_1+1},\ldots$ are the complex embedding.
+    Let $N:V\to\R$ by $N(x_1,\ldots,x_{r_1},z_{r_1+1},\ldots,z_{r_1+r_2})=\prod x_i\cdot\prod|z_j|^2$.
+    Then $N(\theta(\alpha))=N_{K/\Q}(\alpha)$.
+    Furthermore, $V$ is a ring with coordinate-wise operations $V^\times=(\R^\times)^{r_1}\times(\C^\times)^{r_2}$.
+    Set $G:=\{v\in V^\times\mid|N(v)|=1\}$, so $G$ is a subgroup of $V^\times$.
+    It is also closed as a topological space since it is the inverse image of $1$ under the continuous map $v\mapsto|N(v)|$.
+    Consider $U:=\theta(\mathcal{O}_K^\times)=\theta(\mathcal{O}_K)\cap G$.
+    Then $\theta(\matcal{O}_K)\subseteq V$ is a lattice, and $U\subseteq G$ is discrete.
+
+    For example, consider $K=\Q(\sqrt{2})$, $\theta:K\to V=\R^2$ by $a+b\sqrt{2}\mapsto(a+b\sqrt{2},a-b\sqrt{2})$.
+    Then $N:\R^2\to\R$ is given by $(x,y)\mapsto xy$, so $G=\{(x,y):xy=1\}$ is the set of hyperbolas.
+    Note that $G$ is closed but not compact.
+    In this case, $U=\theta(\pm(1+\sqrt{2})^{\Z})$, and $U\subseteq G$ is discrete.
+    (see diagram on phone)
+    \begin{center}
+        \begin{tikzpicture}
+        \end{tikzpicture}
+    \end{center}
+    Then $G/U$ is compact.
+
+    Let's show that $\quot{G}{U}$ is compact in the quotient topology of $V^\times/U$.
+    To do this, let's find $S\subseteq G$ compact $S\twoheadrightarrow\quot{G}{U}$.
+
+    If $v\in V^\times$, then multiply by $v$ is continuous because it is multiplication by a matrix, and $|\deg|=|N(v)|$.
+    Thus if $R\subseteq V$ is any region, then $\lambda(vR)=\lambda(R)|N(v)|$.
+    In particular, if $v\in G$, then $\lambda(R)=\lambda(vR)$.
+    Let $C\subseteq C$ be any compact, symmetric, convex region with $\lambda(C)\geq 2^n$.
+    Then for all $g\in G$, $g^{-1}C$ is also symmetric, compact, and convex, with the same volume.
+    Then by Minkowski, there exists $0\neq\alpha\in\mathcal{O}_K$ such that $\theta(\alpha)\in g^{-1}C$.
+    In particular, $\abs{N_{K/\Q}(\alpha)}=\abs{N(\theta(\alpha))}\in\abs{N(g^{-1}C)}$
+
+    Recall
+    \begin{align*}
+        \theta:K\to\R^{r_1}\times\C^{r_2}=V,&\alpha\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha))\\
+        N:V\to\R &, (x_i,z_j)\mapsto \prod x_i\cdot \prod|z_j|^2\\
+        V^\times = (\R^\times)^{r_1}\times(\C^\times)^{r_2},&G=\{v\in V^\times:N(v)=1\}\\
+        U = \theta(\mathcal{O}_K^\times)=\theta(\mathcal{O}_K)\cap G\\
+        U\subseteq G\text{ is discrete.}
+    \end{align*}
+    Let's show that $G/U$ is compact.
+    Last time, we chose $C\subseteq V$ any compact, symmetric, convex region with $\vol(C)\geq 2^n\vol(\theta(\mathcal{O}_K))$.
+    $C$ is compact, so $|N(C)|\subseteq\R$ is compact, and thus contains finitely many integers.
+    If $g\in G$ is arbitrary, then $\vol(g^{-1}C)=\vol(C)\geq 2^n\vol(\theta(\mathcal{O}_K))$.
+    Thus by Minkowski, $g^{-1}C$ contains some $\theta(\alpha)$, $\alpha\neq 0$.
+    As well, $|N_{K/\Q}(\alpha)|=|N(\theta(\alpha))|\in|N(g^{-1}C)|=|N(C)|$, so $|N_{K/\Q}(\alpha)|$ is one of the finitely many integers contained in $|N(C)|$.
+    If $\alpha_1,\ldots,\alpha_m\in\mathcal{O}_K$ represent all possible $|N(\alpha_i)|\in|N(C)|$, then $|N(\alpha)|=|N(\alpha_i)|$ for some $i$, so $\alpha\in\alpha_i\mathcal{O}_K^\times$.
+    This says for all $g\in G$, there exists $i$ such that $g^{-1}C\cap\theta(\alpha_i\mathcal{O}_K^\times)\neq\emptyset$, so $gU\cap\theta(\alpha^{-1})C\neq\emptyset$.
+    Thus $G/U$ is represented by $G\cap\bigcup_{i=1}^m\theta(\alpha_i)^{-1}C$ is a finite union of compact sets.
+
+    Now, consider the ``log map'' $L:V^\times\to\R^{r_1+r_2}$ via $(x_i;z_j)\mapsto(\log|x_i|;2\log|z_j|)$, a continuous group homomorphism.
+    Recall $G=\{v\in V^\times:\prod|x_i|\cdot\prod|z_j|^2=1\}$.
+    Then $L(G)\subseteq H:=\{(y_i):\sum y_i=0\}\cong\R^{r_1+r_2-1}$.
+    Furthermore $L(G)=H$.
+
+    Let's understand $L(U)\subseteq L(G)=H$.
+    We'll show that $L(U)$ is a lattice and understand $\ker(L|_U)$.
+    Clearly $\ker L=\{\pm 1\}^{r_1}\times (S^1)^{r_2}$ is compact.
+    As well, $\theta(\mu_k)\subseteq U\cap\ker L$.
+    Since $U\subseteq V^\times$ is discrete, and hence closed, so $U\cap\ker L\subseteq\ker L$ is discrete and closed, so $U\cap\ker L$ is compact.
+    Since $U\cao\ker L$ is compact and discrete, it is finite.
+    Thus $U\cap \ker L\subseteq\theta(\mu_k)$.
+
+    Consider $L(G)\cong\R^{r_1+r_2-1}$ and choose a box $B=\{(y_i):|y_i|\leq b\}$.
+    Let's show that $L(U)\cap B$ is finite.
+    If $L(\theta(\alpha))|in B$, then $|\sigma(\alpha)|\leq e^b$ for some $\sigma$ real, and $|\sigma(\alpha)|\leq e^{b/2}$ for some $\sigma$ complex.
+    Then
+    \begin{equation*}
+        \prod_\sigma(t-\sigma(\alpha))\in\Z[t]
+    \end{equation*}
+    has bounded coefficients.
+    There are only finitely many such polynomials, so there are only finitely many $\alpha$ and $L(U)\subseteq L(G)$ is discrete.
+    
+    Thus $L(U)\subseteq L(G)\cong\R^{r_1+r_2-1}$ is a discrete subgroup.
+    Thus $L(U)\cong\Z^r$ for some $r\leq r_1+r_2-1$.
+    Since $G/U\to L(G)/L(U)$ is a surjection, $L(G)/L(U)\cong (S^1)^r\times\R^{r_1+r_2-1-r}$ is compact, so $r=r_1+r_2-1$.
+
+    Given $\epsilon\in\mathcal{O}_K^\times$, $L(\theta(\epsilon))\in L(U)$, so there exists $a_i\in\Z$ such that $L(\theta(\epsilon))=\sum a_iL(\theta(\epsilon_i))=L(\theta(\prod\epsilon_i^{a_i}))$.
+    Thus $L(\theta(\epsilon^{-1}\prod\epsilon_i^{a_i}))=0$, so $\epsilon^{-1}\prod\epsilon_i^{a_i}\in\ker L|_U$, so $\epsilon=\zeta\prod\epsilon_i^{a_i}$, and $\zeta\in\mu_K$.
+    Lastly, if $\prod\epsilon_i^{a_i}=1$, then $0=\sum a_iL(\theta(\epsilon_i))$ is a $\Z-$basis, so $a_i=0$.
+\end{proof}
+\begin{example}
+    If $K=\Q(\sqrt{d})$, then $r_1=2$, $r_2=0$, $\mu_k=\{\pm 1\}\cong\Z/2$, Thus $\mathcal{O}_K^\times\cong\Z/2\times\Z$.
+    If $K=\Q(\sqrt{2},\sqrt{3})$, then $r_2=0$, $r_1=4$, $\mathcal{O}_K^\times=\{\pm 1\}\times\Z^3$.
+\end{example}
+Let's look at all $K=\Q(\sqrt{D}$.
+Recall that $\disc(K)\approx D$ (up to a linear factor); order all of those $K$ by $\disc K$.
+Given $B>0$, there are only finitely many $K$ with $|\disc(K)|\leq B$; call this number $N_B$.
+Let's compute the growth rate of $N_B$.
+We have $N_B\approx B\cdot(\text{Probability of being square free})$.
+If $p$ fixed is prime, then the probability of being divisible by $p^2$ is $1/p^2$.
+Being divisible by $q$ is independent of being divisible by $p$.
+Thus the probability of being squarefree is should equal $\prod_{p\text{ prime}}(1-1/p^2)$.
+What is this product?
+\begin{align*}
+    \prod_p\frac{1}{1-\frac{1}{p^2}} &= \prod_p\left(1+\frac{1}{p^2}+\frac{1}{p^4}+\cdots\right)\\
+                                     &= 1+\frac{1}{2^2}+\frac{1}{3^2}+\frac{1}{4^2}+\cdots\\
+                                     &= \zeta(2)=\frac{\pi^2}{6}
+\end{align*}
+Thus the probability of being squarefree is $6/\pi^2$.
+Thus $N_B\approx 6/\pi^2 B\approx cB$.
+
+Special case of Malle conjecture.
+Consider $K/\Q$ of degree $n$ with Galois closure Galois group $S_n$.
+Order by $|\disc(K)|$.
+Can ask how many such $K$ are at most $B$?
+The conjecture is that it grows like $cB$ for some constant $c$.
+
+Davenport-Heilbrom proved this in '71 when $n=3$.
+$n=4,5$ were proven by Bhargava's thesis
+
+Similar but different kind of questions.
+Let $X$ be the solution set to a set of polynomial equations in $\Q[x]$.
+For example, $y^2=x^3+17x$.
+Let's concentrate on the rational solutions; we denote this by $X(\Q)$.
+
+Let $X=\{(x,y):x^2+y^2=1\}$.
+We'll take $X(\Q)$ and order the elements by ``height''.
+Given $(x,y)\in X(\Q)$, clear denominators to get $(a,b)\in\Z^2$ coprime.
+We then say $H(x,y)=\max\{|a|,|b|\}$.
+Just like in other settings, if $B>0$ is fixed, then $N_B:=|\{(x,y)\in X(\Q):h(x,y)<B\}|$ is finite.
+For the circle, $N_B\approx 12/\pi^2 B^2$.
+
+The Batyrev-Mann Conjecture rougly says $N_B\approx cB^a(\lob B)^b$ where $a,b$ are specific geometric constants.
+
+\end{document}
+
+
