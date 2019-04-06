@@ -21,8 +21,8 @@
 \DeclareMathOperator{\F}{\mathbb{F}}
 \DeclareMathOperator{\Ps}{\mathcal{P}}
 \DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\Re}{Re}
-\DeclareMathOperator{\Im}{Im}
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
 \DeclareMathOperator{\proj}{proj}
 \DeclareMathOperator{\Int}{Int}
 \DeclareMathOperator{\Id}{Id}
@@ -827,7 +827,7 @@ In this way, every countable set is first category.
     Thus $\bigcup_{n=1^\infty}(G_n)^c=X$ so $X$ is first category, a contradiction.
 
     $(\Leftarrow)$. Say $X$ is not second category.
-    Then $X$ is first category, so $X=\bigcup_{n=1}^\infty X_$ where $X_n$ are closed and nowhere dense.
+    Then $X$ is first category, so $X=\bigcup_{n=1}^\infty X_n$ where $X_n$ are closed and nowhere dense.
     Then
     \[\emptyset=X^c=\left(\bigcup_{n=1}^\infty X_n\right)^c=\bigcap_{n=1}^\infty X_n^c\]
     where the $X_n^c$ are open and dense.
@@ -858,6 +858,7 @@ In this way, every countable set is first category.
 \end{corollary}
 \begin{proof}
     Suppose not, so $\R=\bigcup\limits_{n=1}^\infty\{x_n\}$, but then $\R$ would be first categpry, a contradiction since $\R$ is a non-empty complete metric space.
+\end{proof}
 \begin{corollary}
     Perfect sets are uncountable.
 \end{corollary}
@@ -1081,7 +1082,7 @@ We also see that the Cantor set is uncountable by the below theorem:
 \end{proof}
 \subsection{The Product Metric}
 Suppose $(X,d_X)$ and $(Y,d_Y)$ are metric spaces.
-Define a function $d$ by $d( (x_1,y_1),(x_2,y_2))= d_X(x_1,x_2)+d_Y(y_1,y_2)$ for $(x_j,y_j)\in X\times Y$ for $j=1,2$.}
+Define a function $d$ by $d( (x_1,y_1),(x_2,y_2))= d_X(x_1,x_2)+d_Y(y_1,y_2)$ for $(x_j,y_j)\in X\times Y$ for $j=1,2$.
 $d$ defines a metric on $X\times Y$:
 \begin{enumerate}
     \item \textit{Symmetric:} This follows directly from symmetry of $d_X$ and $d_Y$:
@@ -1639,6 +1640,7 @@ We can now prove the theorem!
     But now with a direct application of the triangle inequality and the above statements, for any $x\in X$, we have
     \[|f_{n_k}(x)-f_{n_l}(x)|\leq |f_{n_k}(x)-f_{n_k}(x_i)|+|f_{n_k}(x_i)-f_{n_l}(x_i)|+|f_{n_l}(x_i)-f_{n_l}(x)|<\epsilon\]
     as desired.
+\end{proof}
 \begin{corollary}[Arzela-Ascoli]
     Suppose $X$ is compact.
     Then $E\subseteq C(X)$ is compact iff $E$ is pointwise bounded, closed, and equicontinuous.
@@ -1910,12 +1912,12 @@ We are now in position to prove the main theorem!
     Then $\mathcal{A}$ is dense in $C(X,\C)$.
 \end{theorem}
 \begin{proof}
-    Let $\mathcal{A}_{\R}=\{\text{real-valued functions in \mathcal{A}}\}$.
+    Let $\mathcal{A}_{\R}$ denote the set of real-valued functions in $\mathcal{A}$.
     If $f\in\mathcal{A}$, then $(f\pm\overline{f})/2\in\mathcal{A}$ so $\Re f$ and $\Im f$ are in $\mathcal{A}$.
-    Notice $\mathcal{A}_\R$ is an algebra over $\R$ in $C(x)$ and it contains the constants.
-    Furthermore, since $\mathcal{A}$ separates points, either the real part or imaginary part separates points, so $\mathcal{A}_\R$ separates points as well.
+    Notice $\mathcal{A}_{\R}$ is an algebra over $\R$ in $C(x)$ and it contains the constants.
+    Furthermore, since $\mathcal{A}$ separates points, either the real part or imaginary part separates points, so $\mathcal{A}_{\R}$ separates points as well.
     Thus the result holds by Stone-Weierstrass over $\R$.
-\end{theorem}
+\end{proof}
 \begin{example}
     Consider the set $X=\{z\in\C:|z|=1\}$, and
     \[\mathcal{A}=\left\{\sum\limits_{n=-N}^Na_nz^n:a_n\in\C\right\}\]
@@ -2068,8 +2070,7 @@ Exercise: generalize this statement to continuous functions on $C(X)$!
         y' &= 1+x=y\text{ for } x\in\left[-\frac{1}{2},\frac{1}{2}\right]\\
         y(0) &= 1
     \end{align*}
-\end{example}
-\begin{solution}
+
     $y=f(x)$ where $f'(x)=1+x-f(x)$ and $f(0)=1$.
     Convert to integral equation:
     \begin{align*}
@@ -2103,7 +2104,7 @@ Exercise: generalize this statement to continuous functions on $C(X)$!
     In fact $f=\lim T^{(n)} f_0$.
     For example, take $f_0=1$.
     Then $T^{(n)}f_0=\sum\limits_{k=0,k\neq 1}^n\frac{(-1)^k}{k!}x^k=e^{-x}+x=f(x)$.
-\end{solution}
+\end{example}
 More generally, we have
 \begin{theorem}[Global Picard]
     Suppose $\Phi:[a,b]\times\R\to\R$ is continuous and ``Lipschitz in $y-$variable''.
