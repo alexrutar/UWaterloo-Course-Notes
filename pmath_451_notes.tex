@@ -1,55 +1,81 @@
+% header -----------------------------------------------------------------------
 % Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
-% doctype ---------------------------------------------------------------------
-\documentclass[12pt, a4paper]{memoir}
+% version (1.6)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
 \usepackage[ascii]{inputenc}
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
 \usepackage[protrusion=true,expansion=true]{microtype}
 
-% packages --------------------------------------------------------------------
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{emptypage}
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
+\usepackage{etoolbox}
+
+% Set enimitem
 \usepackage{enumitem}
 \SetEnumitemKey{nl}{nolistsep}
 \SetEnumitemKey{r}{label=(\roman*)}
 
-\usepackage[hidelinks]{hyperref}
-
+% Set tikz
 \usepackage{tikz, pgfplots}
 \pgfplotsset{compat=1.15}
-\usetikzlibrary{intersections}
-\usetikzlibrary{cd}
+\usetikzlibrary{intersections,positioning,cd}
 \usetikzlibrary{arrows,arrows.meta}
 \tikzcdset{arrow style=tikz,diagrams={>=stealth}}
 
-% default macros --------------------------------------------------------------
+
+% macros -----------------------------------------------------------------------
 \DeclareMathOperator{\N}{{\mathbb{N}}}
 \DeclareMathOperator{\Q}{{\mathbb{Q}}}
 \DeclareMathOperator{\Z}{{\mathbb{Z}}}
 \DeclareMathOperator{\R}{{\mathbb{R}}}
 \DeclareMathOperator{\C}{{\mathbb{C}}}
 \DeclareMathOperator{\F}{{\mathbb{F}}}
-\newcommand{\mbf}[1]{{\bfseries\boldmath #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+
+% multi-line align space
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% smaller fractions
+\newcommand{\sfrac}[2]{\ensuremath{\frac{\scriptstyle #1}{\scriptstyle #2}}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptscriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
  
 % Divides, Not Divides
 \renewcommand{\div}{\bigm|}
 \newcommand{\ndiv}{%
-      \mathrel{\mkern.5mu % small adjustment
-              % superimpose \nmid to \big|
-              \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
-                }%
-            }
-\newcommand{\cpl}[1]{\overline{#1}} % complement
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+    }%
+}
 
-% Large cdot
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
 \makeatletter
 \newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
 \newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
 \makeatother
 
-% Disjoint Union %
+% Disjoint Union
 \makeatletter
 \providecommand*{\cupdot}{%
   \mathbin{%
@@ -87,30 +113,37 @@
   }%
 }
 \makeatother
- 
-\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}} % inner product, etc.
-\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}} % norm, #2
-\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptscriptstyle{#1}}}}
 
 
-% theorem macros --------------------------------------------------------------
-\usepackage[thref, thmmarks,amsmath]{ntheorem}
+% macros (theorem) -------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
 
 % Numbered Statements
-\theoremindent0.5cm
+\theoremstyle{change}
+\theoremindent\parindent
 \theorembodyfont{\itshape}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{proposition}[theorem]{Proposition}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
 
-% Un-numbered Statements
-\theoremindent0.0cm
+% Claim environment
+\theoremstyle{plain}
 \theorempreskip{0.1cm}
 \theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremnumbering{roman}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
 \theoremheaderfont{\bfseries\itshape}
-\theoremstyle{nonumberplain}
 \newtheorem{definition}{Definition.}
 \theoremheaderfont{\itshape}
 \newtheorem{example}{Example.}
@@ -118,57 +151,73 @@
 
 % Proof / solution environments
 \theoremseparator{}
-\theoremheaderfont{\scshape}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
 \theoremsymbol{$//$}
 \newtheorem{solution}{Sol'n}
 \theoremsymbol{$\blacksquare$}
-\theoremindent0.5cm
-\theorempostskip{0.5cm}
+\theorempostskip{0.4cm}
 \newtheorem{proof}{Proof}
 
-% algebra macros --------------------------------------------------------------
-\DeclareMathOperator{\End}{End}
-\DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\ann}{ann}
-\DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\id}{id}
-\DeclareMathOperator{\rank}{rank}
-\DeclareMathOperator{\coker}{coker}
-\DeclareMathOperator{\Tor}{Tor}
-\DeclareMathOperator{\Nil}{Nil}
-\DeclareMathOperator{\Spec}{Spec}
+
+% macros (algebra) -------------------------------------------------------------
 \DeclareMathOperator{\Ann}{Ann}
-\DeclareMathOperator{\Gl}{Gl}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
 \DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
 \newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
 
-% analysis macros -------------------------------------------------------------
-\DeclareMathOperator{\M}{\mathcal{M}}
-\DeclareMathOperator{\B}{\mathcal{B}}
-\DeclareMathOperator{\ps}{\mathcal{P}}
-\DeclareMathOperator{\pr}{\mathbb{P}}
-\DeclareMathOperator{\E}{\mathbb{E}}
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
 \DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
 \renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
 \renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
-\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
 
-% file-specific macros --------------------------------------------------------
+
+% file-specific preamble -------------------------------------------------------
 \hfuzz=100pt % supress overfull warnings
 \DeclareMathOperator{\ND}{ND}
 \DeclareMathOperator{\BV}{BV}
-\DeclareMathOperator{\sgn}{sgn}
 
-% formatting ------------------------------------------------------------------
+
+% formatting -------------------------------------------------------------------
 \usepackage{kpfonts}
 \usepackage{dsfont}
 
 % Define Document Variables
-\newcommand{\subject}{Measure Theory}
-\newcommand{\topic}{PMATH 451}
-\newcommand{\semester}{Winter 2019}
+\newcommand{\subject}{REPLACE}
+\newcommand{\topic}{REPLACE}
+\newcommand{\semester}{REPLACE}
 
 % Format Table of Contents
 \renewcommand{\thechapter}{\Roman{chapter}}
@@ -211,9 +260,11 @@
 \frontmatter
 \hypersetup{pageanchor=true}
 \tableofcontents*
+\newpage
 \mainmatter
 
-% document start --------------------------------------------------------------
+
+% main document ----------------------------------------------------------------
 \chapter{Measures}
 \section{Measure Spaces}
 \begin{itemize}
@@ -3110,3 +3161,4 @@ Note that Lipschitz$\Rightarrow$Absolutely continuous$\Rightarrow$uniformly cont
     Converse is just given.
 \end{remark}
 \end{document}
+

@@ -18,7 +18,7 @@
 % Set enimitem
 \usepackage{enumitem}
 \SetEnumitemKey{nl}{nolistsep}
-\SetEnumitemKey{nlr}{nolistsep,label=(\roman*)}
+\SetEnumitemKey{r}{label=(\roman*)}
 
 % Set tikz
 \usepackage{tikz, pgfplots}
@@ -125,10 +125,10 @@
 \theoremindent\parindent
 \theorembodyfont{\itshape}
 \theoremheaderfont{\bfseries\boldmath}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
 
 % Claim environment
 \theoremstyle{plain}
@@ -595,6 +595,7 @@
 \chapter{The Ring of Algebraic Integers}
 \section{Number Fields}
 We now focus our attention on extensions, in particular finite extensions, of $\Q$ in $\C$.
+A major example throughout this section are the cyclotomic extensions of $\Q$; many of the theorems we will prove will provide tools to better understand extensions $\Q(\zeta_n)/\Q$.
 \begin{definition}
     $K$ is a \textbf{number field} if $K$ is a finite extension of $\Q$.
     We write $\mathcal{O}_K\subseteq K$ to denote the subset of \textbf{algebraic integers} of $K$.
@@ -720,7 +721,7 @@ This essentially says that if $\alpha\in K$ and $K$ is a number field, then ther
     Let $g(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_n^{n-1}a_0$, so $g(a_n\alpha)=0$ and $a_n\alpha$ is an algebraic integer.
     If $a_n$ is negative, take $-a_n\alpha$ instead.
 \end{proof}
-\subsection{Cyclotomic Extensions}
+\subsection{Cyclotomic Extensions I: Introduction}
 \begin{definition}
     We say $\zeta_n$ is a \textbf{primitive n\textsuperscript{th} root of unity} if $\zeta_n^n=1$ and $\zeta_n^k\neq 1$ for any $k<n$.
     We call the extension $\Q(\zeta_n)$ a \textbf{cyclotomic field}.
@@ -969,10 +970,9 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
     Then there exists $n\in\Z$ so that $\epsilon^n\leq\lambda<\epsilon^{n+1}$.
     Then $1\leq\lambda\epsilon^n<\epsilon$, and since $\epsilon>1$ is minimal, we must have $\lambda/\epsilon^n=1$; i.e. $\lambda=\epsilon^n$.
 
-    Now, note the following: if $1<\gamma=x+y\sqrt{d}$ is a unit, then $x,y\geq 1$.
-    Consider the four values $\gamma,-\gamma,\gamma^{-1},-\gamma^{-1}$, which are $\frac{\pm x\pm y\sqrt{d}}{2}$.
+    Note the following: if $1<\gamma=x+y\sqrt{d}$ is a unit, then $x,y\geq 1$.
+    To see this, consider the four values $\gamma,-\gamma,\gamma^{-1},-\gamma^{-1}$, which are $\frac{\pm x\pm y\sqrt{d}}{2}$.
     Since $x$ and $x^{-1}$ cannot both be greater than 1, exactly one of the four values are greater than 1, so it must be the largest one; i.e. the one with $x,y\geq 1$.
-
     But now let $\gamma>1$ be arbitrary; by positivity, there are only finitely many $\gamma_0<\gamma$, so there must be some minimal element.
 \end{proof}
 What happens in other number fields?
@@ -980,23 +980,36 @@ If $K$ is cubic, then $\mathcal{O}_K^\times$ sometimes has a smallest unit $\eps
 \section{Discriminants and Integral Bases}
 \begin{definition}
     Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ be embeddings extending $\Q\subseteq\C$.
-    Given $\alpha_1,\ldots,\alpha_n\in K$, we let the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} be
+    Given $\alpha_1,\ldots,\alpha_n\in K$, we define the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} to be
     \begin{equation*}
-        \disc(\alpha_1,\ldots,\alpha_n)=\det((\sigma_i(\alpha_j))_{i,j})^2
+        \disc(\alpha_1,\ldots,\alpha_n)=\det
+        \begin{pmatrix}
+            \sigma_1(\alpha_1) & \hdots & \sigma_1(\alpha_n)\\
+            \vdots &\ddots&\vdots\\
+            \sigma_n(\alpha_1) & \hdots & \sigma_n(\alpha_n)
+        \end{pmatrix}^2
     \end{equation*}
 \end{definition}
-For example, of $K=\Q(\sqrt{d})$, then
-\begin{equation*}\disc(1,\sqrt{d})=\det\begin{pmatrix}1&1\\\sqrt{d}&-\sqrt{d}\end{pmatrix}^2=4d\end{equation*}
-
-Note that $\disc(\alpha_1,\ldots,\alpha_n)$ is independent of the ordering of the $\alpha_i$ (swapping rows or columns only changes sign).
+\begin{example}
+    If $K=\Q(\sqrt{d})$, then
+    \begin{equation*}\disc(1,\sqrt{d})=\det\begin{pmatrix}1&1\\\sqrt{d}&-\sqrt{d}\end{pmatrix}^2=4d\end{equation*}
+\end{example}
+\begin{remark}
+    The value of $\disc(\alpha_1,\ldots,\alpha_n)$ is independent of the ordering of the $\alpha_i$: swapping rows or columns only changes sign in the determinant.
+\end{remark}
 \begin{proposition}
     Let $K$ be a number field of degree $n$.
     Then
     \begin{equation*}
-        \disc(\alpha_1,\ldots,\alpha_n)=\det((\Tr_{\Q}^K(\alpha_i\alpha_j))_{ij})
+        \disc(\alpha_1,\ldots,\alpha_n)=\det
+        \begin{pmatrix}
+            \Tr_{\Q}^K(\alpha_1\alpha_1)&\hdots&\Tr_{\Q}^K(\alpha_1\alpha_n)\\
+            \vdots&\ddots&\vdots\\
+            \Tr_{\Q}^K(\alpha_n\alpha_1)&\hdots&\Tr_{\Q}^K(\alpha_n\alpha_n)
+        \end{pmatrix}
     \end{equation*}
 \end{proposition}
-In our example,
+In the example we had earlier,
 \begin{equation*}
     \disc(1,\sqrt{d})=\det\begin{pmatrix}\Tr(1)&\Tr(\sqrt{d})\\\Tr(\sqrt{d})&\Tr(d)\end{pmatrix}=\det\begin{pmatrix}2&0\\0&2d\end{pmatrix}=4d
 \end{equation*}
@@ -1004,173 +1017,215 @@ In our example,
     Let $M=(\sigma_i(\alpha_j))_{ij}$.
     Then
     \begin{align*}
-        \disc(\alpha_1,\ldots,\alpha_n) &= \det(M)^2\\
-                                        &= \det(M^tM)
+        \disc(\alpha_1,\ldots,\alpha_n) &= \det(M)^2 = \det(M^tM)
     \end{align*}
-    where $(MM^t)_{ij}=\sum_k M_{ik}M_{jk}=\sum_k\sigma_k(\alpha_i)\sigma_k(\alpha_j)=\sum_k\sigma_k(\alpha_i\alpha_j)$.
+    where
+    \begin{align*}
+        \left(M^tM\right)_{ij} =\sum_{k=1}^n M_{ik}M_{jk}=\sum_{k=1}^n\sigma_k(\alpha_i)\sigma_k(\alpha_j)=\sum_{k=1}^n\sigma_k(\alpha_i\alpha_j)=\Tr(\alpha_i\alpha_j)
+    \end{align*}
 \end{proof}
 \begin{corollary}
-    $\disc(\alpha_1,\ldots,\alpha_n)$ and if the $\alpha_i\in\mathcal{O}_K$, then $\disc(\alpha_1,\ldots,\alpha_n)$.
-    Furthermore, if $K\subseteq\R$, then $\disc(\alpha_1,\ldots,\alpha_n)\geq0$.
+    The value $\disc(\alpha_1,\ldots,\alpha_n)$ is rational, and if the $\alpha_i\in\mathcal{O}_K$, then $\disc(\alpha_1,\ldots,\alpha_n)$ is an integer.
 \end{corollary}
 \begin{proof}
     $\Tr(\alpha_i\alpha_j)\in\Q$ and if the $\alpha_i\in\mathcal{O}_K$, then $\Tr(\alpha_i\alpha_j)\in\Z$.
 \end{proof}
+\subsection{Change of Basis}
 Let's now understand how discriminants change under change of basis.
-Suppose $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$, and let $\beta_1,\ldots,\beta_n\in K$ (possibly not a basis).
-We know $\sigma_i(\beta_k)=\sum_{j=1}^n c_{kj}\sigma_i(\alpha_j)$.
+Suppose $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$, and let $\beta_1,\ldots,\beta_n\in K$ are arbitrary (possibly not a basis).
+Since $\sigma_i(\beta_k)\in K$, there exists $c_{kj}$ such that $\sigma_i(\beta_k)=\sum_{j=1}^n c_{kj}\sigma_i(\alpha_j)$.
 Then
 \begin{align*}
     \begin{pmatrix}
-        \sigma_1(\beta_1) &\hdots&\sigma_n(\beta_1)\\
+        \sigma_1(\beta_1) &\cdots&\sigma_n(\beta_1)\\
         \vdots&&\vdots\\
-        \sigma_1(\beta_n)&\hdots&\sigma_n(\beta_n)
+        \sigma_1(\beta_n)&\cdots&\sigma_n(\beta_n)
     \end{pmatrix}
     =
     \begin{pmatrix}
-        c_{11} &\hdots&c_{1n}\\
+        c_{11} &\cdots&c_{1n}\\
         \vdots&&\vdots\\
-        c_{n1}&\hdots&c_{nn}
+        c_{n1}&\cdots&c_{nn}
     \end{pmatrix}
     \begin{pmatrix}
-        \sigma_1(\alpha_1) &\hdots&\sigma_n(\alpha_1)\\
+        \sigma_1(\alpha_1) &\cdots&\sigma_n(\alpha_1)\\
         \vdots&&\vdots\\
-        \sigma_1(\alpha_n)&\hdots&\sigma_n(\alpha_n)
+        \sigma_1(\alpha_n)&\cdots&\sigma_n(\alpha_n)
     \end{pmatrix}
 \end{align*}
-If $K/\Q$ is a finite extension, then we know there exists $\theta\in K$ such that $K=\Q(\theta)$.
-Thus, $1,\theta,\ldots,\theta^{n-1}$ is a basis for $K/Q$.
-Then
+Let $C=\left(c_{ij}\right)$ denote the above transition matrix; then,
+\begin{equation*}
+    \disc(\beta_1,\ldots,\beta_n)=\det(C)^2\disc(\alpha_1,\ldots,\alpha_n)
+\end{equation*}
+Now, if $K/\Q$ is a finite extension, then we know there exists $\theta\in K$ such that $K=\Q(\theta)$.
+Thus, $\{1,\theta,\ldots,\theta^{n-1}\}$ is a basis for $K/\Q$.
+In particular,
 \begin{align*}
-    \disc(1,\theta,\ldots,\theta^{n-1}) &= \det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\hdots&\sigma_1(\theta^{n-1})\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\hdots&\sigma_n(\theta^{n-1})\end{pmatrix}\\
-                                        &=\det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\hdots&\sigma_1(\theta)^{n-1}\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\hdots&\sigma_n(\theta)^{n-1}\end{pmatrix}\\
+    \disc(1,\theta,\ldots,\theta^{n-1}) &= \det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\cdots&\sigma_1(\theta^{n-1})\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\cdots&\sigma_n(\theta^{n-1})\end{pmatrix}^2\\
+                                        &=\det\begin{pmatrix}\sigma_1(1) &\sigma_1(\theta)&\cdots&\sigma_1(\theta)^{n-1}\\\vdots&\vdots&&\vdots\\\sigma_n(1)&\sigma_n(\theta)&\cdots&\sigma_n(\theta)^{n-1}\end{pmatrix}^2\\
                                         &= \prod_{i<j}(\sigma_i(\theta)-\sigma_j(\theta))^2
 \end{align*}
-since this is a Vandermonde determinant.
-This value is nonzero since the $\sigma_i(\theta)$ are distinct.
+since it is the square of the determinant of a Vandermonde matrix.
+In particular, this value is non-zero since the $\sigma_i(\theta)$ are distinct.
+Now the following proposition follows from this discussion:
 \begin{theorem}
-    Let $\alpha_1,\ldots,\alpha_n\in K$, $n=[K:\Q]$.
+    Let $\alpha_1,\ldots,\alpha_n\in K$ where $n=[K:\Q]$.
     Then $\disc(\alpha_1,\ldots,\alpha_n)\neq 0$ if and only if $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$.
 \end{theorem}
 \begin{proof}
-    $\disc(\alpha_1,\ldots,\alpha_n)=\det(C)^2\disc(1,\theta,\ldots,\theta^{n-1})$, so $\disc(\alpha_1,\ldots,\alpha_n)=0$ iff $\det(C)=0$ iff $\alpha_1,\ldots,\alpha_n$ are linearly independent.
+    Let $C$ denote the transition matrix for $\{\alpha_1,\ldots,\alpha_n\}$ in terms of the $(\theta^j)$.
+    Then
+    \begin{equation*}
+        \disc(\alpha_1,\ldots,\alpha_n)=\det(C)^2\disc(1,\theta,\ldots,\theta^{n-1})
+    \end{equation*}
+    so that $\disc(\alpha_1,\ldots,\alpha_n)=0$ if and only if $\det(C)=0$ if and only if $\alpha_1,\ldots,\alpha_n$ are linearly dependent.
 \end{proof}
 \begin{theorem}
     Let $K=\Q(\theta)$, $[K:\Q]=n$.
-    Then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^\frac{n(n-1)}{2}N_{\Q}^K(f'(\theta))$ where $f(x)\in\Q[x]$ is the minimal polynomial of $\theta$ over $\Q$.
+    Then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^{\binom{n}{2}}N_{\Q}^K(f'(\theta))$ where $f(x)\in\Q[x]$ is the minimal polynomial of $\theta$ over $\Q$.
 \end{theorem}
 \begin{proof}
     Let $\theta_1,\ldots,\theta_n$ be the conjugates of $\theta$.
-    Then $f(x)=\prod(x-\theta_i)$, so $f'(x)=\sum_{j=1}^n\prod_{i\neq j}(x-\theta_i)$.
+    Then $f(x)=\prod_{i=1}^n(x-\theta_i)$, so $f'(x)=\sum_{j=1}^n\prod_{i\neq j}(x-\theta_i)$.
     Thus
     \begin{align*}
-        N_{\Q}^K(f'(\theta))&=\prod_{k=1}^nf'(\theta_k)\\
-                          &= \prod_k\prod_{i\neq k}(\theta_k-\theta_i)\\
-                          &= \prod_{i<k}(\theta_k-\theta_i)(\theta_i-\theta_k)\\
-                          &= (-1)^{\binom{n}{2}}\prod_{i<k}(\theta_i-\theta_k)^2\\
-                          &= \disc(1,\theta,\ldots,\theta^{n-1})
+        N_{\Q}^K(f'(\theta))&=\prod_{k=1}^n\sigma_n(f'(\theta)) = \prod_{k=1}^n f'(\theta_k)\\
+                            &= \prod_{k=1}^n\prod_{i\neq k}(\theta_k-\theta_i)= \prod_{i<k}(\theta_k-\theta_i)(\theta_i-\theta_k)\\
+                            &= (-1)^{\binom{n}{2}}\prod_{i<k}(\theta_i-\theta_k)^2= \disc(1,\theta,\ldots,\theta^{n-1})
     \end{align*}
 \end{proof}
-Recall if $[K:\Q]=n$ and $\alpha_1,\ldots,\alpha_n\in K$, then $\disc(\alpha_1,\ldots,\alpha_n)=\det(\sigma_i(\alpha_j))^2$.
-Recall if $K=\Q(\theta)$, then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^{\frac{n(n-1)}{2}}N(f'(\theta))$.
+\subsection{Cyclotomic Extensions II: Discriminants}
 \begin{theorem}
-    Let $\zeta_n=e^{2\pi i/n}$.
-    Consider $d=\disc(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}$.
-    Then $d|n^{phi(n)}$, and if $p$ is an odd prime,
+    Let $\zeta_n=e^{2\pi i/n}$ and set $d=\disc\left(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}\right)$.
+    Then $d\div n^{phi(n)}$, and if $p$ is an odd prime,
     \begin{equation*}
-        d=(-1)^{\frac{p(p-1)}{2}}p^{p-2}
+        d=(-1)^{\binom{p}{2}}p^{p-2}
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    Let $\Phi_n(x)$ be the minimal polynomial of $\zeta_n$, and write $x^n-\Phi_n(x)g(x)$, where $g(x)\in\Z[x]$.
-    We have $nx^{n-1}=\Phi'_n(x)g(x)=\Phi_n(x)g'(x)$, so $n\zeta_n^{n-1}=\Phi'(\zeta_n)g(\zeta_n)$.
+    Let $\Phi_n(x)$ be the minimal polynomial of $\zeta_n$, and write $x^n-1=\Phi_n(x)g(x)$ where $g(x)\in\Z[x]$.
+    Then $nx^{n-1}=\Phi'_n(x)g(x)+\Phi_n(x)g'(x)$, so $n\zeta_n^{n-1}=\Phi'(\zeta_n)g(\zeta_n)$.
     Thus
     \begin{equation*}
-        N(n\zeta_n^{n-1})=N(\Phi'(\zeta_n))N(g(\zeta_n))
+        N\left(n\zeta_n^{n-1}\right)=N\left(\Phi'(\zeta_n)\right)\cdot N\left(g(\zeta_n)\right)
     \end{equation*}
     Since $\zeta_n\in\mathcal{O}^\times_{\Q(\zeta_n)}$, $N(\zeta_n)=\pm 1$.
     Thus
     \begin{equation*}
-        \pm n^{\phi(n)}=(-1)^\frac{\phi(n)(\phi(n)-1)}{2}N(\Phi'_n(\zeta_n))N(g(\zeta_n))
+        \pm n^{\phi(n)}=(-1)^{\binom{\phi(n)}{2}}N\left(\Phi'_n(\zeta_n)\right)\cdot N(g(\zeta_n))
     \end{equation*}
     so $\pm\disc(\zeta_n)N(g(\zeta_n))=n^{\phi(n)}$.
-    Since $g\in\Z[x]$, $g(\zeta_n)\in\mathcal{O}_{\Q(\zeta_n)}$, so $N(g(\zeta_n))\in\Z$ and $\disc(\zeta_n)$ divides $n^{\phi(n)}$.
+    Since $g\in\Z[x]$, $g(\zeta_n)\in\mathcal{O}_{\Q(\zeta_n)}$ and $N(g(\zeta_n))\in\Z$.
+    Thus $\disc(\zeta_n)\div n^{\phi(n)}$, as required.
 
     Now, if $p$ is an odd prime, $x^p-1=\Phi_p(x)(x-1)$, so $px^{p-1}=\Phi'_p(x)(x-1)+\Phi_p(x)$.
     Thus $p\zeta_p^{p-1}=\Phi_p(\zeta_p)(\zeta_p-1)$.
-    Note that $N(\zeta_p^{p-1})=N(\zeta_p)^{p-1}$, and since $p-1$ is even, this value is always 1.
-    We also have
+    Note that $N(\zeta_p^{p-1})=N(\zeta_p)^{p-1}=1$ and since $p-1$ is even.
+    We can also compute
     \begin{equation*}
-        N(\zeta_p-1)=(-1)^{p-1}\prod(1-\zeta_p^i)=\Phi_p(1)=p
+        N(\zeta_p-1)=(-1)^{p-1}\prod_{i=1}^{p-1}(1-\zeta_p^i)=\Phi_p(1)=p
     \end{equation*}
-    Then
+    so that
     \begin{align*}
-        p\zeta_p^{p-1}&=\Phi_p'(\zeta_p)(\zeta_p-1)\\
-        p^{p-1} &= N(\Phi_p'(\zeta_p))p\\
-        p^{p-2}(-1)^{\frac{(p-1)(p-2)}{2}}&=\disc(\zeta_p)
+        p\zeta_p^{p-1}=\Phi_p'(\zeta_p)(\zeta_p-1) &\Rightarrow p^{p-1} = N(\Phi_p'(\zeta_p))p\\
+                                                   &\Rightarrow (-1)^{\binom{p}{2}}p^{p-2}=\disc(\zeta_p)
     \end{align*}
+    as required.
 \end{proof}
+\begin{remark}
+    In general, we have
+    \begin{equation*}
+        \disc\left(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}\right) = (-1)^{\phi(n)/2}\frac{n^{\phi(n)}}{\prod_{p|n}p^{\phi(n)/(p-1)}}
+    \end{equation*}
+    which we state here without proof.
+\end{remark}
+\subsection{Integral Bases}
 \begin{definition}
     Let $K$ be a number field, $[K:\Q]=n$.
-    We say $\alpha_1,\ldots,\alpha_n$ is an \textbf{integral basis} for $K$ if every $\gamma\in\mathcal{O}_K$ as a unique expression $\gamma=m_1\alpha_1+\cdots+m_n\alpha_n$ with $m_i\in\Z$.
+    We say $A=\{\alpha_1,\ldots,\alpha_n\}$ is an \textbf{integral basis} for $K$ if $\mathcal{O}_K=\spn_{\Z}(A)$.
 \end{definition}
-Note that we must have $\alpha_i\in\mathcal{O}_K$.
-As well, $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$: given $\theta\in K$, there exists $r\in\Z^+$ such that $r\theta\in\mathcal{O}_K$, so $r\theta\in\spn\Z(\alpha_i)$ and $\theta$ is in the $\Q-$span of the $\alpha_i$.
-Since $[K:\Q]=n$, $\alpha_1,\ldots,\alpha_n$ is a basis.
+\begin{remark}
+    Clearly we must have $\alpha_i\in\mathcal{O}_K$.
+    As well, $\alpha_1,\ldots,\alpha_n$ is a basis for $K/\Q$: given $\theta\in K$, there exists $r\in\Z^+$ such that $r\theta\in\mathcal{O}_K$, so $r\theta\in\spn_{\Z}(A)$ and $\theta\in\spn_{\Q}(A)$.
+    Since $[K:\Q]=n$, $\alpha_1,\ldots,\alpha_n$ is a basis.
+    In particular, this means that $A$ is in fact a $\Z-$basis for $\mathcal{O}_K$ (justifying the terminology).
+\end{remark}
 \begin{theorem}
     If $K$ is a number field, then $K$ has an integral basis.
+\end{theorem}
+\begin{proof}
     Write $K=\Q(\theta)$ where $\theta\in\mathcal{O}_K$.
-    Run through all choices of $\{\alpha_1,\ldots,\alpha_n\}$ basis for $K/\Q$ and $\alpha_i\in\mathcal{O}_K$.
-    Such a basis always exists since, given any basis, scale to get them in $\mathcal{O}_K$.
-    Choose the one where $|\disc(\alpha_1,\ldots,\alpha_n)|$ is minimal; let's show that this is an integral basis.
+    Consider the set of all bases $\{\beta_1,\ldots,\beta_n\}$ for $K/\Q$ such that $\beta_i\in\mathcal{O}_K$.
+    Such a basis certainly exists; given any basis, we can clear denominators such that they are in $\mathcal{O}_K$.
+    Let $A$ have $|\disc(A)|$ minimal (the discriminant is an integer, so such an $A$ exists); let's show that $A$ is in fact an integral basis.
 
     Suppose not.
-    Then there exists $\gamma\in\mathcal{O}_K$ where $\gamma=a_1\alpha_1+\cdots+a_n\alpha_n$ where $a_1\notin\Z$.
-    Let $a_1=a+r$, $a\in\Z$, $0<r<1$, and consider the basis $\{\alpha_1',\ldots,\alpha_n'\}$ where $\alpha_i'=\alpha_i$ for $i>1$, and $\alpha_1'=\gamma-a\alpha_1$.
+    Then there exists $\gamma\in\mathcal{O}_K$ where $\gamma=a_1\alpha_1+\cdots+a_n\alpha_n$ and $a_1\notin\Z$.
+    Let $a_1=a+r$ with $a\in\Z$, $0<r<1$; consider the basis $\{\alpha_1',\ldots,\alpha_n'\}$ where $\alpha_i'=\alpha_i$ for $i>1$, and $\alpha_1'=\gamma-a\alpha_1$.
     Then
     \begin{align*}
-        \disc(\alpha_1',\alpha_2',\ldots,\alpha_n') &= \det\left(\begin{pmatrix}a_1-a&a_2&a_3&\cdots&a_n\\&1&0&&\\&&1&0\end{pmatrix}\right)^2\disc(\alpha_1,\ldots,\alpha_n)\\
-                                                         &= r^2\disc(\alpha_1,\ldots,\alpha_n)
+        \disc(\alpha_1',\alpha_2',\ldots,\alpha_n') &= \det
+        \begin{pmatrix}
+            a_1-a&a_2&a_3&\cdots&a_n\\
+            0&1&0&\cdots&0\\
+            0&0&1&\cdots&0\\
+            \vdots&\vdots&\vdots&\ddots&\vdots\\
+            0&0&0&\cdots&1
+        \end{pmatrix}^2\disc(\alpha_1,\ldots,\alpha_n)\\
+        &= r^2\disc(\alpha_1,\ldots,\alpha_n)
     \end{align*}
-    and since $0<r<1$, $|\disc(\alpha_1',\ldots,\alpha_n')|<|\disc(\alpha_1,\ldots,\alpha_n)|$.
-\end{theorem}
+    Since $0<r<1$, $|\disc(\alpha_1',\ldots,\alpha_n')|<|\disc(\alpha_1,\ldots,\alpha_n)|$, contradicting minimality.
+\end{proof}
 \begin{proposition}
     If $K$ is a number field, then all integral bases have the same discriminant.
 \end{proposition}
 \begin{proof}
-    Let $\alpha_1,\ldots,\alpha_n$ and $\beta_1,\ldots,\beta_n$ be two integral bases, then
+    Let $\{\alpha_1,\ldots,\alpha_n\}$ and $\{\beta_1,\ldots,\beta_n\}$ be two integral bases; then
     \begin{equation*}
         \alpha_j=\sum\limits_{i=1}^n c_{ij}\beta_i
     \end{equation*}
-    for $\alpha_j\in\mathcal{O}_K$, $\beta_1,\ldots,\beta_n$ integral basis, so $c_{ij}\in\Z$.
-    By symmetry, $(c_{ij})^{-1}\in\Z$ as well, so $\det((c_{ij}))^2=1$.
-    Thus
+    for $\alpha_j\in\mathcal{O}_K$ and $c_{ij}\in\Z$.
+    Let $C=(c_{ij})$.
+    Since $\{\alpha_1,\ldots,\alpha_n\}$ is also an integral basis, $\left(C^{-1}\right)_{ij}\in\Z$ as well.
+    Thus $C\in\GL_n(\Z)$ so $\det(C)^2=1$ and
     \begin{equation*}
-        \disc(\alpha_1,\ldots,\alpha_n)=\det((c_{ij}))^2\disc(\beta_1,\ldots,\beta_n)
+        \disc(\alpha_1,\ldots,\alpha_n)=\det(C)^2\disc(\beta_1,\ldots,\beta_n)
     \end{equation*}
+    indeed have the same discriminant.
 \end{proof}
 \begin{definition}
-    If $K$ is a number field, we say its \textbf{discriminant} $\disc(K)$ is a disc of any integral basis.
+    If $K$ is a number field, we say its \textbf{discriminant} $\disc(K)$ is the discriminant of any integral basis.
 \end{definition}
-index of subgroup in $\mathcal{O}_K$ is given by $\det((c_{ij}))^2$.
-\begin{example}
+\begin{example}[Quadratic Number Field]
     Consider $\Q(\sqrt{d})$.
-    If $d\nequiv 1\pmod{4}$, then $1,\sqrt{d}$ is an integral basis, so $\disc(\Q(\sqrt{d}))=4d$.
-    If $d\equiv 1\pmod{4}$, then $1,\frac{1+\sqrt{d}}{2}$ is an integra basis and $\disc(\Q(\sqrt{d}))=d$.
+    If $d\nequiv 1\pmod{4}$, then $\{1,\sqrt{d}\}$ is an integral basis; if $d\equiv 1\pmod{4}$, then $\left\{1,\frac{1+\sqrt{d}}{2}\right\}$ is an integral basis.
+    Thus
+    \begin{equation*}
+        \disc(\Q(\sqrt{d}))=
+        \begin{cases}
+            4d & d\nequiv 1\pmod{4}\\
+            d & d\equiv 1\pmod{4}
+        \end{cases}
+    \end{equation*}
 \end{example}
-\begin{proposition}
-    Let $K$ be a number field, $\alpha_1,\ldots,\alpha_n$ a basis for $K/\Q$.
-    If $d=\disc(\alpha_1,\ldots,\alpha_n)$, then for all $\alpha\in\mathcal{O}_K$, there exists $m_i\in\Z$ such that $\alpha=\sum m_i\alpha_i/d$ and such that $d|m_i^2$.
+\begin{proposition}\label{prop:algbasis}
+    Let $K$ be a number field, $\{\alpha_1,\ldots,\alpha_n\}$ a basis for $K/\Q$ with $\alpha_i\in\mathcal{O}_K$.
+    If $d=\disc(\alpha_1,\ldots,\alpha_n)$, then for all $\alpha\in\mathcal{O}_K$, there exists $m_i\in\Z$ such that
+    \begin{equation*}
+        \alpha=\frac{\sum_{i=1}^n m_i\alpha_i}{d},\qquad d\div m_i^2
+    \end{equation*}
 \end{proposition}
 \begin{example}
     Consider $\Q(\sqrt{d})$, where $d\equiv 1\pmod{4}$.
-    Then $1,\sqrt{d}$ is q $\Q-$basis, and $\disc(1,\sqrt{d})=4d$.
+    Then $\{1,\sqrt{d}\}$ is a $\Q-$basis, $\sqrt{d}\in\mathcal{O}_K$, and $\disc(1,\sqrt{d})=4d$.
+    Since $d$ is squarefree, if $4d\div m_i^2$, then $d\div m_i$.
+    Thus, the proposition states that any $\gamma\in\mathcal{O}_K$ can be expressed in the form $\frac{m_1+m_2\sqrt{d}}{2}$ for some $m_1,m_2\in\Z$.
+    Note that the converse is not necessarily true: not all such expressions are in $\mathcal{O}_K$ (indeed, we need $m_1\equiv m_2\pmod{2}$).
 \end{example}
 \begin{proof}
-    Let $\alpha\in\mathcal{O}_K$.
-    Then $\alpha=a_1\alpha_1+\cdots+a_n\alpha_n$.
-    Let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$.
-    We get equations $\sigma_j(\alpha)=a_1\sigma_j(\alpha_1)+\cdots+a_n\sigma_j(\alpha_n)$; i.e.
+    Let $\alpha\in\mathcal{O}_K$ be arbitrary so that $\alpha=a_1\alpha_1+\cdots+a_n\alpha_n$ for some $a_i\in\Q$.
+    Let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ extend $\Q\subseteq\C$.
+    For each $j=1,\ldots,n$, we have $\sigma_j(\alpha)=a_1\sigma_j(\alpha_1)+\cdots+a_n\sigma_j(\alpha_n)$ so that
     \begin{equation*}
         \begin{pmatrix}
             \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
@@ -1185,41 +1240,43 @@ index of subgroup in $\mathcal{O}_K$ is given by $\det((c_{ij}))^2$.
             \sigma_1(\alpha)\\\vdots\\\sigma_n(\alpha)
         \end{pmatrix}
     \end{equation*}
-    By Cramer's Rule,
+    Define
     \begin{equation*}
-        a_j=\frac{\det\begin{pmatrix}\sigma_1(\alpha_1)&\cdots&\sigma_1(\alpha)&\hdots&\sigma_1(\alpha_n)\\\vdots&&\vdots&&\vdots\\\sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha)&\hdots&\sigma_n(\alpha_n)\end{pmatrix}}{\det(\sigma_j(\alpha)i)}=\frac{\gamma_j}{\delta}
+        \gamma_j:=\det\begin{pmatrix}
+            \sigma_1(\alpha_1)&\cdots&\sigma_1(\alpha)&\hdots&\sigma_1(\alpha_n)\\
+            \vdots&&\vdots&&\vdots\\
+            \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha)&\hdots&\sigma_n(\alpha_n)
+        \end{pmatrix}
     \end{equation*}
-    where $\gamma_j,\delta\in\mathcal{O}_k$.
-    But then $da_j=\delta^2a_j=\delta\gamma_j\in\mathcal{O}_K$, so $da_1=:m_j\in\Z$.
-    This handles the first part.
+    where the $j^\text{th}$ column is replaced, and $\delta=\det(\sigma_j(\alpha_i))$.
+    Since $\alpha_i\in\mathcal{O}_K$, $\sigma_j(\alpha_i)\in\mathcal{O}_K$ for any $j$, so $\gamma_j,\delta\in\mathcal{O}_K$.
+    Note that $d:=\disc(K)=\delta^2$.
+    By Cramer's rule, $a_j=\frac{\gamma_j}{\delta}$.
+    Take $m_j:= da_j\in\Q$; but then $da_j=\delta\gamma_j\in\mathcal{O}_K$, so $m_j\in\Q\cap\mathcal{O}_K=\Z$.
 
-    For the second part,
+    For the second part, we have
     \begin{align*}
-        \frac{m_j^2}{d} &= da_j^2\\
-                        &=d\left(\frac{\delta_j}{j}\right)^2\\
-                        &= \frac{d\gamma_j^2}{\delta^2}=\delta_j^2\in\mathcal{O}_K
+        \frac{m_j^2}{d} &= da_j^2=d\left(\frac{\gamma_j}{\delta}\right)^2= \frac{d\gamma_j^2}{\delta^2}=\gamma_j^2\in\mathcal{O}_K
     \end{align*}
-    so $m_j^2/d\in\Z$.
+    so $m_j^2/d\in\Z$ as well.
 \end{proof}
+\subsection{Cyclotomic Extensions III: Algebraic Integers in \texorpdfstring{$\Q(\zeta_{p^r})$}{Qzpr}}
 \begin{theorem}
     If $p$ is prime, $r\in\Z^+$, then $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$.
 \end{theorem}
 \begin{proof}
-    Let $\zeta=\zeta_{p^r}$.
-    Then $\Q(\zeta)=\Q(1-\zeta)$.
-    Let $s=\phi(p^r)$, so $\{1,1-\zeta,\ldots,(1-\zeta)^{s-1}\}$ is a $\Q-$basis.
+    For notation $\zeta=\zeta_{p^r}$ and we take $\Q(\zeta)=\Q(1-\zeta)$.
+    Let $s=\phi(p^r)$, so $\left\{1,1-\zeta,\ldots,(1-\zeta)^{s-1}\right\}$ is a $\Q-$basis for $\Q(\zeta)$.
     Let's show that it is an integral basis.
 
-    By the proposition, we know if $\alpha\in\mathcal{O}_K$, there exist $m_i\in\Z$ such that $\alpha=\sum m_j(1-\zeta)^j/d$ were
+    By \cref{prop:algbasis}, we know if $\alpha\in\mathcal{O}_K$, there exist $m_i\in\Z$ such that $\alpha=\frac{\sum_{i=1}^n m_j(1-\zeta)^j}{d}$ where
     \begin{align*}
-        d &= \disc(1-\zeta)\\
-          &= \prod_{i<j,i,j\in(\Q/p^r)^\times}((1-\zeta^i)-(1-\zeta^j))\\
-          &= \prod_{i<j,i,j\in(\Z/p^r)^\times}(\zeta^i-\zeta^j)^2\\
-          &= \disc(\zeta)=\pm p^{p-2}
+        d &= \disc(1-\zeta)= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}((1-\zeta^i)-(1-\zeta^j))^2\\
+          &= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}(\zeta^i-\zeta^j)^2= \disc(\zeta)=\pm p^{p-2}
     \end{align*}
-    (can compute discriminant of polynomial as well, given minimal polynomial).
 
-    If $\mathcal{O}_K\neq\Z[1-\zeta]$, then there exists $\alpha\in\mathcal{O}_K$ with $p^{p-2}\nmid m_j$.
+    Suppose for contradiction $\mathcal{O}_K\neq\Z[1-\zeta]$.
+    Then there exists $\alpha\in\mathcal{O}_K$ with $p^{p-2}\ndiv m_j$.
     After multiplying $\alpha$ by a suitable power of $p$, we have $\beta\in\mathcal{O}_K$ with $\beta=\frac{l_1+l_2(1-\zeta)+\cdots+l_s(1-\zeta)^{s-1}}{p}$ where $p\nmid l_i$, $l_i\in\Z$.
     Let $i$ be minimal so that $p\nmid l_i$.
     Set $\gamma=\frac{l_i(1-\zeta)^{i-1}+\cdots+l_s(1-\zeta)^{s-1}}{p}\in\mathcal{O}_K$.
