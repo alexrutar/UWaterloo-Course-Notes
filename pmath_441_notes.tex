@@ -38,6 +38,7 @@
 
 % proof implications
 \newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
 \newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
 
@@ -209,7 +210,7 @@
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Frob}{Frob}
 \DeclareMathOperator{\Cl}{Cl}
-\usepackage{showkeys}
+% \usepackage{showkeys}
 
 
 % formatting -------------------------------------------------------------------
@@ -220,6 +221,9 @@
 \newcommand{\subject}{Algebraic Number Theory}
 \newcommand{\topic}{REPLACE}
 \newcommand{\semester}{Winter 2019}
+
+% Set equation numbering pattern
+\numberwithin{equation}{section}
 
 % Format Table of Contents
 \renewcommand{\thechapter}{\Roman{chapter}}
@@ -980,9 +984,12 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
     Since $x$ and $x^{-1}$ cannot both be greater than 1, exactly one of the four values are greater than 1, so it must be the largest one; i.e. the one with $x,y\geq 1$.
     But now let $\gamma>1$ be arbitrary; by positivity, there are only finitely many $\gamma_0<\gamma$, so there must be some minimal element.
 \end{proof}
-What happens in other number fields?
-If $K$ is cubic, then $\mathcal{O}_K^\times$ sometimes has a smallest unit $\epsilon>1$ and sometimes not.
-\section{Discriminants and Integral Bases}
+\begin{remark}
+    A natural question is to ask this question for a general number field.
+    For example, if $K$ is cubic, then $\mathcal{O}_K^\times$ may or may not have a smallest unit $\epsilon>1$.
+    We will treat the general case later; see \cref{thm:dir-unit}.
+\end{remark}
+\section{Discriminants, Integral Bases}
 \begin{definition}
     Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be embeddings extending $\Q\subseteq\C$.
     Given $\alpha_1,\ldots,\alpha_n\in K$, we define the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} to be
@@ -994,6 +1001,7 @@ If $K$ is cubic, then $\mathcal{O}_K^\times$ sometimes has a smallest unit $\eps
             \sigma_n(\alpha_1) & \hdots & \sigma_n(\alpha_n)
         \end{pmatrix}^2
     \end{equation*}
+    If $K=\Q(\alpha)$, for notational simplicity, we say $\disc(\alpha)=\disc(1,\alpha,\ldots,\alpha^{n-1})$.
 \end{definition}
 \begin{example}
     If $K=\Q(\sqrt{d})$, then
@@ -1085,9 +1093,9 @@ Now the following proposition follows from this discussion:
     \end{equation*}
     so that $\disc(\alpha_1,\ldots,\alpha_n)=0$ if and only if $\det(C)=0$ if and only if $\alpha_1,\ldots,\alpha_n$ are linearly dependent.
 \end{proof}
-\begin{theorem}
+\begin{theorem}\label{thm:disc-pb}
     Let $K=\Q(\theta)$, $[K:\Q]=n$.
-    Then $\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^{\binom{n}{2}}N_{\Q}^K(f'(\theta))$ where $f(x)\in\Q[x]$ is the minimal polynomial of $\theta$ over $\Q$.
+    Then $\disc(\theta):=\disc(1,\theta,\ldots,\theta^{n-1})=(-1)^{\binom{n}{2}}N_{\Q}^K(f'(\theta))$ where $f(x)\in\Q[x]$ is the minimal polynomial of $\theta$ over $\Q$.
 \end{theorem}
 \begin{proof}
     Let $\theta_1,\ldots,\theta_n$ be the conjugates of $\theta$.
@@ -1100,7 +1108,7 @@ Now the following proposition follows from this discussion:
     \end{align*}
 \end{proof}
 \subsection{Cyclotomic Extensions II: Discriminants}
-\begin{theorem}\label{thm:cycl-disc}
+\begin{theorem}\label{thm:disc-cycl}
     Let $\zeta_n=e^{2\pi i/n}$ and set $d=\disc\left(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}\right)$.
     Then $d\div n^{phi(n)}$, and if $p$ is an odd prime,
     \begin{equation*}
@@ -1148,6 +1156,7 @@ Now the following proposition follows from this discussion:
 \begin{definition}
     Let $K$ be a number field, $[K:\Q]=n$.
     We say $A=\{\alpha_1,\ldots,\alpha_n\}$ is an \textbf{integral basis} for $K$ if $\mathcal{O}_K=\spn_{\Z}(A)$.
+    When it exists, a \textbf{power basis} for $\mathcal{O}_K$ is an integral basis of the form $\{1,\alpha,\cdots,\alpha^{n-1}\}$; i.e. $\mathcal{O}_K=\Z[\alpha]$.
 \end{definition}
 \begin{remark}
     Clearly we must have $\alpha_i\in\mathcal{O}_K$.
@@ -1350,7 +1359,8 @@ We say that $r_1$ is the number of real embeddings, and $2r_2$ is the number of 
     If there is some $\alpha$ of this form, then update $\{\beta_1,\ldots,\beta_n\}$ with the new algebraic integer $\alpha$; the new discriminant is $d/p^2$, and we may repeat the above process.
     This process will terminate after a finite number of steps (though it may take a while), giving a general procedure to compute integral bases for arbitrary number fields.
 \end{remark}
-\section{Composita}
+\section{Composita and Resultants}
+\subsection{Composita}
 \begin{definition}
     If $K,L$ are number fields, then the \textbf{compositum} of $K$ and $L$ is the smallest field containing $K\cup L$.
     We denote it by $KL=LK$.
@@ -1448,83 +1458,122 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
         \Z[\zeta_n]\subseteq \mathcal{O}_{\Q(\zeta_n)}\subseteq\frac{1}{d}\mathcal{O}_{\Q(\zeta_m)}\mathcal{O}_{\Q(\zeta_{p_k^{e_k}})}=\frac{1}{d}\Z[\zeta_m]\Z[\zeta_{p_k^{e_k}}]=\frac{1}{d}\Z[\zeta_n]
     \end{equation*}
     where $d=\gcd(\disc K,\disc L)$.
-    Recall by \cref{thm:cycl-disc}, we have $\disc\left(\Q(\zeta_n)\right)\div n^{\phi(n)}$.
+    Recall by \cref{thm:disc-cycl}, we have $\disc\left(\Q(\zeta_n)\right)\div n^{\phi(n)}$.
     Thus $\disc(K)\div m^{\phi(m)}$ and $\disc(L)\div (p_k^{e_k})^{\phi(p_k^{e_k})}$ so that $d=1$ and $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
 \end{proof}
-\section{Resultants}
-If $f(x),g(x)\in\Q[x]$, how do I describe $\{x:f(x)=g(x)=0\}$?
-The answer: when the resultant $R(f,g)=0$.
+\subsection{Resultants}
 \begin{definition}
-    Let $f(x),g(x)\in\C[x]$, so $f(x)=a_nx^n+\cdots+a_1x+a_0$, $g(x)=b_mx^m+\cdots+b_1x+b_0$.
+    Let $f(x),g(x)\in\C[x]$ with $f(x)=a_nx^n+\cdots+a_1x+a_0$, $g(x)=b_mx^m+\cdots+b_1x+b_0$.
     The \textbf{resultant} of $f$ and $g$ is
     \begin{equation*}
         R(f,g) =\det
         \begin{pmatrix}
-            a_n&a_{n-1}&a_{n-2}\cdots&a_0&&
+            a_n&a_{n-1}&\cdots&a_1&a_0&0&\cdots&0\\
+            0&a_n&a_{n-1}&\cdots&a_1&a_0&\ddots&\vdots\\
+            \vdots&\ddots&\ddots&\ddots&\ddots&\ddots&\ddots&0\\
+            0&\cdots&0&a_n&a_{n-1}&\cdots&a_1&a_0&\\
+            b_m&b_{m-1}&\cdots&b_0&0&0&\cdots&0\\
+            0&b_m&\cdots&b_1&b_0&0&\cdots&0\\
+            0&0&b_m&\cdots&b_1&b_0&\ddots&\vdots\\
+            \vdots&\vdots&\ddots&\ddots&\ddots&\ddots&\ddots&0\\
+            0&0&\cdots&0&b_m&\cdots&b_1&b_0
         \end{pmatrix}
     \end{equation*}
 \end{definition}
-$R(f,g)$ is homoeneous of degree $m$ in the $a_i$ and degree $n$ in the $b_j$.
+\begin{remark}
+    $R(f,g)$ is homoeneous of degree $m$ in the $a_i$ and degree $n$ in the $b_j$.
+\end{remark}
 We want to show that if $f,g\in\Q[x]$, then $R(f,g)=0$ if and only if $f$ and $g$ have a common factor in $\Q[x]$.
-Equivalently, if $f,g\in\C[x]$, then $F(f,g)=0$ if and only if $f,g$ have a common root.
-\begin{proposition}
-    $f$ and $g$ have a common root in $\C$ if and only if there exists $h,k\in\C[x]$ such that $hf=kg$ and $\deg(h)\leq m-1$, $\deg(k)\leq n-1$.
+In particular, we have the following proposition:
+\begin{proposition}\label{prop:res}
+    Let $f,g\in\C[x]$.
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $f$ and $g$ have a common root in $\C$
+        \item There exists $h,k\in\C[x]$ such that $hf=kg$ and $\deg(h)\leq m-1$, $\deg(k)\leq n-1$.
+        \item $R(f,g)=0$
+    \end{enumerate}
 \end{proposition}
 \begin{proof}
-    If $f,g$ have a common root $\alpha\in\C$, then $(x-\alpha)|f,g$.
+    \imp{i}{ii} If $f,g$ have a common root $\alpha\in\C$, then $(x-\alpha)\mid f$ and $(x-\alpha)\mid g$.
     Then $f=(x-\alpha)k$, $g=(x-\alpha)h$ and $hf=(x-\alpha)kh=kg$.
-    Conversely, if $hf=kg$, $\deg h\leq m-1$, $\deg k\leq n-1$, then by Pigeonhole principle, the roots of $k$ cannot contain all the roots of $f$, so one root must be a root of $g$.
+
+    \imp{ii}{i} If $hf=kg$ with $\deg h\leq m-1$, $\deg k\leq n-1$, then by Pigeonhole principle, the roots of $k$ cannot contain all the roots of $f$, so one root must be a root of $g$.
+
+    \impe{ii}{iii} We can now turn our question into one of linear algebra.
+    Given $f,g$, we want to compute $h,k$ such that $hf=kg$ where $\deg h=\deg g-1$, and $\deg k =\deg f-1$.
+    Let
+    \begin{align*}
+        h&=c_{m-1}x^{m-1}+\cdots+c_1x+c_0\\
+        k&=d_{n-1}x^{n-1}+\cdots+d_0
+    \end{align*}
+    Treate $c_i$, $d_j$ as indeterminants so that the statement $hf=kg$ encodes $n+m$ equations by comparing coefficients of the same degree.
+    For example, the $x^{n+m-2}$ equation $a_nc_{m-2}+a_{n-1}c_{m-1}=b_md_{n-2}+b_{m-1}d_{n-1}$.
+    In particular, $(c_0,\ldots,c_{m-1};-d_0,\ldots,-d_{n-1})$ is a solution if and only if it is in the kernel of the matrix
+    \begin{equation*}
+        A=
+        \begin{pmatrix}
+            a_n&0&\cdots&0&b_m&0&0&\cdots&0\\
+            a_{n-1}&a_n&\ddots&\vdots&b_{m-1}&b_m&0&\cdots&0\\
+            \vdots&a_{n-1}&\ddots&0&\vdots&\vdots&b_m&\ddots&\vdots\\
+            a_1&\vdots&\ddots&a_n&b_0&b_1&\vdots&\ddots&0\\
+            a_0&a_1&\ddots&a_{n-1}&0&b_0&b_1&\ddots&b_m\\
+            0&a_0&\ddots&\vdots&0&0&b_0&\ddots&\vdots\\
+            \vdots&\ddots&\ddots&a_1&\vdots&\vdots&\ddots&\ddots&b_1\\
+            0&\cdots&0&a_0&0&0&\cdots&0&b_0
+        \end{pmatrix}
+    \end{equation*}
+    and this matrix has non-trivial kernel if and only if $0=\det(A)=\det(A^t)=R(f,g)$.
 \end{proof}
-At this point, we can turn our question into one of linear algebra.
-Let $h=c_{m-1}x^{m-1}+\cdots+c_1x+c_0$, $k=d_{n-1}x^{n-1}+\cdots+x_0$.
-Treat $c_i$, $d_j$ as indeterminants.
-Then we need to solve the system of equations $hf=kg$.
-For example, the $x^{n+m-2}$ coefficient on both sides is $a_nc_{m-2}+a_{n-1}c_{m-1}=b_md_{n-2}+b_{m-1}d_{n-1}$.
-Thus, $hf=kg$ encodes $n+m$ equations, and $(c_0,\ldots,c_{m-1};-d_0,\ldots,-d_{n-1})$ is a solution if and only if it is in the kernel of the matrix
-\begin{equation*}
-    A=
-    \begin{bmatrix}
-        a_n&0&0&b_m&0&0\\
-        a_{n-1}&a_n&0&b_{m-1}&b_m&0\\
-        a_{n-2}&a_{n-1}&a_n&b_{m-2}&b_{m-1}&b_m\\
-               &\vdots&&\vdots&
-    \end{bmatrix}
-\end{equation*}
-But this matrix has non-trivial kernel if and only if $0=\det(A)=\det(A^t)=R(f,g)$.
-
-Let $x_1,\ldots,x_n$ roots of $f$, $y_1,\ldots,y_n$ roots of $g$.
+Let $x_1,\ldots,x_n$ denote the roots of $f$ and $y_1,\ldots,y_m$ denote roots of $g$.
 Then $a_1,\ldots,a_n$ are $a_n$ times an elementary symmetric function in the $x_i$, $b_1,\ldots,b_{m-1}$ are $b_m$ times an elementary symmetric function in the $y_i$.
-Thus $R(f,g)\in \C[x_1,\ldots,x_n,y_1,\ldots,y_n]=:P$ is a symmetric polynomial times $a_n^mb_m^n$.
-From last time, if $x_i=y_j$, then $R(f,g)=0$, i.e. $(x_i-y_j)|R(f,g)$.
-The $x_i-y_j$ are irreducible coprime elements of $P$, so $\prod_{i,j}(x_i-y_j)|R(f,g)$.
-Set $S:=a_n^mb_m^n\prod_{i,j}(x_i-y_j)$, so $g(x)=b_m\prod_{j=1}^m(x-y_j)$.
-In particular, $a_n^m\prod_{i=1}^ng(x_i)=S$, so that
-\begin{align}
-    S&=a_n^m\prod_{i=1}^ng(x_i)\\
-    S&=b_m^n\prod_{i=1}^nf(y_i)(-1)^{mn}
-\end{align}
-(1.1) tells us that $S$ is homogeneous of degree $n$ in the $b_j$'s, and (1.2) says $S$ is homogenous of degree $m$ in the $a_i$.
-The resultant has the same property, and $S|R$, so $R=cS$ for some $c\in\C$.
-But the constant term in $S$ is $a_n^mb_m^n$ and same for $R$, so $R=S$.
-Thus we've shown that $R(f,g)=a_n^mb_m^n\prod_{i,j}(x_i-y_j)$.
-Let's consider the case $g=f'$.
-Then $R(f,f')=0$ iff $f$ has a double root, i.e. when $\disc(f)=0$.
+Thus $R(f,g)\in \C[x_1,\ldots,x_n,y_1,\ldots,y_m]=:P$ is a symmetric polynomial times $a_n^mb_m^n$.
+By \cref{prop:res}, if $x_i=y_j$, then $R(f,g)=0$.
+In other words, every $(x_i-y_j)\mid R(f,g)$ (as polynomials).
+Since each $(x_i-y_j)$ is an irreducible coprime factor of $P$, $\prod_{i,j}(x_i-y_j)\div R(f,g)$.
+Set $S:=a_n^mb_m^n\prod_{i,j}(x_i-y_j)$.
 
-Let $f(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0=(x-\alpha_1)\cdots(x-\alpha_n)$.
-Then $R(f,f')=\prod_{i=1}^n f'(\alpha_i)$.
-But then $f'(x)=\sum_{i=1}^n\prod_{j\neq i}(x-\alpha_j)$, so $f'(\alpha_k)=\prod_{j\neq k}(x-\alpha_j)$.
-Thus
-\begin{align*}
-    R(f,f') &= \prod_{i}\prod_{j\neq i}(\alpha_i-\alpha_j)\\
-            &= (-1)^{\binom{n}{2}}\prod_{i<j}(\alpha_i-\alpha_j)^2\\
-            &= \disc(1,\alpha,\ldots,\alpha^{n-1})
-\end{align*}
-Thus we've shown
-\begin{proposition}
-    $\disc(\alpha)=R(f,f')(-1)^{\binom{n}{2}}$ for $\alpha$ algebraic and $f$ the minimal polynomial of $\alpha$.
+In particular, note that $g(x)=b_m\prod_{j=1}^m(x-y_j)$ so that $a_n^m\prod_{i=1}^ng(x_i)=S$ and
+\begin{align}
+    S=a_n^m\prod_{i=1}^ng(x_i)\label{alg:S1}
+\end{align}
+Similarly, $f(x)=a_n\prod_{i=1}^n(x-x_i)=(-1)^na_n\prod_{i=1}^n(x_i-x)$ so that
+\begin{align}
+    S=(-1)^{mn}b_m^n\prod_{i=1}^nf(y_i)\label{alg:S2}
+\end{align}
+\cref{alg:S1} tells us that $S$ is homogeneous of degree $n$ in the $b_j$'s, and \cref{alg:S2} says $S$ is homogenous of degree $m$ in the $a_i$.
+Since $R(f,g)$ has the same property and $S\div R(f,g)$, $R=cS$ for some $c\in\C$.
+However, $S$ has constant term $a_n^mb_m^n$, which is the same as $R(f,g)$; thus, $c=1$.
+In particular, we've shown the following proposition:
+\begin{proposition}\label{prop:res-alt}
+    Let $f,g\in\C[x]$ with $\deg f=n$, $\deg g=m$, and $f$ have roots $x_1,\ldots,x_n$ and $g$ have roots $y_1,\ldots,y_m$ (perhaps with repetitions).
+    Then
+    \begin{equation*}
+        \displaystyle R(f,g)=a_n^mb_m^n\prod_{i,j}(x_i-y_j)
+    \end{equation*}
 \end{proposition}
-\begin{example}
-    Let $\theta$ be a root of $f(x)=x^3+x^2-2x+8$, $K=\Q(\theta)$.
+This gives us an easy way to compute certain types of discriminants:
+\begin{corollary}
+    Let $\alpha$ be algebraic over $\Q$ and $f$ the minimal polynomial of $\alpha$.
+    Then $\disc(\alpha)=(-1)^{\binom{n}{2}}R(f,f')$.
+\end{corollary}
+\begin{proof}
+    Let's apply \cref{prop:res-alt} in the case where $g=f'$.
+    Let $f(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0=(x-\alpha_1)\cdots(x-\alpha_n)$.
+    Let $\sigma_1,\ldots,\sigma_n:\Q(\alpha)\hto\C$ extend $\Q\subseteq\C$.
+    Then applying \cref{alg:S1}, we have
+    \begin{align*}
+        R(f,f')=\prod_{i=1}^n f'(\alpha_i)=\prod_{i=1}^n\sigma_i(f'(\alpha))=N_{\Q}^{\Q(\alpha)}(f'(\alpha))
+    \end{align*}
+    and the result follows by \cref{thm:disc-pb}.
+\end{proof}
+As a fun application of this result, let's prove the following proposition.
+Note that the result was not strictly necessary to do this, but we get to use it to do one of the computations.
+\begin{proposition}
+    Let $\theta$ be a root of $f(x)=x^3+x^2-2x+8$, and $K=\Q(\theta)$.
+    Then $\mathcal{O}_K$ has no power basis.
+\end{proposition}
+\begin{proof}
     Let's calculate $\mathcal{O}_K$.
     First, we have
     \begin{equation*}
@@ -1539,38 +1588,32 @@ Thus we've shown
         \end{pmatrix}^2
         =-4\cdot 503
     \end{equation*}
-    Either this is the minimal discriminant of a basis of algebraic integers, or the basis has discriminant $503$: when we change basis, the factor must change by a square of an integer.
-    We know from Q3 HW1 that $\mathcal{O}_K\neq\Z[\theta]$, e.g. because $(\theta-\theta^2)/2\in\mathcal{O}_K$ and $\disc(K)=-503$.
-    One can check that $\disc(1,\theta,\frac{\theta^2-\theta}{2})=-503$ using a change of basis matrix.
-    Thus $1,\theta,\frac{\theta^2-\theta}{2}$ is an integral basis of $\mathcal{O}_K$.
-\end{example}
-\begin{definition}
-    A \textbf{power basis} for $\mathcal{O}_K$ is an integral basis of the form $\{1,\alpha,\cdots,\alpha^{n-1}\}$; i.e. $\mathcal{O}_K=\Z[\alpha]$.
-\end{definition}
-\begin{proposition}
-    Let $\theta$ be a root of $f(x)=x^3+x^2-2x+8$, and $K=\Q(\theta)$.
-    Then $\mathcal{O}_K$ has no power basis.
-\end{proposition}
-\begin{proof}
-    Given $\lambda\in\mathcal{O}_K$, we'll compute $\disc(\lambda)$ and show $2|\disc(\lambda)$, so $\disc(\lambda)\neq -503$.
-    Since $\lambda\in\mathcal{O}_K$, we can write $\lambda=a+b\theta+c\frac{\theta^2-\theta}{2}$ for $a,b,c\in\Z$.
-    One can compute $\lambda^2=A_1+A_2\theta+A_3\frac{\theta^2-\theta}{2}$, where
+    Thus $\disc(K)=-4\cdot 503$ or $\disc(K)=-503$ since, under change of basis, the factor must change by a square of an integer.
+    We know from a homework assignment (or by direct computation) that $\mathcal{O}_K\neq\Z[\theta]$ since $(\theta-\theta^2)/2\in\mathcal{O}_K$ and $\disc(K)=-503$.
+    In particular, one has that $\disc(1,\theta,\frac{\theta^2-\theta}{2})=-503$ by change of basis.
+    Since $503$ is squarefree, $\left\{1,\theta,\frac{\theta^2-\theta}{2}\right\}$ is an integral basis of $\mathcal{O}_K$.
+
+    Now, let $\lambda\in\mathcal{O}_K$.
+    We'll show that $2\mid\disc(\lambda)$ so that $\disc(\lambda)\neq -503$ and $\{1,\lambda,\lambda^2\}$ is not an integral basis.
+    We can write $\lambda=a+b\theta+c\frac{\theta^2-\theta}{2}$ for $a,b,c\in\Z$.
+    In particular, after some computation, one has $\lambda^2=A_1+A_2\theta+A_3\frac{\theta^2-\theta}{2}$, where
     \begin{align*}
         A_1&=a^2-2c^2-8bc\\
         A_2&=-2c^2+2ab+2bc-b^2\\
         A_3&= 2b^2+2ac+c^2
     \end{align*}
-    Then
+    Then by change of basis,
     \begin{align*}
-        \disc(\lambda)&=(-503)\cdot\det
+        \disc(\lambda)&=-503\cdot\det
         \begin{pmatrix}
             1&0&0\\
             a&b&c\\
             A_1&A_2&A_3
-        \end{pmatrix}^2\\
-        &= (-503)(bA_3-cA_2)^2\\
-        &=-503\cdot(2b^3-bc^2+b^2c+2c^3)^2\equiv 0\pmod{2}
+        \end{pmatrix}^2
+        = -503\cdot (bA_3-cA_2)^2\\
+        &=-503\cdot(2b^3-bc^2+b^2c+2c^3)^2
     \end{align*}
+    where $2b^3-bc^2+b^2c+2c^3\equiv bc(b-c)\equiv 0\pmod{2}$.
 \end{proof}
 \chapter{Dedekind Domains}
 \section{Noetherian Domains}
@@ -2568,7 +2611,7 @@ Put these together into $\sigma:K\hto\R^n$ by
     Only $(p-1)/2$ non-zer squares, so $y^2+1$ must be non-square for some $y=y_0$.
     Thus $(-y_0^2+1)$ is a square, i.e. there exists $x$ such that $x^2\equiv-(y_0^2+1)$.
 \end{proof}
-\begin{theorem}[Dirichlet Unit]
+\begin{theorem}[Dirichlet Unit]\label{thm:dir-unit}
     If $K$ is a number field with $r_1$ real embeddings and $2r_2$ complex embeddings, then $\mathcal{O}_K^\times\cong\mu_k\times\Z^{r_1+r_2-1}$, where $\mu_k$ is the set of roots of unity in $K$.
 \end{theorem}
 \begin{proof}
