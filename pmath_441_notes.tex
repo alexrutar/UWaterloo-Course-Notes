@@ -62,11 +62,11 @@
 \newcommand{\ndiv}{%
     \mathrel{\mkern.5mu % small adjustment
         % superimpose \nmid to \big|
-        \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
     }%
 }
 
-% Convenient overline
+% Convenient ol
 \newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
 
 % Big \cdot
@@ -209,6 +209,7 @@
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Frob}{Frob}
 \DeclareMathOperator{\Cl}{Cl}
+\usepackage{showkeys}
 
 
 % formatting -------------------------------------------------------------------
@@ -358,7 +359,9 @@
 \end{proposition}
 \begin{proof}
     First note that
-    \begin{equation*}K(\theta)=\left\{\frac{f(\theta)}{g(\theta)}: f,g\in K[x],g(\theta)\neq 0\right\}\end{equation*}
+    \begin{equation*}
+        K(\theta)=\left\{\frac{f(\theta)}{g(\theta)}: f,g\in K[x],g(\theta)\neq 0\right\}
+    \end{equation*}
     Set $\alpha=f(\theta)/g(\theta)\in K(\theta)$.
     Let's first see that $p$ and $g$ are coprime.
     Suppose not; then there exists non-constant $h\in K[x]$ such that $h|p$ and $h|g$.
@@ -392,11 +395,11 @@
 \section{Finite Extensions and Embeddings}
 \begin{definition}
     An injective ring homomorphism $\phi:R\to S$ is called an \textbf{embedding}.
-    We write $R\hookrightarrow S$ is the inclusion map.
+    We write $R\hto S$ is the inclusion map.
 \end{definition}
-\begin{theorem}
+\begin{theorem}\label{thm:embed}
     Let $K\subseteq\C$ is a subfield, $L/K$ is a finite extension field.
-    If $\sigma:K\hookrightarrow \C$ is an embedding, then $\sigma$ extends to an embedding $L\hookrightarrow \C$ in exactly $[L:K]$ ways.
+    If $\sigma:K\hto \C$ is an embedding, then $\sigma$ extends to an embedding $L\hto \C$ in exactly $[L:K]$ ways.
 \end{theorem}
 \begin{proof}
     First, let's prove the theorem for extensions of the form $K(\alpha)/K$.
@@ -406,7 +409,9 @@
     To see this, if $(c_0+c_1x+\cdots+c_u x^u)(d_0+d_1x+\cdots+d_vx^v)$ is any factorization (with $c_i,d_i\in\sigma(K)$), then $(\sigma^{-1}(c_0)+\sigma^{-1}(c_1)x+\cdots+x^u)(\sigma^{-1}(d_0)+\sigma^{-1}(d_1)x+\cdots+x^v)$ is a factorization of $p(x)$, so it must be trivial.
     Now, let $\beta_1,\ldots,\beta_m\in\C$ be the distinct roots of $g(x)$, and let $\beta:=\beta_i$ be arbitrary.
     Given an element $\gamma=b_0+b_1\alpha+b_2\alpha^2+\cdots+b_{m-1}\alpha^{m-1}$ in $K(\alpha)$, let
-    \begin{equation*}\lambda_\beta(\gamma)=\sigma(b_0)+\sigma(b_1)\beta+\cdots+\sigma(b_{m-1})\beta^{m-1}\end{equation*}
+    \begin{equation*}
+        \lambda_\beta(\gamma)=\sigma(b_0)+\sigma(b_1)\beta+\cdots+\sigma(b_{m-1})\beta^{m-1}
+    \end{equation*}
     One can verify that this is a ring homomorphism which respects $\sigma$.
     Furthermore, there no other embeddings $\lambda$ since $0=\lambda(0)=\lambda(p(\alpha))=g(\lambda(\alpha))$.
     Thus, $\lambda(\alpha)$ is a root of $g$, so $\lambda(\alpha)=\beta_i$ for some $i$.
@@ -421,7 +426,7 @@
     Our most common use case will be when $\sigma$ is the identity map on $K$.
 \end{remark}
 \begin{example}
-    Consider the embedding of $\Q\hookrightarrow\C$.
+    Consider the embedding of $\Q\hto\C$.
     If $\Q(\sqrt{d})/\Q$, then the two embeddings are given by $\sqrt{d}\mapsto\sqrt{d}$ or $\sqrt{d}\mapsto-\sqrt{d}$. (TODO: understand)
     Note that $\pm\sqrt{d}$ are conjugates: both are roots of the minimal polynomial $x^2-d$.
 \end{example}
@@ -461,13 +466,13 @@
 \end{example}
 \begin{proposition}
     Let $K\subseteq L\subseteq\C$, $[L:K]<\infty$.
-    Then $L/K$ is normal if and only if for all $\sigma:L\hookrightarrow\C$ such that $\sigma|_K=\id_K$, $\sigma$ is an automorphism of $L$.
+    Then $L/K$ is normal if and only if for all $\sigma:L\hto\C$ such that $\sigma|_K=\id_K$, $\sigma$ is an automorphism of $L$.
 \end{proposition}
 \begin{proof}
     Note that $\sigma$ is an automorphism of $L$ if and only if $\sigma(L)=L$.
 
     If $L/K$ is normal, let $\alpha\in L$ be such that $L=K(\alpha)$.
-    Then $\sigma:L\hookrightarrow\C$ is specified fully by $\sigma(\alpha)=\alpha_i$, where $\alpha_i$ is a conjugate of $\alpha$.
+    Then $\sigma:L\hto\C$ is specified fully by $\sigma(\alpha)=\alpha_i$, where $\alpha_i$ is a conjugate of $\alpha$.
     But then $\sigma:K(\alpha)\to K(\alpha_i)$ is an isomorphism, and since $L/K$ is normal, $K(\alpha)=K(\alpha_i)$ and $\sigma$ is an automorphism of $L$.
 
     Conversely, let's show that $L/K$ is normal.
@@ -475,7 +480,7 @@
     Let $\sigma(\alpha)=\alpha_i$ extend $\id_K$, and by hypothesis, $\sigma$ is an automorphism so $\alpha_i\in K(\alpha)=L$.
 \end{proof}
 \begin{remark}
-    Recall that there are $[L:K]$ embeddings that fix $K$; in other words, $\sigma:L\hookrightarrow\C$ such that $\sigma|_K=\id_K$.
+    Recall that there are $[L:K]$ embeddings that fix $K$; in other words, $\sigma:L\hto\C$ such that $\sigma|_K=\id_K$.
     The corollary says that $L/K$ is normal if and only if all of these embeddings are automorphisms.
     Thus $L/K$ is normal if and only if exactly $[L:K]$ automorphisms of $L$ fixing $K$.
 \end{remark}
@@ -484,7 +489,7 @@
     Then $L=K(\alpha_1,\ldots,\alpha_n)$ is normal over $K$ if all the conjugates of $\alpha_i$ are in $L$.
 \end{corollary}
 \begin{proof}
-    Let $\sigma:L\hookrightarrow\C$ be an embedding extending $\id_K$.
+    Let $\sigma:L\hto\C$ be an embedding extending $\id_K$.
     If $\theta\in L$, then $\theta=f(\alpha_1,\ldots,\alpha_n)$ for $f(x)\in K[x_1,x_2,\ldots,x_n]$.
     Then $\sigma(\theta)=f(\sigma(\alpha_1),\ldots,\sigma(\alpha_n))$ where $\sigma(\alpha_i)$ is some conjugate of $\alpha_i$, an element of $L$ by hypothesis.
     Thus $\sigma(\theta)\in L$ so $\theta\in L$ as well.
@@ -527,7 +532,7 @@
 \end{theorem}
 \begin{proof}
     We first see that $K=L^G$.
-    Let $\sigma:L\hookrightarrow\C$ be an embedding fixing $K$.
+    Let $\sigma:L\hto\C$ be an embedding fixing $K$.
     Since $L$ is normal, $\sigma\in\Gal(L/K)$, so by definition of $L^G$, $\sigma$ fixes $L^G$.
     But then $[L:L^G][L^G:K]\leq[L:L^G]$, so $[L^G:K]\leq 1$ and $L^G=K$.
 
@@ -554,7 +559,7 @@
     Suppose $L/K$ is normal, and $L\supseteq F\supseteq K$ where $F$ is a field.
     Then $L/F$ is also normal since conjugates of $\alpha\in L$ over $F$ are a subset of conjugates of $\alpha$ over $K$.
 \end{remark}
-\begin{theorem}[Fundamental Theorem of Galois Theory]\label{th:ftfg}
+\begin{theorem}[Fundamental Theorem of Galois Theory]\label{thm:ftfg}
     Let $K\subseteq L\subseteq\C$, $L/K$ normal, with $L/F/K$.
     \begin{enumerate}[nolistsep,label=(\roman*)]
         \item $L^{\Gal(L/F)}=F$
@@ -599,8 +604,8 @@ A major example throughout this section are the cyclotomic extensions of $\Q$; m
 \begin{definition}
     $K$ is a \textbf{number field} if $K$ is a finite extension of $\Q$.
     We write $\mathcal{O}_K\subseteq K$ to denote the subset of \textbf{algebraic integers} of $K$.
-    The field of \textbf{algebraic numbers} over $\Q$ is denoted $\overline{\Q}$.
-    The set of \textbf{algebraic integers} is denoted $\mathcal{O}_{\overline{\Q}}$.
+    The field of \textbf{algebraic numbers} over $\Q$ is denoted $\ol{\Q}$.
+    The set of \textbf{algebraic integers} is denoted $\mathcal{O}_{\ol{\Q}}$.
 \end{definition}
 Recall that $\alpha$ is an algebraic integer if it has a minimal polynomial in $\Z[x]$.
 \begin{proposition}
@@ -610,8 +615,8 @@ We can prove Gauss' Lemma by hiding the work under the observation that $\Z_p[x]
 \begin{proof}
     Suppose $f,g\in\Z[x]$ are primitive.
     If $fg$ is not primitive, then some prime $p$ divides all coefficients of $fg$.
-    Consider modulo $p$, so $\overline{f}\overline{g}=0$.
-    Then $\overline{f}=0$ or $\overline{g}=0$, so $p$ divides all coefficients of $f$ or $g$ and $f,g$ are not primitive.
+    Consider modulo $p$, so $\ol{f}\ol{g}=0$.
+    Then $\ol{f}=0$ or $\ol{g}=0$, so $p$ divides all coefficients of $f$ or $g$ and $f,g$ are not primitive.
 \end{proof}
 \begin{proposition}
     Let $\alpha$ be an algebraic integer.
@@ -664,7 +669,7 @@ A simple observation following from this fact is that $\mathcal{O}_{\Q}=\Z$.
 \begin{theorem}\label{thm:algint}
     Let $\alpha\in\C$.
     Then the following are equivalent:
-    \begin{enumerate}[nlr]
+    \begin{enumerate}[nl,r]
         \item $\alpha$ is an algebraic integer
         \item $\Z[\alpha]$ is finitely generated as an additive group
         \item $\alpha$ is an element of some subring of $\C$ having finitely generated additive group.
@@ -695,14 +700,14 @@ A simple observation following from this fact is that $\mathcal{O}_{\Q}=\Z$.
     The proof of \imp{4}{1} gives a general method for computing polynomials which have a specific algebraic integer as a root.
 \end{remark}
 \begin{corollary}
-    $\mathcal{O}_{\overline{\Q}}$ is a ring.
+    $\mathcal{O}_{\ol{\Q}}$ is a ring.
     In particular, $\mathcal{O}_K$ is a ring for any number field $K$.
 \end{corollary}
 \begin{proof}
     Say $\alpha$ has degree $n$ and $\beta$ has degree $m$ over $\Q$.
     Then $\Z[\alpha,\beta]\subseteq\C$ is a subring with a finitely generated additive group because it is generated by $\alpha^i\beta^j$ where $0\leq i<n$, $0\leq j<m$.
     Since $\alpha\beta,\alpha+\beta\in\Z[\alpha,\beta]$ we are done by condition (3) in \cref{thm:algint}.
-    Finally, $\mathcal{O}_K=K\cap\mathcal{O}_{\overline{\Q}}$ is an intersection of rings and thus also a ring.
+    Finally, $\mathcal{O}_K=K\cap\mathcal{O}_{\ol{\Q}}$ is an intersection of rings and thus also a ring.
 \end{proof}
 \begin{proposition}
     Let $\alpha$ be an algebraic number.
@@ -756,11 +761,11 @@ We will not prove this theorem in full generality, but we will see partial resul
     Thus let's prove the claim.
     Write $x^n-1=f(x)g(x)$ with $f,g\in\Z[x]$; since $\theta^p$ is a root of $x^n-1$, either it is a root of $f(x)$ - in which case we're done - or it is a root of $g(x)$.
     Suppose $g(\theta^p)=0$, so $\theta$ is a root of $g(x^p)\in\Z[x]$ so $f(x)\div g(x^p)$ over $\Z[x]$.
-    Modulo $p$, $\overline{f}(x)\div\overline{g}(x^p)=\overline{g}(x)^p$ in $\Z_p[x]$.
-    Since $\Z_p[x]$ is a UFD, let $s(x)$ be an irreducible factor of $f(x)$ so that $s|\overline{f}$ and thus $s|\overline{g}$.
-    But then $x^{n}-\overline{1}=\overline{f}\overline{g}$, so $s^2\div(x^n-1)$ and $s\div\overline{n}x^{n-1}$.
+    Modulo $p$, $\ol{f}(x)\div\ol{g}(x^p)=\ol{g}(x)^p$ in $\Z_p[x]$.
+    Since $\Z_p[x]$ is a UFD, let $s(x)$ be an irreducible factor of $f(x)$ so that $s|\ol{f}$ and thus $s|\ol{g}$.
+    But then $x^{n}-\ol{1}=\ol{f}\ol{g}$, so $s^2\div(x^n-1)$ and $s\div\ol{n}x^{n-1}$.
     Since $n$ is coprime to $p$, this implies $s=cx$ for some $c\in\Z_p$.
-    But then $cx\div x^n-\overline{1}$, a contradiction.
+    But then $cx\div x^n-\ol{1}$, a contradiction.
 \end{proof}
 \begin{remark}
     \begin{enumerate}[nl]
@@ -788,7 +793,7 @@ We will not prove this theorem in full generality, but we will see partial resul
 \end{proof}
 \section{Traces, Norms, and Units}
 \begin{definition}
-    Suppose $K$ is a number field with $[K:\Q]=n$, and let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ be the usual embeddings extending $\Q\subseteq\C$.
+    Suppose $K$ is a number field with $[K:\Q]=n$, and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be the usual embeddings extending $\Q\subseteq\C$.
     Given $\alpha\in K$, we say its \textbf{trace} is
     \begin{equation*}
         \Tr_{\Q}^K=Tr_{\Q}^K(\alpha)=\sum\limits_{i=1}^n\sigma_i(\alpha)
@@ -801,7 +806,7 @@ We will not prove this theorem in full generality, but we will see partial resul
 \begin{proposition}
     Let $r\in\Q$, $\alpha,\beta\in K$ as above.
     Then
-    \begin{enumerate}[nlr]
+    \begin{enumerate}[nl,r]
         \item $\Tr_{\Q}^K(r\alpha)=r\Tr_{\Q}^k(\alpha)$
         \item $\Tr_{\Q}^K(\alpha+\beta)=\Tr_{\Q}^K(\alpha)+\Tr_{\Q}^K(\beta)$
         \item $N_{\Q}^K(\alpha\beta)=N_{\Q}^K(\alpha)N_{\Q}^K(\beta)$
@@ -814,7 +819,7 @@ We will not prove this theorem in full generality, but we will see partial resul
 \begin{example}
     Consider $\sqrt{2}\in\Q(\sqrt{2},\sqrt{3})=K$.
     The minimal polynomial of $\sqrt{2}$ is $x^2-2$.
-    The 4 embeddings $K\hookrightarrow\C$ are given by $\sqrt{2},\sqrt{3}\mapsto\pm\sqrt{2},\pm\sqrt{3}$, so $N_{\Q}^K(\sqrt{2})=\sqrt{2}\sqrt{2}(-\sqrt{2})(-\sqrt{2})=4$.
+    The 4 embeddings $K\hto\C$ are given by $\sqrt{2},\sqrt{3}\mapsto\pm\sqrt{2},\pm\sqrt{3}$, so $N_{\Q}^K(\sqrt{2})=\sqrt{2}\sqrt{2}(-\sqrt{2})(-\sqrt{2})=4$.
 \end{example}
 \begin{theorem}\label{thm:relntr}
     If $[K:\Q]=n$, $\alpha\in K$, then
@@ -827,8 +832,8 @@ We will not prove this theorem in full generality, but we will see partial resul
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    Each of the $[\Q(\alpha):\Q]$ embeddings $\Q\hookrightarrow\Q(\alpha)$ extend to $[K:\Q(\alpha)]$ embeddings $\Q\hookrightarrow K$.
-    So, letting $\sigma_i$ be the embeddings $\Q(\alpha)\hookrightarrow\C$, let $\sigma_{ij}$ be the $[K:\Q(\alpha)]$ extensions.
+    Each of the $[\Q(\alpha):\Q]$ embeddings $\Q\hto\Q(\alpha)$ extend to $[K:\Q(\alpha)]$ embeddings $\Q\hto K$.
+    So, letting $\sigma_i$ be the embeddings $\Q(\alpha)\hto\C$, let $\sigma_{ij}$ be the $[K:\Q(\alpha)]$ extensions.
     Then
     \begin{align*}
         \Tr_{\Q}^K(\alpha) = \sum_{j=1}^{[K:\Q(\alpha)]}\sum_{i=1}^n\sigma_{ij}(\alpha)= \sum_{j=1}^{[K:\Q(\alpha)]}\left(\sum_{i=1}^n\sigma_{i}(\alpha)\right)=[K:\Q(\alpha)]\Tr_{\Q}^{\Q(\alpha)}\sigma_i(\alpha)
@@ -859,11 +864,11 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
     Then $1=N_{\Q}^K(1)=N_{\Q}^K(\alpha\beta)=N_{\Q}^K(\alpha)N_{\Q}^K(\beta)$ is a product of integers, so they must be $\pm 1$.
 
     Otherwise, suppose $\alpha\in\mathcal{O}_K$ and $N_{\Q}^K(\alpha)=1$, so that $N_{\Q}^{\Q(\alpha)}(\alpha)=\pm 1$.
-    Then if $\sigma_i$ are the embeddings $\Q(\alpha)\hookrightarrow\C$ fixing $\Q$, $\sigma_1=\id$,
+    Then if $\sigma_i$ are the embeddings $\Q(\alpha)\hto\C$ fixing $\Q$, $\sigma_1=\id$,
     \begin{equation*}
         \pm 1 =\prod_{i=1}^n\sigma_i(\alpha)=\alpha\prod_{i=2}^n\sigma_i(\alpha)
     \end{equation*}
-    Note that each $\sigma_i(\alpha)\in\mathcal{O}_{\overline{Q}}$, but since $\Q(\alpha)$ may not be normal, $\sigma_i(\alpha)$ may not be in $\Q(\alpha)$.
+    Note that each $\sigma_i(\alpha)\in\mathcal{O}_{\ol{Q}}$, but since $\Q(\alpha)$ may not be normal, $\sigma_i(\alpha)$ may not be in $\Q(\alpha)$.
     However $\prod_{i=2}^n\sigma_i(\alpha)=\pm\alpha^{-1}\in\Q(\alpha)$ is an algebraic integeer and thus in $\mathcal{O}_K$, so $\alpha$ is a unit.
 \end{proof}
 \begin{example}
@@ -929,7 +934,7 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
     \begin{equation*}
         \left\{\left(0,\frac{1}{Q}\right),\left(\frac{1}{Q},\frac{2}{Q}\right),\ldots,\left(\frac{Q-1}{Q},1\right)\right\}
     \end{equation*}
-    and consider the $Q+1$ numbers $\left\{\{\alpha\},\{2\alpha\},\ldots,\{(Q+1)\alpha\}\}$.
+    and consider the $Q+1$ numbers $\left\{\{\alpha\},\{2\alpha\},\ldots,\{(Q+1)\alpha\}\right\}$.
     Since $\alpha$ is irrational, each of these numbers lies in one of the above intervals.
     By the pidgeonhole principle, get $1\leq m<n\leq Q$ such that $|\{n\alpha\}-\{m\alpha\}|<1/Q$ so that
     \begin{equation*}
@@ -979,7 +984,7 @@ What happens in other number fields?
 If $K$ is cubic, then $\mathcal{O}_K^\times$ sometimes has a smallest unit $\epsilon>1$ and sometimes not.
 \section{Discriminants and Integral Bases}
 \begin{definition}
-    Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ be embeddings extending $\Q\subseteq\C$.
+    Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be embeddings extending $\Q\subseteq\C$.
     Given $\alpha_1,\ldots,\alpha_n\in K$, we define the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} to be
     \begin{equation*}
         \disc(\alpha_1,\ldots,\alpha_n)=\det
@@ -1095,7 +1100,7 @@ Now the following proposition follows from this discussion:
     \end{align*}
 \end{proof}
 \subsection{Cyclotomic Extensions II: Discriminants}
-\begin{theorem}
+\begin{theorem}\label{thm:cycl-disc}
     Let $\zeta_n=e^{2\pi i/n}$ and set $d=\disc\left(1,\zeta_n,\ldots,\zeta_n^{\phi(n)-1}\right)$.
     Then $d\div n^{phi(n)}$, and if $p$ is an odd prime,
     \begin{equation*}
@@ -1208,7 +1213,7 @@ Now the following proposition follows from this discussion:
         \end{cases}
     \end{equation*}
 \end{example}
-\begin{proposition}\label{prop:algbasis}
+\begin{proposition}\label{prop:ext}
     Let $K$ be a number field, $\{\alpha_1,\ldots,\alpha_n\}$ a basis for $K/\Q$ with $\alpha_i\in\mathcal{O}_K$.
     If $d=\disc(\alpha_1,\ldots,\alpha_n)$, then for all $\alpha\in\mathcal{O}_K$, there exists $m_i\in\Z$ such that
     \begin{equation*}
@@ -1224,7 +1229,7 @@ Now the following proposition follows from this discussion:
 \end{example}
 \begin{proof}
     Let $\alpha\in\mathcal{O}_K$ be arbitrary so that $\alpha=a_1\alpha_1+\cdots+a_n\alpha_n$ for some $a_i\in\Q$.
-    Let $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$ extend $\Q\subseteq\C$.
+    Let $\sigma_1,\ldots,\sigma_n:K\hto\C$ extend $\Q\subseteq\C$.
     For each $j=1,\ldots,n$, we have $\sigma_j(\alpha)=a_1\sigma_j(\alpha_1)+\cdots+a_n\sigma_j(\alpha_n)$ so that
     \begin{equation*}
         \begin{pmatrix}
@@ -1260,52 +1265,17 @@ Now the following proposition follows from this discussion:
     \end{align*}
     so $m_j^2/d\in\Z$ as well.
 \end{proof}
-\subsection{Cyclotomic Extensions III: Algebraic Integers in \texorpdfstring{$\Q(\zeta_{p^r})$}{Qzpr}}
-\begin{theorem}
-    If $p$ is prime, $r\in\Z^+$, then $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$.
-\end{theorem}
-\begin{proof}
-    For notation $\zeta=\zeta_{p^r}$ and we take $\Q(\zeta)=\Q(1-\zeta)$.
-    Let $s=\phi(p^r)$, so $\left\{1,1-\zeta,\ldots,(1-\zeta)^{s-1}\right\}$ is a $\Q-$basis for $\Q(\zeta)$.
-    Let's show that it is an integral basis.
+\subsection{Real and Complex Embeddings}
+Let $K$ be a number field and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be the embeddings extending $\Q\subseteq\C$.
+Let $r_1$ denote the number of embeddings where $K\hto\R$; then, the other embeddings come in pairs: if $\sigma:K\hto\C$, then $\ol{\sigma}:K\hto\C$ is a (distinct) embedding.
 
-    By \cref{prop:algbasis}, we know if $\alpha\in\mathcal{O}_K$, there exist $m_i\in\Z$ such that $\alpha=\frac{\sum_{i=1}^n m_j(1-\zeta)^j}{d}$ where
-    \begin{align*}
-        d &= \disc(1-\zeta)= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}((1-\zeta^i)-(1-\zeta^j))^2\\
-          &= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}(\zeta^i-\zeta^j)^2= \disc(\zeta)=\pm p^{p-2}
-    \end{align*}
-
-    Suppose for contradiction $\mathcal{O}_K\neq\Z[1-\zeta]$.
-    Then there exists $\alpha\in\mathcal{O}_K$ with $p^{p-2}\ndiv m_j$.
-    After multiplying $\alpha$ by a suitable power of $p$, we have $\beta\in\mathcal{O}_K$ with $\beta=\frac{l_1+l_2(1-\zeta)+\cdots+l_s(1-\zeta)^{s-1}}{p}$ where $p\nmid l_i$, $l_i\in\Z$.
-    Let $i$ be minimal so that $p\nmid l_i$.
-    Set $\gamma=\frac{l_i(1-\zeta)^{i-1}+\cdots+l_s(1-\zeta)^{s-1}}{p}\in\mathcal{O}_K$.
-
-    Since $p=\Phi_{p^r}(1)=\prod_{p\nmid j}(1-\zeta^j)$.
-    Since $(1-x)\mid(1-x^j)$ in $\Z[x]$, $(1-\zeta)|(1-\zeta^j)$ in $\mathcal{O}_K$.
-    Thus $(1-\zeta)^s|p$ in $\mathcal{O}_K$ and $p=(1-\zeta)^2\lambda$, $\lambda\in\mathcal{O}_K$.
-    Thus $\lambda,\gamma,1-\zeta\in\mathcal{O}_K$ so $(1-\zeta)^{s-i}\lambda\gamma\in\mathcal{O}_K$.
-    However,
-    \begin{align*}
-        (1-\zeta)^{s-i}\lambda\gamma &= \lambda\frac{l_i(1-\zeta)^{s-1}}{p}+\lambda\frac{l_{i+1}(1-\zeta)^2}{p}+\cdots
-    \end{align*}
-    where the tail terms are all algebraic integers, so $\lambda(l_i(1-\zeta)^{s-1})/p\in\mathcal{O}_K$.
-    Thus $\theta:=l_i/(1-\zeta)\in\mathcal{O}_K$, so $(1-\zeta)\theta=l_i$ and, taking norms, $N(1-\zeta)N(\theta)=N(l_i)\Rightarrow pN(\theta)=l_i^s$, so $p|l_i^s$ and $p|l_i$.
-\end{proof}
-Let $K$ be a number field, and get embeddings $\sigma_1,\ldots,\sigma_n:K\to\C$.
-Let $r_1$ denote the number of embeddings where $K\hookrightarrow\R$.
-Then the other embeddings come in pairs: if $\sigma:K\hookrightarrow\C$, then $\overline{\sigma}:K\hookrightarrow\C$ are also embeddings.
-We say $2r_2$ is the number of ``complex'' embeddings, and $n=r_1+2r_2$.
+We say that $r_1$ is the number of real embeddings, and $2r_2$ is the number of complex embeddings; in this case, $n=r_1+2r_2$.
+\begin{example}
+    Let $d$ be squarefree.
+    Then $\Q(\sqrt{d})$ for $d>0$ has $r_1=2$, $r_2=0$, while $\Q(\sqrt{d})$ for $d<0$ has $r_1=0$, $r_2=1$.
+\end{example}
 \begin{proposition}
-    $\disc(K)\in\Z$ has sign $(-1)^{r_2}$; i.e. $r_2$ is even iff $\disc(K)>0$.
-\end{proposition}
-\section{Composita}
-Recall that $[K:\Q]=n$, we have $n$ embeddings $\sigma_i:K\to\C$.
-These embeddings can be divided into 2 types: $\sigma_i:K\hookrightarrow\R\subseteq \C$, $r_1$ are the real embeddings, and $2r_2$ complex embeddings.
-$\Q(\sqrt{d})$ for $d>0$ has $r_1=2$, $r_2=0$, while $\Q(\sqrt{d})$ for $d<0$ has $r_1=0$, $r_2=1$.
-\begin{proposition}
-    Let $[K:\Q]=n$.
-    The sign of $\disc K$ is $(-1)^{r_2}$.
+    Let $[K:\Q]=n$; then, the sign of $\disc(K)$ is $(-1)^{r_2}$.
 \end{proposition}
 \begin{proof}
     Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $K/\Q$.
@@ -1317,64 +1287,115 @@ $\Q(\sqrt{d})$ for $d>0$ has $r_1=2$, $r_2=0$, while $\Q(\sqrt{d})$ for $d<0$ ha
             \vdots&&\vdots\\
             \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
         \end{pmatrix}
-    \end{equation*}
-    where $\disc(K)=\delta^2$.
-    Then
-    \begin{equation*}
-        \overline{\delta}=\det
+        ,\qquad
+        \ol{\delta}=\det
         \begin{pmatrix}
-            \overline{\sigma_1(\alpha_1)}&\hdots&\overline{\sigma_1(\alpha_n)}\\
+            \ol{\sigma_1}(\alpha_1)&\hdots&\ol{\sigma_1}(\alpha_n)\\
             \vdots&&\vdots\\
-            \overline{\sigma_n(\alpha_1)}&\hdots&\overline{\sigma_n(\alpha_n)}
+            \ol{\sigma_n}(\alpha_1)&\hdots&\ol{\sigma_n}(\alpha_n)
         \end{pmatrix}
     \end{equation*}
-    If $\sigma_i$ is real, then $\overline{\sigma_i}=\sigma_i$.
-    If $(\sigma_i,\sigma_j)$ are complex conjugate pairs, then in $\overline{\delta}$ we swap column $i$ with column $j$.
-    Thus $\overline{\delta}=(-1)^{r_2}\delta$, so $\delta$ is purely imaginary if $r_2$ is odd, and real if $r_2$ is even.
+    where $\disc(K)=\delta^2$.
+    If $\sigma_i$ is real, then $\ol{\sigma_i}=\sigma_i$.
+    If $(\sigma_i,\sigma_j)$ are complex conjugate pairs, then in $\ol{\delta}$ we swap column $i$ with column $j$.
+    Thus $\ol{\delta}=(-1)^{r_2}\delta$, so $\delta$ is purely imaginary if $r_2$ is odd, and real if $r_2$ is even.
     This proves the claim.
 \end{proof}
-If $n=p_1^{e_1}\cdots p_n^{e_n}$, how is $\Q(\zeta_n)$ related to $\Q(\zeta_{p_i^{e_i}})$?
+\subsection{Cyclotomic Extensions III: Algebraic Integers in \texorpdfstring{$\Q(\zeta_{p^r})$}{Qzpr}}
+\begin{theorem}\label{thm:cepr}
+    If $p$ is prime, $r\in\Z^+$, then $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$.
+\end{theorem}
+\begin{proof}
+    For notation $\zeta=\zeta_{p^r}$ and we take $\Q(\zeta)=\Q(1-\zeta)$.
+    Let $s=\phi(p^r)$, so $\left\{1,1-\zeta,\ldots,(1-\zeta)^{s-1}\right\}$ is a $\Q-$basis for $\Q(\zeta)$.
+    Let's show that it is an integral basis.
+
+    By \cref{prop:ext}, we know if $\alpha\in\mathcal{O}_K$, there exist $m_i\in\Z$ such that $\alpha=\frac{\sum_{i=1}^n m_j(1-\zeta)^j}{d}$ where
+    \begin{align*}
+        d &= \disc(1-\zeta)= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}((1-\zeta^i)-(1-\zeta^j))^2\\
+          &= \prod_{\substack{i<j\\i,j\in(\Z/p^r)^\times}}(\zeta^i-\zeta^j)^2= \disc(\zeta)=\pm p^{p-2}
+    \end{align*}
+
+    % Suppose for contradiction $\mathcal{O}_K\neq\Z[1-\zeta]$.
+    % Then there exists $\alpha\in\mathcal{O}_K$ with $p^{p-2}\ndiv m_j$.
+    % After multiplying $\alpha$ by a suitable power of $p$, we have $\beta\in\mathcal{O}_K$ with $\beta=\frac{l_1+l_2(1-\zeta)+\cdots+l_s(1-\zeta)^{s-1}}{p}$ where $p\nmid l_i$ and $l_i\in\Z$.
+    Let's first treat the case $\beta=\frac{l_1+l_2(1-\zeta)+\cdots+l_s(1-\zeta)^{s-1}}{p}$.
+    Let $i$ be minimal so that $p\nmid l_i$.
+    Set
+    \begin{equation*}
+        \gamma=\frac{l_i(1-\zeta)^{i-1}+\cdots+l_s(1-\zeta)^{s-1}}{p}\in\mathcal{O}_K
+    \end{equation*}
+    Since $(1-x)\div(1-x^j)$ in $\Z[x]$, $(1-\zeta)\div(1-\zeta^j)$ in $\mathcal{O}_K$ so that
+    \begin{equation*}
+        (1-\zeta)^s\div \prod_{p\nmid j}(1-\zeta^j)=\Phi_{p^r}(1)=p
+    \end{equation*}
+    over $\mathcal{O}_K$.
+    Thus $p=(1-\zeta)^s\lambda$ for some $\lambda\in\mathcal{O}_K$.
+    Since $\lambda,\gamma,1-\zeta\in\mathcal{O}_K$, $(1-\zeta)^{s-i}\lambda\gamma\in\mathcal{O}_K$.
+    However,
+    \begin{align*}
+        (1-\zeta)^{s-i}\lambda\gamma &= \lambda\frac{l_i(1-\zeta)^{s-1}}{p}+\lambda\frac{l_{i+1}(1-\zeta)^s}{p}+\cdots
+    \end{align*}
+    where the tail terms are all algebraic integers, so
+    \begin{equation*}
+        \theta:=\frac{l_i}{1-\zeta}=\lambda\frac{l_i(1-\zeta)^{s-1}}{p}\in\mathcal{O}_K
+    \end{equation*}
+    Then $(1-\zeta)\theta=l_i$ and, taking norms, $N(1-\zeta)N(\theta)=N(l_i)$ so that $pN(\theta)=l_i^s$ and $p\mid l_i$ and no such $l_i$ exists.
+    But now since $d=\pm p^{p-2}$, we may repeat the above argument for each factor of $p$, and we are done.
+\end{proof}
+\begin{remark}
+    This demonstrates a general tool for verifying that a given basis of algebraic integers is indeed integral.
+    One need simply check each prime $p$ such that $p^2\div d$; if there are no algebraic integers of the form $\alpha=\frac{m_1\beta_1+\cdots+m_n\beta_n}{p}$ where $|m_i|<p$ for every such $p$, then $\beta$ is indeed an integral basis.
+
+    If there is some $\alpha$ of this form, then update $\{\beta_1,\ldots,\beta_n\}$ with the new algebraic integer $\alpha$; the new discriminant is $d/p^2$, and we may repeat the above process.
+    This process will terminate after a finite number of steps (though it may take a while), giving a general procedure to compute integral bases for arbitrary number fields.
+\end{remark}
+\section{Composita}
 \begin{definition}
-    If $L,K$ are number fields, then the \textbf{compositum} of $L$ and $K$ is the smallest field containing $L\cup K$.
-    We denote it by $LK=KL$.
+    If $K,L$ are number fields, then the \textbf{compositum} of $K$ and $L$ is the smallest field containing $K\cup L$.
+    We denote it by $KL=LK$.
 \end{definition}
-We'll relate $\mathcal{O}_K$, $\mathcal{O}_L$, $\mathcal{O}_{KL}$.
-\begin{lemma}
-    If $[K:\Q]=m$, $[L:\Q]=n$, and $[KL:\Q]=mn$, then if $\sigma:K\hookrightarrow\C$, $\tau:L\hookrightarrow\C$ are embeddings, then there exists $\epsilon:LK\hookrightarrow\C$ embeddings such that $\epsilon|_K=\sigma$, $\epsilon|_L=\tau$.
+\begin{remark}
+    For the skeptical, such a compositum always exists.
+    Take $F=K\otimes_{\Q} L$, which is a non-zero ring; then $(0)$ extends to a maximal ideal $I$ and $\quot{K\otimes_{\Q} L}{I}$ is a field containing both $K$ and $L$.
+\end{remark}
+Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\mathcal{O}_{KL}$.
+\begin{lemma}\label{lem:ext-comp}
+    Suppose $[K:\Q]=m$, $[L:\Q]=n$, and $[KL:\Q]=mn$.
+    If $\sigma:K\hto\C$, $\tau:L\hto\C$ are embeddings, then there exists an embedding $\epsilon:KL\hto\C$ such that $\epsilon|_K=\sigma$, $\epsilon|_L=\tau$.
 \end{lemma}
 \begin{proof}
-    Start with $\sigma:K\hookrightarrow\C$.
-    Since $[KL:K]=n$,s tarting with any embeddings $\sigma_i:K\hookrightarrow\C$, it has $n$ lifts $\epsilon_{ij}:KL\hookrightarrow\C$.
-    We also have at most $nm$ emeddings $KL\hookrightarrow\C$, so this must be all of them.
-    Alternatively, start with $\tau$ and lift to some $\epsilon:KL\hookrightarrow\C$, so $\epsilon=\epsilon_{ij}$.
+    Since $[KL:K]=n$, each $\sigma_i:K\hto\C$ extends to $n$ distinct embeddings $\sigma_{ij}:KL\hto\C$ by \cref{thm:embed}.
+    Since $[KL:\Q]=mn$, every such embedding arises this way.
+    Let's see that for fixed $i$, $\sigma_{ij}|_L$ is distinct for each $j$.
 \end{proof}
-\begin{theorem}
-    Let $[K:\Q]=n$, $[L:\Q]=m$.
-    Suppose $[KL:\Q]=mn$.
-    Let $d=\gcd(\disc(K),\disc(L))$.
+\begin{theorem}\label{thm:comp}
+    Let $[K:\Q]=n$, $[L:\Q]=m$, $[KL:\Q]=mn$, and $d=\gcd(\disc(K),\disc(L))$.
     Then $\mathcal{O}_{KL}\subseteq\frac{1}{d}\mathcal{O}_K\mathcal{O}_L$.
 \end{theorem}
 \begin{proof}
-    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $K/\Q$.
-    Let $\beta_1,\ldots,\beta_m$ be integral bases for $L/\Q$.
-    Then $KL=\spn_{\Q}\{\alpha_i\beta_j:i=1,\ldots,n;j=1,\ldots,m\}$.
-    Since $[KL:\Q]=mn$, then $\alpha_i\beta_j$ are a $\Q-$basis.
+    Let $\{\alpha_1,\ldots,\alpha_n\}$ be an integral basis for $K/\Q$ and $\{\beta_1,\ldots,\beta_m\}$ an integral basis for $L/\Q$.
+    Then $KL=\spn_{\Q}\{\alpha_i\beta_j:(i,j)\in[n]\times[m]\}$.
+    Since $[KL:\Q]=mn$, the $\alpha_i\beta_j$ are a $\Q-$basis of algebraic integers.
     Then $\alpha\in KL$ can be represented as
     \begin{equation*}
         \alpha=\sum\limits_{i=1}^m\sum\limits_{j=1}^n\frac{\alpha_i\beta_ja_{ij}}{r}
     \end{equation*}
-    with $a_{ij},r\in\Z$ and $\gcd(\{a_{ij}\},r)=1$.
-    We want if $\alpha\in\mathcal{O}_{KL}$, then $r|\disc(K)$ and $r|\disc(L)$.
-    By symmetry, we just show $r|\disc(K)$.
-    Given $\sigma_1,\ldots,\sigma_n:K\hookrightarrow\C$, by Lemma, there exists $\sigma_i':KL\hookrightarrow\to\C$ so that $\sigma_i'|_K=\sigma_i$ and $\sigma_i'|_L=\id_L$.
-    \begin{align*}
-        \sigma_i'(\alpha) &= \sum\limits_{i=1}^m\underbrace{\sum\limits_{j=1}^n\frac{a_{ij}\beta_j}{r}}_{x_i}\sigma(\alpha_i)\\
-    \end{align*}
+    with $a_{ij},r\in\Z$ and $\gcd(a_{11},\ldots,a_{nm},r)=1$.
+    If $\alpha\in\mathcal{O}_{KL}$ we want to show that $r\mid\disc(K)$ and $r\mid\disc(L)$; the result will follow by \cref{prop:ext}.
+    
+    By symmetry, let's show that $r\mid\disc(K)$.
+    Given $\sigma_1,\ldots,\sigma_n:K\hto\C$, by \cref{lem:ext-comp} there exists $\sigma_i':KL\hto\C$ so that $\sigma_i'|_K=\sigma_i$ and $\sigma_i'|_L=\id_L$.
+    Then
+    \begin{equation*}
+        \sigma_i'(\alpha) = \sum\limits_{i=1}^m x_i\sigma(\alpha_i),\qquad x_i=\sum\limits_{j=1}^n\frac{a_{ij}\beta_j}{r}
+    \end{equation*}
+    since $x_i\in L$.
     Equivalently,
     \begin{equation*}
         \begin{pmatrix}
             \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
-            \vdots&&\vdots\\
+            \vdots&\ddots&\vdots\\
             \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
         \end{pmatrix}
         \begin{pmatrix}
@@ -1385,41 +1406,50 @@ We'll relate $\mathcal{O}_K$, $\mathcal{O}_L$, $\mathcal{O}_{KL}$.
             \sigma_1'(\alpha)\\\vdots\\\sigma_n'(\alpha)
         \end{pmatrix}
     \end{equation*}
-    By Cramer's Rule,
+    Let
     \begin{equation*}
-        x_i=\frac{\det\begin{pmatrix}\sigma_1(\alpha)1&\cdots&\sigma_1'(\alpha_1)&\cdots&\sigma_1(\alpha_n)\\
-                \vdots&&\vdots&&\vdots\\
-                \sigma_n(\alpha_1)&\hdots&\sigma_n'(\alpha_n)&\cdots&\sigma_n(\alpha_n)
-        \end{pmatrix}}{\delta}
+        \gamma_i=
+        \begin{pmatrix}
+            \sigma_1(\alpha_1)&\cdots&\sigma_1'(\alpha_1)&\cdots&\sigma_1(\alpha_n)\\
+            \vdots&&\vdots&&\vdots\\
+            \sigma_n(\alpha_1)&\hdots&\sigma_n'(\alpha_n)&\cdots&\sigma_n(\alpha_n)
+        \end{pmatrix}
     \end{equation*}
-    so $x_i=\gamma_i/\delta$ where $\gamma_i,\delta\in\mathcal{O}_K$.
-    Thus $\delta^2x_i=\disc(K)x_i\in\Q$, so $\disc(K)xi\in\Z$.
+    so that, by Cramer's rule, $x_i=\frac{\gamma_i}{\delta}$ where $\gamma_i,\delta\in\mathcal{O}_K$ and $\delta^2=\disc(K)$.
+    Thus $\delta^2x_i=\disc(K)x_i\in\Q$, so $\disc(K)x_i\in\Z$.
     However,
     \begin{equation*}
         \disc(K)x_i = \sum\limits_{j=1}^m\frac{\disc(K)a_{ij}}{r}\beta_j
     \end{equation*}
     where $\disc(K)x_i\in\Z\subseteq\mathcal{O}_L$.
     However, $\beta_j$ are integral basis for $L$, so $\disc(K)a_{ij}/r\in\Z$.
-    Since $\gcd(a_{ij},r)=1$, so $r|\disc(K)$.
+    Since $\gcd(a_{11},\ldots,a_{mn},r)=1$, $r\mid\disc(K)$.
 \end{proof}
-Recall that we showed $\mathcal{O}_{\Q(\zeta_{p^r})}=\Z[\zeta_{p^r}]$ for $p$ prime.
-Recall that the compositum $KL$ of $K$ and $L$ is the smallest field containing both $K$ and $L$.
+\subsection{Cyclotomic Extensions IV: Algebraic Integers in \texorpdfstring{$\Q(\zeta_n)$}{Qzn}}
 \begin{theorem}
     $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
 \end{theorem}
 \begin{proof}
-    Let's do this by induction on the number of prime factors of $n$.
-    We already know the base case $n=p^r$.
-    Say $n=p_1^{e_1}\cdots p_k^{e_k}$, $k\geq 2$.
-    Let $K=\Q(\zeta_{p_1^{e_1}\cdots p_{k-1}^{e_{k-1}}})$, $L=\Q(\zeta_{p_k^{e_k}})$.
+    Let's do this by induction on the number of prime factors of $n$; we already did the base case $n=p^r$ in \cref{thm:cepr}.
+    For $k\geq 2$ let
+    \begin{equation*}
+        n=p_1^{e_1}\cdots p_k^{e_k},\qquad m:=p_1^{e_1}\cdots p_{k-1}^{e_{k-1}},\qquad K=\Q\left(\zeta_{m}\right),\qquad L=\Q\left(\zeta_{p_k^{e_k}}\right)
+    \end{equation*}
     First, let's see that $KL=\Q(\zeta_n)$.
-    Note that $\zeta_n\in KL$ since $m:=p_1^{e_1}\cdots p_{k-1}^{e_{k-1}}$ and $p_k^{e_k}$ are coprime, so there exists $x,y\in\Z$ so that $xm+yp_k^{e_k}=1$.
+    Note that $\zeta_n\in KL$ since $m$ and $p_k^{e_k}$ are coprime; thus, there exists $x,y\in\Z$ so that $xm+yp_k^{e_k}=1$.
     Then $\zeta_m^y\zeta_{p_k^{e_k}}^x=e^{2\pi i/n}$, so $\Q(\zeta_n)\subseteq KL$.
-    As well, $\phi(n)=\phi(m)\phi(p_k^{e_k})=[K:\Q]\cdot[L:\Q]\geq [KL:\Q]\geq[\Q(\zeta_n):\Q]=\phi(n)$, so $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$.
-
-    Thus, $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$ so $\mathcal{O}_{\Q(\zeta_n)}\subseteq\frac{1}{d}\mathcal{O}_{\Q(\zeta_m)}\mathcal{O}_{\Q(\zeta_{p_k^{e_k}}}=\Z[\zeta_m]\Z[\zeta_{p_k^{e_k}}]=\Z[\zeta_n]$.
-    Let $d=\gcd(\disc K,\disc L)$.
-    A while ago, we showed $\disc(\Q(\zeta_n))\div n^{\phi(n)}$, so $\disc K\div m^{\phi(m)}$ and $\disc L\div (p_k^{e_k})^{\phi(p_k^{e_k})}$, so $d=1$ and $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
+    As well,
+    \begin{equation*}
+        \phi(n)=\phi(m)\phi\left(p_k^{e_k}\right)=[K:\Q]\cdot[L:\Q]\geq [KL:\Q]\geq[\Q(\zeta_n):\Q]=\phi(n)
+    \end{equation*}
+    so $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$.
+    Thus, $\Q(\zeta_n)=KL$ and $[KL:\Q]=[K:\Q][L:\Q]$ and by \cref{thm:comp}, we have
+    \begin{equation*}
+        \Z[\zeta_n]\subseteq \mathcal{O}_{\Q(\zeta_n)}\subseteq\frac{1}{d}\mathcal{O}_{\Q(\zeta_m)}\mathcal{O}_{\Q(\zeta_{p_k^{e_k}})}=\frac{1}{d}\Z[\zeta_m]\Z[\zeta_{p_k^{e_k}}]=\frac{1}{d}\Z[\zeta_n]
+    \end{equation*}
+    where $d=\gcd(\disc K,\disc L)$.
+    Recall by \cref{thm:cycl-disc}, we have $\disc\left(\Q(\zeta_n)\right)\div n^{\phi(n)}$.
+    Thus $\disc(K)\div m^{\phi(m)}$ and $\disc(L)\div (p_k^{e_k})^{\phi(p_k^{e_k})}$ so that $d=1$ and $\mathcal{O}_{\Q(\zeta_n)}=\Z[\zeta_n]$.
 \end{proof}
 \section{Resultants}
 If $f(x),g(x)\in\Q[x]$, how do I describe $\{x:f(x)=g(x)=0\}$?
@@ -1926,7 +1956,7 @@ If $p$ is the unique prime in $\Z$ for whoch $p\in\rho$, then we say \textbf{$\r
     Then $N(I)=|N(\alpha)|$.
 \end{proposition}
 \begin{proof}
-    Let $\sigma_1,\ldots,\sigma_n$ be the embeddings of $K\hookrightarrow\C$.
+    Let $\sigma_1,\ldots,\sigma_n$ be the embeddings of $K\hto\C$.
     Then
     \begin{equation*}
         \begin{pmatrix}
@@ -2302,14 +2332,14 @@ Additionally,
     so $p=\prod(1-\zeta^j)=u(1-zeta)^{p-1}$, $u\in\Z[\zeta]^\times$.
 \end{proof}
 \begin{lemma}
-    If $u\in\Z[\zeta]^\times$, then $\frac{u}{\overline{u}}$ is a root of unity.
+    If $u\in\Z[\zeta]^\times$, then $\frac{u}{\ol{u}}$ is a root of unity.
     Let $\sigma\in\Gal(\Q(\zeta)/\Q)$.
-    Then $\sigma(\zeta)=\zeta^a$ for some $a$, so $\overline{\sigma(\zeta)}=\zeta^{-a}=\sigma(\overline{\zeta})$.
+    Then $\sigma(\zeta)=\zeta^a$ for some $a$, so $\ol{\sigma(\zeta)}=\zeta^{-a}=\sigma(\ol{\zeta})$.
     Thus for any $\sigma$,
     \begin{equation*}
-        \left\lvert\sigma\left(\frac{u}{\overline{u}}\right)\right\rvert^2=\sigma\left(\frac{u}{\overline{u}}\right)\overline{\sigma\left(\frac{u}{\overline{u}}\right)}=1
+        \left\lvert\sigma\left(\frac{u}{\ol{u}}\right)\right\rvert^2=\sigma\left(\frac{u}{\ol{u}}\right)\ol{\sigma\left(\frac{u}{\ol{u}}\right)}=1
     \end{equation*}
-    so all the conjugates of $\frac{u}{\overline{u}}$ have compelx norm 1.
+    so all the conjugates of $\frac{u}{\ol{u}}$ have compelx norm 1.
     It is a fun exercise to show that if $\alpha$ is an algebraic integer and all its conjugates have norm 1, then $\alpha$ is a root of unity.
 \end{lemma}
 On a HW a while ago, we showd that the roots of unity in $\Z[\zeta_p]$ are $\pm\zeta^j$.
@@ -2330,13 +2360,13 @@ Since $p\nmid h_{\Q(\zeta)}$ and $I_j^p$ is trivial in $\Cl(\Q(\zeta))$, we have
 Take $j=1$, and we have $(x+\zeta y)=(t)^p$ for some $t\in\Z[\zeta]$, so $x+\zeta y=ut^p$.
 Consider $t=b_0+b_1\zeta+\cdots+b_{p-2}\zeta^{p-2}$.
 Then modulo $p\Z[\zeta]$, we have $t^p\equiv b_0+b_1+\cdots+b_{p-2}\pmod{p}$.
-But then $\overline{t}=b_0+\cdots+b_{p-2}\zeta^{-1}$, so $\overline{t}^p\equiv b_0+\cdots+b_{p-2}\pmod{p}$ and $t^p\equiv \overline{t}^p\pmod{p}$.
-Furthermore, $\frac{u}{\overline{u}}=\pm\zeta^j$.
+But then $\ol{t}=b_0+\cdots+b_{p-2}\zeta^{-1}$, so $\ol{t}^p\equiv b_0+\cdots+b_{p-2}\pmod{p}$ and $t^p\equiv \ol{t}^p\pmod{p}$.
+Furthermore, $\frac{u}{\ol{u}}=\pm\zeta^j$.
 Consider the case where $+$, so
 \begin{equation*}
-    x+y\zeta=ut^p=\zeta^j\overline{u}t^p\equiv\zeta^j\overline{u}\overline{t}^o=\zeta^j(x+\overline{\zeta}y)
+    x+y\zeta=ut^p=\zeta^j\ol{u}t^p\equiv\zeta^j\ol{u}\ol{t}^o=\zeta^j(x+\ol{\zeta}y)
 \end{equation*}
-Set $\zeta^j=\frac{u}{\overline{u}}$, then $x+y\zeta-y\zeta^{j-1}-x\zeta^j\equiv 0\pmod{p} (*)$.
+Set $\zeta^j=\frac{u}{\ol{u}}$, then $x+y\zeta-y\zeta^{j-1}-x\zeta^j\equiv 0\pmod{p} (*)$.
 But now,
 \begin{align*}
     \Z[\zeta]/(p) = \Z[x]/(p,x^{p-1}+\cdots+x+1) = F_p[x]/(x^{p-1}+\cdots+x+1)=\F_p[x]/(x-1)^{p-1}
@@ -2406,8 +2436,8 @@ This is independent of the choice of basis since any change of basis matrix has 
     Then $\mu(S)=m2^n=m2^nd(\Z^n)$ contains exactly $m$ lattice points.
 \end{remark}
 Suppose $[K:\Q]=n$, $K=\Q(\theta)$.
-Let $\sigma_1,\ldots,\sigma_n\hookrightarrow\C$ be the embeddings, so $r_1$ is the number of real embeddings $\{\sigma_1,\ldots\sigma_{r_1}\}$ and $r_2$ pairs of complex embeddings $\{\sigma_{r_1+1},\overline{\sigma}_{r_1+1},\ldots,\sigma_{r_1+r_2},\overline{\sigma}_{r_1+r_2}\}$.
-Put these together into $\sigma:K\hookrightarrow\R^n$ by
+Let $\sigma_1,\ldots,\sigma_n\hto\C$ be the embeddings, so $r_1$ is the number of real embeddings $\{\sigma_1,\ldots\sigma_{r_1}\}$ and $r_2$ pairs of complex embeddings $\{\sigma_{r_1+1},\ol{\sigma}_{r_1+1},\ldots,\sigma_{r_1+r_2},\ol{\sigma}_{r_1+r_2}\}$.
+Put these together into $\sigma:K\hto\R^n$ by
 \begin{equation*}
     \sigma\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha))
 \end{equation*}
@@ -2422,7 +2452,7 @@ Put these together into $\sigma:K\hookrightarrow\R^n$ by
         (\sigma_1(\alpha_i),\ldots,\sigma_{r_1}(\alpha_i),\Re\sigma_{r_1+1}(\alpha_i),\Im\sigma_{r_1+1}(\alpha_i),\ldots)
     \end{equation*}
     From a long time ago, we know $\det(\sigma_j(\alpha_i))=\sqrt{|\disc(K)|}N(A)$.
-    Using the fact that $\Re\sigma=\frac{\sigma+\overline{\sigma}}{2}$ and $\Im\sigma=\frac{\sigma-\overline{\sigma}}{2i}$ and row operations to see $D_0=\left(\frac{1}{-2i}\right)^{r_2}\det(\sigma_j(\alpha_i))$.
+    Using the fact that $\Re\sigma=\frac{\sigma+\ol{\sigma}}{2}$ and $\Im\sigma=\frac{\sigma-\ol{\sigma}}{2i}$ and row operations to see $D_0=\left(\frac{1}{-2i}\right)^{r_2}\det(\sigma_j(\alpha_i))$.
     In particular, $D_0\neq 0$ so $\Lambda$ is a lattice and $d(\Lambda)=D_0$.
 \end{proof}
 \begin{theorem}
@@ -2439,7 +2469,7 @@ Put these together into $\sigma:K\hookrightarrow\R^n$ by
     Thus there exists $0\neq\alpha\in A$ such that $\sigma(\alpha)\in S_t$.
     Then
     \begin{equation*}
-        |N(\alpha)|=\left\lvert\prod_{i=1}^{r_1}\right\rvert\cdot\left\lvert\prod_{i=1}^{r_2}\sigma_{i+r_2}(\alpha)\overline{\sigma_{i+r_2}(\alpha)}\right\rvert
+        |N(\alpha)|=\left\lvert\prod_{i=1}^{r_1}\right\rvert\cdot\left\lvert\prod_{i=1}^{r_2}\sigma_{i+r_2}(\alpha)\ol{\sigma_{i+r_2}(\alpha)}\right\rvert
         \leq t^{r_1+r_2}
     \end{equation*}
     since $\sigma(\alpha)\in S_t$.
@@ -2546,7 +2576,7 @@ Put these together into $\sigma:K\hookrightarrow\R^n$ by
     \begin{equation*}
         \alpha\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha))
     \end{equation*}
-    where $\sigma_1,\ldots,\sigma_r$ are the real emebddings and $\sigma_{r_1+1},\overline{\sigma}_{r_1+1},\ldots$ are the complex embedding.
+    where $\sigma_1,\ldots,\sigma_r$ are the real emebddings and $\sigma_{r_1+1},\ol{\sigma}_{r_1+1},\ldots$ are the complex embedding.
     Let $N:V\to\R$ by $N(x_1,\ldots,x_{r_1},z_{r_1+1},\ldots,z_{r_1+r_2})=\prod x_i\cdot\prod|z_j|^2$.
     Then $N(\theta(\alpha))=N_{K/\Q}(\alpha)$.
     Furthermore, $V$ is a ring with coordinate-wise operations $V^\times=(\R^\times)^{r_1}\times(\C^\times)^{r_2}$.
