@@ -186,8 +186,8 @@
 \newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
 
 % Quotient (larger in display mode)
-\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
-                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.13em}{$#1$}\middle/\raisebox{-0.13em}{$#2$}\right.}
+                                 {\left.\raisebox{0.07em}{$#1$}\middle/\raisebox{-0.07em}{$#2$}\right.}
                                  {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
                                  {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
 
@@ -210,7 +210,10 @@
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Frob}{Frob}
 \DeclareMathOperator{\Cl}{Cl}
-% \usepackage{showkeys}
+\usepackage{showkeys}
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+\setfootins{0.5cm}{0.5cm}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
 
 
 % formatting -------------------------------------------------------------------
@@ -275,10 +278,10 @@
 \section{Fields over \texorpdfstring{$\Q$}{Q}}
 \subsection{Algebraic Numbers}
 \begin{definition}
-    An \textbf{algebraic integer} is a root of a monic polynomial in $\Z[x]$.
-    An \textbf{algebraic number} is the root of any non-zero polynomial in $\Z[x]$.
-    A \textbf{number field} is a finite extension of $\Q$.
-    If $K,L$ are fields and $K\subseteq L$, we say that $L$ is an \textbf{extension field} of $K$ and $K$ is a \textbf{subfield} of $L$.
+    An \mbf{algebraic integer} is a root of a monic polynomial in $\Z[x]$.
+    An \mbf{algebraic number} is the root of any non-zero polynomial in $\Z[x]$.
+    A \mbf{number field} is a finite extension of $\Q$.
+    If $K,L$ are fields and $K\subseteq L$, we say that $L$ is an \mbf{extension field} of $K$ and $K$ is a \mbf{subfield} of $L$.
     We write $[L:K]=\dim_KL$, the dimension of $L$ over $K$.
 \end{definition}
 \begin{example}
@@ -287,7 +290,7 @@
     A basis for $\Q(\sqrt{-5})$ over $\Q$ is given by $\{1,\sqrt{-5}\}$.
 \end{example}
 \begin{definition}
-    If $K$ is a field, then $f\in K[x]$ is \textbf{irreducible} if whenever $f=gh$, $g,h\in K[x]$, then $g$ or $h$ is constant.
+    If $K$ is a field, then $f\in K[x]$ is \mbf{irreducible} if whenever $f=gh$, $g,h\in K[x]$, then $g$ or $h$ is constant.
 \end{definition}
 \begin{proposition}
     Let $K\subseteq\C$ is a subfield and suppose $f\in K[x]$ is irreducible.
@@ -302,8 +305,8 @@
 \end{proof}
 \subsection{Field Extensions}
 \begin{definition}
-    If $K\subseteq L$ are fields, then we write $L/K$ and say that $L$ is a \textbf{extension} of $K$.
-    If $K\subseteq\C$ is a field $\theta\in\C$, then the field $K$ \textbf{adjoin} $\theta$, denoted $K(\theta)$, is defined to be the smallest subfield of $\C$ containing $K$ and $\theta$.
+    If $K\subseteq L$ are fields, then we write $L/K$ and say that $L$ is a \mbf{extension} of $K$.
+    If $K\subseteq\C$ is a field $\theta\in\C$, then the field $K$ \mbf{adjoin} $\theta$, denoted $K(\theta)$, is defined to be the smallest subfield of $\C$ containing $K$ and $\theta$.
 \end{definition}
 \begin{example}
     Set $L:=\{a+b\sqrt{-5}:a,b\in\Q\}$; why is it that $\Q(\sqrt{-5})=L$?
@@ -318,9 +321,9 @@
 \end{example}
 \begin{definition}
     Let $K\subseteq\C$ be a subfield.
-    Then we say $\theta\in\C$ is \textbf{algebraic over $K$} if there exists a polynomial $f\in K[x]$ such that $f(\theta)=0$.
-    We say $p\in K[x]$ is the \textbf{minimal polynomial} of $\theta$ if it is monic, has $\theta$ as a root, and if it has minimal degree.
-    The \textbf{degree of $\theta$ over $K$} is $\deg p(x)$.
+    Then we say $\theta\in\C$ is \mbf{algebraic over $K$} if there exists a polynomial $f\in K[x]$ such that $f(\theta)=0$.
+    We say $p\in K[x]$ is the \mbf{minimal polynomial} of $\theta$ if it is monic, has $\theta$ as a root, and if it has minimal degree.
+    The \mbf{degree of $\theta$ over $K$} is $\deg p(x)$.
 \end{definition}
 \begin{example}
     $\sqrt{-5}$ has minimal polynomial $x^2+5$, and $\zeta$ has minimal polynomial $x^2+x+1$.
@@ -351,7 +354,7 @@
 \end{remark}
 \begin{definition}
     Suppose $\theta$ has minimal polynomial $p(x)$.
-    The roots $\theta_1,\ldots,\theta_n\in\C$ of $p$ are called the \textbf{conjugates} of $\theta$.
+    The roots $\theta_1,\ldots,\theta_n\in\C$ of $p$ are called the \mbf{conjugates} of $\theta$.
 \end{definition}
 \begin{proposition}
     Let $K\subseteq\C$, $\theta\in \C$ algebraic over $K$, and let $n=\deg p$ be the degree of the minimal polynomial.
@@ -398,7 +401,7 @@
 \end{proof}
 \section{Finite Extensions and Embeddings}
 \begin{definition}
-    An injective ring homomorphism $\phi:R\to S$ is called an \textbf{embedding}.
+    An injective ring homomorphism $\phi:R\to S$ is called an \mbf{embedding}.
     We write $R\hto S$ is the inclusion map.
 \end{definition}
 \begin{theorem}\label{thm:embed}
@@ -459,7 +462,7 @@
 \subsection{Normal Extensions}
 \begin{definition}
     Let $K\subseteq L\subseteq\C$, $[L:K]<\infty$.
-    We say $L$ is a \textbf{normal extension} of $K$ if it is closed under taking conjugates over $K$.
+    We say $L$ is a \mbf{normal extension} of $K$ if it is closed under taking conjugates over $K$.
 \end{definition}
 \begin{example}
     For example, $\Q(\sqrt{d})/\Q$ is a normal extension.
@@ -514,11 +517,11 @@
 \section{Galois Theory over \texorpdfstring{$\Q$}{Q}}
 \begin{definition}
     Let $L/K$ be any finite extension.
-    The \textbf{Galois group} of $L/K$ is defined
+    The \mbf{Galois group} of $L/K$ is defined
     \begin{equation*}
-        \Gal(L/K)=\{\text{automorphisms }\sigma:L\to L\text{ s.t. }\sigma|_K=\id_K\}
+        \Gal(L/K)=\bigl\{\sigma\in\Aut(L)\,\bigm|\,\sigma|_K=\id_K\bigr\}
     \end{equation*}
-    Now if $H\leq\Gal(L/K)$, $L^H=\{\alpha\in L:\sigma(\alpha)=\alpha\forall\sigma\in H\}$ is called the \textbf{fixed field of $H$}.
+    Now if $H\leq\Gal(L/K)$, $L^H=\{\alpha\in L:\sigma(\alpha)=\alpha\forall\sigma\in H\}$ is called the \mbf{fixed field of $H$}.
 \end{definition}
 \begin{remark}
     Recall that $|\Gal(L/K)|\leq[L:K]$, with equality if and only if $L/K$ is normal.
@@ -606,10 +609,10 @@
 We now focus our attention on extensions, in particular finite extensions, of $\Q$ in $\C$.
 A major example throughout this section are the cyclotomic extensions of $\Q$; many of the theorems we will prove will provide tools to better understand extensions $\Q(\zeta_n)/\Q$.
 \begin{definition}
-    $K$ is a \textbf{number field} if $K$ is a finite extension of $\Q$.
-    We write $\mathcal{O}_K\subseteq K$ to denote the subset of \textbf{algebraic integers} of $K$.
-    The field of \textbf{algebraic numbers} over $\Q$ is denoted $\ol{\Q}$.
-    The set of \textbf{algebraic integers} is denoted $\mathcal{O}_{\ol{\Q}}$.
+    $K$ is a \mbf{number field} if $K$ is a finite extension of $\Q$.
+    We write $\mathcal{O}_K\subseteq K$ to denote the subset of \mbf{algebraic integers} of $K$.
+    The field of \mbf{algebraic numbers} over $\Q$ is denoted $\ol{\Q}$.
+    The set of \mbf{algebraic integers} is denoted $\mathcal{O}_{\ol{\Q}}$.
 \end{definition}
 Recall that $\alpha$ is an algebraic integer if it has a minimal polynomial in $\Z[x]$.
 \begin{proposition}
@@ -663,11 +666,11 @@ A simple observation following from this fact is that $\mathcal{O}_{\Q}=\Z$.
 \end{example}
 \begin{remark}
     Notice in all of these examples, we got
-    \begin{equation*}
-        \mathcal{O}_{\Q}=\Z,\qquad\mathcal{O}_{\Q(\sqrt{d})}=\begin{cases}
+    \begin{align*}
+        \mathcal{O}_{\Q}&=\Z&\mathcal{O}_{\Q(\sqrt{d})}&=\begin{cases}
             \Z[\sqrt{d}]\\\Z\left[\frac{1+\sqrt{d}}{2}\right]
         \end{cases}
-    \end{equation*}
+    \end{align*}
     which are all rings!
 \end{remark}
 \begin{theorem}\label{thm:algint}
@@ -732,8 +735,8 @@ This essentially says that if $\alpha\in K$ and $K$ is a number field, then ther
 \end{proof}
 \subsection{Cyclotomic Extensions I: Introduction}
 \begin{definition}
-    We say $\zeta_n$ is a \textbf{primitive n\textsuperscript{th} root of unity} if $\zeta_n^n=1$ and $\zeta_n^k\neq 1$ for any $k<n$.
-    We call the extension $\Q(\zeta_n)$ a \textbf{cyclotomic field}.
+    We say $\zeta_n$ is a \mbf{primitive n\textsuperscript{th} root of unity} if $\zeta_n^n=1$ and $\zeta_n^k\neq 1$ for any $k<n$.
+    We call the extension $\Q(\zeta_n)$ a \mbf{cyclotomic field}.
 \end{definition}
 \begin{example}
     The $4^\text{th}$ roots of unity are $1,i,-1,-i$, so $i$ and $-i$ are the primitive $4^\text{th}$ roots of unity.
@@ -798,11 +801,11 @@ We will not prove this theorem in full generality, but we will see partial resul
 \section{Traces, Norms, and Units}
 \begin{definition}
     Suppose $K$ is a number field with $[K:\Q]=n$, and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be the usual embeddings extending $\Q\subseteq\C$.
-    Given $\alpha\in K$, we say its \textbf{trace} is
+    Given $\alpha\in K$, we say its \mbf{trace} is
     \begin{equation*}
         \Tr_{\Q}^K=Tr_{\Q}^K(\alpha)=\sum\limits_{i=1}^n\sigma_i(\alpha)
     \end{equation*}
-    and its \textbf{norm}
+    and its \mbf{norm}
     \begin{equation*}
         N_{\Q}^K(\alpha)=\prod\limits_{i=1}^n\sigma_i(\alpha)
     \end{equation*}
@@ -859,7 +862,7 @@ We will not prove this theorem in full generality, but we will see partial resul
     Then by the previous proposition, $\Tr_{\Q}^K$ and $\N_{\Q}^K$ are integer multples / powers, and are thus still rational or integer.
 \end{proof}
 Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
-\begin{proposition}
+\begin{proposition}\label{prop:unit}
     Let $K$ be a number field, and $\alpha\in\mathcal{O}_K$.
     Then $\alpha\in\mathcal{O}_K^\times$ if and only if $N_{\Q}^K(\alpha)=\pm 1$.
 \end{proposition}
@@ -992,7 +995,7 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
 \section{Discriminants, Integral Bases}
 \begin{definition}
     Let $K$ be a number field, and let $\sigma_1,\ldots,\sigma_n:K\hto\C$ be embeddings extending $\Q\subseteq\C$.
-    Given $\alpha_1,\ldots,\alpha_n\in K$, we define the \textbf{discriminant of $\alpha_1,\ldots,\alpha_n$} to be
+    Given $\alpha_1,\ldots,\alpha_n\in K$, we define the \mbf{discriminant of $\alpha_1,\ldots,\alpha_n$} to be
     \begin{equation*}
         \disc(\alpha_1,\ldots,\alpha_n)=\det
         \begin{pmatrix}
@@ -1155,8 +1158,8 @@ Now the following proposition follows from this discussion:
 \subsection{Integral Bases}
 \begin{definition}
     Let $K$ be a number field, $[K:\Q]=n$.
-    We say $A=\{\alpha_1,\ldots,\alpha_n\}$ is an \textbf{integral basis} for $K$ if $\mathcal{O}_K=\spn_{\Z}(A)$.
-    When it exists, a \textbf{power basis} for $\mathcal{O}_K$ is an integral basis of the form $\{1,\alpha,\cdots,\alpha^{n-1}\}$; i.e. $\mathcal{O}_K=\Z[\alpha]$.
+    We say $A=\{\alpha_1,\ldots,\alpha_n\}$ is an \mbf{integral basis} for $K$ if $\mathcal{O}_K=\spn_{\Z}(A)$.
+    When it exists, a \mbf{power basis} for $\mathcal{O}_K$ is an integral basis of the form $\{1,\alpha,\cdots,\alpha^{n-1}\}$; i.e. $\mathcal{O}_K=\Z[\alpha]$.
 \end{definition}
 \begin{remark}
     Clearly we must have $\alpha_i\in\mathcal{O}_K$.
@@ -1208,7 +1211,7 @@ Now the following proposition follows from this discussion:
     indeed have the same discriminant.
 \end{proof}
 \begin{definition}
-    If $K$ is a number field, we say its \textbf{discriminant} $\disc(K)$ is the discriminant of any integral basis.
+    If $K$ is a number field, we say its \mbf{discriminant} $\disc(K)$ is the discriminant of any integral basis.
 \end{definition}
 \begin{example}[Quadratic Number Field]
     Consider $\Q(\sqrt{d})$.
@@ -1225,9 +1228,9 @@ Now the following proposition follows from this discussion:
 \begin{proposition}\label{prop:ext}
     Let $K$ be a number field, $\{\alpha_1,\ldots,\alpha_n\}$ a basis for $K/\Q$ with $\alpha_i\in\mathcal{O}_K$.
     If $d=\disc(\alpha_1,\ldots,\alpha_n)$, then for all $\alpha\in\mathcal{O}_K$, there exists $m_i\in\Z$ such that
-    \begin{equation*}
-        \alpha=\frac{\sum_{i=1}^n m_i\alpha_i}{d},\qquad d\div m_i^2
-    \end{equation*}
+    \begin{align*}
+        \alpha&=\frac{\sum_{i=1}^n m_i\alpha_i}{d} &  d&\div m_i^2
+    \end{align*}
 \end{proposition}
 \begin{example}
     Consider $\Q(\sqrt{d})$, where $d\equiv 1\pmod{4}$.
@@ -1289,21 +1292,21 @@ We say that $r_1$ is the number of real embeddings, and $2r_2$ is the number of 
 \begin{proof}
     Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $K/\Q$.
     Consider
-    \begin{equation*}
-        \delta=\det
+    \begin{align*}
+        \delta&=\det
         \begin{pmatrix}
             \sigma_1(\alpha_1)&\hdots&\sigma_1(\alpha_n)\\
             \vdots&&\vdots\\
             \sigma_n(\alpha_1)&\hdots&\sigma_n(\alpha_n)
         \end{pmatrix}
-        ,\qquad
-        \ol{\delta}=\det
+        &
+        \ol{\delta}&=\det
         \begin{pmatrix}
             \ol{\sigma_1}(\alpha_1)&\hdots&\ol{\sigma_1}(\alpha_n)\\
             \vdots&&\vdots\\
             \ol{\sigma_n}(\alpha_1)&\hdots&\ol{\sigma_n}(\alpha_n)
         \end{pmatrix}
-    \end{equation*}
+    \end{align*}
     where $\disc(K)=\delta^2$.
     If $\sigma_i$ is real, then $\ol{\sigma_i}=\sigma_i$.
     If $(\sigma_i,\sigma_j)$ are complex conjugate pairs, then in $\ol{\delta}$ we swap column $i$ with column $j$.
@@ -1362,22 +1365,24 @@ We say that $r_1$ is the number of real embeddings, and $2r_2$ is the number of 
 \section{Composita and Resultants}
 \subsection{Composita}
 \begin{definition}
-    If $K,L$ are number fields, then the \textbf{compositum} of $K$ and $L$ is the smallest field containing $K\cup L$.
+    If $K,L$ are number fields, then the \mbf{compositum} of $K$ and $L$ is the smallest field containing $K\cup L$.
     We denote it by $KL=LK$.
 \end{definition}
-\begin{remark}
-    For the skeptical, such a compositum always exists.
-    Take $F=K\otimes_{\Q} L$, which is a non-zero ring; then $(0)$ extends to a maximal ideal $I$ and $\quot{K\otimes_{\Q} L}{I}$ is a field containing both $K$ and $L$.
-\end{remark}
+% \begin{remark}
+    % For the skeptical, such a compositum always exists.
+    % Take $F=K\otimes_{\Q} L$, which is a non-zero ring; then $(0)$ extends to a maximal ideal $I$ and $\quot{K\otimes_{\Q} L}{I}$ is a field containing both $K$ and $L$.
+% \end{remark}
 Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\mathcal{O}_{KL}$.
 \begin{lemma}\label{lem:ext-comp}
-    Suppose $[K:\Q]=m$, $[L:\Q]=n$, and $[KL:\Q]=mn$.
-    If $\sigma:K\hto\C$, $\tau:L\hto\C$ are embeddings, then there exists an embedding $\epsilon:KL\hto\C$ such that $\epsilon|_K=\sigma$, $\epsilon|_L=\tau$.
+    Suppose $[K:\Q]=m$, $[L:\Q]=n$.
+    \begin{enumerate}[nl,r]
+        \item Show that $[KL:\Q]\leq mn$.
+        \item Suppose $[KL:\Q]=mn$.
+            If $\sigma:K\hto\C$, $\tau:L\hto\C$ are embeddings, then there exists a unique embedding $\epsilon:KL\hto\C$ such that $\epsilon|_K=\sigma$, $\epsilon|_L=\tau$.
+    \end{enumerate}
 \end{lemma}
 \begin{proof}
-    Since $[KL:K]=n$, each $\sigma_i:K\hto\C$ extends to $n$ distinct embeddings $\sigma_{ij}:KL\hto\C$ by \cref{thm:embed}.
-    Since $[KL:\Q]=mn$, every such embedding arises this way.
-    Let's see that for fixed $i$, $\sigma_{ij}|_L$ is distinct for each $j$.
+    Let $\epsilon:KL\hto\C$ be an embedding
 \end{proof}
 \begin{theorem}\label{thm:comp}
     Let $[K:\Q]=n$, $[L:\Q]=m$, $[KL:\Q]=mn$, and $d=\gcd(\disc(K),\disc(L))$.
@@ -1397,9 +1402,9 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
     By symmetry, let's show that $r\mid\disc(K)$.
     Given $\sigma_1,\ldots,\sigma_n:K\hto\C$, by \cref{lem:ext-comp} there exists $\sigma_i':KL\hto\C$ so that $\sigma_i'|_K=\sigma_i$ and $\sigma_i'|_L=\id_L$.
     Then
-    \begin{equation*}
-        \sigma_i'(\alpha) = \sum\limits_{i=1}^m x_i\sigma(\alpha_i),\qquad x_i=\sum\limits_{j=1}^n\frac{a_{ij}\beta_j}{r}
-    \end{equation*}
+    \begin{align*}
+        \sigma_i'(\alpha)&= \sum\limits_{i=1}^m x_i\sigma(\alpha_i)& x_i&=\sum\limits_{j=1}^n\frac{a_{ij}\beta_j}{r}
+    \end{align*}
     since $x_i\in L$.
     Equivalently,
     \begin{equation*}
@@ -1426,14 +1431,13 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
         \end{pmatrix}
     \end{equation*}
     so that, by Cramer's rule, $x_i=\frac{\gamma_i}{\delta}$ where $\gamma_i,\delta\in\mathcal{O}_K$ and $\delta^2=\disc(K)$.
-    Thus $\delta^2x_i=\disc(K)x_i\in\Q$, so $\disc(K)x_i\in\Z$.
-    However,
+    Thus $\disc(K)x_i=\delta\gamma_i\in\mathcal{O}_K$ is an algebraic integer, but also $\disc(K)\in\Z$ so $\disc(K)x_i\in L$.
+    Thus $\disc(K)x_i\in \mathcal{O}_L$; but then, since
     \begin{equation*}
-        \disc(K)x_i = \sum\limits_{j=1}^m\frac{\disc(K)a_{ij}}{r}\beta_j
+        \disc(K)x_i = \sum\limits_{j=1}^m\left(\frac{\disc(K)a_{ij}}{r}\right)\beta_j
     \end{equation*}
-    where $\disc(K)x_i\in\Z\subseteq\mathcal{O}_L$.
-    However, $\beta_j$ are integral basis for $L$, so $\disc(K)a_{ij}/r\in\Z$.
-    Since $\gcd(a_{11},\ldots,a_{mn},r)=1$, $r\mid\disc(K)$.
+    and the $\beta_j$ form an integral basis for $\mathcal{O}_L$, we have $\frac{\disc(K)a_{ij}}{r}\in\Z$.
+    Since $\gcd(a_{11},\ldots,a_{mn},r)=1$, this forces $r\mid\disc(K)$.
 \end{proof}
 \subsection{Cyclotomic Extensions IV: Algebraic Integers in \texorpdfstring{$\Q(\zeta_n)$}{Qzn}}
 \begin{theorem}
@@ -1442,9 +1446,12 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
 \begin{proof}
     Let's do this by induction on the number of prime factors of $n$; we already did the base case $n=p^r$ in \cref{thm:cepr}.
     For $k\geq 2$ let
-    \begin{equation*}
-        n=p_1^{e_1}\cdots p_k^{e_k},\qquad m:=p_1^{e_1}\cdots p_{k-1}^{e_{k-1}},\qquad K=\Q\left(\zeta_{m}\right),\qquad L=\Q\left(\zeta_{p_k^{e_k}}\right)
-    \end{equation*}
+    \begin{align*}
+        n&=p_1^{e_1}\cdots p_k^{e_k} &
+        m:&=p_1^{e_1}\cdots p_{k-1}^{e_{k-1}} &
+        K&=\Q\left(\zeta_{m}\right) &
+        L&=\Q\left(\zeta_{p_k^{e_k}}\right)
+    \end{align*}
     First, let's see that $KL=\Q(\zeta_n)$.
     Note that $\zeta_n\in KL$ since $m$ and $p_k^{e_k}$ are coprime; thus, there exists $x,y\in\Z$ so that $xm+yp_k^{e_k}=1$.
     Then $\zeta_m^y\zeta_{p_k^{e_k}}^x=e^{2\pi i/n}$, so $\Q(\zeta_n)\subseteq KL$.
@@ -1464,7 +1471,7 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
 \subsection{Resultants}
 \begin{definition}
     Let $f(x),g(x)\in\C[x]$ with $f(x)=a_nx^n+\cdots+a_1x+a_0$, $g(x)=b_mx^m+\cdots+b_1x+b_0$.
-    The \textbf{resultant} of $f$ and $g$ is
+    The \mbf{resultant} of $f$ and $g$ is
     \begin{equation*}
         R(f,g) =\det
         \begin{pmatrix}
@@ -1615,94 +1622,92 @@ Note that the result was not strictly necessary to do this, but we get to use it
     \end{align*}
     where $2b^3-bc^2+b^2c+2c^3\equiv bc(b-c)\equiv 0\pmod{2}$.
 \end{proof}
-\chapter{Dedekind Domains}
-\section{Noetherian Domains}
+\chapter{Prime Ideals in Number Rings}
+\section{Dedekind Domains}
 \begin{definition}
-    $R$ is \textbf{Noetherian} if every ideal of $R$ is finitely generated; i.e. $I=(r_1,\ldots,r_n)$.
+    $R$ is \mbf{Noetherian} if every ideal of $R$ is finitely generated; that is, $I=(r_1,\ldots,r_n)$.
 \end{definition}
-\begin{proposition}\label{noe}
+\begin{proposition}\label{thm:noe}
     The following are equivalent:
-    \begin{enumerate}[nolistsep]
+    \begin{enumerate}[nl,r]
         \item Every ascending chain of ideals in $R$ stabilizes.
         \item Every non-empty set $S$ of ideals of $R$ has a maximal element in $S$.
         \item $R$ is Noetherian.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    $(1)\Rightarrow (2)$.
+    \imp{i}{ii}
     Let $S$ be a non-empty set of ideals with no maximal element.
     Since $S$ is non-empty, get $I_1\in S$.
     Then for any $I_k\in S$, $I_k$ is not maximal and get $I_{k+1}\supsetneq I_k$.
     This is an infinite chain of ideal which does not stabilize.
 
-    $(2)\Rightarrow(1)$.
+    \imp{ii}{i}
     Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and let $S=\{I_k:k\in\N\}$.
     By assumption, $S$ has a maximal element, $I_N$; but then for any $n\geq N$, $I_n=I_N$ and the chain stabilizes.
 
-    $(3)\Rightarrow(1)$.
-    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and set $I=\bigcup_{i=1}^\infty I_n$.
-    By assumption, $I=(x_1,\ldots,x_n)$.
-    Since each $x_i\in I_j$ for some $j$, get $k$ so that $x_1,\ldots,x_n\in I_k$; but then $I_k=I_n$ and the chain stabilizes.
-
-    $(1)\Rightarrow(3)$.
+    \imp{i}{iii}
     Let $I$ be an ideal of $R$ not finitely generated.
     Then $I\neq(0)$, so get $a_1\in I$.
     For any finite $a_1,\ldots,a_k\in I$, since $I$ is not finitely generated, there exists $a_{k+1}\in I\setminus(a_1,\ldots,a_k)$.
-    Thus by the axiom of choice, choose $a_i,i\in\N$ so that $\{(a_1,\ldots,a_i):i\in\N\}$ does not stabilize, a contradiction.
+    But then $\{(a_1,\ldots,a_i):i\in\N\}$ does not stabilize, a contradiction.
+
+    \imp{iii}{i}
+    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and set $I=\bigcup_{i=1}^\infty I_n$.
+    By assumption, $I=(x_1,\ldots,x_n)$.
+    Since each $x_i\in I_j$ for some $j$, get $k$ so that $x_1,\ldots,x_n\in I_k$; but then $I_k=I_n$ for all $n\geq k$ and the chain stabilizes.
 \end{proof}
 \begin{theorem}[Hilbert]
     If $R$ is Noetherian, then $R[x]$ is Noetherian.
 \end{theorem}
+\begin{proof}
+    See PMATH 446 notes.
+\end{proof}
 \begin{remark}
-    The canonical example of a Noetherian domain are PIDs
+    The most basic example of a Noetherian domain is a PID.
     It is also easy to see that if $R$ is Noetherian, $R/I$ is also Noetherian.
     This means that a lot of rings are Noetherian.
 \end{remark}
-\section{Reducibility}
 \begin{definition}
-    We say that $0\neq\alpha\in\mathcal{O}_K\setminus \mathcal{O}_K^\times$ is \textbf{reducible} if there exists $\beta,\gamma\in\mathcal{O}_K\setminus\mathcal{O}_K^\times$ such that $\alpha=\beta\gamma$.
-    If $\alpha$ is not reducible, then we say $\alpha$ is \textbf{irreducible}.
+    If $R\subseteq S$ subrings with $R,S$ integral domains, we say $s\in S$ is \mbf{integral over $R$} if there exists $f(x)\in R[x]$, $f$ monic, such that $f(s)=0$.
+    We say $R$ is \mbf{integrally closed in $S$} if $s\in S$ is integral over $R$ iff $s\in R$.
 \end{definition}
+\begin{example}
+    \begin{enumerate}[nl]
+        \item Let $K$ be a number field so that $\Z\subseteq K$.
+            Then $\{\alpha\in K:\alpha\text{ is integral over }\Z\}=\mathcal{O}_K$.
+        \item If $R=\Z$, $\Frac(R)=\Q$ and $\alpha\in\Q$ is integral over $R$ if and only if  $\alpha\in\Z$, so $\Z$ is integrally closed in $\Q$.
+
+        \item If $R=\Z[\sqrt{5}]$, then $\Frac(R)=\Q(\sqrt{5})$.
+            Note that $(1+\sqrt{5})/2$ is integral over $\Z[\sqrt{5}]$ (in fact, it has a minimal polynomial over $\Z$), so $\Z[\sqrt{5}]$ is not integrally closed in $\Q(\sqrt{5})$.
+    \end{enumerate}
+\end{example}
 \begin{definition}
-    A \textbf{Dedekind domain} is an integral domain $R$ satisfying $3$ properties:
+    A \mbf{Dedekind domain} is an integral domain $R$ satisfying $3$ properties:
     \begin{enumerate}[nolistsep]
         \item $R$ is Noetherian.
         \item Every prime ideal is maximal.
         \item $R$ is integrally closed in its field of fractions.
     \end{enumerate}
 \end{definition}
-Note that Property (2) says that ``$R$ is 1-dimensional as a geometric object''.
-\begin{definition}
-    If $R\subseteq S$ subrings with $R,S$ integral domains, we say $s\in S$ is \textbf{integral over $R$} if there exists $f(x)\in R[x]$, $f$ monic, such that $f(s)=0$.
-    We say $R$ is \textbf{integrally closed in $S$} if $s\in S$ is integral over $R$ iff $s\in R$.
-\end{definition}
-Let $K$ be a number field, $\Z\subseteq K$.
-Then $\{\alpha\in K:\alpha\text{ is integral over }\Z\}=\mathcal{O}_K$.
-
-If $R=\Z$, $D^{-1}R=\Q$ and $\alpha\in\Q$ is integral iff $\alpha\in\Z$, so $\Z$ is integrally closed in $\Q$.
-
-If $R=\Z[\sqrt{5}]$, then $D^{-1}R=\Q(\sqrt{5})$.
-Note that $(1+\sqrt{5})/2$ is integral over $\Z[\sqrt{5}]$ (it has a minimal polynomial over $\Z$), so $\Z[\sqrt{5}]$ is not integrally closed in $\Q(\sqrt{5})$.
-
-\begin{proposition}
+\begin{proposition}\label{prop:id-scale}
     Let $K$ be a number field, $0\neq I\subseteq\mathcal{O}_K$ an ideal.
     Then there exists $a\in\Z\setminus\{0\}$ such that $a\in I$.
 \end{proposition}
 \begin{proof}
     Say $\alpha\in I$, $\alpha\neq 0$.
-    Let $\alpha_1,\ldots,\alpha_n$ be conjugates of $\alpha=\alpha_1$.
-    Then $a:=N_{\Q}^{\Q(\alpha)}(\alpha)=\alpha_1\cdots\alpha_n\in\Z\setminus\{0\}$.
-    Since $\alpha_2\cdots\alpha_n=a/\alpha\in\Q(\alpha)\subseteq K$ is an algebraic integer, $\alpha_2\cdots\alpha_n\in\mathcal{O}_K$ and $a\in I$.
+    Let $\alpha_1,\ldots,\alpha_n$ be conjugates of $\alpha=\alpha_1$ so that $a:=N_{\Q}^{\Q(\alpha)}(\alpha)=\alpha_1\cdots\alpha_n\in\Z\setminus\{0\}$.
+    As in the proof of \cref{prop:unit}, $\alpha_2\cdots\alpha_n\in\mathcal{O}_K$ so that $a\in I$.
 \end{proof}
 \begin{remark}
-    If $0\neq I\subseteq\mathcal{O}_K$, $I\cap\Z\subseteq\Z$ is a non-zero ideal.
+    If $0\neq I\subseteq\mathcal{O}_K$, this proposition show that $I\cap\Z\subseteq\Z$ is a non-zero ideal.
 \end{remark}
 \begin{definition}
-    Given $I\subseteq\mathcal{O}_K$ an ideal, then $\{\alpha_1,\ldots,\alpha_n\}$ is called an \textbf{integral basis} of $I$ if $\alpha_i\in I$ and every element of $I$ has a unique representation as an integer linear combination of the $\alpha_i$.
+    Given $I\subseteq\mathcal{O}_K$ an ideal, then $\{\alpha_1,\ldots,\alpha_n\}$ is called an \mbf{integral basis} of $I$ if $\alpha_i\in I$ and every element of $I$ has a unique representation as an integer linear combination of the $\alpha_i$.
 \end{definition}
-\begin{theorem}
+\begin{theorem}\label{thm:id-basis}
     Every non-zero ideal $I\subseteq\mathcal{O}_K$ has an integral basis.
-    More specifically, if $\omega_1,\ldots,\omega_n$ is an integral basis for $\mathcal{O}_K$, then there exists $a_{ij}\in\Z$, $a_{ii}\in\Z^+$ such that $\alpha_1,\ldots,\alpha_n$ is an integral basis for $I$ where
+    More specifically, if $\{\omega_1,\ldots,\omega_n\}$ is an integral basis for $\mathcal{O}_K$, then there exists $a_{ij}\in\Z$, $a_{ii}\in\Z^+$ such that $\{\alpha_1,\ldots,\alpha_n\}$ is an integral basis for $I$ and
     \begin{align*}
         \alpha_1 &= a_{11}\omega_1\\
         \alpha_2 &= a_{21}\omega_1+a_{22}\omega_2\\
@@ -1711,122 +1716,151 @@ Note that $(1+\sqrt{5})/2$ is integral over $\Z[\sqrt{5}]$ (it has a minimal pol
     \end{align*}
 \end{theorem}
 \begin{proof}
-    We already know there exists $a\in I$, $a\in\Z^+$ such that $a\omega_i\in I$.
-    Let $a_{11}\in\Z^+$ be minimal such that $\alpha_1:=a_{11}\omega_1\in I$.
-    Let $\alpha_2:=a_{21}\omega_1+a_{22}\omega_2$ with $a_{22}$ minimal and $\alpha_2-a_{22}\omega_2\in(\omega_1)\cap I$.
-    In general, let $\alpha_i:=a_{i1}\omega_1+\cdots+a_{ii}\omega_i$ with $a_{ii}\in\Z^+$ minimal.
-    Note that $\alpha_1,\ldots,\alpha_n$ is a basis for $I$, since
+    From \cref{prop:id-scale} there exists $a\in I\cap\Z^+$; in particular, for any $\omega\in\mathcal{O}_K$, $a\omega\in I$.
+    We shall use this fact throughout the proof.
+    We thus inductively define $a_{ij}$ as follows:
+    \begin{itemize}[nl]
+        \item Let $a_{11}\in\Z^+$ be minimal such that $a_{11}\omega_1\in I$; set $\alpha_1:=a_{11}\omega_1$.
+        \item Let $a_{21}\in\Z$ and $a_{22}\in\Z^+$ minimal such that $\alpha_2:=a_{21}\omega_1+a_{22}\omega_2\in I$.
+            Again, such an $\alpha_2$ exists since $a(\omega_1+\omega_2)\in I$.
+        \item In general, let $\alpha_i:=a_{i1}\omega_1+a_{i(i-1)}\omega_{i-1}+\cdots+a_{ii}\omega_i\in I$ with $a_{ii}\in\Z^+$ minimal.
+    \end{itemize}
+    We can encode this as a linear system:
     \begin{equation*}
         \begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix} = \begin{pmatrix}a_{11}&0&\hdots&0\\a_{21}&a_{22}&\hdots&0\\\vdots&\vdots&\ddots&\vdots\\a_{n1}&a_{n2}&\hdots&a_{nn}\end{pmatrix}
         \begin{pmatrix}\omega_1\\\vdots\\\omega_n\end{pmatrix}
     \end{equation*}
-    Since $\omega_1,\ldots,\omega_n$ is a basis for $K/\Q$, $\alpha_1,\ldots,\alpha_n$ is as well.
-    Now let $\beta\in I$.
-    Since $\omega_1,\ldots,\omega_n$ is an integral basis for $\mathcal{O}_K$, so there exists $b_i\in\Z$ such that $\beta=b_1\omega_1+\cdots+b_n\omega_n$.
-    Let's see that $a_{nn}|b_n$.
-    If not, then $b_n=a_{nn}q+r$, $0<r<a_{nn}$, $q,r\in\Z$.
-    Then $b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+r\omega_n=\beta-q\alpha_n\in I$, contradicting minimality of $a_{nn}$.
-    Thus $\beta=b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+qa_{nn}\omega_n$ where $a_{nn}\omega_n=\alpha_n+$ a linear combination of $\omega_i$ for $i<n$.
-    Thus $I\ni\beta-q\alpha_n=b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}$.
-    Apply the same argument to $\beta-q\alpha_n$.
+    Since $\{\omega_1,\ldots,\omega_n\}$ is a basis for $K/\Q$, $\{\alpha_1,\ldots,\alpha_n\}$ is as well.
+
+    Now, let $\beta\in I$ be arbitrary.
+    Since $\{\omega_1,\ldots,\omega_n\}$ is an integral basis for $\mathcal{O}_K$, get $b_i\in\Z$ such that $\beta=b_1\omega_1+\cdots+b_n\omega_n$.
+    Write $b_n=a_{nn}q+r$ with $0\leq r<a_{nn}$ and $q,r\in\Z$.
+    Then
+    \begin{equation*}
+        b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+r\omega_n=\beta-q\alpha_n\in I
+    \end{equation*}
+    so by minimaliy of $a_{nn}$, we must have $r=0$.
+    Thus
+    \begin{align*}
+        \beta&=b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+qa_{nn}\omega_n & a_{nn}\omega_n&=\alpha_n+\gamma
+    \end{align*}
+    where $\gamma\in\spn_{\Z}\{\omega_1,\ldots,\omega_{n-1}\}$.
+    Thus $b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+q\gamma=\beta-q\alpha_n\in I$.
+
+    The proof follows by repeating the same argument with $\beta-q\alpha_n$.
 \end{proof}
 \begin{example}
     Consider $I=(7)\subseteq\Z[\sqrt{2}]$.
-    An integral basis for $(7)$ is $7,7\sqrt{2}$ since $7,7\sqrt{2}\in I$ and every element of $I$ is of the form $7(a+b\sqrt{2})$ for $a,b\in\Z$.
+    An integral basis for $(7)$ is $\{7,7\sqrt{2}\}$ since $7,7\sqrt{2}\in I$ and every element of $I$ is of the form $7(a+b\sqrt{2})$ for some $a,b\in\Z$.
 \end{example}
 \begin{theorem}
     If $K$ is a number field, then $\mathcal{O}_K$ is a Dedekind domain.
 \end{theorem}
 \begin{proof}
-    $\mathcal{O}_K$ is Noetherian: if $I\subseteq\mathcal{O}_K$, if $I=(0)$ we're done, else choose an integral basis $\alpha_1,\ldots,\alpha_n$ for $I$ and $I=(\alpha_1,\ldots,\alpha_n)$.
+    We verify the three requirements:
+    \begin{enumerate}
+        \item \textit{$\mathcal{O}_K$ is Noetherian.}
+            Suppose $I\subseteq\mathcal{O}_K$.
+            If $I=(0)$ we're done; otherwise, choose an integral basis $\{\alpha_1,\ldots,\alpha_n\}$ for $I$ and $I=(\alpha_1,\ldots,\alpha_n)$.
+        \item \textit{Every non-zero prime ideal is maximal.}
+            Let $0\neq P\subseteq\mathcal{O}_K$ be prime.
+            It suffices to show that $\abs{\quot{\mathcal{O}_K}{P}}<\infty$ since finite integral domains are fields\footnote{Let $R$ be an integral domain and consider $\alpha:R\to R$ by $\alpha(x)=xr$.
+                This is injective since $R$ is an integral domain and, since $R$ is finite, it is surjective as well.
+            Thus there exists $s\in R$ with $rs=1$.}.
 
-    Every non-zero prime ideal is maximal: let $0\neq \rho\subseteq\mathcal{O}_K$.
-    Let's show $|\mathcal{O}_K/\rho|<\infty$.
-    This is enough: because $\mathcal{O}_K/\rho$ is an integral domain and it is finite, it must be a field.
-    [To see this, consider $\alpha:R\to R$ by $\alpha(x)=xr$.
-    This is injective, and since $R$ is finite, it is surjective, so there exists $s\in R$ with $rs=1$.]
-    Choose an integral basis $\{\alpha_1,\ldots,\alpha_n\}$ of $\mathcal{O}_K$.
-    We know there exists $a\in\Z$ with $0\neq a\in\rho$, so $a\omega_i\in\rho$ and there are at most $a^n$ possible integral combinations.
-
-    $\mathcal{O}_K$ is integrally closed in $K$: let $\gamma\in K$ which is integral over $\mathcal{O}_K$, so $\gamma^n+\alpha_{n-1}\gamma^{n-1}+\cdots+\alpha_1\gamma+\alpha_0=0$.
-    Note that $\gamma\in\Z[\alpha_0,\alpha_1,\ldots,\alpha_{n-1},\gamma]=A$.
-    If we show $A$ is finitely generated (as an additive group), then $\gamma$ is an algebraic integer, and hence in $\mathcal{O}_K$.
-    Since $A$ is generated over $\Z$ by all $\alpha_0^{m_0}\cdots\alpha_{n-1}^{m_{n-1}}\gamma^{m_n}$, we need to show that only finitely many products are necessary to generate (over $\Z$).
-    If $\alpha_i\in\mathcal{O}_K$, we can take $m_i<[K:\Q]$, and we can take $m<n$ since $\gamma^n$ is expressible as a product over the $\alpha_i$ (from its minimal polynomial).
+            Let $\{\omega_1,\ldots,\omega_n\}$ be an integral basis for $\mathcal{O}_K$.
+            Then by \cref{prop:id-scale}, there exists $a\in\Z^+\cap P$ so that $a\omega_i\in P$.
+            Thus there are at most $a^n$ possible elements in $\quot{\mathcal{O}_K}{P}$.
+        \item \textit{$\mathcal{O}_K$ is integrally closed in $K$.}
+            Suppose $\gamma\in K$ is integral over $\mathcal{O}_K$, so that $\gamma^n+\alpha_{n-1}\gamma^{n-1}+\cdots+\alpha_1\gamma+\alpha_0=0$.
+            Note that $\gamma\in\Z[\alpha_0,\alpha_1,\ldots,\alpha_{n-1},\gamma]=A$; it suffices to show that $A$ is finitely generated as an additive group by \cref{thm:algint}.
+            Since $A$ is generated over $\Z$ by all $\alpha_0^{m_0}\cdots\alpha_{n-1}^{m_{n-1}}\gamma^{m_n}$, let's show that only finitely many such products are necessary.
+            Since $\alpha_i\in\mathcal{O}_K$, we can take $m_i<[K:\Q]$; and, since $\gamma^n$ is expressible as a product over the $\alpha_i$ from its minimal polynomial, we can take $m<n$.
+    \end{enumerate}
+    Thus $\mathcal{O}_K$ is a Dedekind domain.
 \end{proof}
+\section{Prime Factorization of Ideals}
+\subsection{Unique Factorization}
 Let $I\subseteq R$ an ideal and let $S$ be the set of finitely generated ideals $J\subseteq I$.
 Get a maximal element $M\in S$.
 If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, contraicting maximality of $M$.
-\begin{lemma}
+\begin{lemma}\label{lem:id-cont}
+    Let $Q$ be a prime ideal in a ring $R$ such that $Q\supseteq J_1\cdots J_r$.
+    Then $Q\supseteq J_i$ for some $i$.
+\end{lemma}
+\begin{proof}
+    Suppose $J_1,\ldots,J_{r-1}\not\subset Q$.
+    Thus get $j_i\in J_i$ for $i<r$ with $j_i\notin Q$.
+    If $\alpha\in J_r$ arbitrary, then $j_1\cdots j_{r-1}\alpha\in q$ so by primality, $\alpha\in Q$ and $J_r\subseteq\alpha$.
+\end{proof}
+\begin{lemma}\label{lem:prod-id}
     If $R$ is a Dedekind domain, then every non-zero ideal contains a product of prime ideals.
 \end{lemma}
 \begin{proof}
-    Let $S$ be the set of non-zero ideals that don't contain a product of primes.
-    Suppose $S\neq\emptyset$.
-    Then let $M\in S$ be maximal: $M$ can't be a prime ideal, so get $r,s\in R\setminus M$ with $rs\in M$.
-    Then $M_1:=M+(r)$, $M_2:=M+(s)$ are not in $S$, so $M_1$ and $M_2$ both contains products of primes.
-    But then $M_1M_2\subseteq M$ contains a product of primes, so $S=\emptyset$ (this is called Noetherian induction).
+    Let $S$ be the set of non-zero ideals that don't contain a product of primes; suppose $S\neq\emptyset$.
+    Since $R$ is Noetherian, by \cref{thm:noe}, there exists $M\in S$ maximal.
+    Since $M$ is not prime, get $r,s\in R\setminus M$ with $rs\in M$.
+    But then $M_1:=M+(r)$ and $M_2:=M+(s)$ properly contain $M$ and are not in $S$, so $M_1$ and $M_2$ both contains products of primes.
+    Furthermore, $M_1M_2\subseteq M$ so $M$ contains a product of prime ideals, forcing $S=\emptyset$.
 \end{proof}
-\begin{lemma}
-    If $I\subsetneq R$ is an ideal, $R$ is a Dedekind domain, and $K=\Frac(R)$.
+\begin{lemma}\label{lem:id-frac}
+    Let $R$ be a Dedekind domain, $I\subsetneq R$, and $K=\Frac(R)$.
     Then there exists $\gamma\in K\setminus R$ such that $\gamma I\subseteq\R$.
 \end{lemma}
 \begin{proof}
-    It's clear if $I=(0)$.
-    Thus, assume $I\neq (0)$, and get $0\neq a\in I$.
-    Since $I\subsetneq R$, so $a$ is not a unit, so $1/a\in K\setminus R$.
-    Let $(a)\supseteq\rho_1\cdots\rho_r$ where $\rho_i$ are prime ideals and $r$ is minimal.
-    Let $m$ be a maximal ideal containing $I$, so $m\supseteq I\supseteq(a)\supseteq\rho_1\cdots\rho_r$, and since $m$ is maximal, $m$ is prime.
-    In general, if $q$ is a prime ideal and $q\supseteq J_1\cdots J_r$, then $q\supseteq J_i$ for some $i$.
-    [Let $j_i\in J_i$ for $i<r$ with $j_i\notin q$, and $\alpha\in J_r$ arbitrary.
-    Then $j_1\cdots j_{r-1}\alpha\in q$, so by primality, $\alpha\in q$.]
-    Thus without loss of generality $p_1\subseteq m$.
-    Since $R$ is Dedekind, $m=\rho_1$.
+    This is obvious if $I=(0)$, so we may assume $I\neq(0)$ and let $0\neq a\in I$.
+    Since $I\subsetneq R$, $a$ is not a unit, so $\frac{1}{a}\in K\setminus R$.
+    By \cref{lem:prod-id}, $(a)\supseteq P_1\cdots P_r$ where $P_i$ are prime ideals; we may take $r$ to be minimal.
+    Let $M$ be a maximal ideal containing $I$, so $M\supseteq I\supseteq(a)\supseteq P_1\cdots P_r$, and since $M$ is maximal, $M$ is prime.
 
-    If $r=1$, then $I=(a)$ is principal, then $\gamma=1/a$ works.
-    If $r>1$, choose $b\in\rho_2\cdots\rho_r$ and set $\gamma=\frac{b}{a}$.
-    Then
+    Without loss of generality, $P_1\subseteq M$ by \cref{lem:id-cont}; since $R$ is Dedekind, $M=P_1$.
+    If $r=1$, set $b=1$; and if $r>1$, let $b\in P_2\cdots P_r$.
+    Set $\gamma=\frac{b}{a}$ so that
     \begin{equation*}
-        \gamma I=\frac{b}{a}I\subseteq\frac{b}{a}\rho_1\subseteq\frac{1}{a}\rho_1\cdots\rho_r\subseteq\frac{1}{a}(a)=R
+        \gamma I=\frac{b}{a}I\subseteq\frac{b}{a}P_1\subseteq\frac{1}{a}P_1\cdots P_r\subseteq\frac{1}{a}(a)=R
     \end{equation*}
 \end{proof}
-\begin{proposition}
-    If $R$ is a Dedekind domain, $I$ an ideal of $R$, then there exists an ideal $J$ of $R$ such that $IJ$ is principal.
+\begin{proposition}\label{prop:id-inv}
+    Suppose $R$ is a Dedekind domain and $(0)\neq I\subseteq R$ is an ideal.
+    Then for any $0\neq \alpha\in I$, there exists an ideal $J\subseteq R$ such that $IJ=(\alpha)$ is principal.
 \end{proposition}
 \begin{proof}
-    This is clear if $I=(0)$.
-    Otherwise, let $0\neq\alpha\in I$.
-    Set $J=\{\beta\in R:\beta I\subseteq(\alpha)\}$.
-    $IJ\subseteq(\alpha)$ by definition, so we need to show that $(\alpha)\subseteq IJ$.
-    Let $B=\frac{1}{\alpha}IJ$; we know $B\subseteq R$ is an ideal; we want to show that $B=R$.
-    If $B\neq R$, then by the lemma, get $\gamma\in K\setminus R$ such that $\gamma B\subseteq R$.
-    Then $J\subseteq B$ since $\alpha\in I$, so $\gamma J\subseteq\gamma B\subseteq R$; that is, $\gamma J$ consists of elements of $R$.
-    Since $\gamma B=\gamma\frac{1}{\alpha} IJ$, $\gamma JI\subseteq(\alpha)$, and by definition of $J$, $\gamma J\subseteq J$.
+    Set $J=\{\beta\in R:\beta I\subseteq(\alpha)\}$\footnote{From commutative algebra, this is the \textbf{ideal quotient}, denoted $((\alpha):I)$.}.
+    Certainly $IJ\subseteq(\alpha)$ by definition, so we need to show that $(\alpha)\subseteq IJ$.
 
+    Let $B=\frac{1}{\alpha}IJ$.
+    We know $B\subseteq R$ is an ideal, so we want to show that $B=R$.
+    Suppose not.
+    Then by \cref{lem:id-frac}, get $\gamma\in \Frac(R)\setminus R$ such that $\gamma B\subseteq R$.
+    Since $\alpha\in I$, $J\subseteq B$ and $\gamma J\subseteq\gamma B\subseteq R$.
+    Then, $\gamma\frac{1}{\alpha} IJ=\gamma B\subseteq R$ which can be rephrased as $(\gamma J)I\subseteq(\alpha)$; thus, $\gamma J\subseteq J$ by definition of $J$.
+
+    TODO: understand.
     $J$ has an integral basis, so has a finitely generated additive group.
     Thus we cannot have $J\supseteq\gamma J\supseteq\gamma J^2\supseteq\cdots$ since $\gamma\in K\setminus R$.
     However, this is a contradiction to the assumption that $B\neq R$, so $IJ=(\alpha)$.
 \end{proof}
 \begin{definition}
-    If $A,B$ are ideals, we say $A|B$ ($A$ \textbf{divides} $B$) if there exists an ideal $C$ such that $AC=B$.
+    If $A,B$ are ideals in $R$, we say that \mbf{$A$ divides $B$} and write $A|B$ if there exists an ideal $C$ such that $AC=B$.
 \end{definition}
 \begin{corollary}
     Let $A,B,C$ be ideals in a Dedekind domain, with $C\neq 0$.
     Then
     \begin{enumerate}[nolistsep,label=(\roman*)]
         \item $A\supseteq B$ if and only if $A|B$.
-        \item $AC=BC$ implies $A=B$.
+        \item If $AC=BC$, then $A=B$.
     \end{enumerate}
 \end{corollary}
 \begin{proof}
     \begin{enumerate}[label=(\roman*)]
-        \item There exists $I$ such that $CI=(\alpha)$.
-            Then $(\alpha)A=ACI=BCI=\alpha(B)$, so $A=B$.
         \item If $A|B$, then get $C$ such that $B=AC\subseteq A$.
-            Conversely, if $A\supseteq B$, this is clear if $A=(0)$; else, let $0\neq A$.
-            Then there exists $J$ such that $JA=(\alpha)$, $\alpha\neq 0$.
+            Conversely, suppose $A\supseteq B$.
+            This is clear if $A=(0)$; else, let $0\neq\alpha\in A$.
+            Then by \cref{prop:id-inv}, get $J$ such that $JA=(\alpha)$.
             Then $(\alpha)=JA\supseteq JB$, so $R\supseteq\frac{1}{\alpha}JB$.
-            Let $C=\frac{1}{\alpha}JB$, and $AC=\frac{1}{\alpha}AJB=B$.
+            Let $C=\frac{1}{\alpha}JB$ so that $AC=\frac{1}{\alpha}AJB=B$.
+        \item By \cref{prop:id-inv}, get $I$ such that $CI=(\alpha)$.
+            Then $(\alpha)A=ACI=BCI=(\alpha)B$, so $A=B$.
     \end{enumerate}
 \end{proof}
 \begin{theorem}
@@ -1834,124 +1868,135 @@ If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, c
 \end{theorem}
 \begin{proof}
     Let $S$ be the set of non-zero proper ideals that cannot be written as a product of primes.
-    If $S\neq\emptyset$, let $M\in S$ be a maximal element.
-    $M$ can't be a maximal ideal of $F$; otherwise, $M$ is prime.
-    Let $\rho$ be a maximal ideal with $M\subsetneq\rho$.
-    Since $M\subseteq\rho$, $\rho|M$ so there is an ideal $C$ such that $M=\rho C$.
-    Since $M\neq\rho$, $C\neq R$.
-    $C$ cannot be a product of prime ideals, or $M$ is a product of prime ideals.
-    Thus $C\in S$, but $M\subseteq C$ and $M\in S$ is maximal, so $M=C$.
-    But then $M=\rho C=\rho M$ and can cancel $M$, so that $\rho=R$, a contradiction.
+    If $S\neq\emptyset$, let $M\in S$ be a maximal.
+    Since $M$ is not prime, so $M$ is not maximal: thus, let $P\supsetneq M$ be maximal.
+    Since $M\subseteq P$, $P|M$ so there is an ideal $C$ such that $M=PC$; since $M\neq\rho$, $C\neq R$.
+    $C$ cannot be a product of prime ideals, or $M$ is a product of prime ideals, so $C\in S$.
+    But then by maximality of $M$, $M=C$ and $M=PC=PM$, so $P=R$, a contradiction.
 
     It remains to show unique factorization.
-    Given $I\neq 0$, $R$, say $I=\rho_1\ldots\rho_r=q_1\ldots q_s$.
-    Then $I\subseteq\rho_1$, so $\rho_1$ contains some $q_i$.
-    Without loss of generality, $\rho_1\supseteq q_1$.
-    Then $\rho_1=q_1$ since prime ideals are maximal, and cancel from both sides to get $\rho_2\ldots\rho_r=q_2\ldots q_s$, and we're done by induction.
+    Given $I\neq 0$, $R$, say $I=P_1\cdots P_r=Q_1\cdots Q_s$.
+    Then $I\subseteq P_1$, so without loss of generality, $P_1\supseteq Q_1$ by \cref{lem:id-cont}.
+    Since prime ideals are maximal, this forces $P_1=Q_1$ so we can cancel to get $P_2\cdots P_r=Q_2\cdots Q_s$ and we are done by induction.
 \end{proof}
 \begin{example}
     Consider the ring $\Z[\sqrt{-5}]$, which does not have unique factorization: $6=2\cdot 4=(1+\sqrt{-5})(1-\sqrt{-5})$.
-    However, $(2)$ is not a prime ideal since $1+\sqrt{-5},1-\sqrt{-5}\notin(2)$, but $6\in(2)$.
-    Note that $(2)=(2,1+\sqrt{-5})(2,1-\sqrt{-5})$ and $(6)=(2,1+\sqrt{-5})(2,1-\sqrt{-5})(3,1+\sqrt{5})(3,1-\sqrt{-5})$.
+    In particular, this means that $(2)$ is not a prime ideal: $1+\sqrt{-5},1-\sqrt{-5}\notin(2)$, but $6\in(2)$.
+    We do, however, still have unique factorization:
+    \begin{align*}
+        (2)&=(2,1+\sqrt{-5})(2,1-\sqrt{-5})\\
+        (6)&=(2,1+\sqrt{-5})(2,1-\sqrt{-5})(3,1+\sqrt{5})(3,1-\sqrt{-5})
+    \end{align*}
 \end{example}
 \begin{theorem}
     $R$ is a PID if and only if $R$ is a UFD and a Dedekind domain.
 \end{theorem}
-\begin{theorem}
-    If $K$ is a number field, then $\mathcal{O}_K$ has unique factorization into primes iff $\mathcal{O}_K$ is a PID.
-\end{theorem}
 \begin{proof}
-    ($\Rightarrow$) By (unique) factorization into prime ideals, it is enough to show that every prime ideal $\rho$ is principal.
-    Get $0\neq a\in\Z$ such that $a\in\rho$.
-    Write $a=\pi_1\ldots\pi_r$ where $\pi_i\in\mathcal{O}_K$ are primes.
-    Without loss of generality, $\pi_1\in P$.
-    We know that $(\pi_1)\subseteq\rho$.
-    However, $(\pi_1)$ is prime, so equality holds since $(\pi_1)$ is maximal.
+    \impr Every PID is a UFD; it suffices to show that $R$ is also Dedekind.
+    This is left as an assignment exercise.
 
-    ($\Leftarrow$) Say $\pi_1\ldots\pi_r=\lambda_1\ldots\lambda_s$ where $\pi_i$, $\lambda_j$ are prime.
-    Note that $(\pi_i)$ and $(\lambda_j)$ are prime ideals, so we are done by unique factorization into prime ideals.
+    \impl Let $R$ be a UFD and a Dedekind domain.
+    By unique factorization, it suffices to show that every non-zero prime ideal $P$ is principal.
+    Let $0\neq\alpha\in P$; since $P$ is proper, $\alpha$ is not a unit.
+    Since $R$ is a UFD, write $\alpha=p_1^{a_1}\cdots p_k^{a_k}$ with $k>0$.
+    Since $P$ is prime, without loss of generality, $p_1\in P$.
+    Then $(p_1)\subseteq P$ but $(p_1)$ is prime and thus maximal (since $R$ is Dedekind), so $P=(p_1)$ is principal.
+\end{proof}
+\begin{corollary}
+    If $K$ is a number field, then $\mathcal{O}_K$ has unique factorization into primes iff $\mathcal{O}_K$ is a PID.
+\end{corollary}
+\begin{proof}
+    This follows immediately since $\mathcal{O}_K$ is Dedekind.
 \end{proof}
 \begin{example}
     Consider $K=\Q(\sqrt{-d})$, for $d>0$.
-    When is $\mathcal{O}_K$ a PID?
-    When $d=1,2$, $K$ is a Euclidean domain
+    For $d=1,2$, $K$ is in fact a Euclidean domain; more generally, we may ask when $\mathcal{O}_K$ is a PID.
     It was conjectured (correctly) by Gauss that this is true when $d\in\{1,2,3,7,11,19,43,67,163\}$.
 \end{example}
-If $\rho\subseteq\mathcal{O}_K$ is a prime ideal, then $0\neq 1\in\rho$.
-Write $a=p_1^{e_1}\cdots p_r^{e_r}$, so by primality, some $p_i\in\rho$.
-Then $(p)=p\mathcal{O}_K\subseteq\rho$, so $\rho|(p)$ and $\rho\cdot q_1\cdots q_s=(p)$ for some ideals $q_i$.
-Thus every prime ideal of $\mathcal{O}_K$ shows up as a factor in $(p)$ for some prime $p\in\Z$.
-Furthermore, $\rho$ cannot be a factor of $(p)$ and $(q)$ for distinct primes $p,q\in\Z$: otherwise, $p,q\in\rho$ so $1\in\rho$.
-If $p$ is the unique prime in $\Z$ for whoch $p\in\rho$, then we say \textbf{$\rho$ lies over $p$}.
-\section{Ramification}
+\subsection{Prime Ideals and Ramification}
+Suppose $P\subseteq\mathcal{O}_K$ is a prime ideal and let $0\neq a\in P\cap\Z^+$.
+Write $a=p_1^{e_1}\cdots p_r^{e_r}$, so by primality, some $p:=p_i\in P$.
+Then $(p)\subseteq P$, so $P\mid(p)$; thus, $PQ_1\cdots Q_s=(p)$ for some prime ideals $Q_i$.
+In particular, every prime ideal of $\mathcal{O}_K$ is a factor of $(p)$ for some $p\in\Z$.
+
+Furthermore, $P$ cannot be a factor of $(p)$ and $(q)$ for distinct primes $p,q\in\Z$: otherwise, $p,q\in P$ so $1\in\rho$.
+Thus $p\in \Z^+$ is the unique prime number such that $(p)\subseteq P$; in this case, we say that \mbf{$P$ lies over $p$}.
 \begin{definition}
-    Let $K$ be a number field, $p\in\Z$ a prime.
-    We say $p$ \textbf{ramifies} in $K$ if there exists $\rho\subseteq\mathcal{O}_K$ prime ideal such that $\rho^2\mid(p)$ in $\mathcal{O}_K$.
+    Let $K$ be a number field, $p\in\Z^+$ a prime.
+    We say \mbf{$p$ ramifies in $K$} if there exists some prime ideal $P\subseteq\mathcal{O}_K$ such that $P^2\mid(p)$ in $\mathcal{O}_K$.
 \end{definition}
+\begin{remark}
+    By unique factorization into prime ideals, we can write $(p)=P_1^{e_1}\cdots P_r^{e_r}$.
+    Then $p$ ramifies in $K$ if $e_i>1$ for some $i$.
+    We say that $e_i$ is the \mbf{ramification index} for the prime $P_i$.
+\end{remark}
 \begin{theorem}
-    If $D=\disc(K)$, then $p\in\Z$ and $p\nmid D$, then $p$ is unramified.
+    Let $D=\disc(K)$ and $p\in\Z^+$.
+    Then $p$ is ramified if and only if $p\mid D$.
 \end{theorem}
 \begin{proof}
-    Note that $\rho q=\rho^2q$, we can cancel so $\rho=\mathcal{O}_K$.
-    Thus let $\alpha\in\rho q\setminus\rho^2 q$ such that $\alpha/p\notin\mathcal{O}_K$.
-    Then $\alpha^2\in\rho^2 q^2\subseteq(p)$, so $\frac{\alpha^2}{p}\in\mathcal{O}_K$.
-    In particular, if $\beta\in\mathcal{O}_K$, then $\frac{(\alpha\beta)^p}{p}\in\mathcal{O}_K$.
-    Note that $\Tr((\alpha\beta)^p)=p\Tr\left(\frac{(\alpha\beta)^p}{p}\right)$, so $p|\Tr((\alpha\beta)^p)$.
-    Then
+    \impr
+    Get $P$ such that $P^2\mid(p)$; let $(p)=P^2Q$.
+    Note that $PQ\neq  P^2Q$ since $P$ is proper; thus, let $\alpha\in PQ\setminus P^2Q$.
+    In particular, $\frac{\alpha}{p}\notin\mathcal{O}_K$ but $\alpha^2\in P^2Q^2\subseteq (p)$ so $\frac{\alpha^2}{p}\in\mathcal{O}_K$.
+    Thus if $\beta\in\mathcal{O}_K$ is arbitrary, then $\frac{(\alpha\beta)^p}{p}\in\mathcal{O}_K$.
+    Note that $\Tr((\alpha\beta)^p)=p\Tr\left(\frac{(\alpha\beta)^p}{p}\right)$, so $p\div \Tr((\alpha\beta)^p)$ and
     \begin{align*}
-        \Tr(\alpha\beta)^p &=\left(\sum_\sigma\sigma(\alpha\beta)\right)^p=\sum_\sigma\sigma(\alpha\beta)^p+p\gamma\\
-                           &= \Tr((\alpha\beta)^p)+p\gamma
+        \Tr\left((\alpha\beta)^p\right) &=\left(\sum_{i=1}^n\sigma_i(\alpha\beta)\right)^p=\sum_{i=1}^n\sigma_i(\alpha\beta)^p+p\gamma= \Tr((\alpha\beta)^p)+p\gamma
     \end{align*}
     for some $\gamma\in\mathcal{O}_K$.
-    Thus $p\mid\Tr(\alpha\beta)^p$, so $p|\Tr(\alpha\beta)$.
+    Thus $p\mid\Tr(\alpha\beta)^p$, so $p\mid\Tr(\alpha\beta)$.
 
-    Let $\omega_1,\ldots,\omega_n$ be an integral basis for $K$.
-    Then $\alpha=a_1\omega_1+\cdots+a_n\omega_n$ for $a_i\in\Z$.
-    Since $\frac{\alpha}{p}\notin\mathcal{O}_K$, $p\nmid a_i$ for some $a_i$.
-    Without loss of generality, $p\nmid a_1$.
-    Since $p|\Tr(\alpha\omega_i)$ for all $i$, then $p|\Tr(\alpha\omega_1)$ where
+    Let $\{\omega_1,\ldots,\omega_n\}$ be an integral basis for $K$ so that $\alpha=a_1\omega_1+\cdots+a_n\omega_n$ for $a_i\in\Z$.
+    Since $\frac{\alpha}{p}\notin\mathcal{O}_K$, without loss of generality, $p\nmid a_1$.
+    Note that $p\mid\Tr(\alpha\omega_i)$ for any $i$ and
     \begin{equation*}
-        \Tr(\alpha\omega_1)=\Tr((a_1\omega_1+\cdots+a_n\omega_n)\omega_i)=\sum_j a_j\Tr(\omega_j\omega_1)
+        \Tr(\alpha\omega_i)=\Tr((a_1\omega_1+\cdots+a_n\omega_n)\omega_i)=\sum_{j=1}^n a_j\Tr(\omega_j\omega_i)
     \end{equation*}
     Now,
     \begin{equation*}
         D=\disc(K)=\det
         \begin{pmatrix}
-            \Tr(\omega_1\omega_1) &\hdots&\Tr(\omega_1\omega_n)\\
-            \vdots&&\vdots\\
-            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
+            \Tr(\omega_1\omega_1) &\cdots&\Tr(\omega_1\omega_n)\\
+            \vdots&\ddots&\vdots\\
+            \Tr(\omega_n\omega_1) &\cdots&\Tr(\omega_n\omega_n)
         \end{pmatrix}
     \end{equation*}
-    so that
+    so that by standard determinant manipulation
     \begin{align*}
         a_1D &=\det
         \begin{pmatrix}
-            a_1\Tr(\omega_1\omega_1) &\hdots&\Tr(\omega_1\omega_n)\\
-            \Tr(\omega_2\omega_1) &\hdots&\Tr(\omega_2\omega_n)\\
-            \vdots&&\vdots\\
-            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
-        \end{pmatrix}\\
-        &=\det
+            a_1\Tr(\omega_1\omega_1) &\cdots&a_1\Tr(\omega_1\omega_n)\\
+            \Tr(\omega_2\omega_1) &\cdots&\Tr(\omega_2\omega_n)\\
+            \vdots&\ddots&\vdots\\
+            \Tr(\omega_n\omega_1) &\cdots&\Tr(\omega_n\omega_n)
+        \end{pmatrix}
+        =\det
         \begin{pmatrix}
-            a_1\Tr(\omega_1\omega_1)+\cdots+a_n\Tr(\omega_1\omega_n) &\hdots &a_1\Tr(\omega_1\omega_n)+\cdots+\Tr(\omega_n\omega_n)\\
-            \Tr(\omega_2\omega_1) &\hdots&\Tr(\omega_2\omega_n)\\
-            \vdots&&\vdots\\
-            \Tr(\omega_n\omega_1) &\hdots&\Tr(\omega_n\omega_n)
+            \sum_{i=1}^n a_i\Tr(\omega_i\omega_1) &\cdots & \sum_{i=1}^n\Tr(\omega_i\omega_n)\\
+            \Tr(\omega_2\omega_1) &\cdots&\Tr(\omega_2\omega_n)\\
+            \vdots&\ddots&\vdots\\
+            \Tr(\omega_n\omega_1) &\cdots&\Tr(\omega_n\omega_n)
         \end{pmatrix}
     \end{align*}
-    so $p|a_1D$, but $p\nmid a_i$ so $p|D$.
+    and $p\mid a_1D$.
+    Since $p\nmid a_i$, $p\mid D$.
+
+    \impl This implication is beyond the scope of this course.
 \end{proof}
-\begin{remark}
-    In fact, $p$ ramifies if and only if $p\mid\disc(K)$.
-\end{remark}
 \begin{example}
-    Consider $\Z[\sqrt{3}]=\mathcal{O}_K$, so $\disc(K)=12$.
-    Let's see that 3 ramifies: then $(3)=(\sqrt{3})^2$.
+    Consider $\Z[\sqrt{3}]=\mathcal{O}_K$.
+    Since $\disc(K)=12$, we see that $(3)=(\sqrt{3})^2$ indeed ramifies.
 \end{example}
+
 \section{Norms of Ideals}
 \begin{definition}
-    The norm of $0\neq I\subseteq\mathcal{O}_K$ is defined to be $N_{\Q}^K(I):=N(I):=\norm{I}:=|\mathcal{O}_K/I|=[\mathcal{O}_K:I]$.
+    Let $(0)\neq I\subseteq\mathcal{O}_K$.
+    Then we define \mbf{norm of $I$} to be $\left\lvert\quot{\mathcal{O}_K}{I}\right\rvert$, and write $N_{\Q}^K(I)$ or $N(I)$ or $\norm{I}$.
 \end{definition}
+\begin{remark}
+    Equivalently, $N(I)=[\mathcal{O}_K:I]$ since $I\subseteq\mathcal{O}_K$ is an additive subgroup.
+\end{remark}
 \begin{theorem}
     Let $K$ be a number field, $I\subseteq\mathcal{O}_K$.
     Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $I$.
@@ -2072,7 +2117,7 @@ If $p$ is the unique prime in $\Z$ for whoch $p\in\rho$, then we say \textbf{$\r
     If $N(I)$ is prime, then $I$ is a prime ideal.
 \end{remark}
 \begin{definition}
-    If $B,C\subseteq\mathcal{O}_K$ are ideals, we say $D\subseteq\mathcal{O}_K$ is the \textbf{gcd of $B,C$} if $D|B$, $D|C$, and whenever $E|B$ and $E|C$, we have $E|D$.
+    If $B,C\subseteq\mathcal{O}_K$ are ideals, we say $D\subseteq\mathcal{O}_K$ is the \mbf{gcd of $B,C$} if $D|B$, $D|C$, and whenever $E|B$ and $E|C$, we have $E|D$.
 \end{definition}
 One can see that the gcd exists and is unique by factorization of ideals into primes.
 Here's another proof of existence: write $B=(\alpha_1,\ldots,\alpha_r)$ and $C=(\beta_1,\ldots,\beta_s)$.
@@ -2139,7 +2184,7 @@ If the $\gcd$ exists, then $D|E$ and $E|D$ so $D\subseteq E\subseteq D$ and equa
 \end{proof}
 \section{Class Group}
 \begin{definition}
-    The \textbf{class group of $K$} is $\Cl(\mathcal{O}_K)$ is the set of ideals modulo the set of principal ideals, where the group operation is multiplication of ideals.
+    The \mbf{class group of $K$} is $\Cl(\mathcal{O}_K)$ is the set of ideals modulo the set of principal ideals, where the group operation is multiplication of ideals.
     We write $h_K:=|\Cl(\mathcal{O}_K)|$.
 \end{definition}
 We'll show that $h_k<\infty$.
@@ -2235,7 +2280,7 @@ This is about solving quadratic equations modulo $p$.
 Let's solve $x^2+bx+c$ in $\F_p$.
 This reduces to the question of solving $x^2=a\pmod{p}$; i.e. when is $a$ a square mod $p$?
 \begin{definition}
-    We define the \textbf{Legendre symbol} by
+    We define the \mbf{Legendre symbol} by
     \begin{equation*}
         \lgs{a}{p}=\begin{cases}1&\text{$a$ is a square in $\F_p$}\\-1&:\text{otherwise}\end{cases}
     \end{equation*}
@@ -2349,7 +2394,7 @@ Additionally,
 \end{remark}
 \section{Fermat's Last Theorem}
 \begin{definition}
-    We say $p$ is a \textbf{regular prime} if $p\nmid h_{\Q(\zeta_p)}$.
+    We say $p$ is a \mbf{regular prime} if $p\nmid h_{\Q(\zeta_p)}$.
 \end{definition}
 \begin{theorem}[Kummer]
     If $p\geq 3$ is a regular prime an $p\nmid x,y,z$, for $x,y,z\in\Z\setminus\{0\}$, then $x^p+y^p\neq z^p$.
@@ -2418,7 +2463,7 @@ so, modulo $p$, $1,\zeta,\zeta^2,\ldots,\zeta^{p-2}$ form a basis.
 If $j\notin\{0,1,2,p-1\}$, then ($*$) contradicts linear independence.
 \section{Lattices and Minkowski's Theorem}
 \begin{definition}
-    A \textbf{lattice} is an Abelian subgroup $\Lambda$ of $\R^n$ such that $\Lambda\cong\Z^n$.
+    A \mbf{lattice} is an Abelian subgroup $\Lambda$ of $\R^n$ such that $\Lambda\cong\Z^n$.
 \end{definition}
 \begin{example}
     If $[K:\Q]=n$, then $\mathcal{O}_K$ is a lattice in $K\cong\Q^n\subseteq\R^n$.
@@ -2435,7 +2480,7 @@ If $\alpha_1,\ldots,\alpha_n$ is a basis for $\Lambda$ and $\alpha_1',\ldots,\al
     \begin{pmatrix}\alpha_1'\\\vdots\\\alpha_n'\end{pmatrix}=P\begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix}
 \end{equation*}
 Since $P\in\GL_n(\Z)$, $\det P=\pm 1$.
-Thus, we can define the \textbf{volume of $\Lambda$} to be
+Thus, we can define the \mbf{volume of $\Lambda$} to be
 \begin{equation*}
     d(\Lambda)=|\det(\alpha_1,\ldots,\alpha_n)|
 \end{equation*}
