@@ -209,8 +209,9 @@
 \hfuzz=1000pt
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\Cl}{Cl}
-\usepackage{showkeys}
+% \usepackage{showkeys}
 \newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
 \setfootins{0.5cm}{0.5cm}
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
@@ -1708,12 +1709,21 @@ Note that the result was not strictly necessary to do this, but we get to use it
 \begin{theorem}\label{thm:id-basis}
     Every non-zero ideal $I\subseteq\mathcal{O}_K$ has an integral basis.
     More specifically, if $\{\omega_1,\ldots,\omega_n\}$ is an integral basis for $\mathcal{O}_K$, then there exists $a_{ij}\in\Z$, $a_{ii}\in\Z^+$ such that $\{\alpha_1,\ldots,\alpha_n\}$ is an integral basis for $I$ and
-    \begin{align*}
-        \alpha_1 &= a_{11}\omega_1\\
-        \alpha_2 &= a_{21}\omega_1+a_{22}\omega_2\\
-                 &\vdots\\
-        \alpha_n &= a_{n1}\omega_1+\cdots+a_{n,n-1}\omega_{n-1}+a_{nn}\omega_n
-    \end{align*}
+    \begin{equation*}
+        \begin{pmatrix}
+            \alpha_1\\\vdots\\\alpha_n
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            a_{11}&0&\hdots&0\\
+            a_{21}&a_{22}&\ddots&\vdots\\
+            \vdots&\vdots&\ddots&0\\
+            a_{n1}&a_{n2}&\hdots&a_{nn}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \omega_1\\\vdots\\\omega_n
+        \end{pmatrix}
+    \end{equation*}
 \end{theorem}
 \begin{proof}
     From \cref{prop:id-scale} there exists $a\in I\cap\Z^+$; in particular, for any $\omega\in\mathcal{O}_K$, $a\omega\in I$.
@@ -1725,12 +1735,8 @@ Note that the result was not strictly necessary to do this, but we get to use it
             Again, such an $\alpha_2$ exists since $a(\omega_1+\omega_2)\in I$.
         \item In general, let $\alpha_i:=a_{i1}\omega_1+a_{i(i-1)}\omega_{i-1}+\cdots+a_{ii}\omega_i\in I$ with $a_{ii}\in\Z^+$ minimal.
     \end{itemize}
-    We can encode this as a linear system:
-    \begin{equation*}
-        \begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix} = \begin{pmatrix}a_{11}&0&\hdots&0\\a_{21}&a_{22}&\hdots&0\\\vdots&\vdots&\ddots&\vdots\\a_{n1}&a_{n2}&\hdots&a_{nn}\end{pmatrix}
-        \begin{pmatrix}\omega_1\\\vdots\\\omega_n\end{pmatrix}
-    \end{equation*}
-    Since $\{\omega_1,\ldots,\omega_n\}$ is a basis for $K/\Q$, $\{\alpha_1,\ldots,\alpha_n\}$ is as well.
+    Let $A=(a_{ij})$ which satisfies the requirements; it remains to show that $\{\alpha_1,\ldots,\alpha_n\}$ is in fact an integral basis.
+    Since $\{\omega_1,\ldots,\omega_n\}$ is a basis for $K/\Q$ and $\det(A)\neq 0$, $\{\alpha_1,\ldots,\alpha_n\}$ is as well.
 
     Now, let $\beta\in I$ be arbitrary.
     Since $\{\omega_1,\ldots,\omega_n\}$ is an integral basis for $\mathcal{O}_K$, get $b_i\in\Z$ such that $\beta=b_1\omega_1+\cdots+b_n\omega_n$.
@@ -1748,6 +1754,21 @@ Note that the result was not strictly necessary to do this, but we get to use it
     Thus $b_1\omega_1+\cdots+b_{n-1}\omega_{n-1}+q\gamma=\beta-q\alpha_n\in I$.
 
     The proof follows by repeating the same argument with $\beta-q\alpha_n$.
+\end{proof}
+\begin{corollary}
+    Suppose $I\subseteq\mathcal{O}_K$ is a non-zero ideal, $\{\omega_1,\ldots,\omega_n\}$, $\{\alpha_1,\ldots,\alpha_n\}$, $A$ as in \cref{thm:id-basis}.
+    Then
+    \begin{equation*}
+        \quot{\mathcal{O}_K}{I}\cong \Z_{a_{11}}\times\cdots\times\Z_{a_nn}
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    Consider the map
+    \begin{equation*}
+        \phi(r_1\alpha_1+\cdots+r_n\alpha_n)=(r_1\pmod{a_{11}},\ldots,r_n\pmod{a_{nn}})
+    \end{equation*}
+    TODO: is this true? try to show well-defined, surjective, $\ker(\phi)=I$.
+    If true, fix $\cref{thm:id-norm}$ to use this fact (the theorem follows immediately).
 \end{proof}
 \begin{example}
     Consider $I=(7)\subseteq\Z[\sqrt{2}]$.
@@ -1843,7 +1864,7 @@ If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, c
 \begin{definition}
     If $A,B$ are ideals in $R$, we say that \mbf{$A$ divides $B$} and write $A|B$ if there exists an ideal $C$ such that $AC=B$.
 \end{definition}
-\begin{corollary}
+\begin{corollary}\label{cor:id-div}
     Let $A,B,C$ be ideals in a Dedekind domain, with $C\neq 0$.
     Then
     \begin{enumerate}[nolistsep,label=(\roman*)]
@@ -1913,7 +1934,7 @@ If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, c
     For $d=1,2$, $K$ is in fact a Euclidean domain; more generally, we may ask when $\mathcal{O}_K$ is a PID.
     It was conjectured (correctly) by Gauss that this is true when $d\in\{1,2,3,7,11,19,43,67,163\}$.
 \end{example}
-\subsection{Prime Ideals and Ramification}
+\subsection{Ramification}
 Suppose $P\subseteq\mathcal{O}_K$ is a prime ideal and let $0\neq a\in P\cap\Z^+$.
 Write $a=p_1^{e_1}\cdots p_r^{e_r}$, so by primality, some $p:=p_i\in P$.
 Then $(p)\subseteq P$, so $P\mid(p)$; thus, $PQ_1\cdots Q_s=(p)$ for some prime ideals $Q_i$.
@@ -1929,7 +1950,20 @@ Thus $p\in \Z^+$ is the unique prime number such that $(p)\subseteq P$; in this 
     By unique factorization into prime ideals, we can write $(p)=P_1^{e_1}\cdots P_r^{e_r}$.
     Then $p$ ramifies in $K$ if $e_i>1$ for some $i$.
     We say that $e_i$ is the \mbf{ramification index} for the prime $P_i$.
+
 \end{remark}
+We can interpret the idea of ramification in the sense of algebraic geometry.
+First, let's consider a well-known example: consider the map $f:\C\to\C$ be given by $x\mapsto x^n$.
+Then most points $z\in\C$ have $n$ distinct preimages - in fact, all of them except $z=0$.
+
+Now consider $x\mapsto\prod(x-\lambda_i)^{e_i}$ where $n=\sum e_i=\deg f$.
+If $x\neq\lambda_i$ for all $i$, then $x$ has $n$ distinct preimages.
+However, if $x=\lambda_i$, then $x$ has $n-e_i$ preimages so that $\lambda_i$ ramified.
+
+In algebraic geometry, since $\mathcal{O}_K/\Z$ is an integral extension of rings, we consider $\pi:\Spec(\mathcal{O}_K)\to\Spec(\Z)$ given by $\rho\mapsto\rho\cap\Z$.
+This is a surjective homeomorphism.
+If $[K:\Q]=n$, then for most prime ideals $(p)\subseteq\Z$, $(p)$ has $n$ preimages in this map.
+We say that $P$ is ramified if and only if $\pi^{-1}(p)<n$.
 \begin{theorem}
     Let $D=\disc(K)$ and $p\in\Z^+$.
     Then $p$ is ramified if and only if $p\mid D$.
@@ -1962,7 +1996,7 @@ Thus $p\in \Z^+$ is the unique prime number such that $(p)\subseteq P$; in this 
             \Tr(\omega_n\omega_1) &\cdots&\Tr(\omega_n\omega_n)
         \end{pmatrix}
     \end{equation*}
-    so that by standard determinant manipulation
+    so that by standard matrix manipulation preserving the determinant,
     \begin{align*}
         a_1D &=\det
         \begin{pmatrix}
@@ -1992,67 +2026,93 @@ Thus $p\in \Z^+$ is the unique prime number such that $(p)\subseteq P$; in this 
 \section{Norms of Ideals}
 \begin{definition}
     Let $(0)\neq I\subseteq\mathcal{O}_K$.
-    Then we define \mbf{norm of $I$} to be $\left\lvert\quot{\mathcal{O}_K}{I}\right\rvert$, and write $N_{\Q}^K(I)$ or $N(I)$ or $\norm{I}$.
+    Then we define \mbf{norm of $I$} to be $\left\lvert\quot{\mathcal{O}_K}{I}\right\rvert$, and write $N_{\Q}^K(I)$ or $N(I)$ or $\norm{I}$ when the context is clear.
 \end{definition}
 \begin{remark}
     Equivalently, $N(I)=[\mathcal{O}_K:I]$ since $I\subseteq\mathcal{O}_K$ is an additive subgroup.
 \end{remark}
-\begin{theorem}
-    Let $K$ be a number field, $I\subseteq\mathcal{O}_K$.
-    Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $I$.
+\begin{theorem}\label{thm:id-norm}
+    Let $K$ be a number field, $I\subseteq\mathcal{O}_K$ and let $\{\alpha_1,\ldots,\alpha_n\}$ be an integral basis for $I$.
     Then
     \begin{equation*}
         N(I)=\left\lvert\frac{\disc(\alpha_1,\ldots,\alpha_n)}{\disc(K)}\right\rvert^{1/2}
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    If $\alpha_1,\ldots,\alpha_n$ and $\beta_1,\ldots,\beta_n$ are choices of integral bases for $I$, then they have the same discriminant.
-    To see this, if $P$ is a change of basis, then $P\in\GL_n(\Z)$ so $\det(P)=\pm 1$.
-    Let's choose the integral basis for $I$ that we constructed earlier.
-    Let
+    Let's first show that this quantity does not depend on the choice of integral basis.
+    Suppose $\{\alpha_1,\ldots,\alpha_n\}$ and $\{\beta_1,\ldots,\beta_n\}$ are choices of integral bases for $I$.
+    Then if $P$ is a change of basis, $P\in\GL_n(\Z)$, so $\det(P)=\pm 1$.
+
+    It thus suffices to do this with the integral basis as in \cref{thm:id-basis}.
+    Fix $\{\omega_1,\ldots,\omega_n\}$ an integral basis for $\mathcal{O}_K$, and let
     \begin{align*}
-        \alpha_1 &= a_{11}\omega_1\\
-        \alpha_2 &= a_{21}\omega_1+a_{22}\omega_2\\
-                 &\vdots\\
-        \alpha_n &= a_{n1}\omega_1+\cdots+a_{nn}\omega_n
+        A&=
+        \begin{pmatrix}
+            a_{11}&0&\hdots&0\\
+            a_{21}&a_{22}&\ddots&\vdots\\
+            \vdots&\vdots&\ddots&0\\
+            a_{n1}&a_{n2}&\hdots&a_{nn}
+        \end{pmatrix}
+        &
+        \begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix}&=A\begin{pmatrix}\omega_1\\\vdots\\\omega_n\end{pmatrix}
     \end{align*}
-    so
+    so that
     \begin{equation*}
-        \disc(\alpha_1,\ldots,\alpha_n) = \det
-        \begin{pmatrix}a_{11}&0&\hdots&0\\a_{21}&a_{22}&\hdots&0\\\vdots&\vdots&\ddots&\vdots\\a_{n1}&a_{n2}&\hdots&a_{nn}\end{pmatrix}^2\disc(\omega_1,\ldots,\omega_n)
+        \disc(\alpha_1,\ldots,\alpha_n) = \det(A)^2\disc(\omega_1,\ldots,\omega_n)
     \end{equation*}
     Thus,
     \begin{equation*}
         \frac{\disc(\alpha_1,\ldots,\alpha_n)}{\disc(K)}=(a_{11}\cdots a_{nn})^2
     \end{equation*}
     Thus we need to show that $N(I)=\prod_{i=1}^n a_{ii}$.
-    Let's show that every element of $\mathcal{O}_K/I$ has a unique representation as $r_1\omega_1+\cdots+r_n\omega_n$.
+    Let's show that every element of $\quot{\mathcal{O}_K}{I}$ has a unique representation as $r_1\omega_1+\cdots+r_n\omega_n$ where $0\leq r_i<a_{ii}$.
 
-    Every $\gamma\in\mathcal{O}_K$ can be represented in this form since $\gamma=\sum b_i\omega_i$.
-    Write $b_n=q_na_{nn}+r_n$, where $0\leq r_n<a_{nn}$.
-    Replace $\gamma$ by $\gamma-q_n\alpha_n$, and divide $a_{n-1,m-1}$ into the $\omega_{n-1}$ coefficient of $\gamma-q_n\alpha_n$.
-    Repeat.
-    But then $\sum(r_i-s_i)\omega_i\in I$, and $a_{nn}\in\Z^+$ was chosen minimally, so $a_{nn}|(r_n-s_n)$.
-    Thus $r_n=s_n+q_na_{nn}$ where $0\leq r_n,s_n<a_{nn}$ so $r_n=s_n$.
-    Thus $\sum_{i=1}^{n-1}(r_i-s_i)\omega_i\in I$, and $a_{n-1,n-1}$ was chosen minimally with this property, so $r_{n-1}=s_{n-1}$.
+    First let $\gamma\in\mathcal{O}_K$ be arbitrary and write $\gamma=\sum_{i=1}^n b_i\omega_i$.
+    \begin{itemize}[nl]
+        \item Write $b_n=q_na_{nn}+r_n$, where $0\leq r_n<a_{nn}$ and set $\gamma_n=\gamma-q_n\alpha_n$.
+        \item Let $c_{n-1}$ denote the coefficient of $\omega_{n-1}$ in $\gamma_n$, and write $c_{n-1}=q_{n-1}a_{n-1,n-1}+r_{n-1}$, and set $\gamma_{n-1}=\gamma_n-q_{n-1}\alpha_{n-1}$.
+    \end{itemize}
+    Repeating the above process, we note that
+    \begin{equation*}
+        r_1\omega_1+\cdots+r_n\omega_n = \gamma-\left(q_1\alpha_1+\cdots+q_n\alpha_n\right)
+    \end{equation*}
+    and since $\sum_{i=1}^n q_i\alpha_i\in I$, $\gamma$ has a representation in the desired form.
+
+    Furthermore, such a representation is unique: suppose
+    \begin{equation*}
+        r_1\omega_1+\cdots+r_n\omega_n\equiv s_1\omega_1+\cdots+s_n\omega_n\pmod{I}
+    \end{equation*}
+    where $r_i,s_i<a_{ii}$.
+    Then since $\{\alpha_1,\ldots,\alpha_n\}$ is an integral basis for $I$, we have
+    \begin{align*}
+        \sum_{i=1}^n(r_i-s_i)\omega_i = \sum_{i=1}^n t_i\alpha_i = 
+        \begin{pmatrix}
+            t_1a_{11}&0&\hdots&0\\
+            t_2a_{21}&t_2a_{22}&\ddots&\vdots\\
+            \vdots&\vdots&\ddots&0\\
+            t_na_{n1}&t_na_{n2}&\hdots&t_na_{nn}
+        \end{pmatrix}\cdot
+        \begin{pmatrix}
+            \omega_1\\\vdots\\\omega_n
+        \end{pmatrix}
+    \end{align*}
+    But then comparing coefficients starting at the last row, since $|r_i-s_i|<a_{ii}$, we have $t_n=\cdots=t_1=0$ so that $r_i=s_i$ for all $i$.
 \end{proof}
-\begin{remark}
-    $N(I)$ is supposed to be a generalization of norms of elements.
-\end{remark}
-\begin{proposition}
+\begin{corollary}
     Let $K$ be a number field, $I=(\alpha)$.
     Then $N(I)=|N(\alpha)|$.
-\end{proposition}
+\end{corollary}
 \begin{proof}
+    Let $\{\omega_1,\ldots,\omega_n\}$ be a basis for $\mathcal{O}_K$ so that $\{\alpha\omega_1,\ldots,\alpha\omega_n\}$ is a basis for $I$.
     Let $\sigma_1,\ldots,\sigma_n$ be the embeddings of $K\hto\C$.
     Then
     \begin{equation*}
         \begin{pmatrix}
             \sigma_1(\alpha\omega_1) &\hdots&\sigma_1(\alpha\omega_n)\\
-            \vdots&&\vdots\\
+            \vdots&\ddots&\vdots\\
             \sigma_n(\alpha\omega_1) &\hdots&\sigma_n(\alpha\omega_n)
         \end{pmatrix}
-    =
+        =
         \begin{pmatrix}
             \sigma_1(\alpha) &&\\
                              &\ddots&\\
@@ -2060,186 +2120,180 @@ Thus $p\in \Z^+$ is the unique prime number such that $(p)\subseteq P$; in this 
         \end{pmatrix}
         \begin{pmatrix}
             \sigma_1(\omega_1) &\hdots&\sigma_1(\omega_n)\\
-            \vdots&&\vdots\\
+            \vdots&\ddots&\vdots\\
             \sigma_n(\omega_1) &\hdots&\sigma_n(\omega_n)
         \end{pmatrix}
     \end{equation*}
-    Apply $(\det)^2$ to both sides so that $\disc(\alpha\omega_1,\ldots,\alpha\omega_n)=N(\alpha)^2\disc(\omega_1,\ldots,\omega_n)$.
-    Then $N(I)=|N(\alpha)|$ by the previous theorem.
+    so that $\disc(\alpha\omega_1,\ldots,\alpha\omega_n)=N(\alpha)^2\disc(\omega_1,\ldots,\omega_n)$.
+    Then $N(I)=|N(\alpha)|$ by \cref{thm:id-norm}.
 \end{proof}
 \begin{remark}
-    Let $f:\C\to\C$ be given by $x\mapsto x^n$.
-    Most points $z\in\C$ have $n$ distinct preimages (all except $z=0$).
-
-    Now consider $x\mapsto\prod(x-\lambda_i)^{e_i}$ where $n=\sum e_i=\deg f$.
-    If $x\neq\lambda_i$, then there are $n$ preimages (counting multiplicity), but $\lambda_i$ has $n-e_i$ preimages $\lambda_i$ ramified.
-
-    In algebraic geometry, $\Spec(\mathcal{O}_K)\to\Spec(\Z)$ we have the map $\pi$ given by $\rho\mapsto\rho\cap\Z$.
-    If $[K:\Q]=n$, then there are usually $n$ preimages to this map.
-    Then $p$ is ramified if and only if $\pi^{-1}(p)|<n$.
+    In the sense of the previous two propositions, we see that $N(I)$ is a generalization of norms of elements.
 \end{remark}
 \begin{theorem}[Fermat]
-    Let $K$ be a number field, $\rho\subseteq\mathcal{O}_K$ a prime ideal, $\alpha\in\mathcal{O}_K$, and $\rho\nmid(\alpha)$, then $\alpha^{N(p)-1}\equiv 1\pmod{p}$.
+    Let $K$ be a number field, $P\subseteq\mathcal{O}_K$ a prime ideal, $\alpha\in\mathcal{O}_K$, and $P\nmid(\alpha)$.
+    Then $\alpha^{N(p)-1}\equiv 1\pmod{P}$.
 \end{theorem}
 \begin{proof}
-    $\mathcal{O}_K/\rho$ is a field, so $(\mathcal{O}_K/\rho)^\times$ is a group with size $N(\rho)-1$.
-    Then $\rho\nmid(\alpha)$ if and only if $\alpha\notin\rho$ and the result follows by Lagrange.
+    Since $\quot{\mathcal{O}_K}{P}$ is a field, so $(\quot{\mathcal{O}_K}{P})^\times$ is a group with size $N(P)-1$.
+    Then $P\nmid(\alpha)$ if and only if $\alpha\notin\rho$ and the result follows by Lagrange's theorem.
 \end{proof}
 \begin{proposition}
     If $I\subseteq\mathcal{O}_K$ is an ideal, then $N(I)\in I$.
 \end{proposition}
 \begin{proof}
-    Let $\alpha_1,\ldots,\alpha_{N(I)}$ be the distinct classes in $\mathcal{O}_K/I$.
-    Then $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ are also distinct.
-    Thus $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ is a permutation, so in $\mathcal{O}_K/I$, $N(I)+\sum\alpha_i=\sum\alpha_i$ and $N(I)=0$ in $\mathcal{O}_K/I$, i.e. $N(I)\in I$.
+    Let $\alpha_1,\ldots,\alpha_{N(I)}$ be distinct representatives in $\quot{\mathcal{O}_K}{I}$.
+    Then $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ are also distinct representatives and thus a permutation of $\alpha_1,\ldots,\alpha_{N(I)}$.
+    Thus in $\quot{\mathcal{O}_K}{I}$,
+    \begin{equation*}
+        N(I)+\sum_{i=1}^{N(I)}\alpha_i=\sum_{i=1}^{N(I)}\alpha_i
+    \end{equation*}
+    so that $N(I)=0$ in $\mathcal{O}_K/I$, i.e. $N(I)\in I$.
 \end{proof}
 \begin{remark}
     Alternatively, apply Lagrange to the aditive group $\mathcal{O}_K/I$.
 \end{remark}
-\begin{corollary}
+\begin{corollary}\label{cor:fin-norm}
     If $K$ is a number field and $a\in\Z^+$, then there are only finitely many ideals $I\subseteq\mathcal{O}_K$ with $N(I)=a$.
 \end{corollary}
 \begin{proof}
-    If $I\subseteq\mathcal{O}_K$ is an ideal, and $N(I)=a$, then $a\in I$.
-    Thus $(a)\subseteq I$ so $I|(a)$.
-    Factor $(a)=\prod p_i^{e_i}$ prime ideals, and since $I\div\prod p_i^{e_i}$ so $I=\prod p_i^{f_i}$ for some $0\leq f_i\leq p_i$.
+    If $I\subseteq\mathcal{O}_K$ is an ideal and $N(I)=a$, then $a\in I$.
+    Thus $(a)\subseteq I$ so $I\mid (a)$; since we have unique factorization of ideals, there are only finitely many such $I$.
 \end{proof}
+\begin{remark}
+    TODO: some sort of comment on dividing another ring, being a subring of additive group, and divisibility of norm.
+\end{remark}
 \begin{example}
     Which $I\subseteq\Z[i]$ have norm 5?
-    Since $5=(1+2i)(1-2i)$ is a factorization into primes, since if $N(I)=5$, then $I=(1+2i)^a(1-2i)^b$ for $a,b\in\{0,1\}$.
-    In this case, you can check $N(I)=5$ if and only if $I=(1+2i)$ or $I=(1-2i)$.
+    Note that $5=(1+2i)(1-2i)$ is a factorization into primes, since if $N(I)=5$, then $I=(1+2i)^a(1-2i)^b$ for $a,b\in\{0,1\}$.
+    Thus one can verify $N(I)=5$ if and only if $I=(1+2i)$ or $I=(1-2i)$.
 \end{example}
 \begin{remark}
-    Note: if $N(I)=I$ if and only if $I=\mathcal{O}_K$.
-    If $[K:\Q]=n$ and $\rho$ is a prime ideal, we already showed $\rho|(p)$ for some prime $p\in\Z$.
-    Thus, once we show $N$ is multiplicative, we will know $(p)=\rho J$, so $N((p))=N(\rho)N(J)$ so $N(\rho)=p^f$ (prove directly) for some $1\leq f\leq n$.
-    We write $f(\rho|p):=f$.
+    TODO: move this
+    Note that $N(I)=1$ if and only if $I=\mathcal{O}_K$.
+    If $[K:\Q]=n$ and $P$ is a prime ideal, we already showed $P\mid(p)$ for some prime $p\in\Z$.
+    Thus, once we show $N$ is multiplicative, we will know $(p)=P J$, so $N((p))=N(P)N(J)$ so $N(P)=p^f$ (prove directly) for some $1\leq f\leq n$.
+    We write $f(P|p):=f$.
     If $N(I)$ is prime, then $I$ is a prime ideal.
 \end{remark}
+\subsection{The Ideal Norm is Multiplicative}
 \begin{definition}
-    If $B,C\subseteq\mathcal{O}_K$ are ideals, we say $D\subseteq\mathcal{O}_K$ is the \mbf{gcd of $B,C$} if $D|B$, $D|C$, and whenever $E|B$ and $E|C$, we have $E|D$.
+    If $B,C\subseteq\mathcal{O}_K$ are ideals, we say $D\subseteq\mathcal{O}_K$ is the \mbf{gcd of $B,C$} if $D\mid B$, $D\mid C$ and, whenever $E|B$ and $E|C$, we have $E\mid D$.
+    We also say $L=\subseteq\mathcal{O}_K$ is the \mbf{lcm of $B,C$} if $B\mid L$, $C\mid L$, and $L$ is minimal with this property.
 \end{definition}
-One can see that the gcd exists and is unique by factorization of ideals into primes.
-Here's another proof of existence: write $B=(\alpha_1,\ldots,\alpha_r)$ and $C=(\beta_1,\ldots,\beta_s)$.
-Then $\gcd(B,C)=(\alpha_1,\ldots,\alpha_r,\beta_1,\ldots,\beta_s)$.
-If the $\gcd$ exists, then $D|E$ and $E|D$ so $D\subseteq E\subseteq D$ and equality holds.
-\begin{lemma}
-    Suppose $0\neq B,C\subseteq\mathcal{O}_K$ are ideals.
-    Then there exists $\alpha\in B$ such that $\gcd((\alpha)/B,C)=1$ (this makes sense since $\alpha\in B$ implies $B|(\alpha)$, so $(\alpha)=B\frac{(\alpha)}{B}$).
+\begin{remark}
+    One can see that the gcd and lcm both exist and are unique by factorization of ideals into primes.
+    Alternatively, in light of \cref{cor:id-div}, $\gcd(I,J)=I+J$ is the smallest ideal containing both $I$ and $J$, and $\lcm(I,J)=I\cap J$ is the smallest ideal contained in $I$ and $J$.
+\end{remark}
+\begin{lemma}\label{lem:gcd-pr}
+    Suppose $B,C\subseteq\mathcal{O}_K$ are non-zero ideals.
+    Then there exists $\alpha\in B$ such that $\gcd\left(\frac{(\alpha)}{B},C\right)=1$.
 \end{lemma}
+\begin{remark}
+    This makes sense since if $\alpha\in B$, then $(\alpha)\subseteq B$ and $B\mid (\alpha)$.
+\end{remark}
 \begin{proof}
     If $C=\mathcal{O}_K$, choose any $\alpha\in B$.
-    Otherwise, $C=\prod_{i=1}^4\rho_i^{e_i}$ is a product of prime ideals.
-    If $r=1$, then $C=\rho^e$.
-    Choose $\alpha\in B\setminus B\rho$, so $\gcd\left(\frac{(\alpha)}{\beta},\rho^e\right)=\rho^m$.
-    Suppose $m\geq 1$, so $\rho\div\frac{(\alpha)}{B}$ so $(\alpha)=B\frac{(\alpha)}{B}=B\rho E\subseteq B\rho$.
-    Thus $\alpha\in B\rho$, a contradiction.
+    Otherwise, write $C=\prod_{i=1}^r P_i^{e_i}$ as a product of prime ideals; the proof proceeds by induction on $r$.
+    If $r=1$, then $C=P^e$.
+    Let $\alpha\in B\setminus BP$ be arbitrary, so that
+    \begin{align*}
+        \gcd\left(\frac{(\alpha)}{B},P^e\right)=P^m
+    \end{align*}
+    Suppose for contradiction $m\geq 1$; then, $P\div\frac{(\alpha)}{B}$ so $(\alpha)=B\frac{(\alpha)}{B}=BP E\subseteq BP$ so that $\alpha\in BP$, a contradiction.
 
-    For $r>1$, let $B_m:=B\frac{\rho_1\cdots\rho_r}{\rho_m}$.
-    We can find $\alpha_m\in B_m$ such that $\gcd\left(\frac{(\alpha_m)}{B_m},\rho_m\right)=1$.
-    Let $\alpha:=\sum\alpha_i$.
-    Then $B\supseteq B_i$, so $\alpha_i\in B$ and $\alpha\in B$.
-    For $i\neq $, $\alpha_i\in B_i\subseteq B\rho_m$.
-    Let's show that $\alpha\notin B\rho_m$ fr any $m$.
-    If $\alpha\in B\rho_m$, then since $\alpha_i\in B\rho_m$ for $i\neq m$, we have $\alpha_m\in B\rho_m$.
-    Thus $(\alpha_m)\subseteq B\rho_m$, so $B\rho_m\div(\alpha_m)$ and $(\alpha_m)=B\rho_mD$.
-    Thus $\alpha_m\in B_m$, so $(\alpha_m)=B_mE$, where $E=\frac{(\alpha_m)}{B_m}$.
-    But then $B\rho_mD=(\alpha_m)=B_mE=B\frac{\rho_1\cdots\rho_r}{\rho_m}E$ so $\rho_mD=\frac{\rho_1\cdots\rho_r}{\rho_m}E$.
-    But then $\gcd(E,\rho_m)=1$ so $\rho_m\div\frac{\rho_1\cdots\rho_r}{\rho_m}$, a contradiction.
+    Now suppose $r>1$; then by the induction, for any $r\in\{1,\ldots,m\}$, set
+    \begin{align*}
+        B_m:&=B\frac{P_1\cdots P_r}{P_m} & \alpha_m \in B_m &\quad\text{s.t.}\quad\gcd\left(\frac{(\alpha_m)}{B_m},P_m\right)=1 & \alpha=\sum_{i=1}^r\alpha_i
+    \end{align*}
+    In particular, since $B\supseteq B_i$, $\alpha_i\in B$ for any $i$ so that $\alpha\in B$.
+    Furthermore, for $i\neq m$, $\alpha_i\in B_i\subseteq BP_m$.
 
-    Now suppose $\gcd((\alpha)/B,C)\neq 1$.
-    Then there exists $M$ such that $\rho_m|(\alpha)/B$, so $B\rho_m|(\alpha)$ and $\alpha\in B\rho_m$, a contradiction.
+    Let's show that $\alpha\notin BP_m$ for any $m$.
+    If $\alpha\in BP_m$, then since $\alpha_i\in BP_m$ for $i\neq m$, we have $\alpha_m\in BP_m$.
+    Thus $BP_m\div(\alpha_m)$ and $B_m\div(\alpha_m)$ by assumption so that $P_m\div\frac{(\alpha_m)}{B}$ and $\frac{P_1\cdots P_r}{P_m}\div\frac{(\alpha_m)}{B}$.
+    Thus $BP_1\cdots P_r\div(\alpha_m)$.
+    But then since $\frac{BP_1\cdots P_r}{B_m}=P_m$, $P_m\div\frac{(\alpha)}{B_m}$, contradicting the choice of $\alpha_m$.
+
+    Now suppose $\gcd\left(\frac{(\alpha)}{B},C\right)\neq 1$.
+    Then there exists $m$ such that $P_m\div\frac{(\alpha)}{B}$, so $BP_m\mid(\alpha)$ and $\alpha\in BP_m$, a contradiction.
+    Thus the result follows.
 \end{proof}
-\begin{lemma}
-    Suppose $0\neq B,C\subseteq\mathcal{O}_K$.
-    If $\alpha\beta\equiv 0\pmod{BC}$, then $\gcd\left(\frac{(\alpha)}{B},C\right)=1$, then $\beta\equiv 0\pmod{C}$.
+\begin{lemma}\label{lem:gcd-cp}
+    Suppose $B,C\subseteq\mathcal{O}_K$ are non-zero ideals.
+    If $\alpha\beta\equiv 0\pmod{BC}$ and $\gcd\left(\frac{(\alpha)}{B},C\right)=1$, then $\beta\equiv 0\pmod{C}$.
 \end{lemma}
 \begin{proof}
-    Since $\alpha\beta\in BC$, $BC|(\alpha)(\beta)$ so $(\alpha)(\beta)=BCD$, so $\frac{(\alpha)}{B}(\beta)=CD$.
+    Since $\alpha\beta\in BC$, $BC\div(\alpha)(\beta)$ so that $C\div\frac{(\alpha)}{B}(\beta)$.
+    Since $\gcd\left(\frac{(\alpha)}{B},C\right)=1$, we have $C\mid(\beta)$ so $\beta\in C$.
 \end{proof}
 \begin{theorem}
-    If $B,C\subseteq\mathcal{O}_K$ are ideals, then $N(BC)=N(B)N(C)$.
+    If $B,C\subseteq\mathcal{O}_K$ are non-zero ideals, then $N(BC)=N(B)N(C)$.
 \end{theorem}
 \begin{proof}
-    The lemma says there exists $\gamma\in B$ such that $\gcd\left(\frac{(\gamma)}{B},C\right)=1$.
-    Let $\alpha_1,\ldots,\alpha_{N(B)}\in\mathcal{O}_K$ represent the distinct classes in $\mathcal{O}_K/B$.
-    Let $\beta_1,\ldots,\beta_{N(C)}$ represent the distinct classes in $\mathcal{O}_K/C$.
-    Let's show that $\alpha_i+\gamma\beta_j$ represent the distinct classes in $\mathcal{O}_K/BC$, so $N(BC)=N(B)N(C)$.
+    By \cref{lem:gcd-pr}, get $\alpha\in B$ such that $\gcd\left(\frac{(\alpha)}{B},C\right)=1$.
+    Let $\beta_1,\ldots,\beta_{N(B)}\in\mathcal{O}_K$ and $\gamma_1,\ldots,\gamma_{N(C)}\in\mathcal{O}_K$ represent the distinct classes in $\quot{\mathcal{O}_K}{B}$and $\quot{\mathcal{O}_K}{C}$ respectively.
+    Let's show that $\beta_i+\alpha\gamma_j$ represent the distinct classes in $\quot{\mathcal{O}_K}{BC}$, which would give the result $N(BC)=N(B)N(C)$.
 
-    First note that $\alpha_i+\gamma\beta_j$ are distinct modulo $BC$:
+    Let's first see that $\beta_i+\alpha\gamma_j$ are distinct mod $BC$ and suppose
     \begin{align*}
-        \alpha_i+\gamma\beta_j &\equiv\alpha_k+\gamma\beta_l\pmod{BC}\\
-        \alpha_i-\alpha_k &\equiv\gamma(\beta_l-\beta_i)\\
-        \alpha_i-\alpha_k &\equiv 0\pmod{B}
+        \beta_i+\alpha\gamma_j \equiv\beta_k+\alpha\gamma_l\pmod{BC}&\iff \beta_i-\beta_k \equiv\alpha(\gamma_l-\gamma_i)\pmod{BC}
     \end{align*}
-    so that $I=k$; i.e. $\alpha_i=\alpha_k$ in $\mathcal{O}_K$.
-    Then $0\equiv\gamma(\beta_l-\beta_j)\pmod{BC}$, so by the second lemma, $\beta_l-\beta_j\equiv \pmod{C}$ and $j=l$.
-    Next, we need to show if $\alpha\in\mathcal{O}_K$, then there exists $i,j$ such that $\alpha\equiv\alpha_i+\gamma\beta_j\pmod{BC}$.
+    Thus since $BC\subseteq B$, the congruence also holds mod $B$.
+    Then since $\alpha\in B$, $\beta_i-\beta_k\equiv 0\pmod{B}$ and $i=k$.
+    As a result, $0\equiv\alpha(\gamma_l-\gamma_j)\pmod{BC}$, so by \cref{lem:gcd-cp}, $\gamma_l-\gamma_j\equiv 0\pmod{C}$ and $j=l$.
 
-    Let $i$ be such that $\alpha\equiv\alpha_i\pmod{B}$.
-    Then $\alpha-\alpha_i\in B=\gcd((\alpha),BC)=(\alpha)+BC$, so $\alpha-\alpha_i=\gamma\beta+\lambda$, $\beta\in\mathcal{O}_K$, $\lambda\in BC$.
-    Let $j$ be such that $\beta\equiv\beta_j\pmod{C}$.
-    Thus $\alpha=\alpha_i+\gamma\beta_j+\gamma(\beta-\beta_j)+\lambda$, $\gamma\in B$, $\beta-\beta_j\in C$.
-    Then $\gamma(\beta-\beta_j)=\lambda\in BC$, so $\alpha=\alpha_i+\gamma\beta_j\pmod{BC}$.
+    Next, we need to show if $\omega\in\mathcal{O}_K$, then there exists $i,j$ such that $\omega\equiv\beta_i+\alpha\gamma_j\pmod{BC}$.
+    Let $i$ be such that $\omega\equiv\beta_i\pmod{B}$.
+    Then $\omega-\beta_i\in B=\gcd((\alpha),BC)=(\alpha)+BC$ so that $\omega-\beta_i=\alpha a+b$ for some $a\in\mathcal{O}_K$ and $b\in BC$.
+    Let $j$ be such that $a\equiv\gamma_j\pmod{C}$.
+    Then
+    \begin{equation*}
+        \omega=\beta_i+\alpha\gamma_j+\alpha(a-\gamma_j)+b
+    \end{equation*}
+    with $\alpha\in B$, $a-\gamma_j\in C$.
+    Then $\alpha(a-\gamma_j)\in BC$ and $b\in BC$, so $\omega=\beta_i+\alpha\gamma_j\pmod{BC}$.
 \end{proof}
 \section{Class Group}
+Fix $\mathcal{O}_K$ and let $I,J\subseteq\mathcal{O}_K$ be ideals.
+Define an equivalence class $\sim$ on the set of ideals of $\mathcal{O}_K$ by $I\sim J$ if there exists $\alpha,\beta\in\mathcal{O}_K$ such that $(\alpha)I=(\beta)J$.
+One can verify that this is indeed an equivalence relation.
 \begin{definition}
-    The \mbf{class group of $K$} is $\Cl(\mathcal{O}_K)$ is the set of ideals modulo the set of principal ideals, where the group operation is multiplication of ideals.
-    We write $h_K:=|\Cl(\mathcal{O}_K)|$.
+    The \mbf{class group of $K$} is $\Cl(\mathcal{O}_K)$ is the set of ideals modulo the above equivalence relation, where the group operation is multiplication of ideals.
+    We define the \mbf{class number} $h_K:=|\Cl(\mathcal{O}_K)|$.
 \end{definition}
-We'll show that $h_k<\infty$.
-Consider $\Spec(\mathcal{O}_K)$.
-It turns out that $\Cl(\mathcal{O}_K)$ is the set of line bundles on $\Spec(\mathcal{O}_K)$.
-
-If $E$ is an elliptic curve, we can define an addition on points $p,q$, and the points form a group.
-Then the class group of the elliptic curve is $E\times\Z$.
-If $f:\C\to\C$ is $x\mapsto x^2$, then $d(x^2)=2x$ vanishes at $x=0$ if and only if $0$ is ramified.
-\begin{theorem}
-    If $K$ is a number fiel, then there exists $c_K$ constant such that for all $0\neq A\subseteq\mathcal{O}_K$ ideal, there exists $\alpha\in A$ such that $|N(\alpha)|\leq C_KN(A)$.
+\begin{theorem}\label{thm:ck}
+    If $K$ is a number field, then there exists a constant $C_K$ such that for all $0\neq A\subseteq\mathcal{O}_K$ ideal, there exists $\alpha\in A$ such that $|N(\alpha)|\leq C_K N(A)$.
 \end{theorem}
 \begin{proof}
-    Let $\omega_1,\ldots,\omega_n$ be an integral basis for $\mathcal{O}_K$.
-    Let $t:=\lfloor N(A)^{1/m}\rfloor$.
+    Let $\{\omega_1,\ldots,\omega_n\}$ be an integral basis for $\mathcal{O}_K$ and let $t:=\lfloor N(A)^{1/m}\rfloor$.
     Consider all elements of $\mathcal{O}_K$ of the form $c_1\omega_1+\cdots+c_n\omega_n$ where $0\leq c_i\leq t$.
-    There are $(t+1)^n$ such elements, and $(t+1)^n>N(A)$.
-    By pidgeonhole, there exists some $\beta_i\neq\beta_j$ so that $\beta_1\equiv\beta_2\pmod{A}$.
+    There are $(t+1)^n$ such elements where $(t+1)^n>N(A)$; thus, by the pidgeonhole principle, there exists some $\beta_1\neq\beta_2$ so that $\beta_1\equiv\beta_2\pmod{A}$.
     Set $\alpha=\beta_1-\beta_1\in A$; then, $\alpha=t_1\omega_1+\cdots+t_n\omega_n$ with $|t_i|\leq t$.
     Then
     \begin{align*}
-        |N(\alpha)| &= \left\lvert\prod_{j=1}^n\sigma_j(\alpha)\right\rvert\\
-                    &= \left\lvert\prod_{j=1}^nt_1\sigma_j(\omega_1)+\cdots+t_n\sigma_j(\omega_n)\right\rvert\\
-                    &\leq \prod_{j=1}^n\left(|t_1||\sigma_j(\omega_1)|+\cdots+|t_n||\sigma_j(\omega_n)|\right)\\
-                    &\leq t^n\prod_{j=1}^n(|\sigma_j(\omega_1)|+\cdots+|\sigma_j(\omega_n)|)\\
-                    &<N(A)c_K
+        |N(\alpha)| &= \left\lvert\prod_{j=1}^n\sigma_j(\alpha)\right\rvert= \left\lvert\prod_{j=1}^nt_1\sigma_j(\omega_1)+\cdots+t_n\sigma_j(\omega_n)\right\rvert\\
+                    &\leq \prod_{j=1}^n\left(|t_1|\cdot|\sigma_j(\omega_1)|+\cdots+|t_n|\cdot|\sigma_j(\omega_n)|\right)\\
+                    &\leq t^n\prod_{j=1}^n(|\sigma_j(\omega_1)|+\cdots+|\sigma_j(\omega_n)|)<N(A)C_K
     \end{align*}
-    where $c_K=\prod_{j=1}^n\left(\sum_{j=1}^n|\sigma_j(\omega_i)|\right)$.
+    where $C_K=\prod_{j=1}^n\left(\sum_{j=1}^n|\sigma_j(\omega_i)|\right)$ depends only on $K$.
 \end{proof}
 \begin{remark}
-    Later, we'll show we can take $c_K=\sqrt{|\disc(K)|}$.
+    This bound is not very good; we will later show that much better bounds are indeed possible.
 \end{remark}
 \begin{theorem}
     If $K$ is a number field, then the class number $h_K<\infty$.
 \end{theorem}
 \begin{proof}
-    We'll show that every ideal class contains an ideal with norm at most $c_K$.
-    Then we are done from the previous theorem.
+    By \cref{cor:fin-norm}, it suffices to show that that every ideal class contains an ideal with norm at most $c_K$.
 
     Let $0\neq I\subseteq\mathcal{O}_K$; then, get $0\neq A$ such that $IA$ is principal.
-    The previous theorem tells us there exists $0\neq\alpha\in A$ such that $|N((\alpha))|\leq C_KN(A)$.
+    By \cref{thm:ck}, there exists $0\neq\alpha\in A$ such that $|N((\alpha))|\leq C_KN(A)$.
     Since $\alpha\in A$, it follows that $(\alpha)\subseteq A$, so $(\alpha)=AB$ for some $B$.
     Thus, in the class group $\Cl(\mathcal{O}_K)$, we have $A=I^{-1}$ and $B=A^{-1}$, so $B=I$ in $\Cl(\mathcal{O}_K)$.
     Since $AB=(\alpha)$, $N(A)N(B)\leq C_KN(A)$, so $N(B)\leq C_K$.
     In other words, $B$ and $I$ are in the same class and $N(B)\leq C_K$.
 \end{proof}
-\section{Fermat's Last Theorem}
-We will prove FLT for ``regular primes''; i.e. tere are no ``non-trivial'' $\Z-$solutions to $x^p+y^p=z^p$ where $p$ is a regular prime.
-\begin{definition}
-    We say that $p$ is regular if $p\nmid h_{\Q(\zeta_p)}$.
-\end{definition}
-The key point: if $I\subseteq\mathcal{O}_{\Q(\zeta_p)}$ is any ideal and $I^p$ is principal, then $I$ is principal.
-If $K$ is a number field, then you can prove there exists a number field $L$ such that $L/K$ is normal with $\Gal(L/K)=\Cl(\mathcal{O}_K)$.
-$L$ is called the Hilbert class field.
-This has the property that every ideal $I\subseteq\mathcal{O}_K$ becomes principal in $\mathcal{O}_L$; i.e. $\mathcal{O}_LI=(\alpha)$ for some $\alpha\in\mathcal{O}_L$.
 \subsection{Computing an ideal class group}
 Last time, we showed every ideal class has a representation of norm at most $c_K$.
 You can take $C_k=\sqrt{|\disc(K)|}$.
@@ -2275,6 +2329,8 @@ To do this, we go through all the primes $p\in\Z$ with $p<C_K$, and factor $(p)$
     Since we know there are at last two distinct principal ideals of norm 8, we must have $p,p'$ not principal.
     Thus $p^3,p'^3$ are not principal, so $p^3\sim 1$ and $p$ has order 3 in $\Cl(K)$.
 \end{example}
+
+\chapter{Additional Topics}
 \section{Quadratic Reciprocity}
 This is about solving quadratic equations modulo $p$.
 Let's solve $x^2+bx+c$ in $\F_p$.
@@ -2393,6 +2449,14 @@ Additionally,
     One consequence: if $K$ is a number field, then $\{p\in\Z:p\text{ splits completely in}\mathcal{O}_K\}$.
 \end{remark}
 \section{Fermat's Last Theorem}
+We will prove FLT for ``regular primes''; i.e. tere are no ``non-trivial'' $\Z-$solutions to $x^p+y^p=z^p$ where $p$ is a regular prime.
+\begin{definition}
+    We say that $p$ is regular if $p\nmid h_{\Q(\zeta_p)}$.
+\end{definition}
+The key point: if $I\subseteq\mathcal{O}_{\Q(\zeta_p)}$ is any ideal and $I^p$ is principal, then $I$ is principal.
+If $K$ is a number field, then you can prove there exists a number field $L$ such that $L/K$ is normal with $\Gal(L/K)=\Cl(\mathcal{O}_K)$.
+$L$ is called the Hilbert class field.
+This has the property that every ideal $I\subseteq\mathcal{O}_K$ becomes principal in $\mathcal{O}_L$; i.e. $\mathcal{O}_LI=(\alpha)$ for some $\alpha\in\mathcal{O}_L$.
 \begin{definition}
     We say $p$ is a \mbf{regular prime} if $p\nmid h_{\Q(\zeta_p)}$.
 \end{definition}
@@ -2566,6 +2630,7 @@ Put these together into $\sigma:K\hto\R^n$ by
 \begin{corollary}
     We can take $C_k=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
 \end{corollary}
+\subsection{Four Squares Theorem}
 \begin{theorem}
     If $p$ is an odd prime, then $\lgs{-1}{p}=1$ if and only if $p\equiv 1\pmod{4}$ if and only if there exists $x,y\in\Z$ such that $p=x^2+y^2$.
 \end{theorem}
@@ -2656,6 +2721,7 @@ Put these together into $\sigma:K\hto\R^n$ by
     Only $(p-1)/2$ non-zer squares, so $y^2+1$ must be non-square for some $y=y_0$.
     Thus $(-y_0^2+1)$ is a square, i.e. there exists $x$ such that $x^2\equiv-(y_0^2+1)$.
 \end{proof}
+\subsection{Dirichlet Unit Theorem}
 \begin{theorem}[Dirichlet Unit]\label{thm:dir-unit}
     If $K$ is a number field with $r_1$ real embeddings and $2r_2$ complex embeddings, then $\mathcal{O}_K^\times\cong\mu_k\times\Z^{r_1+r_2-1}$, where $\mu_k$ is the set of roots of unity in $K$.
 \end{theorem}
