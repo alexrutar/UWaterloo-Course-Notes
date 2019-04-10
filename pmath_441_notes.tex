@@ -133,15 +133,17 @@
 
 % Claim environment
 \theoremstyle{plain}
-\theorempreskip{0.1cm}
-\theorempostskip{0.1cm}
-\theoremindent0.0cm
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
 \theoremnumbering{roman}
 \theoremheaderfont{\scshape}
 \newtheorem{claim}{Claim}
 \AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
 
 % Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
 \theoremheaderfont{\bfseries\itshape}
@@ -211,7 +213,7 @@
 \DeclareMathOperator{\Frob}{Frob}
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\Cl}{Cl}
-% \usepackage{showkeys}
+\usepackage{showkeys}
 \newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
 \setfootins{0.5cm}{0.5cm}
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
@@ -950,7 +952,7 @@ Since $\mathcal{O}_K$ is a ring, it is natural to ask what the units are.
     \end{equation*}
     Take $q=n-m$, $p=\lfloor n\alpha\rfloor-\lfloor m\alpha\rfloor$, and we are done.
 \end{proof}
-\begin{theorem}
+\begin{theorem}[Dirichlet Unit, Quadratic Case]\label{thm:dir-unit-q}
     If $d>1$ be squarefree and set $K=\Q(\sqrt{d})$.
     Then, there exists a smallest unit $\epsilon>1$ and $\mathcal{O}_K^\times=\{\pm\epsilon^n:n\in\Z\}\cong \Z_2\times\Z$.
 \end{theorem}
@@ -1759,7 +1761,7 @@ Note that the result was not strictly necessary to do this, but we get to use it
     Suppose $I\subseteq\mathcal{O}_K$ is a non-zero ideal, $\{\omega_1,\ldots,\omega_n\}$, $\{\alpha_1,\ldots,\alpha_n\}$, $A$ as in \cref{thm:id-basis}.
     Then
     \begin{equation*}
-        \quot{\mathcal{O}_K}{I}\cong \Z_{a_{11}}\times\cdots\times\Z_{a_nn}
+        \quot{\mathcal{O}_K}{I}\cong \Z_{a_{11}}\times\cdots\times\Z_{a_{nn}}
     \end{equation*}
 \end{corollary}
 \begin{proof}
@@ -1802,9 +1804,6 @@ Note that the result was not strictly necessary to do this, but we get to use it
 \end{proof}
 \section{Prime Factorization of Ideals}
 \subsection{Unique Factorization}
-Let $I\subseteq R$ an ideal and let $S$ be the set of finitely generated ideals $J\subseteq I$.
-Get a maximal element $M\in S$.
-If $M\neq I$, then get $r\in I\setminus M$ but $M\subsetneq M+(r)\subseteq I$, contraicting maximality of $M$.
 \begin{lemma}\label{lem:id-cont}
     Let $Q$ be a prime ideal in a ring $R$ such that $Q\supseteq J_1\cdots J_r$.
     Then $Q\supseteq J_i$ for some $i$.
@@ -1956,15 +1955,13 @@ We can interpret the idea of ramification in the sense of algebraic geometry.
 First, let's consider a well-known example: consider the map $f:\C\to\C$ be given by $x\mapsto x^n$.
 Then most points $z\in\C$ have $n$ distinct preimages - in fact, all of them except $z=0$.
 
-Now consider $x\mapsto\prod(x-\lambda_i)^{e_i}$ where $n=\sum e_i=\deg f$.
-If $x\neq\lambda_i$ for all $i$, then $x$ has $n$ distinct preimages.
-However, if $x=\lambda_i$, then $x$ has $n-e_i$ preimages so that $\lambda_i$ ramified.
-
 In algebraic geometry, since $\mathcal{O}_K/\Z$ is an integral extension of rings, we consider $\pi:\Spec(\mathcal{O}_K)\to\Spec(\Z)$ given by $\rho\mapsto\rho\cap\Z$.
 This is a surjective homeomorphism.
-If $[K:\Q]=n$, then for most prime ideals $(p)\subseteq\Z$, $(p)$ has $n$ preimages in this map.
-We say that $P$ is ramified if and only if $\pi^{-1}(p)<n$.
-\begin{theorem}
+In general, if $R\subseteq S$ is integral and $R$ is Noetherian, then for any prime $P\subseteq R$, the set of primes $Q\subseteq S$ containing $P$ are precisely those given by $\pi^{-1}(P)$.
+In the number field case, if $K/L$ is a finite field extension so that $\mathcal{O}_K\subseteq\mathcal{O}_L$; then $Q\subseteq\mathcal{O}_L$ lies over $P\subseteq\mathcal{O}_K$ precisely when $Q$ occurs in the prime factorization of $P\mathcal{O}_L$.
+If we take $K=\Q$, then $\mathcal{O}_K=\Z$ and we consider prime ideals $(p)\subseteq\Z$.
+As we will see shortly, for most points, $\pi^{-1}((p))$ consists of distinct prime factors; the question of checking if $p$ is ramified is searching for points where this is not true.
+\begin{theorem}\label{thm:id-ram}
     Let $D=\disc(K)$ and $p\in\Z^+$.
     Then $p$ is ramified if and only if $p\mid D$.
 \end{theorem}
@@ -2138,21 +2135,13 @@ We say that $P$ is ramified if and only if $\pi^{-1}(p)<n$.
     Since $\quot{\mathcal{O}_K}{P}$ is a field, so $(\quot{\mathcal{O}_K}{P})^\times$ is a group with size $N(P)-1$.
     Then $P\nmid(\alpha)$ if and only if $\alpha\notin\rho$ and the result follows by Lagrange's theorem.
 \end{proof}
-\begin{proposition}
+\begin{proposition}\label{prop:norm-in-id}
     If $I\subseteq\mathcal{O}_K$ is an ideal, then $N(I)\in I$.
 \end{proposition}
 \begin{proof}
-    Let $\alpha_1,\ldots,\alpha_{N(I)}$ be distinct representatives in $\quot{\mathcal{O}_K}{I}$.
-    Then $1+\alpha_1,\ldots,1+\alpha_{N(I)}$ are also distinct representatives and thus a permutation of $\alpha_1,\ldots,\alpha_{N(I)}$.
-    Thus in $\quot{\mathcal{O}_K}{I}$,
-    \begin{equation*}
-        N(I)+\sum_{i=1}^{N(I)}\alpha_i=\sum_{i=1}^{N(I)}\alpha_i
-    \end{equation*}
-    so that $N(I)=0$ in $\mathcal{O}_K/I$, i.e. $N(I)\in I$.
+    Consider the element $1+I\in\quot{\mathcal{O}_K}{I}$.
+    Since $\abs{\quot{\mathcal{O}_K}{I}}=N(I)$, by Lagrance, $N(I)(1+I)=N(I)+I=0$, so $N(I)\in I$.
 \end{proof}
-\begin{remark}
-    Alternatively, apply Lagrange to the aditive group $\mathcal{O}_K/I$.
-\end{remark}
 \begin{corollary}\label{cor:fin-norm}
     If $K$ is a number field and $a\in\Z^+$, then there are only finitely many ideals $I\subseteq\mathcal{O}_K$ with $N(I)=a$.
 \end{corollary}
@@ -2281,11 +2270,11 @@ One can verify that this is indeed an equivalence relation.
 \begin{remark}
     This bound is not very good; we will later show that much better bounds are indeed possible.
 \end{remark}
-\begin{theorem}
+\begin{theorem}\label{thm:cl-bound}
     If $K$ is a number field, then the class number $h_K<\infty$.
 \end{theorem}
 \begin{proof}
-    By \cref{cor:fin-norm}, it suffices to show that that every ideal class contains an ideal with norm at most $c_K$.
+    By \cref{cor:fin-norm}, it suffices to show that that every ideal class contains an ideal with norm at most $C_K$.
 
     Let $0\neq I\subseteq\mathcal{O}_K$; then, get $0\neq A$ such that $IA$ is principal.
     By \cref{thm:ck}, there exists $0\neq\alpha\in A$ such that $|N((\alpha))|\leq C_KN(A)$.
@@ -2295,30 +2284,31 @@ One can verify that this is indeed an equivalence relation.
     In other words, $B$ and $I$ are in the same class and $N(B)\leq C_K$.
 \end{proof}
 \subsection{Computing an ideal class group}
-Last time, we showed every ideal class has a representation of norm at most $c_K$.
-You can take $C_k=\sqrt{|\disc(K)|}$.
-How to determine $\Cl(\mathcal{O}_K)$?
-First, we want to write down all the ideals $I$ with $N(I)<C_K$.
-Write $I=\prod\rho_i e^i$, so it suffices to determine the primes with $N(\rho)<C_K$.
-To do this, we go through all the primes $p\in\Z$ with $p<C_K$, and factor $(p)$ in $\mathcal{O}_K$.
+Last time, we showed every ideal class has a representation of norm at most $C_K$; this yields a general procedure for computing the class group, assuming we have a bound $M$ of $C_K$.
+\begin{enumerate}[nl]
+    \item Take a bound $M$ for $C_K$; for example, we may take $M=\sqrt{|\disc(K)|}$.
+    \item From the proof of \cref{thm:cl-bound}, it suffices to consider ideals with norm at most $M$.
+        Since $I=\prod P_i^{e_i}$ is a factorization, the primes $P$ with $N(P)\leq M$ will generate $\Cl(\mathcal{O}_K)$.
+    \item Since $N(P)\in P$ by \cref{prop:norm-in-id}, $P$ lies over a prime $p$ with $p\leq M$.
+        Thus $P\subseteq (p)$, so every such prime will arise as a factor of $(p)$ with $p\leq C_K$.
+\end{enumerate}
 \begin{example}
     Consider $\Cl(\Q(\sqrt{-23}))$, so $C_K=\sqrt{23}<5$.
     Thus we need ideals with norm a most 4, so it suffices to consider $(2),(3)$.
-    Current HW gives method to find factorization, we have
+    From a homework assignment, we know that
     \begin{align*}
-        (2)&=\underbrace{\left(2,\frac{1+\sqrt{-23}}{2}\right)}{p}\underbrace{\left(2,\sqrt{1-\sqrt{-23}}{2}\right)}{p'}\\
-        (3)&=\underbrace{\left(3,\sqrt{1-\sqrt{-23}}{2}\right)}{q}\underbrace{\left(3,\sqrt{1+\sqrt{-23}}{2}\right)}{q'}
+        (2)&=\underbrace{\left(2,\frac{1+\sqrt{-23}}{2}\right)}_{P}\underbrace{\left(2,\frac{1-\sqrt{-23}}{2}\right)}_{P'}\\
+        (3)&=\underbrace{\left(3,\frac{1-\sqrt{-23}}{2}\right)}_{Q}\underbrace{\left(3,\frac{1+\sqrt{-23}}{2}\right)}_{Q'}
     \end{align*}
-    is a product of primes.
-    Thus all the ideals of norm at most 4 are products of the above primes.
-    Write $I\sim J$ if $I=J$ in $\Cl(K)$.
-    Note that $pp'(2)$, so $p'=p^{-1}$
-    Similarly,
+    is a factorization into primes, so that all the ideals of norm at most 4 are products of the above primes.
+    We will write  $I\sim J$ if $I=J$ in $\Cl(K)$.
+    Note that $PP'\sim(2)$ so that $P'=P^{-1}$; similarly, $Q'=Q^{-1}$.
+    Furthermore, one can verify that
     \begin{equation*}
-        pq=\left(6,2\sqrt{1-\sqrt{-23}}{2},3\left(\frac{1-\sqrt{-23}}{2}\right),\left(\frac{1-\sqrt{-23}}{2}\right)^2\right)=(6)
+        PQ=\left(6,2\frac{1-\sqrt{-23}}{2},3\left(\frac{1-\sqrt{-23}}{2}\right),\left(\frac{1-\sqrt{-23}}{2}\right)^2\right)=(6)
     \end{equation*}
-    so $q=p^{-1}$ and $q\sim p'$.
-    An analoguous computation shows $p',q'\sim(1)$ so $q'\sim p$.
+    so $P=Q^{-1}$ and $Q\sim P'$.
+    An analoguous computation shows $P'Q'\sim(1)$ so $Q'\sim P$.
     We now have
     \begin{equation*}
         N\left(\frac{3+\sqrt{-23}}{2}\right)=8=N\left(\frac{3-\sqrt{-23}}{2}\right)
@@ -2381,8 +2371,8 @@ When $q$ is square, modulo $p$, for $q\neq p$ and $q$ prime.
     Thus the non-squares are not roots, i.e. if $\lgs{a}{p}=-1$, then $a^{(p-1)/2}\nequiv 1\pmod{p}$.
     \begin{center}
         \begin{tikzcd}
-            (\Z_p)^\times\arrow[r,"x\mapsto x^2"]\{\text{squares}\}\subseteq(\Z_p)^\times\\
-            \Z_{p-1}\arrow[r,"x\mapsto 2x"]2\Z_{p-1}\subseteq\Z_{p-1}
+            (\Z_p)^\times\arrow[r,"x\mapsto x^2"]&\{\text{squares}\}\subseteq(\Z_p)^\times\\
+            \Z_{p-1}\arrow[r,"x\mapsto 2x"]&2\Z_{p-1}\subseteq\Z_{p-1}
         \end{tikzcd}
     \end{center}
     Thus $2\Z_{p-1}=\ker(\Z_{p-1}\to\Z_2)$ where the map is multiplication by $(p-1)/2$.
@@ -2525,21 +2515,22 @@ But now,
 \end{align*}
 so, modulo $p$, $1,\zeta,\zeta^2,\ldots,\zeta^{p-2}$ form a basis.
 If $j\notin\{0,1,2,p-1\}$, then ($*$) contradicts linear independence.
+
 \section{Lattices and Minkowski's Theorem}
 \begin{definition}
-    A \mbf{lattice} is an Abelian subgroup $\Lambda$ of $\R^n$ such that $\Lambda\cong\Z^n$.
+    A \mbf{lattice} is an abelian subgroup $\Lambda$ of $\R^n$ such that $\Lambda\cong\Z^n$.
 \end{definition}
 \begin{example}
     If $[K:\Q]=n$, then $\mathcal{O}_K$ is a lattice in $K\cong\Q^n\subseteq\R^n$.
-    $\mathcal{O}_K$ is a lattice since we have an integral basis.
+    $\mathcal{O}_K$ is a lattice since it has an integral basis.
 \end{example}
 \begin{example}
     Consider $\C\cong\R^2$, and let $\tau$ be in the upper half plane.
     Then $\Lambda=\Z\oplus\Z\tau$, and $\quot{\C}{\Lambda}=\mathcal{T}$ is the torus.
-    We say that $\mathcal{T}$ is an elliptic curve, and every elliptic curve arises like this.
+    In a sense that can be made precise, $\mathcal{T}$ is an elliptic curve, and every elliptic curve arises like this.
 \end{example}
-Choose a basis $\alpha_1,\ldots,\alpha_n$ for $\Lambda$; this basis is also an $\R-$basis for $\R^n$.
-If $\alpha_1,\ldots,\alpha_n$ is a basis for $\Lambda$ and $\alpha_1',\ldots,\alpha_n'$ is a basis for $\Lambda$, then we have a change of basis matrix
+Choose a basis $\{\alpha_1,\ldots,\alpha_n\}$ for $\Lambda$; this basis is also an $\R-$basis for $\R^n$.
+If $\{\alpha_1,\ldots,\alpha_n\}$ is a basis for $\Lambda$ and $\{\alpha_1',\ldots,\alpha_n'\}$ is a basis for $\Lambda$, then we have a change of basis matrix
 \begin{equation*}
     \begin{pmatrix}\alpha_1'\\\vdots\\\alpha_n'\end{pmatrix}=P\begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix}
 \end{equation*}
@@ -2548,35 +2539,35 @@ Thus, we can define the \mbf{volume of $\Lambda$} to be
 \begin{equation*}
     d(\Lambda)=|\det(\alpha_1,\ldots,\alpha_n)|
 \end{equation*}
-This is independent of the choice of basis since any change of basis matrix has determinant 1.
-\begin{theorem}[Blichfeldt]
-    If $\Lambda\subseteq\R^n$ is a lattice, $m\in\Z^+$, $S\subseteq\R^n$ with Lebesgue measure $\mu(S)$.
-    Suppose $\mu(S)>md(\Lambda)$, or $\mu(S)\geq md(\Lambda)$ and $S$ is compact, then there exist distinct $x_1,\ldots,x_{m+1}\in S$ such that $x_i-x_j\in\Lambda$.
+which is independent of the choice of matrix by the above observation.
+\begin{theorem}[Blichfeldt]\label{thm:blich}
+    Suppose $\Lambda\subseteq\R^n$ is a lattice, $m\in\Z^+$ and $S\subseteq\R^n$ with Lebesgue measure $\mu(S)$.
+    Suppose $\mu(S)\geq md(\Lambda)$ $S$ is compact if equality holds.
+    Then there exist distinct $x_1,\ldots,x_{m+1}\in S$ such that $x_i-x_j\in\Lambda$.
 \end{theorem}
 \begin{proof}
-    Let $\alpha_1,\ldots,\alpha_n\in\Lambda$ be a basis.
-    Let $P=\left\{\sum_{i=1}^n\theta_i\alpha_i\mid 0\leq\theta_i<1\}$, so that $\mu(P)=d(\Lambda)$.
+    Let $\alpha_1,\ldots,\alpha_n$ be a basis for $\Lambda$.
+    Let $P=\left\{\sum_{i=1}^n\theta_i\alpha_i\mid 0\leq\theta_i<1\right\}$, so that $\mu(P)=d(\Lambda)$.
     For each $\lambda\in\Lambda$, let $R(\lambda)=\{\nu\in P\mid\lambda+\nu\in S\}$.
-    Then $\sum_{\lambda\in\Lambda}\mu(R(\lambda))=\mu(S)>m\mu(P)$.
-    Thus, there exists $v_0\in P$ which occurs in at least $m+1$ of the $R(\lambda)$'s.
-    If instead $S$ is compact, for any $\epsilon_r>0$, get $\nu_r\in P$ which occurs in at least $m+1$ of $R(\lambda)$'s, and take a convergent subsequence with limit $\nu_0$.
+    Then
+    \begin{equation*}
+        \sum_{\lambda\in\Lambda}\mu(R(\lambda))=\mu(S)\geq m\mu(P)
+    \end{equation*}
+    If $S$ is not compact, then there exists $\nu_0\in P$ which occurs in at least $m+1$ of the $R(\lambda)$'s.
+    If instead $S$ is compact, for any $\epsilon_r>0$, get $\nu_r\in P(1+\epsilon_r)$ which occurs in at least $m+1$ of $R(\lambda)$'s.
+    This sequence has a convergent subsequence with limit $\nu_0$ which has the same property.
 
-    Let $\lambda_1,\ldots,\lambda_{m+1}$ distinct such that $v_\in R(\lambda_i)$; then $x_i=\lambda_i+v_0\in S$.
+    Let $\lambda_1,\ldots,\lambda_{m+1}$ distinct such that if $\nu\in R(\lambda_i)$, then $x_i=\lambda_i+v_0\in S$.
     Then $x_i-x_j=\lambda_i-\lambda_j\in\Lambda$.
-
-    Now consider the case $\mu(S)=m\mu(P)$ and $S$ compact.
-    For any $\epsilon_r>0$, let $S_r=(1+\epsilon_r)S$ so that $\mu(S_r)>m\mu(P)$.
-    Then get $(x_1^r,\ldots,x_{m+1}^r)$ such that $x_{ir}-x_{jr}\in\Lambda$.
-    Taking a convergent subsequence such that $\lim_{r\to\infty}x_{j,r}=x_j$ exists.
-    Since $\Lambda$ is discrete, if $x_i=x_j$, then we would have some $r$ such that $x_{i,r}=x_{j,r}$.
 \end{proof}
-\begin{theorem}[Minkowski]
-    Let $\Lambda\subseteq\R^n$ be a lattice, $m\in\Z^+$, $S\subseteq\R^n$.
-    Then if $\mu(S)>m2^nd(\Lambda)$ or $S$ is compact and $\mu(S)=m2^nd(\Lambda)$, then there exist $m$ pairs $(\lambda_1,-\lambda_1),\ldots,(\lambda_m,-\lambda_m)$ with $\lambda_j\in\Lambda\setminus\{0\}$, $\lambda_j\in S$.
+\begin{theorem}[Minkowski]\label{thm:mink}
+    Let $\Lambda\subseteq\R^n$ be a lattice, $m\in\Z^+$, $S\subseteq\R^n$ convex and symmetric about the origin.
+    Suppose $\mu(S)\geq m2^nd(\Lambda)$ with $S$ compact if equality holds.
+    Then there exist $m$ pairs $(\lambda_1,-\lambda_1),\ldots,(\lambda_m,-\lambda_m)$ with $\lambda_j\in\Lambda\setminus\{0\}$, $\lambda_j\in S$.
 \end{theorem}
 \begin{proof}
     Either $\mu(S/2)>md(\Lambda)$ or $\mu(S/2)=md(\Lambda)$ and $S/2$ is compact.
-    Thus, the previous theorem tells is there exist $x_1,\ldots,x_{m+1}\in S$ such that $x_i/2-x_j/2\in\Lambda$.
+    Thus by \cref{thm:blich}, there exist $x_1,\ldots,x_{m+1}\in S$ such that $x_i/2-x_j/2\in\Lambda$.
     Order these $x_i$ such that $x_1>x_2>\cdots>x_{m+1}$ where we say $x_i>x_j$ if the first non-zero coordinate of $x_i-x_j$ is positive.
     Take $\lambda_j=x_j/2-x_{m+1}/2$.
     By choice of ordering, the $\pm\lambda_j$ are distinct.
@@ -2585,50 +2576,60 @@ This is independent of the choice of basis since any change of basis matrix has 
 \end{proof}
 \begin{remark}
     The bound is sharp: consider $S=\{(x_1,\ldots,x_n)\in\R^n:|x_1|<m,|x_j|<1\}$.
-    Then $\mu(S)=m2^n=m2^nd(\Z^n)$ contains exactly $m$ lattice points.
+    Then $\mu(S)=m2^n=m2^nd(\Z^n)$ and $S$ contains exactly $m$ lattice points.
 \end{remark}
-Suppose $[K:\Q]=n$, $K=\Q(\theta)$.
+\subsection{Embedding \texorpdfstring{$\mathcal{O}_K$}{OK} in $\R^n$}
+Suppose $[K:\Q]=n$ so that $K=\Q(\theta)$.
 Let $\sigma_1,\ldots,\sigma_n\hto\C$ be the embeddings, so $r_1$ is the number of real embeddings $\{\sigma_1,\ldots\sigma_{r_1}\}$ and $r_2$ pairs of complex embeddings $\{\sigma_{r_1+1},\ol{\sigma}_{r_1+1},\ldots,\sigma_{r_1+r_2},\ol{\sigma}_{r_1+r_2}\}$.
-Put these together into $\sigma:K\hto\R^n$ by
+With these embeddings, we can define $\sigma:K\hto\R^n$ by
 \begin{equation*}
-    \sigma\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha))
+    \sigma\mapsto\bigl(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\ldots,\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha)\bigr)
 \end{equation*}
-\begin{lemma}
+We call this embedding the \mbf{TODO: what is the name}.
+\begin{lemma}\label{lem:lat-sz}
     Let $A\neq 0$ be an ideal of $\mathcal{O}_K$.
     Then $\sigma(A)$ is a lattice $\Lambda\subseteq\R^n$ and $d(\Lambda)=2^{-r_2}\sqrt{|\disc(K)|}N(A)$.
 \end{lemma}
 \begin{proof}
     Let $\alpha_1,\ldots,\alpha_n$ be an integral basis for $A$.
-    Let $D_0$ be the determinant of the matrix whose $i^\th$ row is
+    Let $D_0$ be the determinant of the matrix whose $i^{\text{th}}$ row is
     \begin{equation*}
-        (\sigma_1(\alpha_i),\ldots,\sigma_{r_1}(\alpha_i),\Re\sigma_{r_1+1}(\alpha_i),\Im\sigma_{r_1+1}(\alpha_i),\ldots)
+        D_0=
+        \begin{pmatrix}
+            \sigma_1(\alpha_1)&\ldots&\sigma_{r_1}(\alpha_1)&\Re\sigma_{r_1+1}(\alpha_1)&\cdots&\Im\sigma_{r_1+r_2}(\alpha_1)\\
+            \vdots&&\vdots&\vdots&&\vdots&\\
+            \sigma_1(\alpha_n)&\ldots&\sigma_{r_1}(\alpha_n)&\Re\sigma_{r_1+1}(\alpha_n)&\cdots&\Im\sigma_{r_1+r_2}(\alpha_n)
+        \end{pmatrix}
     \end{equation*}
-    From a long time ago, we know $\det(\sigma_j(\alpha_i))=\sqrt{|\disc(K)|}N(A)$.
-    Using the fact that $\Re\sigma=\frac{\sigma+\ol{\sigma}}{2}$ and $\Im\sigma=\frac{\sigma-\ol{\sigma}}{2i}$ and row operations to see $D_0=\left(\frac{1}{-2i}\right)^{r_2}\det(\sigma_j(\alpha_i))$.
-    In particular, $D_0\neq 0$ so $\Lambda$ is a lattice and $d(\Lambda)=D_0$.
+    From \cref{thm:id-norm}, we know $\det(\sigma_j(\alpha_i))=\sqrt{|\disc(K)|}\cdot N(A)$.
+    Using the fact that $\Re\sigma=\frac{\sigma+\ol{\sigma}}{2}$ and $\Im\sigma=\frac{\sigma-\ol{\sigma}}{2i}$ combined with elementary row operations, we have that $D_0=\left(\frac{1}{-2i}\right)^{r_2}\det(\sigma_j(\alpha_i))$.
+    In particular, since $D_0\neq 0$, $\Lambda$ is a lattice and $d(\Lambda)=D_0$.
 \end{proof}
 \begin{theorem}
-    If $A\neq 0$ is an ideal in $\mathcal{O}_K$, then there exists $\alpha\neq 0$, $\alpha\in A$ such that $|N(\alpha)|\leq\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
+    If $A$ is a non-zero ideal in $\mathcal{O}_K$, then there exists $0\neq\alpha\in A$ such that $|N(\alpha)|\leq\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
 \end{theorem}
 \begin{proof}
-    Given $t\in\R^+$, let $S_t=\{(x_1,\ldots,x_n)\in\R^n:|x_i|\leq t,i=1,\ldots,r_1; x_{r_1+2j+1}^2^2+x_{r_1+2j+2}^2\leq t^2, j=0,\ldots,r_2-1\}$.
-    $S_t$ is clearly convex and symmetric, and $\mu(S_t)=2^{r_1}\pi^{r_2}t^n$.
-    Choose $t$ such that $2^{r_1}\pi^{r_2}t^n=2^n\frac{1}{r^{r_2}}\sqrt{|\disc(K)|}N(A)$, i.e.
+    Given $t\in\R^+$, let
     \begin{equation*}
-        t=\left(\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}N(A)\right)^{1/n}
+        S_t=\left\{(x_1,\ldots,x_n)\in\R^n:|x_i|\leq t,i=1,\ldots,r_1;\, x_{r_1+2j+1}^2+x_{r_1+2j+2}^2\leq t^2, j=0,\ldots,r_2-1\right\}
     \end{equation*}
-    Apply Minkowski's Theorem with $m=1$.
-    Thus there exists $0\neq\alpha\in A$ such that $\sigma(\alpha)\in S_t$.
+    $S_t$ is clearly convex and symmetric, and $\mu(S_t)=2^{r_1}\pi^{r_2}t^n$.
+    Let $t$ be such that
+    \begin{align*}
+        t&=\left(\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}N(A)\right)^{1/n} & 2^{r_1}\pi^{r_2}t^n&=2^n\frac{1}{r^{r_2}}\sqrt{|\disc(K)|}N(A)
+    \end{align*}
+    We now apply \cref{thm:mink} with $m=1$ and \cref{lem:lat-sz} to get $0\neq\alpha\in A$ such that $\sigma(\alpha)\in S_t$.
     Then
     \begin{equation*}
-        |N(\alpha)|=\left\lvert\prod_{i=1}^{r_1}\right\rvert\cdot\left\lvert\prod_{i=1}^{r_2}\sigma_{i+r_2}(\alpha)\ol{\sigma_{i+r_2}(\alpha)}\right\rvert
-        \leq t^{r_1+r_2}
+        |N(\alpha)|=\left\lvert\prod_{i=1}^{r_1}\sigma(\alpha_i)\right\rvert\cdot\left\lvert\prod_{i=1}^{r_2}\sigma_{i+r_2}(\alpha)\ol{\sigma_{i+r_2}(\alpha)}\right\rvert
+        \leq t^{r_1+2r_2}=t^n
     \end{equation*}
     since $\sigma(\alpha)\in S_t$.
-    Thus, $|N(\alpha)|\leq t^n=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}N(A)$.
+    Thus, $|N(\alpha)|\leq t^n=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}\cdot N(A)$.
 \end{proof}
+The following corollary is then immediate.
 \begin{corollary}
-    We can take $C_k=\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
+    $C_K\leq\left(\frac{2}{\pi}\right)^{r_2}\sqrt{|\disc(K)|}$.
 \end{corollary}
 \subsection{Four Squares Theorem}
 \begin{theorem}
@@ -2721,25 +2722,92 @@ Put these together into $\sigma:K\hto\R^n$ by
     Only $(p-1)/2$ non-zer squares, so $y^2+1$ must be non-square for some $y=y_0$.
     Thus $(-y_0^2+1)$ is a square, i.e. there exists $x$ such that $x^2\equiv-(y_0^2+1)$.
 \end{proof}
-\subsection{Dirichlet Unit Theorem}
-\begin{theorem}[Dirichlet Unit]\label{thm:dir-unit}
-    If $K$ is a number field with $r_1$ real embeddings and $2r_2$ complex embeddings, then $\mathcal{O}_K^\times\cong\mu_k\times\Z^{r_1+r_2-1}$, where $\mu_k$ is the set of roots of unity in $K$.
-\end{theorem}
-\begin{proof}
-    Let $\theta:K\to V:=\R^{r_1}\times\C^{r_2}$ by
-    \begin{equation*}
-        \alpha\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha))
-    \end{equation*}
-    where $\sigma_1,\ldots,\sigma_r$ are the real emebddings and $\sigma_{r_1+1},\ol{\sigma}_{r_1+1},\ldots$ are the complex embedding.
-    Let $N:V\to\R$ by $N(x_1,\ldots,x_{r_1},z_{r_1+1},\ldots,z_{r_1+r_2})=\prod x_i\cdot\prod|z_j|^2$.
-    Then $N(\theta(\alpha))=N_{K/\Q}(\alpha)$.
-    Furthermore, $V$ is a ring with coordinate-wise operations $V^\times=(\R^\times)^{r_1}\times(\C^\times)^{r_2}$.
-    Set $G:=\{v\in V^\times\mid|N(v)|=1\}$, so $G$ is a subgroup of $V^\times$.
-    It is also closed as a topological space since it is the inverse image of $1$ under the continuous map $v\mapsto|N(v)|$.
-    Consider $U:=\theta(\mathcal{O}_K^\times)=\theta(\mathcal{O}_K)\cap G$.
-    Then $\theta(\matcal{O}_K)\subseteq V$ is a lattice, and $U\subseteq G$ is discrete.
 
-    For example, consider $K=\Q(\sqrt{2})$, $\theta:K\to V=\R^2$ by $a+b\sqrt{2}\mapsto(a+b\sqrt{2},a-b\sqrt{2})$.
+\subsection{Dirichlet Unit Theorem}
+Our final application of Minkowski's theorem is a generalization of \cref{thm:dir-unit-q} to any number field.
+\begin{theorem}[Dirichlet Unit]\label{thm:dir-unit}
+    If $K$ is a number field with $r_1$ real embeddings and $2r_2$ complex embeddings, then $\mathcal{O}_K^\times\cong U_K\times\Z^{r_1+r_2-1}$, where $U_K$ is the set of roots of unity in $K$.
+\end{theorem}
+Let $\theta:K\to V:=\R^{r_1}\times\C^{r_2}$ by
+\begin{equation*}
+    \alpha\mapsto\bigl(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha)\bigr)
+\end{equation*}
+where $\sigma_1,\ldots,\sigma_r$ are the real emebddings and $\sigma_{r_1+1},\ldots,\ol{\sigma}_{r_1+r_2}$ are the complex embeddings.
+Let $N:V\to\R$ be given by
+\begin{equation*}
+    N\bigl(x_1,\ldots,x_{r_1},z_{r_1+1},\ldots,z_{r_1+r_2}\bigr)=\prod_{i=1}^{r_1}x_i\cdot\prod_{i=r_1+1}^{r_2}|z_i|^2
+\end{equation*}
+In particular, $N(\theta(\alpha))=N_{K/\Q}(\alpha)$.
+Furthermore, $V$ is a ring with coordinate-wise operations; in particular, it has units $V^\times=(\R^\times)^{r_1}\times(\C^\times)^{r_2}$.
+Set
+\begin{equation*}
+    G:=\{v\in V^\times:|N(v)|=1\}
+\end{equation*}
+so that $G$ is a subgroup of $V^\times$.
+$G$ is also closed as a topological space since it is the inverse image of $1$ under the continuous map $v\mapsto|N(v)|$.
+Define
+\begin{equation*}
+    U:=\theta(\mathcal{O}_K^\times)=\theta(\mathcal{O}_K)\cap G
+\end{equation*}
+In particular, $\theta(\mathcal{O}_K)\subseteq V$ is a lattice (identifying $\C\cong\R^2$), and $U\subseteq G$ is a discrete group.
+\begin{claim}
+    $\quot{G}{U}$ is compact in the quotient topology of $V^\times/U$.
+\end{claim}
+\begin{proof}
+    Let $v\in V^\times$ be arbitrary; then, multiplication by $v$ is a linear map with matrix representation $M$; in particular, $\det(M)=|N(v)|$.
+    If $R\subseteq V$ is any region, then $\mu(vR)=\lambda(R)\vdot|N(v)|$; if $v\in G$, then $\lambda(R)=\lambda(vR)$.
+
+    Let $C\subseteq G$ be any compact, symmetric, convex region with $\mu(C)\geq 2^n$.
+    For all $g\in G$, $\mu(g^{-1}C)=\lambda(C)\geq 2^n\lambda(\theta(\mathcal{O}_K))$.
+    As well, one can verify that $g^{-1}C$ is also symmetric, compact, and convex.
+    Thus by \cref{thm:mink}, there exists $0\neq\alpha\in\mathcal{O}_K$ such that $\theta(\alpha)\in g^{-1}C$.
+    In particular,
+    \begin{equation*}
+        \abs{N_{K/\Q}(\alpha)}=\abs{N(\theta(\alpha))}\in\abs{N(g^{-1}C)}
+    \end{equation*}
+
+    Since $C$ is compact, $|N(C)|\subseteq\R$ is also compact and thus contains finitely many integers.
+    If $\alpha_1,\ldots,\alpha_m\in\mathcal{O}_K$ represent all possible $|N(\alpha_i)|\in|N(C)|$, then $|N(\alpha)|=|N(\alpha_i)|$ for some $i$, so $\alpha\in\alpha_i\mathcal{O}_K^\times$.
+    But then for any $g\in G$, there exists $i$ such that $g^{-1}C\cap\theta(\alpha_i\mathcal{O}_K^\times)\neq\emptyset$, so
+    \begin{equation*}
+        gU\cap\theta(\alpha^{-1})C\neq\emptyset
+    \end{equation*}
+    Thus $\quot{G}{U}$ has representatives covered by $G\cap\bigcup_{i=1}^m\theta(\alpha_i)^{-1}C$ which is a finite union of compact sets.
+    Since $\quot{G}{U}$ is closed, we are done.
+\end{proof}
+Now, consider the ``log map'' $L:V^\times\to\R^{r_1+r_2}$ via $(x_i;z_j)\mapsto(\log|x_i|;2\log|z_j|)$, which is a continuous group homomorphism.
+One can verify that $L(G)=H$.
+\begin{claim}
+    We'll show that $L(U)\subseteq L(G)$ is a lattice and understand $\ker(L|_U)$.
+\end{claim}
+\begin{proof}
+    Clearly $\ker(L)=\{\pm 1\}^{r_1}\times (S^1)^{r_2}$ is a compact set and $\theta(U_K)\subseteq U\cap\ker(L)$.
+    Since $U\subseteq V^\times$ is discrete, $U\cap\ker(L)\subseteq\ker L$ is compact and, in particular, a finite group.
+    Thus, $U\cap \ker(L)\subseteq\theta(U_K)$ and equality holds.
+
+    Consider $L(G)\cong\R^{r_1+r_2-1}$ and choose a box $B=\{(y_i):|y_i|\leq b\}$.
+    Let's show that $L(U)\cap B$ is finite.
+    If $L(\theta(\alpha))\in B$, then $|\sigma(\alpha)|\leq e^b$ for some $\sigma$ real, and $|\sigma(\alpha)|\leq e^{b/2}$ for some $\sigma$ complex.
+    Then
+    \begin{equation*}
+        \prod_\sigma(t-\sigma(\alpha))\in\Z[t]
+    \end{equation*}
+    has bounded coefficients.
+    There are only finitely many such polynomials, so there are only finitely many $\alpha$ and $L(U)\subseteq L(G)$ is discrete.
+
+    Thus $L(U)\subseteq L(G)\cong\R^{r_1+r_2-1}$ is a discrete subgroup.
+    Thus $L(U)\cong\Z^r$ for some $r\leq r_1+r_2-1$.
+    Since $G/U\to L(G)/L(U)$ is a surjection, $L(G)/L(U)\cong (S^1)^r\times\R^{r_1+r_2-1-r}$ is compact, so $r=r_1+r_2-1$.
+\end{proof}
+
+Given $\epsilon\in\mathcal{O}_K^\times$, $L(\theta(\epsilon))\in L(U)$, so there exists $a_i\in\Z$ such that $L(\theta(\epsilon))=\sum a_iL(\theta(\epsilon_i))=L(\theta(\prod\epsilon_i^{a_i}))$.
+Thus $L(\theta(\epsilon^{-1}\prod\epsilon_i^{a_i}))=0$, so $\epsilon^{-1}\prod\epsilon_i^{a_i}\in\ker L|_U$, so $\epsilon=\zeta\prod\epsilon_i^{a_i}$, and $\zeta\in\mu_K$.
+Lastly, if $\prod\epsilon_i^{a_i}=1$, then $0=\sum a_iL(\theta(\epsilon_i))$ is a $\Z-$basis, so $a_i=0$.
+
+%----
+\begin{example}
+    To illustrate the definitions explicitly, consider the following case.
+    Consider $K=\Q(\sqrt{2})$, $\theta:K\to V=\R^2$ by $a+b\sqrt{2}\mapsto(a+b\sqrt{2},a-b\sqrt{2})$.
     Then $N:\R^2\to\R$ is given by $(x,y)\mapsto xy$, so $G=\{(x,y):xy=1\}$ is the set of hyperbolas.
     Note that $G$ is closed but not compact.
     In this case, $U=\theta(\pm(1+\sqrt{2})^{\Z})$, and $U\subseteq G$ is discrete.
@@ -2749,71 +2817,12 @@ Put these together into $\sigma:K\hto\R^n$ by
         \end{tikzpicture}
     \end{center}
     Then $G/U$ is compact.
-
-    Let's show that $\quot{G}{U}$ is compact in the quotient topology of $V^\times/U$.
-    To do this, let's find $S\subseteq G$ compact $S\twoheadrightarrow\quot{G}{U}$.
-
-    If $v\in V^\times$, then multiply by $v$ is continuous because it is multiplication by a matrix, and $|\deg|=|N(v)|$.
-    Thus if $R\subseteq V$ is any region, then $\lambda(vR)=\lambda(R)|N(v)|$.
-    In particular, if $v\in G$, then $\lambda(R)=\lambda(vR)$.
-    Let $C\subseteq C$ be any compact, symmetric, convex region with $\lambda(C)\geq 2^n$.
-    Then for all $g\in G$, $g^{-1}C$ is also symmetric, compact, and convex, with the same volume.
-    Then by Minkowski, there exists $0\neq\alpha\in\mathcal{O}_K$ such that $\theta(\alpha)\in g^{-1}C$.
-    In particular, $\abs{N_{K/\Q}(\alpha)}=\abs{N(\theta(\alpha))}\in\abs{N(g^{-1}C)}$
-
-    Recall
-    \begin{align*}
-        \theta:K\to\R^{r_1}\times\C^{r_2}=V,&\alpha\mapsto(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha))\\
-        N:V\to\R &, (x_i,z_j)\mapsto \prod x_i\cdot \prod|z_j|^2\\
-        V^\times = (\R^\times)^{r_1}\times(\C^\times)^{r_2},&G=\{v\in V^\times:N(v)=1\}\\
-        U = \theta(\mathcal{O}_K^\times)=\theta(\mathcal{O}_K)\cap G\\
-        U\subseteq G\text{ is discrete.}
-    \end{align*}
-    Let's show that $G/U$ is compact.
-    Last time, we chose $C\subseteq V$ any compact, symmetric, convex region with $\vol(C)\geq 2^n\vol(\theta(\mathcal{O}_K))$.
-    $C$ is compact, so $|N(C)|\subseteq\R$ is compact, and thus contains finitely many integers.
-    If $g\in G$ is arbitrary, then $\vol(g^{-1}C)=\vol(C)\geq 2^n\vol(\theta(\mathcal{O}_K))$.
-    Thus by Minkowski, $g^{-1}C$ contains some $\theta(\alpha)$, $\alpha\neq 0$.
-    As well, $|N_{K/\Q}(\alpha)|=|N(\theta(\alpha))|\in|N(g^{-1}C)|=|N(C)|$, so $|N_{K/\Q}(\alpha)|$ is one of the finitely many integers contained in $|N(C)|$.
-    If $\alpha_1,\ldots,\alpha_m\in\mathcal{O}_K$ represent all possible $|N(\alpha_i)|\in|N(C)|$, then $|N(\alpha)|=|N(\alpha_i)|$ for some $i$, so $\alpha\in\alpha_i\mathcal{O}_K^\times$.
-    This says for all $g\in G$, there exists $i$ such that $g^{-1}C\cap\theta(\alpha_i\mathcal{O}_K^\times)\neq\emptyset$, so $gU\cap\theta(\alpha^{-1})C\neq\emptyset$.
-    Thus $G/U$ is represented by $G\cap\bigcup_{i=1}^m\theta(\alpha_i)^{-1}C$ is a finite union of compact sets.
-
-    Now, consider the ``log map'' $L:V^\times\to\R^{r_1+r_2}$ via $(x_i;z_j)\mapsto(\log|x_i|;2\log|z_j|)$, a continuous group homomorphism.
-    Recall $G=\{v\in V^\times:\prod|x_i|\cdot\prod|z_j|^2=1\}$.
-    Then $L(G)\subseteq H:=\{(y_i):\sum y_i=0\}\cong\R^{r_1+r_2-1}$.
-    Furthermore $L(G)=H$.
-
-    Let's understand $L(U)\subseteq L(G)=H$.
-    We'll show that $L(U)$ is a lattice and understand $\ker(L|_U)$.
-    Clearly $\ker L=\{\pm 1\}^{r_1}\times (S^1)^{r_2}$ is compact.
-    As well, $\theta(\mu_k)\subseteq U\cap\ker L$.
-    Since $U\subseteq V^\times$ is discrete, and hence closed, so $U\cap\ker L\subseteq\ker L$ is discrete and closed, so $U\cap\ker L$ is compact.
-    Since $U\cao\ker L$ is compact and discrete, it is finite.
-    Thus $U\cap \ker L\subseteq\theta(\mu_k)$.
-
-    Consider $L(G)\cong\R^{r_1+r_2-1}$ and choose a box $B=\{(y_i):|y_i|\leq b\}$.
-    Let's show that $L(U)\cap B$ is finite.
-    If $L(\theta(\alpha))|in B$, then $|\sigma(\alpha)|\leq e^b$ for some $\sigma$ real, and $|\sigma(\alpha)|\leq e^{b/2}$ for some $\sigma$ complex.
-    Then
-    \begin{equation*}
-        \prod_\sigma(t-\sigma(\alpha))\in\Z[t]
-    \end{equation*}
-    has bounded coefficients.
-    There are only finitely many such polynomials, so there are only finitely many $\alpha$ and $L(U)\subseteq L(G)$ is discrete.
-    
-    Thus $L(U)\subseteq L(G)\cong\R^{r_1+r_2-1}$ is a discrete subgroup.
-    Thus $L(U)\cong\Z^r$ for some $r\leq r_1+r_2-1$.
-    Since $G/U\to L(G)/L(U)$ is a surjection, $L(G)/L(U)\cong (S^1)^r\times\R^{r_1+r_2-1-r}$ is compact, so $r=r_1+r_2-1$.
-
-    Given $\epsilon\in\mathcal{O}_K^\times$, $L(\theta(\epsilon))\in L(U)$, so there exists $a_i\in\Z$ such that $L(\theta(\epsilon))=\sum a_iL(\theta(\epsilon_i))=L(\theta(\prod\epsilon_i^{a_i}))$.
-    Thus $L(\theta(\epsilon^{-1}\prod\epsilon_i^{a_i}))=0$, so $\epsilon^{-1}\prod\epsilon_i^{a_i}\in\ker L|_U$, so $\epsilon=\zeta\prod\epsilon_i^{a_i}$, and $\zeta\in\mu_K$.
-    Lastly, if $\prod\epsilon_i^{a_i}=1$, then $0=\sum a_iL(\theta(\epsilon_i))$ is a $\Z-$basis, so $a_i=0$.
-\end{proof}
+\end{example}
 \begin{example}
     If $K=\Q(\sqrt{d})$, then $r_1=2$, $r_2=0$, $\mu_k=\{\pm 1\}\cong\Z/2$, Thus $\mathcal{O}_K^\times\cong\Z/2\times\Z$.
     If $K=\Q(\sqrt{2},\sqrt{3})$, then $r_2=0$, $r_1=4$, $\mathcal{O}_K^\times=\{\pm 1\}\times\Z^3$.
 \end{example}
+\subsection{Additional Topics}
 Let's look at all $K=\Q(\sqrt{D}$.
 Recall that $\disc(K)\approx D$ (up to a linear factor); order all of those $K$ by $\disc K$.
 Given $B>0$, there are only finitely many $K$ with $|\disc(K)|\leq B$; call this number $N_B$.
@@ -2852,7 +2861,7 @@ We then say $H(x,y)=\max\{|a|,|b|\}$.
 Just like in other settings, if $B>0$ is fixed, then $N_B:=|\{(x,y)\in X(\Q):h(x,y)<B\}|$ is finite.
 For the circle, $N_B\approx 12/\pi^2 B^2$.
 
-The Batyrev-Mann Conjecture rougly says $N_B\approx cB^a(\lob B)^b$ where $a,b$ are specific geometric constants.
+The Batyrev-Mann Conjecture rougly says $N_B\approx cB^a(\log B)^b$ where $a,b$ are specific geometric constants.
 
 \end{document}
 
