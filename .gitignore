@@ -1,5 +1,5 @@
 *
-!*.tex
-!*.pdf
+!*_notes.tex
+!*_notes.pdf
 !.gitignore
 !README.md
