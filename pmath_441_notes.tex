@@ -1386,6 +1386,7 @@ Our goal in this section is to relate $\mathcal{O}_K$, $\mathcal{O}_L$, and $\ma
 \end{lemma}
 \begin{proof}
     Let $\epsilon:KL\hto\C$ be an embedding
+    TODO: fix this
 \end{proof}
 \begin{theorem}\label{thm:comp}
     Let $[K:\Q]=n$, $[L:\Q]=m$, $[KL:\Q]=mn$, and $d=\gcd(\disc(K),\disc(L))$.
@@ -1673,7 +1674,7 @@ Note that the result was not strictly necessary to do this, but we get to use it
 \end{remark}
 \begin{definition}
     If $R\subseteq S$ subrings with $R,S$ integral domains, we say $s\in S$ is \mbf{integral over $R$} if there exists $f(x)\in R[x]$, $f$ monic, such that $f(s)=0$.
-    We say $R$ is \mbf{integrally closed in $S$} if $s\in S$ is integral over $R$ iff $s\in R$.
+    We say $R$ is \mbf{integrally closed in $S$} if $s\in S$ is integral over $R$ if and only if $s\in R$.
 \end{definition}
 \begin{example}
     \begin{enumerate}[nl]
@@ -1861,13 +1862,13 @@ Note that the result was not strictly necessary to do this, but we get to use it
     However, this is a contradiction to the assumption that $B\neq R$, so $IJ=(\alpha)$.
 \end{proof}
 \begin{definition}
-    If $A,B$ are ideals in $R$, we say that \mbf{$A$ divides $B$} and write $A|B$ if there exists an ideal $C$ such that $AC=B$.
+    If $A,B$ are ideals in $R$, we say that \mbf{$A$ divides $B$} and write $A\mid B$ if there exists an ideal $C$ such that $AC=B$.
 \end{definition}
 \begin{corollary}\label{cor:id-div}
     Let $A,B,C$ be ideals in a Dedekind domain, with $C\neq 0$.
     Then
     \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item $A\supseteq B$ if and only if $A|B$.
+        \item $A\supseteq B$ if and only if $A\mid B$.
         \item If $AC=BC$, then $A=B$.
     \end{enumerate}
 \end{corollary}
@@ -1923,7 +1924,7 @@ Note that the result was not strictly necessary to do this, but we get to use it
     Then $(p_1)\subseteq P$ but $(p_1)$ is prime and thus maximal (since $R$ is Dedekind), so $P=(p_1)$ is principal.
 \end{proof}
 \begin{corollary}
-    If $K$ is a number field, then $\mathcal{O}_K$ has unique factorization into primes iff $\mathcal{O}_K$ is a PID.
+    If $K$ is a number field, then $\mathcal{O}_K$ has unique factorization into primes if and only if $\mathcal{O}_K$ is a PID.
 \end{corollary}
 \begin{proof}
     This follows immediately since $\mathcal{O}_K$ is Dedekind.
@@ -2183,7 +2184,7 @@ As we will see shortly, for most points, $\pi^{-1}((p))$ consists of distinct pr
 \end{remark}
 \begin{proof}
     If $C=\mathcal{O}_K$, choose any $\alpha\in B$.
-    Otherwise, write $C=\prod_{i=1}^r P_i^{e_i}$ as a product of prime ideals; the proof proceeds by induction on $r$.
+    Otherwise, write $C=\prod_{i=1}^r P_i^{e_i}$ as a product of prime ideals.
     If $r=1$, then $C=P^e$.
     Let $\alpha\in B\setminus BP$ be arbitrary, so that
     \begin{align*}
@@ -2191,7 +2192,7 @@ As we will see shortly, for most points, $\pi^{-1}((p))$ consists of distinct pr
     \end{align*}
     Suppose for contradiction $m\geq 1$; then, $P\div\frac{(\alpha)}{B}$ so $(\alpha)=B\frac{(\alpha)}{B}=BP E\subseteq BP$ so that $\alpha\in BP$, a contradiction.
 
-    Now suppose $r>1$; then by the induction, for any $r\in\{1,\ldots,m\}$, set
+    Now suppose $r>1$; then by the $r=1$ case for any $m\in\{1,\ldots,r\}$, set
     \begin{align*}
         B_m:&=B\frac{P_1\cdots P_r}{P_m} & \alpha_m \in B_m &\quad\text{s.t.}\quad\gcd\left(\frac{(\alpha_m)}{B_m},P_m\right)=1 & \alpha=\sum_{i=1}^r\alpha_i
     \end{align*}
@@ -2583,9 +2584,14 @@ Suppose $[K:\Q]=n$ so that $K=\Q(\theta)$.
 Let $\sigma_1,\ldots,\sigma_n\hto\C$ be the embeddings, so $r_1$ is the number of real embeddings $\{\sigma_1,\ldots\sigma_{r_1}\}$ and $r_2$ pairs of complex embeddings $\{\sigma_{r_1+1},\ol{\sigma}_{r_1+1},\ldots,\sigma_{r_1+r_2},\ol{\sigma}_{r_1+r_2}\}$.
 With these embeddings, we can define $\sigma:K\hto\R^n$ by
 \begin{equation*}
-    \sigma\mapsto\bigl(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\ldots,\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha)\bigr)
+    \alpha\mapsto\bigl(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\Re\sigma_{r_1+1}(\alpha),\Im\sigma_{r_1+1}(\alpha),\ldots,\Re\sigma_{r_1+r_2}(\alpha),\Im\sigma_{r_1+r_2}(\alpha)\bigr)
 \end{equation*}
-We call this embedding the \mbf{TODO: what is the name}.
+Equivalently, we say $\sigma:K\hto\R^{r_1}\times\C^{r_2}$ given by
+\begin{equation*}
+    \alpha\mapsto\bigl(\sigma_1(\alpha),\ldots,\sigma_{r_1}(\alpha),\sigma_{r_1+1}(\alpha),\ldots,\sigma_{r_1+r_2}(\alpha)\bigr)
+\end{equation*}
+and these are equivalent by identifying $\R^{2r_2}\cong\C^{r_2}$ as vector spaces.
+We call this embedding the \mbf{Minkowski embedding}.
 \begin{lemma}\label{lem:lat-sz}
     Let $A\neq 0$ be an ideal of $\mathcal{O}_K$.
     Then $\sigma(A)$ is a lattice $\Lambda\subseteq\R^n$ and $d(\Lambda)=2^{-r_2}\sqrt{|\disc(K)|}N(A)$.
@@ -2664,7 +2670,7 @@ The following corollary is then immediate.
     To see thus, $a:=a_1^2+a_2^2=N(a_1+ia_2)$ and $b:=b_1^2+b_2^2=N(b_1+ib_2)$.
     Then $ab=N(z2)=c_1^2+c_2^2$.
     In particular, if $n=\prod p_i$ where $p_i\equiv 1\pmod{4}$, then $n=x^2+y^2$.
-    In fact, you can prove $n=x^2+y^2$ iff the prime factors $p\equiv 3\pmod{4}$ occur to even exponents.
+    In fact, you can prove $n=x^2+y^2$ if and only if the prime factors $p\equiv 3\pmod{4}$ occur to even exponents.
 \end{remark}
 \begin{proposition}[Euler's Four Squares Identity]
     We have
