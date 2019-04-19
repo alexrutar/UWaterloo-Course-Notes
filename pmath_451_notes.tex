@@ -1,12 +1,12 @@
 % header -----------------------------------------------------------------------
 % Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
-% version (1.6)
+% version (1.11)
 
 
 % doctype ----------------------------------------------------------------------
 \documentclass[11pt, a4paper]{memoir}
 \usepackage[ascii]{inputenc}
-\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage[protrusion=true,expansion=true]{microtype}
 
 
@@ -36,33 +36,36 @@
 \DeclareMathOperator{\C}{{\mathbb{C}}}
 \DeclareMathOperator{\F}{{\mathbb{F}}}
 
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
 % proof implications
 \newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
 \newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
 
 % multi-line align space
 \newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
 
 % convenient brackets
 \newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
 \newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
 \newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
 
-% smaller fractions
-\newcommand{\sfrac}[2]{\ensuremath{\frac{\scriptstyle #1}{\scriptstyle #2}}}
-
 % arrows
 \newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
-\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptscriptstyle{#1}}}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
 \newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
  
 % Divides, Not Divides
 \renewcommand{\div}{\bigm|}
 \newcommand{\ndiv}{%
     \mathrel{\mkern.5mu % small adjustment
         % superimpose \nmid to \big|
-        \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
     }%
 }
 
@@ -75,7 +78,7 @@
 \newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
 \makeatother
 
-% Disjoint Union
+% Big and small Disjoint union
 \makeatletter
 \providecommand*{\cupdot}{%
   \mathbin{%
@@ -132,15 +135,18 @@
 
 % Claim environment
 \theoremstyle{plain}
-\theorempreskip{0.1cm}
-\theorempostskip{0.1cm}
-\theoremindent0.0cm
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
 \theoremnumbering{roman}
 \theoremheaderfont{\scshape}
 \newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
 \AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
 
 % Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
 \theoremheaderfont{\bfseries\itshape}
@@ -173,6 +179,7 @@
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\Nil}{Nil}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Res}{Res}
@@ -202,25 +209,34 @@
 
 \renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
 \renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
-\newcommand{\rt}[1]{\ensuremath{|_{#1}}} % improve this so it adjusts height of |
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
 
 
 % file-specific preamble -------------------------------------------------------
 \hfuzz=100pt % supress overfull warnings
 \DeclareMathOperator{\ND}{ND}
 \DeclareMathOperator{\BV}{BV}
+\usepackage{showkeys}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Measure Theory}
+\newcommand{\topic}{PMATH 451}
+\newcommand{\semester}{Winter 2019}
 
 
 % formatting -------------------------------------------------------------------
 \usepackage{kpfonts}
 \usepackage{dsfont}
 
-% Define Document Variables
-\newcommand{\subject}{REPLACE}
-\newcommand{\topic}{REPLACE}
-\newcommand{\semester}{REPLACE}
+% Equation numbering
+\numberwithin{equation}{section}
 
-% Format Table of Contents
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
 \renewcommand{\thechapter}{\Roman{chapter}}
 \counterwithout{section}{chapter}
 \counterwithin*{chapter}{part}
@@ -228,7 +244,7 @@
 \setlength\cftchapternumwidth{4em} % Add space before chapter name
 \cftpagenumbersoff{chapter} % Turn off page numbers for chapter
 
-% Format Section / Subsection headers
+% Section / Subsection headers
 \newcommand*{\shortcenter}[1]{%
     \sethangfrom{\noindent ##1}%
     \Large\boldmath\scshape\bfseries
@@ -237,10 +253,10 @@
 \setsecheadstyle{\shortcenter}
 \setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
 
-% Format Chapter Headers
+% Chapter Headers
 \chapterstyle{verville}
 
-% Format Page Headers / Footers
+% Page Headers / Footers
 \setsecnumdepth{section}
 \copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
 \makeoddhead{myruled}{}{}{\scshape\subject}
@@ -248,7 +264,7 @@
 \makeoddfoot{myruled}{}{\thepage}{}
 \pagestyle{myruled}
 
-% Format Titlepage
+% Titlepage
 \title{\subject}
 \author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
 \date{\semester\thanks{Last updated: \today}}
@@ -268,24 +284,24 @@
 % main document ----------------------------------------------------------------
 \chapter{Measures}
 \section{Measure Spaces}
-\begin{itemize}
-    \item Lebesgue - improvement of Riemann integral in $\R^d$, translation-invariant measure on $\R^d$, $L^p$-spaces, rigorous treatments of convergence of functions
-    \item Kolmogorov - theoretical foundations of probability
-\end{itemize}
-Philosophy
-\begin{itemize}
-    \item rigorous notion of measure
-    \item a theory of integration of appropriate functions
-    \item the core of the theory provides a robust sequence of tools to approximate/calculate these rigorously
-    \item Functional analysis ($L^p$ spaces, duality, Lebesgue differentiation)
-\end{itemize}
+% \begin{itemize}
+    % \item Lebesgue - improvement of Riemann integral in $\R^d$, translation-invariant measure on $\R^d$, $L^p$-spaces, rigorous treatments of convergence of functions
+    % \item Kolmogorov - theoretical foundations of probability
+% \end{itemize}
+% Philosophy
+% \begin{itemize}
+    % \item rigorous notion of measure
+    % \item a theory of integration of appropriate functions
+    % \item the core of the theory provides a robust sequence of tools to approximate/calculate these rigorously
+    % \item Functional analysis ($L^p$ spaces, duality, Lebesgue differentiation)
+% \end{itemize}
 \begin{definition}
     Let $X\neq\emptyset$ be a set.
     $\mathcal{M}\subset\mathcal{P}(X)$ is called a \textbf{$\sigma-$algebra} on $X$ if
     \begin{enumerate}[nolistsep]
         \item $X\in \mathcal{M}$
         \item $A\in\mathcal{M}\Rightarrow A^c\in\mathcal{M}$
-        \item If $A_n\in\mathcal{M}$ for all $n\in\N$, then $\bigcup\limits_{n\in\N}A_n\in\mathcal{M}$
+        \item If $A_n\in\mathcal{M}$ for all $n\in\N$, then $\bigcup_{n=1}^\infty A_n\in\mathcal{M}$
     \end{enumerate}
     The pair $(X,\mathcal{M})$ is called a \textbf{measurable space}.
     The elements of $\mathcal{M}$ are called \textbf{measurable sets}.
@@ -314,29 +330,37 @@ We have the following properties of $\sigma-$algebras.
             Then $f^{-1}(H)=(f^{-1}(H^c))^c\in\mathcal{M}$.
     \end{enumerate}
 \end{proof}
+\subsection{Extended Real Line}
 One can define the extended real line as follows: set the space $X=\R\cup\{-\infty,+\infty\}$.
 Then the topology is given by
-\[G\in\tau\Leftrightarrow
+\begin{equation*}
+    G\in\tau\Leftrightarrow
     \begin{cases}
-        \forall x\in G\cap\R & \exists r>0 \text{ s.t. } (x-r,x+r)\subset G\\
+        \text{for all } x\in G\cap\R & \exists r>0 \text{ s.t. } (x-r,x+r)\subset G\\
         -\infty\in G & \exists b\in\R \text{ s.t. }(-\infty,b)\subset G\\
         +\infty\in G & \exists a\in\R \text{ s.t. }(a,\infty)\subset G
     \end{cases}
-\]
+\end{equation*}
 The same can be done with a single symbol as well.
 In either case, the extended real line is a compact set.
 We also extend the general operations so that $a+\infty=\infty$ for any $a\in(0,\infty]$, and $\infty=\sup[0,\infty]=\sup[0,\infty)$, and similarly for $-\infty$.
 
 We define for $(a_i)\subset[0,\infty]$
-\[\sum\limits_{i=1}^\infty a_i=\sup_{n\in\N}\sum\limits_{i=1}^n a_i\]
+\begin{equation*}
+    \sum\limits_{i=1}^\infty a_i=\sup_{n\in\N}\sum\limits_{i=1}^n a_i
+\end{equation*}
 If $(a_i),(b_i)\subset[0,\infty]$, then
-\[\sum\limits_{i=1}^\infty(a_i+b_i)=\sum\limits_{i=1}^\infty a_i+\sum\limits_{i=1}^\infty b_i\]
+\begin{equation*}
+    \sum\limits_{i=1}^\infty(a_i+b_i)=\sum\limits_{i=1}^\infty a_i+\sum\limits_{i=1}^\infty b_i
+\end{equation*}
 Furthermore, if ${(a_{ij})_{i=1}^\infty}_{j=1}^\infty\subset[0,\infty]$, then
-\[\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty a_{ij}=\sum\limits_{j=1}^\infty\sum\limits_{i=1}^\infty a_{ij}\]
-This is the image of positive measures:
+\begin{equation*}
+    \sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty a_{ij}=\sum\limits_{j=1}^\infty\sum\limits_{i=1}^\infty a_{ij}
+\end{equation*}
+With this, we can define positive measures.
 \begin{definition}
     Let $(X,\mathcal{M})$ be a measurable space.
-    A function $\mu:\mathcal{M}\to[0,+\infty]$ is called a \textbf{(positive) measure} if it is countably additive and not constant $+\infty$.
+    A function $\mu:\mathcal{M}\to[0,\infty]$ is called a \textbf{(positive) measure} if it is countably additive and not constant $\infty$.
     In other words,
     \begin{enumerate}[nolistsep]
         \item $\mu(\emptyset)=0$
@@ -363,33 +387,27 @@ This is the image of positive measures:
             Then $E_i\cap E_j=\emptyset$ and if $i\neq j$ and for all $i\in\N$, $E_i\in\mathcal{M}$ and $\bigcup_{i=1}^\infty E_i=\bigcup_{i=1}^\infty A_i$.
             Thus
             \begin{align*}
-                \mu\left(\bigcup\limits_{i=1}^\infty A_i\right)&=\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)\\
-                                                               &= \sum\limits_{i=1}^\infty \mu(E_i)\\
-                                                               &\leq \sum\limits_{i=1}^\infty\mu(A_i)
+                \mu\left(\bigcup\limits_{i=1}^\infty A_i\right)&=\mu\left(\bigcup\limits_{i=1}^\infty E_i\right) = \sum\limits_{i=1}^\infty \mu(E_i) \leq \sum\limits_{i=1}^\infty\mu(A_i)
             \end{align*}
-        \item Define $B_1:=A_1$ and $B_i=A_i\setminus A_{i-1}$ for $i\geq 2$.
-            Then $B_i\cap B_j=\emptyset$ and $\mu(A_n)=\mu\left(\bigcup_{i=1}^n B_i\right)=\sum_{i=1}^\infty\mu(B_i)$.
+        \item Define $B_1:=A_1$ and $B_{i+1}=A_{i+1}\setminus A_{i}$ for $i\geq 1$.
+            Then $B_i\cap B_j=\emptyset$ and $\mu(A_n)=\mu\left(\bigcup_{i=1}^n B_i\right)=\sum_{i=1}^n\mu(B_i)$.
             Similary, $\mu\left(\bigcup_{n=1}^\infty A_n\right)=\mu\left(\bigcup_{n=1}^\infty B_n\right)=\sum_{n=1}^\infty\mu(B_n)$.
-            Therefore, $\lim_{n\to\infty}\sum_{i=1}^n \mu(B_i)=\sum_{n=1}^\infty \mu(B_n)$.
-        \item Let $A_i=E_1$, $A_{n+1}=E_{n+1}\setminus\bigcup_{i=1}^n E_i$.
-            Then, here $A_i\cap A_j=\emptyset$, $\bigcup_{i=1}^n A_i=E_n$ and $\bigcup_{i=1}^\infty A_i=\bigcup_{i=1}^\infty E_i$.
-            Then
-            \begin{align*}
-                \mu\left(\bigcup\limits_{i=1}^\infty\right) &= \mu\left(\bigcup\limits_{i=1}^\infty A_i\right)\\
-                                                            &= \sum\limits_{i=1}^\infty \mu(A_i)\\
-                                                            &= \lim_{n\to\infty}\sum\limits_{i=1}^n \mu(A_i)\\
-                                                            &= \lim_{n\to\infty} \mu\left(\bigcup\limits_{i=1}^n A_i\right)\\
-                                                            &= \lim_{n\to\infty}\mu(E_n)
-            \end{align*}
-        \item Let $C_n=A_1\setminus A_n$, $C_1=\emptyset$.
+            Thus the result follows since
+            \begin{equation*}
+                \lim_{n\to\infty}\sum_{i=1}^n \mu(B_i)=\sum_{n=1}^\infty \mu(B_n)
+            \end{equation*}
+        \item Without loss of generality $\mu(A_1)<\infty$.
+            Let $C_1=\emptyset$, $C_n=A_1\setminus A_n$.
             Then $C_1\subset C_2\subset\cdots$ and $\mu(C_n)+\mu(A_n)=\mu(A_1)$.
-            Let $A=\bigcap\limits_{n=1}^\infty A_n$ so $A_1\setminus A=\bigcup\limits_{n=1}^\infty C_n$ and $(\bigcup C_n)\cup A=A_1$ is a disjoint union.
-            But then $\mu(\bigcup A_n)+\mu(A)=\mu(A_1)$ so that
-            \begin{equation*}\mu(A_1)-\mu(A)=\mu(\bigcup C_n)=\lim_{n\to\infty}\mu(C_n)=\mu(A_n)-\lim \mu(A_n)\end{equation*}
+            Let $A=\bigcap_{n=1}^\infty A_n$ so $A_1\setminus A=\bigcup_{n=1}^\infty C_n$ and $(\bigcup_{n=1}^\infty C_n)\cupdot A=A_1$ disjointly.
+            But then $\mu(\bigcup_{n=1}^\infty C_n)+\mu(A)=\mu(A_1)$ so that
+            \begin{equation*}
+                \mu(A_1)-\mu(A)=\mu\left(\bigcup_{n=1}^\infty C_n\right)=\lim_{n\to\infty}\mu(C_n)=\mu(A_1)-\lim \mu(A_n)
+            \end{equation*}
             Since $\mu(A_1)$ is finite, we have $\mu(A)=\lim\mu(A_n)$.
     \end{enumerate}
 \end{proof}
-\subsection{Types of Measures}
+\subsection{Examples of Measures}
 \begin{definition}
     A measure space $(X,\mathcal{M},\mu)$ is called:
     \begin{enumerate}[nolistsep]
@@ -398,13 +416,13 @@ This is the image of positive measures:
             If $0<\mu(X)<\infty$, then $\frac{1}{\mu(X)}\mu$ is a probabiliy measure.
         \item \textbf{$\sigma-$finite} if there is a countable collection $\{X_i\}_{i=1}^\infty\subseteq\mathcal{M}$, $\bigcup_{i=1}^\infty X_i=X$, and $\mu(X_i)<\infty$.
         \item \textbf{decomposable} if there is a set $\Pi\subseteq\mathcal{M}$ such that
-            \begin{enumerate}[nolistsep]
+            \begin{enumerate}[nl]
                 \item $\Pi$ partitions $X$
                 \item If $E\subseteq X$, then $E\in\mathcal{M}$ if and only if $E\cap P\in\mathcal{M}$ for each $P\in\Pi$
                 \item $\mu(P)<\infty$ for all $P\in\Pi$
                 \item If $E\in\mathcal{M}$ with $\mu(E)<\infty$, then
                     \begin{equation*}
-                        \mu(E)=\sup_{\substack{\mathcal{F}\subseteq\Pi}{\mathcal{F} \text{ finite}}}\sum\limits_{P\in\mathcal{F}}\mu(E\cap P):=\sum\limits_{P\in\Pi}\mu(E\cap P)
+                        \mu(E)=\sup_{\substack{\mathcal{F}\subseteq\Pi\\\mathcal{F} \text{ finite}}}\sum\limits_{P\in\mathcal{F}}\mu(E\cap P):=\sum\limits_{P\in\Pi}\mu(E\cap P)
                     \end{equation*}
             \end{enumerate}
         \item \textbf{semifinite} if for any $E\in\mathcal{M}$ with $\mu(E)>0$, there is $F\in\mathcal{M}$, $F\subseteq E$ such that $0<\mu(F)<\infty$ (each set is ``finitely approximatable from below'')
@@ -413,13 +431,14 @@ This is the image of positive measures:
 \end{definition}
 A common technique that $\sigma-$finiteness allows is to define $E_n=\bigcup_{i=1}^n X_i$, so $E_1\subseteq E_2\subseteq\cdots$, $X=\bigcup_{i=1}^\infty E_i$ and each $\mu(E_i)<\infty$.
 Alternatively, let $A_1=X_1$, $A_{n+1}=X_{n+1}\setminus\bigcup_{i=1}^n X_i$, so each $A_i\in\mathcal{M}$, $A_i\cap A_j=\emptyset$ if $i\neq j$, each $\mu(A_i)<\infty$, and $X_i=\bigcup_{i=1}^\infty A_i$ disjointly.
-\begin{enumerate}
-    \item probability $\Rightarrow$ finite $\Rightarrow$ $\sigma-$finite $\Rightarrow$ decomposable, semifinite
-    \item Completeness has some technical usefulness.
-        However, every measure space $(X,\mathcal{M},\mu)$ extends to a complete measure space, so this property is rather unexciting.
-        Most ``natural'' constructions of measures give us complete measures.
-\end{enumerate}
-\subsection{Examples of Measures}
+
+Note that every $\sigma-$finite measure is both decomposable and semifinite, but decomposability and semifiniteness are not equivalent.
+
+Completeness has some technical usefulness.
+However, every measure space $(X,\mathcal{M},\mu)$ extends to a complete measure space, so this property is rather unexciting.
+Most ``natural'' constructions of measures give us complete measures.
+
+Here are some common examples of measures.
 \begin{enumerate}
     \item The zero measure.
         Given a measurable space $(X,\mathcal{M})$, let $\mu(E)=0$ for $E\in\mathcal{M}$.
@@ -444,7 +463,7 @@ Alternatively, let $A_1=X_1$, $A_{n+1}=X_{n+1}\setminus\bigcup_{i=1}^n X_i$, so 
             \item always complete
         \end{itemize}
         Since $X\neq\emptyset$, if $X$ is finite, let $\nu=\frac{1}{|X|}\gamma$ is the uniform probability.
-    \item Point mass/Dirac.
+    \item Point mass or Dirac measure.
         Let $a\in X$ and define $\delta_a:\mathcal{P}(X)\to\{0,1\}\subset[0,\infty]$ by
         \begin{equation*}
             \delta_a(E)=
@@ -462,13 +481,15 @@ Alternatively, let $A_1=X_1$, $A_{n+1}=X_{n+1}\setminus\bigcup_{i=1}^n X_i$, so 
         However, it is complete.
     \item Let $X=\{x_0\}$, the singleton sets.
         Then $\mathcal{P}(X)=\{\emptyset,\{x_0\}\}$, and define $\mu(\emptyset)=0$ and $\mu(\{x_0\})=\infty$.
-        It is not decomposable, nor decomposable.
+        It is not decomposable nor semifinite.
 \end{enumerate}
-\section{Outer Measures and Caratheodory's Theorem}
+In the next section, we will investigate how to construct more useful measures.
+\section{Pre-measures to Outer Measures to Measures}
+\subsection{Outer Measures}
 \begin{definition}
     Let $X$ be a non-empty set.
     An \textbf{outer measure} on $X$ is a function $\mu^*:\mathcal{P}(X)\to[0,\infty]$ such that
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item $\mu^*(\emptyset)=0$
         \item $A\subseteq B$ implies $\mu^*(A)\leq\mu^*(B)$
         \item $A_1,A_2,\ldots\in \mathcal{P}(X)$, then
@@ -476,22 +497,21 @@ Alternatively, let $A_1=X_1$, $A_{n+1}=X_{n+1}\setminus\bigcup_{i=1}^n X_i$, so 
     \end{enumerate}
 \end{definition}
 \begin{remark}
-    \begin{enumerate}[nolistsep,label=(\alph*)]
-        \item Any measure on $\mathcal{P}(X)$ is an outer measure
-        \item Advantage: outer measures are easy to construct and have largest domain
-        \item Disadvantage: may not have $\sigma-$additivity
-    \end{enumerate}
+    Certainly any measure on $\mathcal{P}(X)$ is an outer measure.
+    While outer measures are easy to construct and have the largest possible domain, they may not be $\sigma-$additive.
 \end{remark}
-\begin{proposition}
+\begin{proposition}\label{prop:def-outer}
     Let $\mathcal{E}\subseteq\mathcal{P}(X)$ be any family such that $\{\emptyset,X\}\subseteq\mathcal{E}$, and there is a function $\rho:\mathcal{E}\to[0,\infty]$ such that $\rho(\emptyset)=0$.
-    Then the formula, for $A\in\mathcal{P}(X)$,
+    Then the function $\mu^*$ defined for $A\in\mathcal{P}(X)$ by
     \begin{equation*}
         \mu^*(A)=\inf\left\{\sum\limits_{i=1}^\infty \rho(E_i):E_1,E_2,\ldots\in\mathcal{E}, A\subseteq\bigcup\limits_{i=1}^\infty E_i\right\}
     \end{equation*}
     defines an outer measure on $X$.
 \end{proposition}
-Note: Unless $(\mathcal{E},\rho)$ is ``nice'', we may not be able to recver $\rho$ from $\mu^*$.
-For $E\in\mathcal{E}$, $\mu^*(E)\leq\rho(E)$ (but we may not get equality).
+\begin{remark}
+    Unless $(\mathcal{E},\rho)$ is ``nice'', we may not be able to recver $\rho$ from $\mu^*$.
+    It certainly holds that for any $E\in\mathcal{E}$, $\mu^*(E)\leq\rho(E)$, but we may not get equality.
+\end{remark}
 \begin{proof}
     First, $0\leq\mu^*(\emptyset)\leq\rho(\emptyset)=0$.
     Second, if $A\subseteq B\subseteq X$, then any countable $\mathcal{E}-$cover of $B$ is evidently an $\mathcal{E}-$cover of $A$.
@@ -499,41 +519,43 @@ For $E\in\mathcal{E}$, $\mu^*(E)\leq\rho(E)$ (but we may not get equality).
     By definition of $\mu^*$ to each $A_i$, get $E_{i1},E_{i2},\ldots$ in $\mathcal{E}$ such that $A_i\subseteq\bigcup_{j=1}^\infty E_{ij}$ and $\sum_{j=1}^\infty \rho(A_i)+\frac{\epsilon}{2^i}$.
     Then $\bigcup_{i=1}^\infty A_i\subseteq\bigcup_{i=1}^\infty\bigcup_{j=1}^\infty E_{ij}$ so that
     \begin{align*}
-        \mu^*\left(\bigcup\limits_{i=1}^\infty A_i\right) &\subseteq\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty E_{ij}\\
-                                                          &\leq \sum\limits_{i=1}^\infty\left(\mu^*(A_i)+\frac{\epsilon}{2^i}\right)\\
+        \mu^*\left(\bigcup\limits_{i=1}^\infty A_i\right) &\leq\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty E_{ij} \leq \sum\limits_{i=1}^\infty\left(\mu^*(A_i)+\frac{\epsilon}{2^i}\right)\\
                                                           &= \sum\limits_{i=1}^\infty \mu^*(A_i)+\epsilon
     \end{align*}
-    Since $\epsilon$ is arbitrary, the inequality holds.
+    Since $\epsilon>0$ is arbitrary, the desired inequality holds.
 \end{proof}
+\subsection{Caratheodory's Theorem}
 \begin{definition}[Caratheodory]
     Given an outer measure $\mu^*$ on $X$, we say that a set $A\subseteq X$ is \textbf{$\mu^*-$measurable} provided that for any $E\in\mathcal{P}(X)$, $\mu^*(E)=\mu^*(E\cap A)+\mu^*(E\setminus A)$.
 \end{definition}
 \begin{remark}
     If $\mu^*$ is an outer measure, $\mu^*(E)\leq\mu^*(E\cap A)+\mu^*(E\setminus A)$ always happens.
-    In practice, we only need check ``$\geq$''.
+    In practice, we only need check the converse inequality.
 \end{remark}
 \begin{definition}
     Given a non-empty set $X$, an \textbf{algebra} on $X$ is a family $\mathcal{A}\subseteq\mathcal{P}(X)$ such that
-    % \begin{enumerate}[nolistsep,\label=(\roman*)]
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item $X\in\mathcal{A}$
         \item $A\in\mathcal{A}\Rightarrow X\setminus A\in\mathcal{A}$
         \item $A,B\in\mathcal{A}\Rightarrow A\cup B\in\mathcal{A}$
     \end{enumerate}
 \end{definition}
 By induction, any finite union of sets is in $A$.
-As for $\sigma-$algebras, $\emptyset\in\mathcal{A}$ and $\mathcal{A}$ is closed under finite intersections.
-\begin{theorem}
+As well, $\emptyset\in\mathcal{A}$ and $\mathcal{A}$ is closed under finite intersections.
+\begin{theorem}[Caratheodory]\label{thm:carat}
     Given an outer measure $\mu^*:\mathcal{P}(X)\to[0,\infty]$, we have that
-    \begin{enumerate}[nolistsep,label={(\roman*)}]
-        \item $\mathcal{M}=\{A\in\mathcal{P}(X):\forall E\in\mathcal{E}(X),\mu^*(E)\geq\mu^*(E\cap A)+\mu^*(E\setminus A)\}$ is a $\sigma-$algebra.
+    \begin{enumerate}[nl,r]
+        \item $\mathcal{M}=\bigl\{A\in\mathcal{P}(X):\text{for all }E\in\mathcal{E}(X),\mu^*(E)\geq\mu^*(E\cap A)+\mu^*(E\setminus A)\bigr\}$ is a $\sigma-$algebra.
         \item $\mu=\mu^*|_{\mathcal{M}}:\mathcal{M}\to[0,\infty]$ is a complete measure.
     \end{enumerate}
 \end{theorem}
+\begin{claim}
+    $\mathcal{M}$ is an algebra.
+\end{claim}
 \begin{proof}
-    (I) Let us verify first that $\mathcal{M}$ is an algebra.
-    First, if $E\in\mathcal{P}(X)$, then $\mu^*(E\cap X)+\mu^*(E\setminus X)=\mu^*(E)+\mu^*(\emptyset)\leq \mu^*(E)$.
-    Now, let $A,B\in\mathcal{M}$.
+    First note that $X\in\mathcal{M}$: if $E\in\mathcal{P}(X)$, then $\mu^*(E\cap X)+\mu^*(E\setminus X)=\mu^*(E)+\mu^*(\emptyset)\leq \mu^*(E)$.
+
+    Now, let $A,B\in\mathcal{M}$ be arbitrary.
     We have for $E\in\mathcal{P}(X)$ that
     \begin{align*}
         \mu^*(E\cap(X\setminus A))+\mu^*(E\setminus(X\setminus A)) &= \mu^*(E\setminus A)+\mu^*(E\cap A)\leq\mu^*(E)
@@ -548,72 +570,73 @@ As for $\sigma-$algebras, $\emptyset\in\mathcal{A}$ and $\mathcal{A}$ is closed 
     \end{align*}
     by $\sigma-$additivity and that $A\cup B=(A\cap B)\cup(A\setminus B)\cup(B\setminus A)$.
     Thus $A\cup B\in\mathcal{M}$.
-
-    (II) For (i), it remains to show closure under countable unions.
-    Let $A_1,A_2,\ldots\in\mathcal{M}$ and $A=\bigcup_{i=1}^\infty A_i$.
-    Let $B_1=A_1$, $B_{n+1}=A_{n+1}\setminus\bigcup_{i=1}^\infty A_i$, so $B_i\cap B_j=\emptyset$.
-    Each $B_i\in\mathcal{M}$, and $\bigcup_{i=1}^n B_i=\bigcup_{i=1}^n A_i$.
-    We have
+\end{proof}
+\begin{claim}
+    $\mathcal{M}$ is a $\sigma-$algebra.
+\end{claim}
+\begin{proof}
+    It suffices to show closure under countable unions.
+    Let $A_1,A_2,\ldots\in\M$ and $A=\bigcup_{i=1}^\infty A_i$.
+    Let $B_1=A_1$, $B_{n+1}=A_{n+1}\setminus\bigcup_{i=1}^n A_i$, so $B_i\cap B_j=\emptyset$.
+    In particular, each $B_i\in \M$ and $\bigcup_{i=1}^n B_i=\bigcup_{i=1}^n A_i$.
+    We thus have for $E\in\ps(X)$ arbitrary
     \begin{align*}
-        \mu^*(E\cap\bigcup_{i=1}^n B_i) &\geq\mu^*\left((E\cap\bigcup_{i=1}^n)\cap B_n\right)+\mu^*\left((E\cap\bigcup_{i=1}^n B_i)\setminus B_n\right)\\
-                                        &= \mu^*(E\cap B_n)+\mu^*\left(E\cap\bigcup_{i=1}^{n-1}B_i\right)\\
-                                        &= \mu^*(E\cap B_n)+\mu^*(E\cap B_{n-1})+\mu^*\left(E\cap\bigcup_{i=1}^{n-2}B_i\right)\\
-                                        &= \sum\limits_{i=1}^n \mu^*(E\cap B_i)
+        \mu^*\left(E\cap\bigcup_{i=1}^n B_i\right) &\geq\mu^*\left(\left(E\cap\bigcup_{i=1}^nB_i\right)\cap B_n\right)+\mu^*\left(\left(E\cap\bigcup_{i=1}^n B_i\right)\setminus B_n\right)= \mu^*(E\cap B_n)+\mu^*\left(E\cap\bigcup_{i=1}^{n-1}B_i\right)\\
+                                                   &\geq \mu^*(E\cap B_n)+\mu^*(E\cap B_{n-1})+\mu^*\left(E\cap\bigcup_{i=1}^{n-2}B_i\right)\\
+                                                   &\agvdots\\
+                                                   &\geq \sum\limits_{i=1}^n \mu^*(E\cap B_i)
     \end{align*}
-    Thus we have that
+    by induction.
+    We thus have
     \begin{align*}
-        \mu^*(E) &\geq\mu^*\left(E\cap\bigcup_{i=1}^n A_i\right)+\mu^*\left(E\setminus\bigcup_{i=1}^n A_i\right)\\
-                 &\geq\mu^*\left(E\cap\bigcup_{i=1}^n B_i\right)+\mu^*(E\setminus A)\\
+        \mu^*(E) &\geq\mu^*\left(E\cap\bigcup_{i=1}^n A_i\right)+\mu^*\left(E\setminus\bigcup_{i=1}^n A_i\right)\geq\mu^*\left(E\cap\bigcup_{i=1}^n B_i\right)+\mu^*(E\setminus A)\\
                  &\geq\sum\limits_{i=1}^n\mu^*(E\cap B_i)+\mu^*(E\setminus A)
     \end{align*}
     so, taking the limit,
-    \begin{align*}
-        \mu^*(E) &\geq\sum\limits_{i=1}^\infty\mu^*(E\cap B_i)+\mu^*(E\setminus A)\\
-                 &\geq\mu^*\left(\bigcup_{i=1}^\infty(E\cap B_i)\right)+\mu^*(E\setminus A)\tag{$\dagger$}\\
-                 &=\mu^*(E\cap A)+\mu^*(E\setminus A)
-    \end{align*}
+    \begin{align}
+        \mu^*(E) &\geq\sum\limits_{i=1}^\infty\mu^*(E\cap B_i)+\mu^*(E\setminus A)\label{eq:car}\\
+                 &\geq\mu^*\left(\bigcup_{i=1}^\infty(E\cap B_i)\right)+\mu^*(E\setminus A)\nonumber\\
+                 &=\mu^*(E\cap A)+\mu^*(E\setminus A)\nonumber
+    \end{align}
     so that $A\in\mathcal{M}$.
     Thus (i) is established.
-
-    For (ii), assume $A_1,A_2,\ldots\in\mathcal{M}$, above, that $A_i\cap A_j=\emptyset$ for $i\neq j$.
-    Then $B_i=A_i$ for each $i$.
-    Set $E=A$.
-    From ($\dagger$), we see that
-    \begin{align*}
-        \mu^*(A) &\geq \sum\limits_{i=1}^\infty \mu^*(A\cap A_i)+\mu(A\setminus A)\\
-                 &= \sum\limits_{i=1}^\infty \mu^*(A_i)\\
-                 &\geq \mu^*(\bigcup_{i=1}^\infty A_i)=\mu^*(A)
-    \end{align*}
-
-    (III) Let us see that if $N\in\mathcal{M}$ with $\mu(N)=0$, then $E\in\mathcal{M}$ for each $E\subseteq N$.
-    That is, $\mu$ is complete.
-    We have for an $F\in\mathcal{P}(X)$ and $E$ as above, then
-    \begin{align*}
-        \mu^*(F\cap E)+\mu^*(F\setminus E) &\leq \mu^*(N)+\mu^*(F)\\
-                                           &= \mu(N)+\mu^*(F)\\
-                                           &= \mu^*(F)
-    \end{align*}
 \end{proof}
-\section{Pre-Measures}
+\begin{claim}
+    $\mu$ is a complete measure.
+\end{claim}
+\begin{proof}
+    To show that $\mu$ is a measure, it remains to show $\sigma-$additivity.
+    Assume $A_1,A_2,\ldots\in\mathcal{M}$ and that $A_i\cap A_j=\emptyset$ for $i\neq j$.
+    Take $E=A$ and $B_i=A_i$ as in $\cref{eq:car}$, so that
+    \begin{align*}
+        \mu^*(A) &\geq \sum\limits_{i=1}^\infty \mu^*(A\cap A_i)+\mu(A\setminus A)= \sum\limits_{i=1}^\infty \mu^*(A_i)\geq \mu^*\left(\bigcup_{i=1}^\infty A_i\right)=\mu^*(A)
+    \end{align*}
+    Finally, let $N\in\M$ with $\mu(N)=0$, and $E\subseteq N$ arbitrary.
+    It suffices to show that $N\in\M$; indeed, for any $F\in\ps(X)$, we have
+    \begin{align*}
+        \mu^*(F\cap E)+\mu^*(F\setminus E) &\leq \mu^*(N)+\mu^*(F)= \mu(N)+\mu^*(F)= \mu^*(F)
+    \end{align*}
+    and we have (ii).
+\end{proof}
+\subsection{Pre-Measures to Measures}
 \begin{definition}
     Let $\mathcal{A}$ be an algebra on $X$.
-    A \textbf{premeasure} is a function $\mu_0:\mathcal{A}\to[0,\infty]$ such that
-    \begin{enumerate}[nolistsep,label={(\roman*)}]
+    A \textbf{pre-measure} is a function $\mu_0:\mathcal{A}\to[0,\infty]$ such that
+    \begin{enumerate}[nl,r]
         \item $\mu_0(\emptyset)=0$
         \item If $A_1,A_2,\ldots\in\mathcal{A}$ with $A_i\cap A_j=\emptyset$, and $\bigcup_{i=1}^\infty A_i\in \mathcal{A}$, then $\mu_0(\bigcup_{i=1}^\infty A_i)=\sum_{i=1}^\infty \mu_0(A_i)$.
     \end{enumerate}
-    A \textbf{premeasure space} is a triple $(X,\mathcal{A},\mu_0)$.
+    A \textbf{pre-measure space} is a triple $(X,\mathcal{A},\mu_0)$.
 \end{definition}
 Since $\mathcal{A}$ is an algebra, $\mu_0$ respects finite unions.
 As with measures, premeasures are monotone: $A\subseteq B$ in $\mathcal{A}$ implies $\mu_0(A)\leq\mu_0(B)$.
-\begin{theorem}
-    Let $(X,\mathcal{A},\mu_0)$ be a premeasure space.
-    Let $\mu^*:\mathcal{P}(X)\to[0,\infty]$ be given by
+\begin{theorem}\label{thm:pre-to-m}
+    Let $(X,\mathcal{A},\mu_0)$ be a premeasure space and define $\mu^*:\mathcal{P}(X)\to[0,\infty]$ by
     \begin{equation*}
         \mu^*(E)=\inf\left\{\sum\limits_{i=1}^\infty \mu_0(A_i):A_1,A_2,\ldots\in\mathcal{A},E\subseteq\bigcup_{i=1}^\infty A_i\right\}
     \end{equation*}
-    so $\mu^*$ is an outer measure.
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    Then $\mu^*$ is an outer measure, and
+    \begin{enumerate}[nl,r]
         \item $\mu^*|_{\mathcal{A}}=\mu_0$
         \item The set $\mathcal{M}$ of $\mu^*-$measurable sets contains $\mathcal{A}$.
             Hence, $\mu=\mu^*|_{\mathcal{M}}$ satisfies $\mu|_{\mathcal{A}}=\mu_0$.
@@ -622,53 +645,49 @@ As with measures, premeasures are monotone: $A\subseteq B$ in $\mathcal{A}$ impl
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    That $\mu^*$ is an outer measure follows from a prior proposition.
-    \begin{enumerate}[label=(\roman*)]
+    Recall that $\mu^*$ is an outer measure by the standard construction in \cref{prop:def-outer}.
+    \begin{enumerate}[r]
         \item Let $A\in\mathcal{A}$.
-            Since $A\subseteq A$, $\mu^*(A)\leq\mu_0(A)$ by definition of $\mu^*$.
+            Note that $\mu^*(A)\leq\mu_0(A)$ immediately by definition of $\mu^*$.
             Conversely, let $A_1,A_2,\ldots,\in\mathcal{A}$ be such that $A\subseteq\bigcup_{i=1}^\infty A_i$.
             Let $B_1=A_1$, $B_{n+1}=A_{n+1}\setminus\bigcup_{i=1}^n A_i$, so $B_i\in\mathcal{A}$, $B_i\cap B_j=\emptyset$ for $i\neq j$.
             Thus
             \begin{equation*}
                 A=A\cap\bigcup_{i=1}^\infty A_i=A\cap\bigcup_{i=1}^\infty B_i=\bigcup_{i=1}^\infty(A\cap B_i)
             \end{equation*}
-            where $(A\cap B_i)\cap(A\cap B_i)$ for $i\neq j$.
+            where $(A\cap B_i)\cap(A\cap B_j)=\emptyset$ for $i\neq j$.
             Hence, by restricted $\sigma-$additivity,
             \begin{align*}
-                \mu_0(A) &= \mu_0\left(\bigcup_{i=1}^\infty(A\cap B_i)\right)=\sum\limits_{i=1}^\infty(A\cap B_i)\\
-                         &\leq\sum\limits_{i=1}^\infty\mu_0(A_i)
+                \mu_0(A) &= \mu_0\left(\bigcup_{i=1}^\infty(A\cap B_i)\right)=\sum\limits_{i=1}^\infty\mu_0(A\cap B_i)\leq\sum\limits_{i=1}^\infty\mu_0(A_i)
             \end{align*}
-            By definition of $\mu^*$, we see that $\mu_0(A)\leq\mu^*(A)$.
-        \item Now, let $A\in\mathcal{A}$, let $E\in\mathcal{P}(X)$.
-            By definition of $\mu^*(E)$, given $\epsilon>0$, we can get $A_1,A_2,\ldots\in\mathcal{A}$ such that $E\subseteq\bigcup_{i=1}^n A_i$ and
+            Since $\{A_i\}$ was an arbitrary cover, we see that $\mu_0(A)\leq\mu^*(A)$ and equality holds.
+        \item Now, let $A\in\mathcal{A}$ and $E\in\mathcal{P}(X)$; we verify Caratheodory's criterion as in \cref{thm:carat}.
+            Given $\epsilon>0$, let $A_1,A_2,\ldots\in\mathcal{A}$ be such that $E\subseteq\bigcup_{i=1}^n A_i$ and
             \begin{equation*}
                 \sum\limits_{i=1}^\infty \mu_0(A_i)\leq\mu^*(E)+\epsilon
             \end{equation*}
             Then, for each $i$, $\mu_0(A_i)=\mu_0(A_i\cap A)+\mu_0(A_i\setminus A)$ by finite additivity, and $E\cap A\subseteq\bigcup_{i=1}^\infty(A_i\cap A)$, $E\setminus A\subseteq\bigcup_{i=1}^\infty(A_i\setminus A)$.
             Thus
             \begin{align*}
-                \mu^*(E)+\epsilon &\geq\sum\limits_{i=1}^\infty\mu_0(A_i)\\
-                                  &= \sum\limits_{i=1}^\infty \mu_0(A_i\cap A)+\sum\limits_{i=1}^\infty \mu_0(A_i\setminus A)\\
+                \mu^*(E)+\epsilon &\geq\sum\limits_{i=1}^\infty\mu_0(A_i)= \sum\limits_{i=1}^\infty \mu_0(A_i\cap A)+\sum\limits_{i=1}^\infty \mu_0(A_i\setminus A)\\
                                   &\geq \mu^*(E\cap A)+\mu^*(E\setminus A)
             \end{align*}
-            and since $\epsilon$ was arbitrary, we see that the desired inequality must hold.
-        \item We will use coninuity from below several times.
-            If $E\in\mathcal{M}$ and $A_1,A_2,\ldots\in\mathcal{A}$ are such that $E\subseteq\bigcup_{i=1}^\infty A_i$, then
+            and since $\epsilon$ was arbitrary, we see that the desired inequality holds.
+        \item If $E\in\mathcal{M}$ and $A_1,A_2,\ldots\in\mathcal{A}$ are such that $E\subseteq\bigcup_{i=1}^\infty A_i$, then
             \begin{equation*}
                 \nu(E)\leq\nu\left(\bigcup_{i=1}^\infty A_i\right)\leq\sum\limits_{i=1}^\infty \nu(A_i)=\sum\limits_{i=1}^\infty \mu_0(A_i)
             \end{equation*}
-            and it follows from definition of $\mu=\mu^*|_{\mathcal{M}}$ and $\nu(E)\leq\mu(E)$.
+            and it follows from definition of $\mu=\mu^*|_{\mathcal{M}}$ that $\nu(E)\leq\mu(E)$.
 
-            Recall, from A1, that $\mathcal{A}_\sigma=\{\bigcup_{i=1}^\infty A_i:A_1,A_2,\ldots\in\mathcal{A}\}$.
-            Then we have that $\mu|_{\mathcal{A}_\sigma}=\mu|_{\mathcal{A}_\sigma}$.
-            If $A=\bigcup_{i=1}^\infty A_i$, $A_i\in\mathcal{A}$, then
+            Now recall that $\mathcal{A}_\sigma=\{\bigcup_{i=1}^\infty A_i:A_1,A_2,\ldots\in\mathcal{A}\}$.
+            In particular, $\nu|_{\mathcal{A}_\sigma}=\mu|_{\mathcal{A}_\sigma}$: to see this, if $A=\bigcup_{i=1}^\infty A_i$, $A_i\in\mathcal{A}$, then
             \begin{align*}
-                \nu(A) &= \lim_{n\to\infty} \nu\left(\bigcup_{i=1}^n A_i\right)\\
-                       &= \lim_{n\to\infty} \mu_0\left(\bigcup_{i=1}^n A_i\right)\\
-                       &= \lim_{n\to\infty}\mu\left(\bigcup_{i=1}^n A_i\right)=\mu(A)
+                \nu(A) &= \lim_{n\to\infty} \nu\left(\bigcup_{i=1}^n A_i\right)= \lim_{n\to\infty} \mu_0\left(\bigcup_{i=1}^n A_i\right)= \lim_{n\to\infty}\mu\left(\bigcup_{i=1}^n A_i\right)=\mu(A)
             \end{align*}
+            by continuity from below.
+
             Now, let $E\in\mathcal{M}$ with $\mu(E)<\infty$.
-            Given $\epsilon>0$, let $A_1,A_2,\ldots\in\mathcal{A}$ with $E\subseteq\bigcup_{i=1}^\infty A_i$ and such that
+            Given $\epsilon>0$, let $A_1,A_2,\ldots\in\mathcal{A}$ with $E\subseteq\bigcup_{i=1}^\infty A_i=A$ and such that
             \begin{equation*}
                 \mu(E)+\epsilon=\mu^*(E)+\epsilon>\sum\limits_{i=1}^\infty\mu_0(A_i)
             \end{equation*}
@@ -676,79 +695,84 @@ As with measures, premeasures are monotone: $A\subseteq B$ in $\mathcal{A}$ impl
             Thus $\mu(A\setminus E)=\mu(A)-\mu(E)<\epsilon$.
             Hence, as $A\in\mathcal{A}_\sigma$, $\mu(A)=\nu(A)$ and we have
             \begin{align*}
-                \mu(E)\leq\mu(A) &= \nu(A)=\nu(A\cap E)+\nu(A\setminus E)\\
-                                 &\leq \nu(A\cap E)+\mu(A\setminus E)\\
-                                 &= \nu(E)+\epsilon
+                \mu(E)\leq\mu(A) &= \nu(A)=\nu(A\cap E)+\nu(A\setminus E)\leq \nu(A\cap E)+\mu(A\setminus E)\\
+                                 &< \nu(E)+\epsilon
             \end{align*}
             Since $\epsilon>0$ is arbitrary, $\mu(E)\leq\nu(E)$, so equality must hold.
 
-            Now, if $(X,\mathcal{M},\mu)$ is $\sigma-$finite, we can write $X=\bigcup_{i=1}^\infty X_i$ where $X_i\in\mathcal{M}$, $\mu(X_i)<\infty$, and $X_1\subseteq X_2\subseteq\cdots$.
+            Finally, if $(X,\mathcal{M},\mu)$ is $\sigma-$finite, we can write $X=\bigcup_{i=1}^\infty X_i$ where $X_i\in\mathcal{M}$, $\mu(X_i)<\infty$, and $X_1\subseteq X_2\subseteq\cdots$.
             If $E\in\mathcal{M}$, then $E=\bigcup_{i=1}^\infty(X_i\cap E)$, so
             \begin{align*}
-                \mu(E) &= \lim_{n\to\infty}\mu(X_n\cap E)\\
-                       &= \lim_{n\to\infty}\nu(X_n\cap E)=\nu(E)
+                \mu(E) &= \lim_{n\to\infty}\mu(X_n\cap E)= \lim_{n\to\infty}\nu(X_n\cap E)=\nu(E)
             \end{align*}
+            by continuity from below.
     \end{enumerate}
 \end{proof}
 \begin{remark}
     The uniqueness also holds if we have that $(X,\mathcal{M},\mu)$ is semifinite.
     Indeed, by A1, if $E\in\mathcal{M}$,
-    \begin{equation*}\mu(E)=\sup\{\mu(F):F\in\mathcal{M},F\subseteq E,\mu(F)<\infty\}=\sup\{\nu(F):F\in\mathcal{M},F\subseteq E,\mu(F)<\infty\}\leq\nu(E)\leq\mu(E)\end{equation*}
+    \begin{align*}
+        \mu(E)&=\sup\{\mu(F):F\in\mathcal{M},F\subseteq E,\mu(F)<\infty\}\\
+              &=\sup\{\nu(F):F\in\mathcal{M},F\subseteq E,\mu(F)<\infty\}\leq\nu(E)\leq\mu(E)
+    \end{align*}
 \end{remark}
 \begin{corollary}
-    Given a measure space $(X,\mathcal{M},\mu)$, there is a complete measure space $(X,\overline{\mathcal{M}},\overline{\mu})$ such that $\overline{\mu}|_{\mathcal{M}}=\mu$.
-    Furthermore, if $(X,\mathcal{M},\mu)$ is a $\sigma-$finite then any $E\in\mathcal{M}$ admits a representation of the form $E=M\cup N$, where $M\in\mathcal{M}$, $N\subseteq N'$ where $N'\in\mathcal{M}$ with $\mu(N')=0$.
+    Given a measure space $(X,\mathcal{M},\mu)$, there is a complete measure space $(X,\ol{\mathcal{M}},\ol{\mu})$ such that $\ol{\mu}|_{\mathcal{M}}=\mu$.
+    Furthermore, if $(X,\mathcal{M},\mu)$ is a $\sigma-$finite, then any $E\in\mathcal{M}$ admits a representation of the form $E=M\cup N$, with $M\in\mathcal{M}$ and $N\subseteq N'$ where $N'\in\mathcal{M}$ has $\mu(N')=0$.
 \end{corollary}
 \begin{proof}
     We regard $(X,\mathcal{M},\mu)$ is a pre-measure space.
-    Then the last theorem provides an outer measure $\mu^*$ so that $\mu^*|_{\mathcal{M}}=\mu$ and if
+    By the previous theorem (\cref{thm:pre-to-m}), we get an outer measure $\mu^*$ such that $\mu^*|_{\mathcal{M}}=\mu$ and if
     \begin{equation*}
-        \mathcal{M}=\{A\in\mathcal{P}(X):\mu^*(E)\geq\mu^*(E\cap A)+\mu^*(E\setminus A)\forall E\in\mathcal{P}(X)\}
+        \ol{\M}=\{A\in\mathcal{P}(X):\mu^*(E)\geq\mu^*(E\cap A)+\mu^*(E\setminus A)\text{ for all }E\in\mathcal{P}(X)\}
     \end{equation*}
-    then $\mathcal{M}\subseteq\overline{\mathcal{M}}$.
-    Let $\overline{\mu}=\mu^*|_{\overline{\mathcal{M}}}$.
-    We appeal to A1, Q4 to see the structure of $E\in\overline{\mathcal{M}}$.
-    We have $X\setminus E\in\mathcal{M}$ and we have $X\setminus E=A\setminus M$, where $A\in\mathcal{M}_{\sigma\delta}$ and $\mu^*(N)=0$.
+    then $\mathcal{M}\subseteq\ol{\mathcal{M}}$; we may take $\ol{\mu}=\mu^*|_{\ol{\mathcal{M}}}$.
+
+    We now appeal to A1Q4 to see the structure of $E\in\ol{\mathcal{M}}$.
+    We have $X\setminus E\in\ol{\M}$ so that $X\setminus E=A\setminus N$ where $A\in\mathcal{M}_{\sigma\delta}$ and $\mu^*(N)=0$.
     For each $n$, we can find $A_{n1},A_{n2},\ldots\in\mathcal{A}$ such that $N\subseteq\bigcup_{i=1}^\infty A_{ni}:=A_n$ and $\sum_{i=1}^\infty \mu(A_{ni})<1/n=\mu^*(N)+1/n$.
-    Thus $N\subseteq A_n$, $A_n\in\mathcal{M}$.
-    Thus $N\subseteq\bigcap_{n=1}^\infty A_n=N'$ and $N'\in\mathcal{M}$ and $\mu(N')\leq\mu(A_n)<1/n$ for each $n$.
-    Now,
+    In particular, $N\subseteq A_n$ and $A_n\in\mathcal{M}$.
+    Thus $N\subseteq\bigcap_{n=1}^\infty A_n=:N'$, $N'\in\mathcal{M}$ and $\mu(N')\leq\mu(A_n)<1/n$ for each $n$ so $\mu(N')=0$.
+    Finally,
     \begin{align*}
-        E&=X\setminus(X\setminus E)\\
-         &=X\setminus(A\setminus N)\\
-         &=(X\setminus A)\cup N
+        E&=X\setminus(X\setminus E)=X\setminus(A\setminus N)=(X\setminus A)\cup N
     \end{align*}
+    gives a decomposition of the desired form.
 \end{proof}
-The past few theorems give an important abstract construction: given $(X,\mathcal{A},\mu_0)$ premeasure, get an outer measure $\mu^*$, and by Caratheodory, extract a measure space $(X,\mathcal{M},\mu)$, $\mathcal{M}\supseteq\mathcal{A}$, $\mu|_{\mathcal{A}}=\mu_0$.
-\section{Building \texorpdfstring{$\sigma-$}{s-}algebras}
+The past section has provided an important abstract construction: given a pre-measure space $(X,\mathcal{A},\mu_0)$, one gets an outer measure $\mu^*$, and by Caratheodory, extract a measure space $(X,\mathcal{M},\mu)$ such that $\mathcal{M}\supseteq\mathcal{A}$ and $\mu|_{\mathcal{A}}=\mu_0$.
+\section{Constructing \texorpdfstring{$\sigma-$}{s-}Algebras and Measures}
 \begin{lemma}
     Let $X$ be a non-empty set.
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item If $\{M_i\}_{i\in I}$ is a family of $\sigma-$algebras on $X$, then $\bigcap_{i\in I}\mathcal{M}_i\subseteq\mathcal{P}(X)$.
-        \item Given $\emptyset\neq\mathcal{E}\subseteq\mathcal{P}(X)$, the family $\sigma\langle\mathcal{E}\rangle=\cap\{\mathcal{M}:\mathcal{M}\text{ is a $\sigma-$algebra on }X,\mathcal{E}\subseteq\mathcal{M}\}$.
-            This is the \textbf{$\sigma-$algebra generated by $\mathcal{E}$}.
-        \item If $\emptyset\neq\mathcal{F}\subseteq\sigma\langle\mathcal{E}\rangle$ in $\mathcal{P}(X)$, then $\sigma\langle\mathcal{F}\rangle=\sigma\langle\mathcal{E}\rangle$.
+        \item Given $\emptyset\neq\mathcal{E}\subseteq\mathcal{P}(X)$, we define
+            \begin{equation*}
+                \sigma\langle\mathcal{E}\rangle=\bigcap\bigl\{\mathcal{M}:\mathcal{M}\text{ is a $\sigma-$algebra on }X,\mathcal{E}\subseteq\mathcal{M}\bigr\}
+            \end{equation*}
+            This is the \mbf{$\sigma-$algebra generated by $\mathcal{E}$}.
+        \item If $\emptyset\neq\mathcal{F}\subseteq\sigma\langle\mathcal{E}\rangle$ in $\mathcal{P}(X)$, then $\sigma\langle\mathcal{F}\rangle\subseteq\sigma\langle\mathcal{E}\rangle$.
     \end{enumerate}
 \end{lemma}
 \begin{proof}
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item It is easy to check the $\sigma-$algebra axioms.
-        \item Application of (i)
-        \item We see that $\sigma\langle\mathcal{E}\rangle$ is a $\sigma-$algebra containing $\mathcal{F}$.
-            Part (ii) tells us that $\sigma\langle\mathcal{F}\rangle$ is the smallest $\sigma-$algebra containing $\mathcal{F}$.
+        \item Direct application of (i)
+        \item Since $\sigma\langle\mathcal{E}\rangle$ is a $\sigma-$algebra containing $\mathcal{F}$, by (ii), the result follows since $\sigma\langle\mathcal{F}\rangle$ is the smallest $\sigma-$algebra containing $\mathcal{F}$.
     \end{enumerate}
 \end{proof}
-As with (ii), we may define $\langle\mathcal{E}\rangle=\bigcap\{\mathcal{A}:\mathcal{A}\text{ is an algebra on }X,\mathcal{E}\subseteq\mathcal{A}\}$.
+\begin{definition}
+    We say that the \mbf{algebra generated by $\mathcal{E}$} is $\langle\mathcal{E}\rangle=\bigcap\{\mathcal{A}:\mathcal{A}\text{ is an algebra on }X,\mathcal{E}\subseteq\mathcal{A}\}$.
+\end{definition}
+We now turn our sights towards topology:
 \begin{definition}
     Let $(X,\tau)$ be a topological space.
-    The \textbf{Borel $\sigma-$algebra} $\mathcal{B}(X,\tau)=\mathcal{B}(X)=\sigma\langle\tau\rangle$.
+    The \mbf{Borel $\sigma-$algebra} is defined $\mathcal{B}(X,\tau)=\mathcal{B}(X)=\sigma\langle\tau\rangle$.
 \end{definition}
 \begin{remark}
-    If $\mathcal{F}=\{F\subseteq X:F\text{ is closed}\}$, then $\mathcal{F}\subseteq\sigma\langle\tau\rangle$.
-    Thus $\sigma\langle\mathcal{F}\rangle\subseteq\sigma\langle\mathcal{G}\rangle$.
-    Similarly, the opposite inclusion holds, so these sets are equal.
+    If $\mathcal{F}=\{F\subseteq X:F\text{ is closed}\}$, then $\mathcal{F}\subseteq\sigma\langle\tau\rangle$ and $\sigma\langle\mathcal{F}\rangle\subseteq\sigma\langle\mathcal{G}\rangle$.
+    The opposite inclusion holds identically, so these sets are equal.
 \end{remark}
-\begin{proposition}
+\begin{proposition}\label{prop:br-gen}
     Let $\mathcal{B}(\R)$ denote the Borel $\sigma-$algebra on $\R$.
     Consider the following families of subsets of $\R$:
     \begin{enumerate}[nolistsep]
@@ -763,7 +787,7 @@ As with (ii), we may define $\langle\mathcal{E}\rangle=\bigcap\{\mathcal{A}:\mat
     This follows since $\tau$ has a countable base.
 \end{proof}
 \begin{definition}
-    An \textbf{elemtary family} of sets on $X$ is any $\mathcal{E}\subseteq\mathcal{P}(X)$ such that
+    An \textbf{elementary family} of sets on $X$ is any $\mathcal{E}\subseteq\mathcal{P}(X)$ such that
     \begin{enumerate}[nolistsep,label=(\roman*)]
         \item $X\in\mathcal{E}$
         \item If $E,F\in\mathcal{E}$, $E\cap F=\bigcup_{i=1}^n E_i$ with $E_i\in\mathcal{E}$
@@ -772,7 +796,7 @@ As with (ii), we may define $\langle\mathcal{E}\rangle=\bigcap\{\mathcal{A}:\mat
 \end{definition}
 A simple induction arguement shows that any finite intersection of elements of $\mathcal{E}$ is a finite union of elements in $\mathcal{E}$.
 \begin{example}
-    In $\R$, $\mathcal{H}=\{(a,b]:-\infty\leq a\leq b\leq\infty\}$ is an elementary family. %)
+    In $\R$, $\mathcal{H}=\{(a,b]:-\infty\leq a\leq b\leq\infty\}$ is an elementary family.
 \end{example}
 \begin{lemma}
     If $\mathcal{E}\subseteq\mathcal{P}(X)$ is an elementary family, then $\mathcal{E}=\{\bigcup_{i=1}^n E_i,E_i\in\mathcal{E},n\in\N\}$.
@@ -780,85 +804,96 @@ A simple induction arguement shows that any finite intersection of elements of $
 \begin{proof}
     It suffices to see that the RHS is an algebra.
     It is clearly closed under finite unions.
-    Let $E_1,\ldots,E_n\in\mathcal{E}$, and write each $X\setminus E_i=\bigcup_{j=1}^m E_{ij}$.
-    Now we consider
+    Let $E_1,\ldots,E_n\in\mathcal{E}$, and write each $X\setminus E_i=\bigcup_{j=1}^{m_i} E_{ij}$.
+    We then have
     \begin{align*}
-        X\setminus\left(\bigcup_{i=1}^n E_i\right)&=\bigcap_{i=1}^n(X\setminus E_i)=\bigcap_{i=1}^n\bigcup_{j=1}^m E_{ij}\\
-                                                  &=\bigcup_{1\leq j_i\leq n,1\leq i\leq n}E_{ij_1}\cap\cdots\cap E_{nj_n}
+        X\setminus\left(\bigcup_{i=1}^n E_i\right)&=\bigcap_{i=1}^n(X\setminus E_i)=\bigcap_{i=1}^n\bigcup_{j=1}^{m_i} E_{ij}\\
+                                                  &=\bigcup_{\substack{1\leq j_i\leq n\\1\leq i\leq n}}E_{1j_1}\cap\cdots\cap E_{nj_n}
     \end{align*}
-    where each finite intersection is a finite union of elements of $\mathcal{E}$ by the last remark.
+    where each finite intersection is a finite union of elements of $\mathcal{E}$.
 \end{proof}
+The following corollary is now clear:
 \begin{corollary}
-    In $\R$, $\langle\mathcal{H}\rangle=\{\bigcup_{i=1}^n (a_i,b_i]:-\infty\leq a_i\leq b_i\leq\infty\}$. %)
+    In $\R$, $\langle\mathcal{H}\rangle=\bigl\{\bigcup_{i=1}^n (a_i,b_i]:-\infty\leq a_i\leq b_i\leq\infty\bigr\}$. %)
 \end{corollary}
 Let $\mathcal{A}=\langle \mathcal{H}\rangle\subseteq\mathcal{P}(\R)$.
 We will build many premeasures on $\mathcal{A}$.
-\section{Measures on \texorpdfstring{$\R$}{R}}
+\subsection{Locally Finite Measures on \texorpdfstring{$\R$}{R}}
 \begin{definition}
-    We consider the non-decreasing, right-continuous functions
+    We define the set of non-decreasing, right-continuous functions
     \begin{equation*}
-        \ND_r(\R)=\{F:\R\to\R|x<y\Rightarrow F(x)\leq F(y); \lim_{x\to a^+}F(x)=F(x)\}
+        \ND_r(\R)=\left\{F:\R\to\R:x<y\Rightarrow F(x)\leq F(y); \lim_{x\to a^+}F(x)=F(x)\right\}
     \end{equation*}
 \end{definition}
-\begin{lemma}
+\begin{lemma}\label{lem:pre-ND}
     Let $F\in\ND_r(\R)$ and $\mathcal{A}=\langle\mathcal{H}\rangle\subset\mathcal{P}(\R)$, the algebra generated by half-open half-closed intervals.
-    Then $\mu_{0,F}:\mathcal{A}\to[0,\infty]$,
+    Then $\mu_{0,F}:\mathcal{A}\to[0,\infty]$ defined by
     \begin{equation*}
         \mu_{0,F}\left(\bigcupdot_{i=1}^n(a_i,b_i)\right)=\sum\limits_{i=1}^n (F(b_i)-F(a_i))
     \end{equation*}
-    Here, $b-(-\infty)=\infty$ for $-\infty<b\leq\infty$.
+    defines a pre-measure on $\mathcal{A}$.
+    Here, we say that $b-(-\infty)=\infty$ for $-\infty<b\leq\infty$.
 \end{lemma}
+For simplicity, write $\mu_0=\mu_{0,F}$.
+It is evident that $\mu_0$ is well-defined and that $\mu_0(\emptyset)=0$; it remains to show that $\mu_0$ has restricted $\sigma-$additivity.
+\begin{claim}\label{cl:a1}
+    Suppose $(a,b]=\bigcupdot_{j=1}^\infty(c_j,d_j]$, $-\infty<a<b<\infty$.
+    Then $\mu_0((a,b])=\sum_{j=1}^\infty \mu_0((c_j,d_j])$.
+\end{claim}
 \begin{proof}
-    For simplicity, write $\mu_0=\mu_{0,F}$.
-    It is evident that $\mu_0$ is well-defined and that $\mu_0(\emptyset)=0$.
-    It remains to show that $\mu_0$ has restricted $\sigma-$additivity.
-
-    (I) Suppose $(a,b]=\bigcupdot_{j=1}^\infty(c_j,d_j]$, $-\infty<a<b<\infty$.
-    We wish to see that $\mu_0((a,b])=\sum_{j=1}^\infty \mu_0((c_j,d_j])$.
     First, given $n\in\N$, there is a bijection $\sigma:[n]\to[n]$ such that $c_{\sigma(1)}\leq d_{\sigma(1)}\leq\cdots\leq c_{\sigma(n)}\leq d_{\sigma(n)}$.
     Then, as $F$ is non-decreasing, we have
     \begin{align*}
-        \sum\limits_{j=1}^n \mu_0((c_j,d_j]) &= \sum\limits_{j=1}^n (F(d_j)-F(c_j))\\
-                                             &= \sum\limits_{j=1}^n (F(d_{\sigma(j)})-F(c_{\sigma(j)}))\\
+        \sum_{j=1}^n \mu_0((c_j,d_j]) &= \sum_{j=1}^n (F(d_j)-F(c_j))= \sum_{j=1}^n (F(d_{\sigma(j)})-F(c_{\sigma(j)}))\\
                                              &= F(d_{\sigma(n)})\underbrace{-F(c_{\sigma(n)})+F(d_{\sigma(n-1)})}_{\leq 0}+\cdots-F(c_{\sigma(1)})\\
-                                             &\leq F(d_{\sigma(n)}-F(c_{\sigma(n)})\\
-                                             &\leq \mu_0((a,b])
+                                             &\leq F(d_{\sigma(n)}-F(c_{\sigma(n)})\leq \mu_0((a,b])
     \end{align*}
+    and since $n\in\N$ is arbitrary, $\sum_{j=1}^\infty \mu_0((c_j,d_j])\leq\mu_0((a,b])$.
+
     To see the converse inequality, let $\epsilon>0$ and, since $F$ is right-continuous, we may find
     \begin{itemize}[nolistsep]
         \item $\delta_0>0$ such that $a+\delta_0<b$ and $F(a+\delta_0)<F(a)+\epsilon/2$.
-        \item for each $j$, find $\delta_j>0$ such that $F(d_j+\delta_j)<F(d_j)+\epsilon/2^{j+1}$
+        \item for each $j$, $\delta_j>0$ such that $F(d_j+\delta_j)<F(d_j)+\epsilon/2^{j+1}$
     \end{itemize}
-    Then $\{(c_j,d_j+\delta_j)\}_{j=1}^\infty$ is a cover of $[a+\delta_0,b]$ and hence, by compactness, we have that $[a+\delta_0,b]\subseteq_{j=1}^n(c_j,d_j+\delta_j)$ for some $n$.
-    Let $\sigma:[n]\to[n]$ be as in $(f)$.
+    Then $\{(c_j,d_j+\delta_j)\}_{j=1}^\infty$ is a cover of $[a+\delta_0,b]$ and hence, by compactness, we have that $[a+\delta_0,b]\subseteq\bigcup_{j=1}^n(c_j,d_j+\delta_j)$ for some $n$.
+    Let $\sigma:[n]\to[n]$ be as before.
     Notice that
-    \begin{itemize}
-        \item $c_{\sigma(1)}<a_{\delta_0}$ implies $F(c_{\sigma(1)})\leq F(a+\delta_0)<F(a)+\epsilon/2$.
+    \begin{itemize}[nl]
+        \item $c_{\sigma(1)}<a+\delta_0$ implies $F(c_{\sigma(1)})\leq F(a+\delta_0)<F(a)+\epsilon/2$.
         \item For $j=1,\ldots,n-1$, $c_{\sigma(j+1)}<d_{\sigma(j)}+\delta_{\sigma(j)}$ implies $F(c_{\sigma(j+1)})\leq F(d_{\sigma(j)}+\delta_{\sigma(j)})<F(d_{\sigma(j)})+\epsilon/2^{\sigma(j)+1}$
         \item $b<d_{\sigma(n)}+\delta_{\sigma(n)}$ implies $F(b)<F(d_{\sigma(n)})+\epsilon/2^{\sigma(n)+1}$.
     \end{itemize}
     Thus
     \begin{align*}
-        \sum\limits_{j=1}^\infty \mu_0((c_j,d_j]) &\geq \sum\limits_{j=1}^n \mu_0((c_j,d_j])\\
-                                                  &= \sum\limits_{j=1}^n(F(d_j)-F(c_j))\\
-                                                  &= F(d_{\sigma(n)})+\sum\limits_{j=1}^{n-1}(F(d_{\sigma(j)})-F(c_{\sigma(j+1)}))-F(c_{\sigma(1)})\\
-                                                  &> \left(F(b)-\frac{\epsilon}{2^{\sigma(n)+1}}\right)+\sum\limits_{j=1}^{n-1}\left(-\frac{\epsilon}{2^{\sigma(j)+1}}\right)-\left(F(a)+\frac{\epsilon}{2}\right)\\
-                                                  &> F(b)-F(a)-\epsilon=\mu_0((a,b])-\epsilon
+        \sum_{j=1}^\infty \mu_0((c_j,d_j]) &\geq \sum_{j=1}^n \mu_0((c_j,d_j])= \sum_{j=1}^n(F(d_j)-F(c_j))\\
+                                           &= F(d_{\sigma(n)})+\sum_{j=1}^{n-1}\bigl(F(d_{\sigma(j)})-F(c_{\sigma(j+1)})\bigr)-F(c_{\sigma(1)})\\
+                                           &> \left(F(b)-\frac{\epsilon}{2^{\sigma(n)+1}}\right)+\sum_{j=1}^{n-1}\left(-\frac{\epsilon}{2^{\sigma(j)+1}}\right)-\left(F(a)+\frac{\epsilon}{2}\right)\\
+                                           &> F(b)-F(a)-\epsilon=\mu_0((a,b])-\epsilon
     \end{align*}
     and since $\epsilon>0$ is arbitrary, our desired inequality holds.
-
-    (I') Do similar for $(-\infty,b]$, $(a,\infty]$ (Exercise).
-
-    (II) If $A,A_1,A_2,\ldots\in\mathcal{A}$, $A=\bigcupdot_{j=1}^n(a_i,b_i]$ and for each $i,j$, $(a_i,b_j]\cap A_j=\bigcupdot_{k=1}^{m_{ij}}(c_{ijk},d_{ijk}]$.
-    From (I),(I'), we have that
+\end{proof}
+\begin{claim}\label{cl:a2}
+    The same applies to $(-\infty,b]$, $(a,\infty]$.
+\end{claim}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{claim}
+    Let $A,A_1,A_2,\ldots\in\mathcal{A}$ with $A=\bigcupdot_{j=1}^\infty A_i$.
+    Then $\mu_0(A)=\sum_{j=1}^\infty \mu_0(A_i)$.
+\end{claim}
+\begin{proof}
+    Write $A=\bigcupdot_{j=1}^\infty(a_i,b_i]$ and for each $i,j$, $(a_i,b_i]\cap A_j=\bigcupdot_{k=1}^{m_{ij}}(c_{ijk},d_{ijk}]$.
+    % Then $\mu_0(A)=\sum_{j=1}^\infty \mu_0((a_i,b_i])$.
+    From \cref{cl:a1} and \cref{cl:a2}, we have that
     \begin{equation*}
-        (a_i,b_i]=\bigcupdot_{j=1}^\infty\bigcup_{k=1}^{m_{ij}}(c_{ijk},d_{ijk}] %)
+        (a_i,b_i]=\bigcupdot_{j=1}^\infty\bigcupdot_{k=1}^{m_{ij}}(c_{ijk},d_{ijk}] %)
     \end{equation*}
     so that
     \begin{equation*}
         \mu_0((a_i,b_i])=\sum\limits_{j=1}^\infty\sum\limits_{k=1}^{m_{ij}}\mu_0((c_{ijk},d_{ijk}]) %))
     \end{equation*}
-    so we have
+    and
     \begin{align*}
         \mu_0(A) &= \sum\limits_{i=1}^n \mu_0((a_i,b_i])\\
                  &= \sum\limits_{i=1}^n\sum\limits_{j=1}^\infty\sum\limits_{k=1}^{m_{ij}}\mu_0((c_{ijk},d_{ijk}])\\
@@ -868,22 +903,23 @@ We will build many premeasures on $\mathcal{A}$.
     since each $A_j=\bigcupdot_{i=1}^n\bigcupdot_{k=1}^{m_{ij}}(c_{ijk},d_{ijk}]$.
 \end{proof}
 \begin{definition}
-    A measure $\mu:\mathcal{B}(\R)\to[0,\infty]$ is called \textbf{locally finite} if $\mu_0([-a,a])<\infty$ for $a>0$ in $\R$.
+    A measure $\mu:\mathcal{B}(\R)\to[0,\infty]$ is called \textbf{locally finite} if $\mu(K)<\infty$ for $K\subset\R$ compact.
 \end{definition}
-This is equivalent to having $\mu(K)<\infty$ for each compact $K\subset\R$.
-As well, locally finite measures are $\sigma-$finite.
-\begin{theorem}
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+Equivalently, $\mu([-a,a])<\infty$ for any $0<a\in\R$.
+Note that any locally finite measure is also $\sigma-$finite.
+\begin{theorem}[Locally Finite Measures on $\R$]
+    The following hold:
+    \begin{enumerate}[nl,r]
         \item For each $F$ in $\ND_r(\R)$, there is a unique locally finite measure $\mu_F:\mathcal{B}(\R)\to[0,\infty]$ such that $\mu_F((a,b])=F(b)-F(a)$ for any finite $a,b$.
         \item Every locally finite measure appears as in (i)
         \item If $F,G\in\ND_r(\R)$, then $\mu_F=\mu_G$ if and only if $F-G$ is constant.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    \begin{enumerate}
-        \item The last lemma provides a premeasure $(\R,\langle\mathcal{H}\rangle,\mu_{0,F})$, where $\mu_{0,F}((a,b])=F(b)-F(a)$ for $-\infty\leq a\leq b\leq\infty$. %)
-            This gives rise to a measure $\mu_F^*:\mathcal{P}(\R)\to[0,\infty]$, and its $\sigma-$algebra $\mathcal{F}$ of $\mu_F^*-$measurable sets.
-            Notice that a prior proposition provides that $\mathcal{B}(\R)=\sigma\langle\mathcal{H}\rangle$, so since $\mathcal{H}\subseteq \langle H\rangle\subseteq\mathcal{M}_F$, we have that $\mathcal{B}(\R)=\sigma\langle\mathcal{H}\rangle\subseteq\mathcal{M}_F$.
+    \begin{enumerate}[r]
+        \item The previous lemma (\cref{lem:pre-ND}) provides a premeasure $(\R,\langle\mathcal{H}\rangle,\mu_{0,F})$, where $\mu_{0,F}((a,b])=F(b)-F(a)$ for $-\infty\leq a\leq b\leq\infty$. %)
+            By the canonical construction in \cref{thm:pre-to-m}, this gives rise to a measure $\mu_F^*:\mathcal{P}(\R)\to[0,\infty]$, and its $\sigma-$algebra $\mathcal{F}$ of $\mu_F^*-$measurable sets.
+            From \cref{prop:br-gen}, $\mathcal{B}(\R)=\sigma\langle\mathcal{H}\rangle$; since $\mathcal{H}\subseteq \langle H\rangle\subseteq\mathcal{M}_F$, we have that $\mathcal{B}(\R)=\sigma\langle\mathcal{H}\rangle\subseteq\mathcal{M}_F$.
             Then, we let $\mu_F=\mu^*_F|_{\B(\R)}:\B(\R)\to[0,\infty]$.
             Notice, for $a>0$ in $\R$, that
             \begin{equation*}
@@ -900,42 +936,44 @@ As well, locally finite measures are $\sigma-$finite.
             If $x<y$ in $\R$:
             \begin{itemize}[nolistsep]
                 \item If $x\geq 0$, then $(0,x]\subseteq(0,y]$ so $F(x)=\mu((0,x])\leq\mu((0,y])=F(y)$
-                \item If $y<0$, then $(y,0]\subseteq(x,0]$ so $\mu((y,0])\leq\mu((x,0])$, so $F(x)=-mu((x,0])\leq -\mu((y,0]F(y)$.
+                \item If $y<0$, then $(y,0]\subseteq(x,0]$ so $\mu((y,0])\leq\mu((x,0])$, so $F(x)=-\mu((x,0])\leq -\mu((y,0]=F(y)$.
                 \item If $x<0\leq y$, then $F(x)=-\mu((x,0])\leq 0\leq \mu((0,y])=F(y)$.
             \end{itemize}
             To see right continuity, it suffices to see for $x\in\R$, we have $F(x)=\lim_{n\to\infty} F(x_n)$, where $(x_n)\to x$ monotonically from the right.
             Thus, given $x$, $(x_n)_{n=1}^\infty$, we have
             \begin{equation*}
-                F(x_n)-F(x)=\mu((x,x_n])\underset{n\to\infty}\longrightarrow\mu(\emptyset)=0 %)
+                F(x_n)-F(x)=\mu((x,x_n])\fto{n\to\infty}\mu(\emptyset)=0 %)
             \end{equation*}
             by continuity from above for measures.
 
-            Notice that for $a<b$ in $\R$, $\mu_F((a,b])=\mu((a,b])$, which by uniqueness in part (i) shows that $\mu=\mu_F$.
+            Notice that for $a<b$ in $\R$, $\mu_F((a,b])=\mu((a,b])$, which by uniqueness in (i) shows that $\mu=\mu_F$.
         \item $\mu_F=\mu_G$ if and only if for $x\in\R$,
             \begin{equation*}
-                \begin{cases}
-                    F(x)-F(0)=\mu_F((0,x])=\mu_G((0,x])=F(x)-G(0)&: x\geq 0\\
-                    F(0)-F(x)=\mu_F((x,0])=\mu_G((x,0])=G(0)-G(x)&: x<0
-                \end{cases}
+                \begin{aligned}
+                    F(x)-F(0)&=\mu_F((0,x])=\mu_G((0,x])=G(x)-G(0)\text{ for }x\geq 0\\
+                    F(0)-F(x)&=\mu_F((x,0])=\mu_G((x,0])=G(0)-G(x)\text{ for }x<0
+                \end{aligned}
             \end{equation*}
             if and only if $F(x)-G(x)=F(0)-G(0)$ is constant.
     \end{enumerate}
 \end{proof}
-Let $F\in\ND_r(\R)$, $a<b$ in $\R$,
-\begin{enumerate}[nolistsep]
-    \item $(a,b)=\bigcup_{n=1}^\infty(a,b-1/n]$ so
-        \begin{align*}
-            \mu_F((a,b)) &= \lim_{n\to\infty}\mu_F((a,b-1/n])\\ %)
-                         &= \lim_{n\to\infty}[F(b-1/n)-F(a)]\\
-                         &= F(b^-)-F(a)
-        \end{align*}
-    \item As above,
-        \begin{align*}
-            \mu_F([a,b]) &= \lim_{n\to\infty}\mu_F((a-1/n,b])\\ %)
-                         &= F(b)-F(a^-)
-        \end{align*}
-        In particular, $\mu_F(\{a\})=\mu_F([a,a])=F(a)-F(a^-)$, so $\mu_F(\{a\})=0$ if and only if $F$ is continuous at $a$.
-\end{enumerate}
+\begin{remark}
+    Let $F\in\ND_r(\R)$, $a<b$ in $\R$,
+    \begin{enumerate}[nolistsep]
+        \item $(a,b)=\bigcup_{n=1}^\infty(a,b-1/n]$ so
+            \begin{align*}
+                \mu_F((a,b)) &= \lim_{n\to\infty}\mu_F((a,b-1/n])\\ %)
+                             &= \lim_{n\to\infty}[F(b-1/n)-F(a)]\\
+                             &= F(b^-)-F(a)
+            \end{align*}
+        \item As above,
+            \begin{align*}
+                \mu_F([a,b]) &= \lim_{n\to\infty}\mu_F((a-1/n,b])\\ %)
+                             &= F(b)-F(a^-)
+            \end{align*}
+            In particular, $\mu_F(\{a\})=\mu_F([a,a])=F(a)-F(a^-)$, so $\mu_F(\{a\})=0$ if and only if $F$ is continuous at $a$.
+    \end{enumerate}
+\end{remark}
 \subsection{Point Mass/Dirac Measure}
 Fix $a\in\R$.
 Let $H_a\in\ND_r(\R)$ where
@@ -950,50 +988,52 @@ Notice that if $c<d$ in $\R$, then
 \begin{equation*}
     \delta_a((c,d])=\begin{cases}1 &:c<a\leq d\\0&:\text{otherwise}\end{cases}=H_a(d)-H_a(c) %)
 \end{equation*}
+so that $\delta_a=\mu_{H_a}$.
 \subsection{Lebesgue Measure}
 Let $I(x)=x$, $I\in\ND_r(\R)$.
 We let $\lambda=\mu_I$ and $\mathcal{L}=\M_I\supseteq\B(\R)$ denote the Lebesgue measure and Lebesgue $\sigma-$algebra.
-\begin{theorem}
-    \begin{enumerate}[nolistsep]
+\begin{theorem}[Characteristic Property of Lebesgue Measure]
+    The following hold:
+    \begin{enumerate}[nl,r]
         \item $(\R,\mathcal{L},\lambda)$ is translation invariant: for $x\in\R$, $E\in\mathcal{L}$, we have $E+x\in\mathcal{L}$ and $\lambda(E+x)=\lambda(E)$.
-        \item If $\mu:\B(\R)\to[0,\infty]$ is a locally finite measure, which is translation-invariant.
-            Then $\mu=c\lambda$ for some $c\geq 0$ in $\R$.
+        \item If $\mu:\B(\R)\to[0,\infty]$ is a translation invariant locally finite measure, then $\mu=c\lambda$ for some $c\geq 0$ in $\R$.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    (I) If $-\infty\leq a\leq b\leq\infty$, then $\lambda((a,b]+x)=\mu_I((a+x,b+x])=b-a=\lambda((a,b])$.
-    Hence if $A\in\langle H\rangle$, $\mu_I(A+x)=\mu_I(A)$ for $x\in\R$.
-    If $E\in\mathcal{P}(\R)$, $E\subseteq\bigcup_{i=1}^\infty A_i$, $A_i\in\langle\mathcal{H}\rangle$ if and only $E+x\subseteq\bigcup_{i=1}^\infty(A_i+x)$.
-    Thus, by definition of $\mu_I^*$, we see that $\mu_I^*(X+e)=\mu_I^*(E)$.
-    Now, if $A\in\mathcal{L}$, $E\in\mathcal{P}(\R)$, then
-    \begin{align*}
-        \mu_I^*(E\cap (A+x))+\mu_I^*(E\setminus(A+x)) &= \mu_I^*([(E-x)\cap A]+x)+\mu_I^*([(E-x)\setminus A]+x)\\
-                                                      &= \mu_I^*((E-x)\cap A)+\mu_I^*((E-x)\setminus A)\\
-                                                      &\leq \mu_I^*(E-x)=\mu_I^*(E)
-    \end{align*}
-    so $A+x\in\mathcal{L}$.
-    
-    (II) We let $\mu=\mu_F$ where $F\in\ND_r(\R)$.
-    In fact, we may let $F(0)=0$, so
-    \begin{equation*}
-        F(x)=\begin{cases} \mu((0,x]) &:x\geq 0\\-\mu((x,0])&:x<0\end{cases}
-    \end{equation*}
-    Then for $y\geq 0$, we have
-    \begin{equation*}
-        F(y)=\mu((0,y])=\mu((x,x+y])=F(x+y)-F(x)
-    \end{equation*}
-    so $F(x)+F(y)=F(x+y)$.
-    Thus if $x\geq 0$, $F(nx)=nF(x)$ for $n\in\N$.
-    Thus $F(x/n)=F(x)/n$, $0=F(0)=F(-x)+F(x)$, $x\geq 0$, so $F(-x)=-F(x)$.
-    Thus $F:\R\to\R$ is additive and $F(qx)=qF(x)$ for $x\in\R$, $q\in\Q$.
-    Now, given $x\in\R$, let $(q_n)$ be a rational sequence so $q_n\geq x$, $\lim q_n=x$, and we have
-    \begin{equation*}
-        F(x)=\lim F(q_n)=\lim q_nF(1)=F(1)x
-    \end{equation*}
-    Let $c=F(1)=\mu((0,1])\geq 0$.
-    By uniqueness, $\mu=\mu_{cI}=c\lambda$.
+    \begin{enumerate}[r]
+        \item If $-\infty\leq a\leq b\leq\infty$, then $\lambda((a,b]+x)=\mu_I((a+x,b+x])=b-a=\lambda((a,b])$.
+            Hence if $A\in\langle H\rangle$, $\mu_I(A+x)=\mu_I(A)$ for $x\in\R$.
+            If $E\in\mathcal{P}(\R)$, $E\subseteq\bigcup_{i=1}^\infty A_i$, $A_i\in\langle\mathcal{H}\rangle$ if and only $E+x\subseteq\bigcup_{i=1}^\infty(A_i+x)$.
+            Thus, by definition of $\mu_I^*$, we see that $\mu_I^*(E+x)=\mu_I^*(E)$.
+            Now, if $A\in\mathcal{L}$, $E\in\mathcal{P}(\R)$, then
+            \begin{align*}
+                \mu_I^*(E\cap (A+x))+\mu_I^*(E\setminus(A+x)) &= \mu_I^*([(E-x)\cap A]+x)+\mu_I^*([(E-x)\setminus A]+x)\\
+                                                              &= \mu_I^*((E-x)\cap A)+\mu_I^*((E-x)\setminus A)\\
+                                                              &\leq \mu_I^*(E-x)=\mu_I^*(E)
+            \end{align*}
+            so $E+x\in\mathcal{L}$ and $\mu(E+X)=\mu(E)$.
+
+        \item We let $\mu=\mu_F$ where $F\in\ND_r(\R)$.
+            Without loss of generality, $F(0)=0$, so
+            \begin{equation*}
+                F(x)=\begin{cases} \mu((0,x]) &:x\geq 0\\-\mu((x,0])&:x<0\end{cases}
+            \end{equation*}
+            Then for $y\geq 0$, we have
+            \begin{equation*}
+                F(y)=\mu((0,y])=\mu((x,x+y])=F(x+y)-F(x)
+            \end{equation*}
+            so $F(x)+F(y)=F(x+y)$.
+            Thus if $x\geq 0$, $F(nx)=nF(x)$ for $n\in\N$.
+            Thus $F(x/n)=F(x)/n$, $0=F(0)=F(-x)+F(x)$, $x\geq 0$, so $F(-x)=-F(x)$.
+            Thus $F:\R\to\R$ is additive and $F(qx)=qF(x)$ for $x\in\R$, $q\in\Q$.
+            Now, given $x\in\R$, let $(q_n)$ be a rational sequence so $q_n\geq x$, $\lim q_n=x$, and we have
+            \begin{equation*}
+                F(x)=\lim_{n\to\infty}F(q_n)=\lim_{n\to\infty}q_n\cdot F(1)=F(1)\cdot x
+            \end{equation*}
+            Let $c=F(1)=\mu((0,1])\geq 0$; then by uniqueness, $\mu=\mu_{cI}=c\lambda$.
+    \end{enumerate}
 \end{proof}
-\section{Cantor's Sets and Functions}
+\subsection{Cantor's Sets and Functions}
 Fix $0<\alpha\leq 1$.
 Let $I_{01}=[0,1]$ and $J_{01}$ be the open middle of length $\alpha/3$.
 Notice that $I_{01}\setminus J_{01}=I_{11}\dot{\cup}I_{12}$, each a closed interval, with $\lambda(I_{1k})<1/2$, $k=1,2$.
@@ -1038,6 +1078,7 @@ If $\alpha=1$, $\mu_\phi=\mu_{\phi_1}$ is called the Cantor singular measure.
 Note that $\mu_{\phi_\alpha}(C_\alpha)=1=\mu_{\phi_\alpha}(\R)$, so $\mu_{\phi_\alpha}(\R\setminus C_\alpha)=0$.
 We say that $\mu_{\phi_\alpha}$ is \textbf{concentrated} on $C_\alpha$.
 $\mathcal{M}_{\phi_\alpha}\supseteq\mathcal{P}(\R\setminus C_\alpha)$ as null sets for $\mathcal{M}_{\phi_\alpha}$.
+
 \chapter{Integration Theory}
 \section{Measurable Functions}
 Let $X,Y$ be sets, $T:X\to Y$.
@@ -1049,14 +1090,17 @@ Note that
     \item $E_1,E_2,\ldots\subseteq Y$, $T^{-1}\left(\bigcup_{i=1}^\infty E_i\right)=\bigcup_{i=1}^\infty T^{-1}(E_i)$.
 \end{enumerate}
 \begin{proposition}
-    \begin{enumerate}[nolistsep]
-        \item If $\mathcal{N}$ is a $\sigma-$algebra on $Y$, then $T^{-1}(\mathcal{N})$ is a $\sigma-$algebra on $X$ (the pullback $\sigma-$algebra)
-        \item If $\mathcal{M}$ is a $\sigma-$algebra on $X$, then $\{E\in\mathcal{P}(Y):T^{-1}(E)\in\mathcal{M}\}$ is a $\sigma-$algebra on $Y$
+    \begin{enumerate}[nl,r]
+        \item If $\mathcal{N}$ is a $\sigma-$algebra on $Y$, then $T^{-1}(\mathcal{N})$ is a $\sigma-$algebra on $X$ (the \mbf{pullback $\sigma-$algebra}).
+        \item If $\mathcal{M}$ is a $\sigma-$algebra on $X$, then $\bigl\{E\in\mathcal{P}(Y):T^{-1}(E)\in\mathcal{M}\bigr\}$ is a $\sigma-$algebra on $Y$ (the \mbf{pushforward $\sigma-$algebra}).
     \end{enumerate}
 \end{proposition}
+\begin{proof}
+    Exercise.
+\end{proof}
 \begin{definition}
     Let $(X,\M)$, $(Y,\mathcal{N})$ be measurable spaces, and $T:X\to Y$.
-    We say that $T$ is $\M-\mathcal{N}-$\textbf{measurable} provided that $T^{-1}(\mathcal{N})\subseteq\M$.
+    We say that $T$ is \mbf{$\M-\mathcal{N}-$measurable} provided that $T^{-1}(\mathcal{N})\subseteq\M$.
 \end{definition}
 \begin{proposition}
     Suppose $(X,\mathcal{M})$, $(Y,\mathcal{N})$, $T:X\to Y$ measurable, and $\mathcal{N}=\sigma\langle\mathcal{E}\rangle$.
@@ -1067,10 +1111,10 @@ Note that
     Conversely, as in the previous proposition, $\mathcal{N}'=\{A\in\mathcal{P}(Y):T^{-1}(A)\in\M\}$ is a $\sigma-$algebra.
     We have that $\mathcal{E}\subseteq\mathcal{N}'$, so $\mathcal{N}=\sigma\langle\mathcal{E}\rangle\subseteq\mathcal{N}'$.
 \end{proof}
-\begin{corollary}
+\begin{corollary}\label{cor:br-m}
     Let $(X,\mathcal{M})$ be a measurable space, $f:X\to\R$.
     Then the following are equivalent:
-    \begin{enumerate}
+    \begin{enumerate}[nl,r]
         \item $f$ is $\mathcal{M}-\mathcal{B}(\R)-$measurable
         \item $f^{-1}(G)\in\mathcal{M}$ for open $G\subseteq\R$.
         \item $f^{-1}((a,\infty))\in\mathcal{M}$ for $a$ in $\R$
@@ -1079,24 +1123,27 @@ Note that
         \item $f^{-1}((\infty,a])\in\mathcal{M}$ for $a$ in $\R$ %))
     \end{enumerate}
 \end{corollary}
+\begin{proof}
+    Exercise.
+\end{proof}
 \begin{definition}
-    A function $f:X\to\R$ satisfying the conditions above will be called $\mathcal{M}-$\textbf{measurable}.
+    A function $f:X\to\R$ satisfying any of the equivalent conditions above will be called \mbf{$\mathcal{M}-$measurable}.
 \end{definition}
-Certainly continuous functions are measurable.
+Certainly continuous functions are $\B(\R)-$measurable.
 
 For notation, let $f_n:\R\to\R$, $n\in\mathcal{N}$.
 We let
 \begin{equation}
-    (\sup_{n\in\N} f_n)(x)=\sup_{n\in\N} f_n(x)\in\overline{\R}
+    (\sup_{n\in\N} f_n)(x)=\sup_{n\in\N} f_n(x)\in\ol{\R}
 \end{equation}
 for $x\in \R$.
-Let $a\in\R$, $(a,\infty]=\{x\in\overline{\R}:a<x\}$, and let $\mathcal{B}(\overline{\R})=\sigma\langle\mathcal{G}\cup\{\{-\infty\},\{\infty\}\}\rangle$.
-Given a measurable space $(X,\mathcal{M})$, $f:X\to\overline{R}$, we say $f$ is $\mathcal{M}-$measurable if it is $\mathcal{M}-\mathcal{B}(\overline{\R})-$measurable.
-Notice that if $f_n:X\to\R$, $n\in\N$, then $\sup_{n\in\N}f_n,\inf_{n\in\N}f_n:X\to\overline{R}$.
+Let $a\in\R$, $(a,\infty]=\{x\in\ol{\R}:a<x\}$, and let $\mathcal{B}(\ol{\R})=\sigma\langle\mathcal{G}\cup\{\{-\infty\},\{\infty\}\}\rangle$.
+Given a measurable space $(X,\mathcal{M})$, $f:X\to\ol{R}$, we say $f$ is $\mathcal{M}-$measurable if it is $\mathcal{M}-\mathcal{B}(\ol{\R})-$measurable.
+Notice that if $f_n:X\to\R$, $n\in\N$, then $\sup_{n\in\N}f_n,\inf_{n\in\N}f_n:X\to\ol{R}$.
 \begin{proposition}
-    Let $(X,\mathcal{M})$ be a measurable space, $f_n:X\to\overline{\R}$, $n\in\N$ each be measurable.
+    Let $(X,\mathcal{M})$ be a measurable space, $f_n:X\to\ol{\R}$ be measurable for each $n\in\N$.
     Then the following are measurable:
-    \begin{enumerate}
+    \begin{enumerate}[nl,r]
         \item $\sup_{n\in\N}f_n$
         \item $\inf_{n\in\N}f_n$
         \item $\limsup_{n\to\infty}f_n$
@@ -1105,28 +1152,31 @@ Notice that if $f_n:X\to\R$, $n\in\N$, then $\sup_{n\in\N}f_n,\inf_{n\in\N}f_n:X
     Furthermore, if $\lim_{n\to\infty}f_n$ exists, it too is measurable.
 \end{proposition}
 \begin{proof}
-    \begin{enumerate}
+    To verify measurability, it is fastest to verify any condition as in \cref{cor:br-m}.
+    \begin{enumerate}[r]
         \item Fix $a\in\R$.
             Then
             \begin{align*}
-                \left(\sup_{n\in\N}f_n\right)^{-1}((a,\infty]) &= \{x\in X:\sup_{n\in\N}\}f_n(x)>a\}\\ %)
-                                                               &=\bigcup_{n=1}^\infty\{x\in X:f_n(x)>a\}\in\mathcal{M}
+                \left(\sup_{n\in\N}f_n\right)^{-1}((a,\infty]) &= \left\{x\in X:\sup_{n\in\N}f_n(x)>a\right\}\\ %)
+                                                               &=\bigcup_{n=1}^\infty\bigl\{x\in X:f_n(x)>a\bigr\}\in\mathcal{M}
             \end{align*}
         \item For $a\in\R$, we have
             \begin{equation*}
-                \left(\inf_{n\in\N}f_n^{-1}([-\infty,a))\right)=\bigcup_{n=1}^\infty\{x\in X:f_n(x)<a\}\in\mathcal{M} %]
+                \left(\inf_{n\in\N}f_n^{-1}\right)([-\infty,a))=\bigcup_{n=1}^\infty\bigl\{x\in X:f_n(x)<a\bigr\}\in\mathcal{M} %]
             \end{equation*}
-        \item
+        \item This is immediate since
             \begin{equation*}
                 \limsup_{n\to\infty}f_n(x)=\inf_{n\in\N}\underbrace{\sup_{k\geq n}f_k(x)}_{\text{measurable}}
             \end{equation*}
-        \item Same as above
+        \item Same as above.
+        \item If the limit exists, it is equal to the $\limsup$ and the $\liminf$.
     \end{enumerate}
 \end{proof}
+\subsection{Product \texorpdfstring{$\sigma-$}{s-}algebras}
 \begin{definition}
     If $(X,\mathcal{M})$ and $(Y,\mathcal{N})$ are measurable spaces, we let the \textbf{product $\sigma-$algebra} of $\mathcal{M}$ and $\mathcal{N}$ be given by
     \begin{equation*}
-        \mathcal{M}\otimes\mathcal{N}=\sigma\langle\{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}\subseteq\mathcal{P}(X)
+        \mathcal{M}\otimes\mathcal{N}=\sigma\brac{\{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}}\subseteq\mathcal{P}(X)
     \end{equation*}
 \end{definition}
 \begin{lemma}
@@ -1134,14 +1184,20 @@ Notice that if $f_n:X\to\R$, $n\in\N$, then $\sup_{n\in\N}f_n,\inf_{n\in\N}f_n:X
     Then
     \begin{enumerate}
         \item $\M\otimes\mathcal{N}=\sigma\langle\pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\rangle$
-        \item If $\mathcal{M}=\sigma\langle\mathcal{E},\mathcal{N}=\sigma\langle\mathcal{F}$, then $\M\otimes\mathcal{N}=\sigma\langle\{X\times F:E\in\mathcal{E},F\in\mathcal{F}\}\rangle$.
+        \item If $\mathcal{M}=\sigma\brac{\mathcal{E}},\mathcal{N}=\sigma\brac{\mathcal{F}}$, then $\M\otimes\mathcal{N}=\sigma\langle\{E\times F:E\in\mathcal{E},F\in\mathcal{F}\}\rangle$.
     \end{enumerate}
 \end{lemma}
 \begin{proof}
     \begin{enumerate}
         \item $E\times F=(E\times F)\cap(X\times F)=\pi^{-1}_X(E)\cap\pi^{-1}_Y(F)$.
-            We see that $\{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}\subseteq\sigma\langle\pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\rangle$
-            and $\pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\subseteq\sigma\langle\{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}\rangle$.
+            We see that
+            \begin{equation*}
+                \{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}\subseteq\sigma\langle\pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\rangle
+            \end{equation*}
+            and
+            \begin{equation*}
+                \pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\subseteq\sigma\langle\{E\times F:E\in\mathcal{M},F\in\mathcal{N}\}\rangle
+            \end{equation*}
         \item
             \begin{align*}
                 \M\otimes\mathcal{N} &= \sigma\langle\pi_X^{-1}(\mathcal{M})\cup\pi_Y^{-1}(\mathcal{N})\rangle\\
@@ -1183,10 +1239,10 @@ Also note, by induction, $\B(\R^d)=\B(\R)\otimes\cdots\otimes\B(\R)$.
     If $B\in\mathcal{B}(\R)$, then $(\pi_k\circ T)^{-1}(B)=T^{-1}(\pi_k^{-1}(B))$.
     Let's refer to this by ($*$).
 
-    ($\Rightarrow$) We have that $\pi_k:\R^d\to\R$ is continuous, so $\pi_k^{-1}(G)$ is open for open $G$ in $\R$, and hence $\pi^{-1}(B)\in\mathcal{B}(\R^d)$ for $B$ above.
+    \impr We have that $\pi_k:\R^d\to\R$ is continuous, so $\pi_k^{-1}(G)$ is open for open $G$ in $\R$, and hence $\pi^{-1}(B)\in\mathcal{B}(\R^d)$ for $B$ above.
     Hence $T^{-1}(\pi_k^{-1}(B))\in\mathcal{M}$ by ($*$)
 
-    ($\Leftarrow$) We have $(\pi_k\circ T)^{-1}(B)\in\mathcal{M}$ for $B$ above.
+    \impl We have $(\pi_k\circ T)^{-1}(B)\in\mathcal{M}$ for $B$ above.
     We have that $\mathcal{B}(\R^d)=\sigma\langle\pi_1^{-1}(\B(\R))\cup\cdots\cup\pi_n^{-1}(\B(\R))\rangle$.
     Then by ($*$), we se that $T$ is $\mathcal{M}-\B(\R^d)-$measurable.
 \end{proof}
@@ -1244,7 +1300,7 @@ Also note, by induction, $\B(\R^d)=\B(\R)\otimes\cdots\otimes\B(\R)$.
     Let $\phi,\psi\in\mathcal{S}^+(X,\M)$.
     Then
     \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item If $\phi\leq\psi$ (pointwise), then $I_\mu(\phi)\leq U_\mu(\psi)$.
+        \item If $\phi\leq\psi$ (pointwise), then $I_\mu(\phi)\leq I_\mu(\psi)$.
         \item If $c\in[0,\infty)$, then $I_\mu(\phi+c\psi)=I_\mu(\phi)+cI_\mu(\psi)$.
     \end{enumerate}
 \end{proposition}
@@ -1275,18 +1331,93 @@ Also note, by induction, $\B(\R^d)=\B(\R)\otimes\cdots\otimes\B(\R)$.
             \end{align*}
     \end{enumerate}
 \end{proof}
+\begin{theorem}[Monotone Convergence]
+    Let $f_n:X\to[0,+\infty]$ be measurable, such that
+    \begin{enumerate}[nolistsep, label=(\roman*)]
+        \item $0\leq f_1\leq f_2\leq\cdots$
+        \item $f(x):=\lim_{n\to\infty} f_n(x)$ for all $x\in X$
+    \end{enumerate}
+    Then $f$ is measurable, and $\int_X f\d{\mu}=\lim_{n\to\infty}\int_X f_n\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    That $f$ exists and is measurable is clear since $f=\sup_{n\in\N}f_n$.
+    We have $\int_X f_n\d{\mu}\leq \int_X f_{n+1}\d{\mu}$ for all $n$, so $\alpha:=\lim_{n\to\infty}\int_X f_n \d{\mu}$ exists.
+    We also have $f_n\leq f$, so $\int_X f_n\d{\mu}\leq \int_X f\d{\mu}$ and $\alpha\leq\int_X f_n\d{\mu}$.
+    Thus we wish to show $\alpha\geq \int_Xf\d{\mu}$.
+    It suffices to prove that $\alpha\geq\int_X s\d{\mu}$ for any simple $s\leq f$.
+    Furthermore, if $c\in(0,1)$, it suffices to show that $\alpha\geq\int_X c\cdot s\d{\mu}$.
+
+    Define $E_n=\{x\in X:f_n(x)\geq c\cdot s(x)\}$.
+    We have $E_1\subset E_2\subset\cdots$ so that $\bigcup\limits_{n=1}^\infty E_n=X$.
+    Then
+    \begin{equation*}
+        \int_X f_n\d{\mu} \geq \int_{E_n} f_n\d{\mu}\geq \int_{E_n} c\cdot s\d{\mu}
+    \end{equation*}
+    Let $\phi(E)=\int_E s\d{\mu}$, so $\int_{E_n}s\d{\mu}=\phi(E_n)$.
+    Thus $\lim_{n\to\infty}\phi(E_n)=\phi(X)=\int_X s\d{\mu}$.
+    Thus
+    \begin{equation*}
+        \alpha\geq c\cdot \lim_{n\to\infty}\phi(E_n)=c\cdot\int_X s\d{\mu}=\int_X c\cdot s\d{\mu}
+    \end{equation*}
+    as desired.
+\end{proof}
+\begin{theorem}[Fatou]
+    Let $(f_n)_{n=1}^\infty\subseteq\ol{M}^+(X,\M)$.
+    Then
+    \begin{equation*}
+        \int_X\left(\liminf_{n\to\infty}f_n\right)\d{\mu}\leq\liminf_{n\to\infty}\int_Xf_n\d{\mu}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    For each $n$, we know that $\int_X\inf_{k\geq n}f_k\d{\mu}\leq\int_X f_n\d{\mu}$, so by monotone convergence, we have
+    \begin{equation*}
+        \int_X\liminf_{n\to\infty} f_n\d{\mu} = \int_X\lim_{n\to\infty}\left(\inf_{k\geq n} f_k\right)\d{\mu}=\lim_{n\to\infty}\int_X\inf_{k\geq n}f_k\d{\mu}\leq\liminf_{n\to\infty}\int_X f_n\d{\mu}
+    \end{equation*}
+\end{proof}
+\begin{theorem}
+    Let $f:X\to[0,+\infty]$ be nonnegative measurable functions.
+    Then there exists a sequence $s_n:X\to[0,+\infty]$ of simple measurable functions with
+    \begin{enumerate}[nolistsep]
+        \item $(s_n)$ is increasing and bounded above by $f$
+        \item $\lim s_n=f$ pointwise.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Let $n\in\N$, $t\geq0$, and define $k_n(t)=[2^{n}\cdot t]$ (i.e. $k_n(t)\leq 2^{n}\cdot t<k_n(t)+1$).
+    Then define
+    \[\phi_n(t)=\begin{cases}k_n(t)\cdot 2^{-n}&\text{if }t\leq n\\n&\text{if }t>n\end{cases}\]
+    I've drawn $\phi_1$ below:
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \draw (0,-0.5) -- (0,1.5);
+            \draw (-0.5,0) -- (2,0);
+            \node[circle,draw=black, inner sep=2pt] (a) at (0.5,0){};
+            \node[circle,fill=black, inner sep=2pt] (b) at (0.5,0.5){};
+            \node[circle,draw=black, inner sep=2pt] (c) at (1,0.5){};
+            \node[circle,fill=black, inner sep=2pt] (d) at (1,1){};
+
+            \draw[thick] (0,0) -- (a);
+            \draw[thick] (b) -- (c);
+            \draw[thick] (d) -- (2,1);
+        \end{tikzpicture}
+    \end{center}
+    Then $t-2^{-n}\leq\phi_n(t)\leq t$, $\lim\phi_n(t)=t$ uniformly, and $\phi_n\leq \phi_{n+1}$, so the sequence of functions is monotone.
+    Define $s_n=\phi_n\circ f$, so for any $x\in X$, $\lim s_n(x)=\lim \phi_n\circ f(x)=f(x)$.
+    Note that $s_n$ is simple since it has finite range (from $\phi_n$), and $s_n\leq s_{n+1}$ because $\phi_n\leq \phi_{n+1}$, and $s_n\leq f$ since $\phi_n(t)\leq t$.
+    Furthermore, $\phi_n$ is measurable since its level sets are intervals, so $s_n=\phi_n\circ f$ is measurable.
+\end{proof}
 \begin{corollary}
     \begin{enumerate}
-        \item If $f,g\in\overline{M}^+(X,\M)$, $c\geq 0$, then $f+cg\in\overline{M}^+(X,\M)$ and $\int_X(f+cg)\d{\mu}=\int_X f\d{\mu}+c\int_Xg\d{\mu}$.
-        \item If $(f_k)_{k=1}^\infty\subset\overline{M}^+(X,\M)$, then $\sum_{k=1}^\infty f_k\in\overline{M}^+(X,\M)$ and $\int_X\left(\sum_{k=1}^\infty f_k\right)\d{\mu}=\sum_{k=1}^\infty\int_X f_k\d{\mu}$.
-        \item If $f\in\overline{M}^+(X,\M)$, then $\mu_f:\M\to[0,\infty]$, $\mu_f(E)=\int_X(1_Ef)\d{\mu}$ defines a measure.
+        \item If $f,g\in\ol{M}^+(X,\M)$, $c\geq 0$, then $f+cg\in\ol{M}^+(X,\M)$ and $\int_X(f+cg)\d{\mu}=\int_X f\d{\mu}+c\int_Xg\d{\mu}$.
+        \item If $(f_k)_{k=1}^\infty\subset\ol{M}^+(X,\M)$, then $\sum_{k=1}^\infty f_k\in\ol{M}^+(X,\M)$ and $\int_X\left(\sum_{k=1}^\infty f_k\right)\d{\mu}=\sum_{k=1}^\infty\int_X f_k\d{\mu}$.
+        \item If $f\in\ol{M}^+(X,\M)$, then $\mu_f:\M\to[0,\infty]$, $\mu_f(E)=\int_X(1_Ef)\d{\mu}$ defines a measure.
     \end{enumerate}
 \end{corollary}
 \begin{proof}
     \begin{enumerate}
         \item Let $(\phi_n)_{n=1}^\infty\subset S_f^+$, so $\phi_1\leq\phi_2\leq\cdots$, $\lim_{n\to\infty}\phi_n$ and $(\psi_n)_{n=1}^\infty\subset S_g^+$.
             Then $(\phi_n+c\psi_n)_{n=1}^\infty\subset S^+_{f+cg}$ with $\phi_1+c\psi_1\leq\phi_2+c\psi_2\leq\cdots$ and $\lim(\phi_n+c\psi_n)=f+cg$.
-            Thus $f+cg\in\overline{M}^+(X,\M)$.
+            Thus $f+cg\in\ol{M}^+(X,\M)$.
             Furthermore, MCT provides
             \begin{align*}
                 \int_X (f+cg)\d{\mu} &= \lim_{n\to\infty}\int_X(\phi_n+c\psi_n)\d{\mu}\\
@@ -1365,7 +1496,7 @@ Notice that
 \end{align*}
 Likewise, $\{x\in X:\lim_{n\to\infty}f(x)$ exists, but is not $f(x)\}\in\M$.
 \begin{lemma}
-    Let $f\in\overline{M}^+(X,\M)$.
+    Let $f\in\ol{M}^+(X,\M)$.
     Then
     \begin{enumerate}[nolistsep]
         \item $\int_X f\d{\mu}<\infty\Rightarrow\mu(f^{-1}(\{\infty\}))=0$, i.e. $f<\infty$ $\mu-$a.e.
@@ -1392,14 +1523,14 @@ Likewise, $\{x\in X:\lim_{n\to\infty}f(x)$ exists, but is not $f(x)\}\in\M$.
 \end{proof}
 \begin{corollary}
     \begin{enumerate}
-        \item If $f\in\overline{M}^+(X,\M)$, then $\int_Xf\d{\mu}<\infty$ if and only if there is $f_0\in M^+(X,\M)$ so that $f=f_0$ $\mu-$a.e.
+        \item If $f\in\ol{M}^+(X,\M)$, then $\int_Xf\d{\mu}<\infty$ if and only if there is $f_0\in M^+(X,\M)$ so that $f=f_0$ $\mu-$a.e.
         \item If $f,g\in L(X,\M,\mu)$, then $f=g$ $\mu-$a.e. if and only if $\int_X|f-g|\d{\mu}=0$.
     \end{enumerate}
 \end{corollary}
 \begin{proof}
     Clear from above.
 \end{proof}
-\begin{theorem}
+\begin{theorem}[Lebesgue Dominated Convergence]
     Let $(f_n)\subseteq L(X,\M,\mu)$, and $f\in M(X,\M)$ such that
     \begin{itemize}[nolistsep]
         \item $\lim_{n\to\infty} f_n=f$ $\mu-$a.e.
@@ -1454,7 +1585,7 @@ Let $S(X,\M)=\{\phi:X\to\C:\phi\text{is $\M$-measurable},|\phi(X)|<\infty\}$.
 \begin{proof}
     \begin{enumerate}
         \item We have $\lim_{n\to\infty}|f-f_n|=0$ $\mu-$a.e., and $|f-f_n|\leq|f|+|f_n|\leq 2g\in L^+(\mu)$.
-            Apply $L.D.C.T.$.
+            Apply LDCT.
         \item An earlier lemma gives us sequences $(\phi_n^\pm)_{n=1}^\infty$, $(\psi_n^\pm)_{n=1}^\infty$ so that $0\leq\phi_1^+\leq\phi_2^+\leq\cdots$ with $\lim\phi_n^+=\Re f^+$, $0\leq\psi_1^-\leq\psi_2^-\leq\cdots$ with $\lim \psi_n^-=\Im f^-$.
             Let $\phi_n=\phi_n^+-\phi_n^-+i[\psi_n^+-\psi_n^-]$.
             Then
@@ -1563,7 +1694,7 @@ We say that $\lim f_n=f$
 \begin{theorem}
     Let $(f_n)_{n=1}^\infty$, $f\in M(X,\M)$.
     Then
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item If $\lim_{n\to\infty}f_n=f$ in $\mu-$measure, then $(f_n)_{n=1}^\infty$ is \textbf{Cauchy in $\mu$-measure}; i.e., given $\epsilon,\delta>0$, there is $n_0\in\N$ (dependent on $\epsilon,\delta$) such that whenever $n,m\geq n_0$, $\mu(\{x\in X:|f_n(x)-f_m(x)|\geq\epsilon\})<\delta$.
         \item If $(f_n)_{n=1}^\infty$ is Cauchy in $\mu-$measure, then there is a subsequence $(f_{n_j})_{j=1}^\infty$ such that $\lim_{j\to\infty}f_{n_j}=f_0$ for some $f_0\in M(X,\M)$ $\mu-$a.e.
             Furthermore, $\lim_{j\to\infty}f_{n_j}=f_0$ in measure.
@@ -1576,14 +1707,18 @@ We say that $\lim f_n=f$
                 \{x\in X:|f_n(x)-f_m(x)|\geq\epsilon\}&\subseteq\{x\in X:|f_n(x)-f(x)|+|f(x)-f_m(x)|\geq\epsilon\}\\
                                                       &\subseteq\{x\in X:|f_n(x)-f(x)|\geq\epsilon/2\}\cup\{x\in X:|f(x)-f_m(x)|\geq\epsilon/2\}
             \end{align*}
-            and apply definitions.
-        \item Let $n_1<n_2<\cdots$ be such that $E_j=\{x\in X:|f_n(x)-f_m(x)|\geq 1/2^j,n,m\geq n_j\}$ satisfies $\mu(E_j)<1/2^j$ (i.e. $\epsilon,\delta=1/2^j$).
+            and apply convergence in $\mu-$measure to each term.
+        \item Let $n_1<n_2<\cdots$ be such that
+            \begin{align*}
+                E_j&=\{x\in X:|f_n(x)-f_m(x)|\geq 1/2^j\text{ for all }n,m\geq n_j\}&\mu(E_j)&<\frac{1}{2^j}
+            \end{align*}
+            by taking $\epsilon,\delta=1/2^j$.
+
             Let $F_k=\bigcup_{j=k}^\infty E_j$, so by $\sigma-$subadditivity, $\mu(F_k)\leq 1/2^{k-1}$.
             If $x\notin F_k$, then for $i>j\geq k$, we have
             \begin{align*}
-                |f_{n_j}(x)-f_{n_i}(x)| &\leq\sum\limits_{p=j}^{i-1}|f_{n_p}(x)-f_{n_{p+1}}(x)|\\
-                                        &< \sum\limits_{p=j}^{i-1}\frac{1}{2^p}\\
-                                        &= \frac{1}{2^{j-1}}\leq\frac{1}{2^{k-1}}
+                \abs{f_{n_j}(x)-f_{n_i}(x)} &\leq\sum\limits_{p=j}^{i-1}\abs{f_{n_p}(x)-f_{n_{p+1}}(x)}\\
+                                            &< \sum\limits_{p=j}^{i-1}\frac{1}{2^p}\leq \frac{1}{2^{j-1}}\leq\frac{1}{2^{k-1}}
             \end{align*}
             Thus $(f_{n_j})_{j=1}^\infty$ is pointwise Cauchy on $X\setminus F_k$.
             Let $F=\bigcap_{k=1}^\infty F_k$, so
@@ -1593,19 +1728,24 @@ We say that $\lim f_n=f$
             and since this holds for any $k$, $\mu(F)=0$.
             Thus for $x\in X\setminus F=\bigcup_{k=1}^\infty(X\setminus F_k)$, we have that $(f_{n_j})_{j=1}^\infty$ is pointwise Cauchy.
             Thus there is $\tilde f\in M(X\setminus F,\M|_{X\setminus F})$, so $\lim_{j\to\infty}f_{n_j}=\tilde f$ on $X\setminus F$.
-            Then $f:X\to\C$ defined $f(x)=\tilde f(x)$ on $X\setminus F$ and $f(x)=0$ otherwise.
+            Consider
+            \begin{align*}
+                f_0&:X\to\C & f_0(x)&=\begin{cases}\tilde f(x)&:x\in X\setminus F\\0 &: x\in F\end{cases}
+            \end{align*}
             It is easy to see that $f_0\in \M(X,\M)$.
-
             Given $\epsilon>0$, let $k$ be so $1/2^{k-1}<\epsilon$.
-            Then for $x\in X\setminus F_k$, $|f_0(x)-f_{n_k}(x)|=\lim_{j\to\infty}|f_{n_j}(x)-f_{n_k}(x)|\leq\frac{1}{2^{k-1}}<\epsilon$.
-            Thus $\{x\in X:|f_0(x)-f_{n_k}(x)|\geq\epsilon\}\subseteq F_k$, so $\mu(E)\leq\mu(F_k)\leq1/2^{k-1}<\epsilon$.
+            Then for $x\in X\setminus F_k$,
+            \begin{equation*}
+                \abs{f_0(x)-f_{n_k}(x)}=\lim_{j\to\infty}\abs{f_{n_j}(x)-f_{n_k}(x)}\leq\frac{1}{2^{k-1}}<\epsilon
+            \end{equation*}
+            Thus $\left\{x\in X:\abs{f_0(x)-f_{n_k}(x)}\geq\epsilon\right\}\subseteq F_k$, so $\mu(E)\leq\mu(F_k)\leq1/2^{k-1}<\epsilon$ and the convergence is also in $\mu-$measure.
     \end{enumerate}
 \end{proof}
 \begin{corollary}
     If $\lim_{n\to\infty}f_n=f$ in $L^1(\mu)$, then there is a subsequence $(f_{n_j})_{j=1}^\infty$ such that $\lim_{j\to\infty}f_{n_j}=f$ $\mu-$a.e.
 \end{corollary}
 \begin{proof}
-    By the last proposition, we have $\lim f_n=f$ in $\mu-$measure, and hence by the Theorem (i), $(f_n)_{n=1}^\infty$ is Cauchy in $\mu-$measure.
+    By the last proposition, we have $\lim f_n=f$ in $\mu-$measure, and hence by (i), $(f_n)_{n=1}^\infty$ is Cauchy in $\mu-$measure.
     By (ii), there is a subsequence so that $\lim f_{n_j}=f_0$ $\mu-$a.e.
     As before,
     \begin{equation*}
@@ -1621,7 +1761,7 @@ We say that $\lim f_n=f$
     \begin{equation*}
         J_{n,i}=\left[a+\frac{i-1}{n}(b-a),a+\frac{i}{n}(b-a)\right)
     \end{equation*}
-    for $i=1,\ldots,n$, $I_{n,i}=\overline{J_{n,i}}$, $l_{n,i}=\int_{x\in I_{n,i}}f(x)$, $u_{n,i}=\sup_{x\in I_{n,i}}f(x)$, $\phi_n=\sum_{i=1}^n l_{n,i}1_{J_{n,i}}$, $\psi_n=\sum_{j=1}^n u_{n,i}1_{J_{n,i}}$ and
+    for $i=1,\ldots,n$, $I_{n,i}=\ol{J_{n,i}}$, $l_{n,i}=\int_{x\in I_{n,i}}f(x)$, $u_{n,i}=\sup_{x\in I_{n,i}}f(x)$, $\phi_n=\sum_{i=1}^n l_{n,i}1_{J_{n,i}}$, $\psi_n=\sum_{j=1}^n u_{n,i}1_{J_{n,i}}$ and
     \begin{align*}
         L_n(f)=\int_{[a,b]}\phi_n\d{\lambda},U_n(f)=\int_{[a,b]}\psi_n\d{\lambda}
     \end{align*}
@@ -1632,7 +1772,7 @@ We say that $\lim f_n=f$
     Since $\phi_n\leq\phi_{n+1}\leq f\leq\psi_{n+1}\leq\psi_n$, we conclude that $f=\lim\phi_{n_j}$ $\lambda-$a.e. with integrable majorant $g=|\phi_1|+|\psi_1|$, so $\int_{[a,b]}f\d{\lambda}=\lim_{j\to\infty}L_{n_j}(f)=\int_a^b f$.
 \end{proof}
 More generally, Riemann integrable functions are continuous $\lambda-$a.e.
-If $a<b$ in $\overline{R}$, $f\geq 0$ improperly Riemann integrable, then it is Lebesgue integrable on $(a,b)$.
+If $a<b$ in $\ol{R}$, $f\geq 0$ improperly Riemann integrable, then it is Lebesgue integrable on $(a,b)$.
 
 \begin{definition}
     If $(f_n)_{n=1}^\infty,f$ are in $M(X,\M)$, then $\lim f_n=f$ \textbf{$\mu-$almost uniformly} if, given any $\epsilon>0$, there is $E\in M$ with $\mu(E)<\epsilon$ so that $\lim_{n\to\infty}\sup_{x\in X\setminus E}|f_n(x)-f(x)|=0$.
@@ -1767,7 +1907,7 @@ Let $(X,\N,\mu)$, $(Y,\mathcal{N},\nu)$ be two measure spaces.
 \begin{theorem}[Tonelli and Fubini]
     Let $(X,\mathcal{M},\mu)$ $(Y,\mathcal{N},\nu)$ be $\sigma-$finite measure spaces.
 
-    (\textit{Tonelli's Theorem}) If $f\in\overline{M}^+(X\times Y,\mathcal{M}\otimes\mathcal{N})$, then
+    (\textit{Tonelli's Theorem}) If $f\in\ol{M}^+(X\times Y,\mathcal{M}\otimes\mathcal{N})$, then
     \begin{align*}
         x\mapsto \int_Y f_x\d{\nu}:X\to[0,\infty]&\text{ is $\mathcal{M}-$measurable.}\\
         y\mapsto \int_X f^y\d{\mu}:Y\to[0,\infty]&\text{ is $\mathcal{N}-$measurable.}\\
@@ -2051,7 +2191,7 @@ We define $\mathcal{L}_d$ to be the completion of $(\R^d,\B(\R^d),\lambda_d)$.
     (I) Assume $\mu,\nu:\M\to[0,\infty)$ are finite measures.
     Let
     \begin{equation*}
-        \mathcal{F}=\{f\in\overline{M}^+(X,\M):\int_E f\d{\mu}\leq\nu(E)\text{ for all $E$ in $\M$}\}
+        \mathcal{F}=\{f\in\ol{M}^+(X,\M):\int_E f\d{\mu}\leq\nu(E)\text{ for all $E$ in $\M$}\}
     \end{equation*}
     Indeed, let $A=\{x\in X:f(x)>g(x)\}$.
     Then for $E\in\M$,
@@ -2067,7 +2207,7 @@ We define $\mathcal{L}_d$ to be the completion of $(\R^d,\B(\R^d),\lambda_d)$.
         s\geq\lim_{n\to\infty}\int_X \geq\lim_{n\to\infty}\int_X f_n\d{\mu}\geq\lim_{n\to\infty}\left(s-\frac{1}{n}\right)=s
     \end{equation*}
     so $s=\lim_{n\to\infty}\int_X g_n\d{\mu}=\int_X f\d{\mu}$ by monotone convergence.
-    In particular, $f\in\overline{L}^+(\mu)$, so we may assume that $f\in L^+(\mu)$ (i.e. $\R$-valued).
+    In particular, $f\in\ol{L}^+(\mu)$, so we may assume that $f\in L^+(\mu)$ (i.e. $\R$-valued).
     Again, by MCT,
     \begin{align*}
         \int_E f\d{\mu}=\lim_{n\to\infty}\int_E g_n\d{\mu}\leq\lim_{n\to\infty}\nu(E)=\nu(E)
@@ -2263,7 +2403,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
     \begin{equation*}
         \int|g|^p=\lim_{n\to\infty}\int|g_n|^p\leq s^p<\infty
     \end{equation*}
-    so $|g|^p\in \overline{L}^+(\mu)$. By replacing values on a null set, we may assume $|g|^q\in L^+(\mu)$.
+    so $|g|^p\in \ol{L}^+(\mu)$. By replacing values on a null set, we may assume $|g|^q\in L^+(\mu)$.
     Now, set $f(x)=\sum_{k=1}\infty f_k(x)$ for $\mu-$ae. $x$ in $X$.
     Then $|f|\leq\sum_{k=1}^\infty|f|\leq|g|$ which shows that $f$ is finite and thus $\mu-$a.e. equivalent to an element of $M(X,\M)$, which we will also call $f$.
     Since $|f|^p\leq|g|^p$< we see that $f\in L^p(\mu)$.
@@ -2300,7 +2440,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
 \end{remark}
 \begin{theorem}
     Let $(X,\M,\mu)$ be a measure space, $p,q>1$, $\frac{1}{p}+\frac{1}{q}=1$.
-    \begin{enumerate}[nolistsep,label=(\roman*)]
+    \begin{enumerate}[nl,r]
         \item For $g\in L^q(\mu)$ we have $\Phi_g\in L^p(\mu)^*$ given by
             \begin{equation*}
                 \Phi_g(f)=\int_X fg\d{\mu}
@@ -2311,7 +2451,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    \begin{enumerate}[label=(\roman*)]
+    \begin{enumerate}[r]
         \item First notice for $f\in L^p(\mu)$,
             \begin{equation*}
                 \int|fg|=\norm{fg}_1\leq\norm{f}_p\norm{g}_q
@@ -2324,7 +2464,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
             so $\norm{\Phi_g}_*\leq\norm{g}_q$.
             To see the converse inequality, for $g\neq 0$, let
             \begin{equation*}
-                f=\frac{1}{\norm{g}_q^{q-1}}|g|^{q-1}\overline{\sgn g}
+                f=\frac{1}{\norm{g}_q^{q-1}}|g|^{q-1}\ol{\sgn g}
             \end{equation*}
             Then $\frac{1}{p}=1-\frac{1}{q}=\frac{q-1}{q}$, $q=(q-1)p$ and we have
             \begin{equation*}
@@ -2333,7 +2473,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
             so $\norm{f}_p\leq 1$.
             Thus
             \begin{align*}
-                \norm{\Phi_g}_* &\geq |\Phi_g(h)|=\left\lvert\frac{1}{\norm{g}_q^{q-1}}\int|g|^{q-1}\overline{\sgn g}g\right\rvert\\
+                \norm{\Phi_g}_* &\geq |\Phi_g(h)|=\left\lvert\frac{1}{\norm{g}_q^{q-1}}\int|g|^{q-1}\ol{\sgn g}g\right\rvert\\
                                 &= \frac{1}{\norm{g}_q^{q-1}}\int|g|^q=\frac{\norm{g}_q^q}{\norm{g}^{q-1}}=\norm{g}_q
             \end{align*}
         \item Let $\Phi\in L^p(\mu)^*$.
@@ -2386,7 +2526,7 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
             Now we let $(\varphi_n)_{n=1}^\infty\subset S(X,\M)/\sim_\mu$ such that $\lim\varphi_n=g$ and $|\varphi_n|\leq|\varphi_{n+1}|\leq|g|$.
             We define
             \begin{equation*}
-                f_n=\frac{1}{\norm{\varphi_n}_q^{q-1}}|\varphi_n|^{q-1}\overline{\sgn g}
+                f_n=\frac{1}{\norm{\varphi_n}_q^{q-1}}|\varphi_n|^{q-1}\ol{\sgn g}
             \end{equation*}
             which is essntially bounded and with $\int|f_n|^p\leq 1$ as above.
             Furthermore, by MCT,
@@ -2449,15 +2589,15 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
 \section{Radon Measures}
 \begin{definition}
     Let $(X,d)$ be a metric space.
-    We say that $(X,d)$ is \textbf{locally compact} if for each $x\in X$, there is $\epsilon_x>0$ such that $\overline{B_{\epsilon_x}}(x)$ is compact.
+    We say that $(X,d)$ is \textbf{locally compact} if for each $x\in X$, there is $\epsilon_x>0$ such that $\ol{B_{\epsilon_x}}(x)$ is compact.
 \end{definition}
 \begin{example}
     \begin{enumerate}[label=(\roman*)]
         \item $\R^d$ with the usual metric is locally compact.
-            Any closed ball $\overline{B_\epsilon(x)}$ is cmpact (Heine-Borel)
+            Any closed ball $\ol{B_\epsilon(x)}$ is cmpact (Heine-Borel)
         \item Let $X$ be any non-empty set, $d$ the discrete metric.
-            If $x\in X$, then $B_\epsilon(x)=\overline{B_\epsilon(x)}$ is compact, provided that $X$ is infinite, exactly for $0<\epsilon\leq 1$.
-            Note that we distinguish $\overline{B_{\epsilon}(x)}$ from $\overline{B}_\epsilon(x)=\{y:d(x,y)<\epsilon\}$.
+            If $x\in X$, then $B_\epsilon(x)=\ol{B_\epsilon(x)}$ is compact, provided that $X$ is infinite, exactly for $0<\epsilon\leq 1$.
+            Note that we distinguish $\ol{B_{\epsilon}(x)}$ from $\ol{B}_\epsilon(x)=\{y:d(x,y)<\epsilon\}$.
         \item If $C$ is a closed subset and $U$ an open subset of a locally compact space, then $C,U$ and $C\cap U$, $C\cup U$ are locally compact.
     \end{enumerate}
 \end{example}
@@ -2497,12 +2637,6 @@ If $x<y$ in $\R$, $0<t<1$, then $\phi((1-t)x+ty)<(1-t)\phi(x)+t\phi(y)$.
     We say that $(X,d)$ is \mbf{$\sigma$-compact} if $X=\bigcup_{n=1}^\infty K_n$, where each $K_n$ is compact.
     If $\mu$ is a Radon measure, then $\sigma-$compact implies $\sigma-$finite.
 \end{remark}
-\chapter{Fourier Series}
-If $f$ is the sum $f(x)=a_0+\sum_{n=1}^\infty a_n\cos nx+\sum_{n=1}^\infty b_n\sin nx$.
-Then, assuming we can integrate term by term,
-\begin{equation*}
-    a_0=\frac{1}{2\pi}\int_{-\pi}^\pi f(x)\d{x},\quad a_n=\frac{1}{\pi}\int_{-\pi}^\pi f(x)\cos nx\d{x},\quad b_n=\frac{1}{\pi}\int_{-\pi}^\pi f(x)\sin nx\d{x}
-\end{equation*}
 
 Riesz Representation Theorem.
 Let $(X,d)$ be a metric space, $I:C_c(X)\to\C$ a positive linear functional.
@@ -2513,7 +2647,7 @@ We let $U\subseteq C$, $\mu^0(U)=\sup\{I(f):f\prec U\}$, $E\subseteq X$, $\mu^*(
 In particular, $\mu=\mu^*|_{\B(x)}$ satisfies $\mu(U)=\mu^*(U)$ for $U$ open, and $\mu$ is outer regular, by (I), and locally finite, by (II).
 It suffices to show that $U\in\M$ whenever $U$ is open.
 
-Suppose $V\subseteq X$ is open with $\mu^*(V)<\infty$ (say $\overline{V}$ is compact), and let $\epsilon>0$.
+Suppose $V\subseteq X$ is open with $\mu^*(V)<\infty$ (say $\ol{V}$ is compact), and let $\epsilon>0$.
 We let
 \begin{itemize}[nl]
     \item $f\prec U\cap V$ be so $\mu^*(U)\cap V<I(f)+\epsilon$
@@ -2653,7 +2787,7 @@ Since each is outer regular, hence $\mu'=\mu$ on $\B(X)$.
     The $d-$dimensional Lebesgue measure $\lambda_d:\B(\R^d)\to[0,\infty]$ is inner and outer regular.
 \end{corollary}
 \begin{proof}
-    We note that $\R^d=\bigcup_{n=1}^\infty\overline{B_n(0)}$ is $\sigma-$compact.
+    We note that $\R^d=\bigcup_{n=1}^\infty\ol{B_n(0)}$ is $\sigma-$compact.
     If $K\subseteq\R^d=\bigcup_{n=1}^\infty(-n,n)^d$ is compact, then $K\subseteq(-n_0,n_0)^d$ for some $n_0$.
     Hence $\lambda_d(K)\leq\lambda_d((-n_0,n_0)^d)=(2n_0)^d<\infty$.
     Thus $\lambda_d$ is a locally finite measure on a $\sigma-$compact space, hence Radon.
@@ -2743,7 +2877,7 @@ In fact, we could replace $\norm{\bigcdot}_2$ with any norm on $\R^d$ and the re
     \end{equation*}
 \end{proof}
 \begin{corollary}
-    If $f\in\overline{M}^+(X,\M)$ and $\mu:\M\to[0,\infty]$ is a measure, and $\alpha>0$, then
+    If $f\in\ol{M}^+(X,\M)$ and $\mu:\M\to[0,\infty]$ is a measure, and $\alpha>0$, then
     \begin{equation*}
         \int_{f^{-1}((\alpha,\infty])}f\d{\mu}\geq\int_{f^{-1}((\alpha,\infty])\alpha 1\{\mu}=\alpha\mu(f^{-1}((\alpha,\infty])
     \end{equation*}
@@ -2794,7 +2928,7 @@ In fact, we could replace $\norm{\bigcdot}_2$ with any norm on $\R^d$ and the re
     Then $\lambda_d^*(\R^D\setminus L_f)=0$, where $\lambda_d^*$ is tthe outer measure associated to $\lambda_d$.
 \end{corollary}
 \begin{proof}
-    Let $\overline{\{c_n\}_{n=1}}^\infty=\C$.
+    Let $\ol{\{c_n\}_{n=1}}^\infty=\C$.
     Let
     \begin{equation*}
         E_n=\left\{x\in\R^d:\limsup_{r\to 0^+}\left\lvert A_r|f-c_n1|f(x)-|f(x)-c_n|\right\rvert>0\right\}
@@ -3038,7 +3172,6 @@ In fact, we could replace $\norm{\bigcdot}_2$ with any norm on $\R^d$ and the re
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-
     \begin{enumerate}[nl,r]
         \item Let $F=F_1-F_2+i[F_3-F_4]$.
             Then each $F_K\in\ND_r(\R)$ and corresponds to a measure $\mu_{F_k}$ satisfying the analogue of ($\dagger$).
@@ -3162,4 +3295,5 @@ Note that Lipschitz$\Rightarrow$Absolutely continuous$\Rightarrow$uniformly cont
     Converse is just given.
 \end{remark}
 \end{document}
+
 
