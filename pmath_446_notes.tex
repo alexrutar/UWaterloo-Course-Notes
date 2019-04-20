@@ -1,6 +1,6 @@
 % header -----------------------------------------------------------------------
 % Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
-% version (1.6)
+% version (1.12)
 
 
 % doctype ----------------------------------------------------------------------
@@ -36,33 +36,36 @@
 \DeclareMathOperator{\C}{{\mathbb{C}}}
 \DeclareMathOperator{\F}{{\mathbb{F}}}
 
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
 % proof implications
 \newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
 \newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
 
-% multi-line align space
+% align macros
 \newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
 
 % convenient brackets
 \newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
 \newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
 \newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
 
-% smaller fractions
-\newcommand{\sfrac}[2]{\ensuremath{\frac{\scriptstyle #1}{\scriptstyle #2}}}
-
 % arrows
 \newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
-\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptscriptstyle{#1}}}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
 \newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
  
 % Divides, Not Divides
 \renewcommand{\div}{\bigm|}
 \newcommand{\ndiv}{%
     \mathrel{\mkern.5mu % small adjustment
         % superimpose \nmid to \big|
-        \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
     }%
 }
 
@@ -75,7 +78,7 @@
 \newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
 \makeatother
 
-% Disjoint Union
+% Big and small Disjoint union
 \makeatletter
 \providecommand*{\cupdot}{%
   \mathbin{%
@@ -132,15 +135,17 @@
 
 % Claim environment
 \theoremstyle{plain}
-\theorempreskip{0.1cm}
-\theorempostskip{0.1cm}
-\theoremindent0.0cm
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
 \theoremnumbering{roman}
 \theoremheaderfont{\scshape}
 \newtheorem{claim}{Claim}
 \AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
 
 % Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
 \theoremheaderfont{\bfseries\itshape}
@@ -157,6 +162,8 @@
 \theoremsymbol{$\blacksquare$}
 \theorempostskip{0.4cm}
 \newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
 
 
 % macros (algebra) -------------------------------------------------------------
@@ -173,6 +180,7 @@
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\Nil}{Nil}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Res}{Res}
@@ -185,9 +193,9 @@
 \newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
 
 % Quotient (larger in display mode)
-\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
-                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
-                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.12em}{$#1$}\middle/\raisebox{-0.12em}{$#2$}\right.}
+                                 {\left.\raisebox{0.06em}{$#1$}\middle/\raisebox{-0.06em}{$#2$}\right.}
+                                 {\left.\raisebox{0.02em}{$#1$}\middle/\raisebox{-0.02em}{$#2$}\right.}
                                  {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
 
 
@@ -202,6 +210,7 @@
 
 \renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
 \renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
 
 
 % file-specific preamble -------------------------------------------------------
@@ -209,19 +218,26 @@
 \DeclareMathOperator{\Ct}{\mathcal{C}}
 \DeclareMathOperator{\Ob}{Ob}
 \DeclareMathOperator{\proj}{proj}
-\newcommand{\mapsfrom}{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Commutative Algebra}
+\newcommand{\semester}{Winter 2019}
 
 
 % formatting -------------------------------------------------------------------
+% Fonts
 \usepackage{kpfonts}
 \usepackage{dsfont}
 
-% Define Document Variables
-\newcommand{\subject}{REPLACE}
-\newcommand{\topic}{REPLACE}
-\newcommand{\semester}{REPLACE}
+% Equation numbering
+\numberwithin{equation}{section}
 
-% Format Table of Contents
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
 \renewcommand{\thechapter}{\Roman{chapter}}
 \counterwithout{section}{chapter}
 \counterwithin*{chapter}{part}
@@ -229,7 +245,7 @@
 \setlength\cftchapternumwidth{4em} % Add space before chapter name
 \cftpagenumbersoff{chapter} % Turn off page numbers for chapter
 
-% Format Section / Subsection headers
+% Section / Subsection headers
 \newcommand*{\shortcenter}[1]{%
     \sethangfrom{\noindent ##1}%
     \Large\boldmath\scshape\bfseries
@@ -238,10 +254,10 @@
 \setsecheadstyle{\shortcenter}
 \setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
 
-% Format Chapter Headers
+% Chapter Headers
 \chapterstyle{verville}
 
-% Format Page Headers / Footers
+% Page Headers / Footers
 \setsecnumdepth{section}
 \copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
 \makeoddhead{myruled}{}{}{\scshape\subject}
@@ -249,7 +265,7 @@
 \makeoddfoot{myruled}{}{\thepage}{}
 \pagestyle{myruled}
 
-% Format Titlepage
+% Titlepage
 \title{\subject}
 \author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
 \date{\semester\thanks{Last updated: \today}}
@@ -1288,7 +1304,7 @@ In the case of $A-$modules, recall that $\Hom_A(M,N)$ is the set of $A-$linear m
     \end{enumerate}
 \end{proof}
 \begin{lemma}
-    Given an $A-$module $P$ an an $A-$linear map $f:M\to N$, there is a unique $A-$linear map
+    Given an $A-$module $P$ and an $A-$linear map $f:M\to N$, there is a unique $A-$linear map
     \begin{equation*}
         f\otimes 1:M\otimes_A P\to N\otimes_AP
     \end{equation*}
@@ -1374,8 +1390,8 @@ With similar methods as in the proof of \cref{prop:t_equiv}, one can prove the f
     In particular, we see that $\bigcdot\otimes P$ does not necessarily preserve injectivity.
     However, the following proposition does hold:
 \end{remark}
-\begin{proposition}
-    $N\otimes_A\bigcdot$ is right exact: i.e. if $M'\to M\to M''\to 0$ is exact, then $N\otimes M'\fto{1\otimes f}N\otimes M\fto{1\otimes g}N\otimes M''\to 0$ is exact.
+\begin{proposition}\label{prop:ten-ex}
+    $N\otimes_A\bigcdot$ is right exact: i.e. if $M'\fto{f}M\fto{g}M''\to 0$ is exact, then $N\otimes M'\fto{1\otimes f}N\otimes M\fto{1\otimes g}N\otimes M''\to 0$ is exact.
 \end{proposition}
 \begin{proof}
     Let $P$ be an arbitrary $A-$module.
@@ -1387,7 +1403,7 @@ With similar methods as in the proof of \cref{prop:t_equiv}, one can prove the f
 \begin{definition}
     If $N\otimes_A\bigcdot$ is an exact functor, then we say that $N$ is a \textbf{flat} $A-$module.
 \end{definition}
-\begin{proposition}\label{ex-ten}
+\begin{proposition}\label{prop:ten-flat}
     Let $N$ be an $A-$module; then the following are equivalent:
     \begin{enumerate}[nolistsep,label=(\roman*)]
         \item $N$ is flat
@@ -1399,67 +1415,65 @@ With similar methods as in the proof of \cref{prop:t_equiv}, one can prove the f
 \begin{proof}
     $(i\Leftrightarrow ii)$ follows by splitting the long exact sequence into short exact sequences.
 
-    $(ii\Leftrightarrow iii)$ follows by \cref{ex-ten}.
+    $(ii\Leftrightarrow iii)$ follows by right exactness (\cref{prop:ten-ex}).
 
     $(iii\Rightarrow iv)$ is obvious.
 
     $(iv\Rightarrow iii)$.
-    Let $:M'\to M$ be injective and let $u=\sum x_i\otimes y_i\in\ker(f\otimes 1)$.
-    In other words,
+    Let $f:M'\to M$ be injective and let $u=\sum x_i\otimes y_i\in\ker(f\otimes 1)$ so that $\sum f(x_i)\otimes y_i=0$ in $M\otimes N$.
+    TODO: prove this
 \end{proof}
-Suppose $f:M'\to M$ is injective.
-Then $0\overset{f}{\to} M'\overset{\pi}{\to} M/\im(f)\to 0$ is exact.
-By (ii), $0\to N\otimes M'\overset{1\otimes f}{\to}N\otimes M\overset{1\otimes \pi}{\to}N\otimes M/\im(N)\to 0$ is exact, so $1\otimes f$ is injective.
 \begin{example}
     Free modules are flat.
-\end{example}
-\begin{proof}
-    Suppose $f:M'\to M$ is injective, $F=\oplus_{i\in I}A$ a free $A-$module.
+    To see this, suppose $f:M'\to M$ is injective and $F=\bigoplus_{i\in I}A$ a free $A-$module.
     We want to show $F\otimes M'\to F\otimes M$ is injective.
-    Since tensors commute with direct sum, $F\otimes M'=\oplus_{i\in I}(A\otimes_A M')=\oplus_{i\in I}M'$, we have $1\otimes f:\oplus_{i\in I} M'\to\oplus_{i\in I}M$.
+    Since tensors commute with direct sum, $F\otimes M'=\bigoplus_{i\in I}(A\otimes_A M')=\bigoplus_{i\in I}M'$, we have $1\otimes f:\bigoplus_{i\in I} M'\to\bigoplus_{i\in I}M$.
     But then $1\otimes f(x_i:i\in I)=(f(x_i):i\in I)$.
-\end{proof}
+\end{example}
 \section{Algebras}
 \begin{definition}
-    An \textbf{A-Algebra} is a ring $B$ (commutative unitary) equipped with a ring homomorphism $f:A\to B$.
+    An \textbf{A-algebra} is a ring $B$ equipped with a ring homomorphism $f:A\to B$.
 \end{definition}
-Note that this endows $B$ with an $A-$module structure: $a\in A$, $b\in B$, then $ab:=f(a)b$.
-Then $f:A\to B$ is a homomorphism of $A-$modules: if $a\in A$, $x\in A$, then $f(ax)=f(a)f(x)=af(x)$.
-This $A-$module structure on $B$ satisfies compatibility with $\times$ on $B$: $(*)$ $a(b_1b_2)=(ab_1)b_2$
+This endows $B$ with an $A-$module structure: if $a\in A$ and $b\in B$, then we define $ab:=f(a)b$.
+In particular, $f:A\to B$ is a homomorphism of $A-$modules: if $a\in A$, $x\in A$, then $f(ax)=f(a)f(x)=af(x)$.
+This $A-$module structure on $B$ satisfies compatibility with multiplication on $B$: $a(b_1b_2)=(ab_1)b_2$.
 \begin{lemma}
-    Suppose $B$ is a ring with an $A-$module structure satisfying $(*)$.
+    Suppose $B$ is a ring with an $A-$module structure such that $a(b_1b_2)=(ab_1)b_2$.
     Then there is a unique ring homomorphism $f:A\to B$ inducing this module structure on $B$.
 \end{lemma}
 \begin{proof}
     Define $f:A\to B$ by $f(a)=a1_B$.
-    We just check multiplicativity: $f(a_1a_2)=a_1a_21_b=a_1(a_21_B)=a_1((1_B)(a_21_B))=(a_11_B)(a_21_B)=f(a_1)f(a_2)$ by $(*)$.
+    We just check multiplicativity:
+    \begin{equation*}
+        f(a_1a_2)=a_1a_21_b=a_1(a_21_B)=a_1((1_B)(a_21_B))=(a_11_B)(a_21_B)=f(a_1)f(a_2)
+    \end{equation*}
 \end{proof}
-Thus $A-$algebras are given by $A-$Modules with ring structure satisfying $(*)$.
+Thus $A-$algebras are given by $A-$modules which are also rings, with multiplication compatible with the module structure.
 \begin{example}
     Suppose $A=k$ is a field.
     Then a $k-$algebra is a ring extending $k$ with its $k-$vector space structure.
-    A ring homomorphism $f:k\to B$ must be injective, so we identify $k$ with its image in $B$.
+    A ring homomorphism $f:k\to B$ is necessarily injective, so we may identify $k$ with its image in $B$.
 \end{example}
 \begin{example}
     If $A=\Z$, then every ring is canonically a $\Z-$algebra.
+    Note the relationship to the module case $\Z-$modules to $\Z-$algebras as abelian groups are to (commutative, unitary) rings.
 \end{example}
-For any ring $A$, $B=A[t_1,\ldots,t_n]$, the polynomial ring over $A$ in variables $t_1,\ldots,t_n$, is naturally an $A-$algebra with the inclusion map.
+\begin{example}
+    For any ring $A$, $B=A[t_1,\ldots,t_n]$, the polynomial ring over $A$ in variables $t_1,\ldots,t_n$, is naturally an $A-$algebra with the inclusion map.
+\end{example}
 
 \begin{definition}
-    If $(B,f)$, $(C,g)$ are $A-$algebras, then a \textbf{homomorphism of $A-$algebras} is a ring homomorphism $\phi:B\to C$ such that $\phi(f(a))=g(a)$ for all $a\in A$.
-    These are also called \textbf{A-linear (ring) homomorphisms}.
-\end{definition}
-\begin{definition}
-    Let $(B,f)$ be an $A-$algebra.
-    Then a \textbf{sub-A-algebra} is a subring $C\subseteq B$ containing $f(A)$.
-    Then \textbf{A-subalgebra generated by $x$}, denoted by $A[x]$ is the smallest subalgebra of $B$ containing $x$.
+    If $(B,f)$, $(C,g)$ are $A-$algebras, then a \mbf{homomorphism of $A-$algebras} is a ring homomorphism $\phi:B\to C$ such that $\phi(f(a))=g(a)$ for all $a\in A$.
+    These are also called \mbf{$A-$linear (ring) homomorphisms}.
+
+    An \mbf{$A-$subalgebra} is a subring $C\subseteq B$ containing $f(A)$.
+    Then an \mbf{$A-$subalgebra generated by $x$}, denoted by $A[x]$ is the smallest subalgebra of $B$ containing $x$.
+
+    We say that $(B,f)$ is a \mbf{finite $A-$algebra} if it is finitely generated as an $A-$module.
 \end{definition}
 This is well-defined, we have $A[X]=\bigcap\{C\subseteq B:C\text{ subalgebra containing $X$}\}$.
 As well, $A[x]=\{p(b_1,\ldots,b_n):n\geq 0,p\in[t_1,\ldots,t_n],b_i\in X\}$.
 
-\begin{definition}
-    $(B,f)$ is a \textbf{finite $A-$algebra} if it is finitely generated as an $A-$module.
-\end{definition}
 \begin{example}
     $\Q[t]$, polynomial ring is f.g. as a $\Q-$algebra, but not as a $\Q-$vector space.
 \end{example}
@@ -1468,26 +1482,28 @@ As well, $A[x]=\{p(b_1,\ldots,b_n):n\geq 0,p\in[t_1,\ldots,t_n],b_i\in X\}$.
     Finite algebras are finitely generated.
 \end{proposition}
 \begin{proof}
-    $B$ is a finite $A-$algebra, $f:A\to B$.
+    Suppose $B$ is a finite $A-$algebra with algebra structure given by $f:A\to B$.
     Let $b_1,\ldots,b_n\in B$ which generate $B$ as an $A-$module.
-    Consider $A[b_1,\ldots,b_n]$ be the $A-$subalgebra of $B$ generated by $\{b_1,\ldots,b_n\}$.
-    Let $b\in B$, then $b=a_1b_1+\cdots+a_nb_n=P(b_1,\ldots,b_n)$ for some $a_1,\ldots,a_n\in A$.
-    Since each $a_ib_i\in A[b_1,\ldots,b_n]$, so $b\in A[b_1,\ldots,b_n]$ and $B=A[b_1,\ldots,b_n]$.
+    Consider $A[b_1,\ldots,b_n]\subseteq B$.
+    Then if $b\in B$ is arbitrary, $b=a_1b_1+\cdots+a_nb_n$ for some $a_1,\ldots,a_n\in A$.
+    Each $a_ib_i\in A[b_1,\ldots,b_n]$, so $b\in A[b_1,\ldots,b_n]$ and $B=A[b_1,\ldots,b_n]$.
 \end{proof}
 \begin{example}
-    $\Q[x]/(t^2)$ is a finite $\Q-$algebra since
-    \begin{align*}
-        (a_nt^n+\cdots+a_1t+a_0)+(t^2)&=t^2(a_nt^{n-2}+\cdots+a_3t+a_2)+a_1t+a_0+I\\
-                                      &= a_1t+a_0+I\\
-                                      &= a_1(t+I)+a_0(1+I)
-    \end{align*}
-    so $B=\spn_{\Q}(t+I,1+I)$.
+    $\quot{\Q[t]}{I}$ where $I=(p(t))$ is any polynomial is a finite $\Q-$algebra by the division algorithm.
+    In particular, $\quot{\Q[t]}{I}=\spn_{\Q}(t^{n-1}+I,\ldots,t+I,1+I)$ where $n=\deg p$.
 \end{example}
 \begin{remark}
-    If $B$ is an $A-$algebra and $I\subseteq B$ an ideal, then $B/I$ has a canonical $A-$algebra structure $A\fto{f} B\fto{\pi} B/I$.
+    If $B$ is an $A-$algebra and $I\subseteq B$ an ideal, then $\quot{B}{I}$ has a canonical $A-$algebra structure $\phi:A\fto{f} B\fto{\pi} B/I$.
+\end{remark}
+\begin{definition}
+    If $B$ is an $A-$algebra, $I\subseteq A$ an ideal, then the \textbf{extension ideal} $IB$ is the ideal generated by $f(I)$ in $B$.
+    If $J\subseteq B$ is an ideal, then the \textbf{contraction ideal} is $J\cap A:=f^{-1}(J)$.
+\end{definition}
+\begin{remark}
+    When $A\subseteq B$ and $\iota:A\to B$ is an $A-$algebra, the extension and contraction ideals are exactly what the notation suggests.
 \end{remark}
 \begin{lemma}
-    If $(B,f)$ is a finitely generated $A-$algebra, then $B\cong A[t_1,\ldots,t_n]/I$ where $t_1,\ldots,t_n$ are indeterminants and $I\subseteq A[t_1,\ldots,t_n]$ an ideal.
+    If $(B,f)$ is a finitely generated $A-$algebra, then $B\cong\quot{A[t_1,\ldots,t_n]}{I}$ where $t_1,\ldots,t_n$ are indeterminants and $I\subseteq A[t_1,\ldots,t_n]$ an ideal.
 \end{lemma}
 \begin{proof}
     Let $b_1,\ldots,b_n$ generate $B$.
@@ -1502,21 +1518,20 @@ As well, $A[x]=\{p(b_1,\ldots,b_n):n\geq 0,p\in[t_1,\ldots,t_n],b_i\in X\}$.
     Let $b\in B$, then $b=P(b_1,\ldots,b_n)$ for some $P\in A[t_1,\ldots,t_n]$.
     Since $b_1,\ldots,b_n$ generate $B$ as an $A-$algebra, $\phi(P(t_1,\ldots,t_n))=P(b_1,\ldots,b_n)$, so $\phi$ is surjective.
     Let $I=\ker(\phi)$.
-    By the 1st Isomorphism Theorem for rings, $A[t_1,\ldots,t_n]/I\cong B$ as rings, the isomorphism $P(t_1,\ldots,t_n)+I\mapsto P(b_1,\ldots,b_n)$ is $A-$linear.
+    By the first isomorphism theorem for rings, $\quot{A[t_1,\ldots,t_n]}{I}\cong B$ as rings, the isomorphism $P(t_1,\ldots,t_n)+I\mapsto P(b_1,\ldots,b_n)$ is $A-$linear.
 \end{proof}
-Let $(B,f)$ denote an $A-$algebra, $M$ an $A-$module.
+\subsection{Extension and Restriction by Scalars}
+Let $(B,f)$ be an $A-$algebra and $M$ an $A-$module.
 Since $(B,f)$ is also a module, we can consider $M_B=B\otimes_A M$ as an $A-$module.
-Then $M_B$ has a natural $B-$module structure given by $b\in B_j$, $\sum_i b_i\otimes x_i$, $b_i\in B$, $x_i\in M$.
-Then
+Then $M_B$ has a natural $B-$module structure given by
 \begin{align*}
     b\cdot\left(\sum_i b_i\otimes x_i\right):=\sum_i bb_i\otimes x_i
 \end{align*}
-Thus makes $M_B$ a $B-$module.
-We call it the extension by scalars of $M$.
+This makes $M_B$ a $B-$module which we call it the \textbf{extension by scalars} of $M$.
 
 We can also go the other way: suppose $N$ is a $B-$module.
-We can consider it as an $A-$module via $ax:=f(a)x$.
-This $A-$module is called the restriction of scalars of $N$.
+Then, it is naturally an $A-$module via $ax:=f(a)x$.
+This $A-$module is called the \textbf{restriction of scalars} of $N$.
 \subsection{Tensor Products of Algebras}
 Let $(B,f)$, $(C,g)$ $A-$algebras.
 Then $B\otimes_A C$ is a $B-$module and a $C-$module.
@@ -1538,44 +1553,47 @@ We need to check:
     \item $B\to B\otimes_A C$ by $b\mapsto b\otimes 1$ is a ring homomorphism
     \item $C\to B\otimes_A C$ by $c\mapsto 1\otimes c$ is a ring homomorphism
 \end{itemize}
-Note that $B\otimes_A C$ also has an $A-$algebra structure $A\to B\otimes_A C$ by $a\mapsto f(a)\otimes 1=1\otimes g(a)$.
-Then the following diagram commutes:
+Having verified these things, we note that $B\otimes_A C$ has an $A-$algebra structure with $A\to B\otimes_A C$ given by $a\mapsto f(a)\otimes 1=1\otimes g(a)$.
+In other words, the following diagram commutes:
 \begin{center}
     \begin{tikzcd}
-        A\arrow[r, "f"]\arrow[rd,"f"]& B \arrow[r]& B\otimes_A C\arrow[d,"\id"]\\
-                                    & C \arrow[r]& B\otimes_A 
+        A\arrow[r, "f"]\arrow[rd,swap,"g"]& B \arrow[r]& B\otimes_A C\arrow[d,"\id"]\\
+                                    & C \arrow[r]& B\otimes_A C
     \end{tikzcd}
 \end{center}
-\chapter{Fractions}
+\section{Rings of Fractions}
 \begin{definition}
     Let $A$ be a ring.
-    Then we say $S\subseteq A$ is \textbf{multiplicitly closed} if $s,t\in S$ implies $st\in S$ and $1\in S$.
+    Then we say $S\subseteq A$ is \textbf{multiplicatively closed} if $1\in S$ and whenever $s,t\in S$, $st\in S$ as well.
 \end{definition}
 On $A\times S$, we define an equivalence relation by $(a,s)\equiv(a',s')$ if $(s'a-sa')t=0$ for some $t\in S$.
 It is easy to verify that this is reflexive and symmetric.
 To see transitivity, if $(a,s)\equiv(b,t)$ and $(b,t)\equiv(c,u)$, then $(at-bs)v=0$, $(bu-ct)w=0$ for some $v,w\in S$.
-Then $(atvuw-bsvuw=0$ and $buwsv-ctwsv=0$, so $(av-sc)tvw=0$ where $tvw\in S$, so $(a,s)\equiv(c,v)$.
+Then $atvuw-bsvuw=0$ and $buwsv-ctwsv=0$, so $(av-sc)tvw=0$ where $tvw\in S$, so $(a,s)\equiv(c,v)$.
 We denote the class $(a,s)$ by $\frac{a}{s}$.
-We denote by $S^{-1}A:=A\times S/\equiv$.
-We make this into a ring by $0=0/1$ and $1=1/1$.
+We say that
 \begin{equation*}
-    \frac{a}{s}+\frac{b}{t}=\frac{at+bs}{st},\quad\frac{a}{s}\frac{b}{t}=\frac{ab}{st}
+    S^{-1}A:=\quot{A\times S}{\sim}=\left\{\frac{a}{s}:a\in A,s\in S\right\}
 \end{equation*}
-One can verify that this is well-defined and defines a commutative unitary ring structure on $S^{-1}A$, such that the map $A\to S^{-1}A$ by $a\mapsto a/1$ is a ring homomorphism (not necessarily injective).
+We make this into a ring by taking $0=0/1$ and $1=1/1$ and defining
+\begin{align*}
+    \frac{a}{s}+\frac{b}{t}&=\frac{at+bs}{st},&\frac{a}{s}\cdot\frac{b}{t}&=\frac{ab}{st}
+\end{align*}
+One can verify that this is well-defined and defines a commutative unitary ring structure on $S^{-1}A$ such that the map $\alpha:A\to S^{-1}A$ given by $a\mapsto a/1$ is a ring homomorphism (not necessarily injective).
 We call this the \textbf{ring of fractions of $A$ with respect to $S$}.
-In fact, $S^{-1}A$ is an $A-$algebra via the map $A\to S^{-1}A$ by $a\mapsto a/1$.
+In fact, $(S^{-1}A,\alpha)$ is an $A-$algebra.
 \begin{remark}
     If $A$ is an integral domain and $0\notin S$, then $\frac{a}{s}=\frac{b}{t}$ if and only if $at=bs$.
     If $S=A\setminus\{0\}$, which when $A$ is an integral domain is multiplicatively closed, then $S^{-1}A=\Frac(A)$.
-    In this case, $a\mapsto a/1$ is actually injective.
+    In this case, $\alpha$ is indeed injective.
 
-    In general, $\ker(A\to S^{-1}A)=\{a\in A:\exists v\in S:av=0\}$.
+    In general, $\ker(\alpha)=\{a\in A:\exists v\in S:av=0\}$.
 \end{remark}
 \begin{remark}
     $0\in S$ if and only if $S^{-1}A=(0)$.
     If $s\in S$, in $S^{-1}A$, $1/s$ is a unit since $\frac{1}{s}\cdot\frac{s}{1}=\frac{s}{s}=1$.
 \end{remark}
-\begin{proposition}
+\begin{proposition}[Universal Property of Fractions]
     Suppose $f:A\to B$ is a ring homomorphism such that $f(s)\in B^\times$ for all $s\in S$.
     Then there is a unique ring homomorphism $g:S^{-1}A\to B$ such that the following commutes:
     \begin{center}
@@ -1592,33 +1610,215 @@ In fact, $S^{-1}A$ is an $A-$algebra via the map $A\to S^{-1}A$ by $a\mapsto a/1
 \begin{corollary}
     $\alpha$ is an isomorphism if and only if $S\subseteq A^\times$.
 \end{corollary}
-\begin{example}
-    Note that $P\subseteq A$ is a prime ideal if and only if $S:=A\setminus P$ is multiplicatively closed.
-    We denote $A_P:=S^{-1}A$ and call it the \textbf{localisation of $A$ at $P$}.
-    Note that $A_P$ is a local ring (there is a unique maximal ideal).
-    To see this, consider the ideal in $A_P$ generated by $\{a/1:a\in P\}$, and call it $PA_P$.
-    (In general, if $f:A\to B$ is an $A-$algebra and $I\subseteq A$ an ideal, then $IB:=\{f(a):a\in I\}$ is an extension ideal.)
-    One can verify that $PA_P=\{a/s:a\in P,s\notin P\}$.
-    If $\frac{a}{s}\in A_P\setminus PA_P$, then $a\notin P$ so $a\in S$, hence $\frac{s}{a}\in A_P$, so $\frac{s}{a}\in _P$.
+\subsection{Localization}
+Note that $P\subseteq A$ is a prime ideal if and only if $S:=A\setminus P$ is multiplicatively closed.
+We write $A_P:=S^{-1}A$ and call it the \mbf{localisation of $A$ at $P$}.
+\begin{proposition}
+    $A_P$ is a local ring (it has a unique maximal ideal).
+\end{proposition}
+\begin{proof}
+    Consider the ideal in $A_P$ generated by $\{a/1:a\in P\}=:PA_P$.
+    One can verify that
+    \begin{equation*}
+        PA_P=\left\{\frac{a}{s}:a\in P,s\notin P\right\}
+    \end{equation*}
+    If $\frac{a}{s}\in A_P\setminus PA_P$, then $a\notin P$ so $a\in S$ so that $\frac{s}{a}\in A_P$.
     Then $s/a=(a/s)^{-1}$, so $a/s\in (A_P)^\times$.
     If $I\subseteq A_P$ is an ideal and $I\not\subseteq PA_P$, then $A$ must contain a unit and $I=A_P$.
-    That is to say, every proper ideal of $A_p$ is contained in $PA_P$.
-    Thus $A_P$ is a local ring with a unique maximal ideal $PA_P$.
-
+    This means that every proper ideal of $A_p$ is contained in $PA_P$ so that $A_P$ is a local ring with a unique maximal ideal $PA_P$.
+\end{proof}
+\begin{example}
     Consider $A=\Z$, $p$ a prime number, $P=(p)$.
-    Then $\Z_{(p)}=\left\{\frac{r}{s}:r,s\in\Z\text{ coprime},p\nmid s\right\}\subseteq\Q$.
+    Then
+    \begin{equation*}
+        \Z_{(p)}=\left\{\frac{r}{s}:r,s\in\Z,\gcd(r,s)=1,p\nmid s\right\}\subseteq\Q
+    \end{equation*}
 \end{example}
-\begin{enumerate}
-    \item Let $P\subseteq A$ a prime ideal, $S=A\setminus P$.
-        Then $A_p=S^{-1}A$ is a local ring with maximal ideal $PA_p=\left\{\frac{a}{s}:a\in P,s\notin P\right\}$.
-        Then $S^{-1}A$ is an $A-$algebra with $\alpha:A\to S^{-1}A$ with $a\mapsto\frac{a}{1}$.
-        Given an ideal $I\subseteq A$, $IS^{-1}A$ is the ideal in $S^{-1}A$ generated by $\alpha(I)$, the \textbf{extension ideal}.
-        This is a \textbf{localisation of $A$ at $P$}/
-    \item Given $f\in A\setminus\{0\}$, $S=\{1,f,f^2,\ldots,\}$ and $A_f:= S^{-1}A$.
-        This is the \textbf{localisation of $A$ at $f$}.
-        Note that $A_f$ is not necessarily a local ring.
-        If $f$ is a unit, then $A_f\cong A$ via $\alpha$.
-\end{enumerate}
+Given $f\in A\setminus\{0\}$ consider $S=\{1,f,f^2,\ldots,\}$ and define $A_f:= S^{-1}A$.
+This is the \mbf{localisation of $A$ at $f$}.
+Note that $A_f$ is not necessarily a local ring.
+If $f$ is a unit, then $f^n$ is a unit for all $n$ and $A_f\cong A$ via $\alpha$.
+
+\subsection{Modules of Fractions}
+Let $A$ be a ring and $S\subseteq A$ a multiplicatively closed set.
+If $M$ is an $A-$module, we can define an $S^{-1}A-$module structure on $S^{-1}M$ as follows.
+
+On $M\times S$, define an equivalence relation $(x,s)\sim(x',s')$ if there exists $t\in S$ such that $t(s'x-sx')=0$.
+Denote the equivalence class of $(x,s)$ by $x/s$, and define $S^{-1}M:=\quot{M\times S}{\sim}$ with operations
+\begin{equation*}
+    \frac{x}{s}+\frac{y}{t}=\frac{tx+sy}{st},\qquad\frac{a}{s}\cdot\frac{x}{t}=\frac{ax}{st}
+\end{equation*}
+\begin{example}
+    Recall that if $A$ is an integral domain and $S=A\setminus\{0\}$, then $S^{-1}A=\Frac(A)=A_{(0)}$.
+    Then $M$ is an $A-$module and $S^{-1}M$ is a $\Frac(A)-$vector space.
+\end{example}
+\begin{proposition}
+    $S^{-1}$ is an exact covariant functor on $A-$modules.
+\end{proposition}
+\begin{proof}
+    $S^{-1}$ acts on $A-$linear maps as follows.
+    Let $f:M\to N$ be an $A-$module homomorphism.
+    Then we define $S^{-1}f:S^{-1}M\to S^{-1}N$ by $\frac{x}{s}\mapsto\frac{f(x)}{s}$.
+    One must check
+    \begin{enumerate}[nolistsep]
+        \item $S^{-1}f$ is well-defined,
+        \item $S^{-1}f$ is $S^{-1}A$-linear, and
+        \item if $M\fto{f}N\fto{g}K$, then
+            \begin{align*}
+                S^{-1}(g\circ f)&=S^{-1}g\circ S^{-1}f & S^{-1}M&\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K
+            \end{align*}
+    \end{enumerate}
+    To verify exactness, suppose $M\fto{f} N\fto{g} K$ is exact.
+    Consider
+    \begin{equation*}
+        S^{-1}M\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K
+    \end{equation*}
+    Since $\im(f)\subseteq\ker(g)$, $g\circ f=0$.
+    Thus $0=S^{-1}(g\circ f)=S^{-1}(g)\circ S^{-1}(f)$, so $\im(S^{-1} f)\subseteq\ker(S^{-1}g)$.
+
+    Conversely, if $\frac{m}{s}\in\ker(S^{-1}g)$ with $m\in N$, then $0=S^{-1}g\left(\frac{m}{s}\right)=\frac{g(m)}{s}$.
+    Thus $tg(m)=0$ for some $t\in S$, so $g(tm)=0$.
+    Thus $tm\in\ker(g)\subseteq\im(f)$ and $tm=f(x)$ for some $x\in M$.
+    Then $\frac{m}{s}=\frac{tm}{ts}=\frac{f(x)}{ts}=S^{-1}f\left(\frac{x}{ts}\right)$ and $\frac{m}{s}\in\im(s^{-1}f)$.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nolistsep]
+        \item Let $N\subseteq M$ a submodule, and $\iota:N\to M$ the inclusion map.
+            Then $S^{-1}\iota:S^{-1}N\to S^{-1}M$ is injective, so we may identify $S^{-1}N$ with its image so $S^{-1}N\subseteq S^{-1}M$ as submodules.
+        \item If $N\leq M$ is a submodule, then $S^{-1}\left(\quot{M}{N}\right)\cong\quot{S^{-1}M}{S^{-1}N}$.
+        \item If $N,P$ are submodules of $M$, then $S^{-1}(N+P)=S^{-1}N+S^{-1}P$.
+        \item If $N,P$ submodules of $M$, $S^{-1}(N\cap P)=S^{-1}N\cap S^{-1}P$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item (No proof needed)
+        \item Since $0\to N\to M\to M/N\to 0$ is exact, so is $0\to S^{-1}M\to S^{-1}M\to S^{-1}(M/N)\to 0$.
+            Then $S^{-1}(M/N)\cong \quot{S^{-1}M}{S^{-1}N}$.
+        \item Clearly $\frac{x+y}{s}\in S^{-1}(N+P)$ if and only if $\frac{x}{s}+\frac{y}{s}\in S^{-1}N+S^{-1}P$.
+        \item TODO: am I missing something? Immediate from definition?
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $M$ be an $A-$module, $S\subseteq A$ multiplicatively closed.
+    Then $S^{-1}M\cong M\otimes_A S^{-1}A$ as $S^{-1}A-$modules.
+\end{proposition}
+\begin{proof}
+    Let's first prove there exists an $A-$linear isomorphism.
+    Consider the map $M\times S^{-1}A\to S^{-1}M$ by $(x,a/s)\mapsto (ax)/s$.
+    This map is $A-$bilinear, so we get an $A-$linear homomorphism $f:M\otimes_A S^{-1}A\to S^{-1}M$ with $m\otimes\frac{a}{s}\mapsto\frac{ma}{s}$.
+    Surjectivity is clear.
+    To see injectivity, note that all elements of $M\otimes_A S^{-1}A$ are pure tensors:
+    \begin{align*}
+        \sum_{i=1}^l\left(x_i\otimes\frac{a_i}{s_i}\right)&=\sum_{i=1}^l\left(x_i\otimes \frac{a_it_i}{t}\right)= \sum_{i=1}^l\left(a_it_ix_i\otimes\frac{1}{t}\right)=\left(\sum_{i=1}^l a_it_ix_i\right)\otimes\frac{1}{t}
+    \end{align*}
+    where $t=s_1\cdots s_l$ and $t_i=t/s_i$.
+    Now if $x\otimes\frac{a}{s}\in\ker(f)$, then $\frac{ax}{s}=0$ so get $r$ so $rax=0$.
+    Thus $x\otimes\frac{a}{s}=rax\otimes\frac{1}{rs}=0$.
+
+    Thus $f$ is an $A-$linear isomorphism and one can check that it is $S^{-1}A-$linear.
+\end{proof}
+\begin{corollary}
+    $S^{-1}A$ is a flat $A-$algebra, i.e. $\otimes S^{-1}A$ is exact.
+\end{corollary}
+\begin{proof}
+    Suppose $M'\to M\to M''$ is exact; since $S^{-1}$ is exact, the diagram
+    \begin{center}
+        \begin{tikzcd}
+            S^{-1}M'\rar["S^{-1}f"]\dar["\rotatebox{90}{$\sim$}"]&S^{-1}M\dar["\rotatebox{90}{$\sim$}"]\rar["S^{-1}g"] &S^{-1}M''\dar["\rotatebox{90}{$\sim$}"]\\
+            M'\otimes_A S^{-1}A\arrow[r,"f\otimes\id"] & M\otimes_A S^{-1}A\arrow[r,"g\otimes\id"] & M''\otimes_A S^{-1}A
+        \end{tikzcd}
+    \end{center}
+    commutes.
+\end{proof}
+This gives many examples of flat and not free $A-$algebras.
+\begin{example}
+    $\Q$ is a flat but not free $\Z-$algebra.
+    If $\frac{r}{s}\in\Q$, then $s\cdot\frac{r}{s}-r\cdot 1=0$, so $\{r/s,1\}$ is not $\Z-$linearly independent.
+    However, $\Q\ncong\Z$ as $\Z-$modules, so it cannot be free.
+\end{example}
+\begin{remark}
+    If $I\subseteq A$ is an ideal, recall that $I$ is naturally an $A-$module.
+    In particular, $IS^{-1}A=S^{-1}I=\{a/s:a\in I\}$.
+    To see this, it is straightfoward to verify that $IS^{-1}A\cong I\otimes_A S^{-1}A$ via the map
+    \begin{equation*}
+        \sum b_i\cdot\frac{a_i}{s_i}\mapsto \sum b_i\otimes_A\frac{a_i}{s_i}
+    \end{equation*}
+\end{remark}
+\begin{proposition}
+    Let $S\subseteq A$ be multiplicatively closed.
+    Then
+    \begin{enumerate}[nl,r]
+        \item Every ideal of $S^{-1}A$ is an extension ideal.
+        \item If $I\subseteq A$ is an ideal, then $A\cap (S^{-1}I)=\bigcup_{s\in S}(I:s)$ where $(I:s):=\{x\in A:sx\in I\}$.
+        \item $I\subseteq A$ is a contraction ideal if and only if no element of $S/I$ is a zero divisor in $A/I$.
+            In particular, if $P\in\Spec(A)$, then $P$ is a contraction if and only if $P\cap S\neq\emptyset$.
+        \item We have a bijective correspondence
+            \begin{center}
+                \begin{tikzcd}[row sep=tiny]
+                    \{P\in\Spec(A):P\cap S=\emptyset\}\rar[leftrightarrow]&\Spec(S^{-1}A)\\
+                    P\rar[maps to]&S^{-1}P\\
+                    Q\cap A & Q\lar[maps to]
+                \end{tikzcd}
+            \end{center}
+            % TODO: move this to Zariski topology part
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item In fact, we show that if $J\subseteq S^{-1}A$, then $J=(J\cap A)S^{-1}A$.
+            Suppose $\frac{x}{s}\in J$, so $\frac{x}{1}=s\cdot\frac{x}{s}\in J$ and $x\in J\cap A$, so $\frac{x}{s}\in S^{-1}(J\cap A)$.
+            If $\frac{x}{s}\in S^{-1}(J\cap A)$, then $x\in J\cap A$ so $\frac{x}{1}\in J$, so $\frac{x}{s}=\frac{1}{s}\cdot\frac{x}{1}\in J$.
+        \item Let $x\in I\cap(S^{-1}I)$, so $\frac{x}{1}\in S^{-1}I$ and $\frac{x}{1}=\frac{a}{s}$.
+            The $tsx=ta$ for some $t\in S$, so $tsx\in I$ and $x\in(I:ts)$.
+            Thus $A\cap (S^{-1}I)\subseteq\bigcup_{s\in S}(I:s)$.
+
+            Conversely, suppose $x\in(I:s)$ for some $s\in S$.
+            Then $sx\in I$, so $\frac{x}{1}=\frac{sx}{x}\in S^{-1}I$, so $x\in S^{-1}I\cap A$.
+        \item Suppose $I=J\cap A$ for some $J\subseteq S^{-1}A$ ideal.
+            Then $S^{-1}I\subseteq J$, so $A\cap S^{-1}I\subseteq A\cap J=I$.
+            Conversely, $I\subseteq A\cap S^{-1}I$.
+            This proves the ``in this case clause''.
+
+            Now $I$ is a contraction ideal iff $I=S^{-1}I\cap A$ iff $I=\bigcup_{s\in I}(I:s)$ iff for all $x\in A$ and $s\in S$, if $sx\in I$, then $x\in I$ iff $s+I$ is not a zero divisor in $A/I$ for any $s\in S$.
+    \end{enumerate}
+\end{proof}
+
+\chapter{Zariski Topology}
+Let $A$ be a ring and $X=\Spec(A)$ be the set of all prime ideals in $A$.
+For any $E\subseteq A$ (not necessarily an ideal), we write $V(E)=\{P\in \Spec(A):P\cap E=\emptyset\}$.
+If $f\in A$, we say $D_f=V(f)^c$.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item If $I=(E)$ is the ideal generated by $E$, then $V(E)=V(I)=V(\sqrt{I})$.
+        \item $V(0)=\Spec(A)$, $V(1)=\emptyset$.
+        \item If $\{E_i\}_{i\in I}$ is a family of subsets in $A$, then
+            \begin{equation*}
+                V\left(\bigcup_{i\in I}E_i\right)=V\left(\sum_{i\in I}E_i\right)=\bigcap_{i\in I}V(E_i)
+            \end{equation*}
+        \item $V(I\cap J)=V(IJ)=V(I)\cup V(J)$.
+    \end{enumerate}
+\end{proposition}
+In particular, this means that the sets $V(E)$ satisfy the axioms of closed sets in a topological space.
+The resulting topology is called the \textbf{Zariski topology} and $\Spec(A)$ is a topological space.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item $\Spec(A)$ is generated by $\{D_f:f\in A\}$.
+        \item $D_f\cap D_g=D_{fg}$
+        \item $D_f=\Spec(A)$ if and only if $f$ is a unit.
+        \item $D_f\subseteq D_g$ if and only if $\sqrt{(f)}\subseteq\sqrt{(g)}$.
+        \item $D_f$ is compact (in particular, $\Spec(A)$ is compact).
+        \item $U\subseteq\Spec(A)$ is compact if and only if $U=\bigcup_{i=1}^n D_{f_i}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Will do later.
+\end{proof}
+\begin{proposition}
+    $V(I)$ is homeomorphic to $\Spec(A/I)$.
+    $A_f$ is homemorphic to $V(A\setminus S)$ where $S=\{1,f,f^2,\ldots\}$.
+\end{proposition}
+% TODO ideal quotient as set difference?
 \subsection{Zariski Topology}
 Let $A$ be a ring, and $\Spec(A)$ is the set of all prime ideals of $A$.
 Put a topology on $\Spec(A)$: given $E\subseteq A$ a subset, let $V(E):=\{P\in\Spec(A):P\supseteq E\}\subseteq\Spec(A)$.
@@ -1673,168 +1873,6 @@ $p\in\Spec(A_f)\cap\Spec(A_f)$.
     \{\Spec(A_f):f\notin P\}
 \end{equation*}
 is the set of all basic open sets containing $P$, and $\Spec(A_p)$ is the intersection of all these.
-\subsection{Modules of Fractions}
-Let $A$ be a ring, $S\subseteq A$ a multiplicatively closed set.
-If $M$ is an $A-$module, we can define an $S^{-1}A-$module structure on $S^{-1}M$ as follows: on $M\times $S, define an equivalence relation $(x,s)\equiv(x',s')$ if there exists $t\in S$ such that $t(s'x-sx')=0$.
-Denote $(x,y)/\equiv$ by $x/s$, and define $S^{-1}M:=M\times S/\equiv$ with operations
-\begin{equation*}
-    \frac{x}{s}+\frac{y}{t}=\frac{tx+sy}{st},\qquad\frac{a}{s}\cdot\frac{x}{t}=\frac{ax}{st}
-\end{equation*}
-\begin{example}
-    If $A$ is an integral domain, $S=A\setminus\{0\}$, then $S^{-1}A=\Frac(A)=A_{(0)}$.
-    Then $M$ is an $A-$module, so $S^{-1}M$ is a $\Frac(A)-$vector space.
-\end{example}
-\begin{proposition}
-    $S^{-1}$ is an exact covariant functor on $A-$modules.
-\end{proposition}
-\begin{proof}
-    $S^{-1}$ acts on $A-$linear maps as follows: $f:M\to N$ is an $A-$module homomorphism, $S^{-1}f:S^{-1}M\to S^{-1}N$ by $\frac{x}{s}\mapsto\frac{f(x)}{s}$.
-    One must check:
-    \begin{enumerate}[nolistsep]
-        \item The map is well-defined.
-        \item $S^{-1}A$-linear
-        \item If $M\fto{f}N\fto{g}K$, then $S^{-1}(g\circ f)=S^{-1}g\circ S^{-1}f$, and $S^{-1}M\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K$.
-    \end{enumerate}
-    To verify exactness, suppose $M\fto{f} N\fto{g} K$ is exact.
-    Consider $S^{-1}M\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K$.
-    Since $\im(f)\subseteq\ker(g)$, $g\circ f=0$.
-    Thus $0=S^{-1}(g\circ f)=S^{-1}(g)\circ S^{-1}(f)$, so $\im(S^{-1} f)\subseteq\ker(S^{-1}g)$.
-    Conversely, if $\frac{m}{s}\in\ker(S^{-1}g)$ with $m\in N$, then $0=S^{-1}g(m/s)=\frac{g(m)}{s}$.
-    Thus $tg(m)=0$ for some $t\in S$, so $g(tm)=0$.
-    Thus $tm\in\ker(g)\subseteq\im(f)$ and $tm=f(x)$ for some $x\in M$.
-    Then $\frac{m}{s}=\frac{tm}{ts}=\frac{f(x)}{ts}=S^{-1}f\left(\frac{x}{ts}\right)$ and $\frac{m}{s}\in\im(s^{-1}f)$.
-\end{proof}
-\begin{corollary}
-    \begin{enumerate}[nolistsep]
-        \item Let $N\subseteq M$ a submodule, and $\iota:N\to M$ the inclusion map.
-            Then $S^{-1}\iota:S^{-1}N\to S^{-1}M$ is injective, so we may identify $S^{-1}N$ with its image so $S^{-1}N\subseteq S^{-1}M$ as submodules.
-        \item If $N\leq M$ is a submodule, then $S^{-1}(M/N)\cong S^{-1}M/S^{-1}N$.
-        \item If $N,P$ are submodules of $M$, then $S^{-1}(N+P)=S^{-1}N+S^{-1}P$.
-        \item If $N,P$ submodules of $M$, $S^{-1}(N\cap P)=S^{-1}N\cap S^{-1}P$.
-    \end{enumerate}
-\end{corollary}
-\begin{proof}
-    \begin{enumerate}[nolistsep]
-        \item (No proof needed)
-        \item Since $0\to N\to M\to M/N\to 0$ is exact, so is $0\to S^{-1}M\to S^{-1}M\to S^{-1}(M/N)\to 0$ is exact, and $S^{-1}(M/N)\cong S^{-1}M/S^{-1}N$.
-        \item One can check using the definition
-        \item Exercise.
-    \end{enumerate}
-\end{proof}
-\begin{proposition}
-    Let $M$ be an $A-$module, $S\subseteq A$ multiplicatively closed.
-    Then $S^{-1}M\cong M\otimes_A S^{-1}A$ as $S^{-1}A-$modules.
-\end{proposition}
-\begin{proof}
-    Let's first prove there exists an $A-$linear isomorphism.
-    Consider the map $M\times S^{-1}A\to S^{-1}M$ by $(x,a/s)\mapsto (ax)/s$.
-    This map is $A-$bilinear, so we get an $A-$linear homomorphism $f:M\otimes_A S^{-1}A\to S^{-1}M$ with $m\otimes\frac{a}{s}\mapsto\frac{ma}{s}$.
-    Surjectivity is clear.
-    To see injectivity, note that all elements of $M\otimes_A S^{-1}A$ are pure tensors:
-    \begin{align*}
-        \sum_{i=1}^l\left(x_i\otimes\frac{a_i}{s_i}\right)&=\sum_{i=1}^l\left(x_i\otimes \frac{a_it_i}{t}\right)\\
-                                                          &= \sum_{i=1}^l\left(a_it_ix_i\otimes\frac{1}{t}\right)=\left(\sum_{i=1}^l a_it_ix_i\right)\otimes\frac{1}{t}
-    \end{align*}
-    Now if $x\otimes\frac{a}{s}\in\ker(f)$, then $\frac{ax}{s}=0$ so get $t$ so $tax=0$.
-    Thus $x\otimes\frac{a}{s}=tax\otimes\frac{1}{ts}=0$.
-
-    Thus $f$ is an $A-$linear isomorphism, so we can check that it is $S^{-1}A-$linear.
-\end{proof}
-We actually have that tensoring and taking fractions are isomorphisms of functors.
-\begin{corollary}
-    $S^{-1}A$ is a flat $A-$algebra, i.e. $\otimes S^{-1}A$ is exact.
-\end{corollary}
-\begin{proof}
-    Suppose $M'\to M\to M''$ is exact; since $S^{-1}$ is exact,
-    \begin{center}
-        \begin{tikzcd}
-            S^{-1}M\arrow[r,"S^{-1}f"] &S^{-1}M\arrow[r,"S^{-1}g"] &S^{-1}M''\\
-            M'\otimes_A S^{-1}A\arrow[r,"f\otimes\id"] & M\otimes_A S^{-1}A\arrow[r,"g\otimes\id"] & M''\otimes_A S^{-1}A
-        \end{tikzcd}
-    \end{center}
-\end{proof}
-This gives many examples of flat and not free $A-$algebras.
-\begin{example}
-    $\Q$ is a flat but not free $\Z-$algebra.
-    If $\frac{r}{s}\in\Q$, then $s\cdot\frac{r}{s}-r\cdot 1=0$, so $\{r/s,1\}$ is not $\Z-$linearly independent.
-    However, $\Q\ncong\Q$.
-\end{example}
-\begin{definition}
-    If $B$ is an $A-$algebra, $I\subseteq A$ an ideal, then $IB$ is the ideal generated by $f(I)$, the \textbf{extension ideal}.
-    If $J\subseteq B$ is an ideal, then $J\cap A:=f^{-1}(J)$ is the \textbf{contraction ideal}.
-\end{definition}
-\begin{proposition}
-    Let $S\subseteq A$ be multiplicatively closed.
-    Then
-    \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item Every ideal of $S^{-1}A$ is an extension ideal.
-        \item If $I\subseteq A$ is an ideal, then $A\cap (S^{-1}I)=\bigcup_{s\in S}\{x\in A:sx\in I\}$.
-            We write $(I:s)=\{x\in A:sx\in I\}$.
-        \item $I\subseteq A$ is a contraction ideal if and only if no element of $S/I$ is a zero divisor in $A/I$.
-            In particular, if $P\in\Spec(A)$, then $P$ is a contraction if and only if $P\cap S\neq\emptyset$.
-        \item We have a bijective correspondence $\{P\in\Spec(A):P\cap S=\emptyset\}\longleftrightarrow\Spec(S^{-1}A$ with $P\mapsto S^{-1}P$ and $Q\cap A\mapsfrom Q$.
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    \begin{enumerate}[label=(\roman*)]
-        \item In fact, we show that if $J\subseteq S^{-1}A$, then $J=(J\cap A)S^{-1}A$.
-            Suppose $\frac{x}{s}\in J$, so $\frac{x}{1}=s\cdot\frac{x}{s}\in J$ and $x\in J\cap A$, so $\frac{x}{s}\in S^{-1}(J\cap A)$.
-            If $\frac{x}{s}\in S^{-1}(J\cap A)$, then $x\in J\cap A$ so $\frac{x}{1}\in J$, so $\frac{x}{s}=\frac{1}{s}\cdot\frac{x}{1}\in J$.
-        \item Let $x\in I\cap(S^{-1}I)$, so $\frac{x}{1}\in S^{-1}I$ and $\frac{x}{1}=\frac{a}{s}$.
-            The $tsx=ta$ for some $t\in S$, so $tsx\in I$ and $x\in(I:ts)$.
-            Thus $A\cap (S^{-1}I)\subseteq\bigcup_{s\in S}(I:s)$.
-
-            Conversely, suppose $x\in(I:s)$ for some $s\in S$.
-            Then $sx\in I$, so $\frac{x}{1}=\frac{sx}{x}\in S^{-1}I$, so $x\in S^{-1}I\cap A$.
-        \item Suppose $I=J\cap A$ for some $J\subseteq S^{-1}A$ ideal.
-            Then $S^{-1}I\subseteq J$, so $A\cap S^{-1}I\subseteq A\cap J=I$.
-            Conversely, $I\subseteq A\cap S^{-1}I$.
-            This proves the ``in this case clause''.
-
-            Now $I$ is a contraction ideal iff $I=S^{-1}I\cap A$ iff $I=\bigcup_{s\in I}(I:s)$ iff for all $x\in A$ and $s\in S$, if $sx\in I$, then $x\in I$ iff $s+I$ is not a zero divisor in $A/I$ for any $s\in S$.
-    \end{enumerate}
-\end{proof}
-\begin{remark}
-    If $I\subseteq A$ is an ideal, then $IS^{-1}A=S^{-1}I=\{a/s:a\in I\}$.
-    If $a\in I$, then $a/s=a/1\cdot 1/s\in IS^{-1}A$.
-    Conversely, one can use the tensor representation.
-\end{remark}
-
-\chapter{Zariski Topology}
-Let $A$ be a ring and $X=\Spec(A)$ be the set of all prime ideals in $A$.
-For any $E\subseteq A$ (not necessarily an ideal), we write $V(E)=\{P\in \Spec(A):P\cap E=\emptyset\}$.
-If $f\in A$, we say $D_f=V(f)^c$.
-\begin{proposition}
-    \begin{enumerate}[nl,r]
-        \item If $I=(E)$ is the ideal generated by $E$, then $V(E)=V(I)=V(\sqrt{I})$.
-        \item $V(0)=\Spec(A)$, $V(1)=\emptyset$.
-        \item If $\{E_i\}_{i\in I}$ is a family of subsets in $A$, then
-            \begin{equation*}
-                V\left(\bigcup_{i\in I}E_i\right)=V\left(\sum_{i\in I}E_i\right)=\bigcap_{i\in I}V(E_i)
-            \end{equation*}
-        \item $V(I\cap J)=V(IJ)=V(I)\cup V(J)$.
-    \end{enumerate}
-\end{proposition}
-In particular, this means that the sets $V(E)$ satisfy the axioms of closed sets in a topological space.
-The resulting topology is called the \textbf{Zariski topology} and $\Spec(A)$ is a topological space.
-\begin{proposition}
-    \begin{enumerate}[nl,r]
-        \item $\Spec(A)$ is generated by $\{D_f:f\in A\}$.
-        \item $D_f\cap D_g=D_{fg}$
-        \item $D_f=\Spec(A)$ if and only if $f$ is a unit.
-        \item $D_f\subseteq D_g$ if and only if $\sqrt{(f)}\subseteq\sqrt{(g)}$.
-        \item $D_f$ is compact (in particular, $\Spec(A)$ is compact).
-        \item $U\subseteq\Spec(A)$ is compact if and only if $U=\bigcup_{i=1}^n D_{f_i}$.
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    Will do later.
-\end{proof}
-\begin{proposition}
-    $V(I)$ is homeomorphic to $\Spec(A/I)$.
-    $A_f$ is homemorphic to $V(A\setminus S)$ where $S=\{1,f,f^2,\ldots\}$.
-\end{proposition}
-% TODO ideal quotient as set difference?
 \chapter{Primary Decomposition}
 \section{Radicals and Ideal Quotients}
 \begin{definition}
