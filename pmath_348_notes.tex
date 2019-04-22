@@ -23,9 +23,10 @@
 % Set tikz
 \usepackage{tikz, pgfplots}
 \pgfplotsset{compat=1.15}
-\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{intersections,positioning,cd,fit,backgrounds}
 \usetikzlibrary{arrows,arrows.meta}
 \tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+\tikzset{>=stealth}
 
 
 % macros -----------------------------------------------------------------------
@@ -211,10 +212,21 @@
 \renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
 \renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
 \renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\newcommand{\trleq}{\trianglelefteq}
+\newcommand{\trgeq}{\trianglerighteq}
 
 
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator{\conj}{conj}
+\usepackage{showkeys}
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+    \vbox{
+        \baselineskip4\p@\lineskiplimit\z@
+        \kern-\p@
+        \hbox{.}\hbox{.}\hbox{.}
+}}
+\makeatother
 
 
 % constants --------------------------------------------------------------------
@@ -1226,6 +1238,7 @@ TODO
     \item full proof of algebraic closure
     \item isomorphism extension lemma in terms of emebeddings
     \item use lower case $k$ for base field to distinguish.
+    \item Use universal property of simple field extensions
 \end{itemize}
 \section{Galois Groups}
 Let $f(x)\in F[x]$ be non-constant, and $\alpha_1,\ldots,\alpha_n$ be the roots of $f(x)$ in its splitting field.
@@ -1351,7 +1364,7 @@ Thus the map $\Gal(K/F)\to S_n$ given by $\phi\mapsto\pi$ is injective.
 \section{Separable and Normal Extensions}
 \begin{definition}
     We say $\alpha\in K$ is \mbf{separable} if $\alpha$ is algebraic over $F$ and its minimal polynomial is separable (over $F$).
-    We say $K/F$ is \mbf{separable} if $K/F$ is algebraic and all elements of $K$ are separable over $K$.
+    We say $K/F$ is \mbf{separable} if $K/F$ is algebraic and all elements of $K$ are separable over $F$.
     A field $F$ is \mbf{perfect} if every algebraic extension of $F$ is separable.
 \end{definition}
 \begin{remark}
@@ -1418,7 +1431,7 @@ Thus the map $\Gal(K/F)\to S_n$ given by $\phi\mapsto\pi$ is injective.
     We say an extension $K/F$ is \mbf{simple} if there exists $\alpha\in K$ such that $K=F(\alpha)$.
     We say $\alpha$ is a \mbf{primitive element} for $K/F$.
 \end{definition}
-\begin{theorem}[Primitive Element]
+\begin{theorem}[Primitive Element]\label{thm:prim-el}
     If $K/F$ is finite and separable, then $K/F$ is simple.
 \end{theorem}
 \begin{proof}
@@ -1435,11 +1448,11 @@ Thus the map $\Gal(K/F)\to S_n$ given by $\phi\mapsto\pi$ is injective.
     \begin{equation*}
         S=\left\{\frac{\alpha_i-\alpha_1}{\beta_1-\beta_j}:1<i\leq n,1<j\leq m\right\}
     \end{equation*}
-    Since $S$ is finite and $F$ is infinite, get $u\notin F$ so that $\gamma:=\alpha+u\beta\neq\alpha_i+u\beta_j$ for any $i,j\neq 1$.
+    Since $S$ is finite and $F$ is infinite, get $u\in S\setminus F$ so that $\gamma:=\alpha+u\beta\neq\alpha_i+u\beta_j$ for any $i,j\neq 1$.
     Certainly $F(\gamma)\subseteq F(\alpha,\beta)$.
     Let $h(x)$ be the minimal polynomial for $\beta$ over $F(\gamma)$.
     Since $q(x)\in F(\gamma)[x]$ and $q(\beta)=0$, $h(x)|q(x)$.
-    As well, $h(x)|p(\gamma-u\beta)$, but the only shared root is $\beta$ so $\beta\in F(\gamma)$.
+    As well, $h(x)|p(\gamma-ux)$ since $p(\gamma-u\beta)=0$;  but the only shared root is $\beta$ by choice of $u$, $\deg h=1$ and $\beta\in F(\gamma)$.
 \end{proof}
 \begin{corollary}
     If $F$ is perfect and $[K:F]<\infty$, then $K/F$ is simple.
@@ -1454,7 +1467,7 @@ TODO: move def'n of conjugates somewhere more logical.
 \begin{remark}
     If $\phi:K\to E$ is an $F-$map and $\alpha$ has minimal polynomial $p(x)\in F[x]$, then $p(\phi(\alpha))=\phi(p(\alpha))=\phi(0)=0$, so that $\phi(\alpha)$ is also a conjugate of $p(x)$ in a splitting field $L/F$.
 \end{remark}
-\begin{theorem}
+\begin{theorem}[Characterization of Normal Extensions]\label{thm:char-norm}
     Let $[K:F]<\infty$.
     The following are equivalent:
     \begin{enumerate}[nolistsep]
@@ -1477,7 +1490,7 @@ TODO: move def'n of conjugates somewhere more logical.
     Let $\alpha\in K$ with minimal polynomial $f(x)\in F[x]$.
     Since $[K:F]<\infty$, $K=F(\alpha_1,\ldots,\alpha_n)$ with $\alpha_i\in K$.
     For each $i$, let $h_i$ be the minimal polynomial for $\alpha_i$ over $F$.
-    Let $p(x)=f(x)h_1(x)h_2(x)\cdots h_n(x)$ and $L$ $L$ be the splitting field of $p(x)$ over $F$.
+    Let $p(x)=f(x)h_1(x)h_2(x)\cdots h_n(x)$ and $L$ be the splitting field of $p(x)$ over $F$.
     Such a choice is necessary to ensure $L/K/F$.
     Let $\beta\in L$ be a root of $f(x)$, and get $\phi\in\Gal(L/F)$ such that $\phi(\alpha)=\beta$.
     By assumption, $\phi|_K\in\Gal(K/F)$, so $\beta=\phi(\alpha)\in K$, as required.
@@ -1513,7 +1526,7 @@ TODO: move def'n of conjugates somewhere more logical.
 \begin{remark}
     Certainly $\Fix(\Gal(K/F))\supseteq F$ by definition.
 \end{remark}
-\begin{theorem}[Characterization of Galois Extensions]
+\begin{theorem}[Characterization of Galois Extensions]\label{thm:char-gal}
     The following are equivalent:
     \begin{enumerate}[nl]
         \item $K$ is the splitting field of a non-constant separable $f(x)\in F[x]$ over $F$.
@@ -1530,22 +1543,22 @@ TODO: move def'n of conjugates somewhere more logical.
     Assume $|\Gal(K/F)|=[K:F]$ and set $E=\Fix(\Gal(K/F))$ so that $K/E/F$ is a tower of fields.
     Moreover, $\Gal(K/E)\leq\Gal(K/F)$ is a subgroup so $[K:F]=|\Gal(K/F)|\geq|\Gal(K/E)|$.
     Let $a\in E$ and $\phi\in\Gal(K/F)$.
-    Then $\phi(a)=a$ by the definition of $E$, so $\Gal(K/E)=\Gal(K/F)$,
+    Then $\phi(a)=a$ by the definition of $E$, so $\Gal(K/E)=\Gal(K/F)$.
     Thus
     \begin{equation*}
         [K:F]=|\Gal(K/F)|=|\Gal(K/E)|\leq[K:E]\leq[K:F]
     \end{equation*}
-    so equality holds and $[E:F]=1$.
+    so equality holds and $[E:F]=1$ by the tower theorem.
 
     \imp{3}{4}
     Assume $\Fix(\Gal(K/F))=F$.
-    Let $\alpha\in K$ with minimal polynomial $p(x)\in F[x]$; we must show $p(x)$ splits over $K$ with no rpeated roots.
-    Let $G=\Gal(K/F)$ and $\Delta=\{\phi(\alpha):\phi\in G\}\subseteq K$.
-    Say $\alpha_1,\ldots,\alpha_n$ are the distinct elements of $\Delta$.
+    Let $\alpha\in K$ with minimal polynomial $p(x)\in F[x]$; we must show $p(x)$ that splits over $K$ with no repeated roots.
+    Let $G=\Gal(K/F)$ and $\{\alpha_1,\ldots,\alpha_n\}=\{\phi(\alpha):\phi\in G\}\subseteq K$.
     Without loss of generality, $\alpha=\alpha_1$, and consider $h(x)=(x-\alpha_1)\cdots(x-\alpha_n)\in K[x]$.
-    Then if $\phi\in G$, $\phi(h(x))=h(x)\in (\Fix G)[x]=F[x]$.
-    Thus $p(x)=h(x)$ splits over $K$ with no repeated roots ($h(x)|p(x)$ and $p(x)$ is the minimal polynomial and $h(\alpha)=0$, so $p(x)|h(x)$ and equality holds).
+    Then if $\phi\in G$, $\phi(h(x))=h(x)\in (\Fix G)[x]=F[x]$ since $\phi$ acts by permutation on the $\alpha_i$.
+    Thus $h(x)$ splits over $K$ with no repeated roots, and in fact $h(x)=p(x)$ since every root of $h(x)$ is a $F-$conjugate of $\alpha$, and thus a root of $p(x)$.
 
+    \imp{4}{1}
     Since $K/F$ is finite, $K=F(\alpha_1,\ldots,\alpha_n)$, $\alpha_i\in K$.
     For each $i$, let $q_i(x)\in F[x]$ be its minimal polynomial.
     Say $p_1(x),\ldots,p_m(x)$ is a list of distinct $q_i(x)$.
@@ -1554,20 +1567,22 @@ TODO: move def'n of conjugates somewhere more logical.
 \begin{example}
     Consider $\alpha=\sqrt{2+\sqrt{3}}\in\C$, with minimal polyomial $x^4-4x^2+1$.
     Since $\Q$ is perfect, we only need to check normality, and $f(x)$ has roots $\pm\sqrt{2\pm\sqrt{3}}$.
-    The $\Q-$conjugates of $\alpha$ rae $\pm\alpha,\pm\beta$ where $\beta=\sqrt{2-\sqrt{3}}$.
+    The $\Q-$conjugates of $\alpha$ are $\pm\alpha,\pm\beta$ where $\beta=\sqrt{2-\sqrt{3}}$.
     Since $\alpha\beta=1$, $\beta=\alpha^{-1}$.
     Thus $\pm\alpha$, $\pm\beta\in\Q(\alpha)$ and $\Q(\alpha)/\Q$ is normal.
-    \begin{tabular}{c|cccc|c}
-        & $\alpha$ & $-\alpha$ & $\beta$ & $-\beta$ & $S_4$\\
-        \hline
-        $\phi_1$ & $\alpha$ & $-\alpha$ & $\beta$ & $-\beta$ & $\epsilon$\\
-        $\phi_2$ & $-\alpha$ & $\alpha$ & $-\beta$ & $\beta$ & $(12)(34)$\\
-        $\phi_3$ & $\beta$ & $-\beta$ & $\alpha$ & $-\alpha$ & $(13)(24)$\\
-        $\phi_3$ & $-\beta$ & $\beta$ & $-\alpha$ & $\alpha$ & $(14)(23)$
-    \end{tabular}
+    \begin{equation*}
+        \begin{array}{c|cccc|c}
+            & \alpha & -\alpha & \beta & -\beta & S_4\\
+            \hline
+            \phi_1 & \alpha & -\alpha & \beta & -\beta & \epsilon\\
+            \phi_2 & -\alpha & \alpha & -\beta & \beta & (12)(34)\\
+            \phi_3 & \beta & -\beta & \alpha & -\alpha & (13)(24)\\
+            \phi_3 & -\beta & \beta & -\alpha & \alpha & (14)(23)
+        \end{array}
+    \end{equation*}
     so $G\cong\Z_2\times\Z_2$.
 \end{example}
-\begin{theorem}[Artin]
+\begin{theorem}[Artin]\label{thm:artin}
     Let $K$ be a field, $H$ a finite subgroup of $\Aut(K)$.
     Let $F=\Fix H$.
     Then
@@ -1578,37 +1593,38 @@ TODO: move def'n of conjugates somewhere more logical.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    Note that $H\subseteq\Gal(K/F)$ and $|H|\leq|\Gal(K/F)|\leq[K:F]$.
-    If we can show that $[K:F]\leq |H|$, we are done.
-    Let $m=|H|$, and et $\beta_1,\ldots,\beta_n\in K^\times$ be distinct, where $n>m$.
-    Let's show that $\{\beta_1,\ldots,\beta_n\}$ is $F-$linearly independent.
-    Consider the system
-   \begin{equation*}
-        \phi(\beta_1)x_1+\cdots+\phi(\beta_n)x_n=0
+    Let $\alpha\in K$ and $\sigma_1,\ldots,\sigma_r\in H$ with $r$ maximal such that the $\sigma_i(\alpha)$ are distinct.
+    If $\tau\in G$ is arbitrary, then $(\tau\circ\sigma_i(\alpha))$ differs from $(\sigma_i(\alpha))$ only by a permutation: by maximality of $r$, $\tau\circ\sigma_i(\alpha)=\sigma_j(\alpha)$ for every $i$ and some $j$.
+    Injectivity of $\tau$ shows that it is indeed a permutation.
+    Thus taking $\tau=\sigma_1^{-1}$ if necessary, we may assume that $\sigma_1(\alpha)=\alpha$ and $\alpha$ is a root of the polynomial
+    \begin{equation*}
+        f(x)=\prod_{i=1}^r(x-\sigma_i(\alpha))
     \end{equation*}
-    where $\phi$ ranges over $H$.
-    Since there are more variables than equations, this system has a non-trivial solution $(x_1,\ldots,x_n)\in K^n$.
-    Note that if $\psi\in H$, for all $\phi\in H$,
-    \begin{align*}
-        \phi(\beta_1)\psi(x_1)+\cdots+\phi(\beta_n)\psi(x_n) &=\psi(\psi^{-1}\circ\phi(\beta_1)x_1+\cdots+\psi^{-1}\circ\phi(\beta_n)x_n)\\
-                                                             &= \psi(0)=0
-    \end{align*}
-    Thus $(\psi(x_1),\ldots,\psi(x_n))$ is also a non-trivial solution.
-    Let $(x_1,\ldots,x_n)$ be a non-trivial solution with a minimal number of non-zer entries.
-    By re-ordering, we may assume this is of the form $(x_1,\ldots,x_r,0,\ldots,0)$ where $x_i\neq 0$ for $i=1,\ldots,r$.
-    Note that $r>1$; otherwise, $\phi(\beta_1)x_1=0$ implies $x_1=0$.
-    Thus we may assume $x_1=1$.
-    Note that $x_2,\ldots,x_r\\in F$: otherwise, get $i$ and $\psi\in H$ so that $\psi(x_i)\neq x_i$, so $x_i\notin\Fix(H)$.
-    Then $(1,\psi(x_2),\ldots,\psi(x_r),0,\ldots,0)$ is also a non-trivial solution so $(0,x_2-\psi(x_2),\ldots,x_r-\psi(x_r),0,\ldots,0)$ is also a non-trivial solution, contradicting minimality of $r$.
-    Thus $x_2,\ldots,x_r\in F$.
+    and for any $\tau\in G$, $\tau(f)=f$.
+    Thus $f(x)\in (\Fix H)[x]=F[x]$.
+    Since the $\sigma_i(\alpha)$ are distinct, $f$ is separable.
 
-    In particular, with $\phi=1$, $\beta\cdot 1+\beta_2x_2+\cdots+\beta_rx_r=0$, so $\{\beta_1,\ldots,\beta_r\}$ is $F-$linearly independent.
-    Thus $\{\beta_1,\ldots,\beta_r,\beta_{r+1},\ldots,\beta_n\}$ is $F-$linearly independent.
+    Since $\alpha\in K$ was arbitrary and $r\leq|H|$, we see that every $\alpha\in K$ is the root of a separable polynomial with degree at most $|H|$ and coefficients in $F$, and the polynomial splits in $K$.
+    Thus $K/F$ and since the minimal polynomial of each $\alpha\in F$ splits completely in $K$, $K/F$ is normal by \cref{thm:char-norm}.
+    In particular, by the primitive element theorem (\cref{thm:prim-el}), $K=F(\alpha)$ where the degree of $\alpha$ is at most $|H|$, so that $[K:F]\leq |H|$.
+
+    Note that $H\subseteq\Gal(K/F)$ and $|H|\leq|\Gal(K/F)|\leq[K:F]$; we have shown that $[K:F]\leq |H|$, so we're done.
 \end{proof}
-\begin{definition}
-    Let $K/F$; $\mathcal{E}=\{E:F\subseteq E\subseteq K\}$ be the set of intermediate subfields of $K/F$, and $\mathcal{H}$ the subgroups of $\Gal(K/F)$.
-\end{definition}
-\begin{theorem}[Fundamental Theorem of Galois Theory]
+\subsection{The Fundamental Theorem of Galois Theory}
+We adopt the following notation for the rest of this section.
+Suppose $K/F$: then $\mathcal{E}=\{E:F\subseteq E\subseteq K\}$ is the set of intermediate subfields of $K/F$, and $\mathcal{H}$ is the set of subgroups of $\Gal(K/F)$.
+We then define the \mbf{Galois correspondence} by
+\begin{center}
+    \begin{tikzcd}[row sep=tiny]
+        \mathcal{E}\rar[leftrightarrow]&\mathcal{H}\\
+        E\rar[maps to]&\Gal(K/E)\\
+        \Fix H & H\lar[maps to]
+    \end{tikzcd}
+\end{center}
+Note that if $E_1\subseteq E_2$ in $\mathcal{E}$, then $\Gal(K/E_1)\supseteq\Gal(K/E_2)$.
+Similarly, if $H_1\subseteq H_2$ in $\mathcal{H}$, then $\Fix H_1\supseteq\Fix H_2$.
+Thus the Galois correspondence is inclusion reversing.
+\begin{theorem}[Fundamental Theorem of Galois Theory]\label{thm:ftgt}
     Let $K/F$ be a finite Galois extension.
     The Galois correspondences give an inclusion-reversing bijection (antitone Galois connection) between $\mathcal{E}$ and $\mathcal{H}$:
     \begin{enumerate}[nolistsep]
@@ -1618,7 +1634,11 @@ TODO: move def'n of conjugates somewhere more logical.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    (1) follows since $K/F$ is normal and separable, $K/E$ is also normal and separable and the result follows by A7.
+    \begin{enumerate}[nl]
+        \item $K/F$ is normal and separable, so $K/E$ is also normal and separable so that $K/E$ is Galois.
+            Thus the result follows by \cref{thm:char-gal}.
+        \item This is a direct application of \cref{thm:artin}.
+    \end{enumerate}
 \end{proof}
 \begin{corollary}
     Suppose $K/F$ is finite Galois.
@@ -1632,31 +1652,92 @@ TODO: move def'n of conjugates somewhere more logical.
                             &= \frac{|H_2|}{|H_1|}=[H_2:H_1]
     \end{align*}
 \end{proof}
+To summarize the previous results, perhaps the easiest way to visualize it is with a digram.
+On the left, we have the subgroup lattice of $G=\Gal(K/F)$, and on the right, we have the intermediate fields of $K/F$.
+\begin{center}
+    \begin{tikzpicture}
+        \begin{scope}[xshift=-4.2cm,yshift=2.25cm]
+            \node (G)                  {$G$};
+            \node (H2) [below=of G]  {$H_2$};
+            \node (H1) [left=of H2]  {$H_1$};
+            \node (H3) [right=of H2] {$H_3$};
+
+            \node (D2) [below=0.7cm of H2] {$\rvdots$};
+            \node (D1) [below=0.7cm of H1]  {$\rvdots$};
+            \node (D3) [below=0.7cm of H3] {$\rvdots$};
+
+            \node (Z) [below=1cm of D2] {$\{1\}$};
+
+            \draw[shorten >=5pt] (Z) -- (D1.south);
+            \draw[shorten >=5pt] (Z) -- (D2.south);
+            \draw[shorten >=5pt] (Z) -- (D3.south);
+
+            \draw[shorten >=2pt] (D1) -- (H1);
+            \draw (D2) -- (H1);
+            \draw[shorten >=2pt] (D2) -- (H2);
+            \draw (D2) -- (H3);
+            \draw[shorten >=2pt] (D3) -- (H3);
+
+            \draw (G) --node[above left]{$\scriptstyle n_1$}(H1);
+            \draw (G) -- node[fill=white]{$\scriptstyle n_2$}(H2);
+            \draw (G) -- node[above right]{$\scriptstyle n_3$}(H3);
+        \end{scope}
+        \draw[->,thick](-2,0.5) -- node[above]{$H_i\mapsto \Fix(H_i)=E_i$}(2,0.5);
+        \draw[->,thick](2,-0.5) -- node[below]{$H_i=\Gal(K/E_i)\mapsfrom E_i$}(-2,-0.5);
+        \begin{scope}[xshift=4.2cm,yshift=-2.25cm]
+            \node (Gp)                  {$F$};
+            \node (H2p) [above=of Gp]  {$E_2$};
+            \node (H1p) [left=of H2p]  {$E_1$};
+            \node (H3p) [right=of H2p] {$E_3$};
+
+            \node (D2p) [above=0.7cm of H2p] {$\rvdots$};
+            \node (D1p) [above=0.7cm of H1p]  {$\rvdots$};
+            \node (D3p) [above=0.7cm of H3p] {$\rvdots$};
+
+            \node (Zp) [above=1cm of D2p] {$K$};
+
+            \draw[shorten >=5pt] (Zp) -- (D1p.north);
+            \draw[shorten >=5pt] (Zp) -- (D2p.north);
+            \draw[shorten >=5pt] (Zp) -- (D3p.north);
+
+            \draw[shorten >=2pt](D1p) -- (H1p);
+            \draw (D2p) -- (H1p);
+            \draw[shorten >=2pt] (D2p) -- (H2p);
+            \draw (D2p) -- (H3p);
+            \draw[shorten >=2pt] (D3p) -- (H3p);
+
+            \draw (Gp) --node[below left]{$\scriptstyle n_1$}(H1p);
+            \draw (Gp) -- node[fill=white]{$\scriptstyle n_2$}(H2p);
+            \draw (Gp) -- node[below right]{$\scriptstyle n_3$}(H3p);
+        \end{scope}
+    \end{tikzpicture}
+\end{center}
 \begin{example}
-    Consider $G=\Gal(x^3-2)$.
-    Since $\Q$ is perfect and $x^3-2$ is irreducible, then $x^3-2$ is separable, so $\Q(\alpha,S_3)$ is the splitting field for $x^3-2$ over $\Q$.
-    Then $|G|=6$ and since $G\leq S_3$, $|G|=6$.
+    Consider $G=\Gal(x^3-2)$ and set $\alpha=\sqrt[3]{2}$.
+    Since $\Q$ is perfect and $x^3-2$ is irreducible, then $x^3-2$ is separable, so $\Q(\alpha,\zeta_3)$ is the splitting field for $x^3-2$ over $\Q$.
+    Then $|G|=[\Q(\alpha,\zeta_3):\Q]=6$ and since $G\leq S_3$, $G\cong S_3$.
 \end{example}
-\begin{proposition}
+\begin{proposition}\label{prop:int-conj}
     Let $E$ be an intermediate subfield of $K/F$.
     For any $\phi\in\Gal(K/F)$, $\phi\Gal(K/E)\phi^{-1}=\Gal(K/\phi(E))$.
 \end{proposition}
 \begin{proof}
     For any $\psi\in\Aut(K)$,
     \begin{align*}
-        \psi\in\Gal(K/E) &\Leftrightarrow\psi(\alpha)=\alpha\forall\alpha\in E\\
-                         &\Leftrightarrow\psi\circ\phi^{-1}\circ\psi(\alpha)=\phi^{-1}\circ\phi(\alpha)\forall\alpha\in E\\
-                         &\Leftrightarrow \psi\circ\phi^{-1}(B)=\phi^{-1}(B)\forall B\in\phi(E)\\
-                         &\Leftrightarrow\phi\circ\psi\circ\psi^{-1}(B)=B\forall B\in\phi(E)\\
-                         &\Leftrightarrow\phi\circ\psi\circ\phi^{-1}\in\Gal(K/\phi(E))
+        \psi\in\Gal(K/E) &\iff\psi(\alpha)=\alpha\text{ for all }\alpha\in E\\
+                         &\iff\psi\circ\phi^{-1}\circ\phi(\alpha)=\phi^{-1}\circ\phi(\alpha)\text{ for all }\alpha\in E\\
+                         &\iff \psi\circ\phi^{-1}(\beta)=\phi^{-1}(\beta)\text{ for all } \beta\in\phi(E)\\
+                         &\iff\phi\circ\psi\circ\phi^{-1}(\beta)=\beta\text{ for all } \beta\in\phi(E)\\
+                         &\iff\phi\circ\psi\circ\phi^{-1}\in\Gal(K/\phi(E))
     \end{align*}
 \end{proof}
 \begin{definition}
-    We say $E$ is {\boldmath\bfseries invariant under $H$} if $\phi(E)=E$ for all $\phi\in H$.
+    Let $K/E/F$ and $H\leq\Gal(K/F)$.
+    We say $E$ is \mbf{invariant} under $H$ if $\phi(E)=E$ for all $\phi\in H$.
 \end{definition}
 \begin{proposition}
-    Suppose $K/F$ is finite,palois.
-    If $E$ is an intermediate subfield of $K/F$, then TFAE:
+    Suppose $K/F$ is finite and Galois.
+    If $E$ is an intermediate subfield of $K/F$, then the following are equivalent:
     \begin{enumerate}[nolistsep]
         \item $E/F$ is Galois
         \item $E$ is $\Gal(K/F)-$invariant
@@ -1664,42 +1745,46 @@ TODO: move def'n of conjugates somewhere more logical.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    ($2\Leftrightarrow 3$) is clear.
+    \impe{2}{3}
+    This is straightfoward in light of \cref{prop:int-conj}.
 
-    ($1\Rightarrow 2$).
-    Suppose $EF$ is Galois and take $\phi\in\Gal(K/F)$.
+    \imp{1}{2}
+    Suppose $E/F$ is Galois and take $\phi\in\Gal(K/F)$.
     Since $E/F$ is Galois, $\phi|_E\in\Gal(E/F)$; thus, $\phi|_E(E)=\phi(E)=E$.
 
-    ($2\Rightarrow 1$).
-    Suppose $E$ is $G-$invariant and $G=\Gal(K/F)$.
+    \imp{2}{1}
+    Suppose $E$ is $G-$invariant where $G=\Gal(K/F)$.
     By A7, $E/F$ is separable.
+    To show normality, we show that $E$ is closed under conjugation.
     Let $\alpha\in E$ with minimal polynomial $f(x)\in F[x]$.
     Since $K/F$ is normal, $f(x)$ splits over $K$.
     Let $\beta\in K$ be a $F-$conjugate of $\alpha$.
-    Since $f(x)\in F[x]$ is irreducible, there exists $\phi\in G$ such that $\phi(\alpha)=\beta$.
-    Then $\beta=\phi(\alpha)\in\phi(E)=E$.
+    Since $f(x)\in F[x]$ is irreducible, there exists $\phi\in G$ such that $\phi(\alpha)=\beta$ so that $\beta=\phi(\alpha)\in\phi(E)=E$.
 \end{proof}
 \begin{proposition}
     Let $K/E/F$, $K/F$ finite and Galois.
-    If $E/F$ is Galois, then $\Gal(E/F)\cong\Gal(K/F)/\Gal(K/E)$.
+    If $E/F$ is Galois, then $\Gal(E/F)\cong\quot{\Gal(K/F)}{\Gal(K/E)}$.
 \end{proposition}
 \begin{proof}
-    $\psi:\Gal(K/F)\to\Gal(E/F)$ has $\psi(\phi)=\phi|_E$ homomorphism.
-    Then $\ker\psi=\Gal(K/E)$.
+    Consider the map $\psi:\Gal(K/F)\to\Gal(E/F)$ given by $\psi(\phi)=\phi|_E$.
+    Then $\ker\psi=\Gal(K/E)$ and the result follows by the first isomorphism theorem.
 \end{proof}
-\begin{example}
-    $\Gal(\Q(\zeta_n)/\Q)$.
-    Note that $\Q(\zeta_n)$ is the splitting field for the separable polynomial $\Phi_n(x)$ over $\Q$.
-    Thus $\Q(\zeta_n)/\Q$ is Galois.
-    Let's show that $\Gal(\Q(\zeta_n)/\Q)\cong\Z_n^\times$.
-    In particular, consider the map $\psi:\Z_n^\times\to G$ by $\psi(k)=\{\zeta_n\mapsto\zeta_n^k\}$, which is an isomorphism.
-
-    $\Gal(\F_{p^n}/\F_p)$.
+\section{Galois Group Computations}
+\begin{example}[Cyclotomic Galois Group]
+    Let's compute $\Gal(\Q(\zeta_n)/\Q)$.
+    Note that $\Q(\zeta_n)$ is the splitting field for the separable polynomial $\Phi_n(x)$ over $\Q$ so that $\Q(\zeta_n)/\Q$ is Galois.
+    To see that $\Gal(\Q(\zeta_n)/\Q)\cong\Z_n^\times$, one can realize that the map $\psi:\Z_n^\times\to G$ by $\psi(k)=\{\zeta_n\mapsto\zeta_n^k\}$ is an isomorphism.
+\end{example}
+\begin{example}[Finite Field Galois Group]
+    We can also compute $\Gal(\F_{p^n}/\F_p)$.
     Since $\F_{p^n}$ is the splitting field of $x^{p^n}-x$ over $\F_p$, $\F_{p^n}/\F_p$ is Galois with index $n$.
     Consider the Frobenius map $\phi:\F_{p^n}\to \F_{p^n}$ such that $\phi(a)=a^p$; by Fermat, $\phi\in\Gal(\F_{p^n}/\F_p)$.
     Let $j=|\phi|$, so $j\leq n$.
-    Furthermore, every element of $\F_{p^n}$ is a root of $x^{p^j}-x$, $p^j\geq p^n$ so in fact $j=n$ and $G=\langle\phi\rangle$.
+    Furthermore, since $\phi$ is an automorphism, every element of $\F_{p^n}$ is a root of $x^{p^j}-x$, which is only possible if $j\geq n$.
+    Thus equiality holds and $G=\langle\phi\rangle$.
 \end{example}
+We now turn towards computing the Galois groups of arbitrary splitting fields of cubic and quadratic polynomials.
+To do this, we need to introduce some new machinery.
 \begin{definition}
     Let $f(x)\in F[x]$ be non-constant with splitting field $K$.
     Say $f(x)=u(x-\alpha_1)\cdots(x-\alpha_n)\in K[x]$.
@@ -1711,7 +1796,7 @@ TODO: move def'n of conjugates somewhere more logical.
 \end{definition}
 \begin{remark}
     \begin{enumerate}[nl,r]
-        \item $\disc f(x)\neq 0$ if and only if $f(x)$ is separable.
+        \item $\disc(f(x))\neq 0$ if and only if $f(x)$ is separable.
         \item If $f(x)=x^2+bx+c$, then $\disc f(x)=b^2-4c$.
     \end{enumerate}
 \end{remark}
@@ -1721,90 +1806,152 @@ TODO: move def'n of conjugates somewhere more logical.
 \end{lemma}
 \begin{proof}
     If $f(x)$ is not separable, this is obvious, so suppose $f(x)$ is separable.
-    For all $\phi\in\Gal(f(x))$, $\phi(\disc f(x))=\disc f(x)$, so $\disc f(x)\in\Fix G=F$.
+    For all $\phi\in\Gal(f(x))$, $\phi(\disc f(x))=\disc f(x)$, so $\disc f(x)\in\Fix(\Gal(f(x)))=F$.
 \end{proof}
-\begin{proposition}
-    Suppose $\chr F\neq 2$, $f(x)$ separable with degree $n\geq 2$, $G=\Gal f(x)$, $d=\prod_{i<j}(\alpha_i-\alpha_j)$.
+\begin{proposition}\label{prop:disc-an}
+    Suppose $\chr F\neq 2$, $f(x)$ separable with degree $n\geq 2$.
+    Set $G=\Gal f(x)$ and $d=\prod_{i<j}(\alpha_i-\alpha_j)$.
+
     If $\phi\in G\subseteq S_n$, then $\phi(d)=\pm d$.
     Moreover, $\phi(d)=d$ if and only if $\phi\in A_n$.
     In particular, $\Gal(K/F(d))=G\cap A_n$ and $G\subseteq A_n$ if and only if $d\in\Fix(G)=F$.
 \end{proposition}
 \begin{proof}
-    Let $\phi\in G$, so $d,\phi(d)$ are roots of $x^2-d^2\in F[x]$, so $\phi(d)=\pm d$.
+    Let $\phi\in G$, so $d,\phi(d)$ are roots of $x^2-d^2\in F[x]$; thus, $\phi(d)=\pm d$.
     Observe that $S_n$ acts on $X=\{d,-d\}$ by
     \begin{equation*}
-        \sigma\cdot\prod(\alpha_i-\alpha_j)=\prod(\alpha_{\sigma(i)}-\alpha_{\sigma(j)})
+        \sigma\cdot\prod_{i<j}(\alpha_i-\alpha_j)=\prod_{i<j}(\alpha_{\sigma(i)}-\alpha_{\sigma(j)})
     \end{equation*}
-    Moreover, $\epsilon\cdot d=d$ and $(n(n-1))\cdot d=-d$, so the action is transitive.
-    By Orbit-Stabilizer, $n!=|S_n|=|\Stab(d)|\cdot|\Orb(d)|=|\Stab(d)|\cdot 2$, so $\Stab(d)=A_n$.
+    Moreover, $\epsilon\cdot d=d$ and $((n)(n-1))\cdot d=-d$, so the action is transitive.
+    By Orbit-Stabilizer, $n!=|S_n|=|\Stab(d)|\cdot|S_n\cdot d|=|\Stab(d)|\cdot 2$, so $\Stab(d)=A_n$ since $A_n$ is the only index 2 subgroup of $S_n$.
 \end{proof}
-\subsection{Cubics}
+For the remainder of this section, we will assume that $\chr F\neq 2,3$.
+\subsection{Galois Groups from Cubic Splitting Fields}
+We first treat the case where $f(x)$ is cubic.
 If $f(x)\in F[x]$ is irreducible and separable, then $\Gal f(x)\cong S_3$ or $A_3$.
-Suppose $\chr F\neq 2,3$.
-Set $g(x)=x^3+\alpha x^2+\beta x+\gamma\in F[x]$ irreducible and separable.
-Then $f(x)=g(x-\alpha/3)=x^3+bx+c\in F[x]$.
-Since $f(x)$ is irreducible and separable with $\Gal f(x)=\Gal g(x)$.
-Moreover, $f(x)$ is still irreducible and separable with $\Gal f(x)=\Gal g(x)$.
+Suppose $g(x)=x^3+\alpha x^2+\beta x+\gamma\in F[x]$ irreducible and separable and consider $f(x)=g(x-\alpha/3)=x^3+bx+c\in F[x]$.
+Note that $f(x)$ is still irreducible and separable; in particular, $\Gal f(x)=\Gal g(x)$.
 Such a cubic is called a \mbf{depressed cubic}.
-Let $f(x)\in F[x]$ have $f(x)=x^3+bx+c$, $\chr F\neq 2,3$ and $f(x)$ is separable and irreducible.
-Then $\disc f(x)=-4b^3-27c^2$.
-Then
+One can compute $\disc f(x)=-4b^3-27c^2$.
+Then by applying \cref{prop:disc-an}, we see that
 \begin{equation*}
     \Gal f(x)=
     \begin{cases}
-        A_3&\text{ if $\disc f(x)=d^2$, $d\in F$}\\
-        S_3&\text{$S_3$ otherwise}
+        A_3&:\disc f(x)=d^2, d\in F\\
+        S_3&:\text{otherwise}
     \end{cases}
 \end{equation*}
-\subsection{Quartics}
-Suppose $\chr F\neq 2$.
-Then if $f(x)=x^4+\alpha x^3+\beta x^2+\gamma x+\delta\in F[x]$, $g(x)=f(x-\alpha/4)=x^4+bx^2+cx+d$, and $\Gal(f(x))=\Gal(g(x))$.
+\subsection{Galois Groups from Quartic Splitting Fields}
+Suppose $f(x)=x^4+\alpha x^3+\beta x^2+\gamma x+\delta\in F[x]$; as before, we take $g(x)=f(x-\alpha/4)=x^4+bx^2+cx+d$, and $\Gal(f(x))=\Gal(g(x))$.
 If $G=\Gal f(x)$, then $G$ is a transitive subgroup of $S_4$ with $4\div|G|$.
-The possible options are $S_4$, $A_4$, $D_4$, $V$, $C_4$, where $V=\{\epsilon,(12)(34),(13)(24),(14)(23)\}$.
-Let the roots of $f(x)$ be given by $\alpha_1,\ldots,\alpha_3$.
-Let $K=F(\alpha_1,\alpha_2,\alpha_3,\alpha_4)$ and set $u=\alpha_1\alpha+2+\alpha_3\alpha_4$, $v=\alpha_1\alpha_3+\alpha_2\alpha_4$, $w=\alpha_1\alpha_4+\alpha_2\alpha_3$.
-We say the \mbf{resolvent cubic} of $f(x)$ is
+Thus, the possible options are $S_4$, $A_4$, $D_4$, $V$, $C_4$, where $V=\{\epsilon,(12)(34),(13)(24),(14)(23)\}$.
+
+Let the roots of $f(x)$ be given by $\alpha_1,\ldots,\alpha_4$.
+Let $K=F(\alpha_1,\alpha_2,\alpha_3,\alpha_4)$ and set
+\begin{align*}
+    u&=\alpha_1\alpha_2+\alpha_3\alpha_4\\
+    v&=\alpha_1\alpha_3+\alpha_2\alpha_4\\
+    w&=\alpha_1\alpha_4+\alpha_2\alpha_3
+\end{align*}
+We define the \mbf{resolvent cubic} of $f(x)$
 \begin{align*}
     \Res f(x) = (x-u)(x-v)(x-w)=x^3-bx^2-4dx+4bd-c^2\in F[x]
 \end{align*}
+where the coefficients may be evaluated by the reader.
+
 Let $L=F(u,v,w)$, so that $K/L/F$.
 Since $K/F$ is Galois, $K/L$ is Galois, and $\Gal(\Res f(x))=\Gal(L/F)$.
 Since $\Gal(K/L)=G\cap V$ and $L/F$ is Galois, $\Gal(K/L)\trianglelefteq\Gal(K/F)$, and $\Gal(L/F)=G/G\cap V$.
 Let $m=|\Gal(\Res f(x))|$.
 \begin{equation*}
     \begin{array}{c|ccccc}
-        G & S)4 & A_4 & D_4 & V & \Z_4\\
-        G\cap V &V&V&V&V&C_2
+        G & S_4 & A_4 & D_4 & V & C_4\\
+        \hline
+        G\cap V &V&V&V&V&C_2\\
         G/(G\cap V) & S_3 & C_3 & C_2 & \{1\} & C_2\\
         m & 6 & 3 & 2 & 1 & 2
     \end{array}
 \end{equation*}
 Note that $G$ is uniquely determined when $m\in\{1,3,6\}$, so let's examine the case $m=2$.
-Since $\deg\Res f(x)=3$ and $m=2$, exactly one of $u$, $v$, or $w$ is in $F$.
+Since $\deg(\Res f(x))=3$ and $m=2$, exactly one of $u$, $v$, or $w$ is in $F$.
 Without loss of generality, assume $u\in F$.
 Either option for $G$ has a 4-cycle which fixes $u$, so $\sigma=(1324)\in G$ and $\sigma^2=(12)(34)\in G$.
-Consider $(x-\alpha_1\alpha_2)(x-\alpha_3\alpha_4)=x^2-ux+d$ and $(x-(\alpha_1+\alpha_2))(x-(\alpha_3+\alpha_4))=x^2+(b-u)$.
+Consider
+\begin{align*}
+    (x-\alpha_1\alpha_2)(x-\alpha_3\alpha_4) &=x^2-ux+d\\
+    (x-(\alpha_1+\alpha_2))(x-(\alpha_3+\alpha_4)) &=x^2+(b-u)
+\end{align*}
 Let's see that $G=\langle\sigma\rangle\cong C_4$ if and only if both of these polynomials split over $L$.
 
+\impr
 Suppose $G=\langle\sigma\rangle$.
 Then $\Gal(K/L)=G\cap V=\langle\sigma^2\rangle$, so $\alpha_1\alpha_2$, $\alpha_3\alpha_4$,$\alpha_1+\alpha_2$,$\alpha_3+\alpha_4\in\Fix\langle\sigma^2\rangle=L$.
 
-Conversely, suppose they are all in $L$.
-Then $\alpha_1\alpha_2\in L(\alpha_1)$ so both are.
-Thus $v-w=(\alpha_1-\alpha_2)(\alpha_3-\alpha_4)\in L$, so $\alpha_3-\alpha_4\in L(\alpha_1)$.
-Thus $\alpha_3\in L(\alpha_1)$, so $\alpha_4\in L(\alpha_1)$.
-Then $K=F(\alpha_1,\ldots,\alpha_4)=L(\alpha_1)$, and $[K:L]=[L(\alpha_1):L]=|\Gal(K/L)|$.
-Consider $p(x)=x^2-(\alpha_1+\alpha_2)x+\alpha_1\alpha_2\in L(x)$ has $p(\alpha_1)=0$, but $[K:L]\leq 2$ so $[K:F]\leq 4$.
-This forces $G=C_4$.
+\impl
+Conversely, suppose $\alpha_1\alpha_2$, $\alpha_3\alpha_4$,$\alpha_1+\alpha_2$,$\alpha_3+\alpha_4\in L$.
+Then $\alpha_1\alpha_2\in L(\alpha_1)$ that $\alpha_1,\alpha_2\in L(\alpha_1)$.
+Then since $v-w=(\alpha_1-\alpha_2)(\alpha_3-\alpha_4)\in L$, so $\alpha_3-\alpha_4\in L(\alpha_1)$ as well, so that $\alpha_3,\alpha_4\in L(\alpha_1)$.
+
+Now, $K=F(\alpha_1,\ldots,\alpha_4)=L(\alpha_1)$, and $[K:L]=[L(\alpha_1):L]=|\Gal(K/L)|$.
+The polynomial $p(x)=x^2-(\alpha_1+\alpha_2)x+\alpha_1\alpha_2\in L[x]$ has $p(\alpha_1)=0$ so that $[K:L]\leq 2$.
+Thus $[K:F]\leq 4$, which forces $G=C_4$.
+TODO: why is $[L:F]\leq 2$?
+\begin{example}
+    Consider $f(x)=x^4-2x-2$.
+    Then $\Res f(x)=x^3+8x-4$ has no rational roots, and is irreducible.
+    Now, $\disc(\Res f(x))=-4\cdot(8^3)-27\cdot 4^2<0$ is not a square in $\Q$, so $\Gal(\Res f(x))=S_3$.
+    Thus $\Gal f(x)\cong S_4$.
+\end{example}
+\begin{example}
+    Consider $g(x)=x^4+5x+5$, irreducible by Eisenstein, so $\Res g(x)=x^3-20x-25=(x-5)(x^2+5x+5)$.
+    Thus $\Gal\Res g(x)=\Z_2$, and $m=2$.
+    We let $u=5\in\Q$.
+    Consider $x^2-5x-5$ and $x^2-5$.
+    The roots of $x^2+5x+5$ are $\frac{-5\pm\sqrt{5}}{2}$, so $L=\Q(\sqrt{5})$.
+    The roots of $x^2-5$ are also in $L$.
+    Thus $\Gal f(x)=\Z_4$.
+\end{example}
+
+\section{Solvability and Radical Extensions}
+Throughout this section, we assume that $\chr F=0$.
+\begin{definition}
+    A group $G$ is \mbf{solvable} if there exists a chain of subgroups $G=G_0\trgeq G_1\trgeq G_2\trgeq\cdots\trgeq G_n=\{1\}$ such that $\quot{G_i}{G_{i+1}}$ is abelian.
+\end{definition}
+\begin{example}
+    Any abelian solvable is abelian.
+    We have $S_4\supseteq A_4\supseteq V\supseteq\{1\}$, so $S_4$ is solvable.
+    If $G$ is simple, then $G$ is solvable if and only if $G$ is abelian.
+    For example, $A_5$ is simple and non-abelian, and thus not solvable.
+\end{example}
 \begin{proposition}
-    Let $0\to N\to G\to N'\to 0$ be exact.
-    Then $N$ is solvable iff $N$ and $N'$ are solvable.
+    If $G$ is solvable and $N\leq G$, then $N$ is solvable; if $N\trianglelefteq G$, then $G/N$ is solvable.
 \end{proposition}
 \begin{proof}
-    We can identify $N'=G/N$.
+    Since $G$ is solvable, get $G=G_0\trgeq G_1\trgeq\cdots\trgeq G_n=\{1\}$.
+    Then
+    \begin{itemize}[nl]
+        \item Consider the sequence $N=G_0\cap N\trgeq G_1\cap N\trgeq\cdots\trgeq G_n\cap N=\{1\}$, since normality is preserved under intersection.
+            Furthermore,
+            \begin{equation*}
+                \quot{N\cap G_i}{N\cap G_{i+1}}\cong \quot{(N\cap G_i)G_{i+1}}{G_{i+1}}\subseteq\quot{G_i}{G_{i+1}}
+            \end{equation*}
+            is abelian.
+        \item Consider the sequence $\quot{G}{N}=\quot{G_0}{N}\trgeq\quot{G_1}{N}\trgeq\cdots\trgeq\quot{G_n}{N}=\{1\}$ and use the third isomorphism theorem.
+            TODO: finish this, something is weird: $N$ is not a normal subgroup of $G_i$, use correspondence theorem for normal subgroups.
+    \end{itemize}
+\end{proof}
+\begin{proposition}
+    Let $N\trleq G$; then $N$ is solvable if and only if $N$ and $\quot{G}{N}$ are solvable.
+\end{proposition}
+\begin{proof}
     The forward direction is done; conversely, suppose $N$ and $G/N$ are solvable.
-    Let $N=N_0\supseteq N_1\supseteq\cdots\supseteq N_m=\{1\}$, $G/N=G_0/N\supseteq G_1/N\supseteq\cdots\supseteq G_l/N=\{N\}$.
+    Let
+    \begin{align*}
+        N=N_0\supseteq N_1\supseteq\cdots\supseteq N_m=\{1\}\\
+        G/N=G_0/N\supseteq G_1/N\supseteq\cdots\supseteq G_l/N=\{N\}
+    \end{align*}
     By the third isomorphism theorem, $\quot{G_i/N}{G_{i+1}/N}\cong \quot{G_i}{G_{i+1}}$, so $G=G_0\supseteq G_1\supseteq\cdots\supseteq N$.
+    TODO: fix this.
 \end{proof}
 \begin{remark}
     Let $G$ be finite, solvable.
@@ -1822,10 +1969,9 @@ This forces $G=C_4$.
     Then $\Q(\sqrt{2+\sqrt{2}})\supseteq\Q(\sqrt{2})\supseteq\Q$ is solvable by radicals over $\Q$.
 \end{example}
 \begin{definition}
-    We say $K/F$ is cyclic if $K/F$ is finite, Galois, and $\Gal(K/F)$ is cyclic.
+    We say an extension $K/F$ is \mbf{cyclic} if $K/F$ is finite and Galois, and $\Gal(K/F)$ is cyclic.
 \end{definition}
-For the rest of the course, $\chr F=0$.
-\begin{proposition}
+\begin{proposition}\label{prop:prim-cy}
     If $F$ contains a primitive $n^\text{th}$ root of unity and $K=F(\alpha)$ with $\alpha^n\in F$, then $K/F$ is cyclic.
 \end{proposition}
 \begin{proof}
@@ -1834,92 +1980,108 @@ For the rest of the course, $\chr F=0$.
     The roots of $f(x)$ in $K$ are $\alpha\zeta^i$ for $i\in\{0,1,\ldots,n-1\}$.
     Thus $K$ is the splitting field for $f(x)$ over $F$, so $K/F$ is Galois.
     For each $\phi\in\Gal(K/F)$, there exists a unique $0\leq i\leq n-1$ such that $\phi(\alpha)=\alpha\zeta^i$.
-    Write $i=\Gamma(\phi)$, so $\Gamma:\Gal(K/F)\to\Z_n$ is an isomorphism.
+    Write $i=\Gamma(\phi)$, and it is straightforward to verify that $\Gamma:\Gal(K/F)\to\Z_n$ is an injective homomorphis.
+    Thus $\Gal(K/F)$ is isomorphic to a cyclic subgroup of $Z_n$, and thus cyclic.
 \end{proof}
-\begin{example}
-    Consider $f(x)=x^4-2x-2$.
-    Then $\Res f(x)=x^3+8x-4$ has no rational roots, and is irreducible.
-    Now, $\disc\Res f(x)=-4\cdot(8^3)-27\cdot 4^2<0$ is not a square in $\Q$, so $\Gal\Res f(x)=S_3$.
-    Thus $\Gal f(x)\cong S_4$.
-
-    Consider $g(x)=x^4+5x+5$, irreducible by Eisenstein, so $\Res g(x)=x^3-20x-25=(x-5)(x^2+5x+5)$.
-    Thus $\Gal\Res g(x)=\Z_2$, and $m=2$.
-    We let $u=5\in\Q$.
-    Consider $x^2-5x-5$ and $x^2-5$.
-    The roots of $x^2+5x+5$ are $\frac{-5\pm\sqrt{5}}{2}$, so $L=\Q(\sqrt{5})$.
-    The roots of $x^2-5$ are also in $L$.
-    Thus $\Gal f(x)=\Z_4$.
-\end{example}
-\chapter{Solvability by Radicals}
-\begin{definition}
-    A group $G$ is \mbf{solvable} if there exists a chain of subgroups $G=G_0\trianglegeq G_1\trianglegeq G_2\trianglegeq\cdots\trianglegeq G_n=\{1\}$ such that $G_i/G_{i+1}$ is abelian.
-\end{definition}
-\begin{example}
-    Any abelian solvable is abelian.
-    We have $S_4\supseteq A_4\supseteq V\supseteq\{1\}$, so $S_4$ is solvable.
-    If $G$ is simple, then they are solvable if and only if they are abelian.
-    $A_5$ is simple and non-abelian, and thus not solvable.
-\end{example}
-\begin{proposition}
-    If $G$ is solvable and $N\leq G$, then $N$ is solvable; if $N\trianglelefteq G$, then $G/N$ is solvable.
-\end{proposition}
-\begin{proof}
-    Get $G_0\supseteq G_1\supseteq\cdots\supseteq G_n=\{1\}$ so that $N=N\cap G_0\supseteq N\cap G_1\supseteq\cdots\supseteq N\cap G_n=\{1\}$.
-    Also, $N\cap G_i/N\cap G_{i+1}\cong (N\cap G_i)G_{i+1}/G_{i+1}\subseteq G_i/G_{i+1}$ is abelian.
-
-    As well, $G/N=G_0/N\supseteq G_1/N\supseteq\cdots\supseteq G_n/N=\{1\}$ and use third isomorphism theorem.
-\end{proof}
+TODO: finish all the proofs in this section.
 \begin{definition}
     We say $\{\sigma_1,\ldots,\sigma_n\}\subseteq\Aut K$ is \mbf{linearly dependent} over $K$ if there exists $a_i\in L$, not all zero, such that $a_1\sigma_1(\alpha)+\cdots+a_n\sigma_n(\alpha)=0$ for all $\alpha\in K$.
     Otherwise, we say $\{\sigma_1,\ldots,\sigma_n\}$ is \mbf{linearly independent}.
 \end{definition}
 \begin{lemma}
     Let $[K:F]<\infty$.
-    Then $\Gal(K/F)$ is linearly independent over $K$.
+    Then any finite subset of $\Gal(K/F)$ is linearly independent over $K$.
 \end{lemma}
 \begin{proof}
-    Suppose not.
-    Let $\{\sigma_1,\ldots,\sigma_r\}$ be a minimal linearly dependent subset of $\Gal(K/F)$.
-    Since $a_i\in K^\times$ and $a_1\sigma_1(\alpha)=0$, for all $\alpha\in K$, $\sigma_1=0$, which is false for $r>1$.
-    Now, there exist $a_i\in K^\times$ such that $a_1\sigma_1(\alpha)+a_2\sigma_2(\alpha)+\cdots+a_r\sigma_r(\alpha)=0$ for all $\alpha\in K$.
-    Let $\beta\in K$ such that $\sigma_1(\beta)\neq\sigma_2(\beta)$.
-    For all $\alpha\in K$,
+    Suppose not; it suffices to prove the result for $\Gal(K/F)$.
+    Let $\{\sigma_1,\ldots,\sigma_r\}$ be a minimal linearly dependent subset of $\Gal(K/F)$ and let
     \begin{equation*}
-        a_1\sigma_1(\alpha)\sigma_1(\beta)+a_2\sigma_2(\alpha)\sigma_2(\beta)+\cdots+a_r\sigma_r(\alpha)\sigma_r(\beta)=0
+        a_1\sigma_1+\cdots+a_r\sigma_r=0
     \end{equation*}
-    and
-    \begin{equation*}
-        a_1\sigma_1(\alpha_\sigma_1(\beta)+\cdots+a_r\sigma_r(\alpha)\sigma_1(\beta)=0
-    \end{equation*}
-    Subtracting,
+    be a non-trivial dependence relation; note that each $a_i\in K^\times$ by minimality.
+    Certainly, $r>1$.
+
+    Let $\beta\in K$ be such that $\sigma_1(\beta)\neq\sigma_2(\beta)$.
+    We then have for any $\alpha\in K$ that
+    \begin{align}
+        a_1\sigma_1(\alpha)\sigma_1(\beta)+a_2\sigma_2(\alpha)\sigma_2(\beta)+\cdots+a_r\sigma_r(\alpha)\sigma_r(\beta)&=0\label{eq:1}\\
+        a_1\sigma_1(\alpha)\sigma_1(\beta)+a_2\sigma_2(\alpha)\sigma_1(\beta)+\cdots+a_r\sigma_r(\alpha)\sigma_1(\beta)&=0\label{eq:2}
+    \end{align}
+    where \cref{eq:1} follows since $\sigma_i(\alpha\beta)=\sigma_i(\alpha)\sigma_i(\beta)$.
+    Subtracting \cref{eq:1} and \cref{eq:2}, we get
     \begin{equation*}
         a_2\sigma_2(\alpha)[\sigma_2(\beta)-\sigma_1(\beta)]+\cdots+a_r\sigma_r(\alpha)[\sigma_r(\beta)-\sigma_1(\beta)]=0
     \end{equation*}
     which is a dependence relation on $\{\sigma_2,\ldots,\sigma_r\}$, contradicting minimality.
 \end{proof}
-\begin{remark}
-    This is true for any finite subset.
-\end{remark}
+We now provide a converse to \cref{prop:prim-cy}.
+TODO: maybe merge the theorems?
 \begin{proposition}
-    Let $F$ be a field which contains a primitive $n^\th$ root of unity $\zeta$.
+    Let $F$ be a field which contains a primitive $n^\text{th}$ root of unity.
     If $K/F$ is cyclic with $[K:F]=n$, then $K/F$ is simple radical.
 \end{proposition}
 \begin{proof}
-    Suppose $\zeta\in F$ is a primitive $n^\th$ root of unity and $K?F$ is cyclic of degree $n$.
-    Then $G=\Gal(K/F)=\langle\sigma\rangle$, $|G|=n$ for some $\sigma\in G$.
-    For $\alpha\in K$, let $g(\alpha)=\alpha+\zeta\sigma(\alpha)+\zeta^2\sigma^2(\alpha)+\cdots+\zeta^{n-1}\sigma^{n-1}(\alpha)$.
-    Note that $\zeta\sigma(g(\alpha))=g(\alpha)$ implies $\sigma(g(\alpha))=\zeta^{-1}g(\alpha)$.
-    In particular, $\sigma(g(\alpha))^n=\sigma(g(\alpha))^n=\left[\zeta^{-1}g(\alpha)\right]^n=g(\alpha)^n$.
-    Thus for all $\alpha\in K$, $g(\alpha)^n\in\Fix G=F$.
+    Suppose $\zeta\in F$ is a primitive $n^\text{th}$ root of unity and $K/F$ is cyclic of degree $n$.
+    Let $G=\Gal(K/F)=\langle\sigma\rangle$, $|G|=n$ for some $\sigma\in G$.
+    For $\alpha\in K$, define
+    \begin{equation*}
+        g(\alpha):=\alpha+\zeta\sigma(\alpha)+\zeta^2\sigma^2(\alpha)+\cdots+\zeta^{n-1}\sigma^{n-1}(\alpha)
+    \end{equation*}
+    Note that $\zeta\sigma(g(\alpha))=g(\alpha)$ so that $\sigma(g(\alpha))=\zeta^{-1}g(\alpha)$.
+    In particular,
+    \begin{equation*}
+        \sigma(g(\alpha)^n)=\sigma(g(\alpha))^n=\left(\zeta^{-1}g(\alpha)\right)^n=g(\alpha)^n
+    \end{equation*}
+    Thus for all $\alpha\in K$, since $G=\brac{\sigma}$, $g(\alpha)^n\in\Fix G=F$.
     Moreover, since $G$ is linearly independent over $K$, there exists $\alpha\in K$ such that $g(\alpha)\neq 0$.
-    Note that $\sigma^2(g(\alpha))\neq g(\alpha)$ for any $1\leq i\leq n-1$.
-    Thus $g(\alpha)\notin\Fix H$ for any $\{1\}\neq H\leq G$.
-    By the Fundamental Theorem, $g(\alpha)\notin E$ for any $F\subseteq E\subsetneq K$, so $F(g(\alpha))=K$.
+    Furthermore, $\sigma^i(g(\alpha))=\zeta^{-i}g(\alpha)\neq g(\alpha)$ for any $1\leq i\leq n-1$; thus $g(\alpha)\notin\Fix H$ for any $\{1\}\neq H\leq G$.
+    Thus by the fundamental theorem of galois theory (\cref{thm:ftgt}), $g(\alpha)\notin E$ for any $F\subseteq E\subsetneq K$, so $F(g(\alpha))=K$.
 \end{proof}
 \begin{proposition}
-    Let $K/E/F$, $K/E$ radical, $E/F$ Galois.
+    Let $K/E/F$, $E/F$ Galois, $K/E$ radical.
     Then there exists $L/K$ such that $L/F$ is Galois and $L/E$ is radical such that $\Gal(L/E)$ is solvable.
 \end{proposition}
+\begin{proof}
+    We prove the result when $K/E$ is simple radical; the more general case follows by induction.
+    Suppose $K=E(\alpha)$ where $\alpha^n=\beta\in E$.
+    Also suppose $G=\Gal(E/F)=\{\sigma_1,\ldots,\sigma_r\}$.
+    Consider
+    \begin{equation*}
+        f(x)=\Phi_n\prod_{i=1}^r(x^n-\sigma_i(\beta))\in(\Fix G)[x]=F[x]
+    \end{equation*}
+    and let $L$ be the splitting field for $f(x)$ over $K$; let's show that $L$ has the desired properties.
+    \begin{itemize}
+        \item $L/F$ is Galois.
+            First note that $L$ is the splitting field for $f(x)$ over $E$.
+            Since $E/F$ is Galois, $E$ is the splitting field of some separable polynomial $h(x)\in F[x]$.
+            Then $L$ is the splitting field for $h(x)f(x)$, and since $\chr F=0$ so that $F$ is perfect, $L/F$ is Galois.
+        \item $L/E$ is radical.
+            Let $\zeta$ be a root of $\Phi_n(x)$ in $L$.
+            We extend each $\sigma_i\in G$ to a $\sigma_i^*\in\Gal(L/F)$.
+            Thus, the roots of $f(x)$ are of the form $\zeta^i\sigma_i^*(\alpha)$, so $L=E(\zeta,\sigma_1^*(\alpha),\ldots,\sigma_r^*(\alpha))$.
+
+            Let $E_0=E(\zeta)$ and for $1\leq i\leq r$, $E_i=E(\zeta,\sigma_1^*(\alpha),\ldots,\sigma_i^*(\alpha))$ so $E_r=L$.
+            Note that $\zeta^n=1\in E$ and $\sigma_i^*(\alpha)^n=\sigma_i^*(\alpha^n)=\sigma_i^*(\beta)=\sigma_i(\beta)\in E$.
+            Thus,
+            \begin{equation*}
+                E\subseteq E_0\subseteq E_1\subseteq\cdots\subseteq E_r=L
+            \end{equation*}
+            is a radical tower, so that $L/E$ is radical.
+        \item $\Gal(L/E)$ is solvable.
+            Let $G_i=\Gal(L/E_i)$, so by the fundamental theorem of galois theory,
+            \begin{equation*}
+                \{1\}=G_r\leq G_{r-1}\leq\cdots\leq G_2\leq G_1\leq G_0\leq G'
+            \end{equation*}
+            where $G_0=\Gal(L/E(\zeta))$.
+            Moreover, $G_0\leq G':=\Gal(L/E)$.
+            First, $G_0=\Gal(L/E(\zeta))\trleq\Gal(L/E)$ since $E(\zeta)/E$ is Galois (splitting field of $\Phi_n(x)$ over $E$).
+            Furthermore, $\quot{G'}{G_0}\cong\Gal(E(\zeta)/E)$ is abelian in the same way that $\Q(\zeta)/\Q$ is abelian.
+
+            Now, $\Gal(L/E_{i+1})\trianglelefteq\Gal(L/E_i)$ since $E_{i+1}/E_i$ is Galois ($E_{i+1}/E_i$ is simple radical with $\zeta\in E_i$ and $\sigma_{i+1}^*(\alpha)^n\in E_i$.
+            By the proposition, $E_{i+1}/E_i$ is cyclc.
+            Also, $G_i/G_{i+1}\cong\Gal(E_{i+1}/E_i)$ is cyclic (correspondence between simple radical and cyclic).
+    \end{itemize}
+\end{proof}
 \begin{corollary}
     Take $E=F$.
     If $K/F$ is radical, then there exists $L/K$ such that $L/F$ is radical and Galois with $\Gal(L/F)$ is solvable.
@@ -1971,92 +2133,6 @@ For the rest of the course, $\chr F=0$.
     Since non-real roots of $f(x)$ appear in conjugate pairs, $f(x)$ has exactly 2 non-real roots.
     By the lemma, $\Gal f(x)=S_5$, $S_5$ is not solvable, so $f(x)$ is not solvable by radicals.
 \end{example}
-\begin{proposition}
-    Let $K/E/F$, $E/F$ Galois, $K/E$ radical.
-    Then there exists $L/K$ such that $L/F$ is Galois and $L/E$ is radical, and $\Gal(L/E)$ is solvable.
-\end{proposition}
-\begin{proof}
-    We prove the result when $K/E$ is simple radical.
-    The more general case follows by induction.
-    Say $K=E(\alpha)$, $\alpha^n=\beta\in E$.
-    Also suppose $G=\Gal(E/F)=\{\sigma_1,\ldots,\sigma_r\}$.
-    Consider $f(x)=\Phi_n\prod_{i=1}^r(x^n-\sigma_i(\beta))\in\Fix G[x]=F[x]$.
-    Let $L$ be the splitting field for $f(x)$ over $K$.
-    
-    Note that $L/F$ is Galois: $L=E(\alpha,\text{other roots})$.
-    Thus $L$ is the splitting field for $f(x)$ over $E$.
-    Since $E/F$ is Galois, $E$ is the splitting field of some separable polynomial $h(x)\in F[x]$.
-    Then $L$ is the splitting field for $h(x)f(x)$.
-    Since $\chr F=0$, $L/F$ is Galois.
-
-    Now let's see that $L/E$ is radical.
-    Let $\zeta$ be a root of $\Phi_n(x)$ in $L$.
-    We extend each $\sigma_i\in G$ to a $\sigma_i^*\in\Gal(L/F)$.
-    Thus, the roots of $f(x)$ are of the form $\zeta^i\sigma_i^*(\alpha)$, so $L=E(\zeta,\sigma_1^*(\alpha),\ldots,\sigma_r^*(\alpha))$.
-    Furthermore, $\zeta^n=1\in E$ and $\sigma_i^*(\alpha)^n=\sigma_i^*(\alpha^n)=\sigma_i^*(\beta)=\sigma_i(\beta)\in E$.
-    Thus, $E\subseteq E(\zeta)\subseteq E(\zeta,\sigma_1^*(\alpha))\subseteq\cdots\subseteq L$ and $L/E$ is radical.
-
-    Finally, $\Gal(L/E)$ is solvable.
-    Let $E_0=E(\zeta)$ and for $1\leq i\leq r$, $E_i=E(\zeta,\sigma_1^*(\alpha),\ldots,\sigma_i^*(\alpha))$ so $E_r=L$.
-    Let $G_i=\Gal(L/E_i)$, so by the Fundamental theorem,
-    \begin{equation*}
-        \{1\}=G_r\leq G_{r-1}\leq\cdots\leq G_2\leq G_1\leq G_0
-    \end{equation*}
-    where $G_0=\Gal(L/E(\zeta))$.
-    Moreover, $G_0\leq G':=\Gal(L/E)$.
-    First, $G_0=\Gal(L/E(\zeta))\triangleleq\Gal(L/E)$ since $E(\zeta)/E$ is Galois (splitting field of $\Phi_n(x)$).
-    Furthermore, $G'/G_0\cong\Gal(E(\zeta)/E)$ is abelian since (same reason as $\Q(\zeta)/\Q$ is abelian).
-    Now, $\Gal(L/E_{i+1})\trianglelefteq\Gal(L/E_i)$ since $E_{i+1}/E_i$ is Galois ($E_{i+1}/E_i$ is simple radical with $\zeta\in E_i$ and $\sigma_{i+1}^*(\alpha)^n\in E_i$.
-    By the proposition, $E_{i+1}/E_i$ is cyclc.
-    Also, $G_i/G_{i+1}\cong\Gal(E_{i+1}/E_i)$ is cyclic (correspondence between simple radical and cyclic).
-\end{proof}
-\begin{definition}
-    Let $G$ be a group and let $M$ be an abelian group.
-    We say that $M$ is a \mbf{$G$-module} if there is a map $\cdot:G\times M\to M$ such that
-    \begin{enumerate}[nl,r]
-        \item $\sigma\cdot(m_1+m_2)=\sigma\cdot m_1+\sigma\cdot m_2$
-        \item $(\sigma\tau)\cdot m=\sigma\cdot(\tau\cdot m)$.
-        \item $1\cdot m=m$.
-    \end{enumerate}
-\end{definition}
-\begin{example}
-    \begin{itemize}[nl]
-        \item Consider $M=R$ (any ring), and $G=R^\times$.
-        \item Let $L/K$ be a finite Galois extension, $G=\Gal(L/K)$, $M=(L,+)$.
-            For $\sigma\in G$, $\alpha\in L$, $\sigma\cdot\alpha=\sigma(\alpha)$.
-            We can also take $M=(L^\times,\cdot)$.
-    \end{itemize}
-\end{example}
-\begin{definition}
-    If $M$ is a $G-$module, a \mbf{1-cocycle} is a map $\lambda:G\to M$ such that $\lambda(\sigma\tau)=\lambda(\sigma)+\sigma\cdot\lambda(\tau)$.
-    A \mbf{1-coboundary} is a map $\lambda:G\to M$ such that $\lambda(\sigma)=\sigma\cdot m-m$ for some fixed $m$.
-\end{definition}
-\begin{remark}
-    The maps $\lambda:G\to M$ form a group, and the set of 1-cocycles is an abelian subgroup, and the set of 1-coboundaries is a subgroup of 1-cocycles.
-\end{remark}
-\begin{theorem}[Hilbert's Theorem 90]
-    Let $L/K$ be a finite Galois extension.
-    Set $G=\Gal(L/K)$, $M=(L^\times,\cdot)$.
-    Then every 1-cocycle of $M$ is a 1-coboundary.
-\end{theorem}
-\begin{remark}
-    If $\lambda:G\to L^\times$ satisfies $\lambda(\sigma\tau)=\lambda(\sigma)\cdot\sigma(\lambda(\tau))$, then there exists $\beta\in L^\times$ such that $\lambda(\sigma)=\sigma(\beta)/\beta$.
-\end{remark}
-(characterizing elements of $L/K$ with norm 1)
-\begin{definition}
-    Let $K$ be a field.
-    We define \mbf{projective $n-$space} $K\mathbb{P}^n$ to be equivalence classes $K^{n+1}\setminus\{(0,\ldots,0\}$ under the relation $(a_0,\ldots,a_n)\sim(b_0,\ldots,b_n)$ iff there exists $\lambda\in K^\times$ such that $a_i=\lambda b_i$ for all $i$.
-\end{definition}
-\begin{example}
-    If $L/K$ is an extension of fields and $p=(x_0:x_1:\ldots:x_n)$, when is $p\in\mathbb{P}^n(K)$?
-    The point $(1:i)\in\C\mathbb{P}^1$ is also $(1:1)\in\R\mathbb{P}^1$.
-    If $L/K$ is finite Galois, given $\alpha\in L$, if $\sigma(\alpha)=\alpha$ for all $\sigma\in\Gal(L/K)$, then $\alpha\in K$.
-    We thus define $\sigma(p)=(\sigma(x_0):\cdots:\sigma(x_n))\in L\mathbb{P}^n$.
-    If $\sigma(p)=p$ for all $\sigma\in\Gal(K)$, then $p\in K\mathbb{P}^n$.
-\end{example}
-Where does the 1-cocycle come from?
-After applying Theorem, why are we finished?
-
 Exam questions!
 \begin{enumerate}
     \item Minimal polynomials / field extensions

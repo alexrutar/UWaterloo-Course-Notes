@@ -588,7 +588,7 @@
             By definition, $H$ fixes $L^H$, so $H\leq H'=\Gal(L/L^H)$.
             Since $L/L^H$ is normal and $H\leq\Gal(L/L^H)$ has $L^H$ as its fixed field, by the previous theorem, $H=\Gal(L/L^H)=H'$.
         \item Let $H=\Gal(L/F)$.
-            If $\sigma\in\Gal(L/K)$, then $\sigma:F\longrightarrow\sigma(F)$ is an isomorphism and $\sigma\Gal(L/F)\sigma^{-1}=\Gal(L/\sigma(G))$.
+            If $\sigma\in\Gal(L/K)$, then $\sigma:F\longrightarrow\sigma(F)$ is an isomorphism and $\sigma\Gal(L/F)\sigma^{-1}=\Gal(L/\sigma(F))$.
             Thus,
             \begin{align*}
                 \Gal(L/F)\trianglelefteq\Gal(L/K) &\Longleftrightarrow \Gal(L/\sigma(F))=\sigma\Gal(L/F)\sigma^{-1}=\Gal(L/F)\\
@@ -2761,7 +2761,7 @@ In particular, $\theta(\mathcal{O}_K)\subseteq V$ is a lattice (identifying $\C\
 \end{claim}
 \begin{proof}
     Let $v\in V^\times$ be arbitrary; then, multiplication by $v$ is a linear map with matrix representation $M$; in particular, $\det(M)=|N(v)|$.
-    If $R\subseteq V$ is any region, then $\mu(vR)=\lambda(R)\vdot|N(v)|$; if $v\in G$, then $\lambda(R)=\lambda(vR)$.
+    If $R\subseteq V$ is any region, then $\mu(vR)=\lambda(R)\cdot|N(v)|$; if $v\in G$, then $\lambda(R)=\lambda(vR)$.
 
     Let $C\subseteq G$ be any compact, symmetric, convex region with $\mu(C)\geq 2^n$.
     For all $g\in G$, $\mu(g^{-1}C)=\lambda(C)\geq 2^n\lambda(\theta(\mathcal{O}_K))$.
