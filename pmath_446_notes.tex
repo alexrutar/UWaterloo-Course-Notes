@@ -121,7 +121,7 @@
 % macros (theorem) -------------------------------------------------------------
 \usepackage[hidelinks]{hyperref}
 \usepackage[thmmarks,amsmath,hyperref]{ntheorem}
-\usepackage[capitalise,nameinlink]{cleveref}
+\usepackage[nameinlink]{cleveref}
 
 % Numbered Statements
 \theoremstyle{change}
@@ -137,9 +137,9 @@
 \theoremstyle{plain}
 \theorempreskip{0.2cm}
 \theorempostskip{0.2cm}
-\theoremnumbering{roman}
 \theoremheaderfont{\scshape}
 \newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
 \AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
 
 % Un-numbered Statements
@@ -164,6 +164,9 @@
 \newtheorem{proof}{Proof}
 \theoremsymbol{}
 \newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
 
 
 % macros (algebra) -------------------------------------------------------------
@@ -433,7 +436,7 @@ Recall that $\coker(f):= N/\im(f)$.
     There is a bijective correspondence from submodules $M'\subseteq M$ containing $N$ and submodules of $M/N$ given by $M'\mapsto\pi(M')$ and $\tilde M\leq M/N\mapsto \pi^{-1}(\tilde M)$ (the preimage/pullback).
 \end{theorem}
 \begin{proof}
-    From the Correspondence Theorem for groups, $\pi$ and $\pi^{-1}$ preserve subgroups: it suffices to show they are also closed under the action of $A$.
+    From the correspondence theorem for groups, $\pi$ and $\pi^{-1}$ preserve subgroups: it suffices to show they are also closed under the action of $A$.
     Since $\pi$ is $A-$linear, for any $\pi(x)=x+N\in M'$, since $x\in M'$, $ax\in M'$ and $\pi(ax)=a(x+N)\in M'$ as well.
     Conversely, for any $x\in\pi^{-1}(\tilde M)$, $\pi(x)\in\tilde M$, so $\pi(ax)=a\pi(x)\in\tilde M$ and $ax\in\pi^{-1}(\tilde M)$.
 \end{proof}
@@ -452,7 +455,7 @@ Recall that $\coker(f):= N/\im(f)$.
     \end{equation*}
     since $f$ is $A-$linear.
 \end{proof}
-\begin{corollary}[First Isomorphism Theorem]
+\begin{corollary}[First Isomorphism]
     If $f:M\to N$ is an $A-$linear map, then $M/\ker(f)\cong\im(f)$.
 \end{corollary}
 \begin{proof}
@@ -537,7 +540,7 @@ If $n<\omega$, then $M^n:=\bigoplus_{i=1}^n M$.
     $(\Rightarrow)$ Suppose $X=\{x_1,\ldots,x_n\}$ generates $M$.
     Consider the map $\phi:A^n\to M$ given by $(a_1,\ldots,a_n)\mapsto a_1x_1+\cdots+a_nx_n$.
     This map is $A-$linear, and is surjective since $(x_i)$ is a generator for $M$.
-    Then by the First Isomorphism Theorem, $A^n/\ker(\phi)\cong M$.
+    Then by the first isomorphism theorem, $A^n/\ker(\phi)\cong M$.
 \end{proof}
 \subsection{Nakayama's Lemma}
 Before we can prove Nakayama's Lemma, we need a bit of groundwork.
@@ -635,7 +638,7 @@ If $A$ is a local ring, Nakayama's Lemma applies to any proper ideal in $A$.
     Now consider the sequence $0\to M'\fto{f}M\fto{g} M''\to 0$.
     This is exact if and only if $f$ is injective, $g$ is surjective, and $\im(f)=\ker(g)$.
     In this case, we say $M$ is an \textbf{extension of $M''$ by $M'$}.
-    Note that by the First Isomorphism Theorem, $M''\cong M/M'$ after identifying $M'\cong f(M')\leq M$.
+    Note that by the first isomorphism theorem, $M''\cong M/M'$ after identifying $M'\cong f(M')\leq M$.
 \end{remark}
 \begin{example}
     Whenever $h:M\to N$ is an $A-$linear map, we have the associated short exact sequence:
@@ -682,7 +685,6 @@ If $A$ is a local ring, Nakayama's Lemma applies to any proper ideal in $A$.
     \end{gather*}
     and the long exact sequence is exact if and only if all the short exact sequences are.
 \end{remark}
-\chapter{Finitely Generated Modules over PIDs}
 \section{Rank, Basis, Torsion}
 \begin{definition}
     Let $M$ be an $A-$module, $X\subseteq M$ a subset.
@@ -783,7 +785,7 @@ In fact, we have the following lemma:
             For the latter part, $A/(a_i)$ is torsion since $a_i(x+(a_i))=0+(a_i)$, so their direct sum is also torsion.
     \end{enumerate}
 \end{proof}
-\section{Noetherian Rings}
+\section{Noetherian Rings and Modules}
 Let $R$ be a commutative ring.
 \begin{definition}
     $R$ is \textbf{Noetherian} if every ascending chain of ideals in $R$ stabilizes.
@@ -834,17 +836,107 @@ We have the following fundamental property of Noetherian rings:
     Thus, as $A-$modules, $I\cong A$.
 \end{remark}
 \begin{definition}
-    An $A-$module is \textbf{noetherian} if there is no properly increasing infinite chain of submodules.
+    An $A-$module is \textbf{Noetherian} if there is no properly increasing infinite chain of submodules.
 \end{definition}
 \begin{remark}
-    $A$ is a noetherian ring if and only if it is noetherian as an $A-$module.
-    An $A-$module $M$ is noetherian iff every submodule is finitely generated.
+    $A$ is a Noetherian ring if and only if it is Noetherian as an $A-$module.
+    An $A-$module $M$ is Noetherian iff every submodule is finitely generated.
+\end{remark}
+\begin{definition}
+    Let $M$ be an $A-$module.
+    Then we say $M$ is \textbf{Noetherian} if it has no infinite chain of $A-$submodules.
+\end{definition}
+\begin{remark}
+    If $A$ is a ring, then $A$ is naturally an $A-$module, and $A-$submodules of $A$ are just ideals of $A$.
+    In this setting, the definitions of Noetherianity coincide.
 \end{remark}
 \begin{theorem}[Hilbert Basis]
-    If $A$ is noetherian, then $A[x]$ is noetherian.
+    If $A$ is Noetherian, then so is $A[x]$.
 \end{theorem}
+Let $I\subseteq A[x]$ an ideal, and $J\subseteq A$ the ideal of leading coefficients of polynomials in $I$.
+Then since $A$ is Noetherian, $J=(a_1,\ldots,a_n)$ for some $a_i\in A$.
+For each $i=1,\ldots,n$, let $f_i\in I$ have $f_i(x)=a_ix^{r_i}+(\text{lower degree terms})$, let $I'=(f_1,\ldots,f_n)$ and $R=\max\{r_1,\ldots,r_n\}$.
+\begin{claim}\label{cl:hil-1}
+    If $f\in I$, then $f=g+h$ where $\deg g<r$ and $h\in I'$.
+\end{claim}
+\begin{nmproof}
+    The proof proceeds by induction on $\deg f$.
+
+    If $\deg f<r$, take $h=0$.
+    Otherwise, suppose $\deg f\geq r$.
+    Write $f=ax^m+(\text{lower degree terms})$ where $m\geq r$.
+    Since $a\in J$, $a=\sum_{i=1}^n b_ia_i$ for some $b_i\in A$.
+    Fix $I$, so
+    \begin{align*}
+        b_ix^{m-r_i}f_i &= b_ix^{m-r_i}(a_ix^{r_i}+(\text{lower degree terms}))\\
+                        &= b_ia_ix^m+(\text{lower degree terms})
+    \end{align*}
+    so $f_0=f-\sum_{i=1}^n b_ix^{m-r_i}f_i$ has degree strictly less than $m$.
+    By induction, $f_0=g+h$ where $\deg g<r$, $h\in I'$, so $f=g+\left(h+\sum_{i=1}^n b_ix^{m-r_i}f_i\right)$.
+\end{nmproof}
+\begin{claim}
+    $A[x]$ is Noetherian.
+\end{claim}
+\begin{proof}
+    \Cref{cl:hil-1} says that $I=I'+I\cap A[x]_{<r}$ where $A[x]_{<r}$ is the set of polynomials with degree strictly less than $r$.
+    This is an $A-$submodule of $A[x]$, so $I\cap A[x]_{<r}$ is an $A-$submodule of $A[x]_{<r}$.
+    Since $A[x]_{<r}$ is a finitely generated $A-$module, since $A$ is Noetherian, $A[x]_{<r}$ is a Noetherian $A-$module.
+    Thus $I\cap A[x]_{<r}$ is finitely generated as an $A[x]_{<r}$ submodule, say $g_1,\ldots,g_l\in I\cap A[x]_{<r}$.
+    Then $I=(f_1,\ldots,f_n,g_1,\ldots,g_l)$.
+\end{proof}
+\begin{example}
+    Let's look at some useful examples and non-examples of Noetherian rings and modules.
+    \begin{enumerate}[nl]
+        \item $\Z$ is a PID, so $\Z$ is Noetherian.
+        \item $\Q[x_1,x_2,\ldots,]$ is a UFD (hard) but not Noetherian since $(x_1)\subseteq(x_1,x_2)\subseteq\cdots$ is an infinite chain of ideals that does not stabilize.
+        \item $\Z\oplus\Z$ is a Noetherian both as a $\Z-$module and a ring.
+            Note that these are fundamentally different statements, since $\{(n,n):n\in\Z\}$ is a submodule of $\Z\oplus\Z$, but not an ideal.
+        \item $\Z[i]$ is again a PID
+        \item $\C[x_1,\ldots,x_n]$ is Noetherian by the Hilbert basis theorem.
+        \item $\C\otimes_{\R}\C$ is a Noetherian $\R-$module, and a noetherian ring
+        \item $\C\otimes_{\Q}\C$ is not a Noetherian ring.
+        \item $\Q(\pi)\otimes_{\Q}\Q(\pi)$ is a Noetherian ring.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    Let $M,N,Q$ be $A-$modules.
+    Suppose $0\to N\to M\to Q\to 0$ is exact.
+    Then $M$ is Noetherian if and only if $N$ and $Q$ are Noetherian.
+\end{proposition}
+\begin{proof}
+    We may take $N\leq M$ and $Q=M/N$.
+    If $M$ is Noetherian, then $N\leq M$ is certainly Noetherian and $M/N$ is also Noetherian by the correspondence theorem for ideals.
+
+    Now suppose $N,M/N$ are Noetherian; we want to show the ascending chain condition for $M$.
+    Let $P_1\subseteq P_2\subseteq\cdots$ be a chain in $M$.
+    Get $n_1$ such that the chain $P_1\cap N\subseteq P_2\cap N\subseteq\cdots$ stabilizes, and $n_2$ such that the chain $\quot{P_1}{(N\cap P_1)}\subseteq \quot{P_2}{(N\cap P_2)}\subseteq\cdots$ stabilizes, and $N=\max\{n_1,n_2\}$.
+    Let's show that $P_{N+1}\subseteq P_N$ TODO: finish.
+\end{proof}
+Note that if $B$ is a noetherian ring and $A\subseteq B$, then $A$ is not necessarily noetherian.
+For example, if $A$ is any non-noetherian integral domain, then $\Frac(A)$ is a field (and thus a noetherian ring) containing $A$.
+However, in terms of the notion of noetherianity with respect to modules, a number of things are true.
+\begin{proposition}
+    Let $M$ be a Noetherian module $A-$module.
+    \begin{enumerate}[nl,r]
+        \item If $N\leq M$ is a submodule, then $N$ and $\quot{M}{N}$ are Noetherian.
+        \item If $M'$ is also Noetherian, then $M\oplus M'$ is Noetherian.
+        \item If $S\subseteq A$ is multiplicatively closed, then $S^{-1}M$ is Noetherian.
+        \item If $A$ is Noetherian and $M$ is a finitely generated $A-$module, then $M$ is Noetherian.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item Consider the exact sequence $0\to N\to M\to \quot{M}{N}\to 0$.
+        \item Consider the exact sequence $0\to N\to M\oplus N\to M\to 0$.
+        \item TODO: application of the correspondence theorem for submodules in $S^{-1}M$.
+        \item Since $M$ is finitely generated, $M\cong \quot{A^n}{P}$ for some $P\leq A^n$.
+            Then consider the exact sequence $0\to P\to A^n\to M\to 0$.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Tensor products do not necessarily preserve Noetheranity: for example, $\C$ is a Noetherian $\Q-$module, but $\C\otimes_{\Q}\C$ is not Noetherian.
+\end{remark}
 \section{Finitely Generated Modules over PIDs}
-\subsection{Proof of the Fundamental Theorem}
 \begin{proposition}\label{ftpid-prop}
     Suppose $A$ is a PID, $M$ is a free $A-$module of rank $m\in\N$, and $N\leq M$ a submodule.
     \begin{enumerate}[nolistsep,label=(\roman*)]
@@ -980,7 +1072,7 @@ We have the following fundamental property of Noetherian rings:
     In particular, every finitely generated $A-$module is a direct sum of cyclic $A-$modules.
 \end{remark}
 \begin{corollary}
-    Let $A,M$ be as in the Fundamental Theorem.
+    Let $A,M$ be as in the fundamental theorem.
     \begin{enumerate}[nolistsep]
         \item $\Tor(M)=A/(a_1)\oplus\cdots\oplus A/(a_n)$
         \item $M$ is free if and only if $M$ is torsion-free
@@ -1013,7 +1105,7 @@ We have the following fundamental property of Noetherian rings:
             &= (a+I)(1-x+I)= (a+I)(1+I)= a+I
     \end{align*}
     and in the same way, $c+J=b+J$.
-    Thus $f$ is surjective, and the result holds by the First Isomorphism Theorem for rings.
+    Thus $f$ is surjective, and the result holds by the first isomorphism theorem for rings.
 \end{proof}
 \begin{theorem}
     Let $A$ be a PID, $M$ a finitely generated $A-$module.
@@ -1023,7 +1115,7 @@ We have the following fundamental property of Noetherian rings:
     For any $a\in A$, write $a=up_1^{\alpha_1}\cdots p_s^{\alpha_s}$ where the $p_i$ are non-associate primes and $u$ is a unit.
     For $i\neq j$, $(p_i^{\alpha_i})+(p_j^{\alpha_j})=(d)$ for some $d\in A$ since $A$ is a PID.
     Then $d|p_i^{\alpha_i}$ and $d|p_j^{\alpha_j}$, so $d$ is a unit and $(p_i^{\alpha_i})+(p_j^{\alpha_j})=A$.
-    Thus by the generalized Chinese Remainder Theorem,
+    Thus by the generalized chinese remainder theorem,
     \begin{equation*}
         A/(p_1^{\alpha_1})\cap\cdots\cap(p_s^{\alpha_s})\cong A/(p_1^{\alpha_1})\oplus \cdots\oplus A/(p_s^{\alpha_s})
     \end{equation*}
@@ -1032,9 +1124,9 @@ We have the following fundamental property of Noetherian rings:
     \begin{equation*}
         A/(a)\cong A/(p_1^{\alpha_1})\oplus \cdots\oplus A/(p_s^{\alpha_s})
     \end{equation*}
-    Now, by the Fundamental Theorem, let $a_1|a_2|\cdots|a_n$ be such that $M\cong A^r\oplus A/(a_1)\oplus\cdots\oplus A/(a_n)$.
+    Now, by the fundamental theorem, let $a_1|a_2|\cdots|a_n$ be such that $M\cong A^r\oplus A/(a_1)\oplus\cdots\oplus A/(a_n)$.
     The result follows by applying the above construction to $a_i$ for each $i$.
-    Uniqueness follows by unique factorization and the uniqueness of the representation in the Fundamental Theorem.
+    Uniqueness follows by unique factorization and the uniqueness of the representation in the fundamental theorem.
 \end{proof}
 \begin{example}[Finitely Generated Abelian Groups]
     Let $A=\Z$, so $M$ is a finitely generated abelian group.
@@ -1100,7 +1192,6 @@ Thus
 \end{equation*}
 Let $B'$ be the union of the natural bases for each $F[t]/(t-\lambda_i)^{\alpha_i}$.
 The matrix of $T$ with respect to $B'$ is the Jordan canonical form.
-\chapter{Structures on Modules}
 \section{Categories and Functors}
 \begin{definition}
     A \textbf{category} $\Ct$ consists of:
@@ -1450,6 +1541,14 @@ This $A-$module structure on $B$ satisfies compatibility with multiplication on 
     \end{equation*}
 \end{proof}
 Thus $A-$algebras are given by $A-$modules which are also rings, with multiplication compatible with the module structure.
+\begin{remark}
+    If $B$ is an $A-$algebra, then $B$ has various structures:
+    \begin{itemize}[nl]
+        \item $B$ is a ring
+        \item $B$ is an $A-$module
+        \item $B$ is a $B-$module, and $B$ submodules are ideals of $B$.
+    \end{itemize}
+\end{remark}
 \begin{example}
     Suppose $A=k$ is a field.
     Then a $k-$algebra is a ring extending $k$ with its $k-$vector space structure.
@@ -1462,7 +1561,15 @@ Thus $A-$algebras are given by $A-$modules which are also rings, with multiplica
 \begin{example}
     For any ring $A$, $B=A[t_1,\ldots,t_n]$, the polynomial ring over $A$ in variables $t_1,\ldots,t_n$, is naturally an $A-$algebra with the inclusion map.
 \end{example}
-
+\begin{definition}
+    We say $B$ is \textbf{Noetherian} if $B$ is Noetherian as a $B-$module (i.e. as a ring).
+\end{definition}
+\begin{proposition}
+    If $A$ is Noetherian, every finitely generated $A-$algebra is Noetherian.
+\end{proposition}
+\begin{proof}
+    Every finitely generated $A-$algebra is of the form $\quot{A[x_1,\ldots,x_n]}{I}$, and by the hilbert basis theorem, $A[x_1,\ldots,x_n]$ is Noetherian.
+\end{proof}
 \begin{definition}
     If $(B,f)$, $(C,g)$ are $A-$algebras, then a \mbf{homomorphism of $A-$algebras} is a ring homomorphism $\phi:B\to C$ such that $\phi(f(a))=g(a)$ for all $a\in A$.
     These are also called \mbf{$A-$linear (ring) homomorphisms}.
@@ -1581,7 +1688,7 @@ In other words, the following diagram commutes:
     Direct application of the correspondence theorem for modules.
     It is immediate that $\pi^{-1}(P)$ is prime, and one can verify that the extension ideal $\pi(P)$ is also prime.
 \end{proof}
-\begin{proposition}
+\begin{proposition}\label{prop:p-int}
     Let $P,P_i$ denote prime ideals and $I,I_i$ any ideals.
     Then
     \begin{enumerate}[nl,r]
@@ -1615,7 +1722,7 @@ In other words, the following diagram commutes:
 \begin{remark}
     Note that $\Ann_A(I)=(0:I)$.
 \end{remark}
-\begin{proposition}[Properties of the Ideal Quotient]
+\begin{proposition}[Properties of the Ideal Quotient]\label{lem:col}
     \begin{enumerate}[nl,r]
         \item If $K\subseteq I$, then $(K:J)\subseteq(I:J)$.
             If $K\subseteq J$, then $(I:K)\supseteq(I:J)$
@@ -1896,8 +2003,8 @@ If $f$ is a unit, then $f^n$ is a unit for all $n$ and $A_f\cong A$ via $\alpha$
 To summarize the previous proposition, we have a bijective correspondence
 \begin{center}
     \begin{tikzcd}[row sep=tiny]
-        \Spec(A)\setminus V(f)\arrow[r,\leftrightarrow] & \Spec(A_f)\\
-        P\arrow[r,mapsto] & PA_f\\
+        \Spec(A)\setminus V(f)\arrow[r,leftrightarrow] & \Spec(A_f)\\
+        P\arrow[r,mapsto] & PA_f
         \alpha^{-1}(Q)&\arrow[l,mapsto] Q
     \end{tikzcd}
 \end{center}
@@ -2053,8 +2160,9 @@ This gives many examples of flat and not free $A-$algebras.
     \end{enumerate}
 \end{proof}
 \section{Primary Decomposition}
+TODO: primary decomposition in quotient is preserved
 \begin{definition}
-    An ideal $Q \subseteq A$ is primary if $1\notin Q$, and for any $x,y \in A$, if $xy \in Q$ then either $x \in Q$ or $y^n\in Q$ for some $n \geq 0$.
+    An ideal $Q \subseteq A$ is \textbf{primary} if $1\notin Q$, and for any $x,y \in A$, if $xy \in Q$ then either $x \in Q$ or $y^n\in Q$ for some $n \geq 0$.
 \end{definition}
 \begin{remark}
     Primary ideals are to prime powers as prime ideals are to prime numbers.
@@ -2107,7 +2215,7 @@ This gives many examples of flat and not free $A-$algebras.
     If $Q$ is primary, let $P=\sqrt{Q}$.
     Then we say $Q$ is \mbf{$P-$primary}.
 \end{definition}
-\begin{lemma}
+\begin{lemma}\label{lem:int-prim}
     Suppose $Q_1,\ldots,Q_n$ are $P-$primary ideals.
     Then $Q_1\cap\cdots\cap Q_n$ is $P-$primary.
 \end{lemma}
@@ -2120,66 +2228,65 @@ This gives many examples of flat and not free $A-$algebras.
 \begin{definition}
     A \textbf{primary decomposition} of an ideal $I$ is an expression of the form $I=Q_1\cap\cdots\cap Q_n$, where each $Q_i$ is primary.
 \end{definition}
-\begin{remark}
-    We'll see later than in a noetherian ring, every ideal has a primary decomposition.
-    \begin{enumerate}
-        \item If $\sqrt{Q_i}=\sqrt{Q_j}$, then by the lemma, $Q_i\cap Q_j$ is primary with some radical.
-            Thus by grouping these together, we can produce a primary decomposition of $I$ where $\sqrt{Q_i}\neq\sqrt{Q_j}$ for all $i,j$.
-        \item If $Q_i\supseteq\bigcap_{j\neq i}Q_j$, then we can drop $Q_i$ and still have a primary decomposition.
-    \end{enumerate}
-\end{remark}
+We'll see later than in a Noetherian ring, every ideal has a primary decomposition.
+
+If $\sqrt{Q_i}=\sqrt{Q_j}$, then by \cref{lem:int-prim}, $Q_i\cap Q_j$ is also primary with the same radical.
+Thus by grouping primary ideals with the same radicals, we can produce a primary decomposition of $I$ where $\sqrt{Q_i}\neq\sqrt{Q_j}$ for all $i,j$.
+Furthermore, $Q_i\supseteq\bigcap_{j\neq i}Q_j$, then we can drop $Q_i$ and still have a primary decomposition.
 \begin{definition}
-    We say that $I=Q_1\cap\cdots\cap Q_n$ is an \textbf{independent primary decomposition} if each $Q_i$ is $P_i$-primary such that
+    We say that $I=Q_1\cap\cdots\cap Q_n$ is an \textbf{irredundant primary decomposition} if each $Q_i$ is $P_i$-primary such that
     \begin{enumerate}[nolistsep]
         \item $P_i\neq P_j$ for $i\neq k$
         \item $Q_i\nsubseteq\bigcap_{j\neq i}$ for any $i$.
     \end{enumerate}
-    If $I$ has a primary decomposition, then it has an irredundant primary decomposition.
 \end{definition}
-\begin{theorem}[First Uniqueness]
-    If $I=Q_1\cap\cdots\cap Q_n$ is an irredundant primary decomposition, then $\{\sqrt{Q_1},\sqrt{Q_2},\ldots,\sqrt{Q_n}\}$ is independent of the particular irreducible decompsition.
-    Thus, the number of elements in an irreducible decomposition and the set of radicals is unique.
-\end{theorem}
-\begin{lemma}
-    Let $Q$ be $p-$primary, $x\in A$.
-    Then if $x\notin Q$, then $Q\subseteq(Q:x)\subseteq P$ and $(Q:x)$ is $P-$primary.
+If $I$ has a primary decomposition, then it has an irredundant primary decomposition as discussed above.
+\begin{lemma}\label{lem:col-pri}
+    Let $Q$ be $P-$primary, $x\in A$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item If $x\in Q$, then $(Q:x)=A$.
+        \item If $x\notin Q$, then $Q\subseteq(Q:x)\subseteq P$ and $(Q:x)$ is $P-$primary.
+        \item If $x\notin P$, then $Q=(Q:x)$.
+    \end{enumerate}
 \end{lemma}
 \begin{proof}
-    Note that $Q\subseteq(Q:x)\subseteq P$, where the second inclusion follows since if $xy\in Q$ since $x\notin Q$, then $y\in\sqrt{Q}=0$ by $P-$primariness.
-    Suppose $yz\in(Q:x)$ but $y\notin(Q_x)$.
-    Thus $yzx\in Q$ but $yx\notin Q$, so $z\in\sqrt{Q}=0=\sqrt{(Q:x)}$.
-    Thus $Q\subseteq P\subseteq A$
+    \begin{enumerate}[r]
+        \item Immediate.
+        \item Note that $Q\subseteq(Q:x)$ is true for any ideal.
+            To see $(Q:x)\subseteq P$, suppose $y\in (Q:x)$ so that $xy\in Q$.
+            Since $x\notin Q$, $y\in\sqrt{Q}=P$.
 
-    If $x\notin P$, then $(Q:x)=Q$.
-    Suppose $y\in(Q:x)$.
-    If $y\notin Q$, then $x\in\sqrt{Q}=P$, contradiction.
+            To see that $(Q:x)$ is $P-$primary, first note that $P=\sqrt{Q}\subseteq\sqrt{(Q:x)}\subseteq\sqrt{P}=P$, so equality holds.
+            It remains to show that $(Q:x)$ is primary: thus suppose $yz\in(Q:x)$ but $y\notin(Q:x)$.
+            Thus $yzx\in Q$ but $yx\notin Q$, so $z\in\sqrt{Q}=\sqrt{(Q:x)}$.
+
+        \item If $y\in(Q:x)$ but $y\notin Q$, then $x\in\sqrt{Q}=P$, a contradiction.
+    \end{enumerate}
 \end{proof}
+\begin{theorem}[First Uniqueness]\label{thm:dec-uni}
+    If $I=Q_1\cap\cdots\cap Q_n$ is an irredundant primary decomposition, then $\{\sqrt{Q_1},\sqrt{Q_2},\ldots,\sqrt{Q_n}\}$ is the set of prime ideals in $\{\sqrt{(I:x)}:x\in A\}$ which does not depend on the decomposition/
+    In particular, the number of elements in an irreducible decomposition and the set of radicals is unique.
+\end{theorem}
 \begin{proof}
-    Let $I=Q_1\cap\cdots Q_n$ be an irreducible primary decomposition, and let $P_i:=\sqrt{Q_i}$.
-    We show that $\{P_1,\ldots,P_n\}$ is precisely the prime ideals that appear in $\{\sqrt{(I:x)}:x\in A\}$.
-    For any $x\in A$,
-    \begin{align*}
-        (I:x) &= \left(\bigcap_{i=1}^n Q:x\right)=\bigcap_{i=1}^n(Q_i:x)
-    \end{align*}
-    so that
-    \begin{align*}
-        \sqrt{(I:x)} &= \bigcap_{i=1}^n\sqrt{(Q_i:x)}\\
-                     &= \bigcap_{\substack{i=1\\x\notin Q_i}}^n\sqrt{(Q_i:x)}\\
-                     &= \bigcap_{\substack{i=1\\x\notin Q_i}}{x\notin Q_i,i=1}^n\sqrt{P_i}\\
-                     &= \bigcap_{\substack{i=1\\x\notin Q_i}}^nP_i\tag{$*$}
-    \end{align*}
+    We use \cref{lem:col} and \cref{lem:col-pri} throughout the proof.
+    Let $I=Q_1\cap\cdots\cap Q_n$ be an irredundant primary decomposition and let $P_i:=\sqrt{Q_i}$.
+    For any $x\in A$, $(I:x) = \left(\bigcap_{i=1}^n Q:x\right)=\bigcap_{i=1}^n(Q_i:x)$ so that
+    \begin{align}
+        \sqrt{(I:x)} &= \bigcap_{i=1}^n\sqrt{(Q_i:x)}= \bigcap_{\{i:x\notin Q_i\}}\sqrt{(Q_i:x)} = \bigcap_{\{i:x\notin Q_i\}} P_i\label{eq:pri}
+    \end{align}
     If $\sqrt{(I:x)}$ is prime, then $\sqrt{(I:x)}=P_i$ for some $i$ such that $x\notin Q_i$.
-    Conversely for $j=1,\ldots,n$, let $x\in\bigcap_{i\neq j}Q_i\setminus Q_i$; by irreducibility, $\sqrt{(I:x)}=)$ by $(*)$.
-    Thus $\{P_1,\ldots,P_n\}$ is the set of prime ideals $\{\sqrt{(I:x)}:x\in A\}$ and does not depend on the particular decomposition.
+    Conversely for $j=1,\ldots,n$, let $x\in\bigcap_{i\neq j}Q_i\setminus Q_i$; by irreducibility, $\sqrt{(I:x)}=P_j$ by \cref{eq:pri}.
+    Thus $\{P_1,\ldots,P_n\}$ is the set of prime ideals $\{\sqrt{(I:x)}:x\in A\}$ which does not depend on the particular decomposition.
 \end{proof}
 \begin{example}
     Consider $A=k[x,y]$ and $I=(x^2,xy)$.
-    Then $I=(x)\cap(x^2,y)$ or $I=(x)\cap(x,y)^2$.
-    But then $\sqrt{(x)}=(x)$, $\sqrt{(x^2,y)}=(x,y)$ and $\sqrt{(x,y)^2}=(x,y)$.
+    Then $I=(x)\cap(x^2,y)$ or $I=(x)\cap(x,y)^2$ so the decomposition is not necessarily unique.
+    However, $\sqrt{(x)}=(x)$, $\sqrt{(x^2,y)}=(x,y)$ and $\sqrt{(x,y)^2}=(x,y)$.
 \end{example}
 \begin{definition}
-    If $I$ is decomposable and $I=Q_1\cap\cdots\cap Q_n$ is an independent primary decomposition, then $\{\sqrt{Q_1},\ldots,\sqrt{Q_n}\}$ are called the \textbf{prime ideals associated to $I$}.
-    If $P$ is associated to $I$, then we say $P$ is a \textbf{minimal prime ideal of $I$} if it is minimal among the associated primes.
+    If $I$ is decomposable and $I=Q_1\cap\cdots\cap Q_n$ is an irredundant primary decomposition, then $\{\sqrt{Q_1},\ldots,\sqrt{Q_n}\}$ are called the \textbf{prime ideals associated to $I$}.
+    If $P$ is associated to $I$, then we say $P$ is a \textbf{minimal prime} of $I$ if it is minimal among the associated primes.
     Otherwise, $P$ is called an \textbf{embedded prime} of $I$.
 \end{definition}
 \begin{example}
@@ -2188,187 +2295,98 @@ This gives many examples of flat and not free $A-$algebras.
 \end{example}
 \begin{proposition}
     Suppose $I$ is decomposable.
-    Then $P$ is a minimal prime if and only if $P$ is minimal in $V(I):=\{P\text{ prime}:P\supseteq I\}$.
+    Then $P$ is a minimal prime if and only if $P$ is minimal in $V(I)$.
 \end{proposition}
 \begin{proof}
-    Let $I=Q_1\cap\cdots Q_n$ be an irredundant primary decomposition.
-    Let $P_i:=\sqrt{Q_i}$.
+    Let $I=Q_1\cap\cdots\cap Q_n$ be an irredundant primary decomposition and let $P_i:=\sqrt{Q_i}$.
     Then if $P\in V(I)$, $P\supseteq Q_1\cap\cdots\cap Q_n$ so $P\supseteq P_1\cap\cdots\cap P_n$.
-    Thus $P\supseteq P_j$ for soe $j$, and $\{P_1,\ldots,P_n\}\subseteq V(I)$ and every element of $V(I)$ contains an element of $\{P_1,\ldots,P_n\}$ so the minimals are equal.
+    Thus $P\supseteq P_j$ for some $j$, and $\{P_1,\ldots,P_n\}\subseteq V(I)$.
+    Thus every $P\in V(I)$ contains some $P_j\in\{P_1,\ldots,P_n\}$ so the minimal elements are the same.
 \end{proof}
 \begin{corollary}
-    If $I$ is decomposable, then $\sqrt{I}=\bigcap\{\text{minimal primes of $I$}\}$.
+    If $I$ is decomposable, then $\sqrt{I}$ is the intersection of the minimal primes of $I$.
 \end{corollary}
 \begin{proof}
-    Write $I=Q_1\cap\cdots\cap Q_n$ so $\sqrt{I}=P_1\cap\cdots P_n$ are associated primes, and thus the set of minimal elements among $\{P_1,\ldots,P_n\}$.
+    Write $I=Q_1\cap\cdots\cap Q_n$ so $\sqrt{I}=P_1\cap\cdots\cap P_n$ are associated primes, and thus it suffices to take the intersection over the minimal elements.
 \end{proof}
 \begin{corollary}
-    Suppose $I$ is decomposable
-    Then $\sqrt{I}$ has an irredundant prime decomposition unique up to reordering of the prime ideals.
+    If $I$ is decomposable, then $\sqrt{I}$ has an irredundant prime decomposition unique up to reordering of the prime ideals.
 \end{corollary}
 \begin{proof}
     Let $I=Q_1\cap\cdots Q_n$ be an irredundant primary decomposition, and let $P_1,\ldots,P_l$ be the minimal primes associated to $I$.
     Then $\sqrt{I}=P_1\cap\cdots\cap P_l$.
     If $P_i\supseteq\bigcap_{j\neq i}P_j$, then $P_i\supseteq P_j$ for some $j\neq i$, contradicting minimality.
-    If $\sqrt{I}=P_1'\cap\cdots P_m'$, then $(*)$ and $(**)$ are both irreducible primary decompositions of $\sqrt{I}$ so $\{\sqrt{P_1},\ldots,\sqrt{P_l}\}=\{\sqrt{P_1'},\ldots,\sqrt{P_m'}\}$ and the sets are the same.
+    Then the result follows by uniqueness of the irreducible primary decomposition of $\sqrt{I}$.
 \end{proof}
-\subsection{Geometric Significance}
-A Zariski closed set in $\Spec(A)$ is \textbf{irreducible} if it is not the union of two proper Zariski closed subsets.
+\subsection{Geometry of Primary Decompositions}
+\begin{definition}
+    A Zariski closed set in $\Spec(A)$ is \textbf{irreducible} if it is not the union of two proper Zariski closed subsets.
+\end{definition}
 \begin{remark}
     If $P\subseteq A$ is prime, then $V(P)$ is irreducible.
-\end{remark}
-\begin{proof}
-    Suppose $V(P)=V(I)\cup V(J)$; then $V(P)=V(I\cap J)$ so $I\cap J\subseteq P$.
+    To see this, Suppose $V(P)=V(I)\cup V(J)$; then $V(P)=V(I\cap J)$ so $I\cap J\subseteq P$.
     Thus $P\supseteq I$ or $P\supseteq J$, so $V(P)\subseteq V(I)$ or $V(P)\subseteq V(J)$ so one equality must hold.
-\end{proof}
+\end{remark}
 Let $I\subseteq A$ be decomposable, then $\sqrt{I}=P_1\cap\cdots\cap P_l$ be an irredundant prime decomposition.
-Then $V(I)=V(\sqrt{I})=V(P_1)\cup\cdots V(P_l)$, so we have written $V(I)$ as a finite union of irreducible Zariski closed subsets.
-Since $P_1,\ldots,P_n$ are irredundant, this decomposition is irreducible.
+Then $V(I)=V(\sqrt{I})=V(P_1)\cup\cdots\cup V(P_l)$, so we have written $V(I)$ as a finite union of irreducible Zariski closed subsets.
+Since $P_1,\ldots,P_n$ is an irredundant decomposition, this decomposition is irreducible.
 \begin{remark}
-    Let $I\subseteq A$ an ideal; then $I$ is primary if and only if $(0)$ is primary in $A/I$.
-    $I$ is decomposable if and only if $(0)$ is decomposable in $A/I$.
+    Let $I\subseteq A$ an ideal; then $I$ is primary if and only if $(0)$ is primary in $\quot{A}{I}$.
+    $I$ is decomposable if and only if $(0)$ is decomposable in $\quot{A}{I}$.
 \end{remark}
 \begin{proposition}
     Suppose $(0)$ is decomposable in $A$; then, the set of zero divisors in $A$ is the union of all the prime ideals associated to (0).
 \end{proposition}
 \begin{proof}
     Let $(0)=Q_1\cap\cdots\cap Q_n$ be an irreducible primary decomposition.
-    Let $D_i:=\sqrt{Q_i}$ be associated primes, and $D$ the set of zero divisors in $A$.
+    Let $P_i:=\sqrt{Q_i}$ be the associated primes, and $D$ the set of zero divisors in $A$.
     We want to show $D=P_1\cup\cdots\cup P_n$.
-    Fix $x\in A$, $x\neq 0$.
-    Then
+    Let $0\neq x\in A$, $x\neq 0$; then
     \begin{align*}
-        \Ann(x)&=(0:x)\subseteq\sqrt{(0:x)}\\
-               &= \bigcap_{i=1}^n\sqrt{(Q_i:x)}=\bigcap_{x\notin Q_i} P_i\subseteq P_J
+        \Ann(x)&=(0:x)\subseteq\sqrt{(0:x)}= \bigcap_{i=1}^n\sqrt{(Q_i:x)}=\bigcap_{\{i:x\notin Q_i\}} P_i\subseteq P_j
     \end{align*}
-    for some $j$ as $x\neq 0$ so $x\notin\bigcap_i Q_i$.
-    Conversely, write $D=\bigcup_{x\neq 0}\Ann(x)$
-    For the converse, recall from the proof of uniquenes of the associated primes, each $P_i$ is of the form $\sqrt{(0:x)}=\sqrt{Ann(x)}\subseteq D$ for some $x\in A$.
+    for some $j$ since $x\neq 0$ so that $x\notin\bigcap_{i=1}^n Q_i$.
+
+    Conversely, write $D=\bigcup_{x\neq 0}\Ann(x)$ and from \cref{thm:dec-uni}, each $P_i$ is of the form $\sqrt{(0:x)}=\sqrt{\Ann(x)}\subseteq D$ for some $x\in A$.
 \end{proof}
+\subsection{Decomposition in Noetherian Rings}
 \begin{definition}
-    An ideal $I\subseteq A$ is \textbf{irreducible} if whenever $I=J_1\cap J_2$ then $I=J-1$ or $I=J_2$.
+    An ideal $I\subseteq A$ is \textbf{irreducible} if whenever $I=J_1\cap J_2$ then $I=J_1$ or $I=J_2$.
 \end{definition}
+\begin{remark}
+    Every prime ideal is irreducible by \cref{prop:p-int}.
+\end{remark}
 \begin{proposition}
-    If $A$ is noetherian, then every ideal is an intersection of irreducible ideals.
+    If $A$ is Noetherian, then every ideal is an intersection of irreducible ideals.
 \end{proposition}
 \begin{proof}
-    Let $S$ be the set of all counterexamples.
-    Suppose $S\neq\emptyset$, and since $A$ is Noetherian, $S$ has a maximal element, $I$.
-    $I$ is not irreducible, so $I=J_1\cap J_2$, and equality certainly does not hold so by maximality $J_1,J_2\notin S$.
-    But then $J_1$ and $J_2$ are intersections of irreducible ideals, so $I=J_1\cap H_2$ is also an intersection of irreducible ideals.
+    Let $S$ be the set of ideals which cannot be written as an intersection of irreducible ideals.
+    Suppose $S\neq\emptyset$; since $A$ is Noetherian, $S$ has a maximal element, $I$.
+    Since $I$ is not irreducible, get $J_1,J_2$ so that $I=J_1\cap J_2$ but $I\neq J_1$, $I\neq J_2$.
+    Thus $J_1$ and $J_2$ properly contain $I$ and are not in $S$; but then $J_1$ and $J_2$ are intersections of irreducible ideals, so $I=J_1\cap J_2$ is also an intersection of irreducible ideals.
 \end{proof}
 \begin{proposition}
-    In a noetherian ring, every irreducible is prime.
+    In a Noetherian ring, every irreducible ideal is primary.
 \end{proposition}
 \begin{proof}
-    It suffices to prove that if $(0)$ is irreducible, then $(0)$ is primary (since $A$ is noetherian, so is any quotient).
+    Looking at the quotient ring, it suffices to prove that if $(0)$ is irreducible, then $(0)$ is primary.
     Suppose $xy=0$ and $y\neq 0$, and consider $\Ann(x)\subseteq\Ann(x^2)\subseteq\cdots$.
-    By Noetheranity, this chain stabilizes after finitely many sets, so for some $N\geq 1$, $\Ann(x^n)=\Ann(x^{n+1})$.
+    Since $A$ is Noetherian, this chain stabilizes and get some $n\geq 1$, $\Ann(x^n)=\Ann(x^{n+1})$.
     Let's show that $(x^n)\cap(y)=(0)$.
-    If $x\in (x^n)\cap(y)$, then $a=cy$ so $ax=cyx=0$.
-    Thus $a=bx^n$ and $0=ax=bx^nx=bx^{n+1}$ so $B\in\Ann(x^{n+1})=\Ann(x^n)$.
+    If $a\in (x^n)\cap(y)$, since $a\in (y)$, $a=cy$ so $ax=cyx=0$.
+    Then since $a\in(x^n)$, $a=bx^n$ and $0=ax=bx^nx=bx^{n+1}$ and $b\in\Ann(x^{n+1})=\Ann(x^n)$.
     Thus $bx^n=0$ so $a=0$.
 \end{proof}
 \begin{corollary}
-    If $A$ is noetherian, every ideal is decomposable.
+    If $A$ is Noetherian, every ideal is decomposable.
     In particular, in $\Spec(A)$, every Zariski closed set has a (unique irredundant) decomposition into irreducible closed sets.
 \end{corollary}
-\begin{example}
-    $\Z$ is a PID.
-    $\Q[x_1,x_2,\ldots,]$ is a UFD but not noetherian
-    $\Z\oplus\Z$ is a noetherian $\Z-$module and a noetherian ring.
-    $\Z[i]$ is a PID
-    $\C[x,y]$ is Noetherian (hilbert basis theorem)
-    $\C\otimes_{\R}\C$ is a Noetherian $\R-$module and ring
-    $\C\otimes_{\Q}\C$ is noetherian
-    $\Q(\pi)\otimes_{\Q}\Q(\pi)$ is noetherian
-\end{example}
 \begin{proposition}
-    Suppose $0\to N\to M\to Q\to 0$ is an exact sequence.
-    Then $M$ is noetherian if and only if $N$ and $Q$ are noetherian.
-\end{proposition}
-\begin{proof}
-    Assume $N\leq M$ and $Q=M/N$.
-    If $M$ is noetherian, then $N\leq M$ is certainly noetherian and $M/N$ is also noetherian by the correspondence theorem.
-
-    Now suppose $N,M/N$ are noetherian; we want to show ACC for $M$.
-    Let $P_1\subseteq P_2\subseteq\cdots$ be a chain in $M$.
-    Get $N_1$ such that the chain $P_1\cap N\subseteq P_2\cap N\subseteq\cdots$ stabilizes, and $N_2$ such that the chain $P_1/(N\cap P_1)\subseteq P_2/(N\cap P_2)\subseteq\cdots$ stabilizes, and $N=\max\{N_1,N_2\}$.
-    Let's show that $P_{N+1}\subseteq P_N$; let $x\in P_{N+1}$.
-    In $M/N$, $\overline{x}\in\overline{P_{k+1}}=\overline{}$.
-\end{proof}
-\begin{corollary}
-    If $M,N$ are noetherian, so is $M\oplus N$.
-\end{corollary}
-\begin{corollary}
-    If $A$ is noetherian and $M$ is finitely generated $A-$module, then $M$ is noetherian.
-\end{corollary}
-\begin{proof}
-    Take $0\to N\to M\oplus N\to M\to 0$ in the first, and $0\to P\to A^n\to A^n/P\to 0$ in the second.
-\end{proof}
-Which of the following constructions preserve noetherian?
-\begin{enumerate}[nolistsep]
-    \item If $A\subseteq B$?
-        Take $A=\C[x_1,x_2,\ldots]$, but $A\subseteq\Frac(A)$.
-    \item submodules, quotients preserve noetherian
-    \item If $A$ is noetherian, then $S^{-1}A$ is noetherian (non-zero prime ideal).
-        Use the bijection between ideals of $A$ in $S^c$ and ideals of $S^{-1}A$.
-    \item direct sums: also true
-    \item tensor products? not necessarily, $\C\otimes_{\Q}\C$ is not noetherian.
-        Take a tower of fields $\Q\subsetneq F_1\subsetneq F_2\subsetneq\cdots\subseteq\C$, possible since $\C$ has infinite transcendence degree over $\Q$.
-        Define $f_i:\C\otimes_{\Q}\C\to\C\otimes_{F_i}\C$.
-        This is a ring homomorphism, which is not injective but is surjective.
-        Then $I_i:=\ker(f_i)$ is an infinite ascending chain of ideals.
-
-        If $K/F$ is finitely generated as an $F-$algebra, then $K/F$ is finite dimensional.
-        When we say finitely generated field extension, we mean $K=F(\alpha_1,\ldots,\alpha_n)$ for (possible transcendental) $\alpha_i$.
-        Finitely generated as an $F-$algebra is saying $K=F[\alpha_1,\ldots,\alpha_n]$.
-
-        We have $K/F$ is a finitely generated field extension if and only if $K\otimes_F K$ is noetherian.
-\end{enumerate}
-\begin{theorem}
-    If $A$ is noetherian, then so is $A[x]$.
-\end{theorem}
-\begin{proof}
-    Let $I\subseteq A[x]$ an ideal, and $J\subseteq A$ the ideal of leading coefficients of polynomials in $I$ (exercise).
-    Then $A$ is noetherian implies $J=(a_1,\ldots,a_n)$ for some $a_i\in A$.
-    For each $i=1,\ldots,n$, let $f_i\in I$ be $f_i(x)=a_ix^{r_i}+(\text{lower degree terms})$.
-    Let $I'=(f_1,\ldots,f_n)$ and $R=\max\{r_1,\ldots,r_n\}$.
-    We claim that if $f\in I$, then $f=g+h$ where $\deg g<r$ and $h\in I'$.
-    This follows by induction on $\deg f$.
-    If $\deg f<r$, take $h=0$.
-    Otherwise, suppose $\deg f\geq r$.
-    Write $f=ax^m+(\text{lower degree ters})$, $m\geq r=\max\{r_1,\ldots,r_n\}$.
-    Since $a\in J$, $a=\sum_{i=1}^n b_ia_i$ for some $b_i\in A$.
-    Fix $I$, so
-    \begin{align*}
-        b_ix^{m-r_i}f_i &= b_ix^{m-r_i}(a_ix^{r_i}+(\text{lower degree terms})\\
-                        &= b_ia_ix^m+(\text{lower degree terms})\\
-                        &= ax^m+(\text{lower degree terms})
-    \end{align*}
-    so $f-\sum_{i=1}^n b_ix^{m-r_i}f_i$ has degree $<m$.
-    By induction, $f=g+h$ whre $\deg g<r$, $h\in I'$.
-    Thus $f=g+(h+\sum_{i=1}^n b_ix^{m-r_i}f_i)$.
-
-    Rephrased, the claim says $I=I'+I\cap A[x]_{<r}$.
-    This is an $A-$submodule of $A[x]$, so $I\cap A[x]_{<r}$ is an $A-$submodule of $A[x]_{<r}$.
-    Since $A[x]_{<r}$ is a finitely generated $A-$module, $A$ is noetherian implies $A[x]_{<r}$ is a noetherian $A-$module.
-    Thus $I\cap A[x]_{<r}$ is finitely generated as an $A[x]_{<r}$ submodule, say $g_1,\ldots,g_l\in I\cap A[x]_{<r}$.
-    Then $I=(f_1,\ldots,f_n,g_1,\ldots,g_l)$.
-\end{proof}
-\begin{corollary}
-    If $A$ is noetherian, every finitely generated $A-$algebra is noetherian.
-\end{corollary}
-\begin{proof}
-    Every finitely generated $A-$algebra is of the form $A[x_1,\ldots,x_n]/I$.
-    Apply HBT repeatedly to see that $A[x_1,\ldots,x_n]$ is noetherian.
-\end{proof}
-\begin{proposition}
-    In a noetherian ring, if $J=\sqrt{I}$, then $J^n\subseteq I$ for some $n\geq 1$.
+    In a Noetherian ring, if $J=\sqrt{I}$, then $J^n\subseteq I$ for some $n\geq 1$.
     In particular, the nilradical is nilpotent.
 \end{proposition}
 \begin{proof}
-    Set $J=(a_1,\ldots,a_k)$ finitely generated as an $A-$module is noetherian.
+    Set $J=(a_1,\ldots,a_k)$ finitely generated as an $A-$module is Noetherian.
     For each $i$, $a_i^{n_i}\in I$.
     Choose $m$ such that $r_1+\cdots+r_l=m$, so $r_i\geq n_i$ for each $i=1,\ldots,l$.
     Then $J^m$ is the ideal generated by $b_1,\ldots,b_m$ as $b_i\in J$ vary, so that
@@ -2377,7 +2395,7 @@ Which of the following constructions preserve noetherian?
     \end{equation*}
 \end{proof}
 \begin{corollary}
-    If $A$ is noetherian, $\mathfrak{m}\subseteq A$ maximal, and $Q\subseteq A$ an ideal, TFAE:
+    If $A$ is Noetherian, $\mathfrak{m}\subseteq A$ maximal, and $Q\subseteq A$ an ideal, TFAE:
     \begin{enumerate}[nl,r]
         \item $\mathfrak{m}=\sqrt{Q}$
         \item $Q$ is $\mathfrak{m}-$primary
@@ -2387,20 +2405,12 @@ Which of the following constructions preserve noetherian?
 \begin{proof}
     \imp{i}{ii} is done in general.
 
-    \imp{ii}{iii}: $\sqrt{Q}=\mathfrak{m}$ so by noetherianity, $m^n\subseteq Q$ for some $n\geq 1$.
+    \imp{ii}{iii}: $\sqrt{Q}=\mathfrak{m}$ so by Noetherianity, $m^n\subseteq Q$ for some $n\geq 1$.
 
     \imp{iii}{1}: $\sqrt{m}=\sqrt{m^n}\subseteq\subseteq\sqrt{m}$
 \end{proof}
-Suppose $A$ is a ring, $B$ is an $A-$algebra.
-hen $B$ has various structures:
-\begin{itemize}[nl]
-    \item $B$ is a ring
-    \item $B$ is an $A-$module
-    \item $B$ is a $B-$module, and $B$ submodules are ideals of $B$.
-\end{itemize}
-When we say $B$ is noetherian, we mean as a $B-$module.
-That is, there is no infinite proper increasing chain of ideals.
 
+\section{Integral Extensions}
 Integrality is preserved by quotients and localising.
 \begin{itemize}[nl]
     \item If $A\subseteq B$ is an integral extension, $J\subseteq B$ is an ideal, then $B/J$ is an integral extension with $A/J\cap A$.
@@ -2529,7 +2539,7 @@ Then $\quot{Q'}{Q}\cap A/P=P'/P$, so $Q'\cap A=P'$.
     This can be used to prove $f:\Spec(B)\to\Spec(A)$ is a closed map.
 \end{remark}
 \begin{corollary}
-    If $B$ is noetherian and integral over $A$, $P\in\Spec(A)$.
+    If $B$ is Noetherian and integral over $A$, $P\in\Spec(A)$.
     There are only finitely many $Q\in\Spec(B)$ such that $Q\cap A=P$.
 \end{corollary}
 \begin{proof}
@@ -2595,7 +2605,7 @@ Then $\quot{Q'}{Q}\cap A/P=P'/P$, so $Q'\cap A=P'$.
 \end{proof}
 \begin{remark}
     Given $A$, we have found $k[u_1,\ldots,u_r]\subseteq A$ so $A$ is an integral extension.
-    Last lecture, we saw that noetherian integral extensions are very nice.
+    Last lecture, we saw that Noetherian integral extensions are very nice.
     The first is a polynomial ring over $k$, and are, for example, a UFD.
 
     Thus means $\Spec(A)\to\Spec(k[x_1,\ldots,x_n])$ is a surjective, finite-to-one, continuous
@@ -2669,7 +2679,7 @@ Another formulation of WN
     Let $Z(I):=\{(a_1,\ldots,a_r)\in k^n:f(a_1,\ldots,a_r)=0\text{ for all $f\in I$}\}$.
     Then $Z(I)\neq 0$ if and only if $I$ is a proper ideal.
 \end{corollary}
-Note that to compute $Z(I)$, we equivalently just need to compute a finite set of zeros of the generators of $I$, since $k[x_1,\ldots,x_r]$ is noetherian.
+Note that to compute $Z(I)$, we equivalently just need to compute a finite set of zeros of the generators of $I$, since $k[x_1,\ldots,x_r]$ is Noetherian.
 \begin{proof}
     \impr If $I=k[x_1,\ldots,x_n]$, then $1\in I$ and $1=0$ has no solutions.
 
