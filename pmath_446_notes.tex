@@ -685,138 +685,38 @@ If $A$ is a local ring, Nakayama's Lemma applies to any proper ideal in $A$.
     \end{gather*}
     and the long exact sequence is exact if and only if all the short exact sequences are.
 \end{remark}
-\section{Rank, Basis, Torsion}
-\begin{definition}
-    Let $M$ be an $A-$module, $X\subseteq M$ a subset.
-    $X$ is \textbf{$A-$linearly independent} if whenever $x_1,\ldots,x_n\in X$ are distinct and $a_1,\ldots,a_n\in A$, if $a_1x_1+\cdots+a_nx_n=0$, then $a_1=a_2=\cdots=a_n=0$.
-    We say that $X$ is a \textbf{basis} for $M$ if $X$ generates $M$ and is $A-$linearly independent.
-\end{definition}
-Unlike vector spaces, modules usually do not have bases.
-In fact, we have the following lemma:
-\begin{lemma}
-    $M$ has a basis if and only if $M$ is free.
-\end{lemma}
-\begin{proof}
-    $(\Rightarrow)$ First suppose $X\subseteq M$ is a basis.
-    Consider the map
-    \begin{equation*}
-        \bigoplus\limits_{x\in X}A\fto{f} M\text{ given by }(a_x:x\in X)\mapsto\sum\limits_{x\in X}a_xx
-    \end{equation*}
-    Since a domain is a direct sum, this summation is finite.
-    As well, the map is clearly $A-$Linear: $f$ is surjective since $M=(X)$, and $f$ is injective since $X$ is $A-$linearly independent.
-    Thus $M$ is isomorphic to a direct sum over $A$, so $M$ is free.
-
-    $(\Leftarrow)$ Conversely, suppose $M$ is free.
-    Let $f:M\to\bigoplus_{i\in I}A$ be an isomorphism.
-    For each $i\in I$, let
-    \begin{equation*}
-        e_j=\left\{(a_i:i\in I): a_i=1\text{ if }i=j, a_i=0\text{ otherwise}\right\}
-    \end{equation*}
-    Clearly, $\{e_j:j\in I\}$ is a basis for $\bigoplus_{i\in I}A$ (the \textbf{standard basis}), so one can verify that $\{f^{-1}(e_j):j\in I\}\subseteq M$ is a basis for $M$.
-\end{proof}
-\begin{definition}
-    Suppose $A$ is an integral domain, $M$ an $A-$module.
-    Then the \textbf{rank of $M$} is the maximum size of an $A-$linearly independent subset of $M$.
-    We say $\rank(M)\in\N\cup\{\infty\}$.
-\end{definition}
-\begin{proposition}
-    If $F:M\to N$ is $A-$linear, then $\rank(f(M))\leq\rank(M)$.
-\end{proposition}
-\begin{proof}
-    Suppose $\rank(M)=m\in\N$.
-    Let $y_1,\ldots,y_{m+1}\in f(M)$ distinct, and get $y_i=f(x_i)$ for $x_i\in M$.
-    Thus $\{x_1,\ldots,x_{m+1}\}$ is $A-$linearly dependent, so there is $a_1,\ldots,a_{m+1}\in A$, not all zero, so
-    \begin{equation*}
-        a_1x_1+\cdots+a_{m+1}x_{m+1}=0
-    \end{equation*}
-    Then by applying $f$, $a_1y_1+\cdots+a_{m+1}y_{m+1}=0$, so $\{y_1,\ldots,y_{m+1}\}$ is $A-$linearly dependent, and $\rank(f(M))\leq m$.
-\end{proof}
-\begin{lemma}
-    Let $A$ be an integral domain.
-    Then $\rank(A^m)=m$.
-\end{lemma}
-\begin{proof}
-    Let $F=\Frac(A)$, so $A^m\subseteq F^m$ in a natural way.
-    Certainly $\rank(A^m)\geq m$, taking the standard basis, so let $x_1,\ldots,x_{m+1}\in A^m$ be distinct.
-    $F^m$ is a vector space, so this collection is $F-$linearly dependent in $F^m$.
-    Thus get $f_i$ so that $f_1x_1+\cdots+f_{m+1}x_{m+1}=0$, where $f_i=a_i/b_i$, $a_i,b_i\in A$.
-    Then clearing denominators, since we are in an integral domain, we see that $\{x_1,\ldots,x_{m+1}\}$ are $A-$linearly dependent and $\rank(A^m)\leq m$.
-\end{proof}
-\begin{definition}
-    Let $A$ be an integral domain and $M$ an $A-$module.
-    We define the \textbf{torsion submodule} by $\Tor(M)=\{x\in M:\exists a\in A\setminus \{0\}\text{ s.t. }ax=0\}$.
-    We say:
-    \begin{enumerate}[nolistsep]
-        \item $x\in M$ is \textbf{torsion} if $x\in\Tor(M)$
-        \item $N\leq M$ is \textbf{torsion free} if $\Tor(M)\cap N=\{0\}$
-        \item $N\leq M$ is \textbf{torsion} if $N\leq\Tor(M)$.
-    \end{enumerate}
-\end{definition}
-\begin{remark}
-    $x$ is torsion if and only if $\{x\}$ is $A-$linearly dependent.
-\end{remark}
-\begin{lemma}\label{tor}
-    Let $A$ be an integral domain.
-    Then
-    \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item $M$ is torsion if and only if $\rank(M)=0$.
-        \item Free modules are torsion-free.
-        \item If $M$ and $N$ are torsion, then $M\oplus N$ is torsion.
-            In particular, $a_1,\ldots,a_n\in A$ be non-zero.
-            Then $A/(a_1)\oplus A/(a_2)\oplus\cdots\oplus A/(a_n)$ is torsion.
-    \end{enumerate}
-\end{lemma}
-\begin{proof}
-    \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item This follows since
-            \begin{align*}
-                \text{$M$ is torsion}&\iff\text{$x\in M$ is torsion}\\
-                                     &\iff\text{$\{x\}$ is linearly dependent for all $x\in M$}\\
-                                     &\iff\rank(M)<1\\
-                                     &\iff\rank(M)=0
-                \end{align*}
-        \item It suffices to do this for $M=\bigoplus_{i\in I}A$.
-            Let $x\in M$, $x\neq 0$.
-            Write $x=(a_i:i\in I)$.
-            Then $x\neq 0$ implies $a_{i_0}\neq 0$ for some $i_0\in I$.
-            If $a\in A$ and $ax=0$, then $aa_{i_0}=0$.
-            Thus $a=0$ since $a_{i_0}\neq 0$ and $A$ is an integral domain, so $x$ is not torsion.
-        \item Let $(x,y)\in M\oplus N$, and get $a_1,a_2$ so $a_1x=a_2y=0$; then $A$ is an integral domain so $a_1a_2\neq 0$ and $a_1a_2(x,y)=(0,0)$.
-            For the latter part, $A/(a_i)$ is torsion since $a_i(x+(a_i))=0+(a_i)$, so their direct sum is also torsion.
-    \end{enumerate}
-\end{proof}
 \section{Noetherian Rings and Modules}
-Let $R$ be a commutative ring.
+Let $A$ be a commutative ring.
 \begin{definition}
-    $R$ is \textbf{Noetherian} if every ascending chain of ideals in $R$ stabilizes.
+    $A$ is \textbf{Noetherian} if every ascending chain of ideals in $A$ stabilizes.
 \end{definition}
 We have the following fundamental property of Noetherian rings:
 \begin{proposition}\label{noe}
     The following are equivalent:
     \begin{enumerate}[nolistsep]
-        \item $R$ is Noetherian.
-        \item Every non-empty set $S$ of ideals of $R$ has a maximal element in $S$.
-        \item Every ideal of $R$ is finitely generated.
+        \item $A$ is Noetherian.
+        \item Every non-empty set $S$ of ideals of $A$ has a maximal element in $S$.
+        \item Every ideal of $A$ is finitely generated.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    $(1)\Rightarrow (2)$.
+    \imp{1}{2}
     Let $S$ be a non-empty set of ideals with no maximal element.
     Since $S$ is non-empty, get $I_1\in S$.
     Then for any $I_k\in S$, $I_k$ is not maximal and get $I_{k+1}\supsetneq I_k$.
     This is an infinite chain of ideal which does not stabilize.
 
-    $(2)\Rightarrow(1)$.
+    \imp{2}{1}
     Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and let $S=\{I_k:k\in\N\}$.
     By assumption, $S$ has a maximal element, $I_N$; but then for any $n\geq N$, $I_n=I_N$ and the chain stabilizes.
 
-    $(3)\Rightarrow(1)$.
+    \imp{3}{1}
     Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and set $I=\bigcup_{i=1}^\infty I_n$.
     By assumption, $I=(x_1,\ldots,x_n)$.
     Since each $x_i\in I_j$ for some $j$, get $k$ so that $x_1,\ldots,x_n\in I_k$; but then $I_k=I_n$ and the chain stabilizes.
 
-    $(1)\Rightarrow(3)$.
-    Let $I$ be an ideal of $R$ not finitely generated.
+    \imp{1}{3}
+    Let $I$ be an ideal of $A$ not finitely generated.
     Then $I\neq(0)$, so get $a_1\in I$.
     For any finite $a_1,\ldots,a_k\in I$, since $I$ is not finitely generated, there exists $a_{k+1}\in I\setminus(a_1,\ldots,a_k)$.
     Thus by the axiom of choice, choose $a_i,i\in\N$ so that $\{(a_1,\ldots,a_i):i\in\N\}$ does not stabilize, a contradiction.
@@ -936,6 +836,106 @@ However, in terms of the notion of noetherianity with respect to modules, a numb
 \begin{remark}
     Tensor products do not necessarily preserve Noetheranity: for example, $\C$ is a Noetherian $\Q-$module, but $\C\otimes_{\Q}\C$ is not Noetherian.
 \end{remark}
+\section{Rank, Basis, Torsion}
+\begin{definition}
+    Let $M$ be an $A-$module, $X\subseteq M$ a subset.
+    $X$ is \textbf{$A-$linearly independent} if whenever $x_1,\ldots,x_n\in X$ are distinct and $a_1,\ldots,a_n\in A$, if $a_1x_1+\cdots+a_nx_n=0$, then $a_1=a_2=\cdots=a_n=0$.
+    We say that $X$ is a \textbf{basis} for $M$ if $X$ generates $M$ and is $A-$linearly independent.
+\end{definition}
+Unlike vector spaces, modules usually do not have bases.
+In fact, we have the following lemma:
+\begin{lemma}
+    $M$ has a basis if and only if $M$ is free.
+\end{lemma}
+\begin{proof}
+    $(\Rightarrow)$ First suppose $X\subseteq M$ is a basis.
+    Consider the map
+    \begin{equation*}
+        \bigoplus\limits_{x\in X}A\fto{f} M\text{ given by }(a_x:x\in X)\mapsto\sum\limits_{x\in X}a_xx
+    \end{equation*}
+    Since a domain is a direct sum, this summation is finite.
+    As well, the map is clearly $A-$Linear: $f$ is surjective since $M=(X)$, and $f$ is injective since $X$ is $A-$linearly independent.
+    Thus $M$ is isomorphic to a direct sum over $A$, so $M$ is free.
+
+    $(\Leftarrow)$ Conversely, suppose $M$ is free.
+    Let $f:M\to\bigoplus_{i\in I}A$ be an isomorphism.
+    For each $i\in I$, let
+    \begin{equation*}
+        e_j=\left\{(a_i:i\in I): a_i=1\text{ if }i=j, a_i=0\text{ otherwise}\right\}
+    \end{equation*}
+    Clearly, $\{e_j:j\in I\}$ is a basis for $\bigoplus_{i\in I}A$ (the \textbf{standard basis}), so one can verify that $\{f^{-1}(e_j):j\in I\}\subseteq M$ is a basis for $M$.
+\end{proof}
+\begin{definition}
+    Suppose $A$ is an integral domain, $M$ an $A-$module.
+    Then the \textbf{rank of $M$} is the maximum size of an $A-$linearly independent subset of $M$.
+    We say $\rank(M)\in\N\cup\{\infty\}$.
+\end{definition}
+\begin{proposition}
+    If $F:M\to N$ is $A-$linear, then $\rank(f(M))\leq\rank(M)$.
+\end{proposition}
+\begin{proof}
+    Suppose $\rank(M)=m\in\N$.
+    Let $y_1,\ldots,y_{m+1}\in f(M)$ distinct, and get $y_i=f(x_i)$ for $x_i\in M$.
+    Thus $\{x_1,\ldots,x_{m+1}\}$ is $A-$linearly dependent, so there is $a_1,\ldots,a_{m+1}\in A$, not all zero, so
+    \begin{equation*}
+        a_1x_1+\cdots+a_{m+1}x_{m+1}=0
+    \end{equation*}
+    Then by applying $f$, $a_1y_1+\cdots+a_{m+1}y_{m+1}=0$, so $\{y_1,\ldots,y_{m+1}\}$ is $A-$linearly dependent, and $\rank(f(M))\leq m$.
+\end{proof}
+\begin{lemma}
+    Let $A$ be an integral domain.
+    Then $\rank(A^m)=m$.
+\end{lemma}
+\begin{proof}
+    Let $F=\Frac(A)$, so $A^m\subseteq F^m$ in a natural way.
+    Certainly $\rank(A^m)\geq m$, taking the standard basis, so let $x_1,\ldots,x_{m+1}\in A^m$ be distinct.
+    $F^m$ is a vector space, so this collection is $F-$linearly dependent in $F^m$.
+    Thus get $f_i$ so that $f_1x_1+\cdots+f_{m+1}x_{m+1}=0$, where $f_i=a_i/b_i$, $a_i,b_i\in A$.
+    Then clearing denominators, since we are in an integral domain, we see that $\{x_1,\ldots,x_{m+1}\}$ are $A-$linearly dependent and $\rank(A^m)\leq m$.
+\end{proof}
+\begin{definition}
+    Let $A$ be an integral domain and $M$ an $A-$module.
+    We define the \textbf{torsion submodule} by $\Tor(M)=\{x\in M:\exists a\in A\setminus \{0\}\text{ s.t. }ax=0\}$.
+    We say:
+    \begin{enumerate}[nolistsep]
+        \item $x\in M$ is \textbf{torsion} if $x\in\Tor(M)$
+        \item $N\leq M$ is \textbf{torsion free} if $\Tor(M)\cap N=\{0\}$
+        \item $N\leq M$ is \textbf{torsion} if $N\leq\Tor(M)$.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    $x$ is torsion if and only if $\{x\}$ is $A-$linearly dependent.
+\end{remark}
+\begin{lemma}\label{tor}
+    Let $A$ be an integral domain.
+    Then
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $M$ is torsion if and only if $\rank(M)=0$.
+        \item Free modules are torsion-free.
+        \item If $M$ and $N$ are torsion, then $M\oplus N$ is torsion.
+            In particular, $a_1,\ldots,a_n\in A$ be non-zero.
+            Then $A/(a_1)\oplus A/(a_2)\oplus\cdots\oplus A/(a_n)$ is torsion.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item This follows since
+            \begin{align*}
+                \text{$M$ is torsion}&\iff\text{$x\in M$ is torsion}\\
+                                     &\iff\text{$\{x\}$ is linearly dependent for all $x\in M$}\\
+                                     &\iff\rank(M)<1\\
+                                     &\iff\rank(M)=0
+                \end{align*}
+        \item It suffices to do this for $M=\bigoplus_{i\in I}A$.
+            Let $x\in M$, $x\neq 0$.
+            Write $x=(a_i:i\in I)$.
+            Then $x\neq 0$ implies $a_{i_0}\neq 0$ for some $i_0\in I$.
+            If $a\in A$ and $ax=0$, then $aa_{i_0}=0$.
+            Thus $a=0$ since $a_{i_0}\neq 0$ and $A$ is an integral domain, so $x$ is not torsion.
+        \item Let $(x,y)\in M\oplus N$, and get $a_1,a_2$ so $a_1x=a_2y=0$; then $A$ is an integral domain so $a_1a_2\neq 0$ and $a_1a_2(x,y)=(0,0)$.
+            For the latter part, $A/(a_i)$ is torsion since $a_i(x+(a_i))=0+(a_i)$, so their direct sum is also torsion.
+    \end{enumerate}
+\end{proof}
 \section{Finitely Generated Modules over PIDs}
 \begin{proposition}\label{ftpid-prop}
     Suppose $A$ is a PID, $M$ is a free $A-$module of rank $m\in\N$, and $N\leq M$ a submodule.
@@ -945,24 +945,28 @@ However, in terms of the notion of noetherianity with respect to modules, a numb
         \item $r,n,(a_1),\ldots,(a_n)$ are unique.
     \end{enumerate}
 \end{proposition}
-\begin{proof}
-    We may assume $M=A^m$.
-    Consider
-    \begin{equation*}
-        \Sigma:=\{I\subseteq A:I\text{ is an ideal s.t. }I=\phi(N)\text{ for some }\phi\in\Hom_A(M,A)\}
-    \end{equation*}
-    Since $A$ is a PID, set $\phi(N)=(a_\phi)$.
-
-    \textbf{Claim 1: $\Sigma\supsetneq\{(0)\}$ and $\Sigma$ has a maximal element.}
+We may assume $M=A^m$.
+Consider
+\begin{equation*}
+    \Sigma:=\{I\subseteq A:I\text{ is an ideal s.t. }I=\phi(N)\text{ for some }\phi\in\Hom_A(M,A)\}
+\end{equation*}
+Since $A$ is a PID, set $\phi(N)=(a_\phi)$.
+\begin{claim}
+    $\Sigma\supsetneq\{(0)\}$ and $\Sigma$ has a maximal element.
+\end{claim}
+\begin{nmproof}
     Since $M=A^m$, we have coordinate projections $\pi_i:M\to A$ for $i=1,\ldots,m$.
     Since $N\neq(0)$, not all of $\pi_1(N),\ldots,\pi_n(N)$ can be zero.
     Now, since $A$ is a PID (and thus Noetherian), the second claim follows by \cref{noe}
 
     Now, let $\eta\in\Hom_A(M,A)$ be such that $\eta(N)$ is maximal in $\Sigma$.
     Thus $\eta(N)=(a_1)$ for some $0\neq a_1\in A$ non-zero; let $y\in N$ be such that $a_1=\eta(y)$.
-    We'll hold this notation for the rest of the proof.
-
-    \textbf{Claim 2: $a_1|\phi(y)$ for all $\phi\in\Hom_A(M,A)$.}
+\end{nmproof}
+We'll hold the above notation for the rest of the proof.
+\begin{claim}
+    $a_1|\phi(y)$ for all $\phi\in\Hom_A(M,A)$.
+\end{claim}
+\begin{nmproof}
     Let $d\in A$ be such that $(a_1,\phi(y))=(d)$, so $d=r_1a_1+r_2\phi(y)$ for some $r_1,r_2\in A$.
     Consider $\psi:=r_1\eta+r_2\phi$.
     Then
@@ -972,14 +976,16 @@ However, in terms of the notion of noetherianity with respect to modules, a numb
     so $d\in \psi(N)$.
     Thus $(a_1,\phi(y))\subseteq\psi(N)\subseteq\eta(N)=(a_1)$ by maximality of $\eta(N)$.
     But then $(a_1)=(a_1,\phi(y))$ so $a_1|\phi(y)$.
-
-    \textbf{Claim 3: There exists some $y_1\in M$ such that
-        \begin{enumerate}[nolistsep,label=(\roman*)]
-            \item $\eta(y_1)=1$
-            \item $M=(y_1)\oplus\ker(\eta)$
-            \item $N=(a_1y_1)\oplus(N\cap\ker(\eta))$
-        \end{enumerate}
-    }
+\end{nmproof}
+\begin{claim}
+    There exists some $y_1\in M$ such that
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $\eta(y_1)=1$
+        \item $M=(y_1)\oplus\ker(\eta)$
+        \item $N=(a_1y_1)\oplus(N\cap\ker(\eta))$
+    \end{enumerate}
+\end{claim}
+\begin{nmproof}
     Consider the standard basis $e_1,\ldots,e_m$ of $M=A^m$, so that for any $x\in M$, $x=\pi_1(x)e_1+\cdots+\pi_m(x)e_m$.
     By Claim 2, since $\pi_i\in\Hom_A(M,A)$, get $b_i$ so that $\pi_i(y)=a_1b_i$.
     Thus we can set
@@ -1007,47 +1013,55 @@ However, in terms of the notion of noetherianity with respect to modules, a numb
             Thus $N=(a_1y1)\oplus(N\cap\ker(\eta))$.
     \end{enumerate}
     For the remainder of the proof, set $K=\ker(\eta)$.
+\end{nmproof}
+\begin{claim}
+    The theorem holds.
+\end{claim}
+\begin{proof}
+    \begin{enumerate}
+        \item Certainly $\rank(N)\leq m$ since $N$ is a submodule of $M$.
+            Let's proceed by induction on the rank of $N$.
+            If $\rank(N)=0$, by \cref{tor}, $N$ is torsion.
+            However, $N\subseteq M$ which is free and thus has no non-trivial torsion, so $N=(0)$ and hence free.
 
-    \textbf{Proof of (i).}
-    Certainly $\rank(N)\leq m$ since $N$ is a submodule of $M$.
-    Let's proceed by induction on the rank of $N$.
-    If $\rank(N)=0$, by \cref{tor}, $N$ is torsion.
-    However, $N\subseteq M$ which is free and thus has no non-trivial torsion, so $N=(0)$ and hence free.
+            Now, suppose $\rank(N)>0$, so $N$ is non-trivial.
+            Applying Claim 3, we have $M=(y_1)\oplus K$, $N=(a_1y_1)\oplus(N\cap K)$.
+            Let's see that $\rank(N)\geq\rank(K\cap N)+1$.
+            Let $x_1,\ldots,x_l\in K\cap N$ $A-$linearly independent.
+            Suppose we have $b_1,\ldots,b_l,c\in A$ such that $b_1x_1+\cdots+b_lx_l+c(a_1y_1)=0$, so $ca_1y_1=-(b_1x_1+\cdots+b_lx_l)\in K\cap N$ while $ca_1y_1\in (a_1y_1)$, so $ca_1y_1=0$ and $ca_1=0$ since $y_1$ is not torsion.
+            Thus $b_1x_1+\cdots+b_lx_l=0$, so $b_1=b_2=\cdots=b_l=0$, and $\{x_1,\ldots,x_l,a_1y_1\}$ is $A-$linearly independent.
 
-    Now, suppose $\rank(N)>0$, so $N$ is non-trivial.
-    Applying Claim 3, we have $M=(y_1)\oplus K$, $N=(a_1y_1)\oplus(N\cap K)$.
-    Let's see that $\rank(N)\geq\rank(K\cap N)+1$.
-    Let $x_1,\ldots,x_l\in K\cap N$ $A-$linearly independent.
-    Suppose we have $b_1,\ldots,b_l,c\in A$ such that $b_1x_1+\cdots+b_lx_l+c(a_1y_1)=0$, so $ca_1y_1=-(b_1x_1+\cdots+b_lx_l)\in K\cap N$ while $ca_1y_1\in (a_1y_1)$, so $ca_1y_1=0$ and $ca_1=0$ since $y_1$ is not torsion.
-    Thus $b_1x_1+\cdots+b_lx_l=0$, so $b_1=b_2=\cdots=b_l=0$, and $\{x_1,\ldots,x_l,a_1y_1\}$ is $A-$linearly independent.
-    
-    Thus, $\rank(N)\geq\rank(K\cap N)+1$, so $\rank(K\cap N)<\rank(N)$ and by induction, $K\cap N$ is free.
-    Furthermore, $(a_1y_1)$ is free: consider $A\to(a_1y_1)$ by $b\mapsto ba_1y_1$, which is $A-$linear and surjective.
-    If $ba_1y=0$, then since $M$ has no nontrivial torsion, $ba_1=0$ so $b=0$ since $a_1\neq 0$ and $A$ is an integral domain.
-    Thus $A\cong(a_1y_1)$ and $N=(a_1y_1)\oplus K\cap N$ is free.
+            Thus, $\rank(N)\geq\rank(K\cap N)+1$, so $\rank(K\cap N)<\rank(N)$ and by induction, $K\cap N$ is free.
+            Furthermore, $(a_1y_1)$ is free: consider $A\to(a_1y_1)$ by $b\mapsto ba_1y_1$, which is $A-$linear and surjective.
+            If $ba_1y=0$, then since $M$ has no nontrivial torsion, $ba_1=0$ so $b=0$ since $a_1\neq 0$ and $A$ is an integral domain.
+            Thus $A\cong(a_1y_1)$ and $N=(a_1y_1)\oplus K\cap N$ is free.
 
-    \textit{Note that in general, any submodule of a free module over a PID is free.}
+            \textit{Note that in general, any submodule of a free module over a PID is free.}
 
-    \textbf{Proof of (ii).}
-    The proof proceeds by induction on $\rank(M)$.
-    If $\rank(M)=0$, then $M=(0)$ and the statement holds vacuously, so suppose $M$ is non-trivial.
-    Similarly, if $N$ is trivial, take $n=0$, so suppose $N$ is non-trivial.
-    Note that $K\leq M$, so we may apply (i) with $K$ in place of $N$.
-    In particular, $K$ is free with $\rank(K)<\rank(M)$.
+        \item The proof proceeds by induction on $\rank(M)$.
+            If $\rank(M)=0$, then $M=(0)$ and the statement holds vacuously, so suppose $M$ is non-trivial.
+            Similarly, if $N$ is trivial, take $n=0$, so suppose $N$ is non-trivial.
+            Note that $K\leq M$, so we may apply (i) with $K$ in place of $N$.
+            In particular, $K$ is free with $\rank(K)<\rank(M)$.
 
-    By induction, apply the claim with $K\cap N\leq K$.
-    Get a basis $y_2,\ldots,y_m$ of $K$ and $a_2,\ldots,a_n\in A$ so $a_2|a_3|\cdots|a_n$, $n\leq m$, such that $\{a_2y_2,\ldots,a_ny_n\}$ is a basis for $K\cap N$.
-    But now, since $M=(y_1)\oplus K$ and $N=(a_1y_1)\oplus(K\cap N)$ by Claim 3, $\{y_1,y_2,\ldots,y_m\}$ is a basis for $M$ and $\{a_1y_1,\ldots,a_ny_n\}$ is a basis for $N$.
-    It remains to show $a_1|a_2$.
-    Consider $\phi\in\Hom_A(M,A)$ by $y_1\mapsto 1$, $y_2\mapsto 1$, $y_i\mapsto 0$ for $i>2$ (since $M$ is free, $y_1,\ldots,y_n$ a basis, for any $A-$module and $z_1,\ldots,z_m\in A$, then there is a unique $A-$linear map from $M\to N$ such that $y_i\mapsto z_i$).
-    Then $\phi(a_1y_1)=a_1$.
-    Since $a_1y_1\in N$, this shows $a_1\in\phi(N)$ so that $(a_1)\subseteq\phi(N)$.
-    However, $K=(a_1)$, so by maximality, $(a_1)=\phi(N)$.
-    Finally, $\phi(a_2y_2)=a_2\phi(y_2)=a_2$, so $a_2\in\phi(N)=(a_1)$, so $a_1|a_2$.
+            By induction, apply the claim with $K\cap N\leq K$.
+            Get a basis $y_2,\ldots,y_m$ of $K$ and $a_2,\ldots,a_n\in A$ so $a_2|a_3|\cdots|a_n$, $n\leq m$, such that $\{a_2y_2,\ldots,a_ny_n\}$ is a basis for $K\cap N$.
+            But now, since $M=(y_1)\oplus K$ and $N=(a_1y_1)\oplus(K\cap N)$ by Claim 3, $\{y_1,y_2,\ldots,y_m\}$ is a basis for $M$ and $\{a_1y_1,\ldots,a_ny_n\}$ is a basis for $N$.
+            It remains to show $a_1|a_2$.
+            Consider $\phi\in\Hom_A(M,A)$ by $y_1\mapsto 1$, $y_2\mapsto 1$, $y_i\mapsto 0$ for $i>2$ (since $M$ is free, $y_1,\ldots,y_n$ a basis, for any $A-$module and $z_1,\ldots,z_m\in A$, then there is a unique $A-$linear map from $M\to N$ such that $y_i\mapsto z_i$).
+            Then $\phi(a_1y_1)=a_1$.
+            Since $a_1y_1\in N$, this shows $a_1\in\phi(N)$ so that $(a_1)\subseteq\phi(N)$.
+            However, $K=(a_1)$, so by maximality, $(a_1)=\phi(N)$.
+            Finally, $\phi(a_2y_2)=a_2\phi(y_2)=a_2$, so $a_2\in\phi(N)=(a_1)$, so $a_1|a_2$.
+    \end{enumerate}
 \end{proof}
 \begin{theorem}
     Let $A$ be a PID, $M$ a finitely generated $A-$module.
-    Then $M\cong A^r\oplus A/(a_1)\oplus\cdots\oplus A/(a_n)$ where $r\geq 0$, $a_1|a_2|\cdots|a_n$ are nonzero nonunits in $A$.
+    Then
+    \begin{equation*}
+        M\cong A^r\oplus \quot{A}{(a_1)}\oplus\cdots\oplus \quot{A}{(a_n)}
+    \end{equation*}
+    where $r\geq 0$, $a_1|a_2|\cdots|a_n$ are nonzero nonunits in $A$.
 \end{theorem}
 \begin{proof}
     That $a_1,\ldots,a_n$ are non-zero non-units is free.
@@ -1066,7 +1080,6 @@ However, in terms of the notion of noetherianity with respect to modules, a numb
         A/(a_1)\oplus\cdots\oplus A/(a_n)\oplus A^{m-n}\cong A^m/\ker(f)=A^m/(a_1y_1)+\cdots+(a_ny_n)\cong M
     \end{equation*}
 \end{proof}
-\subsection{Properties of the Fundamental Theorem}
 \begin{remark}
     Any quotient module $A/(a)$ is generated by the element $1+(a)$.
     In particular, every finitely generated $A-$module is a direct sum of cyclic $A-$modules.
@@ -1224,7 +1237,7 @@ When we talk about categories, it is natural to talk about maps between categori
     \end{itemize}
     Similar definitions hold for contravariant functors.
 \end{definition}
-\subsection{The Hom functor}
+\subsection{The Hom Functor}
 In the case of $A-$modules, recall that $\Hom_A(M,N)$ is the set of $A-$linear maps from $M$ to $N$ which is itself is an $A-$module with
 \begin{equation*}
     (f+g)(x)=f(x)+g(x),\qquad (af)(x)=af(x)
@@ -1671,14 +1684,14 @@ We need to check:
     \item $C\to B\otimes_A C$ by $c\mapsto 1\otimes c$ is a ring homomorphism
 \end{itemize}
 Having verified these things, we note that $B\otimes_A C$ has an $A-$algebra structure with $A\to B\otimes_A C$ given by $a\mapsto f(a)\otimes 1=1\otimes g(a)$.
-In other words, the following diagram commutes:
+In other words, the following diagram commutes: TODO: fill in the spaces, make this a square
 \begin{center}
     \begin{tikzcd}
-        A\arrow[r, "f"]\arrow[rd,swap,"g"]& B \arrow[r]& B\otimes_A C\arrow[d,"\id"]\\
-                                    & C \arrow[r]& B\otimes_A C
+        A\arrow[r, "f"]\arrow[rd,swap,"g"]& B \arrow[r]& B\otimes_A C\\
+                                    & C \arrow[ru]&
     \end{tikzcd}
 \end{center}
-\chapter{Prime Ideals and Topology}
+\chapter{Prime Ideals and Geometry}
 \section{Primes, Radicals, and Ideal Quotients}
 \begin{proposition}[Correspondence of Ideals]
     There is a bijective correspondence between the ideals in $\quot{A}{I}$ and ideals of $A$ containing $I$.
@@ -1694,6 +1707,7 @@ In other words, the following diagram commutes:
     \begin{enumerate}[nl,r]
         \item If $I\subseteq\bigcup_{i=1}^n P_i$, then $I\subseteq P_j$ for some $j$.
         \item If $P\supseteq \bigcap_{i=1}^n I_i$, then $P\supseteq I_j$ for some $j$.
+            In particular, if $P= \bigcap_{i=1}^n I_i$, then $P= I_j$ for some $j$.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
@@ -1939,6 +1953,7 @@ In fact, $(S^{-1}A,\alpha)$ is an $A-$algebra.
 \begin{proof}
     Define $g(a/s):=f(a)\cdot f(s)^{-1}$.
     One can verify that $g$ is well-defined and a ring homomorphism.
+    TODO: do this, plus verify uniqueness.
 \end{proof}
 \begin{corollary}
     $\alpha$ is an isomorphism if and only if $S\subseteq A^\times$.
@@ -2004,7 +2019,7 @@ To summarize the previous proposition, we have a bijective correspondence
 \begin{center}
     \begin{tikzcd}[row sep=tiny]
         \Spec(A)\setminus V(f)\arrow[r,leftrightarrow] & \Spec(A_f)\\
-        P\arrow[r,mapsto] & PA_f
+        P\arrow[r,mapsto] & PA_f\\
         \alpha^{-1}(Q)&\arrow[l,mapsto] Q
     \end{tikzcd}
 \end{center}
@@ -2392,7 +2407,7 @@ Since $P_1,\ldots,P_n$ is an irredundant decomposition, this decomposition is ir
     Thus $J^m\subseteq I$.
 \end{proof}
 \begin{corollary}
-    If $A$ is Noetherian, $M\subseteq A$ maximal, and $Q\subseteq A$ an ideal, TFAE:
+    If $A$ is Noetherian, $M\subseteq A$ maximal, and $Q\subseteq A$ an ideal, then the following are equivalent:
     \begin{enumerate}[nl,r]
         \item $M=\sqrt{Q}$
         \item $Q$ is $M-$primary
@@ -2411,7 +2426,27 @@ Since $P_1,\ldots,P_n$ is an irredundant decomposition, this decomposition is ir
 \end{proof}
 
 \section{Integral Extensions}
+\begin{definition}
+    Let $A\subseteq B$ be a subring.
+    An element $x\in B$ is \textbf{integral} over $A$ if $x$ is the root of a monic polynomial with coefficients in $A$.
+\end{definition}
 Integrality is preserved by quotients and localising.
+\begin{example}
+    Consider $\Z\subseteq\Q$.
+    If $x=r/s$ is integral over $\Z$ with $\gcd(r,s)=1$, after clearing denominators, we get an equation of the form $r^n+a_1r^{n-1}s+\cdots+a_ns^n=0$, so that $s|r^n$ and $s=\pm 1\in\Z$.
+    Thus the elements in $\Q$ integral over $\Z$ are precisely the elements in $\Z$.
+\end{example}
+\begin{proposition}
+    Let $A\subseteq B$ be a subring.
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $x\in B$ is integral over $A$
+        \item $A[x]$ is a finitely generated $A-$module
+        \item $A[x]$ is contained in a subring $C$ of $B$ such that $C$ is a finitely generated $A-$module
+        \item There exists a faithful $A[x]-$module which is finitely generated as an $A-$Module.
+    \end{enumerate}
+
+\end{proposition}
 \begin{itemize}[nl]
     \item If $A\subseteq B$ is an integral extension, $J\subseteq B$ is an ideal, then $B/J$ is an integral extension with $A/J\cap A$.
 
@@ -2550,6 +2585,7 @@ Then $\quot{Q'}{Q}\cap A/P=P'/P$, so $Q'\cap A=P'$.
     Thus $Q$ is minimal amount the prime ideals associated to $PB\subseteq B$.
     Thus $Q$ is an associated prime of $PB$, of which there are only finitely many.
 \end{proof}
+\section{Foundations of Algebraic Geometry}
 \begin{lemma}[Noether Normalisation]
     Let $k$ be an infinite field and $A$ a finitely generated $k-$algebra.
     Then there exists algebraically independent elements $a_1,\ldots,a_r\in A$ over $k$ such that $A$ is integral over $k[a_1,\ldots,a_r]$.
@@ -2617,8 +2653,8 @@ Then $\quot{Q'}{Q}\cap A/P=P'/P$, so $Q'\cap A=P'$.
     In fact, when $k$ is algebraically closed, $k^r$ ``is'' of closed points in $\Spec(k[x_1,\ldots,x_r])$ (the ``is'' statement is the weak nullstellensatz)
 \end{remark}
 \begin{proposition}
-    If $k$ is an infinite field and $A$ is a finitely generated $k-$algebra, $m\subseteq A$ a maximal ideal,.
-    Then $A/m$ is a finite algebraic extension of $k$.
+    Suppose $k$ is an infinite field, $A$ is a finitely generated $k-$algebra, and $m\subseteq A$ a maximal ideal.
+    Then $\quot{A}{m}$ is a finite algebraic extension of $k$.
 \end{proposition}
 \begin{proof}
     $k\hto A\to A/m$.
@@ -2719,7 +2755,7 @@ Note that the system of equations is a sentence with parameters only in $k$, so 
 \begin{definition}
     If $X\subseteq k^n$, then
     \begin{equation*}
-        I(X) := \{f\in k[x_1,\ldots,x_n]:f(a_1,\ldots,a_n)=0\frac{ for all }(a_1,\ldots,a_n)\in X\}
+        I(X) := \{f\in k[x_1,\ldots,x_n]:f(a_1,\ldots,a_n)=0\text{ for all }(a_1,\ldots,a_n)\in X\}
     \end{equation*}
     This is an ideal of $k[x_1,\ldots,x_n]$.
 \end{definition}
