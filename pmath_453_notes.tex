@@ -1,0 +1,419 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.13)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{braket}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{r}{label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+% Set hyperref
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\newcommand\myshade{85}
+\colorlet{mylinkcolor}{violet}
+\colorlet{mycitecolor}{orange!50!yellow}
+\colorlet{myurlcolor}{green!50!blue}
+
+\hypersetup{
+  linkcolor  = mylinkcolor!\myshade!black,
+  citecolor  = mycitecolor!\myshade!black,
+  urlcolor   = myurlcolor!\myshade!black,
+  colorlinks = true,
+}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+
+% align macros
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Big and small Disjoint union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{theorem}{#2Thm. #1#3}
+\Crefformat{lemma}{#2Lem. #1#3}
+\Crefformat{proposition}{#2Prop. #1#3}
+\Crefformat{corollary}{#2Cor. #1#3}
+\crefformat{theorem}{#2Theorem #1#3}
+\crefformat{lemma}{#2Lemma #1#3}
+\crefformat{proposition}{#2Proposition #1#3}
+\crefformat{corollary}{#2Corollary #1#3}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\Lip}{Lip}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Functional Analysis}
+\newcommand{\semester}{Fall 2019}
+
+
+% formatting -------------------------------------------------------------------
+% Fonts
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Adjust numbering
+\numberwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+\maxtocdepth{section} % table of contents up to section
+
+% Section / Subsection headers
+\setsecnumdepth{section} % numbering up to and including "section"
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Chapter Headers
+\chapterstyle{verville}
+
+% Page Headers / Footers
+\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+\setfootins{0.5cm}{0.5cm}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Fundamentals of Functional Analysis}
+\section{Banach Spaces}
+Throughout, we denote by $\F$ either the field $\R$ or the field $\C$.
+\begin{definition}
+    Let $X$ be a vector space over $\F$.
+    A \textbf{norm} is a functional $\norm{\cdot}:X\to\R$ such that it is
+    \begin{itemize}[nl]
+        \item \textit{(non-negative)} $\norm{x}\geq 0$ for any $x\in X$
+        \item \textit{(non-degenerate)} $\norm{x}=0$ if and only if $x=0$
+        \item \textit{(subadditivity)} $\norm{x+y}\leq\norm{x}+\norm{y}$ for $x,y\in X$
+        \item \textit{($\abs{\cdot}-$homogeneity)} $\norm{\alpha x}=\abs{\alpha}\norm{x}$ for $\alpha\in\F$, $x\in X$.
+    \end{itemize}
+    We call the pair $(X,\norm{\cdot})$ a \textbf{normed vector space}.
+    Furthermore, we say that $(X,\norm{\cdot})$ is a \textbf{Banach space}  provided that $X$ is complete with respect to the metric $\rho(x,y)=\norm{x-y}$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[r]
+        \item $(\F,\abs{\cdot})$ is a Banach space.
+        \item $(\F^b,\norm{\cdot}_p)$, $x=(x_j)_{j=1}^n$,
+            \begin{equation*}
+                \norm{x}_p=\begin{cases}
+                    \left(\sum_{i=1}^n\abs{x_j}^p\right)^{1/p} & 1\leq p<\infty\\
+                    \max_{j=1,\ldots,n}|x_j| & p=\infty
+                \end{cases}
+            \end{equation*}
+        \item Consider the space
+            \begin{equation*}
+                \quot{L_p^{\F}=\Set{f:[0,1]\to\F | f\text{ is Lebesgue measurable}, \left(\int_0^1\abs{f}^p\right)^{1/p}<\infty}}{\sim_{\text{a.e.}}}
+            \end{equation*}
+            where $1\leq p<\infty$.
+        \item $\displaystyle L_\infty^{\F}[0,1]$, $\norm{f}_\infty=\esssup_{t\in[0,1]}|f(t)|$.
+        \item Let $(X,d)$ be a metric space.
+            Then
+            \begin{equation*}
+                C_b^{\F}(x)=\Set{f:X\to\F | f\text{ is continuous and bounded}},\quad\norm{f}_\infty=\sup_{x\in X}|f(x)|
+            \end{equation*}
+            is a Banach space.
+    \end{enumerate}
+\end{example}
+Here is a more interesting example:
+\begin{example}
+    Let $(X,d)$ be a metric space.
+    We define the space of Lipschitz functions
+    \begin{equation*}
+        \Lip^{\F}(X,d)=\Set{f:X\to\F | f\text{ is bounded}, L(f)=\sup_{\substack{x,y\in X\\x\neq y}}\frac{|f(x)-f(y)|}{d(x,y)}<\infty}
+    \end{equation*}
+    We note that for $f:X\to\F$ that
+    \begin{equation}\label{e:lip}
+        f\in\Lip^{\F}(X,d)\Leftrightarrow\text{there is }L\geq 0\text{ s.t. }|f(x)-f(x)|\leq Ld(x,y)\text{ for all }x,y\in X
+    \end{equation}
+    It is easy to verify that $L(f)=\min\{L\geq 0:\text{\cref{e:lip} holds for }f\}$.
+    It is an easy exercise to see that $\Lip^{\F}$ is a vector space, and that $L:\Lip^{F}(X,d)\to\R$ is a \textbf{semi-norm} (non-negative, subadditive, $\abs{\cdot}-$homogeneous).
+    However, we do not have non-degeneracy (for example, constants are taken to $0$).
+    We define the Lipschitz norm
+    \begin{equation*}
+        \norm{f}_{\Lip}=\norm{f}_\infty+L(f)
+    \end{equation*}
+\end{example}
+\begin{proposition}
+    $(\Lip^{\F}(X,d),\norm{\cdot}_{\Lip})$ is a Banach space.
+\end{proposition}
+\begin{proof}
+    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(\Lip^{\F}(X,d),\norm{\cdot}_{\Lip})$.
+    Since $\norm{\cdot}_\infty\leq\norm{\cdot}_{\Lip}$ on $\Lip^{F}(X,d)$, we see that $(f_n)_{n=1}^\infty$ is uniformly Cauchy (and bounded), and hence there is $f=\lim_{n\to\infty} f_n$ in $C_b^{\F}(X)$, where the limit is taken with respect to $\norm{\cdot}_\infty$, since $(C_b^{\F}(X),\norm{\cdot}_\infty)$ is a Banach space.
+    If $x,y\in X$, then
+    \begin{align*}
+        |f(x)-f(x)| &= \lim_{n\to\infty}|f_n(x)-f_n(y)|\leq \sup_{n\in\N}|f_n(x)-f_n(y)|\\
+                    &\leq \sup_{n\in\N} L(f_n)d(x,y)\leq\sup_{n\in\N}\norm{f_n}_{\Lip} d(x,y)
+    \end{align*}
+    Since Cauchy sequences are bounded, we see that $|f(x)-f(y)|\leq Ld(x,y)$, where $L=\sup_{n\in\N}\norm{f_n}_{\Lip}<\infty$.
+    Thus by \cref{e:lip}, $f\in\Lip^{\F}(X,d)$.
+    Exercise: one may verify that $\norm{f-f_n}_{\Lip}\to 0$.
+\end{proof}
+Another collection of basic examples are given by the sequence spaces.
+We can define
+\begin{equation*}
+    \ell_1^{\F}=\Set{x=(x_j)_{j=1}^\infty\in\F^{\N} | \norm{x}_1=\sum_{j=1}^\infty|x_j|<\infty}
+\end{equation*}
+It is easy to see that $(\ell_1,\norm{\cdot}_1)$ is a normed vector space.
+
+For $1<p<\infty$, and write
+\begin{equation*}
+    \ell_p^{\F}=\Set{x\in\F^{\N} |\norm{x}_p=\left(\sum_{j=1}^\infty|x_j|^p\right)^{1/p}<\infty}
+\end{equation*}
+Note that $0\in\ell_p$, $\alpha\in\F$, $\alpha x\in\ell_p$ if $x\in\ell_p$.
+Let $q=p/(p-1)$ so that $1/p+1/q=1$.
+Then $q$ is called the \textbf{conjugate index}.
+We have
+\begin{proposition}[Young's Inequality]
+    If $a,b\geq 0$ in $\R$, then $ab\leq a^p/p+b^q/q$, with equality only if $a^p=b^q$.
+\end{proposition}
+and
+\begin{proposition}[H\"older's Inequality]
+    If $x\in\ell_p$ and $y\in\ell_q$, then $xy=(x_iy_i)_{i=1}^\infty\in\ell_1$, with
+    \begin{equation*}
+        \abs{\sum_{i=1}^\infty x_iy_i}\leq\norm{x}_p\norm{y}_q
+    \end{equation*}
+    with equality exactly when $\sgn(x_iy_i)=\sgn(x_ky_k)$ for all $j,k\in\N$ where $x_iy_i\neq 0\neq x_ky_k$, and $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\ell_1$.
+\end{proposition}
+and finally
+\begin{proposition}[Minkowski's Inequality]
+    If $x,y\in\ell_p$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
+\end{proposition}
+\end{document}
+
+
