@@ -312,8 +312,9 @@
 
 % main document ----------------------------------------------------------------
 \chapter{Fundamentals of Functional Analysis}
-\section{Banach Spaces}
+\section{Basic Elements of Functional Analysis}
 Throughout, we denote by $\F$ either the field $\R$ or the field $\C$.
+\subsection{Banach Spaces}
 \begin{definition}
     Let $X$ be a vector space over $\F$.
     A \textbf{norm} is a functional $\norm{\cdot}:X\to\R$ such that it is
@@ -414,6 +415,102 @@ and finally
 \begin{proposition}[Minkowski's Inequality]
     If $x,y\in\ell_p$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
 \end{proposition}
+
+\subsection{Review of Topology}
+Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$.
+\begin{definition}
+    A \textbf{topology} on a set $X$ is a set $\tau$ of subsets of $X$ such that
+    \begin{enumerate}[nl,r]
+        \item $\emptyset,X\in\tau$
+        \item If $U_\alpha\in\tau$ for all $\alpha\in A$, then $\bigcup_{\alpha\in A}U_\alpha\in\tau$.
+        \item If $n\in\N$ and $U_i\in\tau$ for each $1\leq i\leq n$, then $\bigcap_{i=1}^n U_i\in\tau$.
+    \end{enumerate}
+    The sets $U\in\tau$ are called the \textbf{open sets} in $X$, and sets of the form $X\setminus U$ for some open set $U$ are caled the \textbf{closed sets} in $X$.
+    The pair $(X,\tau)$ is called a \textbf{topological space}.
+\end{definition}
+The metric topology on a metric space $(X,d)$ is the topology
+\begin{equation*}
+    \tau_d = \Set{U\subseteq X |\text{ for each }x_0\in U\text{, there is }\delta=\delta(x_0)\text{ s.t. }\\B_\delta(x_0)\subseteq U}
+\end{equation*}
+\begin{example}
+    \begin{enumerate}[r]
+        \item Given two metrics $d,\rho$ on $X$, we say that $d\sim\rho$ if and only if there are $c,C>0$ such that
+            \begin{equation*}
+                cd(x,y)\leq\rho(x,y)\leq Cd(x,y)\text{ for any }x,y\in X
+            \end{equation*}
+            Note that $d\sim\rho$ implies that $\tau_d=\tau_\rho$, but the reverse implication is not true.
+            An example of this are the metrics on $X=\R$ given by $d(x,y)$ and $\rho(x,y)=\frac{|x-y|}{1+|x-y|}$.
+            Then $d\not\sim\rho$ but $\tau_d=\tau_\rho$.
+        \item ``Sorgenfry line''
+            Set $X=\R$, and consider
+            \begin{equation*}
+                \sigma=\Set{V\subseteq\R | \text{ for any }s\in V,\text{ there is }\delta=\delta(s)>0\text{ s.t. }[s,s+\delta)\subseteq V}
+            \end{equation*}
+            It is an exercise to verify that $\tau_{\abs{\cdot}}\subsetneq\sigma$.
+            We say that $\sigma$ is \textbf{finer} than $\tau_{\abs{\cdot}}$.
+        \item Relative topology: let $(X,\tau)$ be a topological space, and $\emptyset\neq A\subseteq X$.
+            Then we can define a topology $\tau|_A=\{U\cap A:U\in\tau\}$.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let $(X,\tau)$ and $(Y,\sigma)$ be topological spaces, and $f:X\to Y$.
+    We say that $f$ is \textbf{$(\tau-\sigma-)$continuous} at $x_0$ in $X$ if,
+    \begin{itemize}
+        \item given $V\in\sigma$ such that $f(x_0)\in V$, then there exists $U\in\tau$ such that $x_0\in U$ and $f(U)\subseteq V$.
+    \end{itemize}
+    We say that $f$ is $(\tau-\sigma-)$continuous if it is continuous at each $x_0$ in $X$.
+\end{definition}
+\subsection{Space of bounded continuous functions into a normed space}
+Let $(Y,\norm{\cdot})$ denote a normed space.
+We let $\tau_{\norm{\cdot}}$ denote the topology given by the metric $\rho(x,y)=\norm{x-y}$.
+Let $(X,\tau)$ denote any topological space.
+Then we write
+\begin{equation*}
+    C_b^Y(X) = \Set{f:X\to Y | f\text{ is bounded  and }\tau-\tau_{\norm{\cdot}}-\text{continuous}}
+\end{equation*}
+With pointwise operations, we see that $C_b^Y(X)$ is a vector space.
+We also define for $f\in C_b^Y(X)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$, making $(C_b^Y(X),\norm{\cdot}_\infty)$ a normed vector space.
+\begin{theorem}
+    If $(Y,\norm{\cdot})$ is a Banach space, then $(C_b^Y(X),\norm{\cdot}_\infty)$ is a Banach space.
+\end{theorem}
+\begin{proof}
+    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(C_b^Y(X),\norm{\cdot}_\infty)$.
+    Then for any $x\in X$, we have that $(f_n(x))_{n=1}^\infty$ is Cauchy in $(Y,\norm{\cdot})$ since $\norm{f_n(x)-f_m(x)}\leq\norm{f_n-f_m}_\infty$, and hence admis a limit $f(x)$.
+    In particular, $x\mapsto f(x)$ defines a function from $X$ to $Y$.
+    We shall fix $x_0\in X$ and show that $f$ is continuous at $x_0$.
+    Given $\epsilon>0$, we let
+    \begin{itemize}[nl]
+        \item $n_1$ be so $n,m\geq n_1$ so that $\norm{f_n-f_m}_\infty<\epsilon/4$.
+        \item $n_2$ be so $n\geq n_2$ so that $\norm{f_n(x_0)-f(x_0)}<\epsilon/4$.
+        \item $N=\max\{n_1,n_2\}$.
+        \item $U\in \tau$, $x_0\in U$ such that $f_N(U)\subseteq B_{\epsilon/4}(f(x_0))\subset Y$.
+    \end{itemize}
+    Then for $x\in U$, we let $n_x$ be so $n_x\geq n_1$ and $n\geq n_x$, so that $\norm{f_n(x)-f(x)}<\epsilon/4$.
+    We then have
+    \begin{align*}
+        \norm{f(x)-f(x_0)} &\leq \norm{f(x)-f_{n_x}(x)} + \norm{f_{n_x}(x)-f_N(x)} + \norm{f_N(x)-f_N(x_0)} + \norm{f_N(x_0)-f(x_0)}\\
+                           &<\frac{\epsilon}{4}+\norm{f_{n_x}-f_N}_\infty+\frac{\epsilon}{4}+\frac{\epsilon}{4}<\epsilon
+    \end{align*}
+    in other words that $f(U)\subseteq B_\epsilon(f(x_0))$.
+
+    Now let us check that $\norm{f}_\infty<\infty$.
+    Since $|\norm{f_n}_\infty-\norm{f_m}_\infty|\leq\norm{f_n-f_m}_\infty$, so $(\norm{f_n}_\infty)_{n=1}^\infty\subseteq\R$ is Cauchy, hence bounded.
+    If $x\in X$, then
+    \begin{equation*}
+        \norm{f(x)} = \lim_{n\to\infty}\norm{f_n(x)}\leq\sup_{n\in\N}\norm{f_n(x)}\leq\sup_{n\in\N}\norm{f_n}_\infty<\infty
+    \end{equation*}
+    so $\norm{f}_\infty=\sup_{x\in X}\norm{f(x)}<\infty$.
+
+    Notice that if $\epsilon$, $n_1$ are as above, and further $x_0,N$ are as above, we have for $n\geq n_1$
+    \begin{equation*}
+        \norm{f_n(x_0)-f(x_0)} \leq \norm{f_n(x_0)-f_N(x_0)}+\norm{f_N(x_0)-f(x_0)}<\frac{\epsilon}{2}
+    \end{equation*}
+    so $\norm{f_n-f}_\infty=\sup_{x_0\in X}\norm{f_n(x_0)-f(x_0)}\leq\epsilon/2<\epsilon$.
+    This is uniform since $n_1$ is chosen uniformly in $X$.
+\end{proof}
+\begin{corollary}
+    $(C_b^{\F}(X),\norm{\cdot}_\infty)$ is a Banach space.
+\end{corollary}
 \end{document}
 
 

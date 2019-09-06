@@ -239,12 +239,14 @@
 
 
 % file-specific preamble -------------------------------------------------------
-\DeclareMathOperator{\Free}{Free}
+\tikzset{% 
+    vtx/.style={inner sep=2pt,circle,fill=black}
+}
 
 
 % constants --------------------------------------------------------------------
-\newcommand{\subject}{Representation Theory of Finite Groups}
-\newcommand{\semester}{Fall 2019}
+\newcommand{\subject}{REPLACE}
+\newcommand{\semester}{REPLACE}
 
 
 % formatting -------------------------------------------------------------------
@@ -283,7 +285,7 @@
 \chapterstyle{verville}
 
 % Page Headers / Footers
-\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\copypagestyle{myruled}{ruled} % Draw formatting from echisting 'ruled' style
 \makeoddhead{myruled}{}{}{\scshape\subject}
 \makeevenfoot{myruled}{}{\thepage}{}
 \makeoddfoot{myruled}{}{\thepage}{}
@@ -309,87 +311,112 @@
 
 
 % main document ----------------------------------------------------------------
-\chapter{REPLACE}
-Let $G$ be a finite group of order $n$, and write $G=\{g_1,\ldots,g_n\}$.
-Fix $g\in G$; then $gg_i=gg_j$ if and only if $i=j$.
-Thus there exists some $\sigma_g\in S_i$ such that $gg_i=g_{\sigma_g(i)}$ for all $i\in\{1,2,\ldots,n\}$.
-In particular, $\phi:G\to S_n$ by $\phi(g)=\sigma_g$ is an embedding (injective group homomorphism).
-This observation is usually referred to as Cayley's Theorem.
+\chapter{Graph Colourings}
+\section{List Colourings}
+Recall that a colouring of a graph $G$ is an assignment to each $v\in V(G)$ an element $c(v)$ of some set $C$ called ``colors'' such that if $v$ and $v'$ are neighbours, then $c(v)\neq c(v')$.
+Then the \textbf{chromatic number} $\chi(G)$ is the smallest cardinality $|C|$ such that there exists a colouring of $G$ from $C$.
 
-Now let $V$ be an $n-$dimensional complex vector space.
-We then denote $\GL(V)$ as the group of invertible linear operators $T:V\to V$.
-Now define $\psi:S_n\to\GL_n(V)$ by $\psi(\sigma)=T_\sigma$ where if $\{b_1,\ldots,b_n\}$ is a basis for $V$ and $T_\sigma(b_i)=b_{\sigma(i)}$.
-This is an injective group homomorphism, so $\psi\circ\phi:G\to\GL(V)$ is an embedding of $G$ into $\GL(V)$.
-\begin{definition}
-    Let $G$ be a finite group, and $V$ a finite dimensional $\C-$vector space.
-    A \textbf{representation} of $G$ is a group homomorphism $\rho:G\to\GL(V)$.
-    We call $\dim(V)$ the \textbf{degree} of the representation.
-\end{definition}
-In particular, if $V$ is $n-$dimensional, then $\GL(V)\cong\GL_n(\C)$.
-\begin{example}
-    Consider $\rho:G\to\GL(\C)\cong\C^\times$ given by $\rho(g)=1$ for all $g\in G$.
-    This is called the \textit{trivial representation}.
-\end{example}
-\begin{example}
-    Consider $\rho:S_n\to\C^\times$ given by $\rho(\sigma)=\sgn(\sigma)$, which is called the \textit{sign representation}.
-\end{example}
-\begin{example}
-    The representation fo $G$ afforded by Cayley's theorem is called the \textit{regular representation} of $G$.
-    The next example is a good way to understand the regular rep of $G$.
-\end{example}
-\begin{example}
-    Consider $G$, $X=\{x_1,\ldots,x_n\}$, and $V=\Free(X)$.
-    Suppose $G$ acts on $X$.
-    Then $\rho:G\to\GL(V)$ given by $\rho(g)(x_i)=gx_i$.
-    In particular, if we take $X=G$, then this is the regular representation of $G$
-\end{example}
-\begin{example}
-    Consider the $4-$gon, with vertices labelled $a,b,c,d$.
-    Take $X=\{a,b,c,d\}$ and the regular representation $\rho:D_4\to\GL(V)$.
-    This action has a geometric notion.
-\end{example}
-\begin{example}
-    Let $C_n$ be a cyclic group of order $n$; let us define some $\rho:C_n\to\GL(V)$.
-    Say $\rho(x) = T$ where $t\in\GL(V)$; then this is a representation if and only if $T^n=I$.
-\end{example}
-\begin{definition}
-    We say that two representations $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ are \textbf{isomorphic} if there exists an isomorphism $T:V\to W$ such that for all $g\in G$,
-    \begin{equation*}
-        T\circ \rho(g) = \tau(g)\circ T
-    \end{equation*}
-\end{definition}
-Suppose $\rho:G\to\GL(V)$ and $T:V\to W$ is an isomorphism.
-Then we can define $\tau:G\to\GL(W)$ by $\tau(G)=T\circ\rho(g)\circ T^{-1}$; this $\rho\cong\tau$.
-In other words, the representation is unique up to isomorphism under change of basis.
-\begin{example}
-    Consider $G=\{g_1,\ldots,g_n\}=\{h_1,\ldots,h_n\}$, and fix $g\in G$.
-    Let $gg_i=g_{\alpha(i)}$ and $gh_i=h_{\beta(i)}$ where $\alpha,\beta\in S_n$.
-    Fix an $n-$dimensional vector space $V$ with basis $\{b_1,\ldots,b_n\}$.
-    Then two regular representations are given by
-    \begin{align*}
-        \rho_1:G\to\GL(V), & \rho(g)(b_i)=b_{\alpha(i)}\\
-        \rho_2:G\to\GL(V), & \rho(g)(b_i)=b_{\beta(i)}
-    \end{align*}
-    Let $\gamma\in S_n$ be such that $h_{\gamma(i)}=g_i$, and define $T:V\to V$ by $T(v_i)=b_{\gamma(i)}$.
-    Then
-    \begin{equation*}
-        gg_i = g_{\alpha(i)}=gh_{\gamma(i)} = h_{\beta\gamma(i)} = g_{\gamma^{-1}\beta\gamma(i)}
-    \end{equation*}
-    so that $\alpha=\gamma^{-1}\beta\gamma$.
-    Thus for each $b_i$,
-    \begin{align*}
-        T\circ\rho_1(g)\circ T^{-1}(b_i) &= T\circ\rho_1(g)(b_{\gamma^{-1}(i)})\\
-                                         &= T(b_{\alpha\gamma^{-1}(i)}) b_{\gamma\alpha\gamma^{-1}(i)}\\
-                                         &= b_{\beta(i)}=\rho_2(g)(b_i)\\
-    \end{align*}
-    so that $T\circ\rho_1(g)\circ T^{-1}=\rho_2(g)$.
-\end{example}
-Note: conjugate elements have the same cycle type.
-\subsection{Subrepresentations}
-What should a subrepresentation of $\rho:G\to\GL(V)$ mean?
+There are some basic upper bounds on the chromatic number of a graph:
+\begin{enumerate}[nl]
+    \item $\chi(G)\leq|V(G)|$, by colouring every vertex distinctly
+    \item $\chi(G)\leq\Delta(G)+1$, by randomly colouring the graph based on colours not used on the neighbours
+\end{enumerate}
+Note that these upper bounds are in fact tight; for example, the complete graph is tight for both, and an odd cycle is tight for (2).
 
-We would like a subspace $W\leq V$ such that $\tau:G\to\GL(W)$ is a representation given by $\tau(g)(w)=\rho(g)(w)$ for all $w\in W$.
-Moreover, to make this well-defined, we need $W$ to b4 $\rho(g)-$invariant for every $g\in G$ ($\rho(g)(W)\subseteq W$).
+There are some graphs for which the chromatic number is not known: consider the graph given by $V(G)=\R^2$ where vertices are adjacent if they have euclidean distance 1.
+This graph is not $3-$colorable, by taking for example the subgraph
+\begin{center}
+    \begin{tikzpicture}[scale=3]
+        \begin{scope}[rotate=16.78]
+            \node[vtx] (a1) at (0,0) {};
+            \node[vtx] (a2) at (-.577350269,-1) {};
+            \node[vtx] (a3) at (.577350269,-1) {};
+            \node[vtx] (a4) at (0,-2) {};
+        \end{scope}
+        \begin{scope}[rotate=-16.78]
+            \node[vtx] (b1) at (0,0) {};
+            \node[vtx] (b2) at (-.577350269,-1) {};
+            \node[vtx] (b3) at (.577350269,-1) {};
+            \node[vtx] (b4) at (0,-2) {};
+        \end{scope}
+        \draw (a1) -- (a2) -- (a4) -- (a3) -- (a1);
+        \draw (a2) -- (a3);
+        \draw (b1) -- (b2) -- (b4) -- (b3) -- (b1);
+        \draw (b2) -- (b3);
+        \draw (a4) -- (b4);
+    \end{tikzpicture}
+\end{center}
+Recently there was a construction showing that the graph is not $4-$colourable, and there is an easy upper bound of $7$, so that $5\leq \chi(G)\leq 7$.
+
+We also define the notion of a list colouring:
+\begin{definition}
+    A list assignment is an assignment of a set $L(v)$ of colors to each vertex $v$.
+    Then a graph is $k-$list-colorable if you can always colour $V(G)$ whenever every vertex has a list of size at least $k$.
+\end{definition}
+Note that $\chi(G)\leq\chi_\ell(G)$ since asssigning an identical list of size $k$ is a valid list assignmnet and yields a standard coloring.
+In many cases list colorings can be hard to determine, but in some cases the exact value is known.
+Consider the complete bipartite graph $K_{k,q}$ where $q\geq k$.
+We then have the following classification:
+\begin{proposition}
+    $\chi_\ell(K_{k,q})\leq k$ if and only if $q<k^k$, and $\chi_\ell(K_{k,q})=k+1$ if and only if $q\geq k^k$.
+\end{proposition}
+\begin{proof}
+    Note that $\chi_\ell(K_{k,q})\leq k+1$ always works by taking arbitrary colors on the $k-$side, and on the $q-$side, since the lists have size $k$, there is always a distinct color.
+
+    Now $q<k^k$.
+    Try to color the $k$ vertices such that two vertices have the same color.
+    If this works, then for every list of size $k$ on the $q-$side, there are only $k-1$ disallowed colours, so we may choose a valid color from the corresponding list.
+    Otherwise, every vertex on the $k-$side has a distinct color; this is forced precisely when all the lists are disjoint.
+    But then since $q<k^k$, there must be some selection of colors from the lists on the $k-$side such that the set of colors is distinct from every list on the $q-$side, and we may choose colors from the $q-$side without issue.
+
+    Otherwise if $q\geq k^k$, consider lists given by disjoint sets on the $k-$side, and then for every possible assignment of colors on the $k-$side, give a corresponding list for some vertex of the $q-$side that contains a list with those colors.
+    Since $q\geq k^k$, we will exhaust all possibilities, so there is no valid coloring from those lists.
+\end{proof}
+Recall that a planar graph $G$ is one for which there exists an embedding of $G$ into the plane such that each edge is a disjoint curve.
+Note that it suffices to consider edges which are polygonal curves, which consist of a finite number of straight line segments; in fact we can also do it with straight line segments (requiring that the graph is simple).
+\begin{theorem}[Thomassen]
+    If $G$ is planar, then $\ch(G)\leq 5$.
+\end{theorem}
+In fact, we prove a stronger statement.
+We call an ``almost-triangulation'' a planar drawing in which every face except possibly the infinite face is a triangle.
+We prove this: let $w$ be a given almost-triangulation with lists of available colour $L(v)$ assigned to every vertex $v$ such that
+\begin{enumerate}[nl]
+    \item $|L(v)|=5$ for all vertices that are not on the infinite face,
+    \item two neighbouring vertices of the infinite face, $a$ and $b$ are colored distinctly,
+    \item and all other vertices of the infinite face have lists of 3 colours.
+\end{enumerate}
+Then this almost-triangulation has a proper list colouring with respect to the given lists.
+
+This implies the theorem since any planar drawing can be made an almost-triangulation by adding edges, and 5-element lists can be reduced to lists of the size above.
+\begin{proof}
+    We consider two cases in an induction proof.
+    \begin{enumerate}[nolistsep]
+        \item There is a ``long diagonal'' connecting two of the vertices of the infinite face (that is not an edge of the infinite face).
+        \item There is no long diagonal.
+    \end{enumerate}
+    The induction is on the number of vertices.
+    When $n=1,2$ it is trivial, and when $n=3$ it is a 3-cycle and it is certainly fine.
+
+    Now for the induction step, we have the two cases.
+    \begin{enumerate}
+        \item Cut the graph along the long diagonal to get $G_1,G_2$.
+            Without loss of generality, $G_1$ is exactly as described in the statement, so it can be properly list coloured from the given lists.
+            Then give the endpoints of the copied long diagonal in $G_2$ so that the endpoint colours are fixed; and by induction, colour it as well.
+            Since the endpoints have the same colouring, we can put the two coloured graphs back together to obtain a proper list colouring of $G$.
+        \item Let $u\in V(G)$ be the neighbour of $a$ on the infinite face different from $b$.
+            Consider the neighbourhood of $u$, $N(u)=\{a,w,v_1,v_2,\ldots,v_k\}$ where $w$ is on the infinite face different from $a$.
+            We have $|L(w)|=3$ and $|L(v_i)|=5$ for all $i=1,\ldots,k$ since there is no long diagonal.
+            Choose two different colours $\gamma$ and $\Delta$ in $L(u)\setminus\{\alpha\}$; they certainly exist since $|L(u)|=3$.
+            Delete $\gamma$ and $\delta$ from all the lists of vertices in $\{v_1,\ldots,v_k\}$, and then by induction we can list colour $G\setminus\{u\}$ from the modified lists.
+            This can be extended to a list colouring of $G$ since $u$ shares no colour in its list with any $\{v_1,\ldots,v_k\}$, and at least one of $\delta$ or $\gamma$ will not be used in $w$.
+    \end{enumerate}
+\end{proof}
+
+$n-$connected means if you remove any $n$ vertices, the graph remains connected
+
+Take $K_4$, and have lists with colours $1,2,3,4$ (or any graph which is uniquely $4-$colorable).
+Inscribe a triangle in each face with lists $\{1,2,4,5\}$, $\{1,3,4,5\}$, $\{2,3,4,5\}$.
+Always align so that the degree 3 vertex is adjacent to the $1,2$ and $1,3$.
 \end{document}
 
 

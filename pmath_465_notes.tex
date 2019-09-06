@@ -239,11 +239,11 @@
 
 
 % file-specific preamble -------------------------------------------------------
-\DeclareMathOperator{\Free}{Free}
+\usepackage{braket}
 
 
 % constants --------------------------------------------------------------------
-\newcommand{\subject}{Representation Theory of Finite Groups}
+\newcommand{\subject}{PMATH 465}
 \newcommand{\semester}{Fall 2019}
 
 
@@ -309,87 +309,93 @@
 
 
 % main document ----------------------------------------------------------------
-\chapter{REPLACE}
-Let $G$ be a finite group of order $n$, and write $G=\{g_1,\ldots,g_n\}$.
-Fix $g\in G$; then $gg_i=gg_j$ if and only if $i=j$.
-Thus there exists some $\sigma_g\in S_i$ such that $gg_i=g_{\sigma_g(i)}$ for all $i\in\{1,2,\ldots,n\}$.
-In particular, $\phi:G\to S_n$ by $\phi(g)=\sigma_g$ is an embedding (injective group homomorphism).
-This observation is usually referred to as Cayley's Theorem.
-
-Now let $V$ be an $n-$dimensional complex vector space.
-We then denote $\GL(V)$ as the group of invertible linear operators $T:V\to V$.
-Now define $\psi:S_n\to\GL_n(V)$ by $\psi(\sigma)=T_\sigma$ where if $\{b_1,\ldots,b_n\}$ is a basis for $V$ and $T_\sigma(b_i)=b_{\sigma(i)}$.
-This is an injective group homomorphism, so $\psi\circ\phi:G\to\GL(V)$ is an embedding of $G$ into $\GL(V)$.
+\chapter{Fundamentals of Manifolds}
+\section{Introduction to Topology}
 \begin{definition}
-    Let $G$ be a finite group, and $V$ a finite dimensional $\C-$vector space.
-    A \textbf{representation} of $G$ is a group homomorphism $\rho:G\to\GL(V)$.
-    We call $\dim(V)$ the \textbf{degree} of the representation.
+    A \textbf{topology} on a set $X$ is a set $\tau$ of subsets of $X$ such that
+    \begin{enumerate}[nl,r]
+        \item $\emptyset\in\tau$ and $X\in\tau$
+        \item If $U_\alpha\in\tau$ for all $\alpha\in A$, then $\bigcup_{\alpha\in A}U_\alpha\in\tau$.
+        \item If $n\in\N$ and $U_i\in\tau$ for each $1\leq i\leq n$, then $\bigcap_{i=1}^n U_i\in\tau$.
+    \end{enumerate}
+    The sets $U\in\tau$ are called the \textbf{open sets} in $X$, and sets of the form $X\setminus U$ for some open set $U$ are caled the \textbf{closed sets} in $X$.
 \end{definition}
-In particular, if $V$ is $n-$dimensional, then $\GL(V)\cong\GL_n(\C)$.
+\begin{definition}
+    When $X$ is a topological space and $A\subseteq X$, the \textbf{interior} of $A$ (denoted $A^\circ$) is the union of all open sets contained in $A$.
+    Similarly, we define the \textbf{closure} of $A$ (denoted $\overline{A}$) as the intersction of all closed sets containing $A$.
+    Then the \textbf{boundary} of $A$, denoted by $\partial A$, is the set $\partial A=\overline{A}\setminus A^\circ$.
+\end{definition}
 \begin{example}
-    Consider $\rho:G\to\GL(\C)\cong\C^\times$ given by $\rho(g)=1$ for all $g\in G$.
-    This is called the \textit{trivial representation}.
-\end{example}
-\begin{example}
-    Consider $\rho:S_n\to\C^\times$ given by $\rho(\sigma)=\sgn(\sigma)$, which is called the \textit{sign representation}.
-\end{example}
-\begin{example}
-    The representation fo $G$ afforded by Cayley's theorem is called the \textit{regular representation} of $G$.
-    The next example is a good way to understand the regular rep of $G$.
-\end{example}
-\begin{example}
-    Consider $G$, $X=\{x_1,\ldots,x_n\}$, and $V=\Free(X)$.
-    Suppose $G$ acts on $X$.
-    Then $\rho:G\to\GL(V)$ given by $\rho(g)(x_i)=gx_i$.
-    In particular, if we take $X=G$, then this is the regular representation of $G$
-\end{example}
-\begin{example}
-    Consider the $4-$gon, with vertices labelled $a,b,c,d$.
-    Take $X=\{a,b,c,d\}$ and the regular representation $\rho:D_4\to\GL(V)$.
-    This action has a geometric notion.
-\end{example}
-\begin{example}
-    Let $C_n$ be a cyclic group of order $n$; let us define some $\rho:C_n\to\GL(V)$.
-    Say $\rho(x) = T$ where $t\in\GL(V)$; then this is a representation if and only if $T^n=I$.
+    Let $X$ be any set.
+    The \textbf{discrete topology} on $X$ is the topology $\tau=\mathcal{P}(X)$, and the \textbf{trivial topology} on $X$ is the topology $\tau=\{\emptyset,X\}$.
 \end{example}
 \begin{definition}
-    We say that two representations $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ are \textbf{isomorphic} if there exists an isomorphism $T:V\to W$ such that for all $g\in G$,
+    A \textbf{basis} for a topology on a set $X$ is a set $\mathcal{V}$ of subsets of $X$
+    \begin{enumerate}[nl,r]
+        \item $\bigcup_{B\in \mathcal{B}}b=X$
+        \item for all $a\in X$ and $U,V\in\mathcal{B}$ such that $a\in U\cap V$, then there exists $W\in\mathcal{B}$ with $a\in W\subseteq U\cap V$.
+    \end{enumerate}
+    When $\mathcal{B}$ is a basis for a topology on $X$, the topology on $X$ \textbf{generated} by $\mathcal{B}$ is the set $\tau$ of subsets of $X$ such that for $W\subseteq X$, $W\in\tau$ if and only if for all $a\in W$, there exists $U\in \mathcal{B}$ such that $a\in U\subseteq W$.
+\end{definition}
+Note that $\tau$, as above, is a topology on $X$ since
+\begin{enumerate}[nl,r]
+    \item $\emptyset\in\tau$ vacuously and $X\in\tau$ obviously.
+    \item If $A_k\i\tau$ for all $k\in K$ (where $K$ is any set of indices), then given $a\in\bigcup_{x\in K}A_k$, we can choose $\ell\in K$ so that $a\in A_\ell$.
+        Then since $A_\ell\in\tau$, we can choose $U_\ell\in\mathcal{B}$ so that $a\in U_\ell\subseteq A_\ell$.
+        Thus $a\in U_\ell\subseteq A_\ell\subseteq\bigcup_{k\in K}A_k$.
+    \item By induction, it suffices to prove that if $A,B\in\tau$, then $A\cap B\in\tau$.
+        Suppose $A,B\in\tau$, and let $a\in A\cap B$.
+        Since $A\in\tau$, we cna choose $U\in\mathcal{B}$ so that $a\in U\subseteq A$.
+        Since $B\in\tau$, we can choose $V\in\mathcal{B}$ so that $a\in V\subseteq B$.
+        Then we have $a\in U\cap V$.
+        Since $\mathcal{B}$ is a basis, we can chose $W\in\mathcal{B}$ with $a\in W\subseteq U\cap V$, so $a\in W\subseteq U\cap V\subseteq A\cap B$.
+\end{enumerate}
+Note that when $\tau$ is the topology on $X$ generated by the basis $\mathcal{B}$, for $A\subseteq X$, $A\in\tau$ if and only if there exists some $S\subseteq\mathcal{B}$ such that $A=\bigcup_{s\in S}s$.
+In this sense, the topology $\tau$ on $X$ generated by the basis $\mathcal{B}$ is the coarsest topology which contains $\mathcal{B}$.
+\begin{definition}[Subspace Topology]
+    When $Y$ is a topological space and $X\subseteq Y$ is a subset of $Y$, we define the \textbf{subspace topology} on $X$ to be the topology for which as set $U\subseteq X$ is open if and only if $U=X\cap V$ for some open set $V$.
+\end{definition}
+If $\mathcal{C}$ is a basis for the topology on $Y$, then $\mathcal{B}=\Set{X\cap V | V\in\mathcal{C}}$ is a basis for the subspace topology on $X$.
+\begin{definition}[Disjoint Union Topology]
+    If $X$ and $Y$ are topological spaces with $X\cap Y=\emptyset$, then the \textbf{disjoint union topology} on $X\cup Y$ is the topology in which a subset $U\subseteq X\cup Y$ is open in $X\cup Y$ if and only if $U\cap X$ is open in $X$ and $U\cap Y$ is open in $Y$.
+\end{definition}
+\begin{definition}[Product Topology]
+    If $X$ and $Y$ are topological spaces, the \textbf{product topology} on $X\times Y$ is the topology generted by the basis
     \begin{equation*}
-        T\circ \rho(g) = \tau(g)\circ T
+        \mathcal{B}=\Set{U\times V | U\in\mathcal{C},V\in\mathcal{D}}
+    \end{equation*}
+    where $\mathcal{C}$ and $\mathcal{D}$ are bases for the topologies on $X,Y$ respectively.
+\end{definition}
+\begin{definition}[Infinite Product Topology]
+    We define the infinite product to be
+    \begin{equation*}
+        \prod_{k\in K}\Set{f:K\to \bigcup_{k\in K}X_k | f(k)\in X_k\text{ for all }k\in K}
+    \end{equation*}
+    There are two standard topologies on $X$.
+    The first is the \textbf{box topology},
+    \begin{equation*}
+        \mathcal{B}=\Set{\prod_{k\in K}U_k | U_k\text{ is open in }X_k}
+    \end{equation*}
+    and the \textbf{product topology}
+    \begin{equation*}
+        \mathcal{B}=\Set{\prod_{k\in K}U_k | \begin{array}{l}U_k\text{ is open in }X_k\\U_k=X_k\text{ for all but finitely many indices }k\end{array}}
     \end{equation*}
 \end{definition}
-Suppose $\rho:G\to\GL(V)$ and $T:V\to W$ is an isomorphism.
-Then we can define $\tau:G\to\GL(W)$ by $\tau(G)=T\circ\rho(g)\circ T^{-1}$; this $\rho\cong\tau$.
-In other words, the representation is unique up to isomorphism under change of basis.
-\begin{example}
-    Consider $G=\{g_1,\ldots,g_n\}=\{h_1,\ldots,h_n\}$, and fix $g\in G$.
-    Let $gg_i=g_{\alpha(i)}$ and $gh_i=h_{\beta(i)}$ where $\alpha,\beta\in S_n$.
-    Fix an $n-$dimensional vector space $V$ with basis $\{b_1,\ldots,b_n\}$.
-    Then two regular representations are given by
-    \begin{align*}
-        \rho_1:G\to\GL(V), & \rho(g)(b_i)=b_{\alpha(i)}\\
-        \rho_2:G\to\GL(V), & \rho(g)(b_i)=b_{\beta(i)}
-    \end{align*}
-    Let $\gamma\in S_n$ be such that $h_{\gamma(i)}=g_i$, and define $T:V\to V$ by $T(v_i)=b_{\gamma(i)}$.
-    Then
-    \begin{equation*}
-        gg_i = g_{\alpha(i)}=gh_{\gamma(i)} = h_{\beta\gamma(i)} = g_{\gamma^{-1}\beta\gamma(i)}
-    \end{equation*}
-    so that $\alpha=\gamma^{-1}\beta\gamma$.
-    Thus for each $b_i$,
-    \begin{align*}
-        T\circ\rho_1(g)\circ T^{-1}(b_i) &= T\circ\rho_1(g)(b_{\gamma^{-1}(i)})\\
-                                         &= T(b_{\alpha\gamma^{-1}(i)}) b_{\gamma\alpha\gamma^{-1}(i)}\\
-                                         &= b_{\beta(i)}=\rho_2(g)(b_i)\\
-    \end{align*}
-    so that $T\circ\rho_1(g)\circ T^{-1}=\rho_2(g)$.
-\end{example}
-Note: conjugate elements have the same cycle type.
-\subsection{Subrepresentations}
-What should a subrepresentation of $\rho:G\to\GL(V)$ mean?
+\subsection{Metric Topology}
+$\R^n$ has a standard \textbf{inner product}, and for $u,v\in\R^n$, $\inner{u}{v}=u\cdot v=V^Tu=\sum_{i=1}^n u_iv_i$.
+This gives the standard norm on $\R^n$ for $u\in\R^n$, $\norm{u}=\sqrt{\inner{u}{v}}$.
+This gives the standard metric on $\R^n$: for $a,\in\R^n$, $d(a,b)=\norm{b-a}$.
 
-We would like a subspace $W\leq V$ such that $\tau:G\to\GL(W)$ is a representation given by $\tau(g)(w)=\rho(g)(w)$ for all $w\in W$.
-Moreover, to make this well-defined, we need $W$ to b4 $\rho(g)-$invariant for every $g\in G$ ($\rho(g)(W)\subseteq W$).
+Given a metric on a set $Y$, we obtain (by restriction) an induced metric on any subset $X\subseteq Y$.
+Given a metric space $X$, we define the \textbf{metric topology} on $X$ to be the topology which is generated by the set of open balls
+\begin{equation*}
+    B(a,r) = \Set{x\in X | d(a,x)<r}
+\end{equation*}
+where $x\in X$, $r>0$.
+\begin{definition}
+    When $X$ and $Y$ are topological spaces and $f:X\to Y$, we say that $f$ is \textbf{continuous} when it has the property that $f^{-1}(V)$ is open in $X$ for every open set $V$ in $Y$.
+\end{definition}
 \end{document}
+
 
 
