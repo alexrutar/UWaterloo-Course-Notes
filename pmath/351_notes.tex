@@ -1,0 +1,2114 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepackage{kpfonts}
+\usepackage{dsfont}
+\pgfplotsset{compat=1.13}
+\usepackage{emptypage}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\Ps}{\mathcal{P}}
+\DeclareMathOperator{\im}{im}
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\diam}{diam}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate{}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\st}{\text{s.t. }}
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\newtheorem{theorem}{Thm.}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Def'n.}
+\newtheorem{corollary}[theorem]{Cor.}
+\newtheorem{proposition}[theorem]{Prop.}
+
+\theorembodyfont{\upshape}
+\newtheorem{remark}[theorem]{Rmk.}
+\newtheorem{exercise}[theorem]{Exc.}
+\newtheorem{example}[theorem]{Ex.}
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\theoremsymbol{$\square$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{Course Notes}
+\newcommand{\classname}{PMATH 351}
+\newcommand{\duedate}{Spring 2018}
+
+% Define a title page for the document
+%----------------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\arutar@uwaterloo.ca}
+\rhead{\classname: \assignmentname\\\duedate}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%----------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+    \centering
+    \vspace{5cm}
+    {\huge\textbf{\assignmentname}\par} % Assignment Name
+    \vspace{2cm}
+    {\Large\textbf{\classname}\par} % Class
+    \vspace{3cm}
+    {\Large\textit{Alex Rutar}\par}
+
+    \vfill
+
+% Bottom of the page
+    {\large \duedate \par} % Due Date
+\end{titlepage}
+%----------------------------------------------------------------------------------------------------------------------
+% \newpage\null\thispagestyle{empty}\textit{This page is left intentionally blank.}\newpage
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+
+\chapter{Cardinality}
+%-%-%------------------------------------------------------------------------------------------------------------------
+\section{Principles}
+Cardinality is a way of thinking about the size of a set.
+\begin{definition}
+    Two sets $A$ and $B$ have the same \textbf{cardinality} if there is a bijection between the sets. If this is the case, we
+    say that $|A|=|B|$. If there exists an injection, then we say $|A|\leq|B|$.
+\end{definition}
+In particular, cardinality is an equivalence relation.
+\begin{enumerate}
+    \item Reflexive: $|A|\sim|A|$ by the identity map.
+    \item Symmetric: If $f:A\to B$ is a bijection, then $f^{-1}:B\to A$ is also a bijection.
+    \item Transitive: If $f:A\to B$ and $g:B\to C$ are bijections, then $\phi=g\circ f:A\to C$ is a bijection.
+\end{enumerate}
+If $A\subseteq B$, then $|A|\leq|B|$ since the embedding maps are injective (the identity function restricted to $A$).
+For example, we have $|\N|\leq|\Z|\leq|\Q|\leq|\R|$. We also have $|\N|=|\Z|$ from the bijection given, say, by $f:\Z\to\N$
+defined by
+\[f(n)=
+\begin{cases}
+    2n & n>0\\
+    -2n+1 & n\leq 0
+\end{cases}
+\]
+which is also listed below.
+\begin{center}
+    \begin{tabular}{cccccccc}
+        $\Z$&0&1&-1&2&-2&3&$\cdots$\\
+        $\N$&1&2&3 &4&5 &6&$\cdots$
+    \end{tabular}
+\end{center}
+\begin{definition}
+    A set $A$ is countable if $A$ is finite or countably infinite. $A$ is countably infinite if $|A|=|\N|$.
+\end{definition}
+Countable sets can be ``listed''. If $A$ is finite, we can write $A=\{a_1,\dots,a_n\}$ for some $n\in\N$. If $A$ is countably
+infinite, then there exists a bijection $U:\N\to A$ that lets us write
+\[A=\{U(i):i\in\N\}\]
+and write $a_i=U(i)$. On the other hand, if $A=\{a_i:i\in\N\}$, we have our bijection $f:A\to\N$ given by $a_i\mapsto i$.
+
+\section{Cardinality Examples}
+\begin{enumerate}
+    \item $\N\times\N=\{(a,b):a,b\in\N\}$. We have $|\N\times\N|=|\N|$.
+    \item $|\Q|=|\N|$.
+\end{enumerate}
+\begin{proposition} The following hold:
+    \begin{enumerate}[label=(\arabic*)]
+        \item Every infinite subset of $\N$ is countably infinite.
+        \item If $A$ is infinite and $|A|\leq|\N|$, then $|\N|=|A|$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof} Prove (1), (2) separately:
+    \begin{enumerate}[label=(\arabic*)]
+        \item We use the well-ordering property of $\N$: every non-empty subset of $\N$ has a least element. Let $B$
+            be an infinite subset of $\N$, so it is non-empty. Thus $B$ has some least element $b_1$. But then, $B\setminus\{b_1\}$
+            is also non-empty, so we can repeat this process to create an increasing sequence
+            \[b_1<b_2<b_3<\cdots<\]
+            I claim that every element of $B$ is in this set. Let $b\in B$ and consider $\{n\in B:n\leq b\}$. This set is
+            finite with, say, $k$ elements, so $b=b_k$. We then get our bijection by the standard map $b_i\mapsto i$.
+        \item Assume $j:A\to\N$ is an injection. Let $B=j(A)\subseteq\N$. Notice $j:A\to B$ is a bijection, so $|A|=|B|$
+            and $B$ is infinite. By (1), $B$ is countably infinite, so $|B|=|\N|$, and the result follows by transitivity.
+    \end{enumerate}
+\end{proof}
+
+\section{Uncountable Sets}
+\begin{theorem}
+    The set of real numbers $\{x:0\leq x<1\}=[0,1)$ is uncountable.
+\end{theorem}
+\begin{proof}[Cantor]
+    Suppose it's countable, say $[0,1)=\{r_i:i\in\N\}$. Let $r_i=.r_{i1}r_{i2}\ldots$, with $r_{ij}\in\{0,\ldots,9\}$.
+    Define $a$ by $a=.a_1a_2a_3\ldots$ were
+    \[a_k=
+    \begin{cases}
+        1 &: r_{kk}\in\{5,6,7,8,9\}\\
+        8 &: r_{kk}\in\{0,1,2,3,4\}
+    \end{cases}
+    \]
+    and note that $a$ has a unique decimal representation. Since $a_k\neq r_{kk}$ for any $k$, $a\neq r_k$ for any $k$.
+\end{proof}
+\begin{remark}[Author's Remark]
+    If you work with some topological properties, you can work with sets called \textit{perfect sets}. Perfect sets
+    are closed sets that contain no isolated points: any element $a\in S$ can be written as a limit $\lim\{a_i\}$
+    where $a_i\in S\setminus\{a\}$. In particular, the interval $[0,1]$ is a perfect set. We then have the following
+    theorem:
+\end{remark}
+\begin{theorem}
+    Non-empty perfect sets are uncountable.
+\end{theorem}
+\begin{proof}
+    See~\ref{cantor} for a proof.
+\end{proof}
+Note that the proof is essentially the diagonalization argument described above!
+\begin{corollary}
+    $\R$ is uncountable.
+\end{corollary}
+\begin{proof}
+    Suppose $\R$ is countable, say $g:\R\to\N$ is a bjection. Then
+    \[ g:[0,1)\subseteq\R\to\N\]
+    so
+    \[g\circ j:[0,1)\to\N\]
+    is a bijection, so $[0,1)$ is countable - a contradiction.
+\end{proof}
+
+\section{Cardinal Numbers}
+We use the following notation: $|\N|=\aleph_0$, $|\R|=\aleph_1$. But does this notation make sense? This is the subject of
+the Continuum Hypothesis: is there a set $A$ with $|\N|<|A|<|\R|$? This is undecidable; it is independent of the standard
+axioms (ZFC axioms).
+\begin{definition}
+    Given a set $A$, the power set of $A$ denoted $\Ps(A)$ is defined as $\Ps(A)=\{x:x\subseteq A\}$.
+\end{definition}
+\begin{theorem}[Cantor]
+    For any set $A$, $|A|<|\Ps(A)|$, where $|A|<|B|$ if $|A|\leq|B|$ and $|A|\neq|B|$.
+\end{theorem}
+\begin{proof}
+    We certainly have an injection given by the map $a\mapsto\{a\}$, so $|A|\leq|\Ps(A)|$. Thus suppose we have
+    some bijection $g:A\to\Ps(A)$. Define the set
+    \[B=\{a\in A:a\notin g(a)\}\subseteq A\]
+    Since $B\subseteq A$, we have $B\in\Ps(A)$. Hence there exists $x\in A$ such that $g(x)=B$. But now we have our contradiction
+    in two cases! If $x\in B$, then $x\notin g(x)=B$. If $x\notin B=g(A)$, then $x\in B$. Thus no such $g$ exists.
+\end{proof}
+Using this we can construct an infinite list of cardinalities, since $|A|<|\Ps(A)|<|\Ps(\Ps(A))|<\cdots$.
+\begin{definition}
+    We define $2^A=\{f:A\to\{0,1\}\}$.
+\end{definition}
+For example, if $|A|=n$, then $|2^A|=2^n=|\Ps(A)|$.
+\begin{theorem}
+    $|2^A|=|\Ps(A)|$.
+\end{theorem}
+\begin{proof}
+    Define $g:\Ps(A)\to 2^A$ by $B\mapsto \mathds{1}_B$ where $\mathds{1}_B$ is the indicator function defined as
+    \[\mathds{1}_B=
+    \begin{cases}
+        0 &:x\notin B\\
+        1 &:x\in B
+    \end{cases}
+    \]
+    and $\mathds{1}_B\in 2^A$ certainly. $g$ is injective: if $B,C\subseteq A$ and $B\neq C$, then there exists
+    some $x\in B$ but $x\notin C$ without loss of generality so $\mathds{1}_B(x)=1$ and $\mathds{1}_C(x)=0$. $g$
+    is surjective: take $f\in 2^A$ and set $B=\{x\in A:f(x)=1\}$. Then $f=\mathds{1}_B$ so $g(B)=f$.
+\end{proof}
+\begin{corollary}
+    $|A|<|2^A|$.
+\end{corollary}
+\begin{theorem}[Schroeder-Bernstein]
+    If $|A|\leq|B|$ and $|B|\leq|A|$ then $|A|=|B|$.
+\end{theorem}
+\begin{proof}
+    General idea: partition $A$ into two sections, $D$ and $D^c$ so that $D^c=g(f(D)^c$. If this holds, then we can define
+    the bijection as
+    \[\phi(x)=
+    \begin{cases}
+        f(x)&:x\in D\\
+        g^{-1}(x)&:x\in D^c
+    \end{cases}
+    \]
+    Define $Q:\Ps(A)\to\Ps(A)$ by the map
+    \[E\mapsto\left[g(f(E)^c)\right]^c\subseteq A\]
+    We wish to show that $Q$ has a fixed point, that is some $D\subseteq A$ such that $Q(D)=D$.
+
+    We first show that if $E\subseteq F\subseteq A$, then $Q(E)\subseteq Q(F)$. This is simply a matter of following
+    definitions.
+    \begin{align*}
+        f(E)\subseteq f(F)&\Rightarrow f(E)^c\supseteq f(F)^c\\
+        &\Rightarrow g(f(E)^c)\subseteq g(f(F)^c)\\
+        &\Rightarrow (g(f(E)^c))^c\subseteq (g(f(F)^c))^c\\
+        &\Rightarrow Q(E)\subseteq Q(F)
+    \end{align*}
+    Now let $\mathcal{D}=\{E\subseteq A:E\subseteq Q(E)\}$. Set $D=\bigcup_{E\in\mathcal{D}}E\subseteq A$. If
+    $E\in\mathcal{D}$, then $E\subseteq D$. By the claim, $Q(E)\subseteq Q(D)$. If $E\in\mathcal{D}$ then
+    $E\subseteq Q(E)\subseteq Q(D)$, since $E\subseteq D$. So
+    \begin{align*}
+        \bigcup_{E\in\mathcal{D}}E\subseteq Q(D) &\Rightarrow Q(D)\subseteq Q(Q(D))\\
+        &\Rightarrow Q(D)\in\mathcal{D}\\
+        &\Rightarrow Q(D)\subseteq D
+    \end{align*}
+    Hence $D=Q(D)$.
+
+\end{proof}
+As discussed at the beginning, cardinality is an equivalence relation. The notation $|A|\leq|B|$ also makes sense as an
+ordering by Schroeder-Bernstein. Finally by Cantor's argument, we have an infinite set of cardinalities.
+\begin{corollary}\hspace{1cm}
+    \begin{enumerate}
+        \item If $A_1\subseteq A_2\subseteq A_3$, and $|A_1|=|A_3|$, then $|A_1|=|A_2|=|A_3|$.
+        \item $|(0,1)|=|[0,1)|=|\R|$
+        \item $|\R|=|2^{\N}|$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}
+        \item We have injections $i,j$
+            \[A_1\overset{i}{\hookrightarrow}A_2\overset{j}{\hookrightarrow}A_3\]
+            given by the embedding maps, and a bijection $k:A_3\to A_1$. Then $k\circ j:A_2\to A_1$ is an injection, so by
+            Schroeder-Bernstein, $|A_1|=|A_2|$ and $|A_2|=|A_3|$ by transitivity.
+        \item It suffices to show $|(0,1)|=|\R|$. Consider $f(x)=\arctan x$ which is a bijection $f:\R\to\left( \frac{-\pi}{2},\frac{\pi}{2} \right)$.
+            Thus
+            \[\frac{1}{\pi}\arctan x+\frac{1}{2}:\R\to(0,1)\]
+            is a bijection. There are many other examples of such functions! A good exercise is to find a rational function.
+
+            \textit{Alternative Proof}:
+            \begin{center}
+                \begin{tikzpicture}[scale=2]
+                    \draw (-3,0) -- (3,0);
+                    \draw (0,-0.5) -- (0,1.5);
+                    \draw[name path=semicirc] (1,1) arc (0:-180:1);
+                    \draw[radius=0.05,fill=white] (1,1) node[above right]{$1$} circle;
+                    \draw[radius=0.05,fill=white] (-1,1) node[above left]{$0$} circle;
+                    \draw[radius=0.05,fill=black] (0,1);
+                    \draw[dashed] (0,1) -- (2.5,0);
+                    \draw[dashed, name path=line] (0,1) -- (-1.5,0)node[below]{$x$};
+                    \path [name intersections={of=semicirc and line,by=E}];
+                    \node [fill=red,inner sep=2pt,label=-90:$f(x)$] at (E) {};
+                \end{tikzpicture}
+            \end{center}
+        \item $|\R|=|2^{\N}|$. Recall $2^{\N} =\{f:\N\to\{0,1\}\}$. Show $|[0,1)|=|2^{\N}|$. Take $r\in[0,1)$ and write as $r=.r_1r_2r_3\ldots$
+            where $r_j\in\{0,1\}$ (binary representation of $r$. Define $f_r(n)=r_n,n\in\N$ so $f_r:\N\to\{0,1\}$ so $f_r\in 2^{\N}$.
+            Define $i:[0,1)\to2^{\N}$ by the map $r\mapsto f_r$. This is injective since if $r\neq r'$, then the $k^{th}$ digits
+            are different for some $k$ and that means $f_r\neq f_{r+1}$ and $|[0,1)|\leq|2^{\N}|$.
+
+            Similarly, we have an injection $2^{\N}\to[0,1)$ given
+            \[f\mapsto0.0f(1)0f(2)0f(3) \ldots \in [0,1)\]
+            This is an injection because non-unique binary representation have to end with a tail of 1's (in one case) and
+            a tail of 0's (in the other case). (A good exercise is to think about how to formalize this properly). Thus
+            by Schroeder-Bernstein, the result follows.
+    \end{enumerate}
+\end{proof}
+
+\chapter{Basic Topology}
+\section{Characterizing Completeness in $\R$}
+\subsection{Basic Properties of $\R$}
+\begin{definition}
+    The set $\R$ is an ordered field, containing $\Q$, which satisfies the completeness axiom. The completeness axiom states
+    that every bounded, increasing sequence converges.
+\end{definition}
+\begin{definition}
+    Say $(x_n)$ converges if for any $\epsilon>0$, there exists $N$ such that $\forall n\geq N$, $|x_n-L|<\epsilon$.
+    Write $\lim_{n\to\infty}x_n=L$, $(x_n)\to L$, $x_n\underset{n\to\infty}{\to}L$.
+\end{definition}
+\begin{theorem}[Archimedean Principle]
+    Given any $r\in\R$, there exists $N\in\N$ such that $N\geq r$.
+\end{theorem}
+\begin{proof}
+    Suppose not. Then there exists $r\in\R$ such that $N\leq r$ for all $N\in\N$. Set $x_n=n$, so $(x_n)$ is an increasing
+    bounded sequence, so by completeness it must converge to, say, $L$. Take $\epsilon=1/3$. Then there exists $N$ such that
+    $|x_n-L|<\frac{1}{3}$ for all $n\geq N$. Look at $|x_N-x_{N+1}|\leq|x_n-L|+|L-x_{n+1}|<\frac{2}{3}$ but $1=|N-(N+1)|$,
+    a contradiction.
+\end{proof}
+\begin{exercise}
+    Show that for every $x<y$, $x,y\in\R$, there exists $\frac{p}{q}\in\Q$ such that $x<\frac{p}{q}<y$ (in other words that
+    every open interval contains a rational number - $\Q$ is dense in $\R$).
+\end{exercise}
+\begin{definition}
+    Let $S\subseteq\R$. An \textbf{upper bound} for $S$ is some $r\in\R$ such that for any $x\in S$, $x\leq r$. If a set has an upper bound,
+    then we say it is \textbf{bounded above}. We say $x'$ is a \textbf{least upper bound} of $S$ (denoted $LUB$, $\sup$)
+    we mean an upper bound $x'$ for the set such that if $y<x'$, then $y$ is not an upper bound.
+\end{definition}
+We can similarly define lower bounds, and greatest lower bounds (denoted $GLB$, $\inf$).
+\begin{remark}\hspace{1cm}
+    \begin{enumerate}
+        \item If $b\in S$ and $b$ is an upper bound, then $b=\sup S$.
+        \item If $(x_n)$ is an increasing, bounded sequence, and $S=\{x_1,x_2,\ldots\}$, then $S$ is bounded above with
+            least upper bound $\sup S=\lim x_n$.
+            \begin{center}
+                \begin{tikzpicture}[scale=0.7]
+                    \draw (0,-1) -- (0,4);
+                    \draw (-1,0) -- (15,0);
+                    \draw[dashed] (-1,3) -- (15,3);
+                    \foreach \x in {1,2,...,14} {
+                    \draw (\x,0);
+                    }
+                \end{tikzpicture}
+            \end{center}
+        \item $B=\sup S$ iff $B$ is an upper bound for $S$ and $\forall\epsilon>0$, there exiss $x\in S$ such that $x>B-\epsilon$.
+    \end{enumerate}
+\end{remark}
+\subsection{Four equivalent statements of completeness}
+\begin{theorem}[Completeness]
+    If $S$ is a non-empty subset of $\R$ that is bounded above, then $\sup S$ exists.
+\end{theorem}
+\begin{proof}
+    We say $z\geq S$ if $z\geq x$ for all $x\in S$. Pick $y\in S$ (since $S\neq\emptyset$). Let $x_0=y-1$. Pick $N_0$ to
+    be the least integer such that $x_0+N_0\geq S$ (since $S$ is bounded above). Note $N_0\geq 1$ since ``$x_0\geq S$''
+    is false. Put $x_1=x_0+N_0-1$ ($\geq x_0$ as $N_0\geq 1$). We have $x_0+N_0-1\not\geq S$. So $\exists s_1\in S$ such
+    that $s_1>x_0+N_0-1=x_1$. Also note that $x_1+1=x_0+N_0\geq S$. Now choose the least integer $N_1$ such that $x_1+\frac{N_1}{2}\geq S$.
+    $N_1=0$ would be too small, so $N_1\geq 1$. Since $x_1+1\geq S$, $N_1\leq 2$. Set $x_2=x_1+\frac{N_1-1}{2}\geq x_1$.
+    By definition of $N_1$, $\exists s_2\in S$ with $s_2>x_2$. But also $x_2+\frac{1}{2}=x_1+\frac{N_1}{2}\geq S$.
+    Inductively, define $x_n=x_{n-1}+\frac{N_{n-1}-1}{n}$ where $N_{n-1}$ is the least integer such that $x_{n-1}+\frac{N_{n-1}}{n}\geq S$.
+    Then $\exists s_n\in S$ such that $x_n>s_n$ and $x_n+\frac{1}{n}\geq S$. At the next step, $N_n\geq 1\Rightarrow x_n\leq x_{n+1}$.
+    The sequence $(x_n)$ is increasing and bounded above by any upper bound for $S$. Hence by the completeness axiom,
+    $(x_n)\to L\in\R$.
+
+    We claim $L=\sup S$. Certainly $L$ is an upper bound for $S$. If $\exists s\in S$ such that $s>L$, then there exists
+    $N$ such that $s>L+\frac{1}{N}\geq x_N+\frac{1}{N}$, a contradiction. Then to show that $L$ is a least upper bound,
+    we see for any $\epsilon>0$, there exists $s\in S$ so that $L-\epsilon<s$.
+\end{proof}
+\begin{remark}[Author's Remark]
+    \textit{Alternative Proof:}
+\end{remark}
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}
+        \item Every bounded, increasing sequence converges
+        \item Every Cauchy sequence has a unique limit
+        \item Bolzano-Weierstrass holds.
+        \item Every bounded set has a least upper bound
+    \end{enumerate}
+\end{theorem}
+\begin{definition}
+    Say $(x_n)$ is \textbf{Cauchy} if $\forall\epsilon>0$, $\exists N$ such that $\forall n,m\geq N$ we have
+    $|x_n-x_m|<\epsilon$.
+\end{definition}
+\begin{remark}\hspace{1cm}
+    \begin{enumerate}
+        \item A Cauchy sequence is bounded
+        \item Any convergent sequence is Cauchy
+    \end{enumerate}
+\end{remark}
+\begin{theorem}[Completeness property]
+    Cauchy sequences converge.
+\end{theorem}
+\begin{proof}
+    Follows from the Heine-Borel Theorem, namely that all bounded sequences have a convergent subsequence.
+\end{proof}
+\subsection{Limit Superior and Limit Inferior}
+Let $(x_n)$ be a bounded sequence, and let $A_n=\inf\{x_n,x_{n+1},x_{n+2},\ldots\}$. Note that $A_n$ is nondecreasing
+and bounded, and hence converges.
+\begin{definition}
+    The \textbf{Limit Inferior}, denoted $\lim\inf$, is defined
+    \[\lim\inf (x_n)=\lim_{n\to\infty}\left(\inf\{x_n,x_{n+1},x_{n+2},\ldots\}\right)\]
+\end{definition}
+\begin{remark}\hspace{1cm}
+    \begin{enumerate}
+        \item The Limit Superior can be defined similarly.
+        \item With $A_n$ defined as above, we have $\lim\inf(x_n)=\sup_n A_n$.
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    Every bounded sequence has a subsequence that converges to $\lim\sup x_n$ and a subsequence that converges to
+    $\lim\inf x_n$.
+\end{proposition}
+\begin{proposition}
+    $L=\lim\sup x_n$ if and only if $\forall\epsilon>0$, $x_n<L+\epsilon$ for all but finitely many $n$ and $x_n>L-\epsilon$
+    for infinitely many $n$.
+\end{proposition}
+\begin{proof}
+    Proof sketch: For any $k$ get $(n_k)$ such that $L-\frac{1}{k}<x_{n_k}<L+\frac{1}{k}$ where $L=\lim\sup x_n$. The terms $(x_{n_k})$
+    form a subsequence converging to $L$.
+\end{proof}
+\begin{theorem}
+    We have $\lim\inf(x_n)\leq\lim\sup(x_n)$, with equality if and only if $\lim(x_n)=L$ exists. In this case, equality
+    holds at $L$.
+\end{theorem}
+\begin{proof}
+    $(\Rightarrow)$ $\lim(x_n)=L$ implies that every subsequence converges to $L$.
+    $(\Leftarrow)$ Since $L=\lim\sup x_n=\lim\inf x_n$, we have $N_1$ such that $x_n<L+\epsilon$ for $n\geq N_1$
+    and $N_2$ such that $x_n>L-\epsilon$ for $n\geq N_2$. Choose $N=\max\{N_1,N_2\}$ and for all $n\geq N$,
+    \[L-\epsilon<x_n<L+\epsilon\]
+    This can be done for any $\epsilon>0$ so $\lim x_n=L$.
+\end{proof}
+\begin{theorem}[Bolzano-Weierstrass]
+    Every bounded subsequence has a convergent subsequence.
+\end{theorem}
+\begin{proof}
+    $\lim\sup x_n$ is the limit of a subsequence of $x_n$.
+\end{proof}
+\section{Metric Spaces}
+\subsection{Basic Properties}
+\begin{definition}
+    The pair $(X,d)$ consisting of a set $X$ along with a function $d:X\times X\to[0,\infty)$ (called a distance function or
+    metric) satisfying
+    \begin{enumerate}
+        \item Positive Definite: $d(x,y)=0$ if and only if $x=y$
+        \item Symmetric: $d(x,y)=d(y,x)$
+        \item Triangle Inequality: $d(x,y)\leq d(x,z)+d(z,y)$ for all $x,y,z$
+    \end{enumerate}
+    is called a metric space.
+\end{definition}
+\begin{example}\hspace{1cm}
+    \begin{enumerate}
+        \item $\R$, $d(x,y)=|x-y|$
+        \item $\R^n$, $d(x,y)=\left( \sum\limits_{i=1}^n(x_i-y_i) \right)^{1/2}$
+        \item $(\R^2,d_1)$ where $d_1(x,y)=|x_1-y_1|+|x_2-y_2|$
+        \item $(\R^2,d_\infty)$ where $d_\infty(x,y)=\max(|x_1-y_1|,|x_2-y_2|)$.
+            What do the unit balls of these metrics look like? We consider the sets $\{x\in\R^2:d(x,0)<1\}$.
+            \begin{center}
+                \begin{tikzpicture}[scale=3]
+                    \draw[->] (0,-1.1) -- (0,1.1);
+                    \draw[->] (-1.1,0) -- (1.1,0);
+                    \draw[dashed] (0,0) circle[radius=1];
+                    \draw[dashed] (-1,0) -- (0,-1) -- (1,0) -- (0,1) -- cycle;
+                    \draw[dashed] (1,1) -- (1,-1) -- (-1,-1) -- (-1,1) -- cycle;
+
+                    \node[above right] (A) at (0.707,0.707){$d_2$};
+                    \node[above right] (A) at (1,1){$d_\infty$};
+                    \node[above right] (A) at (0.5,0.5){$d_1$};
+                \end{tikzpicture}
+            \end{center}
+        \item $(X,d)$ where $X$ is any set and
+            \[d(x,y)=
+            \begin{cases}
+                0&:x=y\\
+                1&:\text{else}
+            \end{cases}
+            \]
+        \item $x=\{(x_n)_{n=1}^\infty\text{ bounded sequences}\}=l^\infty$, $d_\infty(x,y)=\sup_n|x_n-y_n|$.
+            For example let $x_n=1-\frac{1}{n}$, $y_n=\frac{1}{n}$, then
+            \[d_\infty(x,y)=\sup_n\left|\left( 1-\frac{1}{n} \right)-\frac{1}{n}\right|=1\]
+            One can check that $d_\infty$ is a metric, and $l^\infty$ is a vector space. $c_0=\{(x_n)\in l^\infty:(x_n)\to 0\}$
+            is a vector subspace.
+        \item $X=\{(x_n)_{n=1}^\infty:\sum\limits_{n=1}^\infty |x_n|<\infty\}=l^1$, and $d_1(x,y)=\sum\limits_{n=1}^\infty|x_n-y_n|$.
+        \item $X=\{(x_n)_{n=1}^\infty:\sum|x_n|^2<\infty\}=l^2$ and $d_2(x,y)=\left(\sum\limits_{n=1}^\infty|x_n-y_n|^2\right)^{1/2}$.
+            Note that $l^2$ is also an inner product space, and the metric $d_2$ is the natural metric arising from the inner
+            product $\inner{x}{y}=\sum\limits_{n=1}^\infty x_ny_n$. The norm is given by $\norm{x}=\inner{x}{x}^{1/2}$
+            and $d(x,y)=\norm{x-y}$.
+        \item Inner Product Space $x$ with metric $d(x,y)=\sqrt{\inner{x-y}{x-y}}$. The Cauchy-Schwarz inequality gives
+            the triangle inequality. C-S states
+            \[|\inner{x}{y}|\leq\norm{x}\norm{y}\]
+            Then
+            \begin{align*}
+                \norm{x+y}^2&=\inner{x+y}{x+y}\\
+                &=\inner{x}{x}+\inner{x}{y}+\inner{y}{x}+\inner{y}{y}\\
+                &=\norm{x}^2+2\inner{x}{y}+\norm{y}^2\\
+                &\leq\norm{x}^2+2\norm{x}\norm{y}+\norm{y}^2\\
+                &=(\norm{x}+\norm{y})^2
+            \end{align*}
+            so that $\norm{x+y}\leq\norm{x}+\norm{y}$. Thus
+            \begin{align*}
+                d(x,y)&=\norm{x-y}\\
+                &=\norm{(x-z)+(z-y)}\\
+                &\leq\norm{x-z}+\norm{z-y}\\
+                &=d(x,z)+d(z,y)
+            \end{align*}
+            Thus $(X,d)$ is a metric space.
+    \end{enumerate}
+\end{example}
+\subsection{Topology of Metric Spaces}
+For convergence, let $x_n,x_0\in X$. Say $x_n\to x_0$ if $d(x_n,x_0)\to 0$.
+We can also define open balls $B(x_0,r)=\{x\in X:d(x,x_0)<r\}$. For example, this is the open
+sphere in $\R^3$, open disc in $\R^2$, and open interval in $\R$. What are the balls in $X$ with the discrete metric?
+We have $B(x_0,r)=X$ if $r>1$, and $B(x_0,r)=\{x_0\}$ if $r\leq 1$. Notice that if $x_n\to x_0$, then $x_n=x_0$ eventually.
+\begin{definition}
+    Let $U\subseteq X$. Say $x_0\in U$ is an interior point of $U$ if $\exists r>0$ such that $B(x_0,r)\subseteq U$.
+    We will write $\Int U=U^\circ=\{\text{interior points of $U$}\}$. Say $U$ is open if every point of $U$ is an
+    interior point (i.e. $U=\Int U$).
+\end{definition}
+\begin{example}\hspace{1cm}
+    \begin{enumerate}
+        \item $\R$, $U=[0,1)$. Then $\Int U=(0,1)$.
+        \item $\R^2,d_1$, $U=(x,y):0<x<1$. Then $\Int U=U$ and $U$ is open. Note that the open sets of $\R^n$ with respect
+            to the $d_1,d_2,d_\infty$ metrics are all the same.
+        \item $\R$ with the usual metric: $\Int\Q=\emptyset$.
+        \item $X$, discrete metric. Every set is open since all singletons are balls.
+        \item $X,\emptyset$ are open in every metric space.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    Balls are open sets.
+\end{proposition}
+\begin{proof}
+    Take a ball $B(x_0,r)$ and let $y\in B(x_0,r)$. Take $\epsilon=r-d(y,x_0)$. We show that $B(y,\epsilon)\subseteq B(x_0,r)$.
+    Let $z\in B(y,\epsilon)$. Note that $d(z,x_0)\leq d(z,y)+d(y,x_0)<\epsilon+d(y,x_0)=r$ so $z\in B(x_0,r)$.
+\end{proof}
+\begin{proposition}
+    \begin{enumerate}
+        \item If $U_1,U_2$ are open, then $U_1\cap U_2$ is open (this extends to finite intersections).
+        \item If $U_\alpha:\alpha\in I$ are open sets, then so is $\bigcup_{\alpha\in I}U_\alpha$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $x\in U_1\cap U_2$. Let $B(x,r_1)\subseteq U_1$ and $B(x,r_2)\subseteq U_2$. Then $B(x,\min\{r_1,r_2\})\subseteq U_1\cap U_2$.
+        \item Let $x\in\bigcup_{\alpha\in I}U_\alpha$. Then $x\in U_i$ for some $i\in I$, so there exists some ball
+            $B(x,r)\subseteq U_i\subseteq\bigcup_{\alpha\in I}U_\alpha$ as desired.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    $U$ is an open set iff $U$ is a union of balls.
+\end{proposition}
+\begin{proof}
+    $(\Rightarrow)$ balls are open as are unions of balls by previous results.
+    $(\Rightarrow)$ For any $x\in U$, there exists $B(x,r_x)\subseteq U$. Take $\bigcup_{x\in U}B(x,r_x)=U$.
+\end{proof}
+\begin{proposition}
+    $\Int U$ is the union of all open subsets of $U$.
+\end{proposition}
+\begin{proof}
+    $(\subseteq)$ Let $x\in\Int U$. Then by definition $x$ is in an open subset of $U$. Similarly, if $y\in\text{RHS}$,
+    then $y$ is in some open subset contained in $U$, so it is in the interior.
+\end{proof}
+\begin{definition}
+    A set $U$ is closed if $U^c=X\setminus U$ is open.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item $[a,b]$ in $\R$ is closed
+        \item $\Q$ is not closed as $\Q^c$ is not open
+        \item $X$ with the discrete metric: every set is closed since every set is open.
+        \item Any metric space, $X,\emptyset$ are closed.
+        \item $\{x_0\}$ is a closed set in a metric space (in other words, metric spaces are Haussdorf).
+            \begin{proof}
+                We show that $X\setminus\{x_0\}$ is open. Take $y\in X$ with $y\neq x_0$. Then consider
+                \[B(y,d(y,x_0))=\{x:d(y,x)<d(y,x_0)\}\]
+                certainly does not contain $x_0$.
+            \end{proof}
+        \item $\Z$, usual metric. Let $n\in\Z$ and consider $B(n,1)=\{n\}$. Even though this is not the discrete metric,
+            $\Z$ has the discrete topology.
+    \end{enumerate}
+\end{example}
+\begin{proposition} \hspace{1cm}
+    \begin{enumerate}
+        \item Any finite union of closed sets is closed.
+        \item Any intersection of closed sets is closed.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Identical to the open set cases, with DeMorgan's laws.
+\end{proof}
+\begin{definition}
+    Let $E\subseteq X$. A point $x\in X$ is an \textit{accumulation point} of $E$ if for any $r>0$, $B(x,r)$ contains a point
+    of $E$ other than $x$. The points in $E$ that are not accumulation points of $E$ are called \textit{isolated points}.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item $E=[0,1)$ in $\R$. The set of accumulation points of $E$ is $[0,1]$.
+        \item $E=[0,1)\cup\{2\}$. $2$ is an isolated point.
+        \item $\Q^c$. $\R$ is the set of accumulation points/
+        \item $\Z$: all points are isolaged
+        \item $E\subseteq X$ with the discrete metric: every point is isolated.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    If $X$ is an accumulation point of $E$, then every ball centred at $x$ contains infinitely many points of $E$.
+\end{proposition}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{theorem}
+    A set $E$ is closed if and only if $E$ contains all its accumulation points.
+\end{theorem}
+\begin{corollary}
+    Every finite set is closed.
+\end{corollary}
+\begin{proof}
+    First assume $E$ is closed. Let $x\notin E$ and show $x$ is not an accumulation point of $E$. Then $x\in E^c$ and
+    $E^c$ is an open set. Then we have $r>0$ such that $B(x,r)\subseteq E^c$. Since $B(x,r)\cap E=\emptyset$, then $X$
+    is not an accumulation point of $E$.
+
+    Now assume $E$ contains all its accumulation points. We want to prove that $E^c$ is open. Take $x\in E^c$ and show
+    $x$ is an interior point of $E^c$. We know that $x$ is not an accumulation point of $E$. That means $\exists r>0$ such that
+    $B(x,r)\cap E=\emptyset$. Hence $B(x,r)\subseteq E^c$ and that proves $x$ is an interior point of $E^c$ so $E$ is closed.
+\end{proof}
+\begin{theorem}\hspace{1cm}
+    \begin{enumerate}
+        \item $\overline{E}$ is closed
+        \item $\displaystyle\overline{E}=\bigcap_{\substack{B\supseteq E\\B\text{ is closed}}}B$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\hspace{1cm}
+    \begin{enumerate}
+        \item Show that $(\overline{E})^c$ is open. Let $x\in(\overline{E})^c$. Then $x\notin E$ and $x$ is not an accumulation
+            point of $E$. Hence $\exists r>0$ such that $B(x,r)\cap E=\emptyset$. Furthermore, $B(x,r)\cap\overline{E}=\emptyset$.
+            Suppose $z\in B(x,r)\cap\overline{E}$ where $z$ is an accumulation point of $E$. But then every open set
+            containing $z$ contains points in $E$ so $B(x,t)$ muct contain points of $E$ being open and containing $Z$,
+            a contradiction
+        \item TODO
+    \end{enumerate}
+\end{proof}
+Recall that $A$ is dense in $X$ if $\overline{A}=X$. For example,
+\[l_1=\{(x_n)_{n=1}^\infty:\sum\limits_{n=1}^\infty|x_n|<\infty\}\]
+\[l_\infty=\{(x_n)_{n=1}^\infty:\sup_n|x_n|<\infty\}\]
+\[d_\infty(x,y)=\sup_n|x_n-y_n|\]
+\[c_0=\{(x_n)_{n=1}^\infty:x_n\to 0\}\subseteq l_\infty\]
+We see that $l_1\subseteq c_0\subseteq l_\infty$. Prove that $l_1$ is dense in $c_0$ with the $c_\infty$ metric. Thus
+suppose that $x\in c_0\setminus l_1$ and show that $x$ is an assumulation point of $l_1$. Take $B(x,\epsilon)$ and choose $N$
+such that $|x_n|<\epsilon/2$ for all $n\geq N$. Let $X^{(N)}=(x_1,x_2,\ldots,x_{n-1},0,0,\ldots)\in l_1$ and $X^{(N)}\in l_1$.
+Furthermore, $d(x,x^{(N)})=\sup_{n\geq N}|x_n-x_n^{(N)}|<\epsilon$ so $x$ is an assumulation point of $l_1$.
+
+\begin{definition}
+    We denote the boundary of $E$ by
+    \[\partial E=\overline{E}\cap\overline{E^c}\]
+\end{definition}
+Note that $x\in\partial E$ iff every open set that contains $X$ contains points of both $E$ and $E^c$.
+\begin{definition}
+    Say $A\subseteq(X,d)$ is bounded if there exists some $x_0,M$ with $A\subseteq B(x_0,M)$.
+\end{definition}
+\subsection{Sequences in Metric Spaces}
+\begin{definition}
+    A sequence $(x_n)$ in $(X,d)$ is said to converge to $x\in X$ if for all $\epsilon>0$, there exists $N$ such that
+    $d(x_n,x)<\epsilon$ for all $n\geq N$; that is $x_n\in (x,\epsilon)$. Equivalently, $(d(x,x_n))_{n=1}^\infty\to 0$ in
+    $\R$ with the usual metric.
+\end{definition}
+\begin{proposition}
+    $(x_n)\to x$ if and only if for every open set containing $x$ contains all but
+    finitely many $x_n$.
+\end{proposition}
+\begin{proof}
+    $(\Leftarrow)$ Get $B(x,\epsilon)\subseteq U$ and get $N$ such that $x_n\in B(x,\epsilon)$ for all $n\geq N$.
+    $(\Rightarrow)$ $B(x,\epsilon)$ is an open set containing $x$ so get get $N$ such that $x_n\in B(x,\epsilon)$ for all $n\geq N$.
+\end{proof}
+We thus have that limits are unique. If $x_n\to x$ and $x_n\to y$, if $x\neq y$ then there exsts disjoint neighbourhoods
+of $x$ and $y$, contradiction by the previous proposition.
+
+Any convergent sequence $(x_n)$ is bounded, meaning $\{x_n:n=1,2,\ldots\}$ is a bounded set.
+\begin{proof}
+    Say $d(x_n,x)<1$ for all $n\geq N$. Then $B(x,\max(1,1+d(x,x_j):j=1,\ldots,N-1))\supseteq\{x_n:n=1,2,\ldots\}$.
+\end{proof}
+\begin{definition}
+    Say $(x_n)$ is \textit{Cauchy} if for all $\epsilon>0$, there exists $N$ such that $d(x_n,x_m)<\epsilon$.
+\end{definition}
+Any Cauchy sequence is bounded, and every convergent sequence is Cauchy. If a Cauchy sequence has a convergent subsequence
+with limit $x$, then the Cauchy sequence converges to $x$. All same proofs as before. However, there are metric spaces where Cauchy
+sequences do not necessarily converge. For example, $\Q$ with the usual metric.
+\begin{proposition}
+    $x\in\overline{E}$ iff there is a sequence $(x_n)$ in $E$ such that $x_n\to x$.
+\end{proposition}
+\begin{proof}
+    Suppose $x\in\overline{E}$. Then for all $n$, $B(x,1/n)\cap E\neq\emptyset$. Let $x_n\in B(x,1/n)\cap E$. Then $x_n\to x$.
+    Conversely, let $x=\lim x_n,x_n\in E$. Then for any $\epsilon>0$, $B(x,\epsilon)\cap E\neq\emptyset$ so $x\in\overline{E}$.
+\end{proof}
+\begin{proposition}
+    $E$ is closed iff whenever $x_n\in E$ and $x_n\to x$, then $x\in E$
+\end{proposition}
+\begin{proof}
+    $E$ is closed iff $\overline{E}$ is closed.
+\end{proof}
+
+\section{Topological Spaces}
+\subsection{Basic Notions}
+\begin{definition}
+    A \textit{topological space} $(X,\tau)$ where $\tau$ is a collection of subsets of $X$ satisfying the following axioms:
+    \begin{enumerate}
+        \item $X,\emptyset\in\tau$ (basic sets)
+        \item $\displaystyle\bigcup\limits_{S\in T\subseteq\tau}S\in\tau$ (closure under union)
+        \item $\displaystyle\bigcup\limits_{i=1}^n S_i\in\tau$ (closure under finite intersection)
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    A collection $C\subseteq\tau$ is called a \textit{base} for $X$ if every open set in $X$ is the union of sets from $C$.
+\end{definition}
+Given a metric space $(X,d)$, we have seen that the balls $B(x,r)$ are indeed open sets.
+Furthermore, we know that every open set in $X$ can be written as a union of open balls.
+Thus we can talk about the induced topological space $(X,\tau)$ consisting of unions of open balls with respect to $d$: we say that the open balls consist of a base for $X$.
+\begin{definition}
+    A topological space $(X,\tau)$ is called \textit{metrizable} if it is induced by some metric $d$ on $X$.
+\end{definition}
+Some names are convenient.
+We can define the \textit{discrete topology} by setting $\tau=\mathcal{P}(X)$.
+In fact, this is precisly the topological space induced by the discrete metric on $X$.
+\begin{definition}
+    We say that a topological space is Hausdorff if for any $x,y\in X$, there exist open sets $\tau_x\ni x$ and $\tau_y\ni y$ with $\tau_x\cap\tau_y=\emptyset$.
+\end{definition}
+\begin{theorem}
+    The topological space induced by a metric is Hausdorff.
+\end{theorem}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{theorem}
+    Every separable metric space has a countable base.
+\end{theorem}
+\begin{proof}
+    Let $X$ be a separable metric space, and $S\subseteq X$ a countable dense subset of $S$. Then for each
+    $s\in S$, define the collection $\{B(s,r):r\in\Q\}$ of open balls with rational radius around each point.
+    Then the set $C:=\{B(s,r):(s,r)\in S\times\Q\}$ is countable, and I claim that it is a countable basis for
+    $X$.
+
+    Let $U\subseteq X$ be open, and I claim that $U=\{c\in C:c\subseteq U\}$. The reverse inclusion is satisfied
+    by definition, so it suffices to show $U\subseteq \bigcup\{c\in C:c\subseteq U\}$. Thus let $x\in U$ be arbitrary,
+    and let $\epsilon>0$ be such that $B(x,\epsilon)\subseteq U$. By density of $S$, there exists some $y$ such that
+    $y\in B(x,\epsilon/3)$. Then for any $\epsilon/3<r<\epsilon/2$, the open ball $B(y,r)\subseteq B(x,\epsilon)$
+    by the triangle inequality, and $x\in B(y,r)$ since $d(y,x)<\epsilon/3$. In particular, by density
+    of $\Q$, choose $r_0\in\Q$ satisfying $\epsilon/3<r_0<\epsilon/2$; but then $B(y,r_0)\subseteq B(x,\epsilon)\subseteq U$
+    and $B(y,r_0)\in C$. Thus $B(y,r_0)\in\{c\in C:c\subseteq U\}$ and $x\in B(y,r_0)$ so $x\in\bigcup\{c\in C:c\subseteq U\}$
+    and equality holds, as desired.
+\end{proof}
+\begin{corollary}
+    Every compact metric space $X$ has a countable base.
+\end{corollary}
+\subsection{Connectedness}
+\begin{definition}
+    A topological space $X$ is \textit{not connected} if $X=U\cup V$ where $U,V$ are open and non-empty and $U\cap V=\emptyset$.
+    $E\subseteq X$ is connected if $E\neq (E\cap U)\cup (E\cap V)$ where $U,V$ are open in $X$, $E\cap U$, $E\cap V$ are both
+    non-empty and $E\cap U\cap V=\emptyset$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item $E=(0,1)\cup[2,3]$ - not connected
+        \item $\Q$ - not connected
+        \item $S\subseteq\R$ is connected iff $S$ is an interval.
+    \end{enumerate}
+\end{example}
+\section{Baire Category Theorem}
+\subsection{Definitions and Proof}
+\begin{definition}
+    Say $A\subseteq X$ is nowhere dense if $\int(\overline{A})=\emptyset$.
+\end{definition}
+For example, $\Z$ in $\R$ is nowhere dense, and $\Q$ in $\R$ is not nowhere dense.
+\begin{definition}
+    $A\subseteq X$ is \textit{first category} if $A=\bigcup\limits_{n=1}^\infty V_n$ where each $V_n$ is nowhere dense.
+    $A\subseteq X$ is \textit{second category} if $A$ is not first category.
+\end{definition}
+For example, $\Q$ is first category since $\Q=\bigcup_{n=1}^\infty\{r_n\}$.
+In this way, every countable set is first category.
+\begin{enumerate}
+    \item $A$ is nowhere dense implies $A^c$ is dense.
+        This follows since $S$ is dense iff $S$ intersects every open set.
+    \item $A$ is closed and nowhere dense iff $A^c$ is open and dense.
+\end{enumerate}
+\begin{proposition}
+    If $A,B$ are first category, then so is $A\cup B$.
+\end{proposition}
+\begin{proposition}
+    $X$ is second category if and only if the intersection of every countable family of open, dense sets in $X$ is non-empty.
+\end{proposition}
+\begin{proof}
+    This is a direct application of DeMorgan's identities.
+
+    $(\Rightarrow)$ $X$ is first category iff $X=\bigcup_{n=1}^\infty X_n$ where $X_n$ are closed and nowhere dense.
+    Let $\{G_n\}$ be a countable family of open dense sets.
+    Suppose $\bigcap{n=1}^\infty G_n=\emptyset$.
+    Thus $\bigcup_{n=1^\infty}(G_n)^c=X$ so $X$ is first category, a contradiction.
+
+    $(\Leftarrow)$. Say $X$ is not second category.
+    Then $X$ is first category, so $X=\bigcup_{n=1}^\infty X_n$ where $X_n$ are closed and nowhere dense.
+    Then
+    \[\emptyset=X^c=\left(\bigcup_{n=1}^\infty X_n\right)^c=\bigcap_{n=1}^\infty X_n^c\]
+    where the $X_n^c$ are open and dense.
+\end{proof}
+\begin{theorem}[Baire Category]
+    A non-empty complete metric space $X$ is second category.
+\end{theorem}
+\begin{proof}
+    Let $\{A_n\}_{n=1}^\infty$ be open and dense, and show $\bigcap_{n=1}^\infty A_n\neq\emptyset$.
+    Get $x_1\in A_1$, so get $B(x_1,r_1)=U_1\subseteq A_1$.
+    $A_2$ is dense, so intersects $U_1$, and $A_2\cap U_1\neq\emptyset$.
+    Say $x_2\in A_2\cap U_1\subseteq A_2\cap A_1$.
+    Since finite intersections are open, get $V_2\subseteq A_2\cap U_1$, without loss of generality $r_2\leq r_1/2$.
+    Set $U_2=B(x_2,r_2/2)$.
+    Then $\overline{U}_2\subseteq V_2\subseteq A_2\cap U_1$, and $\diam\overline{U}_2\leq\frac{1}{2}\diam\overline{U}_1$.
+
+    Proceed inductively to get $x_n$, open sets $U_n\ni x_n$ and $U_n\subseteq\bigcap_{k=1}^n A_k$, $\overline{U}_n\subseteq U_{n-1}$ and $\diam U_n\to 0$.
+    Check $(x_n)$ is Caucy.
+    Let $\epsilon>0$ and pick $N$ such that $\diam U_N<\epsilon$.
+    If $n,m\geq N$, then $x_n,x_m\in U_n$ so $d(x_n,x_m)<\diam U_n<\epsilon$.
+    Thus $(x_n)$ is Cauchy so by completeness, $\lim x_n=x\in X$.
+    Furthermore, $x_n\in\overline{U}_n$ for all $n\geq N$, so $x\in\overline{U}_n\subseteq U_{n-1}\subseteq\bigcap_{j=1}^{n-1}A_j$ for all $n$.
+    But then $x\in A_j$ for all $j$, so the intersection is non-empty.
+\end{proof}
+\subsection{Applications of the Baire Category Theorem}
+\begin{corollary}
+    $\R$ is uncountable.
+\end{corollary}
+\begin{proof}
+    Suppose not, so $\R=\bigcup\limits_{n=1}^\infty\{x_n\}$, but then $\R$ would be first categpry, a contradiction since $\R$ is a non-empty complete metric space.
+\end{proof}
+\begin{corollary}
+    Perfect sets are uncountable.
+\end{corollary}
+\begin{proof}
+    Suppose $E$ is countable and write $E=\bigcup\limits_{n=1}^\infty\{x_n\}$.
+    Since each $x_n$ is an accumulation point of $E$, any open set must contain infinitely many points of $E$.
+    Consider $E$ as a metric space, and since $E$ is closed, $E$ is complete.
+    Furthermore, $\{x_n\}$ is not open in $E$ for it not, then $\{x_n\}=V\cap E$ where $V$ is open in $X$, contradicting the fact that $V\cap E$ must contain infinitely many points in $E$.
+    Thus $E$ is a countable union of closed, nowhere dense sets, a contradiction to the Baire Category Theorem.
+\end{proof}
+\chapter{Completeness and Compactness}
+\section{Completeness}
+\begin{definition}
+    A metric space in which every Cauchy sequence converges (to an element in $X$) is called \textit{complete}.
+\end{definition}
+For example, $\R$ and $\R^n$ are complete, but $\Q$ is not complete. Discrete metric spaces are complete because the
+only Cauchy sequences are sequences that are eventually constant.
+\begin{proposition}
+    If $X$ is complete and $E$ is closed, then $E$ is complete.
+\end{proposition}
+\begin{proof}
+    Let $(x_n)$ be a Cauchy sequence in $E$. Then it is also a Cauchy sequence in $X$ so it has a limit in $X$. But since $E$
+    is closed, this limit is in $E$, so $E$ is complete.
+\end{proof}
+\section{Compactness}
+\begin{definition}
+    An \textit{open cover} of $A$ is a family of open sets $\{G_\alpha\}$ such that $\bigcup_\alpha G_\alpha\supseteq A$.
+    A subcover of an open cover is a subset of the open cover which still contains $A$.
+\end{definition}
+\begin{definition}
+    A metric space $X$ is \textit{compact} if every open cover of $X$ has a finite subcover.
+\end{definition}
+\begin{example}
+    $\R$ is not compact: $(-n,n):n\in\N$ is an open cover with no finite subcover. Similarly, $(0,1)$ is not compact
+    since $(1/n,1-1/n),n=2,3,\ldots$ is an open cover with no finite subcover.
+\end{example}
+Singleton sets in any metric space are always compact because if $\{G_\alpha\}$ is an open cover, then certainly
+some $G_\alpha$ contains the point and is a finite subcover. More generally any finite set is compact.
+
+If $A\subseteq X$ where $X$ is a discrete metric space, then $A$ is compact iff $A$ is finite. If $A$ is infinite, then
+the collection of its singleton points is an open cover with no finite subcover.
+
+\subsection{Characterization of Compactness in $\R^n$}
+\begin{theorem}
+    For $A\subseteq\R^n$, the following are equivalent:
+    \begin{enumerate}
+        \item $A$ is compact
+        \item $A$ is closed and bounded
+        \item Every sequence in $A$ has a convergent subsequence with limit in $A$
+    \end{enumerate}
+\end{theorem}
+The equivalence $(1)\Leftrightarrow(3)$ is called the Bolzano-Weierstrass Theorem, and the equivalence $(1)\Leftrightarrow(2)$
+is called the Heine-Borel Theorem.
+\begin{proposition}
+    Compact sets are closed and bounded.
+\end{proposition}
+\begin{proof}
+    Consider the open cover $B\{(x,1),B(x,2),\ldots\}$. Then it has a finite subcover $B(x,n)$ for some $n$ and $K$ is
+    bounded.
+
+    To prove closedness, let $x\in K^c$. Consider $U_n=\{y\in X:d(x,y)>1/n\}$. Then $\bigcup_{n=1}^\infty U_n=X\setminus\{x\}\supseteq K$,
+    so it has a finite subcover, say $U_{n_1},\ldots,U_{n_L}$ with $n_1<\cdots<n_L$. But then $K\supseteq U_{n_L}$, and
+    $B(x,1/n_L)\cap K=\emptyset$.
+\end{proof}
+\begin{definition}
+    A finite set $\{x_1,\ldots,x_n\}\subseteq X$ is called an \textit{$\epsilon-$net for $A\subseteq X$} if each point of
+    $A$ has distance $<\epsilon$ for some point $x_j,j=1,\ldots,n$. That is for all $x\in A$, $\exists j\in\{1,\ldots,n\}$
+    such that $d(a,x_j)<\epsilon$.
+\end{definition}
+For example, $\{x_0\}$ is a $2-$net for $X$. Similarly $[0,1]$ has a $1/n-$net given by $x_j=j/n$, $j=0,\ldots,n$.
+\begin{definition}
+    A set $A$ is totally bounded if $A$ has an $\epsilon-$net for every $\epsilon>0$.
+\end{definition}
+\subsection{Compactness in Metric Spaces}
+In particular, note that an infinite discrete metric space has no $1-$net. Furthermore, totally bounded sets are certainly
+bounded: we have a finite covering given by a $1-$net. Any compact set $K$ is totally bounded, by considering $B(x,\epsilon)$
+for all $x\in X$: the centers of the balls of a finite subcover is an $\epsilon-$net.
+\begin{proposition}
+    If $A$ is totally bounded, so is $\overline{A}$.
+\end{proposition}
+\begin{proof}
+    Let $\{x_1,\ldots,x_n\}$ be an $\frac{\epsilon}{2}-$net for $A$. Take $y$ an accomulation point of $A$ for all $x\in A$
+    such that $x\in B(y,\epsilon/2)$. Since $x\in A$, for all $y\in\{1,\ldots,n\}$ such that $d(x,x_j)<\epsilon/2$
+    so that $d(y,x_j)\leq d(y,x)+d(x,x_j)<\epsilon$ so $\bigcup_{j=1}^n B(x_j,\epsilon)\supseteq\overline{A}$.
+\end{proof}
+Consider the set $S=(-\sqrt{2},\sqrt{2})\cap\Q$ is a closed set in $\Q$.
+\begin{theorem}[Cantor's Intersection]
+    If $A_1\supseteq A_2\supseteq A_3\supseteq\cdots$ are non-empty closed sets in a complete metric space $X$ and $\diam A_n\to 0$
+    where $\diam A=\sup\{d(x,y):x,y\in A\}$, then $\bigcap_{n=1}^\infty A_n$ is exactly one point.
+\end{theorem}
+\begin{proof}
+    If $n\geq N$, then $x_n\in A_n\subseteq A_N$ so $\{x_n:n\geq N\}\subseteq A_N$. If $m,n\geq N$ then $d(x_m,x_n)\leq\diam A_N\to 0$
+    so $(x_n)_{n=1}^\infty$ is a Cauchy sequence. Since $X$ is complete, there exists $x_0$ such that $x_n\to x_0$. Since
+    $x_n\in A_N$ for all $n\geq N$, then $x_0\in\overline{A}_N=A_N$ (since $A_N$ is closed). This is true for all $N$, so
+    $x_0\in \bigcap A_n$. Furthermore, the intersection cannot contain two points: if $y\in\bigcap A_n$, then $d(x_0,y)\leq\diam A_n$
+    for all $n$ and $x_0=y$.
+\end{proof}
+\begin{definition}
+    We say that a collection of sets has the Finite Intersection Property if every finite intersection is non-empty.
+\end{definition}
+\begin{theorem}
+    For any metric space $X$, the following are equivalent:
+    \begin{enumerate}
+        \item $X$ is compact
+        \item Every collection of closed subsets of $X$ with the finite intersection property has non-empty intersection.
+        \item Every sequence in $X$ has a convergent subsequence (in $X$).
+        \item $X$ is complete and totally bounded.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    $(1\Leftrightarrow 3)$ is Bolzano-Weierstrass.
+
+    $(1\Leftrightarrow 4)$ generalizes Heine Borel.
+\end{proof}
+\begin{corollary}
+    In $\R^n$, $E$ is compact iff $E$ is closed and bounded.
+\end{corollary}
+\begin{proof}
+    In $\R^n$, $E$ is closed iff $E$ is complete and $E$ is bounded iff $E$ is totally bounded.
+\end{proof}
+\begin{proof}
+    $(1\Rightarrow 2)$. Suppose $X$ is compact, and we prove the contrapositive (2).
+    Suppose $A_\alpha\subseteq X$, closed, and suppose $\bigcap_{\alpha}A_\alpha=\emptyset$. We will
+    show this collection does not have the finite intersection property. Consider the open sets $A_\alpha^c$, and their union is
+    $X$, so since $X$ is compact, it has a finite subcover $A_\phi^c$. But then $\bigcap_\phi A_\phi=\emptyset$ is a finite
+    intersection that is empty.
+
+    $(2\Rightarrow 3)$. Let $(x_n)$ be a sequence in $X$ and define $S_n=\{x_k:k\geq n\}$. Take $\overline{S}_n$ which is closed
+    and non-empty. Thus $\{\overline{S}_n\}$ is nested and has the finite intersection property. By (2), there exists
+    $x\in\bigcap_{n=1}^\infty\overline{S}_n$. We thus have $x\in\overline{S}_n$ for all $n$. Since $x\in\overline{S}_n$,
+    for any $\epsilon>0$, there exists $y\in S_n$ such that $d(x,y)<\epsilon$. We now provide an algorithm to generate the
+    subsequence. Start with $\epsilon=1$ and $n=1$. Get $y\in S_1$ such that $d(x,y)<1$, say $y=x_{k_1}$.
+    Then repeat with $n=k_1+1$ and $\epsilon=1/n$, and get $y=x_{k_2}\in S_n$ and $k_2>k_1$ and $d(y,x)<1/2$. Repeat to
+    get $k_1<k_2<\cdots$ and $y=x_{k_j}$ where $d(x,y)<1/2^{j-1}$ giving our desired convergent subsequence.
+
+    $(3\Rightarrow 4)$. Completeness follows the same proof as in $\R^n$. To prove totally bounded, assume not. Then there exists $\epsilon>0$ so
+    that $X$ has no $\epsilon-$net. In particular, $\{x_1\}$ is not an $\epsilon-$net. Thus there exists $x_2\in X\setminus B(x_1,\epsilon)$.
+    We can repeat this to get a sequence $\{x_1,x_2,\ldots,\}$ with the property that $d(x_j,x_i)\geq\epsilon$ for all $i=1,\ldots,j-1$.
+    Thus the sequence $(x_n)_{n=1}^\infty$ has no convergent subsequence, contradicting (3). Thus $X$ is totally bounded.
+
+    $(4\Rightarrow 1)$. Assume $X$ is complete and totally bounded. Suppose $X$ has an open cover has no finite subcover,
+    say $\{U_\alpha\}$. $X$ is totally bounded, so it has a $1/2-$net, say $\{X_1^{(1)},X_2^{(1)},\ldots,X_{N_1}^{(1)}\}$.
+    Write $D(x,r)=\{r\in X:d(x,y)\leq r\}$. We have $\bigcup_{j=1}^{N_1} D\left(x_j^{(1)},\frac{1}{2}\right)=X$. Since
+    $X$ cannot be covered by finitely many $\{U_{\alpha}\}$, the same is true for at least one of $D(x_j^{(1)},1/2)$,
+    say $j=1$. Since we cannot cover $D(x_1^{(1)},1/2)$ with finitely many $U_\alpha$'s. Note that $\diam X_0\leq 1=1/2^0$.
+    Subsets of a totally bounded set are totally bounded. We thus get a $1/4-$net for $X_0$, say $\{x_1^{(2)},\ldots,x_{N_2}^{(2)}\}$
+    and
+    \[\bigcup_{j=1}^{N_2} D(x_j^{(2)},1/4)\cap X_0\supseteq X_0\]
+    Again, one of these sets $D(x_1^{(2)},1/4)\cap X_0$ cannot be covered by only finitely many $U_{\alpha}$. Notice $X_1\subseteq X_0$,
+    $\diam X_1\leq 1/2^1$, and $X_1$ is closed and non-empty. Continue this process, and by the Cantor intersection theorem,
+    $\bigcap_{n=0}^\infty X_n=\{x_0\}$. Since $\{U_\alpha\}$ covers $X$, there exists some index $\alpha_0$ such that
+    $x_0\in U_{\alpha_0}$. Hence there exists $\epsilon>0$ such that $B(x_0,\epsilon)\subseteq U_{\alpha_0}$. Choose $N$
+    such that $1/2^N<\epsilon$. We know $x_0\in X_N$. If $y\in X_N$, then $d(x,y)\leq\diam X_N\leq1/2^n<\epsilon$ so that
+    $y\in B(x_0,\epsilon)\subseteq U_{\alpha_0}$ implying that $X_N\subseteq U_{\alpha_0}$. This contradicts the fact that no $X_j$
+    had a finite subcover from $\{U_\alpha\}$.
+\end{proof}
+\subsection{Properties of Compact Metric Spaces}
+Compactness is a super useful property to have!
+Here are some particularly useful properties of compact metric spaces.
+\begin{theorem}
+    Any compact metric space is separable.
+\end{theorem}
+\begin{proof}
+    Consider $\{B(x,1/n):x\in X\}$, an open cover of $X$.
+    By compactness of $X$, there is a finite subcover, say $B(x_1^n,1/n),\ldots,B(x_{r_n}^n,1/n)$.
+    Let $K_n=\{x_1^n,x_2^n,\ldots,x_{r_n}^n\}$ and set $K=\bigcup\limits_{n=1}^\infty K_n$, a countable set.
+    Check that $K$ is dense, so let $x\in X$.
+    Since each $K_n$ is an open cover, $x\in K_n$ for all $n$, and in particular is in some $B(x_{i(n)}^n,1/n)$ for all $n$.
+    But then by construction $(x_{i(n)}^n)_{n=1}^\infty\to x$ so $K$ is dense.
+\end{proof}
+
+\section{Applications}
+\subsection{The Cantor Set}\label{cantor}
+The Cantor Set is a subset of $[0,1]$ which is compact, has empty interior, uncountable, and perfect (closed and every point
+is an accumulation point). To construct the Cantor set, we recursively remove the open middle third of any closed line segment.
+We then have $C_0=[0,1]$, $C_1=[0,1/3]\cup[2/3,1]$, $C_2=[0,1/9]\cup[2/9,3/9]\cup[6/9,7/9]\cup[8/9,1]$, and define the cantor
+set to be the intersection over all these intervals. The cantor set certainly contains the endpoints of any interval, but
+since it is an intersection of closed sets, it also contains their limit points!
+
+The interior is empty: say $(a,b)\subseteq C$ with $b-a>1/3^n$. But then $(a,b)\subseteq C_n$, impossible since $C_n$ is the
+union if intervals of length $3^{-n}$ separated by gaps. Furthermore, every point is an accumulation point. Let $x\in C$ and
+show for all $\epsilon>0$ there exists $y\in C$, $y\neq x$, such that $d(x,y)<\epsilon$. Pick $N$ such that $1/3^N<\epsilon$.
+Then $x\in C_N$, so $x$ is in one interval in the construction of $C_N$ (of length $3^{-n}$). There are two endpoints,
+and choose $y$ to be one of them (not equal to $x$), and it certainly satisfies $d(x,y)\leq 3^{-n}<\epsilon$.
+\begin{center}
+    \begin{tikzpicture}
+        \draw (0,0)node[left]{$C_0$} -- (9,0);
+        \draw (0,-1)node[left]{$C_1$} -- (3,-1);
+        \draw (6,-1) -- (9,-1);
+        \draw (0,-2)node[left]{$C_2$} -- (1,-2);
+        \draw (2,-2) -- (3,-2);
+        \draw (6,-2) -- (7,-2);
+        \draw (8,-2) -- (9,-2);
+    \end{tikzpicture}
+\end{center}
+We also see that the Cantor set is uncountable by the below theorem:
+\begin{theorem}
+    Perfect sets are uncountable.
+\end{theorem}
+\begin{proof}
+    If $S$ is perfect, then $S$ is certainly not finite: given any $x\in S$, we can use increasingly small open
+    neighbourhoods about $x$, all of which intersect $S\setminus\{x\}$ and avoid any previous elements of the sequence,
+    thus constructing a countably infinite subset. Thus $S$ is either countable or uncountable. Suppose it were countable
+    and write
+    \[S=\{x_1,x_2,x_3,\ldots\}\]
+    and consider the interval $U_1=\{x_1-1,x_1+1\}$. Now we construct inductively a sequence of nested intervals. Let
+    $U_1\subset\ldots\subset U_k$ be previous intervals and $x_1,\ldots,x_k$ be previous points. Now choose $x_{k+1}\in U_k$
+    and some neighbourhood $U_{k+1}$ so that $x_1,\ldots,x_k\notin U_{k+1}$ (this can be done since we only need to
+    avoid finitely many points), and $\overline{U_{k+1}}\subset U_k$. But now we have a sequence $\{U_n\}$ of sets
+    and $\{x_n\}$ of points so that
+    \begin{enumerate}
+        \item $x_k\in U_k$.
+        \item $\overline{U_{k+1}}\subset U_k$
+        \item $x_j\notin U_k$ for all $0<j<n$
+    \end{enumerate}
+    But now consider the set
+    \[V=\bigcap_{n=1}^\infty \left( \overline{U_n}\cap S \right)\]
+    Each set $\overline{U_N}\cap S$ is closed and bounded, hence compact, and $\overline{U_{n+1}}\cap S\subset\overline{U_{n}}\cap S$.
+    Then by the nested compact set lemma, $V$ is non-empty and contains some element $v$. But $v\neq x_i$ for all $i$,
+    since $v\in U_{i+1}$ but $x_i\notin U_{i+1}$. Thus our enumeration is incomplete, and $S$ is not countable.
+\end{proof}
+\subsection{The Product Metric}
+Suppose $(X,d_X)$ and $(Y,d_Y)$ are metric spaces.
+Define a function $d$ by $d( (x_1,y_1),(x_2,y_2))= d_X(x_1,x_2)+d_Y(y_1,y_2)$ for $(x_j,y_j)\in X\times Y$ for $j=1,2$.
+$d$ defines a metric on $X\times Y$:
+\begin{enumerate}
+    \item \textit{Symmetric:} This follows directly from symmetry of $d_X$ and $d_Y$:
+        \[d( (x_1,y_1),(x_2,y_2) ) = d_X(x_1,x_2)+d_Y(y_1,y_2) = d_X(x_2,x_1)+d_Y(y_2,y_1)=d( (x_2,y_2),(x_1,y_1) )\]
+    \item \textit{Positive Definite:} since $d_X,d_Y\geq 0$, $d_X+d_Y\geq 0$. Furthermore, if $d( (x_1,y_1),(x_2,y_2) )=0$,
+        then we must have $d_X(x_1,x_2)+d_Y(y_1,y_2)=0$ so $d_X(x_1,x_2)=0$ and $d_Y(y_1,y_2)=0$
+        so $x_i=y_i=0$ for $i=1,2$.
+    \item \textit{Triangle Inequality:} We have
+        \begin{align*}
+            [d( (x_1,y_1),(x_2,y_2) ) &= d_X(x_1,x_2)+d_Y(y_1,y_2) \\
+                                      &\leq d_X(x_1,x_3)+d_X(x_3,x_2)+d_Y(y_1,y_3)+d_Y(y_3,y_2)\\
+                                      &= d( (x_1,y_1),(x_3,y_3)) + d( (x_3,y_3),(x_2,y_2) )
+        \end{align*}
+        for arbitrary $(x_1,y_1), (x_2,y_2), (x_3,y_3)$.
+\end{enumerate}
+\begin{theorem}
+    If $X,Y$ are complete, then so is $X\times Y$.
+\end{theorem}
+\begin{proof}
+    Let $( (x_n,y_n) )_{n=1}^\infty$ be Cauchy in $X\times Y$. I claim that $(x_n)$, $(y_n)$ are Cauchy
+    in $X$ and $Y$ respectively. Let $\epsilon>0$ be arbitrary and let $N$ be such that
+    $d( (x_n,y_n),(x_m,y_m) )<\epsilon$ for all $n,m\geq N$. Then $d_X(x_n,x_m)+d_Y(y_n,y_m)<\epsilon$ so that
+    $d_X(x_n,x_m)<\epsilon$ and $d_Y(y_n,y_m)<\epsilon$; thus $(x_n)$ and $(y_n)$ are Cauchy in $X$ and $Y$,
+    so there exists a limit $x\in X$ and $y\in Y$. But then $d( (x,y),(x_n,y_n) )=d_X(x,x_n)+d_Y(y,y_n)<\epsilon$
+    for $n\geq N$ such that $d_X(x,x_n)<\epsilon/2$ and $d_Y(y,y_n)<\epsilon/2$ by convergence of $(x_n),(y_n)$.
+
+    Thus $\lim_{n\to\infty}( (x_n,y_n) )=(x,y)\in X\times Y$ so that $X\times Y$ is complete.
+\end{proof}
+\begin{theorem}
+    Suppose $A\subseteq X$ and $B\subseteq Y$ are compact.
+    Then $A\times B\subseteq X\times Y$ is compact.
+\end{theorem}
+\begin{proof}
+    We use the Bolzano-Weierstrass property, that $S$ is compact if and only if every sequence $X$ in $S$
+    has a convergent subsequence.
+
+    Thus it suffices to show that every sequence $\{(a_n,b_n)\}_{n=1}^\infty\subseteq A\times B$
+    has a convergent subsequence. Since $(a_n)$ is a sequence in $A$, which is compact, we have some
+    subsequence $(a_{n_k})$ which has limit $\lim_{k\to\infty}a_{n_k}=a\in A$. But then
+    the sequence $(b_{n_k})$ is also a sequence in $B$, so it has a subsequence $(b_{n_{m_k}})$ which
+    converges to some $b\in B$, and since every subsequence converges to the same limit, $(a_{n_{m_k}})\to a$
+    as well.
+
+    I now claim that $(\alpha_k,\beta_k):=((a_{n_{m_k}},b_{n_{m_k}}))_{n=1}^\infty$ converges to $(a,b)$.
+    Indeed, let $\epsilon>0$ be arbitrary, and choose $N$ such that for all $n\geq N$, $d_X(\alpha_n,a)<\epsilon/2$
+    and $d_Y(\beta_n,b)<\epsilon/2$. But then $d( (\alpha_n,\beta_n),(a,b) )= d_X(\alpha_n,a)+d_Y(\beta_n,b)<\epsilon$
+    as desired.
+\end{proof}
+
+\subsection{Normed Vector Spaces}
+We consider vector spaces over $\R$ or $\C$ - they could be finite dimensional or infinite dimensional. Every finite dimensional
+vector space is isomorphic to $\R^n$ or $\C^n$ by basis representation.
+\begin{definition}
+    A \textbf{norm} is a map $\norm{\cdot}:V\to\R$ satisfying
+    \begin{enumerate}
+        \item $\norm{v}\geq 0$ $\forall v\in V$ and $\norm{v}=0$ iff $v=0$
+        \item $\norm{\alpha v}=|\alpha|\norm{v}$ for all $\alpha\in\R, v\in V$.
+        \item $\norm{V_1+V_2}\leq\norm{V_1}+\norm{V_2}$ for all $v_1,v_2\in V$.
+    \end{enumerate}
+\end{definition}
+The pair $(V,\norm{\cdot})$ is called a normed vector space.
+\begin{example}
+    \begin{enumerate}
+        \item $\R^n$ with $\norm{x}_2$
+        \item $\R^n$ with $\norm{x}_\infty$
+        \item $l^\infty$ with $\norm{x}_\infty=\sup_i|x_i|$.
+        \item $l^p=\{(x_i)_{i=1}^\infty:\left( \sum\limits_{i=1}^\infty |x_i|^p \right)^{1/p}<\infty$ space with $1\leq p<\infty$.
+            Then $\norm{x}_p=\left(\sum\limits_{i=1}^\infty |x_i|^p\right)^{1/p}$.
+    \end{enumerate}
+\end{example}
+\begin{theorem}[Minkowski's Inequality]
+    For $1\leq p\leq\infty$, $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ for any $x,y\in l^p$.
+\end{theorem}
+\begin{proof}
+    We prove the case $p<\infty$. It's trivial if $\norm{x}_p=0$ or $\norm{y}_p=0$, so assume otherwise. Let $\alpha=\norm{x}_p$,
+    $\beta=\norm{y}_p$. Let $u=\frac{x}{\norm{x}_p}$, $v=\frac{y}{\norm{y}_p}$ which implies $x=\alpha_u$, $y=\beta_v$.
+    Choose $\lambda=\frac{\alpha}{\alpha+\beta}$, and notice that $1-\lambda=1-\frac{\alpha}{\alpha+\beta}=\frac{\beta}{\alpha+\beta}$.
+    Then
+    \begin{align*}
+        |x_i+y_i|^p &\leq \left( |x_i|+|y_i| \right)^p = \left( \frac{\alpha|u_i|+\beta|v_i|}{\alpha+\beta} \right)^p(\alpha+\beta)^p\\
+        &= \left( \lambda|u_i|+(1-\lambda)|v_i| \right)^p(\alpha+\beta)^p\\
+        \intertext{By convexity,}
+        &\leq \left( \lambda|u_i|^p+(1-\lambda)|v_i|^p \right)(\alpha+\beta)^p
+    \end{align*}
+    Taking sums, we have
+    \begin{align*}
+        \sum\limits_i|x_i+y_i| &\leq (\alpha+\beta)^p\left( \lambda\sum\limits_i|u_i|^p+(1-\lambda)\sum\limits_i|v_i|^p \right)\\
+        &= (\alpha+\beta)^p(\lambda\norm{u}_p^p+(1-\lambda)\norm{v}_p^p)\\
+        \intertext{Furthermore, $\norm{u}_p=\norm{v}_p=1$ by construction, so}
+        &= (\alpha+\beta)^p\\
+        &= (\norm{x}_p+\norm{y}_p)^p
+    \end{align*}
+    and we're done!
+\end{proof}
+\begin{example}
+    \begin{enumerate}
+        \item Space of polynomials of degree less than or equal to $n$; $\norm{p}_\infty=\max_{x\in[0,1]}|p(x)|$,
+            $\norm{p}_1=\int_0^1|p(x)|$
+        \item $C[0,1]=$continuous functions on $[0,1]$. Then $\norm{f}_\infty=\max_{x\in[0,1]}|f(x)|$ so $d(f,g)=\max_{x\in[0,1]}|f(x)-g(x)|$
+            $\norm{f}_1=\int_0^1|f|$. We will show that $C[0,1]$ with $d_\infty$ is complete. Polynomials are dense in $C[0,1]$ with
+            $d_\infty$.
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    Suppose $V$ is a finite dimensional normed vector space over $\R$ with basis $\{v_1,\ldots,v_k\}$. Then there
+    exists $0<A<B<\infty$ such that for all $a_1,\ldots,a_n\in\R$
+    \[A\norm{(a_1,\ldots,a_n)}_{\R^n}\leq \norm{\sum\limits_{i=1}^na_iv_i}_V\leq B\norm{(a_1,\ldots,a_n)}_{\R^n}\]
+\end{theorem}
+\begin{proof}
+    We first have
+    \begin{align*}
+        \norm{\sum\limits_{i=1}^na_iv_i}_V&\leq\sum\limits_{i=1}^n\norm{a_iv_i}_V\\
+        &= \sum\limits_{i=1}^n|a_i|\norm{v_i}\\
+        &\leq \left( \sum\limits_{i=1}^n|a_i|^2 \right)^{1/2}\left( \sum\limits_{i=1}^n\norm{v_i}^2 \right)^{1/2}\\
+        &= \norm{(a_1,\ldots,a_n)}_{\R^n}\cdot B
+    \end{align*}
+    For the reverse direction, consider the function $F:\R^n\to\R$ by $(a_1,\ldots,a_n)\mapsto\norm{\sum\limits_{i=1}^na_iv_i}_V$.
+    We check
+    \begin{align*}
+        F(x)-F(y) &= \norm{\sum\limits_{i=1}^n x_iv_i}-\norm{\sum\limits_{i=1}^n y_iv_i}\\
+        &= \norm{\sum\limits_{i=1}^n(x_i-y_i)v_i+\sum\limits_{i=1}^n}-\norm{\sum\limits_{i=1}^ny_iv_i}\\
+        &\leq \norm{\sum\limits_{i=1}^n(x_i-y_i)v_i}+\norm{\sum\limits_{i=1}^n y_iv_i}-\norm{\sum\limits-{i=1}^ny_iv_i}
+    \end{align*}
+    so that
+    \begin{align*}
+        |F(y)-F(x)|&\leq\norm{\sum\limits_{i=1}^n(x_i-y_i)v_i}\\
+        &\leq \left( \sum\limits_{i=1}^n|x_i-y_i|^2 \right)^{1/2} \left( \sum\limits_{i=1}^n\norm{v_i}^2 \right)^{1/2}\\
+        &= B\norm{x-y}_{\R^n}=B_{\R^n}(x,y)
+    \end{align*}
+    Hence $F$ is continuous. Now let $S=\{x\in\R^n:\norm{x}=1\}$ is the boundary of the sphere in $\R^n$. Then
+    $S$ is compact being a closed and bounded set in $\R^n$. Since $\{v_1,\ldots,v_n\}$ are a basis, $F(x)\neq 0$ for
+    any $x\in S$. Thus $F>0$ on $S$. By E.V.T, $F$ has a minimum on $S$, say $F(x_0)=\epsilon>0$. So $F(x)\geq\epsilon$
+    for all $x\in S$.
+
+    Now let $(a_1,\ldots,a_n)\in\R^n$ with $a\neq 0$ without loss of generality. Then $a/\norm{a}_{\R^n}\in S$,
+    and
+    \begin{align*}
+        F(a)&=\norm{\norm{A}\sum \frac{a_i}{\norm{A}}v_i}_V=\norm{a}\norm{\sum\frac{a_i}{\norm{A}}v_i}_V\\
+        &= \norm{a}\norm{F\left( \frac{a}{\norm{a}} \right)}\\
+        &\geq\epsilon\norm{(a_1,\ldots,a_n)}_{\R^n}
+    \end{align*}
+    Thus
+    \[\epsilon\norm{(a_1,\ldots,a_n)}\leq F(a)=\norm{\sum a_iv_i}\]
+    and the results holds.
+\end{proof}
+Consider the map $T:\R^n\to V$ given by $(a_1,\ldots,a_n)\mapsto\sum a_iv_i$. We have just proven that
+\[A\norm{(a_1,\ldots,a_n)}_{\R^n}\leq\norm{T(a_1,\ldots,a_n)}_V\leq B\norm{(a_1,\ldots,a_n)}_{\R^n}\]
+so that $T$ is continuous: $\norm{T(x)-T(y)}\leq B\norm{x-y}_{\R^n}$. In the exact same way, $T^{-1}$ is continuous as
+well. Thus $T$ is a homeomorphism between $\R^n$ and $V$. Thus $V\cong\R^n$ are homeomorphic.
+\begin{corollary}
+    \begin{enumerate}
+        \item Subsets of finite dimensional normed vector spaces are compact iff they are closed and bounded
+        \item Finite-Dimensional normed vector spaces are complete
+        \item Any finite-dimensional subspace of a normed vector space is complete
+            \begin{proof}
+                Let $V$ be a normed vector space and $W$ finite dimensional subspace, $W$ is a normed space homeomorphic
+                to $\R^n$, which is complete.
+            \end{proof}
+    \end{enumerate}
+\end{corollary}
+In other words, finite dimensional normed vector spaces are boring! However, infinite dimensional normed vector spaces
+can be much more interesting.
+\chapter{Function Spaces}
+\section{Continuous Functions on Metric Spaces}
+\subsection{Continuity}
+\begin{definition}
+    A function $f$ is continuous at $a\in X$ if for any $\epsilon>0$, there exists a $\delta>0$ such that $D_Y(f(x),f(a))<\epsilon$
+    whenever $d_X(x,a)<\delta$.
+\end{definition}
+We say $f$ is continuous of it is continuous at every $a\in X$.
+\begin{proposition}
+    $f$ is continuous at $x_0$ iff whenever $(x_n)$ in $X$ converging to $x_0$, then $(f(x_n))$ converges to $f(x_0)$.
+\end{proposition}
+\begin{example}
+    \begin{enumerate}
+        \item Consider the metric space $X_1=(\R,\text{usual})$ and $X_2=(\R,\text{discrete})$. Then $f(x)=\Id(x)=x$
+            is not continuous. Similarly, if $S$ is any set equipped with the discrete metric, then $f:S\to X$ is
+            always continuous for any function $f$ metric space $X$. The choice of metric is important!
+        \item Let $f:X\to Y$ and take $a\in X$ that is not an accumulation point. Then $f$ is continuous at $a$ because
+            we have $\delta>0$ such that $B_x(a,\delta)=\{a\}$.
+    \end{enumerate}
+\end{example}
+\begin{proof}
+    $(\Rightarrow)$ Take a sequence $(x_n)\to x_0$. Check $\forall\epsilon>0$ there exists $N$ such that $d(f(x_n),f(x_0))<\epsilon$
+    if $n\geq N$. Since $f$ is continuous at $x_0$, there exists a $\delta>0$ such that $d(f(x),f(x_0))<\epsilon$ if $d(x,x_0)<\delta$.
+    Then since $(x_n)\to x_0$, there exists an $N$ such $x_n\in B(x_0,\delta)$ for all $n\geq N$. Then $d(f(x_n),f(x_0))<\epsilon$
+    for all $n\geq N$.
+    $(\Leftarrow)$ Assume $f$ is not continuous at $x_0$. So there exists $\epsilon>0$ such that ``no $\delta$ works'',
+    meaning for all $\delta>0$ there exists $x\in B(x_0,\delta)$, but $f(x)\notin B(f(x_0),\epsilon)$. Do this for
+    $\delta=1/n,n\in N$. So for all $n$ get $x_n\in B(x_0,1/n)$ but $f(x_n)\notin B(f(x_0),\epsilon)$. We have $(x_n)\to x_0$
+    but $d(f(x_n),f(x_0))\geq\epsilon$ for all $n$, so $(f(x_n))\not\to f(x_0)$.
+\end{proof}
+\begin{proposition}
+    If $f,g:X\to\R$ is continuous, then so are $f\pm g$, $f\cdot g$, $f/g$ for $g\neq 0$.
+\end{proposition}
+$\forall\epsilon>0$ there exists $\delta>0$ such that $f(B(a,\delta))\subseteq B(f(a),\epsilon)$. Define the preimage
+as follows. Let $A\subseteq Y$, then $f^{-1}(A)=\{x\in X:f(x)\in A\}$. We can state continuity equivalently as
+$\forall\epsilon,\exists\delta>0\st B(a,\delta)\subseteq f^{-1}(B(f(a)),\epsilon)$. This says that $a\in\int f^{-1}(B(f(a),\epsilon))$.
+\begin{theorem}
+    The following are equivalent for $f:X\to Y$.
+    \begin{enumerate}
+        \item $f$ is continuous.
+        \item $\forall V$ open in $Y$, $f^{-1}(V)$ is open in $X$.
+        \item $\forall W$ closed in $Y$, $f^{-1}(W)$ is closed in $X$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    $(1\Rightarrow 2)$. Take $V$ open in $Y$, and take $x_0\in f^{-1}(V)$. Let $B(f(x_0),\epsilon)\subseteq Y$, and
+    by continuity there exists $\delta>0$ such that $f(y)\in B(f(x_0),\epsilon)$ for all $y\in B(x_0,\delta)$. But then
+    $f(B(x_0,\delta))\subseteq B(f(x_0),\epsilon)\Rightarrow B(x_0,\delta)\subseteq f^{-1}(B(f(x_0),\epsilon))\subseteq f^{-1}(V)$
+
+    $(2\Rightarrow 3)$. Let $W\subseteq Y$ be closed. $W^c$ is open so $f^{-1}(W^c)$ is open, but $f^{-1}(W^c)=(f^{-1}(W))^c$.
+    Since $(f^{-1}(W))^c$ is open, $f^{-1}(W)$ is closed. The proof of $(3\Rightarrow 2)$ is equivalent.
+
+    The proof of $(2\Rightarrow 1)$ is left as an exercise.
+\end{proof}
+\begin{corollary}
+    $f:X\to Y$, $g:Y\to Z$. Then $g\circ f:X\to Z$ is continuous.
+\end{corollary}
+\begin{theorem}
+    Let $X,Y$ be metric spaces and $K\subseteq X$ compact, and $f:K\to Y$ is continuous. Then $f(K)\subseteq Y$ is compact.
+\end{theorem}
+\begin{proof}
+    The idea is that continuous functions take open covers to open covers. Let $\{U_\alpha\}_{\alpha\in A}$ be an open
+    cover for $f(K)$. Consider $\{f^{-1}(U_\alpha)\}_{\alpha\in A}$ which are open since $f$ is continuous. This collection
+    is an open cover: if $x\in K$, then $f(x)\in U_\alpha$ for some $\alpha$. Hence $x\in f^{-1}(U_\alpha)$ and therefore
+    $\{f^{-1}(U_\alpha)\}$ is an open cover of $K$. As $K$ is compact, there is a finite subcover $\{f^{-1}(U_{\alpha_1}),\ldots,f^{-1}(U_{\alpha_n})\}$.
+    But then $\{U_{\alpha_1},\ldots,U_{\alpha_n}\}$ covers $f(K)$: say $f(x)\in f(K)$ for $x\in K$, so $x\in f^{-1}(U_{\alpha_i}$
+    for some $i$ and thus $f(x)\in U_{\alpha_i}$.
+\end{proof}
+\begin{corollary}
+    Let $K$ be compact and $f:K\to\R$ be continuous. Then $f$ has a maximum and minimum value on $K$.
+\end{corollary}
+\begin{corollary}
+    If $f:K\to\R$ is continuous, $K$ compact, and $f(x)>0$ for all $x\in K$, then there exists $\epsilon>0$ such that
+    $f(x)\geq\epsilon$ for all $x\in K$.
+\end{corollary}
+\begin{proposition}
+    Suppose $f:K\subseteq X\to Y$ is continuous and bijective, and $K$ compact. Then $f^{-1}$ is continuous (i.e. $f$
+    is actually a homeomorphism).
+\end{proposition}
+\begin{proof}
+    Consider $f^{-1}:Y\to K$. Let $W\subseteq K$ be closed and check that $(f^{-1})^{-1}(W)=f(W)$ is closed. $W$ is a
+    closed subset of compact $K$, so $W$ is complete. $W$ is totally bounded since $X$ is totally bounded. Therefore
+    $W$ is compact, so $f(W)$ is compact and is therefore closed.
+\end{proof}
+\begin{example}
+    Compactness of $X$ is certainly necessary! Take $f:[0,2\pi)\to\partial S^1$ by $t\mapsto(\cos t,\sin t)$. This function
+    is bijective and continuous, but the inverse is not continuous (consider a neighbourhood of $0$) in the subspace
+    topology of $\R^2$.
+\end{example}
+\begin{proposition}
+    If $f:X\to f(X)$ is continuous and $X$ is connected, then $f(X)$ is connected.
+\end{proposition}
+\begin{proof}
+    Suppose $f(X)$ is not connected, say $f(X)=A\cup B$ where $A,B$ are open in $f(X)$, disjoint, and non-empty. But
+    then $X=f^{-1}(A)\cup f^{-1}(B)$ where $f^{-1}(A),f^{-1}(B)$ are open in $X$, disjoint, and non-empty, contradicting
+    connectedness of $X$.
+\end{proof}
+\subsection{Path Connectedness}
+A stronger notion of connected is path-connected.
+\begin{definition}
+    We say $E$ is $\textbf{path-connected}$ if for any $x,y\in E$, there exists a continuous function defined on an interval
+    $[a,b]$ such that $f(a)=x$, $f(b)=y$, and $\Im f\subseteq E$.
+\end{definition}
+\begin{proposition}
+    Path connected implies connected.
+\end{proposition}
+\begin{proof}
+    Say it is not connected, so we have $E=A\cup B$ where $A,B$ are open, disjoint, and non-empty. Then pick
+    $x\in A,y\in B$ and let $\gamma:[0,1]\to E$ be a path connecting. Note that $f([a,b])$ is connected ince
+    $f$ is continuous and $[a,b]$ is connected. But then $f([a,b])=\Im f=(f([a,b])\cap A)\cup(f([a,b])\cap B)$ are disjoint
+    (since $A,B$ are disjoint) and non-empty (since $x,y$ are in the first and second respectively), so
+    $A$,$B$ are disconnecting sets for $f([a,b])$, a contradiction.
+\end{proof}
+\begin{example}
+    The ``Topologist Sine Curve'': let $X=\{x,\sin 1/x:x>0\}\cup\{(0,0)\}=E\cup\{(0,0)\}\subseteq\R^2$. Then $X$ is connected
+    but not path-connected.
+\end{example}
+\begin{proof}
+    Note that $T_p=\{(x,\sin(1/x):x\in[p,1]\}$ is connected for any $p>0$ since it is the continuous image
+    of a connected set. With this in mind, suppose for contradiction that $T$ has disconnecting sets
+    $U$ and $V$, and assume without loss of generality that $(0,0)\in U$ and $f(t)=x\in V$ for some $t\neq 0$.
+    Since $U$ is open, there exists some $\epsilon-$ball $B_\epsilon\left( (0,0) \right)\subseteq U$.
+
+    Furthermore, the zeros of $\sin(1/x)$ form a sequence which converges to 0, so that there exists some
+    $u$ such that $\sin(1/u)=0$ and $u<\epsilon$. Then fix $p=\min\{t,u\}$. We claim that $U$ and $V$ are
+    disconnecting sets for $T_p$. $U$ and $V$ are certainly still
+    open and satisfy $T_p\subseteq T\subseteq U\cup V$, and $U\cap V$ is empty (equivalent characterization
+    given by past assignment). Furthermore, $B_\epsilon\left( (0,0) \right)\cap T_p\neq\emptyset$,
+    so $U\cap T_p\neq\emptyset$ by construction, and $V\cap T_p\neq\emptyset$ by choice of $p$. Thus $U$ and
+    $V$ disconnect $T_p$, a contradiction.
+
+    However, $T$ is not path connected. To see this, suppose it is. Then there exists a continuous function
+    $\gamma$ on $[0,1]$ with $\gamma(0)=(0,0)$ and $\gamma(1)=(1,\sin(1))$. We claim that the image
+    of $\gamma$, $\Gamma$, must be equal to $T$. We certainly have $\Gamma\subseteq T$ by definition. Then
+    let $(x,f(x))\in\Gamma$. We know that $(0,f(0))$ and $(1,f(1))$ are in $T$, so suppose
+    for contradiction again that $(a,f(a))\notin \Gamma$ for some $a\in(0,1)$. But then any point along the
+    line $x=a$ is not in $\Gamma$. Note that $\gamma$ is continuous, so it is componentwise continuous. Write
+    $\gamma(t) = (x(t),y(t))$. Then $x(0)=0$ and $x(1)=1$, so by the intermediate value theorem we must have
+    $x(c)=a$ for some $c$, which is impossible by assumption.
+
+    Therefore, $T=\Gamma$. However, this is a contradiction since $\Gamma$ must be compact and $T$ is not compact.
+\end{proof}
+\subsection{Uniform Continuity}
+\begin{definition}
+    Say $f:X\to Y$ is uniformly continuous if for all $\epsilon>0$ there exists a $\delta>0$ such that $d_Y(f(x),f(y))<\epsilon$
+    whenever $d_X(x,y)<\delta$.
+\end{definition}
+\begin{example}
+    Here are some functions which are continuous but not uniformly continuous.
+    \begin{enumerate}
+        \item $f(x)=x^2$ on $\R$.
+        \item $f(x)=1/x$ on $(0,1)$.
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    Let $K$ be compact and $f:K\to Y$ continuous. Then $f$ is uniformly continuous.
+\end{theorem}
+\begin{proof}
+    Fix $\epsilon>0$. Since $f$ is continuous, for all $x\in K$, there exists $\delta_x>0$ such that if $d_X(x,y)<\delta$
+    then $d_Y(f(x),f(y))<\epsilon$. Consider $B(x,\delta_x/2)$ as an open cover, and get a finite subcover, say $\{B(x_i,\delta_{ x_i}/2)\}$
+    for $i=1,\ldots,n$ and choose $\delta=\min\{\delta_{x_i}\}$. Suppose $x,y\in K$ and $d_X(x,y)<\delta$. Then choose $i$
+    such that $x\in B(x_i,\delta_{x_i}/2)$. Then
+    \[d(y,x_i)\leq d(y,x)+d(x,x_i)<\delta+\frac{\delta_{x_i}}{2}\leq\delta_{x_i}\]
+    but this implies $d(x,x_i)<\delta_{x_i}$ so that $d(f(x),f(x_i))<\epsilon$. Furthermore, $d(x_i,y)<\delta_{x_i}$ so
+    \[(f(y),f(x_i))<\epsilon\Rightarrow d(f(x),f(y))<2\epsilon\]
+    by the triangle inequality.
+\end{proof}
+
+
+
+\section{Fundamentals of Function Spaces}
+\subsection{Basic Notions}
+Given metric spaces $X,Y$, let $C(X;Y)$ denote the set of continuous functions $f:X\to Y$.
+We can define the uniform distance $d(f,g):=\sup_{x\in X}d_Y(f(x),g(x))$ where $d_Y$ is the metric on $Y$.
+
+Since functions $f:X\to\R$ are very common, let $C(X)$ denote the continuous functions $f:X\to\R$ and $C_b(X)\subseteq C(X)$ denote bounded continuous functions.
+If $X$ is compact, then $C(X)=C_b(X)$ by EVT.
+
+Note that $C(X)$ and $C_b(X)$ are (infinite dimensional) normed vector spaces with pointwise addition and scalar multiplication.
+We can define the norm $\norm{f}=d(f,0)$.
+Furthermore, with the additional operation of pointwise multiplication, we can consider $C(X)$ and $C_b(X)$ as algebras over $\R$.
+
+Let's now define two notions of convergence:
+\begin{definition}
+    We say $(f_n)$ converges pointwise to $f:X\to Y$ if for all $\epsilon>0$ and all $x\in X$, there exists $N=N(\epsilon,x)$
+    such that $d_Y(f_n(x),f(x))<\epsilon$ for all $n\geq N$.
+\end{definition}
+In other words, for each $x\in X$, the sequence $(f_n(x))$ converges in $Y$.
+\begin{definition}
+    We say $(f_n)\to f$ uniformly if for all $\epsilon>0$, there exists some $N$ such that $d(f_n,f)<\epsilon$ for all $n\geq N$.
+\end{definition}
+This is to say that convergence with respect to the uniform metric is, unsurprisingly, uniform convergence.
+Note that the choice of $N$ depends only on $\epsilon$ and not on $x$.
+Uniform limits are useful:
+\begin{theorem}
+    Suppose $(f_n)\to f$ uniformly, where $f_n$ is continuous.
+    Then $f$ is continuous.
+\end{theorem}
+\begin{proof}
+    Let $\epsilon>0$. Then for all $x\in X$, there exists $\delta$ such that $d(x,y)<\delta$ implies $d(f(x),f(y))<\epsilon$.
+    We also have an $N$ such that $d(f_n(t),f(t))<\epsilon/3$ for all $n\geq N$ for all $t\in X$. Now consider $f_N$:
+    this is continuous so take $\delta$ such that $d(x,y)<\delta\Rightarrow f(d_N(x),f_N(y))<\epsilon/3$. Suppose
+    $d(x,y)<\delta$. Then $d(f(x),f(y))\leq d(f(x),f_N(x))+d(f_N(x),f_N(y))+d(f_N(y),f(y))=\epsilon$. Thus $f$ is continuous
+    at $x$.
+\end{proof}
+Equivalently, we can talk about a sequence being uniformly Cauchy.
+This is equivalent to saying that $(f_n)$ is cauchy with respect to the uniform metric.
+\begin{definition}
+    Say $f_n:X\to Y$ is uniformly Cauchy if for all $\epsilon>0$, there exists $N$ such that $\forall n,m\geq N$,
+    $d(f_n(x),f_m(x))<\epsilon$ for all $x\in X$.
+\end{definition}
+Naturally, we have the standard theorem.
+Note that we need to do slightly more work for the forward direction since we only assume completeness of $Y$.
+\begin{theorem}
+    Let $X,Y$ be metric spaces, and assume $Y$ is complete. Then the sequence of functions $f_n:X\to Y$ is uniformly
+    Cauchy iff $(f_n)$ is uniformly convergent.
+\end{theorem}
+\begin{proof}
+    $(\Leftarrow)$.
+    This direction does not require completeness.
+    Say $f_n\to f$ uniformly.
+    Choose $N$ so that $d(f_n(x),f(x))<\epsilon/2$.
+    Then if $n,m\geq N$, then $d(f_n(x),f_m(x))\leq d(f_n(x),f(x))+d(f(x),f_m(x))<\epsilon$ so $(f_n)$ is uniformly Cauchy.
+
+    $(\Rightarrow)$.
+    We need completeness so that our limiting function exists pointwise.
+    Assume $(f_n)$ is uniformly Cauchy.
+    Then for all $x\in X$, $(f_n(x))$ is a Cauchy sequence in $Y$.
+    Since $Y$ is complete, so for each $x\in X$, $(f_n(x))$ converges, say, to $a_x\in Y$.
+    Put $f(x)=a_x$, and we certainly have $f_n\to f$ pointwise.
+    We show that this limit is in fact uniform.
+
+    Pointwise convergence means that for all $\epsilon>0$ and for all $x\in X$, there exists $M_x$ so that for all $m\geq M_x$,
+    $d(f_m(x),f(x))<\epsilon$. Since this is uniformly Cauchy, for all $\epsilon>0$, there exists $N$ such that
+    for all $n,m\geq N$ and for all $x$, $d(f_n(x),f_m(x))<\epsilon$. Take $\epsilon>0$ and get $N$. Temporarily fix
+    $x\in X$, and let $n\geq N$. Pick $m\geq\max(N,M_x)$. Then
+    \begin{align*}
+        f(f_n(x),f(x)) &\leq d(f_n(x),f_m(x))+d(f_m(x),f(x))\\
+        <2\epsilon
+    \end{align*}
+    Since $d(f_n(x),f(x))<2\epsilon$ for all $n\geq N$ and for all $x\in X$, $(f_n)\to f$ uniformly.
+\end{proof}
+\subsection{Two Conditions for Uniform Convergence}
+\begin{theorem}[Weierstrass M-test]
+    Let $f_n:X\to Y$ where $Y$ is a complete normed vector space. Suppose there exist constants $M_n\in\R$ such that
+    $\norm{f_n(x)}_Y\leq M_n$ for all $x,n$ and $\sum\limits_{n=1}^\infty M_n<\infty$. Then $\sum f_n$ converges
+    uniformly.
+\end{theorem}
+\begin{proof}
+    Let $S_n(x)=\sum\limits_{k=1}^n f_n(x)$. Then
+    \[d(S_n(x),S_m(x))=\norm{S_n(x)-S_m(x)}=\norm{\sum\limits_{k=m+1}^n f_k(x)}\leq\sum\limits_{k=1}^n\norm{f_k(x)}\leq\sum\limits_{k=n+1}^n M_k<\epsilon\]
+    for sufficient $n,m$ since $\sum M_k$ converges independently of $x$.
+\end{proof}
+\begin{theorem}[Dini's Theorem]
+    Suppose $K$ is compact and $f_n:K\to\R$ converges pointwise to $f$ (on $K$). if $f_n,f$ are continuous and $f_{n+1}(x)\leq f_n(x)$
+    for all $x\in K$, then $f_n\to f$ uniformly.
+\end{theorem}
+\begin{proof}
+    Let $g_n(x)=f_n(x)-f(x)$.
+    We want to show $g_n\to 0$ uniformly.
+    We certainly have $g_n\to 0$ pointwise, that $g_n\geq 0$ and $g_n$ are monotonic (from monotonicity of $f_n$).
+
+    Let $\epsilon>0$.
+    We want to show that there exists $N$ such that for all $n\geq N$, $0\leq g_n(x)<\epsilon$.
+    Since $g_n\to 0$ pointwise, for all $t\in K$ there exists $N_t$ such that $0\leq g_{N_t}(t)<\epsilon/2$ implies $0\leq g_n(t)<\epsilon/2$ for all $n\geq N_t$.
+    Furthermore, since each $g_{N_t}$ is continuous, there exists $\delta_t>0$ so that $d(t,y)<\delta_t$ implies $|g_{N_t}(t)-g_{N_t}(y)|<\epsilon/2$.
+    Consider $B(t,\delta_t)\subseteq K$ for each $t\in K$.
+    These form an open cover of $K$, so take a finite subcover
+    \[B(t_1,\delta_{t-1}),\ldots,B(t_r,\delta_{t_r})\]
+    Now suppose $x\in B(t_i,\delta_{t_i})$ so that $d(x,t_i)<\delta_{t_i}$
+    \[|g_{N_{t_i}}(x)|\leq |g_{N_{t_i}}(t_i)-g_{N_{t_i}}(x)|+|g_{N_{t_i}}(t_i)|<\epsilon\]
+    But then fix $N=\max\{N_{t_1},\ldots,N_{t_r}\}$.
+    Now suppose $n\geq N$, and let $x\in K$ be arbitrary.
+    We have some $i$ so that $x\in B(t_i,\delta_{t_i})$.
+    By monotonicity of $g_n$ and the choice of $N$, we have
+    \[0\leq g_n(x)\leq g_N(x)\leq g_{N_{t_i}}(x)<\epsilon\]
+    and since this holds for every $x\in K$ and $\epsilon>0$, we have $g_n\to 0$ uniformly.
+\end{proof}
+\begin{example}
+    Consider $U=\{f\in C([0,1]):f(x)>0\forall x\in[0,1]\}$. Then $U$ is open.
+\end{example}
+\begin{proof}
+    Take $f\in U$.
+    By E.V.T. $f$ has a minimum, say $f(x_1)\leq f(x)$ for all $x\in[0,1]$.
+    Set $\epsilon=f(x_1)$.
+    But then $B(f,\epsilon)\subseteq U$ since if $g\in B(f,\epsilon)$, then $\norm{f-g}<\epsilon$.
+    Thus for all $x$, $g(x)>f(x)-\epsilon=f(x)-f(x_1)\geq 0$ so that $g(x)>0$ for all $x$, and $g\in U$.
+
+    We can also see that $U^c$ is closed, where $U^c=\{f\in C([0,1]):\text{$f(x)\leq 0$ for some $x$}\}$.
+    We will see that $U^c$ is closed by checking it contains all its accumulation points.
+    Say $f$ is an accumulation point of $U^c$.
+    Then $\exists f_n\to f$ uniformly where $f_n\in U^c$.
+    We have some $x_n\in[0,1]$ such that $f_n(x_n)\leq 0$.
+    Then by Bolzano-Weierstrass, there is a subsequence $x_{n_k}\to x_0$.
+    Since $f$ is continuous, notice $f(x_{n_k})\to f(x_0)$ so that $f(x_{n_k})\leq 0$, $f(x_0)\leq 0$.
+    Thus $f\in U^c$ so we're done!
+\end{proof}
+\chapter{The Function Space $C(X)$}
+\section{Compactness in $C_b(X)$}
+Recall that $E\subseteq C_b(X)$ is compact if and only if it is complete and totally bounded, and that compactness implies closedness and boundedness (but the converse does not hold).
+In fact, $E\subseteq C_b(X)$ is bounded if and only if there exists $N$ such that $B(0,N)\supseteq E$.
+So in our case, we can take $N=M+\norm{f}$.
+If $g\in E$, then $d(g,f)<M$ so $d(g,0)\leq d(g,f)+d(f,0)<M+\norm{f}=N$.
+Thus $E\subseteq C_b(X)$ is bounded if and only if there exists $N$ such that $E\subseteq B(0,N)$ if and only of $\norm{f}<N$ for all $f\in E$.
+We thus say that ``$E$ is uniformly bounded''.
+
+However, closed and bounded does not imply compact.
+For example, consider $E=\{x^n:n=1,2,\ldots\}\subseteq C([0,1])$.
+Then $\norm{x^n}\leq 1$ for all $x^n\in E$, so $E$ is bounded.
+If $f$ is an accumulation point of $E$, then there exists $n_k$ such that $f_{n_k}\to f$ uniformly.
+But
+\[f_{n_k}(x)=x^{n_k}\to
+    \begin{cases}
+        0 &:x\neq 1\\
+        1 &:x = 1
+    \end{cases}
+\]
+Since $f_{n_k}\to f$ uniformly, it must also be pointwise.
+However, $f_{n_k}\to g$ pointwise so $g=f$, but $g\notin C[0,1]$.
+Since $g$ is not continuous, we don't have $f_n\to g$ uniformly, so $f$ cannot exist.
+Thus means that $E$ has no accumulation points, so $E$ is closed.
+
+Furthermore, $E$ is not compact because the sequence $(f_n(x)=x^n)$ has no convergent subsequence.
+So by Bolzano-Weierstrass, $E$ is not compact.
+\begin{example}
+    The set
+    \[E=\left\{\frac{x^2}{x^2+(1-nx)^2}:n=1,2,3,\ldots\right\}\subseteq C([0,1])\]
+    is closed, bounded, and not compact.
+\end{example}
+\subsection{Equicontinuity}
+\begin{definition}
+    Let $E\subseteq C_b(X)$.
+    We say $E$ is equicontinuous if for all $\epsilon>0$, there exists $\delta>0$ such that for all $f\in E$
+    and $x,y\in X$ such that $d(x,y)<\delta$ we have $|f(x)-f(y)|<\epsilon$.
+\end{definition}
+This is to say that this family is uniformly continuous across the points and between functions as well.
+Given an $\epsilon$, the same $\delta$ must show uniform continuity for all $f\in E$.
+\begin{example}
+    \begin{enumerate}
+        \item $E=\{f\}$ where $f$ is uniformly continuous.
+        \item $E=\{f_1,f_2,\ldots,f_n\}$ is equicontinuous if and only if each $f_i$ is uniformly continuous for $i=1,\ldots,n$.
+            Given $\delta>0$, we take $\delta_i$ from each $f_i$ being uniformly continuous, and take $\delta$ to be their minimum.
+        \item $E=\{x^n:n=1,2,3,\ldots\}\subseteq C([0,1])$ is not equicontinuous, even though each function is uniformly continuous.
+            Not equicontinuous means that there exists $\epsilon>0$ such that there exists $x,y\in X$ with $d(x,y)<\delta$
+            and some $f\in E$ with $f|(x)-f(y)|\geq\epsilon$. Take $\epsilon=1/2$ and $\delta>0$. Take $x=1$, $y=1-\delta/2$,
+            and choose $n$ such that $y^n<1/2$. But then $|f_n(x)-f_n(y)|=x^n-y^n>1/2=\epsilon$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Arzela-Ascoli Theorem}
+Our goal is to characterize compactness of $E\subseteq C_b(X)$.
+We have the following important theorem:
+\begin{theorem}
+    Let $X$ be compact.
+    Assume the set $\{f_n:n=1,2,3,\ldots\}\subseteq C(X)$ is a pointwise bounded, equicontinuous family.
+    Then there exists a subsequence of $(f_n)_{n=1}^\infty$ which converges uniformly in $C(X)$.
+\end{theorem}
+We will prove the theorem in parts.
+\begin{lemma}
+    Let $K$ be a countable set and let $\{f_n:K\to\R,n\in\N\}$ be a pointwise bonded family.
+    Then there exists a subsequence of $(f_n)_{n=1}^\infty$ that converges pointwise at every $k\in K$.
+\end{lemma}
+\begin{proof}
+    Let $K=\{x_j\}_{j=1}^\infty$.
+    Start with $(f_n(x_1))_{n=1}^\infty$.
+    This is a bounded sequence of real numbers since $\{f_n\}$ is pointwise bounded.
+    Then by Bolzano-Weierstrass, there exists a convergent subsequence $(f_{n_j}(x_1))_{j=1}^\infty$.
+    Rename $f_{n_j}$ as $f_j^{(1)}$, so $(f_j^{(1)}(x_1))$ converges.
+    Next, look at $(f_j^{(1)}(x_2))$, which as above has a convergent subsequence, say $(f_j^{(2)}(x_2))$.
+    Repeat this to get a collection of convergent subsequences $(f_j^{(m)}(x_m))$ for $m\in\N$.
+    But then by construction the sequence given by $(f_i^{(i)}(x_i))$ is eventually a subsequence of a convergent subsequence for any $x_i\in K$, so it converges at all $k\in K$.
+\end{proof}
+We can now prove the theorem!
+\begin{proof}
+    Since $X$ is compact, it is separable, so let $K\subseteq X$ be a countable dense subset.
+    Consider $\{f_n|_K\}$, a pointwise bounded family.
+    By Lemma 2, there is a subsequence $(f_{n_k})$ that converges pointwise on $K$.
+    Our goal is to show that $(f_{n_k})$ converges uniformly on $X$.
+    We will do this by showing that it is uniformly Cauchy on $X$.
+    Thus let $\epsilon>0$.
+    Since $\{f_n\}$ are equicontinuous, there exists $\delta>0$ such that $d(x,y),\delta$ implies that $|f_n(x)-f_n(y)|<\epsilon/3$ for all $f_n$.
+    Now consider $\{B(x,\delta):x\in K\}$.
+    Since $K$ is ense, for all $y\in X$, there exists $x\in K$ such that $y\in B(x,\delta)$.
+    Thus these balls cover $X$.
+    Since $X$ is compact there is a finite subcover, say $B(x_1,\delta),B(x_r,\delta)$.
+    We have $(f_{n_k}(x_i))_{k=1}^\infty$ converges for each $i\in 1,\ldots,r$.
+    Thus for ech $i$, there are Caucy sequences (in $\R$).
+    Hence for each $i$, there exists $N_i$ such that if $n_k,n_l\geq N_i$, then
+    \[|f_{n_k}(x_i)-f_{n_l}(x_i)|<\frac{\epsilon}{3}\]
+    Let $N=\max\{N_1,\ldots,N_r\}$.
+    Then if $n_k,n_l\geq N$, then $|f_{n_k}(x_i)-f_{n_l}(x_i)|<\epsilon/3$.
+    Furthermore, if $y\in X$, then $y\in B(x_i,\delta)$ and $d(y,x_i)<\delta$ and equicontinuity implies $|f_{n_k}(y)-f_{n_l}(x_i)|<\epsilon/3$ as well.
+    But now with a direct application of the triangle inequality and the above statements, for any $x\in X$, we have
+    \[|f_{n_k}(x)-f_{n_l}(x)|\leq |f_{n_k}(x)-f_{n_k}(x_i)|+|f_{n_k}(x_i)-f_{n_l}(x_i)|+|f_{n_l}(x_i)-f_{n_l}(x)|<\epsilon\]
+    as desired.
+\end{proof}
+\begin{corollary}[Arzela-Ascoli]
+    Suppose $X$ is compact.
+    Then $E\subseteq C(X)$ is compact iff $E$ is pointwise bounded, closed, and equicontinuous.
+\end{corollary}
+\begin{proof}
+    $(\Rightarrow)$ is independent of the theorem.
+    Let $E$ be compact.
+    Then $E$ is closed and bounded (meaning uniformly bounded and hence pointwise bounded).
+    We check that $E$ is equicontinuous.
+    Suppose not, then there exists $\epsilon>0$ such that for all $\delta=1/n$, $n\in\N$, there exists $x_n,y_n\in X$ such that $d(x_n,y_n)<1/n$ with $f_n\in E$ with $|f_n(x_n)-f_n(y_n)|\geq\epsilon$.
+    Since $E$ is comact by Bolzano-Weierstrass, there exists a convergent subseuence $(f_{n_k})_{k=1}^\infty$.
+    By the previous proposition, $\{f_{n_k}:k=1,2,\ldots\}$ is equicontinuous.
+    So for this choice of $\epsilon$ there is a $\delta$ that ``works''. Pick $n_k$ large enough that $1/n_k<\delta$. Then
+    \[d(x_{n_k},y_{n_k})<\frac{1}{n_k}<\delta\]
+    so $|f_{n_k}(x_{n_k})-f_{n_k}(y_{n_k})|<\epsilon$, a contradiction.
+
+    $(\Leftarrow)$ We will verify the Bolzano-Weierstrass characterization of compactness - that every sequence from $E$ has a convergent subsequence with limit in $E$.
+    Take a sequence $(f_n)_{n=1}^\infty$ in $E$.
+    Since $E$ is pointwise bounded and equicontinuous, so is $\{f_n:n\in\N\}$.
+    Thus by the above theorem, there is a convergent subsequence, but since $E$ is closed, this limit must be in $E$.
+\end{proof}
+\section{Dense Subsets of $C(X)$}
+\subsection{Polynomials in $C[0,1]$}
+\begin{theorem}[Weierstrass]
+    Let $f:[0,1]\to\R$ be continuous and let $\epsilon>0$.
+    Then there is a polynomial $p$ such that $\norm{p-f}<\epsilon$. So $\{\text{Poly}\}$ is dense in $C[0,1]$.
+
+    In fact, the Bernstein polynomial
+    \[p_n(x)=\sum\limits_{k=0}^n\binom{n}{k}f\left(\frac{k}{n}\right)x^k(1-x)^{n-k}\]
+    converge uniformly to $f$.
+\end{theorem}
+Intuitively, suppose we toss a biased coin with probability $x$ of heads and $1-x$ of tails.
+Suppose the payoff is $f(k/n)$ dollars if you get $k$ heads and $n$ tosses.
+Then the expected payoff is $\sum\limits_{k=0}^nf\left(\frac{k}{n}\right)\binom{n}{k}x^k(1-x)^{n-k}=p_n(x)$.
+In the long run we expected $xn$ heads in $n$ tosses, so the expected payoff in the long run should $f(xn/n)=f(x)$.
+With this in mind, let's prove the theorem
+\begin{proof}
+    First, some technical calculations.
+    By the Binomial theorem, we have
+    \[(x+y)^n=\sum\limits_{k=0}^n\binom{n}{k}x^ky^{n-k}\]
+    which we can view as a function of $x$.
+    Differentiate with respect to $x$ twice to get
+    \[n(x+y)^{n-1}=\sum\limits_{k=0}^n\binom{n}{k}kx^{k-1}y^{n-k}\]
+    \[n(n-1)(x+y)^{n-2}=\sum\limits_{k=0}^n\binom{n}{k}k(k-1)x^{k-2}y^{n-k}\]
+    Set $r_k(x)=\binom{n}{k}x^k(1-x)^{n-k}$ and $p_n(x)=\sum\limits_{k=0}^nf(k/n)r_k(x)$.
+    At $y=1-x$, we have $nx=\sum\limits_{k=0}^nkr_k(x)$ and $x^2n(n-1)=\sum\limits_{k=0}^nk(k-1)r_k(x)=\sum\limits_{k=0}^nk^2r_k(x)-nx$.
+    So
+    \begin{align*}
+        \sum\limits_{k=0}^n (k-nx)^2r_k(x) &= \sum\limits_{k=0}^n (k^2-2knx+n^2x^2)r_k(x)\\
+                                           &= (nx+x^2n(n-1))-2nx\cdot nx+n^2x^2\cdot 1\\
+                                           &= nx-x^2n\\
+                                           &= nx(1-x)
+    \end{align*}
+    $f$ is continuous on $[0,1]$ so there exists $M$ such that $|f(x)|\leq M$ for all $x\in[0,1]$.
+    Also, $f$ is uniformly continuous so for all $\epsilon>0$, there exists $\delta>0$ such that $|x-y|<\delta$ implies that $|f(x)-f(y)|<\epsilon$.
+    We want to prove that for every $\epsilon>0$ there exists $N$ such that $|p_n(x)-f(x)|<\epsilon$ for all $x\in[0,1]$ and $n\geq N$.
+    Fix $\epsilon$.
+    Take $N$ such that $\frac{2M}{\delta^2N}<\epsilon$.
+    Let $n\geq N$ and $x\in[0,1]$.
+    Then
+    \begin{align*}
+        |p_n(x)-f(x)|&=\left\lvert\sum\limits_{k=0}^n f\left(\frac{k}{n}\right)r_k(x)-f(x)\sum\limits_{k=0}^nr_k(x)\right\rvert\\
+                     &\leq\left\lvert\sum\limits_{k=0}^n \left(f\left(\frac{k}{n}\right)-f(x)r_k(x)\right)\right\rvert|\\
+                     &\leq \sum_{k\in A}\left\lvert f\left(\frac{k}{n}\right)-f(x)\right\rvert||r_k(x)|+\sum_{k\in B}\left\lvert f\left(\frac{k}{n}\right)-f(x)\right\rvert||r_k(x)|\\
+    \end{align*}
+    Where we break the sum into (i) $|k-nx|<n\delta$ denoted $A$ and (ii) otherwise, denoted $B$
+    For $A$, $|k/n-x|<\delta$ implies $f(k/n)-f(x)|<\epsilon$.
+    Thus
+    \[\sum\limits_{k\in A}\left\lvert f\left(\frac{k}{n}\right)-f(x)\right\rvert||r_k(x)|\leq\sum\limits_{k\in A}\epsilon r_k(x)<\epsilon\]
+
+    For $B$, we have $|k-nx|\geq\delta n$ so that
+    \begin{align*}
+        \sum\limits_{k\in B}\left\lvert f(x)-f\left(\frac{k}{n}\right)\right\rvert r_k(x) &\leq \sum\limits_{k\in B}\left(|f(x)|+\left\lvert f\left(\frac{k}{n}\right)\right\rvert\right)r_k(x)|\\
+                                                                             &\leq 2M\sum\limits_{k\in B}r_k(x)\\
+                                                                             &= 2m\sum\limits_{k\in B}\frac{(k-nx)^2}{(k-nx)^2}r_k(x)\\
+                                                                             &\leq\frac{2M}{(n\delta)^2}\sum\limits_{k=0}^n(k-nx)^2r_k(x)\\
+                                                                             &\leq\frac{2M}{(n\delta)^2}nx(1-x)\\
+                                                                             &\leq\frac{2M}{n\delta^2}<\epsilon
+    \end{align*}
+    by choice of $N$.
+\end{proof}
+\subsection{The Stone-Weierstrass Theorem}
+Recall that an algebra $\mathcal{A}$ is a vector space $V$ over $\F$ equipped with a bilinear form $\cdot:V\times V\to\F$.
+The space $C(X)$ is an algebra with pointwise multiplication.
+\begin{definition}
+    An algebra $\mathcal{A}$ of functions separates points if, for any $x\neq y\in X$, then there exists $f\in\mathcal{A}$ such that $f(x)\neq f(y)$.
+\end{definition}
+\begin{theorem}[Stone-Weierstrass]
+    Let $X$ be compact.
+    Let $\mathcal{A}\subseteq C(x)$ be an algebra that separates points and contains the constants.
+    Then $\mathcal{A}$ is dense in $C(X)$
+\end{theorem}
+This will take a bit of time!
+\begin{lemma}
+    If $\mathcal{A}$ is an algebra that separates points, then so is $\overline{\mathcal{A}}$.
+\end{lemma}
+\begin{proof}
+    If $f,g\in\overline{\mathcal{A}}$, then write $f=\lim f_n$, $g=\lim g_n$, so that for some constant $c$
+    \begin{align*}
+        cf+g &= c\lim f_n+g\lim g_n\\
+             &= \lim (cf_n+g_n)
+    \end{align*}
+    where the limit exists by the arithmetic properties of limits, and since $\mathcal{A}$ is an algebra, $cf_n+g_n\in\mathcal{A}$ and by closure of $\overline{\mathcal{A}}$, the limit is is in $\overline{\mathcal{A}}$.
+    In the exact same way,
+    \begin{align*}
+        fg &= (\lim f_n)(\lim g_n)\\
+           &= \lim f_ng_n
+    \end{align*}
+    because, when the limits all exist, a product of limits is a limit of products.
+    But then in the same way as above, $f_ng_n\in\mathcal{A}$ so by closedness $fg\in\overline{\mathcal{A}}$ as well.
+    Since $\overline{\mathcal{A}}\supseteq\mathcal{A}$, it certainly separates points as well.
+\end{proof}
+\begin{lemma}
+    Suppose $B\subseteq\mathcal{A}$ is an algebra that separates points.
+    Then if $f,g\in B$, then $\max\{f,g\}$ and $\min\{f,g\}$ are in $B$.
+\end{lemma}
+\begin{proof}
+    Since $\max\{f,g\}=(f+g+|f-g|)/2$ and $\min\{f,g\}=(f+g-|f-g|)/2$, it suffices to show that $f\in B\Rightarrow |f|\in\overline{B}$>
+    Note that there exists $(p_n(t))\to\sqrt{t}$ uniformly on $[0,1]$ with constant term $0$.
+    Let $c=\norm{f}$ and note that $F_n:=\frac{f^2}{c^2}\in\mathcal{A}$.
+    We claim that $F_n\to |f|/c$.
+    Let $\epsilon>0$ be arbitrary and let $N$ be such that $|p_n(t)-\sqrt{t}|<\epsilon/2$ for all $n\geq N$ and $t\in[0,1]$.
+    Then
+    \begin{align*}
+        \left\lvert F_n(x)-\frac{|f|}{c}(x)\right\rvert &= \left\lvert p_n\circ (f^2/c^2)(x)-\sqrt{\frac{f^2}{c^2}}(x)\right\rvert\\
+                                                        &<\epsilon
+    \end{align*}
+    since $f^2/c^2(x)\in[0,1]$.
+    Thus $|f|/c\in\overline{\mathcal{A}}$ and since $\overline{\mathcal{A}}$ is an algebra, $|f|\in\overline{\mathcal{A}}$.
+\end{proof}
+\begin{lemma}
+    Suppose $x\neq y$ are in $X$ and $a,b\in\R$.
+    Then there exists $f\in\mathcal{A}$ so that $f(x)=a$ and $f(y)=b$.
+\end{lemma}
+\begin{proof}
+    Since $\mathcal{A}$ separates points, let $g$ be such that $g(x)\neq g(y)$.
+    Then define
+    \[f(t)=a+(b-a)\left(\frac{g(t)-g(x)}{g(y)-g(x)}\right)\]
+    which has the desired property.
+\end{proof}
+\begin{lemma}
+    If $f\in C(X)$, $x_0\in X$ and $\epsilon>0$, then there exists $g\in\overline{\mathcal{A}}$ such that $g(x_0)=f(x_0)$ and $g(x)\leq f(x)+\epsilon$ for all $x\in X$
+\end{lemma}
+\begin{proof}
+    For each $y\in X$, there exists $h_y\in \mathcal{A}$ so that $h_y(x_0)=f(x_0)$ and $h_y(y)=f(y)$.
+    If $y=x_0$, take $h_y=f$, and otherwise use the previous lemma.
+    Now, for any $y\in X$, $|h_y-f|=0$ so there exists a $\delta_y$ such that on $B(y,\delta_y)$, $h_y-f<\epsilon$.
+    Thus the balls $B(y,\delta_y)$ form an open cover for $X$, so we have a finite subcover $\{B(y_1,\delta_{y_1}),\ldots,B(y_n,\delta_{y_n})\}$.
+    Then fix $g=\min\{g_{y_i}\}$ so for any $x\in X$, $x\in B(y_j,\delta_{y_j})$ and $g(x)\leq g_{y_j}(x)<f+\epsilon$, as desired.
+\end{proof}
+We can finally prove the main theorem!
+\begin{proof}
+    First, we show for all $f\in C(X)$, $\epsilon>0$, there exists $g\in\overline{\mathcal{A}}$ such that $\norm{g-f}<\epsilon$.
+    Once we have this, then we get $h\in\mathcal{A}$ such that $\norm{g-h}<\epsilon$ and then $\norm{f-h}\leq\norm{f-g}+\norm{g-h}<2\epsilon$.
+    This proves that $\mathcal{A}$ is dense.
+
+    Now for all $x\in X$, there exists $g_x\in\overline{A}$ such that $g_x(x)=f(x)$ and $g(z)\leq f(z)+\epsilon$ for all $z\in X$.
+    The function $f-g_x$ is continuous and $0$ at $x$.
+    Get $\delta_x>0$ such that for all $y\in B(x,\delta_x)$, we have $|f(y)-g_x(y)|<\epsilon$.
+    Look at $B(x,\delta_x)$ as $x\in X$.
+    These cover $X$ so we have a finite subcover $B(x_1,\delta_{x_1}),\ldots,B(x_n,\delta_{x_n})$.
+    Put $g=\max(g_{x_1},\ldots,g_{x_n})\in\overline{\mathcal{A}}$ by Lemma 2.
+    Let $y\in X$.
+    Then there exists $i$ such that $y\in B(x_i,\delta_{x_i})$, s $|f(y)-g_{x_i}(y)|<\epsilon$ and $g_{x_i}(y)>f(y)-\epsilon$.
+    Thus $f(y)-\epsilon<g_{x_i}(y)\leq g(y)=g_{x_j}(y)\leq f(y)+\epsilon$ for some $j$ by choice of $g_x$.
+    But then $|g(y)-f(y)|\leq\epsilon$ for all $y\in X$, so $\norm{g-f}\leq\epsilon$.
+\end{proof}
+\begin{definition}
+    A function $f:X\to\C$ is continuous at $x\in X$ if whenever $x_n\to x$, then $f(x_n)\to f(x)$.
+    We say $z_n\to z$ if $|z_n-z|\to 0$.
+
+    We define $\Re f:X\to\R$, $\Im f:X\to\R$ and $f=\Re f+i\Im f$.
+    Then $f$ is continuous if and only if $\Re f$ and $\Im f$ are continuous.
+
+    Given $f$, $\overline{f}(x)=\overline{f(x)}=\Re f(x)-i\Im f(x)$.
+\end{definition}
+\subsection{An Alternative Proof of Stone-Weierstrass}
+\begin{theorem}
+    Let $X$ be a compact metric space.
+    Suppose $\mathcal{A}$ is a subalgebra of $C(X)$ that separates points.
+    If $\overline{\mathcal{A}}\neq C(X)$, prove there is a point $x_0\in X$ such that $\overline{\mathcal{A}}=\{f\in C(X):f(x_0)=0\}$.
+\end{theorem}
+
+\begin{lemma}
+    If for every $x,y\in X$ there exists $g\in\overline{\mathcal{A}}$ such that $g(x)=f(x)$ and $g(y)=f(y)$, then $f\in\overline{\mathcal{A}}$.
+\end{lemma}
+\begin{proof}
+    Recall the lemma from class that
+    \begin{align*}
+        f,g\in\mathcal{A}\Rightarrow\min\{f,g\},\max\{f,g\}\in\overline{\mathcal{A}}\tag{$*$}
+    \end{align*}
+    Since $\overline{\mathcal{A}}$ is an algebra, this holds for $\overline{\mathcal{A}}$ as well.
+    Let $\epsilon>0$ be arbitrary.
+    Fix $x,y\in X$ and let $g_{xy}$ be such that $g_{xy}(x)=f(x)$ and $g_{xy}(y)=f(y)$.
+    Then define
+    \[U_{xy}=\{u\in X:f(u)<g_{xy}(u)+\epsilon\}\]
+    \[V_{xy}=\{u\in X:f(u)>g_{xy}(u)-\epsilon\}\]
+    Note that $x\in U_{xy}$, and that $U,V$ are open by continuity of $f$ and $g$.
+    To see the latter statement, let $u\in U_{xy}$.
+    Let $\gamma=(g_{xy}(u)+\epsilon)-f(u)>0$ since the inequality is strict.
+    By continuity of $f,g_{xy}$ let $\delta>0$ be such that for all $v\in B(u,\delta)$, $|f(u)-f(v)|<\gamma/2$ and $|g_{xy}(u)-g_{xy}(v)|<\gamma/2$.
+    But then we must have
+    \begin{align*}
+        f(v)-g_{xy}(v) &< f(u)+\gamma/2-g_{xy}(u)+\gamma/2\\
+                       &= f(u)-g_{xy}(u)+\gamma\\
+                       &= f(u)-g_{xy}(u)+g_{xy}(u)-f(u)+\epsilon\\
+                       &= \epsilon
+    \end{align*}
+    so that $v\in U_{xy}$.
+    The identical argument works for $V_{xy}$.
+
+    Furthermore, $x\in U_{xy}$ so $\{U_{xy}:x\in X\}$ is an open cover for $X$.
+    By compactness of $X$ it has a subcover $\{U_{x_1y},\ldots,U_{x_ny}\}$, and write $g_y=\max\{g_{x_1y},\ldots,g_{x_ny}\}$.
+    Now for a given $y$, define $V_y=\bigcap\limits_{i=1}^n V_{x_iy}$.
+    $V_y$ are open since it is a finite intersection of open sets, so since $y\in V_y$, $\{V_y:y\in X\}$ is an open cover for $X$.
+    Thus we also have a finite subcover $\{V_{y_1},\ldots,V_{y_k}\}$.
+    Finally, define $g=\min\{g_{y_1},\ldots,g_{y_k}\}$.
+    By ($*$), $g\in\mathcal{\overline{A}}$.
+
+    I claim that $d(g,f)<\epsilon$.
+    We have $f<g_y+\epsilon$ on $X$ for all $y$ since on each $U_{x_iy}$, $f<g_{x_iy}+\epsilon\leq g_y+\epsilon$.
+    Since this holds for all $y$, it certainly holds for $g$ as well, so $f<g+\epsilon$.
+    Similarly, on each $V_{x_iy}$, we have $f>g_{x_iy}-\epsilon$, so $f>g_{x_iy}-\epsilon$ for $i=1,\ldots,n$ on $V_y$.
+    Thus $f>g_{y_i}-\epsilon$ on each $V_{y_i}$, and since $g\leq g_{y_i}$ for all $y$ we have $f>g_{y_i}-\epsilon\geq g-\epsilon$.
+    Combining these expressions, we have $f-g<\epsilon$ and $g-f<\epsilon$ so $d(g,f)<\epsilon$.
+
+    Furthermore, since $\epsilon$ was arbitrary, for any $f$, we can find a sequence $g_n\to f$ by choosing $d(g_n,f)<1/n$.
+    Then since $\overline{\mathcal{A}}$ is closed, we must have $f\in\overline{\mathcal{A}}$ as desired.
+\end{proof}
+We are now in position to prove the main theorem!
+\begin{proof}
+    Let $x,y\in X$ with $x\neq y$, and consider the algebra $A_{xy}=\{(f(x),f(y)):f\in \overline{\mathcal{A}}\}\subseteq\R^2$ with component-wise addition, scalar multiplication, and multiplication.
+    Thse are algebras since $\mathcal{A}$ is an algebra, and we must have
+    \begin{align*}
+        A_{xy}\in\{\{(0,x):x\in\R\},\{(x,0):x\in\R\},{\R}^2\}
+    \end{align*}
+    To see this, suppose $(a,b)\in A_{xy}$.
+    If $a\neq b$ and $a,b\neq 0$, then $(a,b)$ and $(a^2,b^2)$ provide a basis for $\R^2$, so $S=\R^2$ by closure under multiplication of $\mathcal{A}$.
+    If $a=b$, then $\mathcal{A}$ does not separate points, and if $a=0,b\neq 0$ or the reverse, we have the first two cases above.
+
+    Now suppose that for all $x,y$, $A_{xy}=\R^2$.
+    Then for any $f\in C(X)$, by Lemma 1, we must have $f\in\overline{\mathcal{A}}$, so $\overline{\mathcal{A}}=C(X)$, the contents of the Stone-Weierstrass Theorem.
+
+    Otherwise there exists some $x_0,y_0$ so that $A_{x_0y_0}=\{(x,0):x\in\R\}$ without loss of generality.
+    Note that such a $y_0$ must satisfy $f(y_0)=0$ for all $f\in\overline{\mathcal{A}}$.
+    Furthermore, $y_0$ is unique.
+    Suppose not, so we have $y_0,y_1$ such that $f(y_0)=0$ and $f(y_1)=0$ for all $f\in\mathcal{\overline{A}}$ and $\mathcal{\overline{A}}$ would not separate points.
+    Finally, for any $x$, we have $A_{xy_0}=\{(x,0):x\in\R\}$ since $f(y_0)=0$ for all $f\in\overline{\mathcal{A}}$.
+    We can summarize this by saying
+    \begin{align*}
+        A_{xy}=\begin{cases}
+            {\R}^2 &: x,y\neq y_0\\
+            \{(u,0):u\in\R\} &: y=y_0\\
+            \{(0,u):u\in\R\} &: x=y_0
+        \end{cases}
+    \end{align*}
+    We certainly have $\overline{\mathcal{A}}\subseteq\{f\in C(X):f(y_0)=0\}$ by the existence of $y_0$ above.
+    Now to show the reverse inclusion, suppose $f(y_0)=0$.
+    Suppose without loss of generality that $x\neq y_0$.
+    Since $A_{xy_0}=\{(x,0):x\in\R\}$, we have $g\in\overline{\mathcal{A}}$ so that $g(y_0)=0=f(y_0)$ and $g(x_0)=f(x_0)$.
+    Similarly, for $A_{xy}$ with $y\neq y_0$, $A_{xy}=\R^2$ so there exists $g\in\overline{\mathcal{A}}$ so that $g(x)=f(x)$ and $g(y)=f(y)$.
+    Thus by Lemma 1, $f\in\overline{\mathcal{A}}$.
+    And we're done!
+\end{proof}
+\subsection{Applications of Stone-Weierstrass}
+\begin{theorem}[Stone-Weierstrass for $\C-$valued functions]
+    Let $X$ be compact and suppose $\mathcal{A}$ is an algebra in $C(X,\mathcal{C})=\{f:X\to\C,\text{continuous}\}$ (the scalars are from $\C$).
+    that separates points, contains the constants, and is closed under conjugation.
+    Then $\mathcal{A}$ is dense in $C(X,\C)$.
+\end{theorem}
+\begin{proof}
+    Let $\mathcal{A}_{\R}$ denote the set of real-valued functions in $\mathcal{A}$.
+    If $f\in\mathcal{A}$, then $(f\pm\overline{f})/2\in\mathcal{A}$ so $\Re f$ and $\Im f$ are in $\mathcal{A}$.
+    Notice $\mathcal{A}_{\R}$ is an algebra over $\R$ in $C(x)$ and it contains the constants.
+    Furthermore, since $\mathcal{A}$ separates points, either the real part or imaginary part separates points, so $\mathcal{A}_{\R}$ separates points as well.
+    Thus the result holds by Stone-Weierstrass over $\R$.
+\end{proof}
+\begin{example}
+    Consider the set $X=\{z\in\C:|z|=1\}$, and
+    \[\mathcal{A}=\left\{\sum\limits_{n=-N}^Na_nz^n:a_n\in\C\right\}\]
+    The collection $\mathcal{A}$ is an algebra, separates points, contains constants, and is closed under conjugation.
+\end{example}
+\begin{corollary}
+    Suppose $X$ is a compact metric space.
+    Then $C(X)$ is separable.
+\end{corollary}
+\begin{proof}
+    Since $X$ is compact, it is separable, so let $S\subseteq X$ be countable and dense.
+    Then consider the collection of functions $\mathcal{S}=\{f_u(x)=d(x,u):u\in S\}$.
+    I claim that $\mathcal{S}$ separates points.
+    Thus suppose $x,y\in X$ and fix $d(x,y)=\epsilon$ since $x\neq y$.
+    Then since $S$ is dense, choose $x_0$ so that $d(x_0,x)<\epsilon/2$.
+    But then $f_{x_0}(x)<\epsilon/2$ and $f_{x_0}(y)>\epsilon/2$ for if not, then $d(x,y)\leq d(x,x_0)+d(x_0,y)=f_{x_0}(x)+f_{x_0}(y)<\epsilon$, a contradiction.
+    Thus $f_{x_0}(x)\neq f_{x_0}(y)$ so $\mathcal{S}$ separates points.
+
+    Note that the polynomials of functions in $\mathcal{S}$ (in other words, the smallest algebra containing $S$) is dense in $C(X)$ by Stone-Weierstrass.
+    Thus let $\mathcal{H}$ denote the polynomials over $\mathcal{S}$ with rational coefficients.
+    It suffices to show that any polynomial in $\mathcal{S}$ can be approximated by functions in $\mathcal{H}$.
+    We can write an arbitrary polynomial as $p=\sum c_i \prod f_j^{c_j}$ for $f_i\in\mathcal{S}$ where the sum and all the products are finite.
+    Note that each $f_j$ is uniformly continuous on $X$, so $\prod f_j^{c_j}$ is also uniformly continuous.
+    Thus let $\left\lvert\prod_{j\in A_i} f_j^{c_j}\right\rvert<M$ for all terms in $p$.
+    Furthermore, suppose the summation consists of $N$ terms.
+    Let $\epsilon>0$ be arbitrary and let $b_i\in\Q$ be such that $|b_i-c_i|<\epsilon/(NM)$.
+    But then define $q=\sum b_i\prod f_j^{c_j}$ so that
+    \begin{align*}
+        |p(x)-q(x)|&\leq\sum |b_i-a_i|\left\lvert\prod f_j^{c_j}\right\rvert\\
+                   &\leq M\sum|b_i-a_i|\\
+                   &\leq M\sum \frac{\epsilon}{Mn}\\
+                   &<\epsilon
+    \end{align*}
+    as desired.
+\end{proof}
+\begin{corollary}
+    If $f\in C[0,1]$ and $\int_0^1 f(x)x^n dx = 0$ for all $n=0,1,2,\ldots$, then $f(x)=0$ for all $x\in[0,1]$.
+\end{corollary}
+\begin{proof}
+    $\int_0^1 f(x)x^n=0$ for all $n$ implies $\int_0^1 f(x)p(x)dx=0$ for any polynomial $p$.
+    By Stone-Weierstrass, let $(p_n)\to f$ uniformly.
+    Then
+    \[\int_0^1f(x)p_n(x)dx\to\int_0^1 (f(x))^2dx\]
+    Assuming this, it follows that $\int_0^1 f^2=0$ so $f=0$.
+    For the claim, consider
+    \[|\int_0^1 f(x)(p_n(x)-f(x))dx|\leq\int_0^1|f||p_n-f|dx\leq\norm{f}\int_0^1|p_n-f|\leq\norm{f}\norm{p_n-f}\int_0^1 dx\]
+    as desired.
+\end{proof}
+\section{Two Applications of the Baire Category Theorem to Functions}
+\subsection{Sets of Discontinuity}
+\begin{theorem}
+    No function on $[0,1]$ can be continuous on precisely the rational points.
+\end{theorem}
+\begin{proof}
+    We first see that the set of points at which the function $f:X\to\R$ is discontinuous is a countable union of closed sets.
+    Define the set $S_k=\{x\in X:\forall\delta>0,\exists y,z\in B(x,\delta)\text{ s.t. }|f(y)-f(x)|\geq 1/k\}$.
+    I will show that (1) the $S_k$ are closed and (2) $D_f=\bigcup_{k=1}^\infty S_k$ where $D_f$ denotes the set of points of discontinuity of $f$.
+
+    To see that $S_k$ is closed, let $x\in S_k^c$.
+    Thus we have for some $\delta>0$ for any  $y,z\in B(x,\delta)$ we have $|f(y)-f(x)|<1/k$.
+    But then for any $y\in B(x,\delta)$, choose $\delta'$ so $B(y,\delta')\subseteq B(x,\delta)$ and for any $y,z\in B(y,\delta')$ we have $|f(y)-f(x)|<1/k$.
+    Therefore $B(x,\delta)\subseteq S_k^c$ so $S_k^c$ is open.
+
+    Furthermore, we certainly have $S_k\subseteq D_f$ by definition, and if $x\in D_f$, then there exists an $\epsilon>0$ so that for all $\delta>0$, there exist $y,z\in B(x,\delta)$ so that $|f(y)-f(x)|\geq\epsilon$.
+    Then let $k$ be such that $1/k<\epsilon$ so $x\in S_k$.
+    Thus $D_f$ is a countable union of closed sets.
+
+    It now suffices to show that $\R\setminus\Q$ cannot be written as a countable union of closed sets.
+    Suppose for contradiction that $\R\setminus\Q=\bigcup\limits_{i=1}^\infty V_i$, and write
+    \[\R=\bigcup\limits_{i=1}^\infty V_i\cup\bigcup\limits_{i=1}^\infty\{r_i\}\]
+    where $\{r_i\}$ is an enumeration of $\Q$.
+    However by BCT, $\R$ is second category, so some $V_k$ must not be nowhere dense.
+    But then since the $V_i$ are closed, $V_k=\overline{V_k}$ has non-empty interior, a contradiction since $\R\setminus\Q$ has empty interior.
+
+    However, by (8a), $D_f$ is a countable union of closed sets, a contradiction so $D_f\neq\R\setminus\Q$.
+\end{proof}
+Exercise: generalize this statement to continuous functions on $C(X)$!
+\subsection{Sets of Differentiability}
+\begin{theorem}
+    The set of functions on $C[0,1]$ which have a derivative at some point on $(0,1)$ is first category.
+\end{theorem}
+\begin{corollary}
+    The set of nowhere differentiable functions is second category.
+\end{corollary}
+\begin{proof}
+    The union of two first category sets is first category, and $C[0,1]$ is second category.
+\end{proof}
+\begin{proof}
+    Let
+    \[E_j = \left\{f\in C[0,1]:\exists x\in[0,1-1/j]\text{ s.t. }\forall h\in(0,1/j],\left\lvert\frac{f(x+h)-f(x)}{h}\right\rvert\leq j\right\}\]
+    and define
+    \[E=\{f\in C[0,1]\text{ $f$ has a derivative somewhere}\}\]
+    We now prove the theorem in three parts
+    \begin{enumerate}
+        \item $E\subseteq\bigcup_{j=1}^\infty E_j$
+        \item $E_j$ has empty interior.
+        \item $E_j$ is closed.
+    \end{enumerate}
+    Once this is done, then notice
+    \[E=\bigcup\limits_{j=1}^\infty (E\cap E_j)\]
+    so $\overline{(E\cap E_j)}\subseteq\overline{E_j}=E_j$.
+    Then $\overline{E\cap E_j}$ has empty interior since $E_j$ has empty interior, so $E\cap E_j$ is nowhere dense and $E$ is first category.
+    Let's now proceed to prove those three statements!
+
+    (1) Say $f\in E$ and $f$ is differentiable at $x\in(0,1)$.
+    Thus there exist some $j_1$ such that for all $j\geq j_1$, $x\in[0,1-1/j]$.
+    Since $\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}$ exists, we have $C$ such that for all $h\leq j_2$, we have
+    \[\left\lvert\frac{f(x+h)-f(x)}{h}\right\rvert\leq C\leq j_3\]
+    Let $j=\max\{j_1,j_2,j_3\}$, then $f\in E_j$.
+
+    (2) To show that $E_j$ has empty interior, we will show that if $f\in E_j$ and $\epsilon>0$, then there exists $g\in B(f,\epsilon)$ such that $g\notin E_j$.
+    First, by Stone-Weierstrass get $p$ such that $d(p,f)<\epsilon/2$.
+    We then have some $M$ such that $|p'(x)|\leq M$ for all $x\in(0,1]$.
+    Let $Q$ be a piecewise linear function of slope $\pm(M+j+1)$ with $0\leq Q(x)\leq\epsilon/2$.
+    Set $g=p+Q$, so that $d(f,g)<\epsilon$.
+    Now let $x\in(0,1)$ and we have
+    \begin{align*}
+        \left\lvert\frac{g(x+h)-g(x)}{h}\right\rvert &= \left\lvert\frac{p(x+h)-p(x)+q(x+h)-q(x)}{h}\right\rvert\\
+                                                     &\geq -\left\lvert\frac{p(x+h)-p(x)}{h}\right\rvert+\left\lvert\frac{Q(x+h)-Q(x)}{h}\right\rvert\\
+                                                     &\geq -\left(M+\frac{1}{2}\right)+M+j+1\\
+                                                     &\geq j+\frac{1}{2}
+    \end{align*}
+    for sufficiently small $h$.
+
+    (3) We finally see that $E_j$ is closed.
+    Suppose $f_n\in E_j$ and $f_n\to f$ uniformly.
+    We see that $f\in E_j$.
+    By definition of $E_j$, for all $n$ there exists $x_n\in[0,1-1/j]$ such that for any $h\in(0,1/j)$
+    \[\left\lvert\frac{f_n(x_n+h)-f_n(x_n)}{h}\right\rvert\leq j\]
+    By Bolzano-Weierstrass, there exists a subsequence $x_{n_k}\to x_0\in[0,1-1/j]$.
+    We will ceck that $x_0$ ``works'' for $f$, so $f\in E_j$.
+    Let $\epsilon>0$ and fix $h\in[0,1/j]$.
+    We have $M$ such that $d(f_m,f)<\epsilon h/4$ for all $m\geq M$.
+    Furthermore, $f$ is uniformly continuous so there exists $\delta>0$ such that $|f(x)-f(y)|\leq\epsilon h/4$ whenever $|x-y|<\delta$.
+    We also have $M_2$ such that $|x_m-x_0|<\delta$ if $m\geq M_2$, and fix $M=\max\{M_1,M_2\}$.
+    Finally
+    \begin{align*}
+        \frac{|f(x_0+h)-f(x_0)|}{h} &\leq \frac{|f(x_0+h)-f(x_m+h)|}{h}+\frac{|f(x_m+h)-f_M(x_m+h)|}{h}+\frac{|f_M(x_m+h)-f_M(x_M)|}{h}\\
+                                    &\qquad+\frac{|f_M(x_M)-f(x_M)|}{h}+\frac{|f(x_M)-f(x_0)|}{h}\\
+                                    &\leq \frac{\frac{\epsilon h}{4}}{h}+\frac{d(f,f_M)}{h}+j+\frac{d(f_m,f)}{h}+\frac{\frac{\epsilon h}{4}}{h}\\
+                                    &\leq \epsilon+j
+    \end{align*}
+    Since $\epsilon>0$ was arbitrary, we must have
+    \[\frac{|f(x_0+h)-f(x_0)|}{h}\leq j\]
+    for all $h\in(0,1/j)$.
+\end{proof}
+\begin{example}
+    Solve the D.E.
+    \begin{align*}
+        y' &= 1+x=y\text{ for } x\in\left[-\frac{1}{2},\frac{1}{2}\right]\\
+        y(0) &= 1
+    \end{align*}
+
+    $y=f(x)$ where $f'(x)=1+x-f(x)$ and $f(0)=1$.
+    Convert to integral equation:
+    \begin{align*}
+        f(x) &= \int_0^x f'(t)\d{t}+f(0)\\
+             &= \int_0^x(1+t-f(x))\d{t}+1\\
+             &= x+\frac{x^2}{2}+1-\int_0^x f(t)\d{t}
+    \end{align*}
+    Define $T$ on $C[-1/2,1/2]$ by
+    \[Tf(x)=1+x+\frac{x^2}{2}-\int_0^x f(t)\d{t}\]
+    so $Tf\in C[-1/2,1/2]$.
+    Thus $T:C[-1/2,1/2]\to[-1/2,1/2]$.
+    Notice $(Tf)'(x)=1+x-f(x)$.
+    If we can find a fixed point of $T$, call it $f$, then $f(x)=Tf(x)\Rightarrow f(0)=Tf(0)=1$ and $f'=(Tf)'=1+x-f(x)$ so $f$ solves the D.E.
+
+    Conversely, if $f$ solves the D.E., then $f'(x)=1+x-f(x)=(Tf)'(x)$.
+    But $f(0)=1=Tf(0)$ so $f=Tf$.
+    Thus any solution to the DE is a fixed point of $T$.
+
+    Check that $T$ is a contraction.
+    Want $r<1$ such that $d(Tf,Tg)\leq rd(f,g)$ for all $f,g\in C[-1/2,1/2]$.
+    We have
+    \begin{align*}
+        |Tf(x)-Tg(x)| &= \left\lvert-\int_0^x f+\int_0^x g\right\rvert\\
+                      &= \left\lvert\int_0^x(g-f)\right\rvert\\
+                      &\leq \norm{g-f}\left\lvert\int_0^x 1\right\rvert\\
+                      &= \norm{g-f}|x|\\
+                      &\leq\frac{1}{2}\norm{g-f}
+    \end{align*}
+    so $T$ is a contraction with $r=\frac{1}{2}$.
+    By BCMP, $T$ has a unique fixed point $f$, so our D.E. has a unique solution.
+    In fact $f=\lim T^{(n)} f_0$.
+    For example, take $f_0=1$.
+    Then $T^{(n)}f_0=\sum\limits_{k=0,k\neq 1}^n\frac{(-1)^k}{k!}x^k=e^{-x}+x=f(x)$.
+\end{example}
+More generally, we have
+\begin{theorem}[Global Picard]
+    Suppose $\Phi:[a,b]\times\R\to\R$ is continuous and ``Lipschitz in $y-$variable''.
+    Then the D.E. $F'(x)=\phi(x,F(x))$, $F(a)=c$ has a unique solution.
+\end{theorem}
+Lipschitz in $y$ means there exists $L$ such that $\left\lvert\Phi(x,y)-\Phi(x,z)\right\rvert\leq L|y-z|$ for all $x\in[a,b]$, $y,z\in\R$.
+\end{document}

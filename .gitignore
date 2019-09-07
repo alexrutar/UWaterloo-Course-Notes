@@ -1,8 +1,6 @@
-*
+*/**/*
 !pmath/*_notes.tex
-!pmath/*_notes.pdf
 !co/*_notes.tex
-!co/*_notes.pdf
 !budapest/*_notes.tex
 !budapest/*_notes.pdf
 !.gitignore

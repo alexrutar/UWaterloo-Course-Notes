@@ -1,0 +1,2833 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.12)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[ascii]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{r}{label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+
+% align macros
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Big and small Disjoint union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.10em}{$#1$}\middle/\raisebox{-0.10em}{$#2$}\right.}
+                                 {\left.\raisebox{0.04em}{$#1$}\middle/\raisebox{-0.04em}{$#2$}\right.}
+                                 {\left.\raisebox{0.01em}{$#1$}\middle/\raisebox{-0.01em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\hfuzz=100pt
+\DeclareMathOperator{\Ct}{\mathcal{C}}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\proj}{proj}
+\usepackage{showkeys}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Commutative Algebra}
+\newcommand{\semester}{Winter 2019}
+
+
+% formatting -------------------------------------------------------------------
+% Fonts
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Equation numbering
+\numberwithin{equation}{section}
+
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+
+% Section / Subsection headers
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Chapter Headers
+\chapterstyle{verville}
+
+% Page Headers / Footers
+\setsecnumdepth{section}
+\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+
+% Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Modules}
+\section{Basic Properties of Modules}
+In this course, all rings are assumed to be commutative and unitary unless explicitly stated otherwise.
+Essentially, modules are ``vector spaces over arbitrary commutative rings''.
+Let's see the definition:
+\begin{definition}
+    Suppose $A$ is a (commutative, unitary) ring.
+    Then an \textbf{$A-$module} is an abelian group $(M,+,0)$ with a function $\mu:A\times M\to M$ and, writing $ax:=\mu(a,x)$, satisfies for $a,b\in A$, $x,y\in M$
+    \begin{enumerate}[nolistsep]
+        \item $a(x+y)=ax+ay$
+        \item $(a+b)x=ax+bx$
+        \item $(ab)x=a(bx)$
+        \item $1x=x$
+    \end{enumerate}
+\end{definition}
+In fact, one can re-interpret the axioms as follows.
+
+Axiom 1 says that for fixed $a\in A$, the function $M\to M$ given by $x\mapsto ax$ is a group endomorphism.
+In this sense, let $\alpha:A\to\End(M)$ be the map taking $a$ to multiplication by $a$ on $M$: for $x\in M$, $\alpha(x)=\{x\mapsto ax\}$.
+
+Since $A$ is a ring, $\End(M)$ is also a ring under the operations $(f+g)(x)=f(x)+g(x)$ and $(fg)(x)=f(g(x))$ for all $f,g\in\End(M)$, $x\in M$.
+Naturally, this ring is not necessarily commutative (function composition composition is usually not commutative).
+\begin{proposition}
+    Let $A$ be an $A-$module over a group $M$, and let $\alpha:A\to\End(M)$ be given by $\alpha(x)=ax$.
+    Then $\alpha$ is a unitary ring homomorphism.
+    Furthermore, if $\alpha:A\to\End(M)$ is any unitary ring homomorphism, then $\alpha$ induces a natural $A-$module structure
+\end{proposition}
+\begin{proof}
+    $\alpha$ must respect addition, multiplication, and take units to units.
+    This follows directly from Axioms 2,3,4:
+    \begin{align*}
+        \alpha(a+b)&=\{x\mapsto(a+b)x\}=\{x\mapsto ax+bx\}=\alpha(a)+\alpha(b)\\
+        \alpha(ab) &= \{x\mapsto (ab)x\}=\{x\mapsto a(bx)\}=\alpha(a)\circ\alpha(b)\\
+        \alpha(1) &= \{x\mapsto 1x\}=\{x\mapsto x\}=\id
+    \end{align*}
+    so $\alpha$ is a unitary ring homomorphism.
+
+    Conversely, we can define $\mu:A\times M\to M$ by $ax=\mu(a,x)=\alpha(a)(x)$.
+    But then $a(x+y)=\alpha(a)(x+y)=\alpha(a)(x)+\alpha(a)(y)$ since $\alpha(a)\in\End(M)$.
+    Furthermore, Axioms 2,3,4 follow in the same way as above since $\alpha$ is a unitary ring homomorphism.
+\end{proof}
+In this sense, $A-$modules are precisely given by ring homomorphisms $\alpha:A\to\End(M)$ defining $ax=\alpha(a)(x)$.
+Thus we have the following natural consequences of the definition of $A-$modules:
+\begin{proposition}
+    In any $A-$module,
+    \begin{itemize}[nolistsep]
+        \item $a0=0$
+        \item $a(-x)=-(ax)$
+        \item $(-1)x=-x$
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    This follows directly since $\alpha$ is a unitary ring homomorphism (or can be proven directly from the axioms).
+\end{proof}
+\subsection{Common Examples of Modules}
+Modules are a general construction, and contain many common algebraic objects as examples.
+\begin{enumerate}
+    \item If $A=k$ is a field, then $A-$modules are $k-$vector spaces.
+    \item $A=\Z$, then $A-$modules are abelian groups with $nx=x+\cdots+x$ for $n\geq 0$.
+        That is to say that the class of $\Z-$modules are the abelian groups.
+    \item Let $A$ be any ring, $I\subseteq A$ an ideal.
+        Then $I$ is a commutative group (closure under addition) and absorbs $A-$multiplication, so $I$ is an $A-$module under $A-$multiplication.
+        In particular, $A$ is an $A-$module itself.
+    \item Suppose $k$ is a field, $V$ is a $k-$vector space, and $T:V\to V$ is a linear transformation.
+        Let $A=k[x]$ by the polynomial ring in 1 variable over $k$.
+        Then $V$ (as an additive group) inherits a natural $A-$module structure.
+
+        Let $p(x)\in k[x]$; then $p(T)$ defined in the natural way is a linear transformation.
+        Then for any $v\in V$, we define $\mu(p,v)=pv=p(T)(v)$.
+        Let's see that this makes $V$ into a $k[x]-$module by verifying the axioms: for $p,q\in k[x]$, $x,y\in V$
+        \begin{enumerate}[nolistsep]
+            \item $p(x+y)=p(T)(x+y)=p(T)(x)+p(T)(y)$ since $p(T)$ is linear.
+            \item $(p+q)(x)=(p(T)+q(T))(x)=p(T)(x)+q(T)(x)$ since $p$ is a polynomial function.
+            \item $(pq)(x)=(pq)(T)(x)=(p(T)q(T))(x)$ since $k[x]$ are polynomials over a field (which is a commutative ring).
+            \item $1x=\id(T)(x)=\id(x)=x$
+        \end{enumerate}
+        so the axioms are satisfied.
+\end{enumerate}
+\subsection{Morphisms, Submodules, Quotients}
+\begin{definition}
+    If $M,N$ are $A-$modules, a function $f:M\to N$ is \textbf{$A-$linear} or is an \textbf{$A-$module homomorphism} if it is a group homomorphism commuting with the action of $A$.
+    That is, for all $x,y\in M$, $a\in A$,
+    \begin{itemize}[nolistsep]
+        \item $f(x+y)=f(x)+f(y)$
+        \item $f(ax)=af(x)$
+    \end{itemize}
+    As usual, $f$ is an \textbf{isomorphism} if it is bijective, and write $M\cong N$.
+\end{definition}
+Equivalently, $f$ is an isomorphism of groups that is $A-$linear (respects the action of $A$ on $x$).
+\begin{enumerate}[nolistsep]
+    \item If $A=k$ is a field, then an $A-$module homomorphism are just the regular linear transformations
+    \item If $A=\Z$, then $A-$module homomorphisms are exactly group homomorphisms.
+\end{enumerate}
+Consider the collection of all $A-$linear maps $f:M\to N$.
+This set is itself an $A-$Module given the following structure: for $f,g\in \Hom_A(M,N)$, then $(f+g)(x)=f(x)+g(x)$, and if $a\in A$, then $(af)(x)=af(x)$.
+\begin{definition}
+    The set $\Hom_A(M,N)$ is $A-$module of all $A-$linear maps $f:M\to N$.
+\end{definition}
+Here's a basic proposition about this $A-$module:
+\begin{proposition}
+    Let $M$ be an $A-$module and $x\in A$ an arbitrary element.
+    Then $\alpha_x:\Hom_A(A,M)\to M$ given by $\alpha_x(f)=f(x)$ is $A-$linear.
+    In particular, $\alpha_1$ is an $A-$module isomorphism.
+\end{proposition}
+\begin{proof}
+    It is straightforward to show that $\alpha_x$ this is $A-$linear:
+    \begin{align*}
+        \alpha_x(f+g)&=(f+g)(x)=f(x)+g(x)=\alpha(f)+\alpha(g)\\
+        \alpha(af) &= (af)(x)=af(x)=a\alpha(f)
+    \end{align*}
+    Now, set $\alpha=\alpha_1$.
+    To see injectivity, if $\alpha(f)=0$, then $f(1)=0$.
+    Then for any $a\in A$,
+    \begin{align*}
+        f(a) &= f(a\cdot 1)=af(1)=a0=0
+    \end{align*}
+    and $f$ is the zero homomorphism.
+    To see surjectivity, let $x\in M$ be arbitrary, and define $f:A\to M$ by $f(a):= ax$.
+    Then $f(a+b)=(a+b)x=ax+bx=f(a)+f(b)$, and $f(ab)=(ab)x=a(bx)=af(b)$, so $f\in\Hom_A(A,M)$.
+    Then $\alpha(f)=f(1)=1x=x$.
+\end{proof}
+\begin{definition}
+    A subgroup $N\leq M$ of an $A-$module is a \textbf{submodule} if for all $a\in A$, $x\in N$, $ax\in N$.
+    These are subgroups closed under the action of $A$.
+\end{definition}
+Since $M$ is an abelian group, $N\leq M$ is automatically a normal subgroup of $M$.
+
+As in group thoery, such submodules occur naturally.
+If $f:M\to N$ is $A-$linear, then $\ker(f)=\{x\in M:f(x)=0\}$ is a submodule of $M$, and $\im(f)=\{f(x):x\in M\}$ is a submodule of $N$.
+Recall that $\coker(f):= N/\im(f)$.
+\begin{proposition}
+    If $N\leq M$, the \textbf{quotient module} $M/N=\{x+N:x\in M\}$ is an $A-$module over the quotient group with action $a(x+N)=ax+N$.
+    The \textbf{quotient map} $\pi:M\to M/N$ given by $x\mapsto x+N$ is $A-$linear and $\ker(\pi)=N$.
+\end{proposition}
+\begin{proof}
+    Let's show that the action is well-defined.
+    Suppose $x+N=y+N$ are the same coset with different representative.
+    Then $x-y\in N$, so $a(x-y)\in N$, so $ax-ay\in N$.
+    Thus $ax+N=ay+N$, so the map is well-defined.
+
+    As well, $\pi(x+y)=(x+y)+N=(x+N)+(y+N)$ (from the group structure), and $\pi(ax)=ax+N=a(x+N)=a\pi(x)$, so $\pi$ is $A-$linear.
+    Finally, $x\in\ker(\pi)$ iff $\pi(x)=N$ iff $x+N=N$ iff $x\in N$.
+\end{proof}
+
+\begin{theorem}[Correspondence]
+    Let $N$ be a submodule of $M$.
+    There is a bijective correspondence from submodules $M'\subseteq M$ containing $N$ and submodules of $M/N$ given by $M'\mapsto\pi(M')$ and $\tilde M\leq M/N\mapsto \pi^{-1}(\tilde M)$ (the preimage/pullback).
+\end{theorem}
+\begin{proof}
+    From the correspondence theorem for groups, $\pi$ and $\pi^{-1}$ preserve subgroups: it suffices to show they are also closed under the action of $A$.
+    Since $\pi$ is $A-$linear, for any $\pi(x)=x+N\in M'$, since $x\in M'$, $ax\in M'$ and $\pi(ax)=a(x+N)\in M'$ as well.
+    Conversely, for any $x\in\pi^{-1}(\tilde M)$, $\pi(x)\in\tilde M$, so $\pi(ax)=a\pi(x)\in\tilde M$ and $ax\in\pi^{-1}(\tilde M)$.
+\end{proof}
+\begin{proposition}[Universal Property of Quotients]
+    Suppose $F:M\to N$ is an $A-$module homomorphism and $M'\leq M$ submodule.
+    If $M'\leq\ker(f)$, then there is a unique $A-$linear map $\overline{f}:M/M'\to N$ by $x+M'\mapsto f(x)$ such that $\ker(\overline{f})=\ker(f)/M'$, $\im(\overline{f})=\im(f)$.
+\end{proposition}
+\begin{proof}
+    Since $f$ is also a group homomorphism on an abelian group, $M'$ is automatically a normal subgroup of $M$.
+    Thus by the universal property of quotients for groups, there is a unique group homomorphism $\overline{f}:M/M'\to N$ defined by $\overline{f}(x+M')=f(x)$.
+    It suffices to show that $\overline{f}$ is $A-$linear.
+    Since $\overline{f}$ is a group homomorphism, $\overline{f}( (x+M')+(y+M'))=\overline{f}(x+M')+\overline{f}(y+M')$, so let $a\in A$ and $x\in M$ be arbitrary.
+    Then
+    \begin{equation*}
+        \overline{f}(a(x+M'))=\overline{f}(ax+M')=f(ax)=af(x)=a\overline{f}(x+M')
+    \end{equation*}
+    since $f$ is $A-$linear.
+\end{proof}
+\begin{corollary}[First Isomorphism]
+    If $f:M\to N$ is an $A-$linear map, then $M/\ker(f)\cong\im(f)$.
+\end{corollary}
+\begin{proof}
+    By the universal property of quotients to $M'=\ker(f)$, get $\overline{f}:M/\ker(f)\to N$, with $\ker(\overline{f})=0$ and $\im(\overline{f})=\im(f)$.
+    Thus $\overline{f}$ is injective with image $\im(f)$, and thus bijective.
+\end{proof}
+\begin{proposition}
+    The lattice of submodules is a complete lattice.
+\end{proposition}
+\begin{proof}
+    Let $M$ be an $A-$module, $N_1,N_2$ submodule.
+    One can verify that the subgroup $N_1+N_2=\{x+y:x\in N_1,y\in N_2\}$ is the smallest submodule containing both $N_1$ and $N_2$.
+    Similarly, $N_1\cap N_2$ is the largest submodule of $M$ contained in both $N_1$ and $N_2$.
+\end{proof}
+\section{Operations on Modules}
+\subsection{Sums, Products}
+\begin{definition}
+    Let $(N_i:i\in I)$ be a set of submodules of $M$.
+    We define the \textbf{(internal) sum} of $(N_i:i\in I)$ to be
+    \begin{equation*}
+        \sum\limits_{i\in I}N_i:=\left\{\sum\limits_{i\in I}a_i:a_i\in N_i,\text{ all but finitely many }a_i=0\right\}
+    \end{equation*}
+\end{definition}
+Note that this is the smallest submodule containing all the $N_i$.
+The sum can also be defined externally:
+\begin{definition}
+    Suppose $(M_i:i\in I)$ is a sequence of $A-$modules.
+    The \textbf{direct sum} of $(M_i:i\in I)$
+    \begin{equation*}
+        \bigoplus\limits_{i\in I}M_i:=\left\{(x_i:i\in I):x_i\in M_i\text{ and for all but finitely many }i,x_i=0\right\}
+    \end{equation*}
+    The \textbf{direct product} of $(M_i:i\in I)$ is
+    \begin{equation*}
+        \prod\limits_{i\in I}M_i=\{(x_i:i\in I),x_i\in M_i\}
+    \end{equation*}
+    The $A-$module structure on $\prod_{i\in I}M_i$ and $\bigoplus_{i\in I}M_i$ is given by corordinate-wise addition and scalar multiplication.
+\end{definition}
+It is worth noting that $\bigoplus_{i\in I}M_i$ a submodule of $\prod_{i\in I}M_i$.
+\begin{remark}
+    Fix $j\in I$ and let $\widetilde M_j:=\{(x_i:i\in I):x_i=0\text{ if }i\neq j,x_j\in M_j\}$.
+    Then the map $M_j\to \widetilde M_j$ given by $x\mapsto(0,\ldots,0,x,0,\ldots)$ is an isomorphism, and $\widetilde M_j\leq\bigoplus_{i\in I}M_i$ is a submodule.
+    It is clear that $M\cong\sum_{i\in I}\widetilde M_i$.
+\end{remark}
+\begin{remark}
+    If $X$ is an $A-$module, $Y,Z$ submodules, then we write $X=Y\oplus Z$ if
+    \begin{itemize}[nolistsep]
+        \item $Y+Z=X$
+        \item $Y\cap Z=(0)$
+    \end{itemize}
+    In this case, each element $x\in X$ can be written uniquely as $x=y+z$ where $y\in Y$, $z\in Z$, and $\phi:X\to Y\oplus Z$ given by $x\mapsto(y,z)$ is an isomorphism.
+\end{remark}
+\begin{definition}
+    Composing the above map, one has the \textbf{projection} map, which is denoted $\proj_j:\oplus_{i\in I}M_i\to M_j$.
+\end{definition}
+\begin{definition}
+    Fix an $A-$module $M$ and an index set $I$.
+    Then $M^I:=\bigoplus_{i\in I}M$.
+\end{definition}
+If $n<\omega$, then $M^n:=\bigoplus_{i=1}^n M$.
+\begin{definition}
+    An $A-$module is \textbf{free} if it is isomorphic to $A^I$ for some set $I$.
+    If $M\cong A^n$ for some $n<\omega$, then we say $M$ is free of \textbf{rank $n$}.
+\end{definition}
+\subsection{Finitely Generated Modules}
+\begin{definition}
+    Let $M$ be an $A-$module, $X\subseteq M$ a subset.
+    The \textbf{submodule generated by $X$} is
+    \begin{equation*}
+        (X):=\left\{\sum\limits_{i=1}^n a_ix_i,a_i\in A,x_i\in X\right\}
+    \end{equation*}
+    This is the smallest submodule of $M$ that contains the set $X$.
+    We say that $M$ is \textbf{generated} by $X$ if $M=(X)$.
+    Then $M$ is \textbf{finitely generated} if $M=(X)$ for some finite $X\subseteq M$.
+\end{definition}
+\begin{proposition}
+    $M$ is finitely generated if and only if $M\cong A^n/N$ for some submodule $N\leq A^n$.
+\end{proposition}
+\begin{proof}
+    $(\Leftarrow)$ $\{(1,0,\ldots,0),\ldots,(0,\ldots,0,1)\}$ generates $A^n$ as an $A-$module.
+    Thus $\{(1,0,\ldots,0)+N,(0,1,0,\ldots,0)+N,\ldots,(0,\ldots,0,1)+N\}$ generates $A^n/N$.
+
+    $(\Rightarrow)$ Suppose $X=\{x_1,\ldots,x_n\}$ generates $M$.
+    Consider the map $\phi:A^n\to M$ given by $(a_1,\ldots,a_n)\mapsto a_1x_1+\cdots+a_nx_n$.
+    This map is $A-$linear, and is surjective since $(x_i)$ is a generator for $M$.
+    Then by the first isomorphism theorem, $A^n/\ker(\phi)\cong M$.
+\end{proof}
+\subsection{Nakayama's Lemma}
+Before we can prove Nakayama's Lemma, we need a bit of groundwork.
+\begin{definition}
+    If $M$ is an $A-$module and $I\subseteq A$ is an ideal, we say
+    \begin{equation*}
+        IM=\left\{\sum\limits_{i=1}^n a_ix_i:n<\omega,a_1,\ldots,a_n\in I,x_1,\ldots,x_n\in M\right\}
+    \end{equation*}
+\end{definition}
+\begin{proposition}\label{nk-prop}
+    Suppose $M$ is a finitely generated $A-$module, $I\subseteq A$ an ideal, $\phi:M\to M$ $A-$linear such that $\phi(M)\subseteq IM$.
+    Then there exists $n<\omega$, and $a_1,\ldots,a_n\in I$ such that $\phi^n+a_1\phi^{n-1}+\cdots+a_{n-1}\phi+a_n=0$ in $\Hom_A(M,M)=\End_A(M)$.
+\end{proposition}
+In particular, taking $I=A$, every endomorphism of a finitely generated module satisfies a nontrivial polynomial identity over $A$.
+\begin{proof}
+    Let $x_1,\ldots,x_n$ generate $M$.
+    Then $\phi(x_i)=\sum_{j=1}^n a_{ij}x_j$ for some $a_{ij}\in I$ since $\phi(M)\subseteq IM$.
+    Thus for for each $i=1,\ldots,n$,
+    \begin{equation*}
+        \sum\limits_{j=1}^n\left(\delta_{ij}\phi(x_j)-a_{ij}x_j\right)=0\Longrightarrow \sum\limits_{j=1}^n(\delta_{ij}\phi-a_{ij})(x_j)=0
+    \end{equation*}
+    Let $P=(\delta_{ij}\phi-a_{ij})\in M_{n\times n}(\End_A(M))$ act naturally on $M^n$.
+    Then by the above observation,
+    \begin{equation*}
+        P\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix}=\begin{pmatrix}\sum\limits_{j=1}^n(\delta_{1j}\phi-a_{1j})(x_j)\\\vdots\\\sum\limits_{j=1}^n(\delta_{nj}\phi-a_{1j})(x_j)\end{pmatrix}=\begin{pmatrix}0\\\vdots\\0\end{pmatrix}
+    \end{equation*}
+    By the adjoint formulation of inverse,
+    \begin{equation*}
+        (\det P)
+        \begin{pmatrix}
+            1&\hdots&0\\
+            \vdots&&\vdots\\
+            0&\hdots&1
+        \end{pmatrix}=
+        P^{\text{adj}}P\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix}=\begin{pmatrix}0&\hdots&0\\\vdots&&\vdots\\0&\hdots&0\end{pmatrix}
+    \end{equation*}
+    Thus, $\det P\in\End_A(M)$ vanishes on $x_1,\ldots,x_n$, and since $x_1,\ldots,x_n$ generate $M$, $\det P=0$ in $\End_A(M)$.
+    In particular, $\det(\delta_{ij}\phi-a_{ij})=0$, and since the determinant is a monic polynomial in $\phi$ with coefficients in $I$, we are done.
+\end{proof}
+\begin{definition}
+    The \textbf{annhilator of $M$} is the ideal $\Ann(M)=\{a\in A:aM=0\}$.
+\end{definition}
+\begin{corollary}\label{fg-ann}
+    Let $M$ be a finitely generated module with $I\subseteq A$ an ideal such that $IM=M$.
+    Then there exists $a\in \Ann(M)$ with so $a\equiv 1\pmod{I}$.
+\end{corollary}
+\begin{proof}
+    Since $IM=M$, \cref{nk-prop} applies to every $\phi\in\End_A(M)$.
+    In particular, take $\phi=\id$ and get $a_1,\ldots,a_n\in I$ so $1+a_1+\cdots+a_n=0$ in $\End_A(M)$.
+    Thus $a:=1+a_1+\cdots+a_n$, then $a\in\Ann(M)$ and $a\equiv 1\pmod{I}$.
+\end{proof}
+\begin{definition}
+    The \textbf{Jacobson radical} of a ring is the intersection of all maximal ideals of the ring.
+\end{definition}
+\begin{definition}
+    A ring is a \textbf{local ring} if it has exactly one maximal ideal.
+\end{definition}
+\begin{lemma}[Nakayama]
+    Let $M$ be finitely generated module and $I\subseteq A$ an ideal such that $I\subseteq R$, where $R$ is the Jacobson radical.
+    If $IM=M$, then $M=0$.
+\end{lemma}
+\begin{proof}
+    By \cref{fg-ann}, there is $a\in\Ann(M)$, $a\equiv 1\pmod{I}$.
+    Write $a=1-b$ for some $b\in I$.
+    If $a$ is not a unit in $A$, then $(a)$ is proper, so $a$ is contained in some maximal ideal $\mathfrak{m}\subseteq A$.
+    But $b\in I\subseteq \subseteq R\mathfrak{m}$, so $1=a+b\in \mathfrak{m}$, a contradiction.
+    Thus $a$ is a unit, so $aM=0$ and $a^{-1}aM=0$ so $M=0$.
+\end{proof}
+If $A$ is a local ring, Nakayama's Lemma applies to any proper ideal in $A$.
+\begin{corollary}
+    Suppose $M$ is finitely generated, $I$ is contained in the Jacobson radical, and $x_1,\ldots,x_n\in M$ are such that their images in $M/IM$ generate $M/IM$ as an $A-$module.
+    Then $\{x_1,\ldots,x_n\}$ generates $M$.
+\end{corollary}
+\begin{proof}
+    Let $N=(x_1,\ldots,x_n)$ be the submodule of $M$ generated by $x_1,\ldots,x_m$.
+    Note that $I\cdot(M/N)=(N+IM)/N$.
+    Since $(x_1+IM,\ldots,x_n+IM)$ generate $M/IM$, $N+IM=(x_1,\ldots,x_n)+IM=M$.
+    Thus $I\cdot(M/N)=N/M$, so apply Nakayama's Lemma to $M/N$.
+    Thus $M/N=0$, so $M=N$ and $M=(x_1,\ldots,x_n)$.
+\end{proof}
+\subsection{Exact Sequences}
+\begin{definition}
+    Let $M_0,M_1,\ldots,M_n$ be $A-$modules, with $A-$linear maps $f_i:M_i\to M_{i+1}$.
+    Then we say that this sequence is \textbf{exact at $M_i$} for $i\in\{1,\ldots,n-1\}$ if $\im(f_i)=\ker(f_{i+1})$.
+    The sequence is \textbf{exact} if it is exact at all such $i$.
+\end{definition}
+\begin{remark}
+    Suppose $f:M\to N$ is an $a-$Linear map.
+    \begin{enumerate}[nolistsep]
+        \item Then $f$ is injective if and only if $0\to M\fto{f} N$ is exact.
+        \item $f$ is surective if and only if $M\fto{f}N\to 0$ is exact.
+    \end{enumerate}
+    In this sense, exactness of sequences generalizes injectivity and surjectivity.
+
+    Now consider the sequence $0\to M'\fto{f}M\fto{g} M''\to 0$.
+    This is exact if and only if $f$ is injective, $g$ is surjective, and $\im(f)=\ker(g)$.
+    In this case, we say $M$ is an \textbf{extension of $M''$ by $M'$}.
+    Note that by the first isomorphism theorem, $M''\cong M/M'$ after identifying $M'\cong f(M')\leq M$.
+\end{remark}
+\begin{example}
+    Whenever $h:M\to N$ is an $A-$linear map, we have the associated short exact sequence:
+    \begin{equation*}
+        0\to\ker(h)\hto M\fto{h}\im(h)\to 0
+    \end{equation*}
+\end{example}
+\begin{example}
+    Given $M'$, $M''$ $A-$modules, we always have the short exact sequence
+    \begin{equation*}
+        0\to M'\fto{f}M'\oplus M''\fto{g}M''\to 0
+    \end{equation*}
+    where $f(x)=(x,0)$ and $g(x,y)=y$.
+    In this sense, $M'\oplus M''$ is a ``trivial'' extension of $M''$ by $M'$.
+\end{example}
+\begin{definition}
+    Given a short exact sequence $0\to M'\fto{f} M\fto{g} M''\to 0$, we say that it is \textbf{split} if there is an isomorphism $\alpha:M\to M'\oplus M''$ such that
+    \begin{center}
+        \begin{tikzcd}
+            M'\arrow[r,"f"]\arrow[rd,swap,"u"] & M\arrow[r,"g"]\arrow[d,"\alpha"] & M''\\
+            & M'\oplus M'' \arrow[ru,swap,"u"]
+        \end{tikzcd}
+    \end{center}
+    commutes, where $u(x)=(x,0)$ and $v(x,y)=y$.
+\end{definition}
+\begin{example}
+    Here's an exact sequence that is not split: set $A=\Z$ and fix $n>0$.
+    Then
+    \begin{equation*}
+        0\to n\Z\hto\Z\fto{\pi}\Z/n\Z\to 0
+    \end{equation*}
+    is an exact sequence, but $\Z\ncong nZ\oplus \Z/n\Z$ since $\Z$ is torsion free, but $(0,1)$ is torsion.
+\end{example}
+\begin{remark}
+    If you have a long exact sequence
+    \begin{equation*}
+        0\to M_1\fto{\phi_1}M_2\fto{\phi_2} M_3\fto{\phi_3}\cdots
+    \end{equation*}
+    you get a corresponding collection of short exact sequences
+    \begin{gather*}
+        0\to M_1\fto{\phi_1}M_2\fto{\phi_2} \im(\phi_2)\to 0\\
+        0\to\coker(\phi_2)\fto{\phi_3}M_4\fto{\phi_4}\im(\phi_4)\to 0\\
+        \vdots
+    \end{gather*}
+    and the long exact sequence is exact if and only if all the short exact sequences are.
+\end{remark}
+\section{Noetherian Rings and Modules}
+Let $A$ be a commutative ring.
+\begin{definition}
+    $A$ is \textbf{Noetherian} if every ascending chain of ideals in $A$ stabilizes.
+\end{definition}
+We have the following fundamental property of Noetherian rings:
+\begin{proposition}\label{noe}
+    The following are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $A$ is Noetherian.
+        \item Every non-empty set $S$ of ideals of $A$ has a maximal element in $S$.
+        \item Every ideal of $A$ is finitely generated.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \imp{1}{2}
+    Let $S$ be a non-empty set of ideals with no maximal element.
+    Since $S$ is non-empty, get $I_1\in S$.
+    Then for any $I_k\in S$, $I_k$ is not maximal and get $I_{k+1}\supsetneq I_k$.
+    This is an infinite chain of ideal which does not stabilize.
+
+    \imp{2}{1}
+    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and let $S=\{I_k:k\in\N\}$.
+    By assumption, $S$ has a maximal element, $I_N$; but then for any $n\geq N$, $I_n=I_N$ and the chain stabilizes.
+
+    \imp{3}{1}
+    Let $I_1\subseteq I_2\subseteq\cdots$ be an ascending chain of ideals, and set $I=\bigcup_{i=1}^\infty I_n$.
+    By assumption, $I=(x_1,\ldots,x_n)$.
+    Since each $x_i\in I_j$ for some $j$, get $k$ so that $x_1,\ldots,x_n\in I_k$; but then $I_k=I_n$ and the chain stabilizes.
+
+    \imp{1}{3}
+    Let $I$ be an ideal of $A$ not finitely generated.
+    Then $I\neq(0)$, so get $a_1\in I$.
+    For any finite $a_1,\ldots,a_k\in I$, since $I$ is not finitely generated, there exists $a_{k+1}\in I\setminus(a_1,\ldots,a_k)$.
+    Thus by the axiom of choice, choose $a_i,i\in\N$ so that $\{(a_1,\ldots,a_i):i\in\N\}$ does not stabilize, a contradiction.
+\end{proof}
+\begin{corollary}
+    Every PID is Noetherian.
+\end{corollary}
+\begin{proof}
+    Every ideal of a PID is finitely generated (by one element).
+\end{proof}
+\begin{remark}
+    Suppose $A$ is a PID.
+    If $I\subseteq A$ is a non-zero ideal, then it is a free $A-$Module of rank 1.
+    To see this, write $I=(a)$ for some $a\in A\setminus\{0\}$.
+    Consider $A\to I$ by $b\mapsto ba$, which is surjective.
+    If $bn=0$, then $b=0$ since $a\neq 0$ is injective.
+    Thus, as $A-$modules, $I\cong A$.
+\end{remark}
+\begin{definition}
+    An $A-$module is \textbf{Noetherian} if there is no properly increasing infinite chain of submodules.
+\end{definition}
+\begin{remark}
+    $A$ is a Noetherian ring if and only if it is Noetherian as an $A-$module.
+    An $A-$module $M$ is Noetherian iff every submodule is finitely generated.
+\end{remark}
+\begin{definition}
+    Let $M$ be an $A-$module.
+    Then we say $M$ is \textbf{Noetherian} if it has no infinite chain of $A-$submodules.
+\end{definition}
+\begin{remark}
+    If $A$ is a ring, then $A$ is naturally an $A-$module, and $A-$submodules of $A$ are just ideals of $A$.
+    In this setting, the definitions of Noetherianity coincide.
+\end{remark}
+\begin{theorem}[Hilbert Basis]
+    If $A$ is Noetherian, then so is $A[x]$.
+\end{theorem}
+Let $I\subseteq A[x]$ an ideal, and $J\subseteq A$ the ideal of leading coefficients of polynomials in $I$.
+Then since $A$ is Noetherian, $J=(a_1,\ldots,a_n)$ for some $a_i\in A$.
+For each $i=1,\ldots,n$, let $f_i\in I$ have $f_i(x)=a_ix^{r_i}+(\text{lower degree terms})$, let $I'=(f_1,\ldots,f_n)$ and $R=\max\{r_1,\ldots,r_n\}$.
+\begin{claim}\label{cl:hil-1}
+    If $f\in I$, then $f=g+h$ where $\deg g<r$ and $h\in I'$.
+\end{claim}
+\begin{nmproof}
+    The proof proceeds by induction on $\deg f$.
+
+    If $\deg f<r$, take $h=0$.
+    Otherwise, suppose $\deg f\geq r$.
+    Write $f=ax^m+(\text{lower degree terms})$ where $m\geq r$.
+    Since $a\in J$, $a=\sum_{i=1}^n b_ia_i$ for some $b_i\in A$.
+    Fix $I$, so
+    \begin{align*}
+        b_ix^{m-r_i}f_i &= b_ix^{m-r_i}(a_ix^{r_i}+(\text{lower degree terms}))\\
+                        &= b_ia_ix^m+(\text{lower degree terms})
+    \end{align*}
+    so $f_0=f-\sum_{i=1}^n b_ix^{m-r_i}f_i$ has degree strictly less than $m$.
+    By induction, $f_0=g+h$ where $\deg g<r$, $h\in I'$, so $f=g+\left(h+\sum_{i=1}^n b_ix^{m-r_i}f_i\right)$.
+\end{nmproof}
+\begin{claim}
+    $A[x]$ is Noetherian.
+\end{claim}
+\begin{proof}
+    \Cref{cl:hil-1} says that $I=I'+I\cap A[x]_{<r}$ where $A[x]_{<r}$ is the set of polynomials with degree strictly less than $r$.
+    This is an $A-$submodule of $A[x]$, so $I\cap A[x]_{<r}$ is an $A-$submodule of $A[x]_{<r}$.
+    Since $A[x]_{<r}$ is a finitely generated $A-$module, since $A$ is Noetherian, $A[x]_{<r}$ is a Noetherian $A-$module.
+    Thus $I\cap A[x]_{<r}$ is finitely generated as an $A[x]_{<r}$ submodule, say $g_1,\ldots,g_l\in I\cap A[x]_{<r}$.
+    Then $I=(f_1,\ldots,f_n,g_1,\ldots,g_l)$.
+\end{proof}
+\begin{example}
+    Let's look at some useful examples and non-examples of Noetherian rings and modules.
+    \begin{enumerate}[nl]
+        \item $\Z$ is a PID, so $\Z$ is Noetherian.
+        \item $\Q[x_1,x_2,\ldots,]$ is a UFD (hard) but not Noetherian since $(x_1)\subseteq(x_1,x_2)\subseteq\cdots$ is an infinite chain of ideals that does not stabilize.
+        \item $\Z\oplus\Z$ is a Noetherian both as a $\Z-$module and a ring.
+            Note that these are fundamentally different statements, since $\{(n,n):n\in\Z\}$ is a submodule of $\Z\oplus\Z$, but not an ideal.
+        \item $\Z[i]$ is again a PID
+        \item $\C[x_1,\ldots,x_n]$ is Noetherian by the Hilbert basis theorem.
+        \item $\C\otimes_{\R}\C$ is a Noetherian $\R-$module, and a noetherian ring
+        \item $\C\otimes_{\Q}\C$ is not a Noetherian ring.
+        \item $\Q(\pi)\otimes_{\Q}\Q(\pi)$ is a Noetherian ring.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    Let $M,N,Q$ be $A-$modules.
+    Suppose $0\to N\to M\to Q\to 0$ is exact.
+    Then $M$ is Noetherian if and only if $N$ and $Q$ are Noetherian.
+\end{proposition}
+\begin{proof}
+    We may take $N\leq M$ and $Q=M/N$.
+    If $M$ is Noetherian, then $N\leq M$ is certainly Noetherian and $M/N$ is also Noetherian by the correspondence theorem for ideals.
+
+    Now suppose $N,M/N$ are Noetherian; we want to show the ascending chain condition for $M$.
+    Let $P_1\subseteq P_2\subseteq\cdots$ be a chain in $M$.
+    Get $n_1$ such that the chain $P_1\cap N\subseteq P_2\cap N\subseteq\cdots$ stabilizes, and $n_2$ such that the chain $\quot{P_1}{(N\cap P_1)}\subseteq \quot{P_2}{(N\cap P_2)}\subseteq\cdots$ stabilizes, and $N=\max\{n_1,n_2\}$.
+    Let's show that $P_{N+1}\subseteq P_N$ TODO: finish.
+\end{proof}
+Note that if $B$ is a noetherian ring and $A\subseteq B$, then $A$ is not necessarily noetherian.
+For example, if $A$ is any non-noetherian integral domain, then $\Frac(A)$ is a field (and thus a noetherian ring) containing $A$.
+However, in terms of the notion of noetherianity with respect to modules, a number of things are true.
+\begin{proposition}
+    Let $M$ be a Noetherian module $A-$module.
+    \begin{enumerate}[nl,r]
+        \item If $N\leq M$ is a submodule, then $N$ and $\quot{M}{N}$ are Noetherian.
+        \item If $M'$ is also Noetherian, then $M\oplus M'$ is Noetherian.
+        \item If $S\subseteq A$ is multiplicatively closed, then $S^{-1}M$ is Noetherian.
+        \item If $A$ is Noetherian and $M$ is a finitely generated $A-$module, then $M$ is Noetherian.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item Consider the exact sequence $0\to N\to M\to \quot{M}{N}\to 0$.
+        \item Consider the exact sequence $0\to N\to M\oplus N\to M\to 0$.
+        \item TODO: application of the correspondence theorem for submodules in $S^{-1}M$.
+        \item Since $M$ is finitely generated, $M\cong \quot{A^n}{P}$ for some $P\leq A^n$.
+            Then consider the exact sequence $0\to P\to A^n\to M\to 0$.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Tensor products do not necessarily preserve Noetheranity: for example, $\C$ is a Noetherian $\Q-$module, but $\C\otimes_{\Q}\C$ is not Noetherian.
+\end{remark}
+\section{Rank, Basis, Torsion}
+\begin{definition}
+    Let $M$ be an $A-$module, $X\subseteq M$ a subset.
+    $X$ is \textbf{$A-$linearly independent} if whenever $x_1,\ldots,x_n\in X$ are distinct and $a_1,\ldots,a_n\in A$, if $a_1x_1+\cdots+a_nx_n=0$, then $a_1=a_2=\cdots=a_n=0$.
+    We say that $X$ is a \textbf{basis} for $M$ if $X$ generates $M$ and is $A-$linearly independent.
+\end{definition}
+Unlike vector spaces, modules usually do not have bases.
+In fact, we have the following lemma:
+\begin{lemma}
+    $M$ has a basis if and only if $M$ is free.
+\end{lemma}
+\begin{proof}
+    $(\Rightarrow)$ First suppose $X\subseteq M$ is a basis.
+    Consider the map
+    \begin{equation*}
+        \bigoplus\limits_{x\in X}A\fto{f} M\text{ given by }(a_x:x\in X)\mapsto\sum\limits_{x\in X}a_xx
+    \end{equation*}
+    Since a domain is a direct sum, this summation is finite.
+    As well, the map is clearly $A-$Linear: $f$ is surjective since $M=(X)$, and $f$ is injective since $X$ is $A-$linearly independent.
+    Thus $M$ is isomorphic to a direct sum over $A$, so $M$ is free.
+
+    $(\Leftarrow)$ Conversely, suppose $M$ is free.
+    Let $f:M\to\bigoplus_{i\in I}A$ be an isomorphism.
+    For each $i\in I$, let
+    \begin{equation*}
+        e_j=\left\{(a_i:i\in I): a_i=1\text{ if }i=j, a_i=0\text{ otherwise}\right\}
+    \end{equation*}
+    Clearly, $\{e_j:j\in I\}$ is a basis for $\bigoplus_{i\in I}A$ (the \textbf{standard basis}), so one can verify that $\{f^{-1}(e_j):j\in I\}\subseteq M$ is a basis for $M$.
+\end{proof}
+\begin{definition}
+    Suppose $A$ is an integral domain, $M$ an $A-$module.
+    Then the \textbf{rank of $M$} is the maximum size of an $A-$linearly independent subset of $M$.
+    We say $\rank(M)\in\N\cup\{\infty\}$.
+\end{definition}
+\begin{proposition}
+    If $F:M\to N$ is $A-$linear, then $\rank(f(M))\leq\rank(M)$.
+\end{proposition}
+\begin{proof}
+    Suppose $\rank(M)=m\in\N$.
+    Let $y_1,\ldots,y_{m+1}\in f(M)$ distinct, and get $y_i=f(x_i)$ for $x_i\in M$.
+    Thus $\{x_1,\ldots,x_{m+1}\}$ is $A-$linearly dependent, so there is $a_1,\ldots,a_{m+1}\in A$, not all zero, so
+    \begin{equation*}
+        a_1x_1+\cdots+a_{m+1}x_{m+1}=0
+    \end{equation*}
+    Then by applying $f$, $a_1y_1+\cdots+a_{m+1}y_{m+1}=0$, so $\{y_1,\ldots,y_{m+1}\}$ is $A-$linearly dependent, and $\rank(f(M))\leq m$.
+\end{proof}
+\begin{lemma}
+    Let $A$ be an integral domain.
+    Then $\rank(A^m)=m$.
+\end{lemma}
+\begin{proof}
+    Let $F=\Frac(A)$, so $A^m\subseteq F^m$ in a natural way.
+    Certainly $\rank(A^m)\geq m$, taking the standard basis, so let $x_1,\ldots,x_{m+1}\in A^m$ be distinct.
+    $F^m$ is a vector space, so this collection is $F-$linearly dependent in $F^m$.
+    Thus get $f_i$ so that $f_1x_1+\cdots+f_{m+1}x_{m+1}=0$, where $f_i=a_i/b_i$, $a_i,b_i\in A$.
+    Then clearing denominators, since we are in an integral domain, we see that $\{x_1,\ldots,x_{m+1}\}$ are $A-$linearly dependent and $\rank(A^m)\leq m$.
+\end{proof}
+\begin{definition}
+    Let $A$ be an integral domain and $M$ an $A-$module.
+    We define the \textbf{torsion submodule} by $\Tor(M)=\{x\in M:\exists a\in A\setminus \{0\}\text{ s.t. }ax=0\}$.
+    We say:
+    \begin{enumerate}[nolistsep]
+        \item $x\in M$ is \textbf{torsion} if $x\in\Tor(M)$
+        \item $N\leq M$ is \textbf{torsion free} if $\Tor(M)\cap N=\{0\}$
+        \item $N\leq M$ is \textbf{torsion} if $N\leq\Tor(M)$.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    $x$ is torsion if and only if $\{x\}$ is $A-$linearly dependent.
+\end{remark}
+\begin{lemma}\label{tor}
+    Let $A$ be an integral domain.
+    Then
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $M$ is torsion if and only if $\rank(M)=0$.
+        \item Free modules are torsion-free.
+        \item If $M$ and $N$ are torsion, then $M\oplus N$ is torsion.
+            In particular, $a_1,\ldots,a_n\in A$ be non-zero.
+            Then $A/(a_1)\oplus A/(a_2)\oplus\cdots\oplus A/(a_n)$ is torsion.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item This follows since
+            \begin{align*}
+                \text{$M$ is torsion}&\iff\text{$x\in M$ is torsion}\\
+                                     &\iff\text{$\{x\}$ is linearly dependent for all $x\in M$}\\
+                                     &\iff\rank(M)<1\\
+                                     &\iff\rank(M)=0
+                \end{align*}
+        \item It suffices to do this for $M=\bigoplus_{i\in I}A$.
+            Let $x\in M$, $x\neq 0$.
+            Write $x=(a_i:i\in I)$.
+            Then $x\neq 0$ implies $a_{i_0}\neq 0$ for some $i_0\in I$.
+            If $a\in A$ and $ax=0$, then $aa_{i_0}=0$.
+            Thus $a=0$ since $a_{i_0}\neq 0$ and $A$ is an integral domain, so $x$ is not torsion.
+        \item Let $(x,y)\in M\oplus N$, and get $a_1,a_2$ so $a_1x=a_2y=0$; then $A$ is an integral domain so $a_1a_2\neq 0$ and $a_1a_2(x,y)=(0,0)$.
+            For the latter part, $A/(a_i)$ is torsion since $a_i(x+(a_i))=0+(a_i)$, so their direct sum is also torsion.
+    \end{enumerate}
+\end{proof}
+\section{Finitely Generated Modules over PIDs}
+\begin{proposition}\label{ftpid-prop}
+    Suppose $A$ is a PID, $M$ is a free $A-$module of rank $m\in\N$, and $N\leq M$ a submodule.
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $N$ is free with rank at most $m$.
+        \item There exists a basis $y_1,\ldots,y_m$ for $M$ and $a_1,\ldots,a_n\in A\setminus\{0\}$ for some $n\leq m$ such that $a_1y_1,\ldots,a_ny_n$ is a basis for $N$ and $a_1|a_2|\cdots|a_n$.
+        \item $r,n,(a_1),\ldots,(a_n)$ are unique.
+    \end{enumerate}
+\end{proposition}
+We may assume $M=A^m$.
+Consider
+\begin{equation*}
+    \Sigma:=\{I\subseteq A:I\text{ is an ideal s.t. }I=\phi(N)\text{ for some }\phi\in\Hom_A(M,A)\}
+\end{equation*}
+Since $A$ is a PID, set $\phi(N)=(a_\phi)$.
+\begin{claim}
+    $\Sigma\supsetneq\{(0)\}$ and $\Sigma$ has a maximal element.
+\end{claim}
+\begin{nmproof}
+    Since $M=A^m$, we have coordinate projections $\pi_i:M\to A$ for $i=1,\ldots,m$.
+    Since $N\neq(0)$, not all of $\pi_1(N),\ldots,\pi_n(N)$ can be zero.
+    Now, since $A$ is a PID (and thus Noetherian), the second claim follows by \cref{noe}
+
+    Now, let $\eta\in\Hom_A(M,A)$ be such that $\eta(N)$ is maximal in $\Sigma$.
+    Thus $\eta(N)=(a_1)$ for some $0\neq a_1\in A$ non-zero; let $y\in N$ be such that $a_1=\eta(y)$.
+\end{nmproof}
+We'll hold the above notation for the rest of the proof.
+\begin{claim}
+    $a_1|\phi(y)$ for all $\phi\in\Hom_A(M,A)$.
+\end{claim}
+\begin{nmproof}
+    Let $d\in A$ be such that $(a_1,\phi(y))=(d)$, so $d=r_1a_1+r_2\phi(y)$ for some $r_1,r_2\in A$.
+    Consider $\psi:=r_1\eta+r_2\phi$.
+    Then
+    \begin{equation*}
+        \psi(y)=r_1\eta(y)+r_2\phi(y)=r_1a_1+r_2\phi(y)=d
+    \end{equation*}
+    so $d\in \psi(N)$.
+    Thus $(a_1,\phi(y))\subseteq\psi(N)\subseteq\eta(N)=(a_1)$ by maximality of $\eta(N)$.
+    But then $(a_1)=(a_1,\phi(y))$ so $a_1|\phi(y)$.
+\end{nmproof}
+\begin{claim}
+    There exists some $y_1\in M$ such that
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $\eta(y_1)=1$
+        \item $M=(y_1)\oplus\ker(\eta)$
+        \item $N=(a_1y_1)\oplus(N\cap\ker(\eta))$
+    \end{enumerate}
+\end{claim}
+\begin{nmproof}
+    Consider the standard basis $e_1,\ldots,e_m$ of $M=A^m$, so that for any $x\in M$, $x=\pi_1(x)e_1+\cdots+\pi_m(x)e_m$.
+    By Claim 2, since $\pi_i\in\Hom_A(M,A)$, get $b_i$ so that $\pi_i(y)=a_1b_i$.
+    Thus we can set
+    \begin{equation*}
+        y=\sum\limits_{i=1}^m \pi_i(y)e_i=\sum\limits_{i=1}^m a_1b_ie_i=a_1\left(\sum\limits_{i=1}^m b_ie_i\right)=:a_1y_1
+    \end{equation*}
+    In particular, $a_1y_1=y\in N$.
+    Now we have
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $a_1\eta(y_1)=\eta(a_1y_1)=\eta(y)=a_1$ so $\eta(y_1)=1$.
+        \item Let $x\in M$ be arbitrary.
+            Then $\eta(x-\eta(x)y_1)=\eta(x)-\eta(x)\eta(y_1)=0$, so $x-\eta(x)y_1\in\ker(\eta)$.
+            Thus $x=\eta(x)y_1+z$ for some $z\in\ker(\eta)$, so $M=(y_1)+\ker(\eta)$.
+            Suppose $x\in (y_1)\cap\ker(\eta)$.
+            Then $x=ay_1$ for some $a\in A$ and $0=\eta(x)=a\eta(y_1)=a$, so $x=0$ and $M=(y_1)\oplus\ker(\eta)$.
+        \item Let $x\in N$, so $\eta(x)\in\eta(N)=(a_1)$.
+            Thus $\eta(x)=ba_1$ for some $b\in A$.
+            Then
+            \begin{align*}
+                x &= \eta(x)y_1+(x-\eta(x)y_1)\\
+                  &= ba_1y_1+(x-ba_1y_1)
+            \end{align*}
+            Thus $N=(a_1y_1)+(\ker(\eta)\cap N)$.
+            Furthermore, $(a_1y_1)\cap(\ker(\eta)\cap N)\subseteq(y_1)\cap\ker(\eta)=(0)$.
+            Thus $N=(a_1y1)\oplus(N\cap\ker(\eta))$.
+    \end{enumerate}
+    For the remainder of the proof, set $K=\ker(\eta)$.
+\end{nmproof}
+\begin{claim}
+    The theorem holds.
+\end{claim}
+\begin{proof}
+    \begin{enumerate}
+        \item Certainly $\rank(N)\leq m$ since $N$ is a submodule of $M$.
+            Let's proceed by induction on the rank of $N$.
+            If $\rank(N)=0$, by \cref{tor}, $N$ is torsion.
+            However, $N\subseteq M$ which is free and thus has no non-trivial torsion, so $N=(0)$ and hence free.
+
+            Now, suppose $\rank(N)>0$, so $N$ is non-trivial.
+            Applying Claim 3, we have $M=(y_1)\oplus K$, $N=(a_1y_1)\oplus(N\cap K)$.
+            Let's see that $\rank(N)\geq\rank(K\cap N)+1$.
+            Let $x_1,\ldots,x_l\in K\cap N$ $A-$linearly independent.
+            Suppose we have $b_1,\ldots,b_l,c\in A$ such that $b_1x_1+\cdots+b_lx_l+c(a_1y_1)=0$, so $ca_1y_1=-(b_1x_1+\cdots+b_lx_l)\in K\cap N$ while $ca_1y_1\in (a_1y_1)$, so $ca_1y_1=0$ and $ca_1=0$ since $y_1$ is not torsion.
+            Thus $b_1x_1+\cdots+b_lx_l=0$, so $b_1=b_2=\cdots=b_l=0$, and $\{x_1,\ldots,x_l,a_1y_1\}$ is $A-$linearly independent.
+
+            Thus, $\rank(N)\geq\rank(K\cap N)+1$, so $\rank(K\cap N)<\rank(N)$ and by induction, $K\cap N$ is free.
+            Furthermore, $(a_1y_1)$ is free: consider $A\to(a_1y_1)$ by $b\mapsto ba_1y_1$, which is $A-$linear and surjective.
+            If $ba_1y=0$, then since $M$ has no nontrivial torsion, $ba_1=0$ so $b=0$ since $a_1\neq 0$ and $A$ is an integral domain.
+            Thus $A\cong(a_1y_1)$ and $N=(a_1y_1)\oplus K\cap N$ is free.
+
+            \textit{Note that in general, any submodule of a free module over a PID is free.}
+
+        \item The proof proceeds by induction on $\rank(M)$.
+            If $\rank(M)=0$, then $M=(0)$ and the statement holds vacuously, so suppose $M$ is non-trivial.
+            Similarly, if $N$ is trivial, take $n=0$, so suppose $N$ is non-trivial.
+            Note that $K\leq M$, so we may apply (i) with $K$ in place of $N$.
+            In particular, $K$ is free with $\rank(K)<\rank(M)$.
+
+            By induction, apply the claim with $K\cap N\leq K$.
+            Get a basis $y_2,\ldots,y_m$ of $K$ and $a_2,\ldots,a_n\in A$ so $a_2|a_3|\cdots|a_n$, $n\leq m$, such that $\{a_2y_2,\ldots,a_ny_n\}$ is a basis for $K\cap N$.
+            But now, since $M=(y_1)\oplus K$ and $N=(a_1y_1)\oplus(K\cap N)$ by Claim 3, $\{y_1,y_2,\ldots,y_m\}$ is a basis for $M$ and $\{a_1y_1,\ldots,a_ny_n\}$ is a basis for $N$.
+            It remains to show $a_1|a_2$.
+            Consider $\phi\in\Hom_A(M,A)$ by $y_1\mapsto 1$, $y_2\mapsto 1$, $y_i\mapsto 0$ for $i>2$ (since $M$ is free, $y_1,\ldots,y_n$ a basis, for any $A-$module and $z_1,\ldots,z_m\in A$, then there is a unique $A-$linear map from $M\to N$ such that $y_i\mapsto z_i$).
+            Then $\phi(a_1y_1)=a_1$.
+            Since $a_1y_1\in N$, this shows $a_1\in\phi(N)$ so that $(a_1)\subseteq\phi(N)$.
+            However, $K=(a_1)$, so by maximality, $(a_1)=\phi(N)$.
+            Finally, $\phi(a_2y_2)=a_2\phi(y_2)=a_2$, so $a_2\in\phi(N)=(a_1)$, so $a_1|a_2$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}
+    Let $A$ be a PID, $M$ a finitely generated $A-$module.
+    Then
+    \begin{equation*}
+        M\cong A^r\oplus \quot{A}{(a_1)}\oplus\cdots\oplus \quot{A}{(a_n)}
+    \end{equation*}
+    where $r\geq 0$, $a_1|a_2|\cdots|a_n$ are nonzero nonunits in $A$.
+\end{theorem}
+\begin{proof}
+    That $a_1,\ldots,a_n$ are non-zero non-units is free.
+    Suppose $M$ is generated by $x_1,\ldots,x_m$ with $m$ minimal.
+    Consider $\pi:A^m\to M$ by $e_i\mapsto x_i$, where $\{e_1,\ldots,e_m\}$ is the standard basis for $A^m$.
+    This is a surjective $A-$linear map, so $M\cong A^m/\ker(\pi)$.
+    Apply \cref{ftpid-prop} to $\ker(\pi)$ and get a basis $y_1,\ldots,y_m$ of $A^m$ and $a_1|a_2|\cdots|a_n$ in $A$ such that $\{a_1y_1,\ldots,a_ny_n\}$ is a basis for $\ker(\pi)$, where $n=\rank(\ker(\pi))$.
+    Thus $M\cong A^m/(a_1y_1)+(a_2y_2)+\cdots+(a_ny_n)$.
+    Consider $f:A^m\to A/(a_1)\oplus\cdots\oplus A/(a_n)\oplus A^{m-n}$ by
+    \begin{equation*}
+        f(\alpha_1y_1+\cdots+\alpha_m y_m)=(\alpha_1(\operatorname{mod}{a_1}),\ldots,\alpha_n(\operatorname{mod}{a_n}),\alpha_{n+1},\cdots,\alpha_m)
+    \end{equation*}
+    Furthermore, $\ker(f)=(a_1y_1)+(a_2y_2)+\cdots+(a_ny_n)$.
+    Thus
+    \begin{equation*}
+        A/(a_1)\oplus\cdots\oplus A/(a_n)\oplus A^{m-n}\cong A^m/\ker(f)=A^m/(a_1y_1)+\cdots+(a_ny_n)\cong M
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    Any quotient module $A/(a)$ is generated by the element $1+(a)$.
+    In particular, every finitely generated $A-$module is a direct sum of cyclic $A-$modules.
+\end{remark}
+\begin{corollary}
+    Let $A,M$ be as in the fundamental theorem.
+    \begin{enumerate}[nolistsep]
+        \item $\Tor(M)=A/(a_1)\oplus\cdots\oplus A/(a_n)$
+        \item $M$ is free if and only if $M$ is torsion-free
+        \item $\rank(M)=r$
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item From \cref{tor}, if $x\in A/(a_1)\oplus\cdots\oplus A/(a_n)$, then $x$ is torsion.
+            Conversely, if $x\in\Tor(M)$, $x=(b_1,\ldots,b_r,c_a+(a_1),\ldots,c_n+(a_n))$.
+            If $0\neq b\in A$ such that $bx=0$, then $bb_i=0$ for $i=1,\ldots,r$.
+            Since $A$ is an integral domain, $b_i=0$ and $x\in A/(a_1)\oplus\cdots\oplus A/(a_n)$.
+        \item This is immediate from part (1).
+        \item Note that $\rank(M)=\rank(A^r)+\rank(A/(a_1)\oplus \cdots\oplus A/(a_m))$ by HW2 Q3.
+            From Part (1), the second module is torsion and thus has rank 0, so $\rank(M)=r$.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}[Chinese Remainder]
+    Let $A$ be a ring, $I,J$ ideals such that $I+J=A$.
+    Then $A/I\cap J\cong A/I\oplus A/J$ as rings (and thus also as $A-$modules).
+\end{lemma}
+\begin{proof}
+    Let $f:A\to A/I\oplus A/J$ be given by $a\mapsto(a+I,a+J)$, so $\ker(f)=I\cap J$.
+    It remains to show surjectivity: let $a,b\in A$.
+    We want $c\in A$ such that $c+I=a+I$ and $c+J=b+J$.
+    Since $I+J=A$, there is $x\in I$, $y\in J$ so $x+y=1$.
+    Let $c:=bx+ay\in A$, so
+    \begin{align*}
+        c+I &= (bx+ay)+I =(b+I)(x+I)+(a+I)(y+I)\\
+            &= (a+I)(1-x+I)= (a+I)(1+I)= a+I
+    \end{align*}
+    and in the same way, $c+J=b+J$.
+    Thus $f$ is surjective, and the result holds by the first isomorphism theorem for rings.
+\end{proof}
+\begin{theorem}
+    Let $A$ be a PID, $M$ a finitely generated $A-$module.
+    Then $M\cong A^r\oplus A/(p_1^{\alpha_1})\oplus\cdots\oplus A/(p_t^{\alpha_t})$ for some $r\geq 0$, $\alpha_1,\ldots,\alpha_t>0$, $p_1,\ldots,p_t$ (possibly associate) primes, where $r,t$ are unique and $p_1,\ldots,p_t$ are unique up to associates.
+\end{theorem}
+\begin{proof}
+    For any $a\in A$, write $a=up_1^{\alpha_1}\cdots p_s^{\alpha_s}$ where the $p_i$ are non-associate primes and $u$ is a unit.
+    For $i\neq j$, $(p_i^{\alpha_i})+(p_j^{\alpha_j})=(d)$ for some $d\in A$ since $A$ is a PID.
+    Then $d|p_i^{\alpha_i}$ and $d|p_j^{\alpha_j}$, so $d$ is a unit and $(p_i^{\alpha_i})+(p_j^{\alpha_j})=A$.
+    Thus by the generalized chinese remainder theorem,
+    \begin{equation*}
+        A/(p_1^{\alpha_1})\cap\cdots\cap(p_s^{\alpha_s})\cong A/(p_1^{\alpha_1})\oplus \cdots\oplus A/(p_s^{\alpha_s})
+    \end{equation*}
+    so that $(a)=(p_1^{\alpha_1})\cap\cdots\cap(p_s^{\alpha_s})$.
+    Thus
+    \begin{equation*}
+        A/(a)\cong A/(p_1^{\alpha_1})\oplus \cdots\oplus A/(p_s^{\alpha_s})
+    \end{equation*}
+    Now, by the fundamental theorem, let $a_1|a_2|\cdots|a_n$ be such that $M\cong A^r\oplus A/(a_1)\oplus\cdots\oplus A/(a_n)$.
+    The result follows by applying the above construction to $a_i$ for each $i$.
+    Uniqueness follows by unique factorization and the uniqueness of the representation in the fundamental theorem.
+\end{proof}
+\begin{example}[Finitely Generated Abelian Groups]
+    Let $A=\Z$, so $M$ is a finitely generated abelian group.
+    Then $M\cong\Z^r\oplus \Z_{a_1}\oplus\cdots\oplus\Z_{a_n}$ where $a_1|a_2|\cdots|a_n$.
+    As before, we also have $M\cong\Z^r\oplus\Z_{p_1}^{\alpha_1}\oplus\cdots\oplus\Z_{p_t}^{\alpha_t}$ with uniqueness statements.
+\end{example}
+\subsection{Jordan and Rational Canonical Forms}
+Let $F$ be a field, $A=F[t]$ be a polynomial ring in $t$ over $F$.
+Since $A$ is a PID, FTFGMPID applies.
+
+The first thing we need to understand are the quotients $A/I$.
+Since $I$ is principal, $I=(p(t))$.
+We may assume $I$ is non-trivial and proper, so we may choose $p(t)$ to be a monic polynomial with degree greater than 0.
+Write $p(t)=t^k+b_{k-1}t^{k-1}+\cdots+b_1t+b_0$.
+Note that $M=A/I=F[t]/(p(t))$ is a finite dimension $F-$vector space with basis $B=\{1+I,t+I,\ldots,t^{k-1}+I\}$.
+Let $T:M\to M$ be the $F-$linear transformation given by $T(v)=tv$.
+Then, the matrix of $T$ with respect to $B$
+\begin{equation*}
+    \begin{pmatrix}
+        0&0&\cdots&0&-b_0\\
+        1&0&\cdots&0&-b_1\\
+        0&1&\cdots&0&-b_2\\
+        \vdots&\vdots&&\vdots&\vdots\\
+        0&0&\cdots&1&-b_{k-1}
+    \end{pmatrix}
+    =C_{p(t)}
+\end{equation*}
+Suppose $p(t)=(t-\lambda)^k$ for some $\lambda\in F$.
+In this case, we have another natural basis for $M$ over $F$, namely $B'=\{1+I,(t-\lambda)+I,\ldots,(t-\lambda)^{k-1}+I\}$.
+Then the matrix of $T$ with respect to $B'$ is $T(1+I)=t+I=\lambda(1+I)+(t-\lambda)+I$.
+$T((t-\lambda)+I)=\lambda((t-\lambda)+I)+((t-\lambda)^2+I)$ so the matrix is given by
+\begin{equation*}
+    \begin{pmatrix}
+        \lambda&0&\cdots&0\\
+        1&\lambda&\cdots&0\\
+        0&1&\cdots&0\\
+        \vdots&\vdots&\vdots\\
+        0&0&\cdots&\lambda
+    \end{pmatrix}
+\end{equation*}
+Now, suppose $V$ is a $F-$vector space of finite dimension and $T:V\to V$ is a linear transformation.
+We make $V$ into an $F[t]-$module by
+\begin{equation*}
+    (a_nt^n+a_{n-1}t^{n-1}+\cdots+a_0)(v):=a_nT^n(v)+a_{n-1}T^{n-1}(v)+\cdots+a_0v
+\end{equation*}
+Then $V$ is finitely generated as an $F-$module.
+Hence, a fortiori, finitely generated as an $A-$module.
+By FTFGMPID, as an $A-$module, $V=F[t]^r\oplus F[t]/(a_1(t))\oplus\cdots\oplus F[t]/(a_n(t))$ where $a_1(t)|a_2(t)|\cdots|a_n(t)$.
+Since $V$ is a finite dimensional $F-$vector space (and $F[t]$ is not), $r$ must be 0.
+Let $B$ be an $F-$basis for $V$ obtained by taking the union of the nontrivial bases for each $F[t]/(a_i(t))$.
+The matrix of $T$ with respect to these bases is block diagonal with $C_{a_i(t)}$, which is the rational canonical form of $T$.
+
+Now, suppose $F=F^{\text{alg}}$ is an algebraically closed field.
+Apply the elementary divisor form to get
+\begin{equation*}
+    V\cong F[t]/p_1(t)^{\alpha_1}\oplus\cdots\oplus F[t]/p_l(t)^{\alpha_l}
+\end{equation*}
+where $p_1,\ldots,p_l$ are irreducible polynomials.
+Thus, since $F$ is algebraically closeda and we may assume $p_i$ are monic, $p_i(t)=t-\lambda_i$.
+Thus
+\begin{equation*}
+    V\cong F[t]/(t-\lambda_1)^{\alpha_1}\oplus\cdots\oplus F[t]/(t-\lambda_l)^{\alpha_l}
+\end{equation*}
+Let $B'$ be the union of the natural bases for each $F[t]/(t-\lambda_i)^{\alpha_i}$.
+The matrix of $T$ with respect to $B'$ is the Jordan canonical form.
+\section{Categories and Functors}
+\begin{definition}
+    A \textbf{category} $\Ct$ consists of:
+    \begin{itemize}[nolistsep]
+        \item A class $\Ob(\Ct)$ of \textbf{objects}.
+        \item For each $X,Y\in\Ob(\Ct)$, a set $\Hom_{\Ct}(X,Y)$ of \textbf{morphisms} $f:X\to Y$.
+        \item A \textbf{composition of morphisms}: for every three objects $X,Y,Z$, a binary operation $\circ:\Hom_{\Ct}(X,Y)\times\Hom_{\Ct}(Y,Z)\to\Hom_{\Ct}(X,Z)$.
+    \end{itemize}
+    such that
+    \begin{enumerate}[nolistsep]
+        \item $\circ$ is associative
+        \item For each $X\in\Ob(C)$, there exists $\id_X\in\Hom_{\Ct}(X,X)$ such that for all $f\in\Hom_{\Ct}(X,Y)$ and $g\in\Hom_{\Ct}(Y,X)$, $f\circ\id_X=f$ and $\id_X\circ g=g$.
+    \end{enumerate}
+\end{definition}
+When we talk about categories, it is natural to talk about maps between categories.
+\begin{definition}
+    A \textbf{(covariant) functor} $F:\Ct\to \Ct'$ is a map $F:\Ob(\Ct)\to\Ob(\Ct')$ such that for all $X,Y\in \Ct$, there is a map $F:\Hom_{\Ct}(X,Y)$ such that
+    \begin{equation*}
+        F(\id_X)=\id_{F(x)},\qquad F(f\circ g)=F(f)\circ F(g)
+    \end{equation*}
+    The functor is \textbf{contravariant} if instead $F(g\circ f)=F(f)\circ F(g)$.
+\end{definition}
+\begin{definition}
+    Let $F$ be a covariant functor in an abelian category.
+    Then $F$ is:
+    \begin{itemize}[nolistsep]
+        \item \textbf{exact} if $0\to A\to B\to C\to 0$ exact implies $0\to F(A)\to F(B)\to F(C)\to 0$ exact.
+        \item \textbf{left exact} if $0\to A\to B\to C$ exact implies $0\to F(A)\to F(B)\to F(C)$ exact.
+        \item \textbf{right exact} if $A\to B\to C\to 0$ exact implies $F(A)\to F(B)\to F(C)\to 0$ exact.
+    \end{itemize}
+    Similar definitions hold for contravariant functors.
+\end{definition}
+\subsection{The Hom Functor}
+In the case of $A-$modules, recall that $\Hom_A(M,N)$ is the set of $A-$linear maps from $M$ to $N$ which is itself is an $A-$module with
+\begin{equation*}
+    (f+g)(x)=f(x)+g(x),\qquad (af)(x)=af(x)
+\end{equation*}
+\begin{proposition}
+    Let $M$ be an $A-$module.
+    Then $\Hom_A(M,\bigcdot)$ is a left exact covariant functor $N\mapsto \Hom_A(M,N)$.
+\end{proposition}
+\begin{proof}
+    To show that $\Hom_A(M,\bigcdot)$ is a covariant functor, given $\eta:N\to N'$, define the induced map $\overline{\eta}:\Hom_A(M,N)\to\Hom_A(M,N')$ by $\overline{\eta}(g)=\eta\circ g$.
+    \begin{center}
+        \begin{tikzcd}
+            N \arrow[r,"\eta"] &N'\\
+            M \arrow[u,"g"]\arrow[ur,swap,"\overline{\eta}(g):=\eta\circ g"]
+        \end{tikzcd}
+    \end{center}
+    $\overline{\id}=\{f\mapsto f\}$ is the identity map and $\overline{f\circ g}=\{\alpha\mapsto f\circ g\circ\alpha\}=\{\alpha\mapsto f\circ\alpha\}\circ\{\alpha\mapsto g\circ\alpha\}=\overline{f}\circ\overline{g}$, so we have a covariant functor.
+
+    Now let's see left exactness: suppose we are given an exact sequence $0\to N'\fto{\rho} N\fto{\eta}N''$.
+    We need to show that
+    \begin{equation*}
+        0\to\Hom_A(M,N')\fto{\overline{\rho}}\Hom_A(M,N)\fto{\overline{\eta}}\Hom_A(M,N'')
+    \end{equation*}
+    is exact.
+
+    Let's first show that $\overline{\rho}$ is injective.
+    Let $g\in\Hom_A(M,N)$ be such that $\overline{\rho}(g)=0$.
+    Suppse $0\neq x\in\im(g)$; then $\overline{\rho}(g)(x)=\rho(g(x))\neq 0$ since $\rho$ is injective, so $\overline{\rho}(g)$ is not the zero map.
+    Thus $\overline{\rho}$ is injective.
+
+    Now we need to show that $\ker\overline{\eta}=\im\overline{\rho}$.
+    First suppose $h\in\im\overline{\rho}$, so $h=\overline{\rho}(g)$.
+    Then the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            N' \arrow[r,"\rho"]& N \arrow[r,"\eta"]& N'\\
+                               & M \arrow[lu,"g"]\arrow[u,"h"]\arrow[ru,swap,"\overline{\eta}(h)"] &
+        \end{tikzcd}
+    \end{center}
+    Since $\im(\rho)=\ker(\eta)$, $\overline{\eta}(h)=\eta\circ\rho\circ g=0$, so $\overline{\eta}(h)\in\ker\overline{\eta}$ and $\im\overline{\rho}\subseteq\ker\overline{\eta}$.
+    
+    Now suppose $h\in\ker\overline{\eta}$: we want to show that $h\in\im\overline{\rho}$.
+    We want to find $\phi$ so that the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            N' \arrow[r,"\rho"]& N \arrow[r,"\eta"]& N'\\
+                               & M \arrow[lu,"\phi"]\arrow[u,"h"]\arrow[ru,swap,"\overline{\eta}(h)=0"] &
+        \end{tikzcd}
+    \end{center}
+    Let $x\in M$; then $h(\eta(x))=\overline{\eta}(h)(x)=0$, so $h(x)\in\ker\eta=\im\rho$.
+    Thus by injectivity of $\rho$, get a unique $y\in N'$ so that $\rho(y)=h(x)$.
+    Set $\phi(x)=y$; then verifying $A-$linearity is straightforward.
+\end{proof}
+\begin{example}
+    Let $A=\Z$ and $n>1$ be arbitrary.
+    Let $\pi$ be the quotient map (a surjective homomorphism), and suppose we want the following diagram to commute:
+    \begin{center}
+        \begin{tikzcd}
+            \Z \arrow[r,"\pi"] & \Z/n\Z\\
+            \Z/n\Z \arrow[u,dashed,"?"]\arrow[ru,"\id"]
+        \end{tikzcd}
+    \end{center}
+    However, $\Hom_{\Z}(\Z/n\Z,\Z)=\{0\}$ since $\Z/n\Z$ has torsion but $\Z$ is torsion free: any homomorphism $f$ must take torsion elements to torsion elements, so they must all be the zero map.
+    But then
+    \begin{equation*}
+        \overline{\pi}:\{0\}=\Hom_{\Z}(\Z/n\Z,\Z)\to\Hom_{\Z}(\Z/n\Z,\Z/n\Z)\neq\{0\}
+    \end{equation*}
+    since $\id$ is in the image, and $\overline{\pi}$ is not surjective.
+\end{example}
+\begin{proposition}
+    Let $M$ be an $A-$module.
+    Then $\Hom_A(\bigcdot,M)$ is a right exact contravariant functor.
+\end{proposition}
+\begin{proof}
+    The methods are similar to the previous proof.
+\end{proof}
+\begin{lemma}\label{hom-exact}
+    Suppose we are given $A-$linear maps $u:X'\to X$ and $v:X\to X''$.
+    Suppose that for all $A-$modules $P$,
+    \begin{equation*}
+        0 \to  \Hom(X'',P)\fto{\overline{v}} \Hom(X,P)\fto{\overline{u}} \Hom(X',P)
+    \end{equation*}
+    is exact.
+    Then
+    \begin{equation*}
+        X'\fto{u} X\fto{v} X''\to0
+    \end{equation*}
+    is exact.
+\end{lemma}
+\begin{proof}
+    Let's first see that $v$ is surjective.
+    Take $P=\coker(v)=X''/\im(v)$ so we have
+    \begin{center}
+        \begin{tikzcd}
+            X\arrow[r,"v"]\arrow[rd,swap,"\overline{v}(\pi)"]&X''\arrow[d,"\pi"]\\
+                                                        & P
+        \end{tikzcd}
+    \end{center}
+    Since $\overline{v}(\pi)=\pi\circ v=0$, by injectivity of $\overline{v}$, $\pi=0$ so $v$ is surjective.
+
+    To see $\ker(v)\subseteq\im(u)$, take $P=\coker(u)$.
+    As before, $\overline{u}(\pi)=0$, so by exactness with $P$, $\overline{u}(\pi)=\overline{v}(f)$ for some $f:X''\to P$.
+    Then the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            X'\arrow[rd,swap,"0=\overline{u}(\pi)"]\arrow[r,"u"]&X\arrow[r,"v"]\arrow[d,"\pi"]&X''\arrow[ld,"f"]\\
+                                                         &P&
+        \end{tikzcd}
+    \end{center}
+    Thus let $x\in\ker(v)$, so $\pi(x)=f(v(x))=0$ and $x\in\im(u)$.
+
+    To see $\im(u)\subseteq\ker(v)$, take $P=X''$.
+    Then the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            X' \arrow[rrd,bend right=20,"0=\overline{u}(v)"']\arrow[r,"u"]& X\arrow[r,"v"]\arrow[rd,bend right=10,"\overline{v}(\id)"] & X''\arrow[d,"\id"]\\
+               &&P
+        \end{tikzcd}
+    \end{center}
+    Thus $0=\overline{u}(v)=v\circ u$, so if $x\in\im(u)$, $v(x)=0$.
+\end{proof}
+\section{Tensor Products}
+\begin{definition}
+    Let $M,N,P$ be $A-$modules.
+    Then an A-\textbf{bilinear} map $f:M\times N\to P$ is a function satisfying:
+    \begin{enumerate}[nolistsep]
+        \item For each $x\in M$, $f(x,\cdot):N\to P$ given by $y\mapsto f(x,y)$ is $A-$linear.
+        \item For each $y\in N$, $f(\cdot,y):N\to P$ given by $x\mapsto f(x,y)$ is $A-$linear.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    We are not considering $M\times N$ as an $A-$module - just as a set: in general, an $A-$bilinear map $f:M\times N\to P$ is not $A-$linear.
+\end{remark}
+\begin{proposition}[Universal Property of Tensors]
+    Let $M,N$ be $A-$modules.
+    Then there exists a pair $(T,g)$ consisting of an $A-$module $T$ and an $A-$bilinear map $G:M\times N\to T$ such that:
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item Given any $A-$module $P$ and $A-$bilinear mapping $f:M\times N\to P$, there exists a unique $A-$linear mapping $f':T\to P$ so that
+            \begin{center}
+                \begin{tikzcd}
+                    M\times N\arrow[r,"f"]\arrow[d,"g"]&P\\
+                    M\otimes N\arrow[ru,swap,"\exists! f'"]
+                \end{tikzcd}
+            \end{center}
+            commutes.
+        \item If $(T,g)$ and $(T',g')$ satisfy (i), then there exists a unique isomorphism $j:T\to T'$ so that $j\circ g=g'$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item Let $C$ denote the free $A-$module $A^{(M,N)}$.
+            Elements of $C$ are formal sums of the form $\sum_{i=1}^n a_i\cdot(x_i,y_i)$ for $a_i\in A,x_i\in M,y_i\in N$.
+            Let $D\leq C$ be generated by elements of the following types:
+            \begin{gather*}
+                (x+x',y)-(x,y)-(x',y)\\
+                (x,y+y')-(x,y)-(x,y')\\
+                (ax,y)-a\cdot(x,y)\\
+                (x,ay)-a\cdot(x,y)
+            \end{gather*}
+            Let $T=C/D$: for any $(x,y)\in C$, let $x\otimes y=(x,y)+D$ and set $g(x,y)=x\otimes y$.
+            By definition of $D$, $g$ is $A-$bilinear.
+            
+            Now, define $\overline{f}:C\to P$ by $\overline{f}\left(\sum_{i=1}^n a_i(x_i,y_i)\right)=\sum_{i=1}^n a_if(x_i,y_i)$.
+            Since $f$ is bilinear, $\overline{f}$ takes elements of $D$ to 0 so $D\subseteq\ker(\overline{f})$.
+            Thus by the universal property of quotients, there is a unique $f':T\to P$ so that $f'(x\otimes y)=f(x,y)$.
+        \item Let $(T',g')$ play the role of $(P,f)$ and get a unique $j:T\to T'$ such that $g'=j\circ g$.
+            Swapping $T$ and $T'$, get $j':T'\to T$ so that $g=j'\circ g'$.
+            Thus $j\circ j'$ and $j'\circ j$ are both identity maps, so $j$ is the unique such isomorphim.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}
+    Given an $A-$module $P$ and an $A-$linear map $f:M\to N$, there is a unique $A-$linear map
+    \begin{equation*}
+        f\otimes 1:M\otimes_A P\to N\otimes_AP
+    \end{equation*}
+    such that $f\otimes 1(x\otimes y)=f(x)\otimes y$.
+    In particular, $\bigcdot\otimes_A P$ is a covariant functor.
+\end{lemma}
+\begin{proof}
+    Consider the map $M\times P\to N\otimes_A P$ given by $(x,y)\mapsto f(x)\otimes y$.
+    It is straightforward to verify that this map is bilinear, so by the universal property of tensors, there is a unique map $f\otimes 1:M\otimes_A P\to N\otimes_A P$ such that $f\otimes 1(x\otimes y)=f(x)\otimes y$.
+\end{proof}
+\begin{proposition}\label{prop:t_equiv}
+    If $M$ is an $A-$module, then $A\otimes_A M\cong M$.
+\end{proposition}
+\begin{proof}
+    The map $\phi:A\times M\to M$ given by $(a,x)\mapsto ax$ is bilinear by module axioms.
+    By the universal property, there is an $A-$linear map $A\otimes_A M\to M$ such that $f(a\otimes m)=am$.
+    Take $a=1$, and the map is clearly surjective.
+
+    To show bijectivity, let's provide an inverse function.
+    Consider $g:M\to A\otimes_A M$ by $x\mapsto 1\otimes x$, which is clearly $A-$linear.
+    Furthermore, $f\circ g(x)=f(1\otimes x)=x$, so $f\circ g=\id$.
+    Similarly, $g\circ f(a\otimes x)=g(ax)=1\otimes ax=a\otimes x$: $g\circ f$ and $\id$ agree on tensors $a\otimes x$ of $A\otimes_A M$.
+    Since such tensors generate $A\otimes_A M$, $g\circ f=\id$.
+    Thus $g=f^{-1}$ so $g$ is a bijection.
+\end{proof}
+\begin{example}
+    Whether or not a tensor is zero is quite subtle.
+    For example, in $\Z\otimes_{\Z}\Z/2\Z$, $2\otimes 1=2(1\otimes 1)=1\otimes 2=1\otimes 0=0$.
+    However, in $2\Z\otimes_{\Z}\Z/2\Z$, $2\otimes 1\neq 0$.
+
+    In general, if $(x_i)$ generate $M$ and $(y_i)$ generate $N$, then $(x_i\otimes y_j)$ generate $M\otimes_A N$.
+    To see this, $x\in M$, $y\in N$, then $x=\sum a_ix_i$ and $y=\sum b_jy_j$ so that $x\otimes y=(\sum a_ix_i)\otimes(\sum_j b_jy_j)=\sum a_ib_j(x_i\otimes y_j)$.
+    Since pure tensors generate $M\otimes_A N$, $(x_i\otimes y_j)$ generate $M\otimes_A N$.
+    
+    Applying this to the example, since $2$ generates $2\Z$ and $1$ generates $\Z/2\Z$, $2\otimes 1$ generates $2\Z\otimes_{\Z}\Z/2\Z$.
+    Thus if $2\otimes 1=0$, then $2\Z\otimes_{\Z}\Z/2\Z$ would be the zero module.
+    However, $\Z\cong 2\Z$ via the map $x\mapsto 2x$.
+    Thus $f\otimes 1:\Z\otimes_{\Z}\Z/2\Z\to2\Z\otimes_{\Z}\Z/2\Z$ is an isomorphism, so that $\Z/2\Z\cong\Z\otimes_{\Z}\Z/2\Z\cong\Z/2\Z\neq 0$.
+\end{example}
+With similar methods as in the proof of \cref{prop:t_equiv}, one can prove the following:
+\begin{proposition}
+    Let $M,N,P$ be $A-$modules.
+    Then
+    \begin{enumerate}[nolistsep]
+        \item $M\otimes N\cong N\otimes M$
+        \item $(M\otimes N)\otimes P\cong M\otimes(N\otimes P)$
+        \item $(M\oplus N)\otimes P\cong(M\otimes P)\oplus(N\otimes P)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item Take $x\otimes y\mapsto y\otimes x$.
+        \item Take $(x\otimes y)\otimes z\mapsto x\otimes(y\otimes z)$
+        \item Take $(x,y)\otimes z\mapsto(x\otimes z,y\otimes z)$.
+            One can use the inverse $(x\otimes z_1,y\otimes z_2)\mapsto(x,0)\otimes z_1+(0,y)\otimes z_2$.
+    \end{enumerate}
+\end{proof}
+\subsection{Exactness Properties of Tensors}
+\begin{proposition}[Adjointness of Tensors]
+    $\Hom(M\otimes N,P)\cong \Hom(M,\Hom(N,P))$.
+\end{proposition}
+\begin{proof}
+    Given $f:M\otimes N\to P$, consider $\phi(f):M\to\Hom(N,P)$ given by $x\mapsto\{y\mapsto f(x\otimes y)\}$.
+    One can verify $\phi(f)(x)\in\Hom(N,P)$ so that $\phi(f)\in\Hom(M,\Hom(N,P))$.
+
+    Conversely, given $g:M\to\Hom(N,P)$, define $\psi(g):M\otimes N\to P$ by $x\otimes y\mapsto g(x)(y)$.
+    Again, one can verify that $g$ is $A-$linear.
+    We thus have
+    \begin{equation*}
+        \phi(\psi(f))(x\otimes y)=\phi(f)(x)(y)=f(x\otimes y)
+    \end{equation*}
+    so that $\phi(\psi(f))=f$.
+    Similarly,
+    \begin{equation*}
+        \psi(\phi(g))(x)(y)=\psi(g)(x\otimes y)=g(x)(y)
+    \end{equation*}
+    Thus for all $y\in N$, $\psi(\phi(g))(x)=g(x)$ so $\psi(\phi(g))=g$.
+    Thus $\phi=\psi^{-1}$ and $\phi$ is an isomorphism.
+\end{proof}
+\begin{remark}
+    $\bigcdot\otimes P$ is not an exact functor.
+    For example, $f:2\Z\to\Z$ given by $f(2n)=2n$ is injective, but $f\otimes 1:2\Z\otimes_{\Z}\Z/2\Z\to\Z\otimes_{\Z}\Z/2\Z$ given by $f\otimes 1(2x\otimes y)=2x\otimes y$ is the zero map and has kernel $2\Z\otimes_{\Z}\Z/2\Z\neq 0$ (from the previous example).
+    In particular, we see that $\bigcdot\otimes P$ does not necessarily preserve injectivity.
+    However, the following proposition does hold:
+\end{remark}
+\begin{proposition}\label{prop:ten-ex}
+    $N\otimes_A\bigcdot$ is right exact: i.e. if $M'\fto{f}M\fto{g}M''\to 0$ is exact, then $N\otimes M'\fto{1\otimes f}N\otimes M\fto{1\otimes g}N\otimes M''\to 0$ is exact.
+\end{proposition}
+\begin{proof}
+    Let $P$ be an arbitrary $A-$module.
+    By right exactness of the $\Hom(\bigcdot,P)$, $0\to\Hom(M',P)\to\Hom(M,P)\to\Hom(M'',P)$ is exact.
+    By left exactness of $\Hom(N,\bigcdot)$, we have $0\to\Hom(N,\Hom(M',P))\to\Hom(N,\Hom(M,P))\to\Hom(N,\Hom(M'',P))$ is exact.
+    By adjointness, $0\to\Hom(N\otimes M',P)\to\Hom(N\otimes M,P)\to\Hom(N\otimes M'',P)$ is exact.
+    Since $P$ was arbitrary, the proposition follows by \cref{hom-exact}.
+\end{proof}
+\begin{definition}
+    If $N\otimes_A\bigcdot$ is an exact functor, then we say that $N$ is a \textbf{flat} $A-$module.
+\end{definition}
+\begin{proposition}\label{prop:ten-flat}
+    Let $N$ be an $A-$module; then the following are equivalent:
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $N$ is flat
+        \item $N\otimes\bigcdot$ preserves short exact sequences
+        \item $N\otimes\bigcdot$ preserves injectivity
+        \item For any finitely generated modules $M'$ and $M$, if $f:M'\to M$ is injective, then $1\otimes f:N\times M'\to N\otimes M$ is injective.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $(i\Leftrightarrow ii)$ follows by splitting the long exact sequence into short exact sequences.
+
+    $(ii\Leftrightarrow iii)$ follows by right exactness (\cref{prop:ten-ex}).
+
+    $(iii\Rightarrow iv)$ is obvious.
+
+    $(iv\Rightarrow iii)$.
+    Let $f:M'\to M$ be injective and let $u=\sum x_i\otimes y_i\in\ker(f\otimes 1)$ so that $\sum f(x_i)\otimes y_i=0$ in $M\otimes N$.
+    TODO: prove this
+\end{proof}
+\begin{example}
+    Free modules are flat.
+    To see this, suppose $f:M'\to M$ is injective and $F=\bigoplus_{i\in I}A$ a free $A-$module.
+    We want to show $F\otimes M'\to F\otimes M$ is injective.
+    Since tensors commute with direct sum, $F\otimes M'=\bigoplus_{i\in I}(A\otimes_A M')=\bigoplus_{i\in I}M'$, we have $1\otimes f:\bigoplus_{i\in I} M'\to\bigoplus_{i\in I}M$.
+    But then $1\otimes f(x_i:i\in I)=(f(x_i):i\in I)$.
+\end{example}
+\section{Algebras}
+\begin{definition}
+    An \mbf{$A-$algebra} is a ring $B$ equipped with a ring homomorphism $f:A\to B$.
+\end{definition}
+This endows $B$ with an $A-$module structure: if $a\in A$ and $b\in B$, then we define $ab:=f(a)b$.
+In particular, $f:A\to B$ is a homomorphism of $A-$modules: if $a\in A$, $x\in A$, then $f(ax)=f(a)f(x)=af(x)$.
+This $A-$module structure on $B$ satisfies compatibility with multiplication on $B$: $a(b_1b_2)=(ab_1)b_2$.
+\begin{lemma}
+    Suppose $B$ is a ring with an $A-$module structure such that $a(b_1b_2)=(ab_1)b_2$.
+    Then there is a unique ring homomorphism $f:A\to B$ inducing this module structure on $B$.
+\end{lemma}
+\begin{proof}
+    Define $f:A\to B$ by $f(a)=a1_B$.
+    We just check multiplicativity:
+    \begin{equation*}
+        f(a_1a_2)=a_1a_21_b=a_1(a_21_B)=a_1((1_B)(a_21_B))=(a_11_B)(a_21_B)=f(a_1)f(a_2)
+    \end{equation*}
+\end{proof}
+Thus $A-$algebras are given by $A-$modules which are also rings, with multiplication compatible with the module structure.
+\begin{remark}
+    If $B$ is an $A-$algebra, then $B$ has various structures:
+    \begin{itemize}[nl]
+        \item $B$ is a ring
+        \item $B$ is an $A-$module
+        \item $B$ is a $B-$module, and $B$ submodules are ideals of $B$.
+    \end{itemize}
+\end{remark}
+\begin{example}
+    Suppose $A=k$ is a field.
+    Then a $k-$algebra is a ring extending $k$ with its $k-$vector space structure.
+    A ring homomorphism $f:k\to B$ is necessarily injective, so we may identify $k$ with its image in $B$.
+\end{example}
+\begin{example}
+    If $A=\Z$, then every ring is canonically a $\Z-$algebra.
+    Note the relationship to the module case $\Z-$modules to $\Z-$algebras as abelian groups are to (commutative, unitary) rings.
+\end{example}
+\begin{example}
+    For any ring $A$, $B=A[t_1,\ldots,t_n]$, the polynomial ring over $A$ in variables $t_1,\ldots,t_n$, is naturally an $A-$algebra with the inclusion map.
+\end{example}
+\begin{definition}
+    We say $B$ is \textbf{Noetherian} if $B$ is Noetherian as a $B-$module (i.e. as a ring).
+\end{definition}
+\begin{proposition}
+    If $A$ is Noetherian, every finitely generated $A-$algebra is Noetherian.
+\end{proposition}
+\begin{proof}
+    Every finitely generated $A-$algebra is of the form $\quot{A[x_1,\ldots,x_n]}{I}$, and by the hilbert basis theorem, $A[x_1,\ldots,x_n]$ is Noetherian.
+\end{proof}
+\begin{definition}
+    If $(B,f)$, $(C,g)$ are $A-$algebras, then a \mbf{homomorphism of $A-$algebras} is a ring homomorphism $\phi:B\to C$ such that $\phi(f(a))=g(a)$ for all $a\in A$.
+    These are also called \mbf{$A-$linear (ring) homomorphisms}.
+
+    An \mbf{$A-$subalgebra} is a subring $C\subseteq B$ containing $f(A)$.
+    Then an \mbf{$A-$subalgebra generated by $x$}, denoted by $A[x]$ is the smallest subalgebra of $B$ containing $x$.
+
+    We say that $(B,f)$ is a \mbf{finite $A-$algebra} if it is finitely generated as an $A-$module.
+\end{definition}
+This is well-defined, we have $A[X]=\bigcap\{C\subseteq B:C\text{ subalgebra containing $X$}\}$.
+As well, $A[x]=\{p(b_1,\ldots,b_n):n\geq 0,p\in[t_1,\ldots,t_n],b_i\in X\}$.
+
+\begin{example}
+    $\Q[t]$, polynomial ring is f.g. as a $\Q-$algebra, but not as a $\Q-$vector space.
+\end{example}
+
+\begin{proposition}
+    Finite algebras are finitely generated.
+\end{proposition}
+\begin{proof}
+    Suppose $B$ is a finite $A-$algebra with algebra structure given by $f:A\to B$.
+    Let $b_1,\ldots,b_n\in B$ which generate $B$ as an $A-$module.
+    Consider $A[b_1,\ldots,b_n]\subseteq B$.
+    Then if $b\in B$ is arbitrary, $b=a_1b_1+\cdots+a_nb_n$ for some $a_1,\ldots,a_n\in A$.
+    Each $a_ib_i\in A[b_1,\ldots,b_n]$, so $b\in A[b_1,\ldots,b_n]$ and $B=A[b_1,\ldots,b_n]$.
+\end{proof}
+\begin{example}
+    $\quot{\Q[t]}{I}$ where $I=(p(t))$ is any polynomial is a finite $\Q-$algebra by the division algorithm.
+    In particular, $\quot{\Q[t]}{I}=\spn_{\Q}(t^{n-1}+I,\ldots,t+I,1+I)$ where $n=\deg p$.
+\end{example}
+\begin{remark}
+    If $B$ is an $A-$algebra and $I\subseteq B$ an ideal, then $\quot{B}{I}$ has a canonical $A-$algebra structure $\phi:A\fto{f} B\fto{\pi} B/I$.
+\end{remark}
+\begin{definition}
+    If $B$ is an $A-$algebra via $f$, $I\subseteq A$ an ideal, then the \textbf{extension ideal} $IB$ is the ideal generated by $f(I)$ in $B$.
+    If $J\subseteq B$ is an ideal, then the \textbf{contraction ideal} is $J\cap A:=f^{-1}(J)$.
+\end{definition}
+\begin{remark}
+    When $A\subseteq B$ and $\iota:A\to B$ is an $A-$algebra, the extension and contraction ideals are exactly what the notation suggests.
+    If $P\subseteq B$ is prime, then $P\cap A$ is also prime; this is not true for extension ideals.
+\end{remark}
+We can factorize $f$ as follows: $A\fto{p} f(A)\fto{j} B$ where $p$ is injective and $j$ is surjective.
+In this sense, we have the following result:
+\begin{proposition}
+    Proposition. Let $f:A\to B$ be a surjective ring homomorphism and let $P\subseteq A$ be prime.
+    Then $f(P)\subseteq B$ is prime.
+\end{proposition}
+An easy way to see this is by the correspondence theorem for prime ideals, the ideals of $f(A)$ correspond to ideals of $A$ containing $\ker f$; the same correspondence holds for prime ideals.
+However, for $j$, the situation is more complicated, which we will not discuss here.
+\begin{lemma}
+    If $(B,f)$ is a finitely generated $A-$algebra, then $B\cong\quot{A[t_1,\ldots,t_n]}{I}$ where $t_1,\ldots,t_n$ are indeterminants and $I\subseteq A[t_1,\ldots,t_n]$ an ideal.
+\end{lemma}
+\begin{proof}
+    Let $b_1,\ldots,b_n$ generate $B$.
+    Define $\phi:A[t_1,\ldots,t_n]\to B$ by $t_i\mapsto b_i$, $a\mapsto f(a)$.
+    There is an $A-$algebra homomorphism
+    \begin{center}
+        \begin{tikzcd}
+            A[t_1,\ldots,t_n]\arrow[r,"\phi"] & B\\
+            A\arrow[u,hookrightarrow]\arrow[ur,swap,"f"]
+        \end{tikzcd}
+    \end{center}
+    Let $b\in B$, then $b=P(b_1,\ldots,b_n)$ for some $P\in A[t_1,\ldots,t_n]$.
+    Since $b_1,\ldots,b_n$ generate $B$ as an $A-$algebra, $\phi(P(t_1,\ldots,t_n))=P(b_1,\ldots,b_n)$, so $\phi$ is surjective.
+    Let $I=\ker(\phi)$.
+    By the first isomorphism theorem for rings, $\quot{A[t_1,\ldots,t_n]}{I}\cong B$ as rings, the isomorphism $P(t_1,\ldots,t_n)+I\mapsto P(b_1,\ldots,b_n)$ is $A-$linear.
+\end{proof}
+\subsection{Extension and Restriction by Scalars}
+Let $(B,f)$ be an $A-$algebra and $M$ an $A-$module.
+Since $(B,f)$ is also a module, we can consider $M_B=B\otimes_A M$ as an $A-$module.
+Then $M_B$ has a natural $B-$module structure given by
+\begin{align*}
+    b\cdot\left(\sum_i b_i\otimes x_i\right):=\sum_i bb_i\otimes x_i
+\end{align*}
+This makes $M_B$ a $B-$module which we call it the \textbf{extension by scalars} of $M$.
+
+We can also go the other way: suppose $N$ is a $B-$module.
+Then, it is naturally an $A-$module via $ax:=f(a)x$.
+This $A-$module is called the \textbf{restriction of scalars} of $N$.
+\subsection{Tensor Products of Algebras}
+Let $(B,f)$, $(C,g)$ $A-$algebras.
+Then $B\otimes_A C$ is a $B-$module and a $C-$module.
+Thus we can define
+\begin{align*}
+    b\cdot\left(\sum_i b_i\otimes c_i\right)&=\sum_i bb_i\otimes c_i\\
+    c\cdot\left(\sum_i b_i\otimes c_i\right)&=\sum_i b_i\otimes cc_i
+\end{align*}
+In fact, $D:= B\otimes_A C$ is a $B-$algebra and a $C-$algebra.
+Put a ring structure on $D$ by
+\begin{align*}
+    (b_1\otimes c_1)(b_2\otimes c_2)&=b_1b_2\otimes c_1c_2\\
+    \left(\sum_{i=1}^nb_i\otimes c_i\right)\left(\sum_{j=1}^l b_j'\otimes c_j'\right)&=\sum_{i=1}^n\sum_{j=1}^l b_ib_j'\otimes c_ic_j'
+\end{align*}
+We need to check:
+\begin{itemize}[nolistsep]
+    \item well-definedness
+    \item ring axioms
+    \item $B\to B\otimes_A C$ by $b\mapsto b\otimes 1$ is a ring homomorphism
+    \item $C\to B\otimes_A C$ by $c\mapsto 1\otimes c$ is a ring homomorphism
+\end{itemize}
+Having verified these things, we note that $B\otimes_A C$ has an $A-$algebra structure with $A\to B\otimes_A C$ given by $a\mapsto f(a)\otimes 1=1\otimes g(a)$.
+In other words, the following diagram commutes: TODO: fill in the spaces, make this a square
+\begin{center}
+    \begin{tikzcd}
+        A\arrow[r, "f"]\arrow[rd,swap,"g"]& B \arrow[r]& B\otimes_A C\\
+                                    & C \arrow[ru]&
+    \end{tikzcd}
+\end{center}
+\chapter{Prime Ideals and Geometry}
+\section{Primes, Radicals, and Ideal Quotients}
+\begin{proposition}[Correspondence of Ideals]
+    There is a bijective correspondence between the ideals in $\quot{A}{I}$ and ideals of $A$ containing $I$.
+    This correspondence also holds for prime ideals.
+\end{proposition}
+\begin{proof}
+    Direct application of the correspondence theorem for modules.
+    It is immediate that $\pi^{-1}(P)$ is prime, and one can verify that the extension ideal $\pi(P)$ is also prime.
+\end{proof}
+\begin{proposition}\label{prop:p-int}
+    Let $P,P_i$ denote prime ideals and $I,I_i$ any ideals.
+    Then
+    \begin{enumerate}[nl,r]
+        \item If $I\subseteq\bigcup_{i=1}^n P_i$, then $I\subseteq P_j$ for some $j$.
+        \item If $P\supseteq \bigcap_{i=1}^n I_i$, then $P\supseteq I_j$ for some $j$.
+            In particular, if $P= \bigcap_{i=1}^n I_i$, then $P= I_j$ for some $j$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We prove the contrapositive by induction on the index $n$.
+            The $n=1$ case is obvious; thus, let $n>1$.
+            Suppose $I\not\subseteq P_i$ for each $i=1,\ldots,n$.
+            Since the result holds for $n-1$, for each $i$ get $x_i\in I$ such that $x_i\notin P_j$ for all $j\neq i$.
+            Consider
+            \begin{equation*}
+                y=\sum_{i=1}^n\frac{x_1\cdots x_n}{x_i}
+            \end{equation*}
+            so that $y\in I$ but $y\notin P_i$ for all $i$ by primality, and the result follows.
+        \item Suppose $P\not\subseteq I_i$ for all $i$, and get $x_i\in I_i\setminus P$ for each $1\leq i\leq n$.
+            Then $\prod x_i\in\prod I_i\subseteq\bigcap I_i$, but $\prod x_i\notin P$ (since $P$ is prime).
+            Thus $P\not\subseteq I_i$.
+
+            If $P=\bigcap I_i$, then $P\subseteq I_i$ and equality holds.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    Let $I,J\leq A$ be ideals.
+    We define the \textbf{ideal quotient} $(I:J)=\{x\in A:xJ\subseteq I\}$.
+    If $J=(a)$ is a principal ideal, then we write $(I:(a))=(I:a)$.
+\end{definition}
+\begin{remark}
+    Note that $\Ann_A(I)=(0:I)$.
+\end{remark}
+\begin{proposition}[Properties of the Ideal Quotient]\label{lem:col}
+    \begin{enumerate}[nl,r]
+        \item If $K\subseteq I$, then $(K:J)\subseteq(I:J)$.
+            If $K\subseteq J$, then $(I:K)\supseteq(I:J)$
+        \item $(I:J)=\Ann_A((I+J)/I)$
+        \item $(I:J)J\subseteq I\subseteq (I:J)$
+        \item $((I:J):K)=(I:JK)=((I:K):J)$
+        \item $\left(\bigcap_i I_i:J\right)=\bigcap_i(I_i:J)$
+        \item $\left(I:\sum_i J_i\right)=\bigcap_i(I:J_i)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Immediate.
+        \item If $x\in(I:J)$, then $xJ\subseteq I$ so that $x(I+J)=xI+xJ\subseteq I$ and $x\in\Ann_A((I+J)/I)$.
+            Conversely, if $x\in\Ann_A((I+J)/I)$, then for any $y\in J$, $0+y\in I+J$ so $x(0+y)=xy\in I$.
+        \item Suppose $x\in (I:J)K$ so that $x=\sum_{i=1}r x_iy_i$ with $x_i\in(I:J)$ and $y_i\in J$.
+            Then $x_iy_i\in I$, so $x\in I$.
+            Then, $xJ\subseteq I$ since $I$ is an ideal.
+        \item Let $x\in((I:J):K)$, so that $xK\subseteq (I:J)$.
+            Equivalently, for any $y\in K$ and $z\in J$, $x(yz)\in I$.
+            Then if $\sum_{i=1}^r y_iz_i\in JK$, $x\sum_{i=1}^r y_iz_i=\sum_{i=1}^r x(y_iz_i)\in I$, so $x\in (I:JK)$.
+
+            Conversely, if $x\in (I:JK)$, then for any $y\in J$ and $z\in K$, then $x(yz)\in I$, so that $xy\in (I:J)$
+        \item Let $x\in\left(\bigcap_i I_i:J\right)$.
+            Then for any $y\in J$, $xy\in I_i$ for any $i$, so $x\in (I_i:J)$ for all $i$.
+
+            Conversely, if $x\in (I_i:J)$ for all $i$, then $xJ\in\bigcap_i I_i$.
+        \item If $x\in\left(I:\sum_i J_i\right)$, then for any $i$ and $y\in J_i$, $y\in \sum_i J_i$ so $xy\in I$.
+            Thus $x\in (I:J_i)$ for any $i$.
+
+            Conversely, if $x\in (I:J_i)$ for any $i$, then for any $y=\sum_{i=1}^r y_i\in\sum_i J_i$, $xy=\sum_{i=1}^r xy_i$ and each $xy_i\in I$ so $xy\in I$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    We say an element $x\in A$ is \textbf{nilpotent} if there exists $n\in N$ such that $x^n=0$.
+    The \textbf{nilradical} of $A$, denoted $\Nil(A)\subseteq A$, is the set of all nilpotent elements.
+    If $I\leq A$, then the \textbf{radical} of the ideal is $\sqrt{I}=\{x\in A:x^n\in I\text{ for some }n>0\}$.
+\end{definition}
+\begin{remark}
+    In the above terminology, $\Nil(A)=\sqrt{(0)}$.
+\end{remark}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item $\Nil(A)$ is an ideal in $A$
+        \item $\quot{A}{\Nil(A)}$ has no non-zero nilpotent elements.
+        \item $\Nil(A)$ is the intersection of all prime ideals containing $A$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $x\in \Nil(A)$, certainly $ax\in\Nil(A)$ for any $a\in A$.
+            If $x,y\in\Nil(A)$, get $n,m$ so that $x^n=y^m=0$.
+            Then $(x+y)^{m+n-1}=0$ so $x+y\in\Nil(A)$, so $\Nil(A)$ is an ideal.
+
+        \item Let $x+\Nil(A)\in A/\Nil(A)$.
+            Then $\left(x+\Nil(A)\right)^n=0$ implies $x^n\in\Nil(A)$ so that $x^{nm}=0$ for some $m$.
+            But then $x\in\Nil(A)$ so $x+\Nil(A)=0$.
+        \item The forward direction is clear: for any $P\in\Spec(A)$, if $x\in\sqrt{I}$, then $x^n=0\in P$ so $x\in P$ by primality.
+
+            Conversely, suppose $f\in A\setminus\Nil(A)$: we want to find a prime ideal $P$ such that $f\notin P$.
+            Consider $A_f:= S^{-1}A$ where $S=\{1,f,f^2,\ldots\}$.
+            Since $f^n\neq 0$ for all $n\in\N$, we have $0\notin S$ so that $A_f\neq\{0\}$.
+            Now let $\alpha:A\to A_f$ be the canonical map and let $Q\subseteq A_f$ be an arbitrary non-zero prime ideal (Zorn's lemma).
+            Then $P:=\alpha^{-1}(Q)\leq A$ is prime ideal disjoint from $S$; in particular, it does not contain $f$.
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    Let $I\leq A$.
+    Then $\sqrt{I}$ is the intersection of all ideals containing $I$.
+\end{corollary}
+\begin{proof}
+    Note that $\sqrt{I}=\{x\in A:x^n\in I\}=\{x\in A:x+I\in\Nil(A/I)\}$.
+    Thus if $x\in\sqrt{I}$, then $x+I\in\Nil(A/I)$ and the result follows by the correspondence theorem for prime ideals.
+\end{proof}
+\begin{remark}
+    If $\pi:A\to A/I$ is the quotient map, then $\sqrt{I}=\pi^{-1}(\Nil(A/I))$.
+\end{remark}
+\begin{proposition}[Properties of Radicals]
+    Let $I,J$ be ideals in $A$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\sqrt{I}\supseteq I$
+        \item $\sqrt{IJ}=\sqrt{I\cap J}=\sqrt{I}\cap\sqrt{J}$
+        \item $\sqrt{I}=A$ if and only if $I=A$
+        \item $\sqrt{I+J}=\sqrt{\sqrt{I}+\sqrt{J}}$
+        \item If $P$ is prime, then $\sqrt{P^n}=P$ for any $n\in\N$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item Clear.
+        \item If $x\in\sqrt{IJ}$, get $n$ so that $x^n\in IJ$.
+            Thus $x^n\in I$ and $x^n\in J$, so $x^n\in I\cap J$, so $x\in\sqrt{I\cap J}$.
+
+            If $x\in\sqrt{I\cap J}$, get $n$ so that $x^n\in I\cap J$.
+            Then $x^n\in I$ so $x\in\sqrt{I}$, and $x^n\in J$ so $x\in\sqrt{J}$, so $x\in\sqrt{I}\cap\sqrt{J}$.
+
+            If $x\in\sqrt{I}\cap\sqrt{J}$, get $n,m$ so $x^n\in I$ and $x^m\in J$.
+            Then $x^{n+m}=x^{n}x^{m}\in IJ$ so $x\in\sqrt{IJ}$.
+        \item If $\sqrt{I}=A$, then $1\in\sqrt{I}$ so $1^n\in I$ for some $n$, so $1\in I$ and $I=A$.
+            The converse is clear.
+        \item Clearly $\sqrt{I+J}\subseteq\sqrt{\sqrt{I}+\sqrt{J}}$, so let $x\in\sqrt{I}+\sqrt{J}$.
+            Write $x=a+b$ with $n,m$ so that $a^n\in I$ and $b^m\in J$.
+            Then in $x^{n+m-1}=(a+b)^{n+m-1}$, either $a^n$ or $b^m$ divides every term so that each term is in $\sqrt{I+J}$ and $x^{n+m-1}\in I+J$.
+            Thus $x\in\sqrt{I+J}$.
+        \item We have $P\subseteq\sqrt{P}\subseteq\sqrt{P^n}$.
+            Conversely, $P^n\subseteq P$ so $\sqrt{P^n}\subseteq\sqrt{P}$, and if $x\in\sqrt{P}$, $x^n\in P$ so $x\in P$ by primality and $\sqrt{P}\subseteq P$.
+    \end{enumerate}
+\end{proof}
+\section{The Zariski Topology}
+Let $A$ be a ring and $X=\Spec(A)$ be the set of all prime ideals in $A$.
+For any $E\subseteq A$ (not necessarily an ideal), we write $V(E)=\{P\in \Spec(A):P\supseteq E\}$.
+If $f\in A$, we say $D_f=V(f)^c$.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item If $I=(E)$ is the ideal generated by $E$, then $V(E)=V(I)=V(\sqrt{I})$.
+        \item $V(0)=\Spec(A)$, $V(1)=\emptyset$.
+        \item If $\{E_i\}_{i\in I}$ is a family of subsets in $A$, then
+            \begin{equation*}
+                V\left(\bigcup_{i\in I}E_i\right)=V\left(\sum_{i\in I}E_i\right)=\bigcap_{i\in I}V(E_i)
+            \end{equation*}
+        \item $V(I\cap J)=V(IJ)=V(I)\cup V(J)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Certainly $V(E)\subseteq V(I)$, and if $P\supseteq E$ is any ideal, certainly $P\supseteq (E)=I$.
+            Clearly $V(\sqrt{I})\supseteq V(I)$, and if $P\supseteq I$, since $\sqrt{I}=\bigcap_{P\supseteq I}P$, $P\supseteq\sqrt{I}$ as well.
+        \item Immediate.
+        \item TODO
+        \item By primality
+            \begin{align*}
+                V(E)\cup V(F) &= V(EA)\cup V(FA)\\
+                              &\supseteq V((EA)\cdot(FA))\\
+                              &\supseteq V((EA)\cap(FA))\\
+                              &\supseteq V(E)\cup V(F)
+            \end{align*}
+            so that $V(I\cap J)=V(I)\cup V(J)$.
+            Note that $\sqrt{I\cap J}=\sqrt{IJ}$, so $V(I\cap J)=V(IJ)$.
+    \end{enumerate}
+\end{proof}
+In particular, this means that the sets $V(E)$ satisfy the axioms of closed sets in a topological space.
+The resulting topology is called the \textbf{Zariski topology} and $\Spec(A)$ is a topological space.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item $\Spec(A)$ is generated by $\{D_f:f\in A\}$.
+        \item $D_f\cap D_g=D_{fg}$
+        \item $D_f=\Spec(A)$ if and only if $f$ is a unit.
+        \item $D_f\subseteq D_g$ if and only if $\sqrt{(f)}\subseteq\sqrt{(g)}$.
+        \item $D_f$ is compact (in particular, $\Spec(A)$ is compact).
+        \item $U\subseteq\Spec(A)$ is compact if and only if $U=\bigcup_{i=1}^n D_{f_i}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    TODO
+\end{proof}
+Suppose $\phi:A\to B$ is a ring homomorphism and $P\in\Spec(B)$.
+Then $\phi^{-1}(P)\in\Spec(A)$, so we have a naturally induced map $\phi^*:\Spec(B)\to\Spec(A)$.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item Let $\psi:B\to C$ be a ring homemorphism.
+            Then $(\psi\circ\phi)^*=\phi^*\circ\psi^*$.
+        \item If $f\in A$, then $\phi^{*-1}(D_f)=D_{\phi(f)}$ and $\phi^*$ is continuous.
+        \item If $I\subseteq A$ is an ideal, then $\phi^{*-1}(V(I))=V(IB)$.
+        \item If $J\subseteq B$ is an ideal, then $\ol{\phi^*(V(J))}=V(J\cap A)$.
+        \item If $\phi$ is surjective, then $\phi^*$ is a homeomorphism of $\Spec(B)$ onto $V(\ker(\phi))\subseteq\Spec(A)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    TODO
+\end{proof}
+\section{Rings and Modules of Fractions}
+\begin{definition}
+    Let $A$ be a ring.
+    Then we say $S\subseteq A$ is \textbf{multiplicatively closed} if $1\in S$ and whenever $s,t\in S$, $st\in S$ as well.
+\end{definition}
+On $A\times S$, we define an equivalence relation by $(a,s)\equiv(a',s')$ if $(s'a-sa')t=0$ for some $t\in S$.
+It is easy to verify that this is reflexive and symmetric.
+To see transitivity, if $(a,s)\equiv(b,t)$ and $(b,t)\equiv(c,u)$, then $(at-bs)v=0$, $(bu-ct)w=0$ for some $v,w\in S$.
+Then $atvuw-bsvuw=0$ and $buwsv-ctwsv=0$, so $(av-sc)tvw=0$ where $tvw\in S$, so $(a,s)\equiv(c,v)$.
+We denote the class $(a,s)$ by $\frac{a}{s}$.
+We say that
+\begin{equation*}
+    S^{-1}A:=\quot{A\times S}{\sim}=\left\{\frac{a}{s}:a\in A,s\in S\right\}
+\end{equation*}
+We make this into a ring by taking $0=0/1$ and $1=1/1$ and defining
+\begin{align*}
+    \frac{a}{s}+\frac{b}{t}&=\frac{at+bs}{st},&\frac{a}{s}\cdot\frac{b}{t}&=\frac{ab}{st}
+\end{align*}
+One can verify that this is well-defined and defines a commutative unitary ring structure on $S^{-1}A$ such that the map $\alpha:A\to S^{-1}A$ given by $a\mapsto a/1$ is a ring homomorphism (not necessarily injective).
+We call this the \textbf{ring of fractions of $A$ with respect to $S$}.
+In fact, $(S^{-1}A,\alpha)$ is an $A-$algebra.
+\begin{remark}
+    If $A$ is an integral domain and $0\notin S$, then $\frac{a}{s}=\frac{b}{t}$ if and only if $at=bs$.
+    If $S=A\setminus\{0\}$, which when $A$ is an integral domain is multiplicatively closed, then $S^{-1}A=\Frac(A)$.
+    In this case, $\alpha$ is indeed injective.
+
+    In general, $\ker(\alpha)=\{a\in A:\exists v\in S:av=0\}$.
+\end{remark}
+\begin{remark}
+    $0\in S$ if and only if $S^{-1}A=(0)$.
+    If $s\in S$, in $S^{-1}A$, $1/s$ is a unit since $\frac{1}{s}\cdot\frac{s}{1}=\frac{s}{s}=1$.
+\end{remark}
+\begin{proposition}[Universal Property of Fractions]
+    Suppose $f:A\to B$ is a ring homomorphism such that $f(s)\in B^\times$ for all $s\in S$.
+    Then there is a unique ring homomorphism $g:S^{-1}A\to B$ such that the following commutes:
+    \begin{center}
+        \begin{tikzcd}
+            A \arrow[r,"f"] \arrow[d,swap,"a\mapsto\frac{a}{1}"]& B\\
+            S^{-1}A\arrow[ru,swap,"g"]
+        \end{tikzcd}
+    \end{center}
+\end{proposition}
+\begin{proof}
+    Define $g(a/s):=f(a)\cdot f(s)^{-1}$.
+    One can verify that $g$ is well-defined and a ring homomorphism.
+    TODO: do this, plus verify uniqueness.
+\end{proof}
+\begin{corollary}
+    $\alpha$ is an isomorphism if and only if $S\subseteq A^\times$.
+\end{corollary}
+\subsection{Localization}
+Note that $P\subseteq A$ is a prime ideal if and only if $S:=A\setminus P$ is multiplicatively closed.
+We write $A_P:=S^{-1}A$ and call it the \mbf{localisation of $A$ at $P$}.
+\begin{proposition}
+    $A_P$ is a local ring (it has a unique maximal ideal).
+\end{proposition}
+\begin{proof}
+    Consider the ideal in $A_P$ generated by $\{a/1:a\in P\}=:PA_P$.
+    One can verify that
+    \begin{equation*}
+        PA_P=\left\{\frac{a}{s}:a\in P,s\notin P\right\}
+    \end{equation*}
+    If $\frac{a}{s}\in A_P\setminus PA_P$, then $a\notin P$ so $a\in S$ so that $\frac{s}{a}\in A_P$.
+    Then $s/a=(a/s)^{-1}$, so $a/s\in (A_P)^\times$.
+    If $I\subseteq A_P$ is an ideal and $I\not\subseteq PA_P$, then $A$ must contain a unit and $I=A_P$.
+    This means that every proper ideal of $A_p$ is contained in $PA_P$ so that $A_P$ is a local ring with a unique maximal ideal $PA_P$.
+\end{proof}
+\begin{example}
+    Consider $A=\Z$, $p$ a prime number, $P=(p)$.
+    Then
+    \begin{equation*}
+        \Z_{(p)}=\left\{\frac{r}{s}:r,s\in\Z,\gcd(r,s)=1,p\nmid s\right\}\subseteq\Q
+    \end{equation*}
+\end{example}
+Given $f\in A\setminus\{0\}$ consider $S=\{1,f,f^2,\ldots,\}$ and define $A_f:= S^{-1}A$.
+This is the \mbf{localisation of $A$ at $f$}.
+Note that $A_f$ is not necessarily a local ring.
+If $f$ is a unit, then $f^n$ is a unit for all $n$ and $A_f\cong A$ via $\alpha$.
+\begin{proposition}
+    Let $P\in\Spec(A)$ with $f\notin P$, and $Q\in\Spec(A_f)$.
+    Then
+    \begin{enumerate}[nolistsep]
+        \item $PA_f$ is prime in $A_f$.
+        \item $\alpha^{-1}(PA_f)=P$.
+        \item $\alpha^{-1}(Q)A_f=Q$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Suppose $\frac{a}{f^n}\cdot\frac{b}{f^m}=\frac{c}{f^l}\in PA_f$ were $c\in P$.
+            Then $f^{l+r}ab=f^{n+m+r}c$ for some $r$.
+            Since $f^{l+r}ab\in P$ and $f\notin P$, $ab\in P$ so $a\in P$ or $b\in P$.
+            Thus $\frac{a}{f^n}$ or $\frac{b}{f^m}$ is in $PA_f$.
+        \item 
+            $\alpha(P)\subseteq PA_f$, so $P\subseteq\alpha^{-1}(PA_f)$.
+            Conversely, suppose $a\in\alpha^{-1}(PA_f)$.
+            Then $\frac{a}{1}=\frac{b}{f^n}$ for $b\in P$, $n\geq 0$.
+            Then $f^{n+r}a=f^rb$ for some $r\geq 0$, so $f^{n+r}a\in P$ and $a\in P$ since $f\notin P$.
+        \item Certainly $\alpha^{-1}(Q)A_f$ is the ideal in $A_f$ generated by $\alpha(\alpha^{-1}(Q))\subseteq Q$, so $\alpha^{-1}(Q)A_f\subseteq Q$.
+            Conversely, let $\frac{a}{f^n}\in Q$.
+            In $A_f$, $Q$ is prime and $\frac{1}{f^n}$ is a unit, so $\frac{1}{f^n}\notin Q$.
+            Then since $\frac{a}{f^n}\in Q$, $\alpha(a)=\frac{a}{1}\in Q$ and $a\in\alpha^{-1}(Q)$.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    If $f\in P$, then $PA_f=A_f$.
+\end{remark}
+To summarize the previous proposition, we have a bijective correspondence
+\begin{center}
+    \begin{tikzcd}[row sep=tiny]
+        \Spec(A)\setminus V(f)\arrow[r,leftrightarrow] & \Spec(A_f)\\
+        P\arrow[r,mapsto] & PA_f\\
+        \alpha^{-1}(Q)&\arrow[l,mapsto] Q
+    \end{tikzcd}
+\end{center}
+is in fact a homeomorphism with respect to the Zariski topology.
+Thus, we may identify $D_f=\Spec(A)\setminus V(f)=\Spec(A_f)$.
+For fixed prime $P$,
+\begin{equation*}
+    \bigcap_{f\in P}\Spec(A)\setminus V(f)=\bigcap_{f\notin P}\Spec(A_f)=\Spec(A_P)
+\end{equation*}
+If $f,g\notin P$, then $fg\notin P$.
+To summarize, $\{\Spec(A_f):f\notin P\}$ is the set of all basic open sets containing $P\in\Spec(A)$, and $\Spec(A_P)$ is the intersection of all of them.
+\subsection{Modules of Fractions}
+Let $A$ be a ring and $S\subseteq A$ a multiplicatively closed set.
+If $M$ is an $A-$module, we can define an $S^{-1}A-$module structure on $S^{-1}M$ as follows.
+
+On $M\times S$, define an equivalence relation $(x,s)\sim(x',s')$ if there exists $t\in S$ such that $t(s'x-sx')=0$.
+Denote the equivalence class of $(x,s)$ by $x/s$, and define $S^{-1}M:=\quot{M\times S}{\sim}$ with operations
+\begin{equation*}
+    \frac{x}{s}+\frac{y}{t}=\frac{tx+sy}{st},\qquad\frac{a}{s}\cdot\frac{x}{t}=\frac{ax}{st}
+\end{equation*}
+\begin{example}
+    Recall that if $A$ is an integral domain and $S=A\setminus\{0\}$, then $S^{-1}A=\Frac(A)=A_{(0)}$.
+    Then $M$ is an $A-$module and $S^{-1}M$ is a $\Frac(A)-$vector space.
+\end{example}
+\begin{proposition}
+    $S^{-1}$ is an exact covariant functor on $A-$modules.
+\end{proposition}
+\begin{proof}
+    $S^{-1}$ acts on $A-$linear maps as follows.
+    Let $f:M\to N$ be an $A-$module homomorphism.
+    Then we define $S^{-1}f:S^{-1}M\to S^{-1}N$ by $\frac{x}{s}\mapsto\frac{f(x)}{s}$.
+    One must check
+    \begin{enumerate}[nolistsep]
+        \item $S^{-1}f$ is well-defined,
+        \item $S^{-1}f$ is $S^{-1}A$-linear, and
+        \item if $M\fto{f}N\fto{g}K$, then
+            \begin{align*}
+                S^{-1}(g\circ f)&=S^{-1}g\circ S^{-1}f & S^{-1}M&\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K
+            \end{align*}
+    \end{enumerate}
+    To verify exactness, suppose $M\fto{f} N\fto{g} K$ is exact.
+    Consider
+    \begin{equation*}
+        S^{-1}M\fto{S^{-1}f}S^{-1}N\fto{S^{-1}g}S^{-1}K
+    \end{equation*}
+    Since $\im(f)\subseteq\ker(g)$, $g\circ f=0$.
+    Thus $0=S^{-1}(g\circ f)=S^{-1}(g)\circ S^{-1}(f)$, so $\im(S^{-1} f)\subseteq\ker(S^{-1}g)$.
+
+    Conversely, if $\frac{m}{s}\in\ker(S^{-1}g)$ with $m\in N$, then $0=S^{-1}g\left(\frac{m}{s}\right)=\frac{g(m)}{s}$.
+    Thus $tg(m)=0$ for some $t\in S$, so $g(tm)=0$.
+    Thus $tm\in\ker(g)\subseteq\im(f)$ and $tm=f(x)$ for some $x\in M$.
+    Then $\frac{m}{s}=\frac{tm}{ts}=\frac{f(x)}{ts}=S^{-1}f\left(\frac{x}{ts}\right)$ and $\frac{m}{s}\in\im(s^{-1}f)$.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nolistsep]
+        \item Let $N\subseteq M$ a submodule, and $\iota:N\to M$ the inclusion map.
+            Then $S^{-1}\iota:S^{-1}N\to S^{-1}M$ is injective, so we may identify $S^{-1}N$ with its image so $S^{-1}N\subseteq S^{-1}M$ as submodules.
+        \item If $N\leq M$ is a submodule, then $S^{-1}\left(\quot{M}{N}\right)\cong\quot{S^{-1}M}{S^{-1}N}$.
+        \item If $N,P$ are submodules of $M$, then $S^{-1}(N+P)=S^{-1}N+S^{-1}P$.
+        \item If $N,P$ submodules of $M$, $S^{-1}(N\cap P)=S^{-1}N\cap S^{-1}P$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item (No proof needed)
+        \item Since $0\to N\to M\to M/N\to 0$ is exact, so is $0\to S^{-1}M\to S^{-1}M\to S^{-1}(M/N)\to 0$.
+            Then $S^{-1}(M/N)\cong \quot{S^{-1}M}{S^{-1}N}$.
+        \item Clearly $\frac{x+y}{s}\in S^{-1}(N+P)$ if and only if $\frac{x}{s}+\frac{y}{s}\in S^{-1}N+S^{-1}P$.
+        \item TODO: am I missing something? Immediate from definition?
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $M$ be an $A-$module, $S\subseteq A$ multiplicatively closed.
+    Then $S^{-1}M\cong M\otimes_A S^{-1}A$ as $S^{-1}A-$modules.
+\end{proposition}
+\begin{proof}
+    Let's first prove there exists an $A-$linear isomorphism.
+    Consider the map $M\times S^{-1}A\to S^{-1}M$ by $(x,a/s)\mapsto (ax)/s$.
+    This map is $A-$bilinear, so we get an $A-$linear homomorphism $f:M\otimes_A S^{-1}A\to S^{-1}M$ with $m\otimes\frac{a}{s}\mapsto\frac{ma}{s}$.
+    Surjectivity is clear.
+    To see injectivity, note that all elements of $M\otimes_A S^{-1}A$ are pure tensors:
+    \begin{align*}
+        \sum_{i=1}^l\left(x_i\otimes\frac{a_i}{s_i}\right)&=\sum_{i=1}^l\left(x_i\otimes \frac{a_it_i}{t}\right)= \sum_{i=1}^l\left(a_it_ix_i\otimes\frac{1}{t}\right)=\left(\sum_{i=1}^l a_it_ix_i\right)\otimes\frac{1}{t}
+    \end{align*}
+    where $t=s_1\cdots s_l$ and $t_i=t/s_i$.
+    Now if $x\otimes\frac{a}{s}\in\ker(f)$, then $\frac{ax}{s}=0$ so get $r$ so $rax=0$.
+    Thus $x\otimes\frac{a}{s}=rax\otimes\frac{1}{rs}=0$.
+
+    Thus $f$ is an $A-$linear isomorphism and one can check that it is $S^{-1}A-$linear.
+\end{proof}
+\begin{corollary}
+    $S^{-1}A$ is a flat $A-$algebra, i.e. $\otimes S^{-1}A$ is exact.
+\end{corollary}
+\begin{proof}
+    Suppose $M'\to M\to M''$ is exact; since $S^{-1}$ is exact, the diagram
+    \begin{center}
+        \begin{tikzcd}
+            S^{-1}M'\rar["S^{-1}f"]\dar["\rotatebox{90}{$\sim$}"]&S^{-1}M\dar["\rotatebox{90}{$\sim$}"]\rar["S^{-1}g"] &S^{-1}M''\dar["\rotatebox{90}{$\sim$}"]\\
+            M'\otimes_A S^{-1}A\arrow[r,"f\otimes\id"] & M\otimes_A S^{-1}A\arrow[r,"g\otimes\id"] & M''\otimes_A S^{-1}A
+        \end{tikzcd}
+    \end{center}
+    commutes.
+\end{proof}
+This gives many examples of flat and not free $A-$algebras.
+\begin{example}
+    $\Q$ is a flat but not free $\Z-$algebra.
+    If $\frac{r}{s}\in\Q$, then $s\cdot\frac{r}{s}-r\cdot 1=0$, so $\{r/s,1\}$ is not $\Z-$linearly independent.
+    However, $\Q\ncong\Z$ as $\Z-$modules, so it cannot be free.
+\end{example}
+\begin{remark}
+    If $I\subseteq A$ is an ideal, recall that $I$ is naturally an $A-$module.
+    In particular, $IS^{-1}A=S^{-1}I=\{a/s:a\in I\}$.
+    To see this, it is straightfoward to verify that $IS^{-1}A\cong I\otimes_A S^{-1}A$ via the map
+    \begin{equation*}
+        \sum b_i\cdot\frac{a_i}{s_i}\mapsto \sum b_i\otimes_A\frac{a_i}{s_i}
+    \end{equation*}
+\end{remark}
+\begin{proposition}
+    Let $S\subseteq A$ be multiplicatively closed.
+    Then
+    \begin{enumerate}[nl,r]
+        \item Every ideal of $S^{-1}A$ is an extension ideal.
+        \item If $I\subseteq A$ is an ideal, then $A\cap (S^{-1}I)=\bigcup_{s\in S}(I:s)$ where $(I:s):=\{x\in A:sx\in I\}$.
+        \item $I\subseteq A$ is a contraction ideal if and only if no element of $S/I$ is a zero divisor in $A/I$.
+            In particular, if $P$ is prime, then $P$ is a contraction if and only if $P\cap S\neq\emptyset$.
+        \item We have a homeomorphism
+            \begin{center}
+                \begin{tikzcd}[row sep=tiny]
+                    \{P\in\Spec(A):P\cap S=\emptyset\}\rar[leftrightarrow]&\Spec(S^{-1}A)\\
+                    P\rar[maps to]&S^{-1}P\\
+                    Q\cap A & Q\lar[maps to]
+                \end{tikzcd}
+            \end{center}
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item In fact, we show that if $J\subseteq S^{-1}A$, then $J=(J\cap A)S^{-1}A$.
+            Suppose $\frac{x}{s}\in J$, so $\frac{x}{1}=s\cdot\frac{x}{s}\in J$ and $x\in J\cap A$, so $\frac{x}{s}\in S^{-1}(J\cap A)$.
+            If $\frac{x}{s}\in S^{-1}(J\cap A)$, then $x\in J\cap A$ so $\frac{x}{1}\in J$, so $\frac{x}{s}=\frac{1}{s}\cdot\frac{x}{1}\in J$.
+        \item Let $x\in I\cap(S^{-1}I)$, so $\frac{x}{1}\in S^{-1}I$ and $\frac{x}{1}=\frac{a}{s}$.
+            The $tsx=ta$ for some $t\in S$, so $tsx\in I$ and $x\in(I:ts)$.
+            Thus $A\cap (S^{-1}I)\subseteq\bigcup_{s\in S}(I:s)$.
+
+            Conversely, suppose $x\in(I:s)$ for some $s\in S$.
+            Then $sx\in I$, so $\frac{x}{1}=\frac{sx}{x}\in S^{-1}I$, so $x\in S^{-1}I\cap A$.
+        \item Suppose $I=J\cap A$ for some $J\subseteq S^{-1}A$ ideal.
+            Then $S^{-1}I\subseteq J$, so $A\cap S^{-1}I\subseteq A\cap J=I$.
+            Conversely, $I\subseteq A\cap S^{-1}I$.
+            This proves the ``in this case clause''.
+
+            Now $I$ is a contraction ideal iff $I=S^{-1}I\cap A$ iff $I=\bigcup_{s\in I}(I:s)$ iff for all $x\in A$ and $s\in S$, if $sx\in I$, then $x\in I$ iff $s+I$ is not a zero divisor in $A/I$ for any $s\in S$.
+    \end{enumerate}
+\end{proof}
+\section{Primary Decomposition}
+TODO: primary decomposition in quotient is preserved
+\begin{definition}
+    An ideal $Q \subseteq A$ is \textbf{primary} if $1\notin Q$, and for any $x,y \in A$, if $xy \in Q$ then either $x \in Q$ or $y^n\in Q$ for some $n \geq 0$.
+\end{definition}
+\begin{remark}
+    Primary ideals are to prime powers as prime ideals are to prime numbers.
+    To be precise, in $\Z$, the prime ideals are $P=(0)$ or $P=(p)$ for some prime $p$.
+    Then the primary ideals are $P=(0)$ or $P=(p^k)$ for some $k$.
+\end{remark}
+\begin{remark}
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $Q$ is primary.
+        \item In $\quot{A}{Q}$, all zero-divisors are nilpotent.
+        \item $\sqrt{0}$ is the set of all zero-divisors in $\quot{A}{Q}$.
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    If $f:A\to B$ is a ring homomorphism and $Q\subset B$ is primary, then $Q\cap A=f^{-1}(Q)$ is primary.
+\end{proposition}
+\begin{proof}
+    Since $A\fto{f}B\fto{\pi}\quot{B}{Q}$ is exact, by the first isomorphism theorem, get an embedding $\quot{A}{Q\cap A}\hto \quot{B}{Q}$.
+    Thus all zero-divisors in $\quot{A}{Q\cap A}$ are nilpotent.
+\end{proof}
+\begin{proposition}
+    If $Q$ is primary, then $\sqrt{Q}$ is the smallest prime ideal containing $Q$.
+\end{proposition}
+\begin{proof}
+    Since $\sqrt{Q}$ is the intersection of all prime ideals containing $Q$, it suffices to show that $\sqrt{Q}$ is prime.
+
+    Suppose $xy\in\sqrt{Q}$; then get $n$ so that $x^ny^n\in Q$.
+    Thus either $x^n\in Q$ or $y^n\in\sqrt{Q}$.
+    In the first case, $x\in\sqrt{Q}$, and in the second case, $y^{nm}\in Q$ for some $m$ so $y\in\sqrt{Q}$.
+\end{proof}
+\begin{proposition}
+    If $I\subseteq A$ has $\sqrt{I}$ maximal, then $I$ is primary.
+\end{proposition}
+\begin{proof}
+    Let's see that $\quot{A}{I}$ is a local ring with maximal ideal $\quot{\sqrt{I}}{I}$.
+    Note that $\sqrt{I}+I=\Nil(\quot{A}{I})$ and since $\sqrt{I}+I$ is maximal in $\quot{\sqrt{I}}{I}$ by correspondence.
+    But then since $\Nil(\quot{A}{I})$ is the intersection of all prime ideals, $\sqrt{I}+I$ is the only maximal ideal in $\quot{A}{I}$.
+
+    Thus if $x+I\in\quot{A}{I}$, either $x\in\sqrt{I}$ and $x+I$ is nilpotent, or $x\notin\sqrt{I}$ and $x+I$ is a unit and not a zero divisor.
+    Thus in $\quot{A}{I}$, every zero divisor is nilpotent, so $I$ is primary.
+\end{proof}
+\begin{corollary}
+    Powers of maximal ideals are primary.
+\end{corollary}
+\begin{proof}
+    If $M$ is maximal, $\sqrt{M^n}=M$.
+\end{proof}
+\begin{definition}
+    If $Q$ is primary, let $P=\sqrt{Q}$.
+    Then we say $Q$ is \mbf{$P-$primary}.
+\end{definition}
+\begin{lemma}\label{lem:int-prim}
+    Suppose $Q_1,\ldots,Q_n$ are $P-$primary ideals.
+    Then $Q_1\cap\cdots\cap Q_n$ is $P-$primary.
+\end{lemma}
+\begin{proof}
+    Since $\sqrt{Q_1\cap\cdots\cap Q_n}=\sqrt{Q_1}\cap\cdots\cap\sqrt{Q_n}=P\cap\cdots \cap P=P$, it suffices to show that $Q_1\cap\cdots\cap Q_n$ is primary.
+    Let $xy\in Q_1\cap\cdots\cap Q_n$ with $x\notin\Q_1\cap\cdots\cap Q_n$.
+    Then for some $i$, $x\notin\Q_i$, so $y\in\sqrt{Q_i}=P=\sqrt{Q_1\cap\cdots\cap Q_n}$.
+    Thus $Q_1\cap\cdots\cap Q_n$ is primary
+\end{proof}
+\begin{definition}
+    A \textbf{primary decomposition} of an ideal $I$ is an expression of the form $I=Q_1\cap\cdots\cap Q_n$, where each $Q_i$ is primary.
+\end{definition}
+We'll see later than in a Noetherian ring, every ideal has a primary decomposition.
+
+If $\sqrt{Q_i}=\sqrt{Q_j}$, then by \cref{lem:int-prim}, $Q_i\cap Q_j$ is also primary with the same radical.
+Thus by grouping primary ideals with the same radicals, we can produce a primary decomposition of $I$ where $\sqrt{Q_i}\neq\sqrt{Q_j}$ for all $i,j$.
+Furthermore, $Q_i\supseteq\bigcap_{j\neq i}Q_j$, then we can drop $Q_i$ and still have a primary decomposition.
+\begin{definition}
+    We say that $I=Q_1\cap\cdots\cap Q_n$ is an \textbf{irredundant primary decomposition} if each $Q_i$ is $P_i$-primary such that
+    \begin{enumerate}[nolistsep]
+        \item $P_i\neq P_j$ for $i\neq k$
+        \item $Q_i\nsubseteq\bigcap_{j\neq i}$ for any $i$.
+    \end{enumerate}
+\end{definition}
+If $I$ has a primary decomposition, then it has an irredundant primary decomposition as discussed above.
+\begin{lemma}\label{lem:col-pri}
+    Let $Q$ be $P-$primary, $x\in A$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item If $x\in Q$, then $(Q:x)=A$.
+        \item If $x\notin Q$, then $Q\subseteq(Q:x)\subseteq P$ and $(Q:x)$ is $P-$primary.
+        \item If $x\notin P$, then $Q=(Q:x)$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item Immediate.
+        \item Note that $Q\subseteq(Q:x)$ is true for any ideal.
+            To see $(Q:x)\subseteq P$, suppose $y\in (Q:x)$ so that $xy\in Q$.
+            Since $x\notin Q$, $y\in\sqrt{Q}=P$.
+
+            To see that $(Q:x)$ is $P-$primary, first note that $P=\sqrt{Q}\subseteq\sqrt{(Q:x)}\subseteq\sqrt{P}=P$, so equality holds.
+            It remains to show that $(Q:x)$ is primary: thus suppose $yz\in(Q:x)$ but $y\notin(Q:x)$.
+            Thus $yzx\in Q$ but $yx\notin Q$, so $z\in\sqrt{Q}=\sqrt{(Q:x)}$.
+
+        \item If $y\in(Q:x)$ but $y\notin Q$, then $x\in\sqrt{Q}=P$, a contradiction.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[First Uniqueness]\label{thm:dec-uni}
+    If $I=Q_1\cap\cdots\cap Q_n$ is an irredundant primary decomposition, then $\{\sqrt{Q_1},\sqrt{Q_2},\ldots,\sqrt{Q_n}\}$ is the set of prime ideals in $\{\sqrt{(I:x)}:x\in A\}$ which does not depend on the decomposition/
+    In particular, the number of elements in an irreducible decomposition and the set of radicals is unique.
+\end{theorem}
+\begin{proof}
+    We use \cref{lem:col} and \cref{lem:col-pri} throughout the proof.
+    Let $I=Q_1\cap\cdots\cap Q_n$ be an irredundant primary decomposition and let $P_i:=\sqrt{Q_i}$.
+    For any $x\in A$, $(I:x) = \left(\bigcap_{i=1}^n Q:x\right)=\bigcap_{i=1}^n(Q_i:x)$ so that
+    \begin{align}
+        \sqrt{(I:x)} &= \bigcap_{i=1}^n\sqrt{(Q_i:x)}= \bigcap_{\{i:x\notin Q_i\}}\sqrt{(Q_i:x)} = \bigcap_{\{i:x\notin Q_i\}} P_i\label{eq:pri}
+    \end{align}
+    If $\sqrt{(I:x)}$ is prime, then $\sqrt{(I:x)}=P_i$ for some $i$ such that $x\notin Q_i$.
+    Conversely for $j=1,\ldots,n$, let $x\in\bigcap_{i\neq j}Q_i\setminus Q_i$; by irreducibility, $\sqrt{(I:x)}=P_j$ by \cref{eq:pri}.
+    Thus $\{P_1,\ldots,P_n\}$ is the set of prime ideals $\{\sqrt{(I:x)}:x\in A\}$ which does not depend on the particular decomposition.
+\end{proof}
+\begin{example}
+    Consider $A=k[x,y]$ and $I=(x^2,xy)$.
+    Then $I=(x)\cap(x^2,y)$ or $I=(x)\cap(x,y)^2$ so the decomposition is not necessarily unique.
+    However, $\sqrt{(x)}=(x)$, $\sqrt{(x^2,y)}=(x,y)$ and $\sqrt{(x,y)^2}=(x,y)$.
+\end{example}
+\begin{definition}
+    If $I$ is decomposable and $I=Q_1\cap\cdots\cap Q_n$ is an irredundant primary decomposition, then $\{\sqrt{Q_1},\ldots,\sqrt{Q_n}\}$ are called the \textbf{prime ideals associated to $I$}.
+    If $P$ is associated to $I$, then we say $P$ is a \textbf{minimal prime} of $I$ if it is minimal among the associated primes.
+    Otherwise, $P$ is called an \textbf{embedded prime} of $I$.
+\end{definition}
+\begin{example}
+    In $k[x,y]$, the prime ideals associated to $(x^2,y)$ are $(x)$, $(x,y)$.
+    Then $(x)$ is a minimal prime and $(x,y)$ is an embedded prime.
+\end{example}
+\begin{proposition}
+    Suppose $I$ is decomposable.
+    Then $P$ is a minimal prime if and only if $P$ is minimal in $V(I)$.
+\end{proposition}
+\begin{proof}
+    Let $I=Q_1\cap\cdots\cap Q_n$ be an irredundant primary decomposition and let $P_i:=\sqrt{Q_i}$.
+    Then if $P\in V(I)$, $P\supseteq Q_1\cap\cdots\cap Q_n$ so $P\supseteq P_1\cap\cdots\cap P_n$.
+    Thus $P\supseteq P_j$ for some $j$, and $\{P_1,\ldots,P_n\}\subseteq V(I)$.
+    Thus every $P\in V(I)$ contains some $P_j\in\{P_1,\ldots,P_n\}$ so the minimal elements are the same.
+\end{proof}
+\begin{corollary}
+    If $I$ is decomposable, then $\sqrt{I}$ is the intersection of the minimal primes of $I$.
+\end{corollary}
+\begin{proof}
+    Write $I=Q_1\cap\cdots\cap Q_n$ so $\sqrt{I}=P_1\cap\cdots\cap P_n$ are associated primes, and thus it suffices to take the intersection over the minimal elements.
+\end{proof}
+\begin{corollary}
+    If $I$ is decomposable, then $\sqrt{I}$ has an irredundant prime decomposition unique up to reordering of the prime ideals.
+\end{corollary}
+\begin{proof}
+    Let $I=Q_1\cap\cdots Q_n$ be an irredundant primary decomposition, and let $P_1,\ldots,P_l$ be the minimal primes associated to $I$.
+    Then $\sqrt{I}=P_1\cap\cdots\cap P_l$.
+    If $P_i\supseteq\bigcap_{j\neq i}P_j$, then $P_i\supseteq P_j$ for some $j\neq i$, contradicting minimality.
+    Then the result follows by uniqueness of the irreducible primary decomposition of $\sqrt{I}$.
+\end{proof}
+\subsection{Geometry of Primary Decompositions}
+\begin{definition}
+    A Zariski closed set in $\Spec(A)$ is \textbf{irreducible} if it is not the union of two proper Zariski closed subsets.
+\end{definition}
+\begin{remark}
+    If $P\subseteq A$ is prime, then $V(P)$ is irreducible.
+    To see this, Suppose $V(P)=V(I)\cup V(J)$; then $V(P)=V(I\cap J)$ so $I\cap J\subseteq P$.
+    Thus $P\supseteq I$ or $P\supseteq J$, so $V(P)\subseteq V(I)$ or $V(P)\subseteq V(J)$ so one equality must hold.
+\end{remark}
+Let $I\subseteq A$ be decomposable, then $\sqrt{I}=P_1\cap\cdots\cap P_l$ be an irredundant prime decomposition.
+Then $V(I)=V(\sqrt{I})=V(P_1)\cup\cdots\cup V(P_l)$, so we have written $V(I)$ as a finite union of irreducible Zariski closed subsets.
+Since $P_1,\ldots,P_n$ is an irredundant decomposition, this decomposition is irreducible.
+\begin{remark}
+    Let $I\subseteq A$ an ideal; then $I$ is primary if and only if $(0)$ is primary in $\quot{A}{I}$.
+    $I$ is decomposable if and only if $(0)$ is decomposable in $\quot{A}{I}$.
+\end{remark}
+\begin{proposition}
+    Suppose $(0)$ is decomposable in $A$; then, the set of zero divisors in $A$ is the union of all the prime ideals associated to (0).
+\end{proposition}
+\begin{proof}
+    Let $(0)=Q_1\cap\cdots\cap Q_n$ be an irreducible primary decomposition.
+    Let $P_i:=\sqrt{Q_i}$ be the associated primes, and $D$ the set of zero divisors in $A$.
+    We want to show $D=P_1\cup\cdots\cup P_n$.
+    Let $0\neq x\in A$, $x\neq 0$; then
+    \begin{align*}
+        \Ann(x)&=(0:x)\subseteq\sqrt{(0:x)}= \bigcap_{i=1}^n\sqrt{(Q_i:x)}=\bigcap_{\{i:x\notin Q_i\}} P_i\subseteq P_j
+    \end{align*}
+    for some $j$ since $x\neq 0$ so that $x\notin\bigcap_{i=1}^n Q_i$.
+
+    Conversely, write $D=\bigcup_{x\neq 0}\Ann(x)$ and from \cref{thm:dec-uni}, each $P_i$ is of the form $\sqrt{(0:x)}=\sqrt{\Ann(x)}\subseteq D$ for some $x\in A$.
+\end{proof}
+\subsection{Decomposition in Noetherian Rings}
+\begin{definition}
+    An ideal $I\subseteq A$ is \textbf{irreducible} if whenever $I=J_1\cap J_2$ then $I=J_1$ or $I=J_2$.
+\end{definition}
+\begin{remark}
+    Every prime ideal is irreducible by \cref{prop:p-int}.
+\end{remark}
+\begin{proposition}
+    If $A$ is Noetherian, then every ideal is an intersection of irreducible ideals.
+\end{proposition}
+\begin{proof}
+    Let $S$ be the set of ideals which cannot be written as an intersection of irreducible ideals.
+    Suppose $S\neq\emptyset$; since $A$ is Noetherian, $S$ has a maximal element, $I$.
+    Since $I$ is not irreducible, get $J_1,J_2$ so that $I=J_1\cap J_2$ but $I\neq J_1$, $I\neq J_2$.
+    Thus $J_1$ and $J_2$ properly contain $I$ and are not in $S$; but then $J_1$ and $J_2$ are intersections of irreducible ideals, so $I=J_1\cap J_2$ is also an intersection of irreducible ideals.
+\end{proof}
+\begin{proposition}
+    In a Noetherian ring, every irreducible ideal is primary.
+\end{proposition}
+\begin{proof}
+    Looking at the quotient ring, it suffices to prove that if $(0)$ is irreducible, then $(0)$ is primary.
+    Suppose $xy=0$ and $y\neq 0$, and consider $\Ann(x)\subseteq\Ann(x^2)\subseteq\cdots$.
+    Since $A$ is Noetherian, this chain stabilizes and get some $n\geq 1$, $\Ann(x^n)=\Ann(x^{n+1})$.
+    Let's show that $(x^n)\cap(y)=(0)$.
+    If $a\in (x^n)\cap(y)$, since $a\in (y)$, $a=cy$ so $ax=cyx=0$.
+    Then since $a\in(x^n)$, $a=bx^n$ and $0=ax=bx^nx=bx^{n+1}$ and $b\in\Ann(x^{n+1})=\Ann(x^n)$.
+    Thus $bx^n=0$ so $a=0$.
+\end{proof}
+\begin{corollary}
+    If $A$ is Noetherian, every ideal is decomposable.
+    In particular, in $\Spec(A)$, every Zariski closed set has a (unique irredundant) decomposition into irreducible closed sets.
+\end{corollary}
+\begin{proposition}
+    In a Noetherian ring, if $J=\sqrt{I}$, then $J^n\subseteq I$ for some $n\geq 1$.
+    In particular, the nilradical is nilpotent.
+\end{proposition}
+\begin{proof}
+    Set $J=(a_1,\ldots,a_k)$ finitely generated as an $A-$module is Noetherian.
+    For each $i$, get $n_i$ so that $a_i^{n_i}\in I$, and $m=\sum_{i=1}^k(n_i-1)+1$.
+    Then $J^m$ is generated by products of the form $x_1^{r_1}\cdots x_k^{r_k}$ with $\sum_i r_i=m$; by definition of $m$, $r_i\geq n_i$ for some $i$, so each monomial lies in $I$.
+    Thus $J^m\subseteq I$.
+\end{proof}
+\begin{corollary}
+    If $A$ is Noetherian, $M\subseteq A$ maximal, and $Q\subseteq A$ an ideal, then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $M=\sqrt{Q}$
+        \item $Q$ is $M-$primary
+        \item $M^n\subseteq Q\subseteq M$ for some $n>0$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \imp{i}{ii}
+    Done in general.
+
+    \imp{ii}{iii}
+    $\sqrt{Q}= M$ so by Noetherianity, $M^n\subseteq Q$ for some $n\geq 1$.
+
+    \imp{iii}{1}
+    Since $M$ is prime, $\sqrt{M}=\sqrt{M^n}\subseteq Q\subseteq\sqrt{M}$
+\end{proof}
+
+\section{Integral Extensions}
+\begin{definition}
+    Let $A\subseteq B$ be a subring.
+    An element $x\in B$ is \textbf{integral} over $A$ if $x$ is the root of a monic polynomial with coefficients in $A$.
+\end{definition}
+Integrality is preserved by quotients and localising.
+\begin{example}
+    Consider $\Z\subseteq\Q$.
+    If $x=r/s$ is integral over $\Z$ with $\gcd(r,s)=1$, after clearing denominators, we get an equation of the form $r^n+a_1r^{n-1}s+\cdots+a_ns^n=0$, so that $s|r^n$ and $s=\pm 1\in\Z$.
+    Thus the elements in $\Q$ integral over $\Z$ are precisely the elements in $\Z$.
+\end{example}
+\begin{proposition}
+    Let $A\subseteq B$ be a subring.
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $x\in B$ is integral over $A$
+        \item $A[x]$ is a finitely generated $A-$module
+        \item $A[x]$ is contained in a subring $C$ of $B$ such that $C$ is a finitely generated $A-$module
+        \item There exists a faithful $A[x]-$module which is finitely generated as an $A-$Module.
+    \end{enumerate}
+
+\end{proposition}
+\begin{itemize}[nl]
+    \item If $A\subseteq B$ is an integral extension, $J\subseteq B$ is an ideal, then $B/J$ is an integral extension with $A/J\cap A$.
+
+        To see this, consider $A/J\cap A\hookrightarrow B/J$ from $A\fto{f} B\to B/J$.
+        An element of $B/J$ is of the form $\overline{b}:= b+J$, with $b\in B$.
+        By integrality, we have $b^n+a_1b^{n-1}+\cdots+a_n=0$ for some $n\geq 1$, $a_i\in A$.
+        Thus $\overline{b}^n=\overline{a_1}\overline{b}^{n-1}+\cdots+\overline{a_n}=0$, so $\overline{a_i}\in A/J\cap A$.
+    \item $A\subseteq B$ is integral, $S\subseteq A$ is multiplatively closed.
+        Then $S^{-1}A\subseteq S^{-1}B$ is integral.
+
+        Suppose $\frac{b}{s}\in S^{-1}B$, so $b^n+a_{n-1}b^{n-1}+\cdots+a_n=0$ for some $n\geq 1$, $a_1,\ldots,a_n\in A$.
+        Multiplying both sides by $\frac{1}{s^n}$ in $S^{-1}B$ to get
+        \begin{equation*}
+            \left(\frac{b}{s}\right)^n+\frac{a_{n-1}}{s}\left(\frac{b}{s}\right)^{n-1}+\frac{a_{n-2}}{s^2}\left(\frac{b}{s}\right)^{n-2}+\cdots+\frac{a_n}{s^n}
+        \end{equation*}
+\end{itemize}
+\begin{proposition}
+    Suppose $B$ is an integral domain and $A\subseteq B$ is integral.
+    Then $A$ is a field if and only if $B$ is a field.
+\end{proposition}
+\begin{proof}
+    First suppose $B$ is a field.
+    Let $a\in A$, $a\neq 0$, so $a^{-1}\in B$.
+    We want $a^{-1}\in A$.
+    Let $b^n+a_1b^{n-1}+\cdots+a_n-0$ for some $n\geq 1$.
+    Divide by $b^{n-1}$ go get
+    \begin{equation*}
+        b=-a_1-\frac{a_2}{b}-\cdots-\frac{a_n}{b^{n-1}}=-a_1-aa_2-\cdots-a^{n-1}a_n\in A
+    \end{equation*}
+
+    Suppose $A$ is a field, and let $b\in B$.
+    Then $b^n+a_1b^{n-1}+\cdots+a_n=0$.
+    Let's see that $a_n\neq 0$.
+    Otherwise, $b(b^{n-1}+a_1b^{n-2}+\cdots+a_{n-1})=0$, and since $B$ ns ain integral domain $b=0$.
+
+    Thus, divide by $a_n$, so that
+    \begin{equation*}
+        b\cdot\left(-\frac{b^{n-1}}{a_n}-\frac{a_1b^{n-2}}{a_n}-\cdots-\frac{a_{n-1}}{a_n}\right)=1
+    \end{equation*}
+    so $B$ is a field.
+\end{proof}
+\begin{definition}
+    A ring extension $A\subseteq B$, $P\in\Spec(A)$, $Q\in\Spec(B)$.
+\end{definition}
+\begin{example}
+    $\Q[x]/(x^2)\supseteq\Q$ is integral, which is a finite $\Q-$vector space but not a field.
+    We say that \textbf{$Q$ lies above $P$} if $Q\cap A=P$.
+\end{example}
+\begin{corollary}
+    Suppose $A\subseteq B$ is an integral extension, $P\in\Spec(A)$, $Q\in\Spec(B)$, with $Q\cap A=P$.
+    Then $P$ is maximal if and only if $Q$ is maximal.
+\end{corollary}
+\begin{proof}
+    We have $A/P\hookrightarrow B/Q$ since $A$ is integral in $B$.
+    Then $P$ is maximal iff $A/P$ is a field iff $B/Q$ is a field iff $Q$ is maximal.
+\end{proof}
+\begin{theorem}
+    Suppose $A\subseteq B$ is integral, $P\in\Spec(A)$.
+    Then there exists $Q\in\Spec(B)$ such that $Q\cap A=P$.
+\end{theorem}
+\begin{proof}
+    Let $S=A\setminus P$.
+    Then
+    \begin{center}
+        \begin{tikzcd}
+            A\arrow[r,"\subseteq"]\arrow[d,"S^{-1}"] &B\arrow[d,"S^{-1}"]\\
+            A_P\arrow[r,"\phi"]& B_P
+        \end{tikzcd}
+    \end{center}
+    commutes, where $\phi$ is injective since localisation is exact.
+    $B_P\neq 0$ since $0\notin A\setminus P$.
+    Let $\mathfrak{m}\subseteq B_P$ be a maximal ideal, and let $Q:=\mathfrak{m}\cap B$.
+    Then $Q$ is disjoint for $A\setminus P$, and $Q\in\Spec(B)$ so $Q\cap A$ is also disjoint for $A\setminus P$ so $Q\cap A\subseteq P$.
+
+    Now, $Q\cap A=(\mathfrak{m}\cap A_P)\cap A$.
+    Since $\mathfrak{m}$ is maximal in $B_P\supseteq A_P$, by the previous corollary, $\mathfrak{m}\cap A_P$ is maximal.
+    But $A_P$ is local, so $\mathfrak{m}\cap A_P=PA_P$ and $(m\cap A_P)\cap A=PA_P\cap A=P$, so $Q\cap A=P$.
+\end{proof}
+\begin{remark}
+    Consider the map $\Spec(B)\to\Spec(A)$ given by $Q\mapsto Q\cap A$ is continuous in the Zariski topology.
+    The theorem says that if $B$ is integral over $A$, then this map is surjective.
+\end{remark}
+If $A\subseteq B$, then we get an induced homomorphism $\Spec(B)\to\Spec(A)$ by $Q\mapsto Q\cap A$.
+We say that $Q$ \textbf{lies above $P$} if $Q\cap A=P$; i.e. if $f(Q)=P$.
+Last time, we proved that if $B$ is integral over $A$, then $f:\Spec(B)\to\Spec(A)$ is surjective.
+\begin{proposition}
+    Let $B$ be integral over $A$, $P\in\Spec(A)$.
+    Suppose $Q\subseteq Q'$ are prime ideals in $B$ lying above $P$.
+    Then $Q=Q'$.
+\end{proposition}
+If you fix a point in the image and look at the fibres (the preimage), then points are closed.
+This says that the points in the fibres at $\Spec(B)\to\Spec(A)$ points are closed.
+Essentially, this says that the previous proposition gives rise to all primes lying over $P$.
+\begin{proof}
+    As before, consider
+    \begin{center}
+        \begin{tikzcd}
+            P\subseteq A\arrow[r,"\subseteq"]\arrow[d,"S^{-1}"] &B\supseteq Q'\supseteq Q\arrow[d,"S^{-1}"]\\
+            A_P\arrow[r,"\phi"]& B_P=S^{-1}B
+        \end{tikzcd}
+    \end{center}
+    Let's see that $QB_P\cap A_P=PA_P$.
+    To see this, $0\to P\to A\to B/Q$ is an exact sequence of $A-$modules since $Q\cap A=P$.
+    Hence $0\lto S^{-1}P\lto S^{-1}A\lto S^{-1}(B/Q)$ is exact since $S^{-1}$ is exact.
+    Thus $0\lto PA_P\lto A_P\lto B_P/QB_P=S^{-1}(B/Q)$ is exact.
+
+    Thus $QB_P$ in $B_P$ lies above $PA_P$.
+    But $B_P$ is integral over $A_P$ and $PA_P$ is maximal in $A_P$, so $QB_P$ is maximal in $B_P$.
+    Similarly for $Q'\supseteq Q$, $QB_P=Q'B_P$.
+    Since $S=A\setminus P$, $Q\cap A=P$ and $Q'\cap A=P$, so $Q,Q'$ are disjoint from $S$ so $Q=Q'$.
+\end{proof}
+Suppose $Q$ lies above $P$ in $B$ an integral extension of $A$.
+Given $P'\supseteq P$ a prime ideal in $A$< can we find $Q'\in\Spec(B)$ lying above $P'$, and $Q'\supseteq Q$.
+That is, is $f:\Spec(B)\to\Spec(A)$ closed?
+
+Yes: consider $\quot{A}{P}\hto \quot{B}{Q}$ is integral, so there exists $I$ prime ideal in $\quot{B}{Q}$ that lies above $P'/P$.
+Thus $I=Q'/Q$ for some $Q'\in\Spec(B)$.
+Then $\quot{Q'}{Q}\cap A/P=P'/P$, so $Q'\cap A=P'$.
+\begin{theorem}
+    Let $B$ be an integral extension of $A$, $P\in\Spec(A)$, $Q\in\Spec(B)$, $Q\cap A=P$.
+    If $P\subseteq P_1\subseteq\cdots\subseteq P_l$ is a chain of prime ideals in $A$< then there is a corresponding chain of prime ideals $Q\subseteq Q_1\subseteq\cdots\subseteq Q_l$ in $B$ such that $Q_i\cap A=P_i$.
+\end{theorem}
+\begin{remark}
+    By corollary 5.9, $Q\subsetneq Q_{i+1}$ if and only if $P_i\subsetneq P_{i+1}$.
+    This can be used to prove $f:\Spec(B)\to\Spec(A)$ is a closed map.
+\end{remark}
+\begin{corollary}
+    If $B$ is Noetherian and integral over $A$, $P\in\Spec(A)$.
+    There are only finitely many $Q\in\Spec(B)$ such that $Q\cap A=P$.
+\end{corollary}
+\begin{proof}
+    Let $Q\in\Spec(B)$ lie above $P$.
+    Note that $Q\supseteq PB$.
+    If $Q\supseteq Q'\supseteq PB$ and $Q'\in\Spec(B)$, then $P=Q\cap A\supseteq Q'\cap A\supseteq PB\cap A=P$.
+    Thus $Q'\cap P$, so by the above corollary, $Q=Q'$, i.e. $Q$ is a minimal prime containing $PB$.
+    Thus $Q$ is minimal amount the prime ideals associated to $PB\subseteq B$.
+    Thus $Q$ is an associated prime of $PB$, of which there are only finitely many.
+\end{proof}
+\section{Foundations of Algebraic Geometry}
+\begin{lemma}[Noether Normalisation]
+    Let $k$ be an infinite field and $A$ a finitely generated $k-$algebra.
+    Then there exists algebraically independent elements $a_1,\ldots,a_r\in A$ over $k$ such that $A$ is integral over $k[a_1,\ldots,a_r]$.
+\end{lemma}
+\begin{remark}
+    $a_1,\ldots,a_r$ algebraically independent over $K$ meaus that if $f\in k[a_1,\ldots,a_r]$ and $f(a_1,\ldots,a_r)=0$, then $f=0$.
+    Equivalently, $k[a_1,\ldots,a_r]\cong k[x_1,\ldots,x_r]$ as $k-$algebras (via $a_i\mapsto x_i$).
+\end{remark}
+\begin{proof}
+    If $A$ is finitely generated, then $A=k[a_1,\ldots,a_n]$ for some $a_1,\ldots,a_n\in A$.
+    We do induction on $n$.
+
+    If $n=1$, then $A=k[a]$.
+    Then $a$ ia algebraic over $k$ and since $k$ is a field, integral over $k$.
+    Hence $A$ is integral over $K$ and the lemma holds with $r=0$.
+    If $a$ is not algebraic over $k$, then $\{a\}$ is algebraically independent over $k$.
+    As $A$ is integral over $A=k[a]$, we are done.
+
+    If $n>1$, $\{a_1,\ldots,a_n\}$ are algebraically independent over $k$, then we are done, so we may assume not.
+    Thus get $0\neq f\in k[x_1,\ldots,x_n]$ such that $f(a_1,\ldots,a_n)=0$.
+    For each $0\leq l\leq d=\deg f$, let $f_l(x_1,\ldots,x_n)$ be the sum of all degree $L$ monomials of $f$.
+    Then $f=f_d+f_{d-1}+\cdots+f_0$.
+
+    Claim: there exist $\lambda_1,\ldots,\lambda_{n-1}\in k$ such that $f(\lambda_1,\ldots,\lambda_{n-1},1)\neq 0$.
+    If not, then for any $\gamma_1,\ldots,\gamma_n\in k$, $\gamma_n\neq 0$, $f(\gamma_1,\ldots,\gamma_n)=f_d(\gamma_n\frac{\gamma_1}{\gamma_n},\gamma_n\frac{\gamma_2}{\gamma_n},\ldots,\gamma_n)=\gamma_n^df_d\left(\frac{\gamma_1}{\gamma_n},\ldots,\frac{\gamma_{n-1}}{\gamma_n},1\right)=0$.
+    Also, $f_d(0,\ldots,0)=0$.
+    Thus $f_d$ vanishes on all of $k^n$.
+
+    In general, if $k$ is an infinite field and $F\in k[x_1,\ldots,x_n]$ vanishes in $k^n$, then $F=0$.
+    By induction on $n$: if $n=0$, this is clear.
+    If $n>0$, then $F=\sum_{i=0}^D g_i(x_1,\ldots,x_{n-1})x_n^i$ where $g_0,\ldots,g_d\in k[x_1,\ldots,x_{n-1}]$.
+    Let $b_1,\ldots,b_{n-1}\in k$, so $F(b_1,\ldots,b_{n-1},x_n)\sum_{i=1}^D g_i(b_1,\ldots,b_{n-1})x_n^i$ vanishes on all of $k$.
+    But a single variable non-trivial polynomial has only finitely many roots.
+    Thus $F(b_1,\ldots,b_{n-1})=0$ in $k[x_n]$; that is, $g_i(b_1,\ldots,b_{n-1})=0$ for all $i=0,\ldots,D$.
+    By induction, as $b_1,\ldots,b_{n-1}$ was arbitrary, this implies each $g_i=0$, so $F=0$.
+
+    Thus, $f_d=0$, a contradiction for $d=\deg f$ and $f\neq 0$.
+
+    Let $\lambda_1,\ldots,\lambda_{n-1}$ be as in the claim.
+    For each $i=1,\ldots,n-1$, let $b_i:=a_i-\lambda_ia_n$.
+    Then
+    \begin{align*}
+        0=f(a_1,\ldots,a_n) &= f(b_1+\lambda_1a_n,\ldots,b_{n-1}+\lambda_{n-1}a_n,a_n)\\
+                            &= f_d(b_1+\lambda_1 a_n,\ldots,b_{n-1}\lambda_{n-1}a_n,a_n)+f_{d-1}(b_1+\lambda_1 a_n,\ldots,b_{n-1}\lambda_{n-1}a_n,a_n)+\cdots+f_0\\
+                            &= f_d(\lambda_1a_n,\ldots,\lambda_{n-1}a_n,a_n)+\text{lower degree terms}\\
+                            &= a_n^df_d(\lambda_1,\ldots,\lambda_{n-1},1)+\text{lower degree $a_n$ terms}
+    \end{align*}
+    Dividing by $f_x(\lambda_1,\ldots,\lambda_{n-1},1)$, we see that $a_n$ is integral over $k[b_1,\ldots,b_{n-1}]$.
+    By the inductive hypothesis applied to $k[b_1,\ldots,b_{n-1}]$, we have $u_1,\ldots,u_r\in k[b_1,\ldots,b_r]$ algebraically independent over $k$ such that $k[b_1,\ldots,b_{n-1}]$ is integral over $k[u_1,\ldots,u_r]$.
+    Thus $A$ is integral over $k[u_1,\ldots,u_r]$.
+    Thus if $i<n$, $a_i=b_i+\lambda_ia_n$, so $a_1,\ldots,a_n$ areall integral over $k[u_1,\ldots,u_r]$.
+    Thus $A=k[a_1,\ldots,a_n]$ is integral over $k[u_1,\ldots,u_r]$.
+\end{proof}
+\begin{remark}
+    Given $A$, we have found $k[u_1,\ldots,u_r]\subseteq A$ so $A$ is an integral extension.
+    Last lecture, we saw that Noetherian integral extensions are very nice.
+    The first is a polynomial ring over $k$, and are, for example, a UFD.
+
+    Thus means $\Spec(A)\to\Spec(k[x_1,\ldots,x_n])$ is a surjective, finite-to-one, continuous
+\end{remark}
+\begin{remark}
+    If $A$ is a finitely generated $k-$algebra, $A=k[y_1,\ldots,y_l]/I$.
+    This induces a continuous injective $\Spec(A)\hto\Spec(k[y_1,\ldots,y_l])=:\mathbb{A}_k^l$, bijection with $V(I)$.
+    Why do we consider $\Spec(k[x_1,\ldots,x_r])$ an affine space?
+    In fact, when $k$ is algebraically closed, $k^r$ ``is'' of closed points in $\Spec(k[x_1,\ldots,x_r])$ (the ``is'' statement is the weak nullstellensatz)
+\end{remark}
+\begin{proposition}
+    Suppose $k$ is an infinite field, $A$ is a finitely generated $k-$algebra, and $m\subseteq A$ a maximal ideal.
+    Then $\quot{A}{m}$ is a finite algebraic extension of $k$.
+\end{proposition}
+\begin{proof}
+    $k\hto A\to A/m$.
+    Note tht $m\cap k = (0)$ (intersection is proper ideal of $k$ and hence $(0)$).
+    Thus get an induced embedding $k\hookrightarrow A/m$.
+    This is a field extension.
+    The proposition claims that it is a finite algebraic extension.
+    Since $A$ is a finitely generated $k-$algebra, so is $A/m$.
+    By Noether's Normalization Lemma, there is a polynomial subring $k\subseteq k[x_1,\ldots,x_n]\subseteq A/m$.
+    Since $A/m$ is a field, $k[x_1,\ldots,x_n]$ is a field, so $r=0$.
+    Thus $k\subseteq A/m$ is integral and hence finite algebraic.
+\end{proof}
+\begin{remark}
+    In particular, if $k$ is algebraically closed and $A$ is a finitely generated $k-$algebra and $m\subseteq A$ maximal, then $A/m=k$.
+\end{remark}
+\begin{corollary}[Weak Nullstellensatz]
+    If $k$ is an algebraically closed field, $I\subseteq k[x_1,\ldots,x_r]$ is an ideal.
+    Then $I$ ms maximal if and only if $I=(x-a_1,\ldots,x-a_r)$ where $a_1,\ldots,a_r\in k$.
+\end{corollary}
+\begin{proof}
+    \impl $k\subseteq k[x_1,\ldots,x_r]\fto{\pi}\quot{k[x_1,\ldots,x_r]}{(x_1-a_1,\ldots,x_r-a_r)}$.
+    Then $\overline{x_i}=\pi(x_i)$ in $k$, but $\overline{x}_i=a_i$ since $\pi(x_i-a_i)=0$.
+    Thus $\quot{k[x_1,\ldots,x_r]}{(x_1-a_1,\ldots,x_r-a_r)}=k$ a field.
+    Then $(x_1-a_1,\ldots,x_r-a_r)$ is maximal.
+
+    \impr Conversely, suppose $I\subseteq k[x_1,\ldots,x_r]$ is a maximal ideal.
+    By the proposition applied to $I$ and $A=k[x_1,\ldots,x_r]$, we have $k[x_1,\dots,x_r]/I=k$.
+    Consider
+    \begin{equation*}
+        k[x_1,\ldots,x_n]\fto{\pi}\quot{k[x_1,\ldots,x_r]}{I}=k
+    \end{equation*}
+    Let $a_i=\pi(x_i)\in k$ for $i=1,\ldots,r$.
+    Then $\pi(x_i-a_i)=\pi(x_i)-a_i=0$ (since $\pi$ is a $k-$algbra homomorphism).
+    Thus $(x_1-a_1,\ldots,x_r-a_r)\subseteq\ker(\pi)=I$.
+    But as before, $(x_1-a_1,\ldots,x_r-a_r)$ is maximal, forcing equality.
+\end{proof}
+\begin{remark}
+    Geometric interpretation.
+    A point $p\in T$ is \textbf{closed} in a topological space $T$ if $\{p\}$ is closed.
+    The closed points of $\Spec(A)$ are precisely the maximal ideals.
+    If $V(m)=\{m\}$.
+    Conversely, suppose $P\in\Spec(A)$ is a closed point.
+    Then $\{P\}=V(I)$ for some ideal $I\subseteq A$.
+    So if $Q\supseteq P$, then $Q\supseteq I$ implies $Q\in V(I)$ implies $Q=P$ so $P$ is maximal.
+
+    We get a bijectie correspondence
+    \begin{equation*}
+        \text{closed points of }\Spec(k[x_1,\ldots,x_r])\leftrightarrow k^r
+    \end{equation*}
+    when $k$ is algebraically closed, given by $(a_1,\ldots,a_r)\mapsto(x_1-a_1,\ldots,x_r-a_r)$.
+    Surjective weak nullstellensatz
+    injective: if $(x_1-a_1,\ldots,x_r-a_r)=(x_1-b_1,\ldots,x_r-b_r)$, then in $k[x_1,\ldots,x_r]/m$, $\ol{x}_i=a_i$, $\ol{x}_i=b_i$.
+    Thus $a_i=b_i$ for $i=1,\ldots,r$.
+\end{remark}
+Another formulation of WN
+\begin{corollary}
+    If $k$ is an algebraically closed field, $I\subseteq k[x_1,\ldots,x_r]$ an ideal.
+    Let $Z(I):=\{(a_1,\ldots,a_r)\in k^n:f(a_1,\ldots,a_r)=0\text{ for all $f\in I$}\}$.
+    Then $Z(I)\neq 0$ if and only if $I$ is a proper ideal.
+\end{corollary}
+Note that to compute $Z(I)$, we equivalently just need to compute a finite set of zeros of the generators of $I$, since $k[x_1,\ldots,x_r]$ is Noetherian.
+\begin{proof}
+    \impr If $I=k[x_1,\ldots,x_n]$, then $1\in I$ and $1=0$ has no solutions.
+
+    \impl If $I$ is properl, then there exists maximal $m\supseteq I$.
+    By WN, $m=(x_1-a_1,\ldots,x_r-a_r)$ for some $a_1,\ldots,a_r\in k$.
+    If $f\in I\subseteq m$, then $f=g_1(x_1-a_1)+\cdots+g_r(x_r-a_r)$ with $g_1,\ldots,g_r\in k[x_1,\ldots,x_r]$.
+    Then $f(a_1,\ldots,a_r)=0$, i.e. $(a_1,\ldots,a_r)\in Z(I)$.
+\end{proof}
+Let $P\supseteq I$ prime, $P=(f_1,\ldots,f_l)$.
+Want to solve $f_i(x_1,\ldots,x_r)=0$ for $i=1,\ldots,l$.
+Then
+\begin{equation*}
+    k\subseteq k[x_1,\ldots,x_r]\to k[x_1,\ldots,x_r]/P\subseteq\Frac(k[x_1,\ldots,x_r]/P)=L\subseteq L^{alg}
+\end{equation*}
+In $L^{alg}$, this has a trivial solution.
+Note that the system of equations is a sentence with parameters only in $k$, so if it holds in $L^{alg}$, then it also holds in $k$.
+\begin{definition}
+    Suppose $K$ is a field.
+    An \textbf{algebraic subset} of $k^n$ is a set of the form
+    \begin{equation*}
+        Z(I) = \{(a_1,\ldots,a_n)\in k^n:f(a_1,\ldots,a_n)=0\text{ for all }f\in I\}
+    \end{equation*}
+    where $I\subseteq k[x_1,\ldots,x_n]$.
+\end{definition}
+\begin{remark}
+    This makes sense for arbitrary $x\subseteq k[x_1,\ldots,x_n]$, by $Z(x)=Z((X))$.
+    These form the closed sets of a topology on $k^n$, which we also call the Zariski topology.
+    We have
+    \begin{equation*}
+        \Spec(k[x_1,\ldots,x_n])\\
+        \supseteq
+        \max\Spec(k[x_1,\ldots,x_n]) \leftrightarrow k^n\\
+        affine schemes in V(I) & algebraic sets Z(I)
+    \end{equation*}
+    $I\mapsto Z(I)$ is a containment reversing correspondence between ideals if $k[x_1,\ldots,x_n]$ and algebraic subsets of $k^n$.
+\end{remark}
+\begin{definition}
+    If $X\subseteq k^n$, then
+    \begin{equation*}
+        I(X) := \{f\in k[x_1,\ldots,x_n]:f(a_1,\ldots,a_n)=0\text{ for all }(a_1,\ldots,a_n)\in X\}
+    \end{equation*}
+    This is an ideal of $k[x_1,\ldots,x_n]$.
+\end{definition}
+Are these inverse operations? $I\subseteq I(Z(I))$ by definition, but is $I(Z(I))\subseteq I$?
+No: consider $f\in\sqrt{I}\setminus I$.
+Then $f^l\in I$ for some $l>0$, $(a_1,\ldots,a_n)\in Z(I)$, so $f^l(a_1,\ldots,a_n)=0$.
+Thus $f(a_1,\ldots,a_n)=0$, so $f\in I(Z(I))\setminus I$.
+\begin{theorem}[Hilbert's Nullstellensatz]
+    If $k$ is algebraically closed, and $I\subseteq k[x_1,\ldots,x_n]$ is an ideal, then $I(Z(I))=\sqrt{I}$.
+\end{theorem}
+\begin{remark}
+    We recover the weak Nullstellensats: if $I$ is propert, then so is $\sqrt{I}=I(Z(I))$.
+    If $I$ is proper, then so is $\sqrt{I}=I(Z(I))$ so $Z(I)\neq\emptyset$.
+\end{remark}
+\begin{proof}
+    $\supseteq$ was proven above.
+    For the converse, suppose $f\notin\sqrt{I}$ and show that $f\in I(Z(I))$.
+    Let $P\in\Spec(k[x_1,\ldots,x_n])$ such that $f\notin P$ and $P\supseteq I$.
+    Consider
+    \begin{equation*}
+        k[x_1,\ldots,x_n]\lto k[x_1,\ldots,x_n]/P\fto{\subseteq}\left(\quot{k[x_1,\ldots,x_n]}{P}\right)_{\overline{f}}=k\left[\overline{x}_1,\ldots,\overline{x}_n,\frac{1}{\overline{f}}\right]=A_{\overline{f}}\to \quot{A_{\overline{f}}}{m}=k
+    \end{equation*}
+    Let $\overline{f}$ be the image of $f\in\quot{k[x_1,\ldots,x_m]}{P}$, so $\overline{f}\neq 0$.
+    Let $\overline{x}_i$ be the image of $x_i$ in $k[x_1,\ldots,x_n]/P$.
+    Let $A:= k[x_1,\ldots,x_n]/P$.
+    Let $m\subseteq A_{\overline{f}}$ be a maximal ideal.
+    Since $A_{\overline{f}}$ is a finitely generated $k-$algebra, $A_{\overline{f}}/m$ is a finite algebraic extension of $k$, so $A_{\overline{f}}/m=k$.
+    Thus $\pi:k[x_1,\ldots,x_n]\to k$ is a $k-$algebra homomorphism.
+    Let $a_i:=\pi(x_i)$, so $f(a_1,\ldots,a_n)=f(\pi(x_1),\ldots,\pi(x_n))=\pi(f(x_1,\ldots,x_n))\neq 0$.
+    On the other hand, if $g\in I\subseteq P$, then $g(a_1,\ldots,a_n)=\pi(g(x_1,ldots,x_n))=0$, so $(a_1,\ldots,a_n)\in Z(I)$.
+    But then $f(a_1,\ldots,a_n)\neq 0$, so $f\notin I(Z(I))$.
+\end{proof}
+\begin{corollary}
+    $Z(I)=Z(\sqrt{I})$.
+\end{corollary}
+\begin{proof}
+    $\supseteq$ is clear.
+    For $\subseteq$, $I(Z(I))=\sqrt{I}$, so $Z(I(Z(I)))=Z(\sqrt{I})$.
+    Then $X\subseteq Z(I(X))$.
+    Apply it to $X=Z(I)$ so $Z(I)\subseteq Z(I(Z(I))$.
+\end{proof}
+If $k$ is an algebraically closed field, $A=k[x_1,\ldots,x_n]$ a polynomia ring.
+Then the radical ideals of $A$ correspond to the algebraic subsets of $k^n$ via $I\mapsto Z(I)$ and $Z\mapsto I(Z)$.
+\begin{theorem}
+    The map $\Phi$ is a bijective correspondence.
+\end{theorem}
+\begin{proof}
+    If $I\subseteq k[x_1,\ldots,x_n]$ is an ideal, then $I(Z(I))=\sqrt{I}=I$ by Hilbert's Nullstellensatz.
+    Conversely, if $Z\subseteq k^n$ an agebraic setm then $Z=Z(J)$ where $J\subseteq k[x_1,\ldots,x_n]$ is an ideal.
+    Then $Z(I(Z))=Z(I(Z(J)))=Z(\sqrt{J})=Z(J)=Z$.
+\end{proof}
+there is also an association between Zariski closed subsets of $\Spec(A)$ and radical ideals of $A$ via $I\mapsto V(I)$ and $V\mapsto I(V)$, where $I(V)=\bigcap_{P\in V}P$.
+\begin{proof}
+    We have $I(V(I))=\bigcap_{P\supseteq I}P=\sqrt{I}=I$.
+    Conversely, if $V\subseteq\Spec(A)$, then $V=V(J)$ for some $J\subseteq A$ ideal.
+    Then $I(V)=I(V(J))=\bigcap_{P\supseteq J}P=\sqrt{J}$ and $V(I(V))=V(\sqrt{J})=V(J)=V$.
+\end{proof}
+Functional interpretation of the ``modern'' algebro-geometric convention.
+How do we view elements of $A$ as functions on $\Spec A$?
+In such a way that $V(I)$ becomes the ``vanishing locus'' of $I$?
+
+Given $f\in A$ and $P\in\Spec A$, what should $f(P)$ be?
+Recall that
+\begin{equation*}
+    A\lto A_p\lto \quot{A_P}{PA_p}=:k(P)
+\end{equation*}
+and we say $f(P)$ is the image of $f$ in $k(P)$.
+There is no natural codomain to this function; i.e. $f(P)\in k(P)$ which depends on $P$!
+When is $f(P)=0$?
+If and only if $f\in PA_P$ if and only if $f\in P$, second iff since $PA_P\cap A=P$.
+Thus $V(I)=\{P\in\Spec(A):P\supseteq I\}=\{P\in\Spec A:f(P)=0\forall f\in I\}$.
+In the special case $A=k[x_1,\ldots,x_n]$, then $A_P/PA_P=k$ by Noether normalization lemma and image of $f$ is $f(a_1,\ldots,a_n)$.
+\end{document}
+
+

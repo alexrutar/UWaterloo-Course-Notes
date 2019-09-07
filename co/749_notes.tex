@@ -1,0 +1,422 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.13)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{r}{label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+% Set hyperref
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\newcommand\myshade{85}
+\colorlet{mylinkcolor}{violet}
+\colorlet{mycitecolor}{orange!50!yellow}
+\colorlet{myurlcolor}{green!50!blue}
+
+\hypersetup{
+  linkcolor  = mylinkcolor!\myshade!black,
+  citecolor  = mycitecolor!\myshade!black,
+  urlcolor   = myurlcolor!\myshade!black,
+  colorlinks = true,
+}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+
+% align macros
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Big and small Disjoint union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{theorem}{#2Thm. #1#3}
+\Crefformat{lemma}{#2Lem. #1#3}
+\Crefformat{proposition}{#2Prop. #1#3}
+\Crefformat{corollary}{#2Cor. #1#3}
+\crefformat{theorem}{#2Theorem #1#3}
+\crefformat{lemma}{#2Lemma #1#3}
+\crefformat{proposition}{#2Proposition #1#3}
+\crefformat{corollary}{#2Corollary #1#3}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\tikzset{% 
+    vtx/.style={inner sep=2pt,circle,fill=black}
+}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{REPLACE}
+\newcommand{\semester}{REPLACE}
+
+
+% formatting -------------------------------------------------------------------
+% Fonts
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Adjust numbering
+\numberwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+\maxtocdepth{section} % table of contents up to section
+
+% Section / Subsection headers
+\setsecnumdepth{section} % numbering up to and including "section"
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Chapter Headers
+\chapterstyle{verville}
+
+% Page Headers / Footers
+\copypagestyle{myruled}{ruled} % Draw formatting from echisting 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+\setfootins{0.5cm}{0.5cm}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Graph Colourings}
+\section{List Colourings}
+Recall that a colouring of a graph $G$ is an assignment to each $v\in V(G)$ an element $c(v)$ of some set $C$ called ``colors'' such that if $v$ and $v'$ are neighbours, then $c(v)\neq c(v')$.
+Then the \textbf{chromatic number} $\chi(G)$ is the smallest cardinality $|C|$ such that there exists a colouring of $G$ from $C$.
+
+There are some basic upper bounds on the chromatic number of a graph:
+\begin{enumerate}[nl]
+    \item $\chi(G)\leq|V(G)|$, by colouring every vertex distinctly
+    \item $\chi(G)\leq\Delta(G)+1$, by randomly colouring the graph based on colours not used on the neighbours
+\end{enumerate}
+Note that these upper bounds are in fact tight; for example, the complete graph is tight for both, and an odd cycle is tight for (2).
+
+There are some graphs for which the chromatic number is not known: consider the graph given by $V(G)=\R^2$ where vertices are adjacent if they have euclidean distance 1.
+This graph is not $3-$colorable, by taking for example the subgraph
+\begin{center}
+    \begin{tikzpicture}[scale=3]
+        \begin{scope}[rotate=16.78]
+            \node[vtx] (a1) at (0,0) {};
+            \node[vtx] (a2) at (-.577350269,-1) {};
+            \node[vtx] (a3) at (.577350269,-1) {};
+            \node[vtx] (a4) at (0,-2) {};
+        \end{scope}
+        \begin{scope}[rotate=-16.78]
+            \node[vtx] (b1) at (0,0) {};
+            \node[vtx] (b2) at (-.577350269,-1) {};
+            \node[vtx] (b3) at (.577350269,-1) {};
+            \node[vtx] (b4) at (0,-2) {};
+        \end{scope}
+        \draw (a1) -- (a2) -- (a4) -- (a3) -- (a1);
+        \draw (a2) -- (a3);
+        \draw (b1) -- (b2) -- (b4) -- (b3) -- (b1);
+        \draw (b2) -- (b3);
+        \draw (a4) -- (b4);
+    \end{tikzpicture}
+\end{center}
+Recently there was a construction showing that the graph is not $4-$colourable, and there is an easy upper bound of $7$, so that $5\leq \chi(G)\leq 7$.
+
+We also define the notion of a list colouring:
+\begin{definition}
+    A list assignment is an assignment of a set $L(v)$ of colors to each vertex $v$.
+    Then a graph is $k-$list-colorable if you can always colour $V(G)$ whenever every vertex has a list of size at least $k$.
+\end{definition}
+Note that $\chi(G)\leq\chi_\ell(G)$ since asssigning an identical list of size $k$ is a valid list assignmnet and yields a standard coloring.
+In many cases list colorings can be hard to determine, but in some cases the exact value is known.
+Consider the complete bipartite graph $K_{k,q}$ where $q\geq k$.
+We then have the following classification:
+\begin{proposition}
+    $\chi_\ell(K_{k,q})\leq k$ if and only if $q<k^k$, and $\chi_\ell(K_{k,q})=k+1$ if and only if $q\geq k^k$.
+\end{proposition}
+\begin{proof}
+    Note that $\chi_\ell(K_{k,q})\leq k+1$ always works by taking arbitrary colors on the $k-$side, and on the $q-$side, since the lists have size $k$, there is always a distinct color.
+
+    Now $q<k^k$.
+    Try to color the $k$ vertices such that two vertices have the same color.
+    If this works, then for every list of size $k$ on the $q-$side, there are only $k-1$ disallowed colours, so we may choose a valid color from the corresponding list.
+    Otherwise, every vertex on the $k-$side has a distinct color; this is forced precisely when all the lists are disjoint.
+    But then since $q<k^k$, there must be some selection of colors from the lists on the $k-$side such that the set of colors is distinct from every list on the $q-$side, and we may choose colors from the $q-$side without issue.
+
+    Otherwise if $q\geq k^k$, consider lists given by disjoint sets on the $k-$side, and then for every possible assignment of colors on the $k-$side, give a corresponding list for some vertex of the $q-$side that contains a list with those colors.
+    Since $q\geq k^k$, we will exhaust all possibilities, so there is no valid coloring from those lists.
+\end{proof}
+Recall that a planar graph $G$ is one for which there exists an embedding of $G$ into the plane such that each edge is a disjoint curve.
+Note that it suffices to consider edges which are polygonal curves, which consist of a finite number of straight line segments; in fact we can also do it with straight line segments (requiring that the graph is simple).
+\begin{theorem}[Thomassen]
+    If $G$ is planar, then $\ch(G)\leq 5$.
+\end{theorem}
+In fact, we prove a stronger statement.
+We call an ``almost-triangulation'' a planar drawing in which every face except possibly the infinite face is a triangle.
+We prove this: let $w$ be a given almost-triangulation with lists of available colour $L(v)$ assigned to every vertex $v$ such that
+\begin{enumerate}[nl]
+    \item $|L(v)|=5$ for all vertices that are not on the infinite face,
+    \item two neighbouring vertices of the infinite face, $a$ and $b$ are colored distinctly,
+    \item and all other vertices of the infinite face have lists of 3 colours.
+\end{enumerate}
+Then this almost-triangulation has a proper list colouring with respect to the given lists.
+
+This implies the theorem since any planar drawing can be made an almost-triangulation by adding edges, and 5-element lists can be reduced to lists of the size above.
+\begin{proof}
+    We consider two cases in an induction proof.
+    \begin{enumerate}[nolistsep]
+        \item There is a ``long diagonal'' connecting two of the vertices of the infinite face (that is not an edge of the infinite face).
+        \item There is no long diagonal.
+    \end{enumerate}
+    The induction is on the number of vertices.
+    When $n=1,2$ it is trivial, and when $n=3$ it is a 3-cycle and it is certainly fine.
+
+    Now for the induction step, we have the two cases.
+    \begin{enumerate}
+        \item Cut the graph along the long diagonal to get $G_1,G_2$.
+            Without loss of generality, $G_1$ is exactly as described in the statement, so it can be properly list coloured from the given lists.
+            Then give the endpoints of the copied long diagonal in $G_2$ so that the endpoint colours are fixed; and by induction, colour it as well.
+            Since the endpoints have the same colouring, we can put the two coloured graphs back together to obtain a proper list colouring of $G$.
+        \item Let $u\in V(G)$ be the neighbour of $a$ on the infinite face different from $b$.
+            Consider the neighbourhood of $u$, $N(u)=\{a,w,v_1,v_2,\ldots,v_k\}$ where $w$ is on the infinite face different from $a$.
+            We have $|L(w)|=3$ and $|L(v_i)|=5$ for all $i=1,\ldots,k$ since there is no long diagonal.
+            Choose two different colours $\gamma$ and $\Delta$ in $L(u)\setminus\{\alpha\}$; they certainly exist since $|L(u)|=3$.
+            Delete $\gamma$ and $\delta$ from all the lists of vertices in $\{v_1,\ldots,v_k\}$, and then by induction we can list colour $G\setminus\{u\}$ from the modified lists.
+            This can be extended to a list colouring of $G$ since $u$ shares no colour in its list with any $\{v_1,\ldots,v_k\}$, and at least one of $\delta$ or $\gamma$ will not be used in $w$.
+    \end{enumerate}
+\end{proof}
+
+$n-$connected means if you remove any $n$ vertices, the graph remains connected
+
+Take $K_4$, and have lists with colours $1,2,3,4$ (or any graph which is uniquely $4-$colorable).
+Inscribe a triangle in each face with lists $\{1,2,4,5\}$, $\{1,3,4,5\}$, $\{2,3,4,5\}$.
+Always align so that the degree 3 vertex is adjacent to the $1,2$ and $1,3$.
+\end{document}
+
+
