@@ -9,3 +9,4 @@ The newer PDFs have embedded hyperlinks (which don't work on GitHub), so you can
 - [**PMATH 453**](pmath_453_notes.pdf), Functional Analysis: Fall 2019 - Nico Spronk
 - [**PMATH 445**](pmath_445_notes.pdf), Representation Theory: Fall 2019 - Blake Madill
 - [**PMATH 446**](pmath_446_notes.pdf), Commutative Algebra: Winter 2019 -  Rahim Moosa
+- [**CO 749**](co_749_notes.pdf), Topics in Graph Theory: Winter 2019 -  Carsten Thomassen
