@@ -309,7 +309,7 @@
 
 
 % main document ----------------------------------------------------------------
-\chapter{REPLACE}
+\chapter{Introduction}
 Let $G$ be a finite group of order $n$, and write $G=\{g_1,\ldots,g_n\}$.
 Fix $g\in G$; then $gg_i=gg_j$ if and only if $i=j$.
 Thus there exists some $\sigma_g\in S_i$ such that $gg_i=g_{\sigma_g(i)}$ for all $i\in\{1,2,\ldots,n\}$.
@@ -327,30 +327,22 @@ This is an injective group homomorphism, so $\psi\circ\phi:G\to\GL(V)$ is an emb
 \end{definition}
 In particular, if $V$ is $n-$dimensional, then $\GL(V)\cong\GL_n(\C)$.
 \begin{example}
-    Consider $\rho:G\to\GL(\C)\cong\C^\times$ given by $\rho(g)=1$ for all $g\in G$.
-    This is called the \textit{trivial representation}.
-\end{example}
-\begin{example}
-    Consider $\rho:S_n\to\C^\times$ given by $\rho(\sigma)=\sgn(\sigma)$, which is called the \textit{sign representation}.
-\end{example}
-\begin{example}
-    The representation fo $G$ afforded by Cayley's theorem is called the \textit{regular representation} of $G$.
-    The next example is a good way to understand the regular rep of $G$.
-\end{example}
-\begin{example}
-    Consider $G$, $X=\{x_1,\ldots,x_n\}$, and $V=\Free(X)$.
-    Suppose $G$ acts on $X$.
-    Then $\rho:G\to\GL(V)$ given by $\rho(g)(x_i)=gx_i$.
-    In particular, if we take $X=G$, then this is the regular representation of $G$
-\end{example}
-\begin{example}
-    Consider the $4-$gon, with vertices labelled $a,b,c,d$.
-    Take $X=\{a,b,c,d\}$ and the regular representation $\rho:D_4\to\GL(V)$.
-    This action has a geometric notion.
-\end{example}
-\begin{example}
-    Let $C_n$ be a cyclic group of order $n$; let us define some $\rho:C_n\to\GL(V)$.
-    Say $\rho(x) = T$ where $t\in\GL(V)$; then this is a representation if and only if $T^n=I$.
+    \begin{enumerate}[nl]
+        \item Consider $\rho:G\to\GL(\C)\cong\C^\times$ given by $\rho(g)=1$ for all $g\in G$.
+            This is called the \textit{trivial representation}.
+        \item Consider $\rho:S_n\to\C^\times$ given by $\rho(\sigma)=\sgn(\sigma)$, which is called the \textit{sign representation}.
+        \item The representation fo $G$ afforded by Cayley's theorem is called the \textit{regular representation} of $G$.
+            The next example is a good way to understand the regular rep of $G$.
+        \item Consider $G$, $X=\{x_1,\ldots,x_n\}$, and $V=\Free(X)$.
+            Suppose $G$ acts on $X$.
+            Then $\rho:G\to\GL(V)$ given by $\rho(g)(x_i)=gx_i$.
+            In particular, if we take $X=G$, then this is the regular representation of $G$
+        \item Consider the $4-$gon, with vertices labelled $a,b,c,d$.
+            Take $X=\{a,b,c,d\}$ and the regular representation $\rho:D_4\to\GL(V)$.
+            This action has a geometric notion.
+        \item Let $C_n$ be a cyclic group of order $n$; let us define some $\rho:C_n\to\GL(V)$.
+            Say $\rho(x) = T$ where $t\in\GL(V)$; then this is a representation if and only if $T^n=I$.
+    \end{enumerate}
 \end{example}
 \begin{definition}
     We say that two representations $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ are \textbf{isomorphic} if there exists an isomorphism $T:V\to W$ such that for all $g\in G$,
@@ -390,6 +382,67 @@ What should a subrepresentation of $\rho:G\to\GL(V)$ mean?
 
 We would like a subspace $W\leq V$ such that $\tau:G\to\GL(W)$ is a representation given by $\tau(g)(w)=\rho(g)(w)$ for all $w\in W$.
 Moreover, to make this well-defined, we need $W$ to b4 $\rho(g)-$invariant for every $g\in G$ ($\rho(g)(W)\subseteq W$).
+
+Suppose $T:V\to V$ is a linear operator, and $W\leq V$ is a $T-$invariant subspace; i.e. $T(W)\subseteq W$.
+In particular, the restriction operator $T_W:W\to W$ is well-defined.
+\begin{definition}
+    Let $\rho:G\to\GL(V)$ be a representation.
+    A subspqce $W\subseteq V$ is said to be \mbf{$G-$stable} if $W$ is $\rho(g)-$invariant for all $g\in G$.
+    A \textbf{subrepresentation} of $\rho$ is a representation $\rho_W:G\to\GL(W)$ where for all $g\in G$ and $w\in W$, $\rho_W(g)(w)=\rho(g)(w)$ where $W$ is a $G-$stable subspace of $V$.
+\end{definition}
+\begin{example}
+    Suppose $\rho:G\to\GL(V)$ be the regular representation.
+    Take $W=\spn\{\sum_{g\in G}v_g\}$, which is clearly $G-$stable, and $\rho_W:G\to\GL(W)$ is isomorphic to the trivial representation.
+
+    Similarly, let $\rho:S_n\to\GL(V)$ be the regular representation, $W=\spn\{\sum_{\sigma\in S_n}\sgn(\sigma)v_\sigma\}$; this is isomorphic to the sign representation.
+\end{example}
+\begin{theorem}
+    Let $\rho:G\to\GL(V)$ be a representation, $W\leq V$ $G-$stable.
+    Then there exists a $G-$stable subspace $W'$ such that $V=W\oplus W'$.
+\end{theorem}
+\begin{proof}
+    Take any inner product $\langle x,y\rangle$ on $V$.
+    Then for any $x,y\in V$, define
+    \begin{equation*}
+        \langle x,y\rangle^*=\sum_{g\in G}\langle \rho(g)(x),\rho(g)(y)\rangle
+    \end{equation*}
+    This is also an inner product.
+    Let $x,y\in V$ and let $h\in G$.
+    Then
+    \begin{align*}
+        \langle\rho(h)(x),\rho(h)(y)\rangle^* &= \sum_{g\in G}\langle\rho(g)\rho(h)(x),\rho(g)\rho(h)(y)\rangle\\
+                                              &= \sum_{g\in G}\langle\rho(gh)(x),\rho(gh)(y)\rangle\\
+                                              &= \sum_{g\in G}\langle\rho(g)(x),\rho(g)(y)\rangle
+    \end{align*}
+    Thus every $\rho(h)$ is unitary with respect to $\langle\cdot,\cdot\rangle^*$.
+    Let $W\leq V$ be $G-$stable, and take $W'=W^\perp$ with respect to $\langle\cdot,\cdot\rangle^*$.
+    Then $V=W\oplus W'$.
+    Let's see that $W^\perp$ is $G-$stable.
+    Let $x\in W^\perp$, $w\in W$, and $g\in G$, so that
+    \begin{align*}
+        \langle\rho(g)(x),w\rangle^*&=\langle x,\rho(g)^*(w)^*\rangle=\langle x,\rho(g)^{-1}(w)\rangle^*\\
+                                    &=\langle x,\underbrace{\rho(g^{-1})(w)}_{\in W}\rangle^*\\
+                                    &= 0
+    \end{align*}
+    and $\rho(g)(W^\perp)\subseteq W^\perp$ as required.
+\end{proof}
+\begin{definition}
+    Let $\rho:G\to\GL(V)$ be a representation, and $V=W_1\oplus W_2\oplus\cdots\oplus W_k$ where each $W_i$ is $G-$stable.
+    For each $i$, let $\rho_i=\rho_{w_i}$.
+    For each $v=\sum w_i\in V$, we have $\rho(g)(v)=\sum\rho(g)(w_i)=\rho_i(g)(w_i)$.
+    In this case, we write
+    \begin{equation*}
+        \rho=\rho_1\oplus\rho_2\oplus\cdots\oplus\rho_k
+    \end{equation*}
+    and call $\rho$ a direct sum of the $\rho_i$'s.
+\end{definition}
+The previous definition is written as an internal direct sum of $V$.
+Externally, given vector spaces $W_1,\ldots,W_k$ and representations $\rho_i:G\to\GL(W_i)$, we can define
+\begin{equation*}
+    (\rho_1\oplus\cdots\oplus\rho_k):G\to\GL(W_1\oplus\cdots\oplus W_k)
+\end{equation*}
+by $(\rho_1\oplus\cdots\oplus\rho_k)(g)(w_1,\ldots,w_k)=(\rho_1(g)(w_1),\ldots,\rho_k(g)(w_k))$.
+
 \end{document}
 
 
