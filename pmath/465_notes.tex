@@ -393,6 +393,12 @@ If $\mathcal{C}$ is a basis for the topology on $Y$, then $\mathcal{B}=\Set{X\ca
     \end{equation*}
     where $x\in X$, $r>0$.
 \end{example}
+\begin{definition}[Quotient Topology]
+    Let $X$ be a topological space and let $\sim$ be an equivalence relation on $X$.
+    The set of equivalence classes is denoted $\quot{X}{\sim}$, and $\quot{X}{\sim}$ is called the \textbf{quotient} of $X$ by $\sim$.
+    The map $q:X\to\quot{X}{\sim}$ given by $q(a)=[a]$ is called the natural \textbf{projection map} or \textbf{quotient map}.
+    We define the \textbf{quotient topology} on $\quot{X}{\sim}$ by stipulating that for $W\subseteq \quot{X}{\sim}$, $W$ is open in $\quot{X}{\sim}$ if and only if $q^{-1}(W)$ is open in $X$.
+\end{definition}
 \begin{definition}
     When $X$ and $Y$ are topological spaces and $f:X\to Y$, we say that $f$ is \textbf{continuous} when it has the property that $f^{-1}(V)$ is open in $X$ for every open set $V$ in $Y$.
     We say that $f:X\to Y$ is a \textbf{homeomorphism} when $f$ is bijective and both $f$ and $f^{-1}$ are continuous.
@@ -427,8 +433,16 @@ Note that if $Y$ is a metric space and $X\subseteq Y$ is a subspsace, then $X$ i
 It is easy to see that if $X$ is path connected, then $X$ is connected.
 \begin{definition}
     Let $X$ be a topological space.
-    If we define a relation $\sim$ on $C$ by $a\sim b$ if and only if there exists a connected subspsace $A\subseteq X$ with $a\in A$ and $b\in B$.
+    If we define a relation $\sim$ on $C$ by taking $a\sim b$ if and only if there exists a connected subspsace $A\subseteq X$ with $a\in A$ and $b\in B$.
 \end{definition}
+It is clear that this is an equivalence relation.
+Note that when $X$ is a topological space, its connected components are connected, and each connected subspace of $X$ is contained in one of its connected components.
+\begin{definition}
+    Let $X$ be a topological space.
+    Define a relation $\approx$ on $X$ by $a\approx b$ if and only if there exists a continuous map $\alpha:[0,1]\to X$ with $\alpha(0)=a$ and $\alpha(1)=b$.
+    Such a map $\alpha$ is called a \textbf{continuous path}.
+\end{definition}
+One can show that if $X$ is \textbf{locally path connected} (which means that $X$ has a basis for its topology which consists of path connected sets), then the path components of $X$ are equal to the connected components of $X$, and that these components are open.
 
 \end{document}
 

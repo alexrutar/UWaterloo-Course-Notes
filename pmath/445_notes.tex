@@ -442,6 +442,46 @@ Externally, given vector spaces $W_1,\ldots,W_k$ and representations $\rho_i:G\t
     (\rho_1\oplus\cdots\oplus\rho_k):G\to\GL(W_1\oplus\cdots\oplus W_k)
 \end{equation*}
 by $(\rho_1\oplus\cdots\oplus\rho_k)(g)(w_1,\ldots,w_k)=(\rho_1(g)(w_1),\ldots,\rho_k(g)(w_k))$.
+If $\rho_i:G\to\GL(W_i)$ is a subrepresentation fo $\rho:G\to\GL(V)$, we often say ``$W_i$ is a subrepresentation of $V$''.
+\begin{definition}
+    Let $\rho:G\to\GL(V)$ be a representation.
+    We say $\rho$ is \textbf{irreducible} if $V\neq\{0\}$ and the only $G-$stable subspaces of $V$ are $\{0\}$ and $V$.
+\end{definition}
+Clearly,
+\begin{theorem}
+    Every representation $\rho:G\to\GL(V)$ can be written as a direct sum of irreducible sub-representations.
+\end{theorem}
+\begin{example}
+    Let $\rho:S_3\to\GL(\C^3)$ be the permutation representation with respect to the standard basis $\{e_1,e_2,e_3\}$.
+    Consider $W_1=\spn\{e_1+e_2+e_3\}$ and $W_2=\spn\{e_1-e_2,e_2-e_3\}$.
+    Is $W_2$ irreducible?
+    
+    More generally, if $V=W_1\oplus\cdots\oplus W_k$ and $\dim W_i=1$ and $\deg(\rho_i)=1$,
+    \begin{equation*}
+        \rho(gh)(\sum w_i) = \sum\rho_i(gh)(w_i) = \sum\rho_i(g)\rho_i(h)(w_i)=\sum\rho_i(h)\rho_i(g)(w_i)
+    \end{equation*}
+    so that $\rho(gh)=\rho(hg)$.
+    In the our example, this does not happen, since $\rho(g)\neq I$ when $g\neq 1$ and $S_3$ is not abelian.
+\end{example}
+\begin{example}
+    Let $\rho:S_3\to\GL(V)$ be the regular representation.
+    Let $W_1=\spn\{\sum_{\sigma\in S_3}v_\sigma\}$ and $W_2=\spn\{\sum_{\sigma\in S_3}\sgn(\sigma)v_\sigma\}$, and
+    \begin{equation*}
+        W_3 = \Set{\sum\alpha_\sigma v_\sigma | \begin{array}\alpha_\epsilon+\alpha_{(123)}+\alpha_{(1,3,2)}&=0\\\alpha_{(12)}+\alpha_{(13)}+\alpha_{(23)} &= 0\end{array}}
+    \end{equation*}
+    Now let's focus on $W_3$.
+    A basis for $W_3$ is given by
+    \begin{align*}
+        e_1&=v_\epsilon-v_{(123)} & e_2 &= v_\epsilon-v_{(123)}\\
+        e_3 &= v_{(12)}-v_{(13)} & e_4 &= v_{(12)}-v_{(23)}
+    \end{align*}
+    Recall that $S_3=\langle(12),(123)\rangle$; suffices to show stability with respect to generators.
+    \begin{align*}
+        \rho(12) &: e_1\mapsto e_4,e_2\mapsto e_3, e_3\mapsto e_2,e_4\mapsto e_1\\
+        \rho(123) & : e_1\mapsto e_2-e_1, e_2\mapsto -e_1,e_3\mapsto e_4-e_3, e_4\mapsto -e_3
+    \end{align*}
+    Let $U_1=\spn\{e_1-e_4,e_2+e_3-e_1\}$
+\end{example}
 
 \end{document}
 

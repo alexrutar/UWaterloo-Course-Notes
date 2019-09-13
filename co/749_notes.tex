@@ -417,6 +417,113 @@ $n-$connected means if you remove any $n$ vertices, the graph remains connected
 Take $K_4$, and have lists with colours $1,2,3,4$ (or any graph which is uniquely $4-$colorable).
 Inscribe a triangle in each face with lists $\{1,2,4,5\}$, $\{1,3,4,5\}$, $\{2,3,4,5\}$.
 Always align so that the degree 3 vertex is adjacent to the $1,2$ and $1,3$.
+\begin{theorem}[Gr\"otsch]
+    If $G$ is planar with girth at least 4, then $\chi(G)\leq 3$ and $\chi_\ell\leq 4$.
+\end{theorem}
+If $G$ is planar with $n$ vertices and $e$ edges, then $e\leq 3n-6$ so that $\delta\leq 5$.
+If $G$ is planar with $n$ vertices and $e$ edges with girth 4, then $e\leq 2n-4$ so $\delta\leq 3$.
+This gives an easy proof of the list colouring value.
+\begin{theorem}
+    Let $G$ be planar with girth at least 5.
+    Then $\chi_\ell(G)\leq 3$.
+\end{theorem}
+\begin{proof}
+    Suppose $G$ is a planar graph with girth at least 5 such that
+    \begin{enumerate}[nl]
+        \item There are at most 6 pre-colored vertices on the outer face which form a path or a cycle (edges need not be on the outer face),
+        \item there are some vertices with $|L(u)|=2$ on the outer face boundary, and
+        \item There are no edges joining vertices with $|L(v)|<3$ except for those in (1)
+    \end{enumerate}
+    We will prove by induction on $|V(G)|$.
+    Assume that $G$ is a minimal counterexample.
+    Then
+    \begin{enumerate}[nl]
+        \item $|V(G)|\leq 3$
+        \item $G$ is connected
+        \item Outer face bounded by a cycle
+        \item No cut vertex in the graph ($G$ is 2-connected); outer cycle has $C$
+        \item $C$ has no chord
+        \item No separating cycle with at most 6 vertices
+        \item Pre-coloured path/cycle is a non-empty path (can just remove an edge)
+        \item No path of length 2 inside $C$ except (see paper)
+        \item No path of length 3 inside $C$ except starting at a list-$2$-vertex
+        \item The precolored path $P$ and the outer cycle $C$ has $|V(C)|\leq|V(P)|+2$.
+    \end{enumerate}
+
+
+    We will allow some precolored vertices which form a path or cycle with at most 6 vertices (edges can be chords), and some vertices with $|L(u)|=2$, all on the outer face boundary.
+    Except for edges in this path/cycle, there are no other edges joining vertices with $|L(u)|< 3$.
+    All other vertices have at least 3 available colors.
+\end{proof}
+\begin{theorem}[Gr\"otsch]
+    If $G$ is planar with girth at least 4, then $\chi(G)\leq 3$.
+\end{theorem}
+\begin{proof}
+    If there is no 4-cycle, we are done by the previous theorem.
+    If $G$ contains no 4-cycle, we may simply add a 4-cycle artifically by adding edges.
+
+    Note that we may even precolor a 4-cycle or 5-cycle.
+    Then that coloring can be extended to $G$.
+    Suppose $G$ is a minimal counterexample.
+    First note that there is no separating 4 or 5 cycle: otherwise, one can colour the interior and exterior of the cycle.
+    Thus assume the precolored cycle is on the boundary.
+    If there is another separating 4 or 5 cycle inside.
+    Then colour the outer face by induction, then the inner face.
+
+    Let $C$ be a 4-cycle in $G$, and $C$ is facial.
+    If $C$ is pre-colored, we have a problem: we can assume $C\neq C_0$, for if not, delete an edge in $C_0$ and refer to the original case.
+    In this case, we may ...
+\end{proof}
+\begin{proposition}
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $\chi(G)\leq 3$
+        \item There exists an orientation of $G$ such that all cycles are balanced modulo 3
+        \item There exists an orientation of $G$ such that all closed walks are balanced modulo 3
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \imp{iii}{ii} is immediate.
+
+    To see \imp{ii}{iii}, we can simply take the orientation from (ii).
+    If a closed walk is not a cycle, it has a repeated vertex, and we can verify that the walk is balanced on each component.
+
+    For \imp{i}{ii}, we must simply orient the edges such that $0->1$, $1->2$, $2->3$
+
+    For \imp{iii}{i}, colour some vertex 0.
+    Then for any other vertex, take a path connecting the vertices and walk along the path by adding one for every forward traversal, and subtract one for each backwards traversal, modulo 3.
+    If there are multiple paths, then the multiple paths would form a walk which is balanced modulo 3, so the lengths must be the same.
+\end{proof}
+\begin{definition}
+    A \textbf{cut} in a graph.
+    Partition the vertex set into two pieces.
+    Then a cut is the set of edges between the two vertex sets.
+    A \textbf{minimal cut} is a cut containing no other cuts.
+\end{definition}
+Note that a cut is minimal if and only if each side of the cut is connected.
+If $G$ is planar, then the dual graph is formed as follows: each face becomes a vertex, and the vertices are joined by an edge if the corresponding faces are adjacent.
+The number of edges is unchanged, and the number of vertices and faces swaps.
+
+Given an orientation on the original graph, we can pass the orientation to the dual graph by setting the orientation anticlockwise relative to the intersection.
+Let $E\subseteq E(G)$.
+Then $E$ is a minimal cut in $G$ if and only if $E^*$ is a cycle, and $E$ is a cycle in $G$ if and only if $E^*$ is a minimal cut in $G^*$.
+
+Assume $G$ is planar.
+If $G$ is 4-edge-connected, then each cut has at least 4 edges, $G^*$ has girth at least 4, then $\chi(G^*)\leq 3$, then the following equivalent things hold:
+\begin{enumerate}[nl,r]
+    \item $G^*$ has an orientation so that all cycles are balanced modulo 3
+    \item $G$has an orientation such that all cuts are balanced modulo 3
+    \item $G$ has an orientation such that $d^+(v)\equiv d^-(v)$ modulo 3
+\end{enumerate}
+\begin{conjecture}[Tutte]
+    If $G$ is 4-edge-connected, then there exists an orientation on $G$ such that all degrees are balanced modulo 3.
+\end{conjecture}
+Currently proven for 6-edge-connected.
+If $G$ is 4-edge connected, then there exists an orientation on $G$ and a flow 1 or 2 on each edge such that at each vertex the inflow equals the outflow.
+This is equivalent to the conjecture by reversing the orientation for all edges which have flow 2, or by simply placing flow 1 on every edge in the graph.
+
+In fact, one can remove the modular condition.
+Assume each edge has a flow 1 or 2 or 3 or 4, and assume that each inflow is equivalen to the out flow modulo 5.
 \end{document}
 
 

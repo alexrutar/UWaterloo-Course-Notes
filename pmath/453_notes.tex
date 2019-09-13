@@ -407,7 +407,7 @@ and
 \begin{proposition}[H\"older's Inequality]
     If $x\in\ell_p$ and $y\in\ell_q$, then $xy=(x_iy_i)_{i=1}^\infty\in\ell_1$, with
     \begin{equation*}
-        \abs{\sum_{i=1}^\infty x_iy_i}\leq\norm{x}_p\norm{y}_q
+        \sum_{i=1}^\infty \abs{x_iy_i}\leq\norm{x}_p\norm{y}_q
     \end{equation*}
     with equality exactly when $\sgn(x_iy_i)=\sgn(x_ky_k)$ for all $j,k\in\N$ where $x_iy_i\neq 0\neq x_ky_k$, and $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\ell_1$.
 \end{proposition}
@@ -619,6 +619,129 @@ We denote
 \end{proof}
 We now let $\mathcal{B}(X,Y)=\Set{S\in\mathcal{L}(X,Y) | S\text{ is bounded}}$.
 We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
+\begin{theorem}
+    If $X,Y$ are normed spaces, then $(\mathcal{B}(X,Y),\norm{\cdot})$ is a normed space.
+    Furthermore, if $Y$ is a Banach spaces, then so to is $(\mathcal{B}(X,Y),\norm{\cdot})$.
+\end{theorem}
+\begin{proof}
+    Define
+    \begin{equation*}
+        \Gamma:\mathcal{B}(X,Y)\to C_b^Y(B(X))
+    \end{equation*}
+    given by $\Gamma(S)=S|_{B(X)}$.
+    Then, by definition, $\Gamma$ is linear, with
+    \begin{equation*}
+        \norm{\Gamma(S)}_\infty=\sup_{x\in B(X)}\norm{Sx}=\norm{S}
+    \end{equation*}
+    Thus $\norm{\cdot}$ is a norm: if $S,T\in\mathcal{B}(X,Y)$, $\alpha\in\F$,
+    \begin{align*}
+        \norm{S+T}&=\norm{\Gamma(S+T)}_\infty=\norm{\Gamma(S)+\Gamma(T)}_\infty\leq \norm{\Gamma(S)}_\infty+\norm{\Gamma(T)}_\infty=\norm{S}+\norm{T}\\
+        \norm{\alpha S}&=\norm{\Gamma(\alpha S)}_\infty=|\alpha|\norm{\Gamma(S)}_\infty=|\alpha|\norm{S}.
+    \end{align*}
+    Furthermore, $\Gamma:\mathcal{B}(X,Y)\to C_b^Y(\mathcal{B}(X))$ is an isometry.
+
+    Now suppose that $Y$ is a Banach space.
+    We will show that $\Gamma(\mathcal{B}(X,Y))$ is closed in $C_b^Y(B(X))$, and hence $B(X,Y)=\Gamma^{-1}(\Gamma(\mathcal{B}(X,Y)))$ is complete.
+    Let $(S_n)_{n=1}^\infty\subset\mathcal{B}(X,Y)$ be $\norm{\cdot}-$Cauchy.
+    Then $(\Gamma(S_n))_{n=1}^\infty$ is $\norm{\cdot}_\infty-$Cauchy in $C_b^Y(B(X))$, and hence there is $f\in C_b^Y(B(X))$ such that $\lim_{n\to\infty}\norm{\Gamma(S_n)-f}_\infty=0$.
+    Then we let $S:X\to Y$ be given by
+    \begin{equation*}
+        Sx=\begin{cases}
+            \norm{x}f\left(\frac{x}{\norm{x}}\right) & x\neq 0\\
+            0 & x=0
+        \end{cases}
+    \end{equation*}
+    If $x,x'\in X$ and $\alpha\in\F$ are all such that $x,x',x+\alpha x'\neq 0$, then
+    \begin{align*}
+        S(x+\alpha x') &= \norm{x+\alpha x'}f\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
+                       &= \norm{x+\alpha x'}\lim_{n\to\infty} S_n\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
+                       &= \lim_{n\to\infty}(S_nx+\alpha S_nx')=\lim_{n\to\infty}\left[\norm{x}S_n\left(\frac{1}{\norm{x}}x\right)+\alpha\norm{x'}S_n\left(\frac{1}{\norm{x}}x'\right)\right]\\
+                       &= \norm{x}f\left(\frac{x}{\norm{x}}\right)+\alpha\norm{x'}f\left(\frac{x'}{\norm{x}}\right)\\
+                       &= Sx+\alpha Sx'
+    \end{align*}
+    The above computation is easily performed if any of $x$, $x'$, $x+\alpha x'$ are 0.
+    Hence $S\in\mathcal{L}(X,Y)$.
+    We se that $S$ is continuous (say, at a point on $S(X)$), so $S\in\mathcal{B}(X,Y)$.
+    Finally, as $S|_{B(X)}=f=\lim_{n\to\infty}S_n|_{B(X)}$ (with respect to the uniform norm), we have
+    \begin{equation*}
+        \norm{S-S_n}=\sup_{x\in B(X)}\norm{(S-S_n)x}=\norm{f-\Gamma(S_n)}_\infty
+    \end{equation*}
+    goes to $0$ as $n$ goes to infinity.
+\end{proof}
+\begin{definition}
+    Given a vector space $X$, let $X'=\mathcal{L}(X,\F)$ denote the \textbf{algebraic dual}.
+    If further $X$ is a normed space, we let $X^*=\mathcal{B}(X,\F)$ denote the (continuous) dual.
+\end{definition}
+\begin{corollary}
+    If $X$ is a normed spaces, then $X^*$ is always a Banach space.
+\end{corollary}
+\begin{theorem}
+    Let for $x\in\ell_1$, $f_x:c_0\to\F$ be given by $f_x(y)=\sum_{j=1}^\infty x_jy_j$.
+    Then $f_x\in c_0^*$ with $\norm{f_x}=\norm{x}_1$.
+    Furthermore, every element of $c_0^*$ arises as above.
+\end{theorem}
+\begin{proof}
+    If $x\in\ell_1$ and $y\in c_0\subseteq\ell_\infty$, then
+    \begin{equation*}
+        \sum_{j=1}^\infty|x_jy_j|\leq\sum_{j=1}^\infty|x_j|\norm{y}_\infty=\norm{x}_1\norm{y}_\infty<\infty
+    \end{equation*}
+    so $f_x(y)=\sum_{j=1}^\infty x_jy_j$ is well-defined.
+    It is obvious that $f_x$ is linear: $f_x(y+\alpha y')=f_x(y)+\alpha f(y')$ for $y,yl\in c_0$ and $\alpha\in\F$.
+    Also, $\norm{f_x}\leq\norm{x}_1$.
+    We let $y^{n}=(\overline{\sgn x},\ldots,\overline{\sgn x_n},0,0,\ldots)\in c_0$, with $\norm{y^n}=1$.
+    Then
+    \begin{equation*}
+        \norm{f_x}\geq|f_x(y^n)|=\sum_{j=1}^n x_i\overline{\sgn x_i}=\sum_{j=1}^n|x_i|
+    \end{equation*}
+    so that $\norm{f_x}\geq\norm{x}_1$, and hence equality holds.
+
+    Now let $f\in c_0^*$, and write $e_n=(0,\ldots,0,1,0,0,\ldots)\in c_0$, and let $x_n=f(e_n)$.
+    Then, let $y\in c_0$ and $y^n=(y_1,\ldots,y_n,0,0,\ldots)$ and we have
+    \begin{equation*}
+        \norm{y-y^n}_\infty=\sup_{j\geq n+1}|y_j|
+    \end{equation*}
+    which goes to 0 as $n$ goes to infinity.
+    Then since $f$ is continuous, we have
+    \begin{equation*}
+        f(y)=\lim_{n\to\infty}f(y^n)=\lim_{n\to\infty}\sum_{j=1}^n y_jx_j=\sum_{j=1}^\infty x_jy_j=f_x(y)
+    \end{equation*}
+    We use sequence $(y^n)_{n=1}^\infty$ as in $y^n\in c_0$, to see that
+    \begin{equation*}
+        \sum_{j=1}^n|x_i|=|f(y^n)|\leq\norm{f}<\infty
+    \end{equation*}
+    so $x\in\ell_1$.
+    Thus $f=f_x$, as desired.
+\end{proof}
+\begin{corollary}
+    $\ell_1\cong c^*$ isometrically isomorphically.
+\end{corollary}
+\begin{proof}
+    For $y\in c$, let $L(y)=\lim_{n\to\infty}y_n$.
+    Given $y\in c$, let $y^n=(y_1,\ldots,y_n,L(y),L(y),\ldots)\in c$.
+    Notice that $\norm{y-y^n}_\infty\to 0$ similarly as above.
+
+    We let $1=(1,1,\ldots)$, and $1_n=(0,\ldots,0,1,1,\ldots)$.
+    If $m<n$, then $1_n-1_m\in c_0$, so
+    \begin{equation*}
+        |f(1_n)-f(1_m)| = |f_x(1_n-1_m)|\leq \sum_{j=m+1}^n|x_j|
+    \end{equation*}
+    so that $(f(1_n))_{n=1}^\infty$ is Cauchy in $\F$.
+    Let $x_0=\lim_{n\to\infty}f(1_n)$.
+    Let $\tilde x=(x_0,x_1,\ldots)\in\ell_1$.
+    Then letting $x_j=f(e_j)$, we see that
+    \begin{equation*}
+        f(y)=\lim_{n\to\infty}f(y^n)=\sum_{j=1}^\infty x_jy_j+x_0L(y)
+    \end{equation*}
+    Similarly as above, we may show that $\norm{f}=\norm{\tilde x}_1$.
+
+
+\end{proof}
+\begin{remark}
+    We write $c_0^*\cong\ell_1$ isometrically.
+\end{remark}
+\begin{corollary}
+    $(\ell_1,\norm{\cdot}_1)$ is complete.
+\end{corollary}
 
 \end{document}
 
