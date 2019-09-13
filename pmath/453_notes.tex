@@ -742,7 +742,121 @@ We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
 \begin{corollary}
     $(\ell_1,\norm{\cdot}_1)$ is complete.
 \end{corollary}
+\section{Axiom of Choice and the Hahn-Banach Theorem}
+\begin{definition}
+    Let $S$ be a non-empty set.
+    A \textbf{partial ordering} is a binary relation $\leq$ on $S$ which satisfies for $s,t,n\in S$,
+    \begin{enumerate}[nl,r]
+        \item \textit{(reflexivity)} $s\leq s$
+        \item \textit{(transitivity)} $s\leq t$, $t\leq u$ implies $s\leq u$
+        \item \textit{(anti-symmetry)} $s\leq t$, $t\leq s$ implies $s=t$
+    \end{enumerate}
+    We call the pair $(S,\leq)$ a \textbf{partially ordered set}.
+    We say that $(S,\leq)$ is \textbf{totally ordered} if, given $s,t\in S$, at least one of $s\leq t$ or $t\leq s$ holds.
+    We say that $(S,\leq)$ is \textbf{well-ordered} if given any $\emptyset\neq S_0\subseteq S$, there is some $s_0\in S_0$ such that $s_0\leq s$ for $s\in S_0$.
+    A \textbf{chain} in a poset $(S,\leq)$ is any $\emptyset\neq C\subseteq S$ such that $(S,\leq|_C)$ is totally ordered.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $X\neq\emptyset$, $(\mathcal{P}(X),\subseteq)$ is a poset
+        \item $(\R,\leq)$ is a totally ordered set
+        \item $(\N,\leq)$, $(\omega=\N\cup\{\infty\},\leq)$, are well-ordered sets.
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item \textit{(Axiom of Choice 1)}: For any $x\neq\emptyset$, there is a function $\gamma:\mathcal{P}(X)\setminus\{\emptyset\}\to X$ such that $\gamma(A)\in A$ for each $A\in\mathcal{P})X_\setminus\{\emptyset\}$.
+        \item \textit{(Axiom of Choice 2)}: Given any $\{A_\lambda\}_{\lambda\in\Lambda}$ where $A_\lambda\neq\emptyset$ for each $\lambda$,
+            \begin{equation*}
+                \prod_{\lambda\in\Lambda}A_\lambda = \left\{(a_\lambda)_{\lambda\in\Lambda}:a_\lambda\in A_\lambda\text{ for each }\lambda\right\}\neq \emptyset
+            \end{equation*}
+        \item \textit{(Zorn's Lemma)}: In a poset $(S,\leq)$, if each chain $C\subseteq S$ admits an upper bound in $S$, then $(S,\leq)$ admis a maximal element.
+        \item \textit{(Well-ordering principle)}: Any $S\neq\emptyset$ admits a well-ordering
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{definition}
+    Let $X$ be a vector space (over $k$).
+    A subset $S\subseteq X$ is called
+    \begin{itemize}[nl]
+        \item \textbf{linearly independent} if for any distinct $x_1,\ldots,x_n\in S$, the equation $0=\alpha_1x_1+\cdots+\alpha_nx_n=0$ where $\alpha_i\in k$ implies $\alpha_1=\cdots=\alpha_n=0$.
+        \item \textbf{spanning} if each $x\in X$ admits $x_i\in S$ and $\alpha_i\in k$ such that $x=\alpha_1x_1+\cdots+\alpha_nx_n$.
+        \item \textbf{Hamel basis} if it is both linearly independent and spanning
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    Any vector space $X$ admits a Hamel basis.
+\end{proposition}
+\begin{proof}
+    Let $\mathcal{L}=\{L\subseteq X:L\text{ is linearly independent}\}$.
+    Then $(\mathcal{L},\subseteq)$ is a poset.
+    Verify that for any chain $\mathcal{C}\subseteq\mathcal{L}$, that $U=\bigcup_{L\in\mathcal{C}}L\in\mathcal{L}$ and is an upper bound for $\mathcal{C}$.
+    Apply Zorn to find a maximal element $M$ in $(\mathcal{L},\subseteq)$.
+    Verify that $M$ is spanning for $X$.
+\end{proof}
+\begin{corollary}
+    If $X$ is an infinite dimensional normed space, then there exists $f\in X'\setminus X^*$.
+\end{corollary}
+\begin{proof}
+    Our assumption provides $\{e_n\}_{n=1}^\infty$ which is linearly independent.
+    By normalizing each element, we may and will suppose that each $\norm{e_n}=1$.
+    Let
+    \begin{equation*}
+        \spn\{e_n\}_{n=1}^\infty=\Set{\sum_{j=1}^m\alpha_je_{n_j}:m\in\N,\alpha_i\in\F, n_1<\cdots<n_m}
+    \end{equation*}
+    and let $B$ be any linearly independent set containing $\{e_n\}_{n=1}^\infty$.
+    Define $f:X=\spn B\to\F$ be given for $x=\sum_{b\in B\setminus\{e_n\}_{n=1}^\infty}\alpha_b b+\sum_{j=1}^n\alpha_je_{n_j}$ by $f(x)=\sum_{j=1}^m\alpha_j n_j$.
+    The point is that $f(e_n)=n$ and $f(e)=0$ for any other $e\in B$.
+    Notice that
+    \begin{equation*}
+        \norm{f}=\sup_{x\in B(X)}|f(x)|\geq\sup_{n\in\N}|f(e_n)|=\sup_{n\in\N}n=\infty
+    \end{equation*}
+\end{proof}
+\begin{definition}
+    Let $X$ be a $\R-$vector space.
+    A \textbf{sublinear functional} is any $\rho:X\to\R$ such that it satisies
+    \begin{itemize}[nl]
+        \item \textit{(non-negative homogenity)} $\rho(tx)=t\rho(x)$ for $t\geq 0$, $x\in X$.
+        \item \textit{(subadditivity)} $\rho(x+y)\leq\rho(x)+\rho(y)$ for $x,y\in X$.
+    \end{itemize}
+\end{definition}
 
+\begin{theorem}[Hahn-Banach]
+    Let $X$ be a $\R-$vector space, $\rho:X\to\R$ a sublinear functional, $Y\subseteq X$ a subspace and $f\in Y'$ such that $f\leq\rho|_Y$.
+    Then there exists $F\in X'$ such that $F|_Y=f$ and $F\leq\rho$ on $X$.
+\end{theorem}
+\begin{proof}
+    Given $x\in X\setminus Y$, we wish to find $c\in\R$ such that
+    \begin{equation*}
+        f(y)+\alpha c\leq\rho(y+\alpha x)
+    \end{equation*}
+    for $y\in Y$ and $\alpha\in\R$.
+    In this case, we let $F:\spn Y\cup\{x\}\to\R$ be given by $F(y+\alpha x)=f(y)+\alpha c$, and we have that $F$ is linear and satisfies $F\leq\rho$ on $\spn Y\cup\{s\}$.
+    To do this, let $y_+,y_-$ in $Y$ and observe that $f(y_+)+f(y_-)=f(y_++y_-)\leq \rho(y_++y_-)\leq\rho(y_++x)+\rho(y_--x)$ so that $f(y_-)-\rho(y_--x)\leq\rho(y_++x)-f(y_+)$.
+    It thus follows that
+    \begin{equation*}
+        \sup\{f(y)-\rho(y-x):y\in Y\}\leq\in\{\rho(y+x)-f(y):y\in Y\}
+    \end{equation*}
+    so we may find $c\in\R$ for which
+    \begin{equation*}
+        \sup\{f(y)-\rho(y-x):y\in Y\}\leq c\leq\inf\{\rho(y+x)-f(y):y\in Y\}
+    \end{equation*}
+    If $t>0$, then for $y\in Y$,
+    \begin{equation*}
+        c\leq\rho\left(\frac{1}{t}y+x\right)-f\left(\frac{1}{t}y\right)\Rightarrow tc\leq\rho(y+tx)-f(y)\Rightarrow f(y)+tc\leq\rho(y+tx)
+    \end{equation*}
+    and if $s>0$, then for $y\in Y$,
+    \begin{equation*}
+        f\left(\frac{1}{s}y\right)-\rho\left(\frac{1}{s}y-x\right)\leq c\Rightarrow sc\leq f(y)-\rho(y+sx)\Rightarrow f(y)-sc\leq\rho(y-sx)
+    \end{equation*}
+    Clearly, $f(y)+0\leq\rho(y+0x)$.
+    Hence, we have our desired inequality.
+
+    \textit{To be continued...}
+\end{proof}
 \end{document}
 
 

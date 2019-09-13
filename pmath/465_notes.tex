@@ -240,6 +240,8 @@
 
 % file-specific preamble -------------------------------------------------------
 \usepackage{braket}
+\DeclareMathOperator{\SS}{{\mathbb{S}}}
+\DeclareMathOperator{\PP}{{\mathbb{P}}}
 
 
 % constants --------------------------------------------------------------------
@@ -311,6 +313,7 @@
 % main document ----------------------------------------------------------------
 \chapter{Fundamentals of Manifolds}
 \section{Introduction to Topology}
+\subsection{Basic Constructions}
 \begin{definition}
     A \textbf{topology} on a set $X$ is a set $\tau$ of subsets of $X$ such that
     \begin{enumerate}[nl,r]
@@ -393,12 +396,7 @@ If $\mathcal{C}$ is a basis for the topology on $Y$, then $\mathcal{B}=\Set{X\ca
     \end{equation*}
     where $x\in X$, $r>0$.
 \end{example}
-\begin{definition}[Quotient Topology]
-    Let $X$ be a topological space and let $\sim$ be an equivalence relation on $X$.
-    The set of equivalence classes is denoted $\quot{X}{\sim}$, and $\quot{X}{\sim}$ is called the \textbf{quotient} of $X$ by $\sim$.
-    The map $q:X\to\quot{X}{\sim}$ given by $q(a)=[a]$ is called the natural \textbf{projection map} or \textbf{quotient map}.
-    We define the \textbf{quotient topology} on $\quot{X}{\sim}$ by stipulating that for $W\subseteq \quot{X}{\sim}$, $W$ is open in $\quot{X}{\sim}$ if and only if $q^{-1}(W)$ is open in $X$.
-\end{definition}
+\subsection{Maps on Topological Spaces}
 \begin{definition}
     When $X$ and $Y$ are topological spaces and $f:X\to Y$, we say that $f$ is \textbf{continuous} when it has the property that $f^{-1}(V)$ is open in $X$ for every open set $V$ in $Y$.
     We say that $f:X\to Y$ is a \textbf{homeomorphism} when $f$ is bijective and both $f$ and $f^{-1}$ are continuous.
@@ -443,6 +441,61 @@ Note that when $X$ is a topological space, its connected components are connecte
     Such a map $\alpha$ is called a \textbf{continuous path}.
 \end{definition}
 One can show that if $X$ is \textbf{locally path connected} (which means that $X$ has a basis for its topology which consists of path connected sets), then the path components of $X$ are equal to the connected components of $X$, and that these components are open.
+\subsection{Quotient Topology}
+\begin{definition}[Quotient Topology]
+    Let $X$ be a topological space and let $\sim$ be an equivalence relation on $X$.
+    The set of equivalence classes is denoted $\quot{X}{\sim}$, and $\quot{X}{\sim}$ is called the \textbf{quotient} of $X$ by $\sim$.
+    The map $\pi:X\to\quot{X}{\sim}$ given by $\pi(a)=[a]$ is called the natural \textbf{projection map} or \textbf{quotient map}.
+    We define the \textbf{quotient topology} on $\quot{X}{\sim}$ by stipulating that for $W\subseteq \quot{X}{\sim}$, $W$ is open in $\quot{X}{\sim}$ if and only if $\pi^{-1}(W)$ is open in $X$.
+\end{definition}
+When a group $G$ acts on a topological space $X$, we define an equivalence relation $\sim$ on $X$ by $a\sim b$ if and only if $b=g\cdot a$ for some $g\in G$.
+The equivalence classes are orbits.
+In this context, we also write $\quot{X}{\sim}$ as $\quot{X}{G}$.
+
+When $X,Y$ are any toplogical spaces and $\pi:X\to Y$ is surjective, we can define an equivalence relation $X$ by $a\sim b$ if and only if $\pi(a)=\pi(b)$.
+We then have a natural bijection from $Y$ to $\quot{X}{\sim}$ in which $y\in Y$ corresponds to the fibre $\pi^{-1}(y)\in\quot{X}{\sim}$.
+
+If $Y$ has the topology such that for $W\subseteq Y$, $W$ is open in $Y$ if and only if $q^{-1}(W)$ is open in $X$.
+In this case, we also use the terminology ``quotient map'' for $\pi$.
+\begin{remark}
+    Let $X$ be a topological space and let $\sim$ be an equivalence relation on $X$.
+    Let $Y$ be any set.
+    If $f:X\to Y$ is constant on the equivalence classes, then $f$ induces a well-defined map $\overline{f}:\quot{X}{\sim}\to Y$ given by define $\overline{f}([a])=f(a)$.
+
+\end{remark}
+\begin{example}
+    Define an equivalence class on $[0,1]\subseteq\R$ by $s\sim t$ if and only if $s=t$ or $\{s,t\}=\{0,1\}$.
+    Then $\quot{[0,1]}{\sim}\cong\SS^1$.
+    Define $f:[0,1]\to\S^1$ by $f(t)=e^{i2\pi t}$.
+    Note that $f(0)=f(1)$, so $f$ induces a continuous map $\overline{f}:\quot{[0,1]}{\sim}\to\SS^1$.
+    The inverse map can be constructed as follows.
+    We define $g:\SS^1\to\quot{[0,1]}{\sim}$ by
+    \begin{equation*}
+        g(x,y)=
+        \begin{cases}
+            \left[\frac{1}{2\pi}\cos^{-1} x\right] &: y\geq 0\\
+            \left[1-\frac{1}{2\pi}\cos^{-1}x\right] &: y\leq 0
+        \end{cases}
+    \end{equation*}
+    Then $g$ is continuous by the Glueing lemma.
+
+    In particular, the same proof shows that $\quot{\R}{\Z}$ is homeomorphic to $\SS^1$.
+\end{example}
+\begin{example}
+    The projective space $\PP^n=\PP^n(\R)$ can be defined in several ways.
+    $\PP^n$ is the set of all $1-$dimensional vector subspaces of $\R^{n+1}$, or $\PP^n=\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$, or $\PP^n=\quot{\SS^n}{\pm 1}$ where $\SS^n=\{u\in\R^{n+1}:|u|=1\}$.
+
+    Let us show that $\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$ is homeomorphic to $\quot{\SS^n}{\pm 1}$.
+    Define $f:\R^{n+1}\setminus\{0\}\to\SS^n$ by $f(x)=x/|x|$, and $g=\pi\circ f$.
+    Then $g$ is given by $g(x)=\{\pm x/|x|\}$.
+    Note that for $t\in\R^\times$,
+    \begin{equation*}
+        g(tx)=\left[\frac{t}{|t|}\cdot\frac{x}{|x|}\right]=\left[\frac{x}{|x|}\right]
+    \end{equation*}
+    since $t/|t|=\pm 1$.
+    Thus $g$ induces a continuous map $\overline{g}$ on the quotient.
+    We construct the inverse map in a similar way.
+\end{example}
 
 \end{document}
 
