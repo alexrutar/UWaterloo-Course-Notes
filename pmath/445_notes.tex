@@ -556,10 +556,75 @@ The remark implies a number of facts:
 \end{example}
 \begin{example}
     Let $\rho:S_3\to\GL(V)$ be the regular representation.
-    Recall that $V=W_1\oplus W_2\oplus V_1\oplus V_2$.
-    Let $S_3=\langle (12),(123)\rangle$.
+    Recall that $V=W_1\oplus W_2\oplus U_1\oplus U_2$ where $W_1$ is the trivial representation, $W_2$ is the sign representation, and $U_1,U_2$ are isomorphic.
+    Let $S_3=\langle (12),(123)\rangle$; then we have
+    \begin{equation*}
+        \begin{array}{c|cc}
+            x_1 & 1 & 1\\
+            \hline
+            x_2 & -1 & 1\\
+            x_3 & a & b\\
+            x_4 & a & b
+        \end{array}
+    \end{equation*}
+    In particular, $\chi(12)=1-1+2a=0$ and $\chi(123)=1+1+2b=0$, so $b=-1$.
 \end{example}
+\begin{example}
+    Let $\rho:G\to\GL(V)$ be a representation.
+    In particular, $\rho(ghg^{-1})=\rho(g)\rho(h)\rho(g)$ so that $\Tr\rho(ghg^{-1})=\Tr\rho(h)$ so $\chi(ghg^{-1})=\ghi(h)$; in other words, that characters are constant on conjugacy classes.
+\end{example}
+\begin{lemma}[Schur]
+    Let $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ be irreducible representations, and suppose $T:V\to W$ is linear such that for all $g\in G$, $\tau(g)\circ T=T\circ\rho(g)$.
+    Then either $T=0$ or $T$ is an isomorphism and $\rho\cong\tau$.
+    Moreover, if $V=W$ and $\rho=\tau$, then $T$ is a scalar multiple of the identity.
+\end{lemma}
+\begin{proof}
+    Assume $T\neq 0$.
 
+    Let's first see that $T$ is injective, and let $v\in\ker(T)$.
+    Then for any $g\in G$, $T(\rho(g)(v))=\tau(g)(T(v))=0$, so $\rho(g)(v)\in\ker(T)$.
+    Thus $\ker(T)$ is $G-$stable (with respect to $\rho$).
+    Since $\rho$ is irreducible and $T\neq 0$, $\ker(T)=\{0\}$.
+
+    We also have that $T$ is surjective.
+    Let $v\in\Im(T)$ and say $v=T(X)$ with $x\in V$.
+    Then for $g\in G$, $\tau(g)(v)=\tau(g)(T(x))=T(\rho(g)(x))\in\Im(T)$ so $\Im(T)$ is $G-$stable, and again by irreducibility of $\tau$, $\Im(T)=W$.
+    Thus $T$ is an isomorphism.
+
+    Now let $\lambda\in\C$ be an eigenvalue of $T$ and consider $T'=T-\lambda I$.
+    Now, note that for $g\in G$, $\rho(g)T'=T'\rho(g)$, but $T'$ has non-trivial kernel, so in fact $T'=0$.
+\end{proof}
+\begin{corollary}
+    Let $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ be irreducible, and $T:V\to W$ linear.
+    Consider
+    \begin{equation*}
+        T'=\frac{1}{|G|}=\sum_{g\in G}\tau(g)^{-1} T\rho(g)
+    \end{equation*}
+    Then
+    \begin{enumerate}[nl,r]
+        \item If $T'\neq 0$, then $\rho\cong\tau$ via $T'$.
+        \item If $V=W$, $\rho=\tau$, then $T'=\Tr(T)/\dim(V)\cdot I$.
+\end{corollary}
+\begin{proof}
+    Clearly $T':V\to W$ is linear, and for any $h\in G$,
+    \begin{align*}
+        \tau(h)T'&=\tau(h)\frac{1}{|H|}\sum_{g\in G}\tau(g^{-1})T\rho(g)\\
+                 &= \frac{1}{|G|}\sum_{g\in G}\tau(hg^{-1})T\rho(g)\\
+                 &=\frac{1}{|G|}\sum_{g\in G}\tau(g^{-1})T(\rho(gh))\\
+                 &= \frac{1}{|G|}\sum_{g\in G}\tau(g^{-1})T\rho(g)\rho(h)\\
+                 &= T'\rho(h)
+    \end{align*}
+    If $V=W$ and $\rho=T$, then $\Tr(T')=\frac{1}{|G|}\Tr(T)\cdot|G|=\Tr(T)=\alpha\dim(V)$, so $\alpha=\Tr(T)/\dim(V)$.
+\end{proof}
+Let $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ be irreducible representations, and $T:V\to W$ linear.
+Let $\beta$ be a basis for $V$ and $\gamma$ a basis for $W$.
+Then for $g\in G$, let $[\rho(g)]_\beta=(a_{ij}(g))$, $[\tau(g)]_{\gamma}=(b_{kl}(g))$, $[T]_\beta^\gamma=(X_{ki})$, and $[T']_{\beta}^\gamma=(x_{ki}')$.
+
+By matrix multiplication, $x'_{ki}=\frac{1}{|G|}\sum_g\sum_{j,l}b_{kl}(g^{-1})x_{lj}a_{ji}$.
+If $\rho\ncong\tau$, then $T'=0$, so by viewing the RHS as a polynomial in the $x_{ij}$, we have
+\begin{equation*}
+    \frac{1}{|G|}\sum_g b_{kl}(g^{-1})a_{ji}(g)=0
+\end{equation*}
 
 
 

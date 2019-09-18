@@ -363,6 +363,44 @@
         Note that $(1+z)^n=\sum_{k=0}^n\binom{n}{k}z^k=\sum_{k=0}^\infty\binom{n}{k}z^k$ for $n\in\N$.
 
         Can we substitute $\frac{1}{(1-q)^t}=(1+z)^n$ where $z=-q$ and $n=-t$?
+    \item Consider
+        \begin{equation*}
+            (x_1+x_2)^n = \sum_{i=0}^n\binom{n}{i}x_1^ix_2^{n-i}
+        \end{equation*}
+        and
+        \begin{equation*}
+            (x_1+x_2)^n = \sum_{f:N_n\to\{1,2\}}\prod_{j=1}^n x_{f(j)}
+        \end{equation*}
+        More generally, we can consider
+        \begin{equation*}
+            (x_1+\cdots+x_k)^n = \sum_{f:N_n\to N_k}\prod_{j\in N_n}x_{f(j)}
+        \end{equation*}
+        If we set all $x_1=\cdots=x_k=1$, then $k^n$ gives the number of functions from $N_n$ to $N_k$.
+        If we set $x_i=q^i$ for all $i\in N_k$, then we get
+        \begin{equation*}
+            \left(\frac{q-q^{k+1}}{1-q}\right)^n =(q+q^2+\cdots+q^k)^n = \sum_{f:N_n\to N_k}q^{f(1)+\cdots+f(k)}
+        \end{equation*}
+        Collect all the terms in $(x_1+\cdots+x_k)^n$ that produce the same monomial.
+        Given a multiset $\mu$ with $m_1+\cdots+m_k=n$, write $x_1^{m_1}\cdots x_k^{m_k}=\underline{x}^\mu$.
+        Then
+        \begin{equation*}
+            (x_1+\cdots+x_k)^n =\frac{n!}{m_1!\cdots m_k!}\underline{x}^\mu= \sum_{\mu\in \mathcal{M}(n,t)}\binom{n}{\mu}\underline{x}^\mu
+        \end{equation*}
+
+    \item How can we interpret
+        \begin{equation*}
+            P_n(q)=\prod_{i=1}^n(1+q+q^2+\cdots+q^{i-1})
+        \end{equation*}
+        In general, if we set $q=1$, we see that $P_n(1)=n!$.
+        We might hope that there is some weight function on permutations $w:\mathcal{S}_n\to\N$ such that $P_n(q)=\sum_{\sigma\in\mathcal{S}_n}q^{w(\sigma)}$.
+        Recall the bijection $I_n:\mathcal{S}_n\to\mathcal{Q}_n$ from chapter 1.
+        Let's find some weight function $\nu:\mathcal{Q}_n\to\N$ such that $\sum_{\rho\in\mathcal{Q}_n}x^{\nu(\rho)}=P_n(q)$, then ``pull back'' the definition of $\nu:\mathcal{Q}_n\to\N$ to get a definition for $\omega:\mathcal{S}_n\to\N$.
+        Note that $\sum_{h\in N_r}q^{h-1}=1+q+\cdots+q^{r-1}$.
+        Thus
+        \begin{equation*}
+            \sum_{\rho=(h_1,\ldots,h_n)\in\mathcal{Q}_n}q^{(h_1-1)+(h_2-1)+\cdots+(h_n-1)} = \prod_{i=1}^n(1+q+\cdots+q^{i-1})=P_n(q)
+        \end{equation*}
+        so we can define $\nu(\rho)=|\rho|-n$ and $\sum_{q\in\mathcal{Q}_n}q^{|\rho|-n}=P_n(q)$.
 \end{enumerate}
 \end{document}
 

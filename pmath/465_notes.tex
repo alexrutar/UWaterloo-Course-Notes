@@ -548,15 +548,48 @@ In this case, we also use the terminology ``quotient map'' for $\pi$.
     We say that an atlas is \textbf{smooth} if every pair of charts is compatible.
 \end{definition}
 Note that a smooth atlas $\mathcal{A}$ on $M$ can be extend to a unique maximal smooth atlas $\mathcal{M}$ on $M$ by adding to $\mathcal{A}$ every possible homeomorphism $\psi:U\subseteq M\to\phi(U)\subseteq\R^n$ which is compatible with all of the existing charts (since if $\psi$ and $\chi$ are both compatible with every chart $\psi\in\mathcal{A}$, then $\psi$ and $\chi$ will be compatible with each other).
+The maps $\psi\circ\phi^{-1}$ are called \textbf{transition maps} or \textbf{change of coordinate maps}.
 A maximal smooth atlas $\mathcal{M}$ on $M$ is called a \textbf{smooth structure} on $M$.
 \begin{definition}
     An \textbf{$n-$dimensional smooth (or $C^\infty$) manifold} is an $n-$dimensional topological manifold with a smooth structure.
 \end{definition}
+\begin{remark}
+    A topological manifold can have different smooth structures.
+    For example, take $\mathcal{A}=\{\phi\}$ where $\phi:\R\to\R$ is the identity map, and $\mathcal{B}=\{\psi\}$ where $\psi:\R\to\R$ is a homeomorphism given by $\psi(x)x^3$, since $\sqrt[3]{x}$ is not smooth at the origin.
+
+    What if we tried $\mathcal{B}=\{\psi\}$ where $\psi:\R\to\R$ is a homeomorphism which is not $C^\infty$?
+    This is trivially a smooth atlas.
+
+    Typically, a manifold is given with a standard smooth structure.
+\end{remark}
+\begin{remark}
+    We can give a smooth manifold $M$ an (at most countable) atlas of charts all of which are of one of the forms
+    \begin{itemize}[nl]
+        \item $\phi:U\subseteq M\to B(0,1)$
+        \item $\phi:U\subseteq M\to (0,1)^n$
+        \item $\phi:U\subseteq M\to\R^n$
+    \end{itemize}
+\end{remark}
 Note that the maximal atlas $\mathcal{M}$ is determined from any subset $\mathcal{A}\susbeteq\mathcal{M}$ such that the domains of the charts in $\mathcal{A}$ cover $M$.
 \begin{definition}
-    Let $M$ be an $m-$dimensional smooth manifold and $N$ be an $n-$dimensional smooth manifold and let $f:M\to\N$ be a function.
-    Then we say $f$ is smooth \textbf{smooth} at $p$ when for some (hence for any) chart at $\phi$ on $M$ at $p$ and for s0me (hence any) chart $\psi$ on $N$ at $f(p)$, the map $\phi^{-1}\circ f\circ\psi$ is smooth at $x=\phi(p)$.
+    Let $M$ be an $m-$dimensional smooth manifold and $N$ be an $n-$dimensional smooth manifold and let $f:M\to N$ be a function.
+    Then we say $f$ is smooth \textbf{smooth} at $p$ when for some (hence for any) chart at $\phi$ on $M$ at $p$ and for some (hence any) chart $\psi$ on $N$ at $f(p)$, the map $\phi^{-1}\circ f\circ\psi$ is smooth at $x=\phi(p)$, and $f$ is \textbf{smooth} if $f$ is smooth at ever $p\in M$.
+    We say that $f$ is a \textbf{diffeomorphism} when $f$ is invertible and both $f$ and $f^{-1}$ are smooth.
+    We say that $M$ and $N$ are \textbf{diffeomorphic}, and write $M\cong N$, when there exists a diffeomorphism $f:M\to N$.
 \end{definition}
+\begin{remark}
+    If is conceivable that a topological manifold $M$ could be both of dimension $n$ and of dimension $m$ with $n\neq m$.
+    To do this, we would need to have a homeomorphism from an open set in $\R^n$ to an open set in $\R^m$.
+    In fact, this cannot happen by invariance of domain, proven using tools from algebraic topology.
+
+    When $M$ is smooth, it is easy to see that this cannot happen.
+    If $\psi\circ\phi^{-1}$ and $\phi\circ\psi^{-1}$ were smooth inverses, then the matrices $D(\psi\circ\phi^{-1})(\phi(p))$ and $D(\phi\circ\psi^{-1})(\psi(p))$ would be inverse matrices.
+    But then a product of a matrix in $M_{m\times n}(\R)$ and in $M_{n\times m}(\R)$ cannot be inverses when $m\neq n$.
+\end{remark}
+\begin{remark}
+    Manifolds are sometimes constructed using quotient constructions.
+    These quotients can be given by polygons with pairs of edges identified up to orientation.
+\end{remark}
 
 \end{document}
 

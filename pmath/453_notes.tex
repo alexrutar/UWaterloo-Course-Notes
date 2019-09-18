@@ -942,12 +942,106 @@ Trivially, any $\C-$vector siace is a $\R-$vector space.
     Hence $\overline{\hat X}$ is a Banach space containing a dense copy of $X$.
     Often, we will simply write $\overline{\hat X}=\overline{X}$ and call it the \textbf{completion} of $X$.
 \end{remark}
-\subsection{Geometric Hahn-banach}
+\subsection{Geometric Hahn-Banach}
 If $A,B\subset X$ with $A\cap B=\emptyset$ (and other suitable assumptions), we will find a $\R-$hyperplane between $A$ and $B$.
 \begin{definition}
     In a vector space, a \textbf{hyperplane} is any set of the form $x_0+\ker f$ with $x_0\in X$ and $f\in X'$.
     Then a \textbf{$\R-$hyperplane} is any set of the form $x_0+\ker\Re f$.
 \end{definition}
+\begin{proposition}
+    Let $X$ be a normed space.
+    \begin{enumerate}[nl,r]
+        \item If $f\in X^*\setminus\{0\}$, then $\ker f$ is closed and nowhere dense.
+        \item if $f\in X'\setminus X^*$, then $\overline{\ker f}=X$.
+    \end{enumerate}
+    Thus a hyperplane in $X$ is either closed and nowhere dense, or it is dense.
+\end{proposition}
+\begin{proof}
+    To see (i), $\ker f=f^{-1}(\{0\})$ is a closed set since $f$ is continuous.
+    Furthermore, if $Y\subsetneq X$ is a proper closed subspace, then it is nowhere dense.
+    If not, then there would exist $y_0\in T$ and $\delta>0$ such that $y_0+\delta D(X)\subseteq Y$.
+    But then $D(X)\subseteq\frac{1}{\delta}(Y-y_0)=Y$, so $X=\spn D(X)\subseteq Y$, a contradiction.
+
+    To see (ii), suppose that $\ker f$ is not dense in $X$.
+    Then there would be $x_0\in X$ and $\delta>0$ such that $(x_0+\delta D(X))\cap \ker f=\emptyset$, so
+    \begin{equation}\label{e:idx}
+        0\notin f(x_0+\delta D(X))=f(x_0)+\delta f(D(X))\Longrightarrow \frac{1}{\delta}f(x_0)\notin -f(D(X))=f(D(X))
+    \end{equation}
+    But then $\norm{f}\leq\frac{1}{\delta}f(x_0)$, for if $\norm{f}>\frac{1}{\delta}f(x_0)$, there would be $x\in D(X)$ such that $|f(x)|>\frac{1}{\delta}|f(x_0)|$.
+    Thus
+    \begin{equation*}
+        \left\lvert\frac{f(x_0)}{\delta f(x)}\right\rvert<1\Longrightarrow \frac{f(x_0)}{\delta f(x)}=\frac{1}{\delta}f(x)
+    \end{equation*}
+    contradicting the statement in \cref{e:idx}.
+\end{proof}
+\begin{definition}
+    Let $\emptyset\neq A\subseteq X$.
+    We say that $A$ is
+    \begin{itemize}[nl]
+        \item \textbf{convex} if for $a,b\in A$ and $0<\lambda<1$, $(1-\lambda)a+\lambda b\in A$.
+        \item \textbf{absorbing} at $a_0\in A$ if for any $x\in X$, there is $\epsilon(a_0,x)>0$ such that $a_0+tx\in A$ for $0\leq t<\epsilon$.
+    \end{itemize}
+\end{definition}
+For example, if $X$ is a normed space, then any open set is absorbing around any of its points.
+\begin{lemma}[Minkowski Functional]
+    Let $A\subset X$ be a convex set containing 0 and absorbing at 0.
+    Define $p:X\to\R$ by $p(x)=\inf\{t>0:x\in tA\}$.
+    Then $p$ is a sublinear functional.
+    Moreover, we have that
+    \begin{enumerate}[nl,r]
+        \item $\{x\in X:p(x)<1\}\subseteq A\subseteq\{x\in X:p(x)\leq 1\}$; and
+        \item if $X$ is normed and $A$ is a neighbourhood of $0$, then there is $N>0$ such that $p(x)\leq N\norm{x}$ for $x\in X$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    First note, for any $x\in X$, if $A$ is absorbing at $0$, there is $s>0$ such that $sx\in A$, so $x\in \frac{1}{s} A$ and hence $0\leq p(x)<\infty$.
+
+    Let's see non-negative homogeneity.
+    Clearly $p(0)=0$.
+    If $s>0$ and $x\in X$, then
+    \begin{equation*}
+        p(sx)=\inf\{t>0:sx\in tA\}=\inf\left\{t>0:x\in\frac{t}{s}A\right\}=s\cdot\inf\left\{\frac{t}{s}>0:x\in\frac{t}{s}\right\}=sp(x)
+    \end{equation*}
+    We also have subadditivity.
+    First, note that if $s,t>0$ and $a,b\in A$, then
+    \begin{equation*}
+        sa+tb=(s+t)\left(\frac{s}{s+t}a+\frac{s}{s+t}b\right)\in(s+t)A\Longrightarrow sA+tA\subseteq(s+t)A
+    \end{equation*}
+    by convexity, and also $(s+t)A=\{(s+t)a:a\in A\}\subseteq\{sa+tb:a,b\in A\}=sA+tA$.
+    Thus $sA+tA=(s+t)A$.
+    Now for $x,y\in X$, we have
+    \begin{align*}
+        p(x)+p(y) &= \inf\{s>0:x\in sA\}+\inf\{t>0:y\in tA\}\\
+                  &= \inf\{s+t:s>0,t>0,x\in sA,y\in tA\}\\
+                  &\geq\inf\{s+t:s>0,t>0,x+y\in sA+tA=(s+t)A\}\\
+                  &= \inf\{r>0:x+y\in rA\}=p(x+y)
+    \end{align*}
+    so that $p$ is a sublinear functional.
+    Then
+    \begin{enumerate}[nl,r]
+        \item If $p(x)<1$, then there is $0<t<1$ so $x\in tA$; i.e. $\frac{1}{t}x\in A$ and $x=(1-t)=+t\frac{1}{t}x\in A$.
+            The second inclusion is obvious.
+        \item The assumptions provide $\delta>0$ so $\delta D(X)\subseteq A$.
+            Then for $x\in X$ and $\epsilon>0$,
+            \begin{equation*}
+                x\in(\norm{x}+\epsilon)D(X)=\frac{\norm{x}+\epsilon}{\delta}\delta D(X)\subseteq\frac{\norm{x}+\epsilon}{\delta}A
+            \end{equation*}
+            so $p(x)\leq\frac{\norm{x}+\epsilon}{\delta}$ so $p(x)\leq\frac{1}{\delta}\norm{x}$; the result follows with $N=1/\delta$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[Hyperplane Separation]
+    Let $X$ be an $\F-$vector space, $A,B\subset X$ be convex with $A\cap B=\emptyset$ and $A$ absorbing at some $a_0$.
+    Then there are $f\in X'$ and $\alpha\in\R$ such that
+    \begin{equation*}
+        \Re f(a)\geq\alpha\geq\Re f(b)
+    \end{equation*}
+    for $a\in A$ and $b\in B$.
+    Moreover, if $X$ is normed, then
+    \begin{itemize}[nl]
+        \item If $A$ is a neighbourhood of $a_0$, we have $f\in X^*$; and
+        \item if $A$ is absorbing around each of its points (for example if $A$ is open), then we have $\Re f(a)>\alpha\geq\Re f(b)$.
+    \end{itemize}
+\end{theorem}
 \end{document}
 
 
