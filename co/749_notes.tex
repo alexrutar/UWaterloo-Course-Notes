@@ -524,6 +524,83 @@ This is equivalent to the conjecture by reversing the orientation for all edges 
 
 In fact, one can remove the modular condition.
 Assume each edge has a flow 1 or 2 or 3 or 4, and assume that each inflow is equivalen to the out flow modulo 5.
+
+\begin{proposition}
+    If $G$ is planar and 4-edge-onnected, then there exists an orientation such that $G$ is balanced modulo 3.
+\end{proposition}
+\begin{proposition}
+    If $G$ is cubic and 3-edge-connected, there exists an orientation which is balanced modulo 3 if and only if $G$ is bipartite.
+\end{proposition}
+Does there exists an orientation on $G$ such that $G$ is balanced modulo $k$?
+Or such that each vertex $v$ has out degree $p(v)$ modulo $k$?
+
+If the second holds for every $p$ and $k$ is odd, then the first holds.
+Let $v$ be a vertex with degree $d(v)$; we want that $d^+(v)\cong d^-(v)$, in other words that $2d^+(v)\cong d(v)\pmod{k}$, s
+\begin{equation*}
+    \frac{k-1}{2}\cdot 2d^+(v)\cong\frac{k-1}{2} d(v)\Rightarrow d^+(v)\cong\frac{-(k-1)}{2} d(v)
+\end{equation*}
+
+Suppose $k=2$.
+Here's a necessary condition: then $|E(G)|=\sum_{v\in V(G)}d^+(v)\cong\sum_{v\in V(G)}p(v)$, modulo 2.
+In fact, if $G$ is connected and $\sum_{v\in V(G)}p(v)\cong|E(G)$, then such an orientation exists.
+Do do this, fix any orientation.
+If there is a vertex which does not satisfy the requirements, by parity, there must be some other vertex which does not satisfy the requirements.
+Take a path connecting the vertices and flip all the edges, repeating until the graph is balanced.
+\begin{conjecture}[Jaeger]
+    If $G$ is 1000-edge-connected, then there exists an orientation on $G$ balanced modulo 3.
+\end{conjecture}
+This has been proven in the affirmative for 8-edge-connected, then 6-edge-connected.
+It is enough to prove this for 5.
+\begin{conjecture}[Jaeger]
+    If $G$ is $(2k-2)-$edge-connected, then there exists an orientation on $G$ that is balanced modulo $k$ if $k$ is odd.
+\end{conjecture}
+It has been shown that if there is a $(2k^2+2)-$edge-connected graph, then there exists an orientation on $G$ with any out degrees modulo $k$, also true for $k$ is even.
+If $G$ is $(3k-3)-$edge connected, then the same holds, but only for $k$ odd.
+
+Suppose $G$ is 4-edge-connected: then there exists an orientation of $G$ balanced modulo 4.
+This is equivalent to the 3-flow conjecture.
+Given an orientation balanced modulo 3, by a previous exercise, we can also balance each vertex modulo $k$ for any $k$.
+
+If $k=5$, the statement says that $G$ is 8-edge-connected implies $G$ is balanced modulo 5.
+
+Let $G$ be 2-edge-connected, then there exists an orientation on $G$ with flow values on $\{1,2,3,4\}$ such that the inflow and the outflow are equal for all $v\in V(G)$.
+It suffices to verify this for cubic 3-connected graphs.
+Note that for cubic graphs, the edge and vertex connectivity are the same.
+$k$ connected means there are $k$ internally vertex disjoint paths, and $k-$edge-connected means there are $k$ internally edge disjoint paths.
+
+\begin{example}
+    Assume the 5-flow-conjecture holds for $G$ cubic 3-connected.
+    Then prove that it holds for $G$ 2-edge-connected.
+    There's a couple cases: if there is a vertex of degree 2 with edges going to the same vertex, simply add the same flow value going in and out.
+    If there is a vertex of degree 2 with edges going to distinct edges, simply merge the edges, apply induction, and then apply the flow assigned to that edge to both pieces.
+
+    If there is a vertex with degree large, remove two of the edges so as not to create a bridge, and apply the same argument.
+    What happens if we have all vertex of degree 3?
+    We need to deal with the case where $G$ is 2-edge connected.
+    Isolate the pair of edges $e_1$ and $e_2$.
+    First close the loops, and then multiply the flows or perhaps re-orient so that the edges agree.
+
+    Now assume $G$ is cubic and 3-edge-connected.
+    Then take the graph and replace every edge by 3 edges to get some $G'$ that is 9-edge-connected.
+    Therefore, by the result above (Jaeger with $k=5$), it has an orientation that is balanced modulo 5.
+    Then replace each triple of edges with the oriented net sum of the number of edges.
+\end{example}
+\begin{example}
+    $K_8$ is 7-edge-connected nad has no orientation balanced modulo 5.
+\end{example}
+Let's consider factors modulo $k$.
+A $d$-factor is a spanning subgraph of $G$ such that every vertex of the subgraph has degree $d$.
+\begin{theorem}
+    Let $G$ be bipartite with bipartition $V(G)=A\cup B$ with $V(G)=\{v_1,\ldots,v_n\}$.
+    For every $v_i$, let $d_i$ be a natural number.
+    We want a spanning subgraph of $H\subseteq G$ such that $d_H(v_i)\cong d_i\pmod{k}$ where $k$ is odd.
+    Then $H$ exists if $G$ is $(3k-3)-$edge connected and $\sum_{v_i\in A}d_i\cong\sum_{v_i\in B}d_i\pmod{k}$.
+\end{theorem}
+\begin{proof}
+    Apply the $(3k-3)$ result, and assign the function $p(v_i)=d_i$ for $v_i\in A$ and $p(v_j)=d(v_j)-d_j$ for $v_j\in B$.
+    Certainly $\sum_{v_i\in V(G)}p_i\cong|E(G)|$ modulo $k$ by the modular summation condition on the $d_i$.
+    Then we simply take all $A->B$ edges.
+\end{proof}
 \end{document}
 
 

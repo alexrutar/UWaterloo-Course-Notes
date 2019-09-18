@@ -1,0 +1,2698 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepackage{kpfonts}
+\usepackage{dsfont}
+\pgfplotsset{compat=1.13}
+\usepackage{emptypage}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Meas}{Meas}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate{}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\newcommand{\imp}{\ensuremath{\quad\Longrightarrow\quad}}
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\newtheorem{theorem}{Thm.}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Def'n.}
+\newtheorem{corollary}[theorem]{Cor.}
+\newtheorem{proposition}[theorem]{Prop.}
+
+\theorembodyfont{\upshape}
+\newtheorem{remark}[theorem]{Rmk.}
+\newtheorem{exercise}[theorem]{Exc.}
+\newtheorem{example}[theorem]{Ex.}
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\theoremsymbol{$\blacksquare$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{Course Notes}
+\newcommand{\classname}{Real Functions and Measures}
+\newcommand{\semester}{BSM Fall 2018}
+
+% Define a title page for the document
+%----------------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\arutar@uwaterloo.ca}
+\rhead{\classname: \assignmentname\\\semester}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%----------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+    \centering
+    \vspace{5cm}
+    {\huge\textbf{\assignmentname}\par} % Assignment Name
+    \vspace{2cm}
+    {\Large\textbf{\classname}\par} % Class
+    \vspace{3cm}
+    {\Large\textit{Alex Rutar}\par}
+
+    \vfill
+
+% Bottom of the page
+    {\large \semester \par} % Due Date
+\end{titlepage}
+%----------------------------------------------------------------------------------------------------------------------
+% \newpage\null\thispagestyle{empty}\textit{This page is left intentionally blank.}\newpage
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+\chapter{Basics of Abstract Measure Theory}
+Prof contact: simonp@caesar.elte.hu
+Grading: HW each week for 25\%
+Midterm 30\%
+Final 45\%
+
+\section{Review of Topology}
+\subsection{Basic Definitions}
+\begin{definition}
+    Let $X\neq\emptyset$ and $\tau\subseteq\mathcal{P}(X)$.
+    We say that $(X,\tau)$ is a \textbf{topological space} if $\tau$ satisfies the following conditions:
+    \begin{enumerate}
+        \item $\emptyset\in\tau$ $X\in\tau$
+        \item $V_1,V_2\in\tau\Rightarrow V_1\cap V_2\in\tau$
+        \item $V_\alpha\in\tau$ for all $\alpha\in I\Rightarrow\bigcap\limits_{\alpha\in I}V_\alpha\in\tau$
+    \end{enumerate}
+    We call the elements of $\tau$ \textbf{open sets}.
+\end{definition}
+\begin{definition}
+    $U\subseteq X$ is a \textbf{neighbourhood} of $x\in X$ if there is some $G\in\tau$ such that $x\in G\subset U$.
+\end{definition}
+\begin{definition}
+    $F\subseteq X$ is \textbf{closed} if $F^c$ is open.
+\end{definition}
+\begin{definition}
+    The \textbf{closure} of a set $E\subset X$ is the smallest closed set containing $E$ (denoted $\overline{E}$).
+\end{definition}
+\begin{definition}
+    $x$ is an \textbf{accumulation point} of $H$ if all neighbourhoods of $x$ contains infinitely points of $H$.
+    Equivalently, $x$ is a limit point of $H\setminus\{x\}$.
+\end{definition}
+\begin{definition}
+    If $H\subseteq X$, we have a natural subspace topology $\tau|_H=\{G\cap H:G\in\tau\}$.
+\end{definition}
+\subsection{Examples of Topological Spaces}
+Topological spaces are a very general construction, so here are some of the standard examples:
+\begin{enumerate}
+    \item $\R$ along with the open sets (denoted $\tau_e$, the Euclidean topology).
+    \item The discrete topology, $\tau=\mathcal{P}(X)$ for any $X\neq\emptyset$.
+        This is the ``finest'' topology.
+    \item The antidiscrete topology, $\tau=\{\emptyset,X\}$ for any $X\neq\emptyset$
+        This is the ``coarsest'' topology.
+    \item One can define the extended real line, $X=\R\cup\{-\infty,+\infty\}$.
+        Then
+        \[G\in\tau\Leftrightarrow
+            \begin{cases}
+                \forall x\in G\cap\R & \exists r>0 \text{ s.t. } (x-r,x+r)\subset G\\
+                -\infty\in G & \exists b\in\R \text{ s.t. }(-\infty,b)\subset G\\
+                +\infty\in G & \exists a\in\R \text{ s.t. }(a,\infty)\subset G
+            \end{cases}
+        \]
+        The same can be done with a single symbol as well.
+        In either case, the extended real line is a compact set.
+    \item Any metric spaces induces a topology.
+        Consider a set $X\neq 0$ arbitrary, and let $d:X\times X\to\R$ such that
+        \begin{enumerate}
+            \item $0\leq d(x,y)$ for all $x,y\in X$ and $d(x,y)=0\Leftrightarrow x=y$.
+            \item $d(x,y)=d(y,x)$ for all $x,y\in X$
+            \item $d(x,y)\leq d(x,z)+d(z,y)$ for any $x,y,z\in X$
+        \end{enumerate}
+        Then $G\in \tau$ if and only if for any $x\in G$, there exists $r$ so that $B_r(x)\subset G$.
+        There are many examples of metric spaces:
+        \begin{enumerate}
+            \item $X=\R$, $d(x,y)=|x-y|$
+            \item $X=\R$, $d(x,y)=|\tan^{-1}(x)-\tan^{-1}(y)|$
+            \item $X=\R^2$, $d(x,y)=\sqrt{(x_1-y_1)^2+(x_2-y_2)^2}$
+            \item $X=\R^2$, $d(x,y)=\left(|x_1-y_1|^p+|x_2-y_2|^p\right)^{1/p}$ for $p\geq1$.
+            \item and similarly for $X=\R^n$
+            \item $X=C[0,1]$, $d(f,g)=\max_{x\in[0,1]} |f(x)-g(x)|$.
+            \item normed space: $X$ is a vector space over $\R$, $\norm{\cdot}:X\to\R$ such that
+                \begin{enumerate}
+                    \item $\norm{x}=0$ if and only if $X=0$
+                    \item $\norm{cx}=|c|\norm{x}$
+                    \item $\norm{x+y}\leq\norm{x}+\norm{y}$
+                \end{enumerate}
+                If $\norm{\cdot}$ is a norm, then $d(x,y)=\norm{x-y}$ is a metric.
+        \end{enumerate}
+    \item The cofinite topology: $\tau=\{U\in\mathcal{P}(X):U^c\text{ is finite}\}$.
+\end{enumerate}
+\subsection{Other Definitions}
+\begin{definition}
+    $K\subset X$ is \textbf{compact} if every open cover of $K$ contains a finite subcover.
+\end{definition}
+\begin{definition}
+    A topological space is called \textbf{locally compact} if every point has a compact neighbourhood.
+\end{definition}
+\begin{proposition}
+    $C[0,1]$ with the sup norm is not locally compact.
+\end{proposition}
+\begin{proof}
+    I'll do this later.
+\end{proof}
+\begin{definition}
+    A topological space is called \textbf{Hausdorff} if for any $x\neq y$, there exists neighbourhoods $U\ni x$, $V\ni y$ so that $U\cap V=\emptyset$.
+\end{definition}
+The anti-discrete topology is not Hausdorff.
+\begin{enumerate}[nolistsep]
+    \item On the discrete topology, $K$ is compact if and only if $K$ is finite.
+    \item On the anti-discrete topology, everything is compact (the only possible open cover consists of $X$).
+    \item On $(\R,\tau_e)$, $K$ is compact if and only if $K$ is closed and bounded.
+    \item On $(X,d)$ metric space, $K$ is compact if and only if $K$ is complete and totally bounded.
+\end{enumerate}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item Let $K\subset X$ be compact, let $F\subset K$ closed.
+            Then $F$ is also compact.
+        \item Compact sets in a Hausdorff space are closed.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item Let $F\subset\bigcup V_\alpha$.
+            Then $K\subset F^c\cup \left(\bigcup V_\alpha\right)$ is an open cover for $K$, so it has a finite subcover $F^c\cup V_{\alpha_1}\cup\cdots V_{\alpha_n}$.
+            But then since $F\cap F^c=\emptyset$, $F\subset V_{\alpha_1}\cup\cdots V_{\alpha_n}$ is a finite subcover.
+        \item Let $K\subset X$ be compact, and prove that $K^c$ is open.
+            Thus let $x\in K^c$.
+            For any $y\in K$, there exist $U_y,V_y$ disjoint neighbourhoods of $x$ and $y$ respectively.
+            Now consider the open cover $K\subset\bigcup_{y\in K}V_y$, and get our finite subcover $K\subset V_{y_1}\cup\cdots\cup V_{y_n}$.
+            But then $U_{y_1}\cap\cdots\cap U_{y_n}\cap K=\emptyset$ and is open since it is a finite intersection.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    $\Gamma\subseteq\tau$ is a \textbf{base} for $\tau$ if every $U\in\tau$ can be written as a countable union of the elements of $\Gamma$.
+    $\Gamma$ is a \textbf{countable base} if $\Gamma$ is countable.
+\end{definition}
+\begin{proposition}
+    $\R$ has a countable base of intervals.
+\end{proposition}
+\begin{proof}
+    Consider the collection $\{B_{r}(q):(r,q)\in\Q\times\Q\}$.
+    To see this, for any open set $U$, one can write
+    \[S:=\bigcup\limits_{r\in U\cap\Q} \left(\bigcup\limits_{\{r:B_{r}(q)\subseteq U\}}B_{r}(q)\right)\]
+    $U\supseteq S$ is obvious, so let $x\in U$ be arbitrary, and let $s$ be maximal so that $B_s(x)\subseteq U$.
+    Then choose $q\in\Q$ so that $|x-q|<s/3$ and $r\in\Q$ so that $0<r<s/2$.
+    Then by construction $B_{r}(q)\ni x$ and by the triangle inequality $B_{r/2}(q)\subseteq U$, so $x\in S$.
+    Thus $U=S$ as desired.
+\end{proof}
+Note that the exact same argument (with some work) can be generalized to show that $\R^n$ has a countable base of open hyperrectangles.
+\subsection{Functions and Continuity}
+Many of the standard notions of limits and continuity extend naturally to topological spaces.
+\begin{definition}
+    Let $(x_n)\subset X$ be a sequence and let $x\in X$.
+    Then $x$ is the \textbf{limit} of $(x_n)$ if for any neighbourhood $U$ of $X$, there exists $N\in\N$ such that $n>N\Rightarrow x_n\in U$.
+\end{definition}
+\begin{proposition}
+    If $F\subset X$ is closed, then for all convergent sequences in $F$, the limit is also in $F$.
+\end{proposition}
+\begin{proof}
+    See Homework.
+\end{proof}
+\begin{definition}
+    Let $f:X\to Y$ be a function, and $x\in X$ an accumulation point of $D(f)$.
+    The limit of $f$ at $x$ is $y\in Y$ if for any neighbourhood $V$ of $y$ there exists a neighbourhood $U$ of $x$ such that $f(U\cap D(f)\setminus\{x\})\subseteq V$.
+\end{definition}
+\begin{definition}
+    Let $f:X\to Y$ be a function, and let $x\in D(f)$.
+    Then $f$ is \textbf{continuous at $x$} if for any neighbourhood $V$ of $f(x)$, then $f^{-1}(V)$ is a neighbourhood of $x$.
+\end{definition}
+\begin{definition}
+    $f:X\to Y$ is called \textbf{continuous} if it is continuous at every point.
+\end{definition}
+\begin{proposition}
+    $f:X\to Y$ is continuous if and only if $f^{-1}(G)$ is open for all $G$ open.
+\end{proposition}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{theorem}
+    Let $f:X\to Y$ be continuous and $K\subset X$ be compact.
+    Then $f(K)$ is compact.
+\end{theorem}
+\begin{proof}
+    Recall that continuous functions pull back open sets.
+    Let $f(K)\subset\bigcup U_\alpha$ be an open cover.
+    Then $\bigcup f^{-1}(U_\alpha)$ is an open cover for $K$, and has a finite subcover $U_{\alpha_1}\cup\cdots U_{\alpha_n}$.
+    But then $f(f^{-1}(U_{\alpha_1}))\cup\cdots \cup f(f^{-1}(U_{\alpha_n}))$ is a subcover of $f(K)$.
+\end{proof}
+
+\section{Measure Theory}
+\subsection{$\sigma-$algebras}
+\begin{definition}
+    Let $X\neq\emptyset$ be a set.
+    $\mathcal{M}\subset\mathcal{P}(X)$ is called a \textbf{$\sigma-$algebra} if
+    \begin{enumerate}[nolistsep]
+        \item $X\in \mathcal{M}$
+        \item $A\in\mathcal{M}\Rightarrow A^c\in\mathcal{M}$
+        \item If $A_n\in\mathcal{M}$ for all $n\in\N$, then $\bigcup\limits_{n\in\N}A_n\in\mathcal{M}$
+    \end{enumerate}
+    The pair $(X,\mathcal{M})$ is called a \textbf{measurable space}.
+    The elements of $\mathcal{M}$ are called \textbf{measurable sets}.
+\end{definition}
+\begin{definition}
+    Let $(X,\mathcal{M})$ be a measurable space, $(Y,\tau)$ be a topological space.
+    Then $f:X\to Y$ is called \textbf{measurable} if $f^{-1}(V)\in\mathcal{M}$ for all $V\in\tau$.
+\end{definition}
+Here are some simple examples of $\sigma-$algebras.
+\begin{example}
+    \begin{enumerate}
+        \item $\mathcal{M}=\{\emptyset,X\}$ is a $\sigma-$algebra.
+        \item $\mathcal{P}(X)=\mathcal{M}$ is a $\sigma-$algebra.
+        \item $\mathcal{M}=\{A\subset X:A\text{ or }A^c\text{ is countable.}\}$.
+            To see this, given $A_n\in\mathcal{M}$, if everything is countable, then $\bigcup A_n$ is countable.
+            If some $A_i$ is countable, then $(\bigcup A_n)^c=\bigcap A_n^c$ is countable, so $\bigcup A_n\in\mathcal{M}$.
+    \end{enumerate}
+    We will later see some proper exaples, like the $\sigma-$algebra of Lebesgue measurable sets.
+\end{example}
+We have the following properties of $\sigma-$algebras.
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item $\emptyset\in\mathcal{M}$
+        \item $A_1,A_2,\ldots,A_n\in\mathcal{M}\Rightarrow A_1\cup A_2\cup\cdots \cup A_n\in\mathcal{M}$
+        \item $A_n\in\mathcal{M}$ for all $n\in\N$ then $\bigcap_{n=1}^\infty A_n\in\mathcal{M}$
+        \item $A,B\in\mathcal{M}\Rightarrow A\setminus B\in\mathcal{M}$
+        \item $f$ is measurable, $H\subset Y$ is closed, then $f^{-1}(H)\in\mathcal{M}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item $X\in\mathcal{M}\Rightarrow X^c\in\mathcal{M}$.
+        \item We can extend this to a countable union by introduction $A_{n+i}=\emptyset$ for $i\in\N$.
+        \item By DeMorgan's identities, $(\bigcap A_n)^c=\bigcup A_n^c\in\mathcal{M}$.
+        \item $A\setminus B=A\cap B^c\in\mathcal{M}$.
+        \item $H^c$ is open implies $f^{-1}(H^c)\in\mathcal{M}$.
+            Then $f^{-1}(H)=(f^{-1}(H^c))^c\in\mathcal{M}$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $f:X\to Y$ be measurable, let $g:Y\to Z$ be continuous, then $g\circ f:X\to Z$ is measurable.
+\end{proposition}
+\begin{proof}
+    Let $V\subset Z$ be open, so $g^{-1}(V)\subset Y$ is open, so $f^{-1}(g^{-1}(V))\in\mathcal{M}$ which is $(g\circ f)^{-1}(V)$.
+\end{proof}
+\begin{proposition}
+    Let $(X,\mathcal{M})$ be a measurable space, $Y$ be a topological space.
+    Let $\phi:\R^2\to Y$ be continuous.
+    If $u,v:X\to\R$ are measurable, then $h(x)=\phi(u(x),v(x))$ is measurable.
+\end{proposition}
+\begin{proof}
+    Define $f:X\to\R^2$ by $f(x)=(u(x),v(x))$
+    We will see that $f$ is measurable, so that $h=\phi\circ f$ is measurable since $\phi$ is continuous.
+    Let $I_1,I_2\subset\R$ be open intervals, so $R=I_1\times I_2$ is an open rectangle.
+    Then $f^{-1}(R)=u^{-1}(I_1)\cap v^{-1}(I_2)\in\mathcal{M}$.
+    Let $G\subset\R^2$ be an open set, so there exist $R_n$ open rectangles so that
+    \[G=\bigcup_{n=1}^\infty R_n\Rightarrow f^{-1}(G)=\bigcup\limits_{n=1}^\infty f^{-1}(R_n)\in\mathcal{M}\]
+    so that $f$ is measurable.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nolistsep]
+        \item If $u,v:X\to\R$ are measurable, then $u+v$ and $u\cdot v$ are measurable.
+        \item $u+iv:X\to\C$ is measurable.
+        \item $f:X\to\C$ is measurable, $f=u+iv\Rightarrow u,v,|f|$ are measurable.
+    \end{enumerate}
+\end{corollary}
+\begin{proposition}
+    Define
+    \[\chi_E(x)=
+        \begin{cases}
+            1\text{ if }x\in E\\
+            0\text{ if }x\notin E
+        \end{cases}
+    \]
+    Then $\chi_E$ is measurable if and only if $E\in\mathcal{M}$.
+\end{proposition}
+\begin{proof}
+    Naturally, $\chi_E^{-1}(1)=E$ and $\chi_E^{-1}(0)=E^c$, so $\chi_E$ is measurable if and only if $E,E^c\in\mathcal{M}$.
+\end{proof}
+\begin{theorem}
+    Let $\mathcal{F}\subset\mathcal{P}(X)$, then there exists a smallest $\sigma-$algebra containing $\mathcal{F}$.
+    This is denoted by $S(\mathcal{F})$, the \textbf{$\sigma-$algebra generated by $\mathcal{F}$}.
+\end{theorem}
+\begin{proof}
+    Let $\Omega=\{\mathcal{M}:\mathcal{M}\text{ is a $\sigma-$algebra, }\mathcal{F}\subset M\}$.
+    Certainly $\Omega\neq\emptyset$ since $\mathcal{P}(X)\in\Omega$.
+    Let $S(\mathcal{F})=\bigcap_{\mathcal{M}\in\Omega}\mathcal{M}$.
+    We will see that $S(\mathcal{F})$ is a $\sigma-$algebra.
+    \begin{enumerate}[label=(\roman*),nolistsep]
+        \item Since $X\in\mathcal{M}$, it follows that $X\in\cap\mathcal{M}$.
+        \item If $A\in S(\mathcal{F})$, then $A\in\mathcal{M}$ for all $\mathcal{M}$.
+            Thus $A^c\in\mathcal{M}$ for all $\mathcal{M}$ and $A^c\in\cap\mathcal{M}$.
+        \item In the same way, of $A_n\in S(\mathcal{F}$ for all $n$, then $A_n\in\mathcal{M}$ for all $n,\mathcal{M}$.
+            Thus $\bigcup A_n\in\mathcal{M}$ for all $\mathcal{M}$ so $\bigcup A_n\in\mathcal{M}\in \bigcap \mathcal{M}=S(\mathcal{F})$.
+    \end{enumerate}
+    By definition, $\mathcal{F}\subset\bigcap\mathcal{M}$.
+    Finally, $S(\mathcal{F})$ is minimal, since if $\mathcal{F}\subset\mathcal{N}$ is a $\sigma-$algebra, then $\mathcal{N}\in\Omega\Rightarrow S(\mathcal{F})\subset\mathcal{N}$, so we are done.
+\end{proof}
+\begin{definition}
+    Let $(X,\tau)$ be a topological space.
+    Then $\mathcal{B}=S(\tau)$ is called the \textbf{Borel $\sigma-$algebra}.
+    Borel sets are the elements of $S(\tau)$.
+    A function $f:X\to Y$ is Borel measurable if $f^{-1}(G)\in\mathcal{B}$ for all $G\subset Y$ open.
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item If $F\subset X$ is closed, then $F\in\mathcal{B}$.
+        \item $G_n\subset X$ are open, then $\bigcap_{n=1}^\infty G_n\in B$.
+            These are called $G_\delta-$sets.
+        \item $F_n\subset X$ are closed, then $\bigcup_{n=1}^\infty F_n\in B$.
+            These are called $F_\sigma-$sets.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    These follow directly from the definition of a $\sigma-$algebra.
+\end{proof}
+\begin{example}
+    $X=\R,\tau_e$, then $\mathcal{B}=S(\tau_e)$.
+    Let $\Gamma_0=\{(a,b):a<b\}$ be a family of open intervals.
+    We see that $S(\Gamma_0)=\mathcal{B}$.
+    Since $\Gamma_0\subset\tau$, $S(\Gamma_0)\subset S(\tau)=\mathcal{B}$.
+    Conversely, let $G\in\tau$, then we have open intervals $G=\bigcup_{n=1}^\infty I_n$ so that $G\in S(\Gamma_0)$.
+    Thus $S(\tau)\subset S(\Gamma_0)$ and $S(\Gamma_0)=\beta$.
+\end{example}
+\begin{example}
+    Let $\Gamma_\infty=\{(a,\infty):a\in\R\}$.
+    I claim that $S(\Gamma_\infty)=\mathcal{B}$.
+    Certainly $S(\Gamma_\infty)\subset S(\tau)=\mathcal{B}$.
+    Then $(-\infty,a]=(a_1,\infty)^c\in S(\Gamma_\infty)$.%)
+    Similarly, $(-\infty,a)=\bigcup_{n=1}^\infty (-\infty,a-1/n]\in S(\Gamma_\infty)$.%)
+    Thus $(a,\infty)\cap(-\infty,b)=(a,b)\in S(\gamma_0)$, and using the previous example, $\mathcal{B}=S(\Gamma_\infty)$.
+\end{example}
+\begin{proposition}
+    Let $(X,\mathcal{M})$ be a measurable space, and let $f:X\to\overline{\R}=\R\cup\{-\infty,\infty\}$ with the eucildean topology.
+    If $f^{-1}((\alpha,\infty])\in\mathcal{M}$ for any $\alpha\in\R$, then $f$ is measurable. %)
+\end{proposition}
+\begin{proof}
+    Recall that $f$ is measurable if its inverse image takes open sets to measurable sets.
+
+    We have $f^{-1}([-\infty,\alpha])=(f^{-1}( (\alpha,\infty])^c\in\mathcal{M}$. %)
+    Similarly,
+    \begin{equation*}
+        f^{-1}([-\infty,\alpha))=f^{-1}\left(\bigcap_{n=1}^\infty[-\infty,\alpha-1/n]\right)=\bigcup_{n=1}^\infty f^{-1}([-\infty,\alpha-1/n])\in\mathcal{M}
+    \end{equation*} %]
+    We then have
+    \[f^{-1}((\alpha,\beta)=f^{-1}([-\infty,\beta)\cap(\alpha,\infty])=f^{-1}([-\infty,\beta))\cap f^{-1}((\alpha,\infty])\in\mathcal{M}\]%)]
+    Recall that the open intervals are a base for $\tau_e$.
+    Thus if $G\subset\overline{\R}$ is open, then there exists open intervals so that $G=\bigcup_{n=1}^\infty I_n$ and
+    \begin{align*}
+        f^{-1}(G)=f^{-1}\left(\bigcup_{n=1}^\infty I_n\right)=\bigcup_{n=1}^\infty f^{-1}(I_n)\in\mathcal{M}
+    \end{align*}
+    as desired.
+\end{proof}
+\subsection{Sequences of Measurable Functions}
+Our goal is to prove that the pointwise limit of measurable functions is measurable.
+This does not hold for Riemann integrability!
+For example, a function with a finite number of discontinuities is Riemann integrable, but the dirichlet function is not Riemann integrable and is discontinuous only at a countable number of points.
+\begin{definition}
+    Let $(a_n)_{n\in\N}\subset\overline{R}$ be a sequence, and $b_k=\sup\{a_k,a_{k+1},\ldots\}$.
+    Then $\beta=\inf_{k\in\N}b_k$ is called the $\lim\sup$ of $(a_n)$.
+    We can similarly define $c_k=\inf\{a_k,a_{k+1},\ldots\}$ and $\lim\inf=\sup_{k\in\N}c_k$.
+\end{definition}
+\begin{definition}
+    Let $f_n:X\to\overline{\R}$ be a sequence of functions.
+    Then $(\sup f_n):X\to\overline{\R}$, $(\sup f_n)(x)=\sup f_n(x)$ for all $x\in X$.
+    Similarly, $(\inf f_n):X\to\overline{\R}$, $(\inf f_n)(x)=\inf f_n(x)$ for all $x\in X$.
+    Then $(\lim\inf f_n)(x)=\lim\inf f_n(x)$.
+    If $\lim f_n(x)$ exists for all $x$, then we say $(\lim f_n)(x)=\lim f_n(x)$.
+\end{definition}
+\begin{theorem}
+    Let $f_n:X\to\overline{R}$ be measurable.
+    Then $\sup f_n$, $\inf f_n$, $\lim\sup f_n$, $\lim\inf f_n$ are measurable.
+\end{theorem}
+\begin{proof}
+    Let $g=\sup f_n$.
+    It is enough to prove that $g^{-1}((\alpha,+\infty])\in\mathcal{M}$ for all $\alpha$.
+    Let $H=g^{-1}((\alpha,+\infty])=\{x\in X:\sup f_n(x)>\alpha\}$.
+    Let $H_n=f_n^{-1}((\alpha,+\infty])=\{x\in X:f_n(x)>\alpha\}\in\mathcal{M}$.
+    We show that $H=\bigcup\limits_{n=1}^\infty H_n$.
+
+    First let $x\in H$, so $\sup f_n(x)>\alpha$.
+    Thus get $N$ so that $f_N(x)>\alpha$, so $x\in H_N$ and $x$ is in the union.
+    The converse is obvious.
+
+    Thus $g$ is measureable.
+    In the exact same way, $\inf f_n$ is measurable.
+    As well,
+    \[\lim\sup f_n=\inf_i\sup_{k\geq i}f_k\]
+    is measurable.
+\end{proof}
+\begin{corollary}
+    If $\lim f_n$ exists, then it is measurable.
+\end{corollary}
+\begin{proof}
+    If $\lim f_n$ exists, then $\lim f_n=\lim\sup f_n$.
+\end{proof}
+\begin{corollary}
+    If $f,g$ are measurable, then $\max\{f,g\}$, $\min\{f,g\}$ are measurable.
+\end{corollary}
+\begin{corollary}
+    Let $f$ be a function.
+    Then $f_+=\max\{f,0)\}$ and $f_-=-\min\{f,0\}$ (the positive and negative parts of $f$) are measurable.
+    Similarly, $|f|=f_++f_i$ is measurable.
+\end{corollary}
+\subsection{Measures}
+\begin{definition}
+    Let $(X,\mathcal{M})$ be a measurable space.
+    A function $\mu:\mathcal{M}\to[0,+\infty]$ is called a \textbf{(positive) measure} if it is countably additive and not constant $+\infty$.
+    In other words,
+    \begin{enumerate}
+        \item $\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)=\sum\limits_{n=1}^\infty \mu(A_n)$ if $A_i\cap A_j=\emptyset$
+        \item $\exists A\in\mathcal{M}$ so that $\mu(A)<\infty$
+    \end{enumerate}
+    $(X,\mathcal{M},\mu)$ is called a \textbf{measure space}.
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item $\mu(\emptyset)=0$
+        \item If $A_i\cap A_j=\emptyset$ then $\mu\left(\sum\limits_{i=1}^n A_i\right)=\sum\limits_{i=1}^n\mu(A_i)$
+        \item $A\subset B$ implies $\mu(A)\leq\mu(B)$
+        \item $A_1\subset A_2\subset A_3\cdots$ then $\lim_{n\to\infty}\mu A_n=\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)$
+        \item $A_1\supset A_2\supset A_3\cdots$ and $\mu(A_i)<\infty$ then $|lim_{n\to\infty}\mu(A_n)=\mu\left(\bigcap\limits_{n=1}^\infty A_n\right)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $A\in\mathcal{M}$ so that $\mu(A)<\infty$, and fix $A_1=A$, $A_2=A_3=\cdots=\emptyset$.
+            Then $\bigcup A_n=A$ so $\mu(A)=\mu(A)+\sum\limits_{i=2}^\infty \mu(\emptyset)$ so $\mu(\emptyset)=0$.
+        \item Obvious
+        \item Note that $B=A\cup(B\setminus A)$ is a disjoint union.
+        \item Define $B_1:=A_1$ and $B_i=A_i\setminus A_{i-1}$ for $i\geq 2$.
+            Then $B_i\cap B_j=\emptyset$ and $\mu(A_n)=\mu\left(\bigcup\limits_{i=1}^n B_i\right)=\sum\limits_{i=1}^\infty\mu(B_i)$.
+            Similary, $\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)=\mu\left(\bigcup\limits_{n=1}^\infty B_n\right)=\sum\limits_{n=1}^\infty\mu(B_n)$
+            Therefore, $\lim_{n\to\infty}\sum\limits_{i=1}^n \mu(B_i)=\sum\limits_{n=1}^\infty \mu(B_n)$.
+        \item Let $C_n=A_1\setminus A_n$, $C_1=\emptyset$.
+            Then $C_1\subset C_2\subset\cdots$ and $\mu(C_n)+\mu(A_n)=\mu(A_1)$.
+            Let $A=\bigcap\limits_{n=1}^\infty A_n$ so $A_1\setminus A=\bigcup\limits_{n=1}^\infty C_n$ and $(\bigcup C_n)\cup A=A_1$ is a disjoint union.
+            But then $\mu(\bigcup A_n)+\mu(A)=\mu(A_1)$ so that
+            \[\mu(A_1)-\mu(A)=\mu(\bigcup C_n)=\lim_{n\to\infty}\mu(C_n)=\mu(A_n)-\lim \mu(A_n)\]
+            Since $\mu(A_1)$ is finite, we have $\mu(A)=\lim\mu(A_n)$.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    Here are a few examples of measures that exist on arbitrary sets.
+    \begin{enumerate}
+        \item $X$ arbitrary, $\mathcal{M}=\mathcal{P}(X)$, and
+            \[\mu(E)=\begin{cases}|E|&\text{if $E$ is finite}\\+\infty&\text{if $E$ is not finite}\end{cases}\]
+            It is easy to verify it is countably additive.
+        \item $X$ arbitrary, $\mathcal{M}=\mathcal{P}(X)$.
+            Fix $x_0\in X$.
+            Then
+            \[\mu(E)=\begin{cases}1&\text{if $x_0\in E$}\\0&\text{if $x_0\notin E$}\end{cases}\]
+    \end{enumerate}
+\end{example}
+\section{Towards Integration}
+\subsection{Simple Functions}
+\begin{definition}
+    $s:X\to\R$ or $\C$ is called a \textbf{simple function} if its range is finite.
+\end{definition}
+\begin{proposition}
+    Let $s$ be a simple function, so that $R(s)=\{\alpha_1,\alpha_2,\ldots,\alpha_n\}$.
+    Then $s=\sum\limits_{i=1}^n \alpha_i\chi_{A_i}$ where $A_i=s^{-1}(\{\alpha_i\})$ and $s$ is \textbf{measurable} if and only if $A_i\in\mathcal{M}$.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+The following theorem is used later to define the intergral.
+It is clear that we should define the integral of a simple function as the sum of the integrals of its characteristic functions, and this allows us to extend the integral by limits to the function $f$.
+\begin{theorem}
+    Let $f:X\to[0,+\infty]$ be nonnegative measurable functions.
+    Then there exists a sequence $s_n:X\to[0,+\infty]$ of simple measurable functions with
+    \begin{enumerate}[nolistsep]
+        \item $(s_n)$ is increasing and bounded above by $f$
+        \item $\lim s_n=f$ pointwise.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Let $n\in\N$, $t\geq0$, and define $k_n(t)=[2^{n}\cdot t]$ (i.e. $k_n(t)\leq 2^{n}\cdot t<k_n(t)+1$).
+    Then define
+    \[\phi_n(t)=\begin{cases}k_n(t)\cdot 2^{-n}&\text{if }t\leq n\\n&\text{if }t>n\end{cases}\]
+    I've drawn $\phi_1$ below:
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \draw (0,-0.5) -- (0,1.5);
+            \draw (-0.5,0) -- (2,0);
+            \node[circle,draw=black, inner sep=2pt] (a) at (0.5,0){};
+            \node[circle,fill=black, inner sep=2pt] (b) at (0.5,0.5){};
+            \node[circle,draw=black, inner sep=2pt] (c) at (1,0.5){};
+            \node[circle,fill=black, inner sep=2pt] (d) at (1,1){};
+
+            \draw[thick] (0,0) -- (a);
+            \draw[thick] (b) -- (c);
+            \draw[thick] (d) -- (2,1);
+        \end{tikzpicture}
+    \end{center}
+    Then $t-2^{-n}\leq\phi_n(t)\leq t$, $\lim\phi_n(t)=t$ uniformly, and $\phi_n\leq \phi_{n+1}$, so the sequence of functions is monotone.
+    Define $s_n=\phi_n\circ f$, so for any $x\in X$, $\lim s_n(x)=\lim \phi_n\circ f(x)=f(x)$.
+    Note that $s_n$ is simple since it has finite range (from $\phi_n$), and $s_n\leq s_{n+1}$ because $\phi_n\leq \phi_{n+1}$, and $s_n\leq f$ since $\phi_n(t)\leq t$.
+    Furthermore, $\phi_n$ is measurable since its level sets are intervals, so $s_n=\phi_n\circ f$ is measurable.
+\end{proof}
+\subsection{Integration of Positive Functions}
+\begin{definition}
+    Let $s:X\to[0,+\infty)$ be a measurable simple function $s=\sum\limits_{n=1}^N\alpha_i X_{A_i}$. %]
+    Let $E\in\mathcal{M}$.
+    Then define the \textbf{integral} of $s$ over $E$ with respect to $\mu$ as
+    \[\int_E s\d{\mu}=\sum\limits_{n=1}^N\alpha_i\mu(A_i\cap E)\]
+    where we define $0\cdot\infty=0$.
+\end{definition}
+\begin{definition}
+    Let $f:X\to[0,+\infty]$ be a measurable function.
+    Let $E\in\mathcal{M}$.
+    Then the \textbf{(Lebesgue) integral} of $f$ over $E$ with respect to $\mu$ is
+    \[\int_E f\d{\mu}=\sup\left\{\int_E s\d{\mu}:0\leq s\leq f;\text{ $s$ is simple measurable}\right\}\]
+\end{definition}
+Unlike the Riemann integral, we take the supremum over lower sums only.
+\begin{proposition}
+    Let $f,g:X\to[0,+\infty]$ be measurable functions.
+    Let $E,A,B\in\mathcal{M}$.
+    \begin{enumerate}[nolistsep]
+        \item If $f\leq g$ then $\int_E f\d{\mu}\leq\int_E g\d{\mu}$
+        \item If $A\subset B$, then $\int_A f\d{\mu}\leq \int_B f\d{\mu}$
+        \item $\int_E c\cdot f\d{\mu}=c\cdot\int_E f\d{\mu}$ for all $c\geq 0$
+        \item If $f(x)=0$ for all $x\in E$, then $\int_E f\d{\mu}=0$
+        \item If $\mu(E)=0$, then $\int_E f\d{\mu}=0$
+        \item $\int_E f\d{\mu}=\int_X f\cdot \chi_E\d{\mu}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item This follows directly since
+            \begin{equation*}
+                \left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\subset\left\{\int_E s\d{\mu}:0\leq s\leq g\right\}
+            \end{equation*}
+        \item Let $0\leq s\leq f$ be simple measurable.
+            Then
+            \[\int_A s\d{\mu}=\sum\limits\alpha_i\mu(A\cap A_i)\leq \sum\alpha_i\mu(B\cap A_i)=\int_B s\d{\mu}\]
+            Take the supremum for all $0\leq s\leq f$, then the result follows.
+        \item Let $S$ be simple and measurable, so $s=\sum \alpha_i\chi_{A_i}$.
+            Then
+            \[\int_Ec\cdot s\d{\mu}=\sum\limits_{i=1}^n\alpha_I\cdot c\cdot \mu(E\cap A_i)=c\cdot\sum\alpha_i\mu(E\cap A_i)=c\int_Es\d{\mu}\]
+            Thus
+            \begin{align*}
+                \int_Ec\cdot f\d{\mu}&=\sup\left\{\int_E s\d{\mu}:0\leq s\leq cf\right\}\\
+                                     &=\sup\left\{\int_E c\cdot t\d{\mu}:0\leq t\leq f\right\}\\
+                                     &=c\cdot\sup\left\{\int_E t\d{\mu}:0\leq t\leq f\right\}\\
+                                     &= c\cdot\int_E f\d{\mu}
+            \end{align*}
+        \item If $0\leq s\leq f$, then $s=\sum \alpha_i\chi_{A_i}$.
+            If $x\in A_i\cap E$, then $s(x)=\alpha_i$ and $\alpha_i=0$.
+            Then $\alpha_i\mu(A_i\cap E)=0$ for all $i$: either $A_i\cap E=\emptyset$, or $A_i\cap E$ is not empty, and $\alpha_i=0$.
+            This is true for any $0\leq s\leq f$, and taking supremums yields the result.
+        \item If $\mu(E)=0$ then $\mu(A_i\cap E)=0$, and $\int_E s\d{\mu}=\sum\alpha_i\mu(A_i\cap E)=0$ and taking supremums, the result holds.
+        \item Exercise.
+            First prove if $0\leq s\leq f\cdot\chi_E$, then $\int_X s\d{\mu}=\int_E s\d{\mu}$.
+            Then prove
+            \begin{equation*}\left\{\int_E s\d{\mu}:0\leq s\leq f\cdot\chi_E\right\}=\left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\end{equation*}
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $s$ be a simple and measurable.
+    Then $\phi(E)=\int_Es\d{\mu}$ is a measure.
+\end{proposition}
+\begin{proof}
+    $\phi(\emptyset)=0$, so $\phi$ is not constant $+\infty$.
+    Let $E=\bigcup_{n=1}^\infty E_n$ be a disjoint union.
+    Then
+    \begin{align*}
+        \phi(E) &=\sum\limits_{i=1}^m\alpha_i\mu(A_i\cap E)\\
+                &=\sum\limits_{i=1}^m\alpha_i\mu\left(A_i\cap\left(\bigcup\limits_{n=1}^\infty E_n\right)\right)= \sum\limits_{i=1}^m\alpha_i\mu\left(\bigcup\limits_{n=1}^\infty(A_i\cap E_n)\right)\\
+                &= \sum\limits_{i=1}^m\alpha_i\sum\limits_{n=1}^\infty\mu(A_i\cap E_n)= \sum\limits_{n=1}^\infty\sum\limits_{i=1}^m\alpha_i\mu(A_i\cap E_n)\\
+                &= \sum\limits_{n=1}^\infty \int_{E_n}s\d{\mu}= \sum\limits_{n=1}^\infty \phi(E_n)
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Let $s,t$ be nonnegative, measurable simple functions.
+    Then
+    \[\int_X(s+t)\d{\mu}=\int_X s\d{\mu}+\int_X t\d{\mu}\]
+\end{proposition}
+\begin{proof}
+    Write
+    \begin{equation*}s=\sum\limits_{i=1}^m\alpha_i \chi_{A_i},\quad t=\sum\limits_{j=1}^n \beta_j \chi_{\beta_j}\end{equation*}
+    and let $E_{ij}=A_i\cap B_j$, so $X=\bigcup_{i,j} E_{ij}$ is a disjoint union.
+    We now have
+    \begin{equation*}\int_{E_{ij}}(s+t)\d{\mu}=(\alpha_i+\beta_j)\mu(E_{ij})=\alpha_i\mu(E_{ij})+\beta_j\mu(E_{ij})=\int_{E_{ij}}s\d{\mu}+\int_{E_{ij}}t\d{\mu}\end{equation*}
+    Let $\phi(E)=\int_E(s+t)\d{\mu}$, which is a measure as above.
+    Thus
+    \begin{align*}
+        \int_X(s+t)\d{\mu} &= \phi(X)=\phi\left(\bigcup_{i,j}E_{ij}\right)\\
+                           &= \sum\limits_{i,j}\phi(E_{ij})=\sum\limits_{i,j}\int_{E_{ij}}(s+t)\d{\mu}\\
+                           &= \sum\limits_{i,j}\left(\int_{E_{ij}}s\d{\mu}+\int_{E_{ij}}t\d{\mu}\right)\\
+                           &= \sum\limits_{i,j}\varphi(E_{ij})+\sum\limits_{i,j}\theta(E_{ij})\\
+                           &= \int_Xs\d{\mu}+\int_X t\d{\mu}
+    \end{align*}
+    where $\varphi(E)=\int_E s\d{\mu}$, $\theta(X)=\int_E t\d{\mu}$.
+\end{proof}
+To extend this result to general functions, we need some stronger machinery.
+In particular, we have the first of many convergence theorems.
+\section{Lebesgue's Monotone Convergence Theorem}
+\begin{theorem}[Lebesgue's Monotone Convergence]
+    Let $f_n:X\to[0,+\infty]$ be measurable, such that
+    \begin{enumerate}[nolistsep, label=(\roman*)]
+        \item $0\leq f_1\leq f_2\leq\cdots$
+        \item $f(x):=\lim_{n\to\infty} f_n(x)$ for all $x\in X$
+    \end{enumerate}
+    Then $f$ is measurable, and $\int_X f\d{\mu}=\lim_{n\to\infty}\int_X f_n\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    It was already proven that $f$ is measurable.
+    We have $\int_X f_n\d{\mu}\leq \int_X f_{n+1}\d{\mu}$ for all $n$, so $\alpha:=\lim_{n\to\infty}\int_X f_n \d{\mu}$ exists.
+    We also have $f_n\leq f$, so $\int_X f_n\d{\mu}\leq \int_X f\d{\mu}$ and $\alpha\leq\int_X f_n\d{\mu}$.
+    Thus we wish to show $\alpha\geq \int_Xf\d{\mu}$.
+    It suffices to prove that $\alpha\geq\int_X s\d{\mu}$ for any simple $s\leq f$.
+    Furthermore, if $c\in(0,1)$, it suffices to show that $\alpha\geq\int_X c\cdot s\d{\mu}$.
+
+    Define $E_n=\{x\in X:f_n(x)\geq c\cdot s(x)\}$.
+    We have $E_1\subset E_2\subset\cdots$ so that $\bigcup\limits_{n=1}^\infty E_n=X$.
+    Then
+    \begin{equation*}
+        \int_X f_n\d{\mu} \geq \int_{E_n} f_n\d{\mu}\geq \int_{E_n} c\cdot s\d{\mu}
+    \end{equation*}
+    Let $\phi(E)=\int_E s\d{\mu}$, so $\int_{E_n}s\d{\mu}=\phi(E_n)$.
+    Thus $\lim_{n\to\infty}\phi(E_n)=\phi(X)=\int_X s\d{\mu}$.
+    Thus
+    \begin{equation*}
+        \alpha\geq c\cdot \lim_{n\to\infty}\phi(E_n)=c\cdot\int_X s\d{\mu}=\int_X c\cdot s\d{\mu}
+    \end{equation*}
+    as desired.
+\end{proof}
+Note that in the proof, choosing $c\in(0,1)$ was important since it lets us define the $E_n$ so that $\bigcup_{n=1}^\infty E_n=X$ - this would not work by defining $E_n=\{x\in X:f_n(x)\geq s(x)\}$.
+\subsection{Applications of Monotone Convergence}
+Now, as advertised, we can prove linearity of the integral for general measurable functions using the Monotone Convergence Theorem.
+\begin{theorem}
+    Let $f,g:X\to[0,+\infty]$ measurable, then $\int_X(f+g)\d{\mu}=\int_X f\d{\mu}+\int_X g\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    We proved that there exists increasing sequences of simple functions $s_n,t_n$ such that $\lim s_n(x)=f(x)$, $\lim t_n(x)=g(x)$ monotonically.
+    Then $s_n(x)+t_n(x)\to f(x)+g(x)$ monotonically so that
+    \begin{align*}
+        \int_X(f+g)\d{\mu} &= \int_X \lim_{n\to\infty}(s_n+t_n)\d{\mu}\\
+                           &= \lim_{n\to\infty}\int_X (s_n+t_n)\d{\mu}\\
+                           &= \lim_{n\to\infty}\left(\int_X s_n\d{\mu}+\int_X t_n\d{\mu}\right)\\
+                           &= \int_X \lim_{n\to\infty}s_n\d{\mu}+\int_X\lim_{n\to\infty} t_n\d{\mu}\\
+                           &= \int_X f\d{\mu}+\int_X g(\d{\mu})
+    \end{align*}
+    relying on linearity of the integral over simple functions.
+\end{proof}
+\begin{corollary}
+    If $f_n:X\to[0,+\infty]$ is a sequence of measurable functions, then
+    \[\sum_{n=1}^\infty \int_X f_n\d{\mu}=\int_X\sum\limits_{n=1}^\infty f_n\d{\mu}\]
+\end{corollary}
+\begin{proof}
+    Define $g_n=\sum_{i=1}^n f_i$ is monotonically increasing.
+\end{proof}
+\begin{example}
+    Let $X=\N$, $\mathcal{M}=\mathcal{P}(X)$, $\mu(E)$ is the counting measure.
+    Let $a:X\to[0,\infty)$ be a function. %]
+    This is a sequence.
+    Every function is measurable.
+    Let $s_n(i)=a(i)$ for $i\leq n$ and $0$ otherwise, which is a simple function, and $s_n\leq s_{n+1}$.
+    Then $\lim_{n\to\infty}s_n(i)=a(i)$ so $s_n\to a$ pointwise, so by LMC $\int_X s_n\d{\mu}=\int_X a\d{\mu}$.
+    Also,
+    \[\int_X s_n\d{\mu}=\sum\limits_{i=1}^na(i)\mu(\{i\})=\sum\limits_{i=1}^na(i)\]
+    so $\int_X a\d{\mu}=\sum\limits_{n=1}^\infty a(n)$.
+\end{example}
+For the following Lemma, we will see an application of it during the section on Complex measures (to follow).
+\begin{lemma}[Fatou]
+    Let $f_n:X\to[0,\infty)$ be a sequence of measurable functions.
+    Then
+    \[\int_X\lim\inf f_n\d{\mu}\leq\lim\inf\int_X f_n\d{\mu}\]
+\end{lemma}
+\begin{proof}
+    Let $g_k=\inf\{f_k,f_{k+1},\ldots\}$ so $\lim\inf f_n=\lim_{n\to\infty} g_n$ and $g_n$ is increasing.
+    Note that $g_k\leq f_k$ for any $k$, so $\int_X g_k\d{\mu}\leq\int_X f_k\d{\mu}$.
+    Thus
+    \begin{align*}
+        \int_X\lim\inf f_n\d{\mu} &= \int_X\lim_{n\to\infty}g_n\d{\mu}\\
+                                  &= \lim_{n\to\infty}\int_X g_n\d{\mu}\\
+                                  &= \lim\inf \int_X g_n\d{\mu}\\
+                                  &\leq \lim\inf\int_X f_n\d{\mu}
+    \end{align*}
+    Note that the inequality can hold strictly (exercise).
+\end{proof}
+Our next application is a strengthening of the previous result for simple functions.
+\begin{theorem}
+    Let $f:X\to[0,\infty]$ be measurable.
+    Let $\phi(E)=\int_E f\d{\mu}$, $E\in\mathcal{M}$.
+    Then $\phi$ is a measure and $\int_X g\d{\phi}=\int_X g\cdot f\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    Certainly $\phi(\emptyset)=0$, so $\phi\neq+\infty$.
+    Thus let $E=\bigcup_{i=1}^\infty E_i$ be a disjoint union and $\chi_E f=\sum_{i=1}^\infty\chi_{E_i}f$.
+    Thus we have
+    \begin{align*}
+        \phi(E) &= \int_Ef\d{\mu}= \int_X\chi_E f\d{\mu}\\
+                &= \int_X\sum\limits_{i=1}^\infty \chi_{E_i}f\d{\mu}= \sum\limits_{i=1}^\infty\int_X\chi_{E_i}f\d{\mu}\\
+                &= \sum\limits_{i=1}^\infty \int_{E_i}\d{\mu}= \sum\limits_{i=1}^\infty\phi(E_i)
+    \end{align*}
+    where we interchange the summation using the previous corollary.
+    Now, we prove that $\int_X g\d{\phi}=\int_Xgf\d{\mu}$.
+    \begin{itemize}[nolistsep]
+        \item \textit{Let $g=\chi_E$ be a characteristic function.}
+            Then
+            \begin{equation*}
+                \int_X\chi_E\d{\phi}=\phi(E)=\int_E f\d{\mu}=\int_X\chi_E f\d{\mu}
+            \end{equation*}
+        \item \textit{Let $g=\sum\limits_{i=1}^n\alpha_i\chi_{A_i}$ be a simple function.}
+            Then
+            \begin{align*}
+                \int_X\sum\limits_{i=1}^n\alpha_i\chi_{A_i}\d{\phi}&=\sum\limits_{i=1}^n\alpha_i\int_X\chi_{A_i}\d{\phi}\\
+                                                                   &=\sum\limits_{i=1}^n\alpha_i\int_X\chi_{A_i}f\d{\mu}\\
+                                                                   &=\int_X\sum\limits_{i=1}^n\alpha_i\chi_{A_i}f\d{\mu}
+            \end{align*}
+            applying the result for characteristic functions.
+        \item \textit{Let $g$ be an arbitrary measurable function.}
+            For the final step, we apply monotone convergence.
+            Let $(s_n)\to g$ be an increasing sequence of simple functions, and note that $s_nf\to gf$.
+            Thus
+            \begin{align*}
+                \int_Xg\d{\phi}&=\int_X\lim s_n\d{\phi}=\lim\int_Xs_n\d{\phi}\\
+                               &=\lim\int_Xs_n f\d{\mu}=\int_X\lim(s_nf)\d{\mu}\\
+                               &=\int_Xg\cdot f\d{\mu}
+            \end{align*}
+            as desired.
+    \end{itemize}
+    Thus we have our result.
+\end{proof}
+\section{Integration of Complex Valued Functions}
+\begin{definition}
+    A function $f:X\to\C$ is called \textbf{Lebesgue integrable} if $\int_X|f|\d{\mu}<\infty$.
+    The collection of such functions is $L^1(\mu)$.
+\end{definition}
+\subsection{Basic Properties}
+\begin{definition}
+    Let $f\in L^1(\mu)$.
+    Then $f=u+iv$ and denote $u=\re f$, $v=\im f$.
+    Let $E\in\mathcal{M}$; then the integral of $f$ over $E$ with respect to $\mu$ is
+    \[\int_Ef\d{\mu}=\int_Eu^+\d{\mu}-\int_E u^-\d{\mu}+i\left(\int_E v^+\d{\mu}-\int_E v^-\d{\mu}\right)\]
+    with the integral as defined for positive functions.
+\end{definition}
+\begin{theorem}
+    Let $f,g\in L^1(\mu)$, $\alpha,\beta\in\C$, so $\alpha f+\beta g=L^1(\mu)$ and
+    \[\int_X(\alpha f+\beta g)\d{\mu}=\alpha\int_X f\d{\mu}+\beta\int_X g\d{\mu}\]
+\end{theorem}
+\begin{proof}
+    Note that $\alpha f+\beta g$ is measurable, so $\int_X|\alpha f+\beta g|\d{\mu}\leq |\alpha|\int_X|f|\d{\mu}+|\beta|\int_X|g|\d{\mu}<\infty$.
+    For real measurable functions, $\int_X(f+g)\d{\mu}=\int_X f\d{\mu}+\int_X g\d{\mu}$ directly by expanding the definition and using additivity over positive functions.
+    We thus show $\int_X\alpha f\d{\mu}=\alpha\int_Xf\d{\mu}$.
+    If $\alpha\geq 0$, then
+    \begin{align*}
+        \int_X\alpha f\d{\mu}=\int_X\alpha(u+iv)&=\int_X(\alpha u^+-\alpha u^-+i\alpha v^+-i\alpha v^-)\d{\mu}\\
+                                                &=\int_X((\alpha u)^+-(\alpha u)^-+(i\alpha v)^+-(i\alpha v)^-)\d{\mu}\\
+                                                &=\int_X(\alpha u)^+\d{\mu}-\int_X(\alpha u)^-\d{\mu}+\int_Xi(\alpha v)^+\d{\mu}-\int_Xi(\alpha v)^-\d{\mu}\\
+                                                &=\alpha\int_Xu^+\d{\mu}-\alpha\int_Xu^-\d{\mu}+\alpha\int_Xiv^+\d{\mu}-\alpha\int_Xiv^-\d{\mu}\\
+                                                &= \alpha\int_X f\d{\mu}
+    \end{align*}
+    and similarly for $\alpha=-1$, $\alpha=i$.
+\end{proof}
+As usual, we have a triangle-type inequality for complex integration.
+\begin{theorem}
+    Let $f\in L^1(\mu)$.
+    Then $\left\lvert\int_X f\d{\mu}\right\rvert\leq\int_X|f|\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    Let $z=\int_X f\d{\mu}$.
+    Let $\alpha=\frac{|z|}{z}$ if $z\neq 0$, and $\alpha=1$ otherwise.
+    Then $\alpha\int_X f\d{\mu}=|z|$.
+    Let $\re(\alpha\cdot f)\leq |\alpha\cdot f|\leq |f|$ since $|\alpha|=1$ so that
+    \begin{align*}
+        \left\lvert\int_X f\d{\mu}\right\rvert &= \alpha\cdot\int_X f\d{\mu}\\
+                                               &=\int_X\alpha f\d{\mu}\\
+                                               &= \int_X\re(\alpha f)\d{\mu}+i\int_X\im(\alpha f)\d{\mu}\\
+                                               &= \int_X\re(\alpha f)\d{\mu}\\
+                                               &\leq \int_X|f|\d{\mu}
+    \end{align*}
+    since $\alpha\int_X f\d{\mu}\in\R$, we have $\int_X\im(\alpha f)\d{\mu}=0$.
+\end{proof}
+\subsection{Lebesgue's Dominated Convergence Theorem}
+The next theorem is a natural generalization of the Monotone Convergence Theorem to complex measurable functions (which do not have a standard partial ordering).
+Note this follows from the Monotone Convergence Theorem since we apply Fatou's Lemma.
+The Monotone Convergence Theorem is a special case of this theorem.
+\begin{theorem}[Lebesgue's Dominated Convergence]
+    Let $f_n:X\to\C$ be measurable functions such that $f=\lim f_n$.
+    Assume that there is some $g\in L^1(\mu)$ such that $|f_n|\leq g$ for all $n$.
+    Then $f\in L^1(\mu)$ and $\int_X f\d{\mu}=\lim_{n\to\infty}\int_X f_n\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    We certainly know that $f$ is measurable, and $|f|\leq g$, so $f\in L^1(\mu)$.
+    As well, the triangle inequality show that $|f-f_n|\leq 2g$ for any $n$.
+    We will see that $0\leq \lim\inf\int_X|f-f_n|\d{\mu}\leq\lim\sup\int_X|f-f_n|\d{\mu}\leq 0$.
+    Assuming that this holds, then $\lim_{n\to\infty}\int_X|f-f_n|\d{\mu}=0$ and
+    \[0\leq\lim_{n\to\infty}\left\lvert\int_Xf\d{\mu}-\int_Xf_n\d{\mu}\right\rvert\leq\lim_{n\to\infty}\int_X|f-f_n|\d{\mu}=0\]
+    and the desired result follows directly.
+
+    The first two inequalities are obvious: we must show that $\lim\sup\int_X|f_n|\d{\mu}\leq 0$.
+    Firstly, we have
+    \begin{align*}
+        \int_X 2g\d{\mu} &= \int_X \left(2g-\lim_{n\to\infty}|f-f_n|\right)\d{\mu}\\
+                         &= \int_X\lim\inf(2g-|f-f_n|)\d{\mu}\\
+                         &\leq \lim\inf\int_X(2g-|f-f_n|)\d{\mu} &&\text{By Fatou's Lemma}\\
+                         &= \int_X 2g+\lim\inf\left(-\int_X|f-f_n|\d{\mu}\right)\\
+                         &= \int_X 2g-\lim\sup \int_X|f-f_n|\d{\mu}
+    \end{align*}
+    and since $\int_X 2g\d{\mu}$ is finite, we subtract and $\lim\sup\int_X|f-f_n|\d{\mu}\leq 0$.
+\end{proof}
+\begin{example}
+    Consider $\lim_{n\to\infty}\int_0^n e^{-nx}\d{x}$.
+    Define
+    \[f_n(x)=
+        \begin{cases}
+            e^{-nx}&\text{if }x\leq n\\
+            0 &\text{if }x>n
+        \end{cases}
+    \]
+    Note that $f_n(x)\leq g(x)=e^{-x}$ and $\int_0^\infty e^{-x}\d{x}<\infty$.
+    Thus
+    \begin{align*}
+        \lim_{n\to\infty}\int_0^n e^{-nx}\d{x} &= \int_{[0,\infty)}\lim_{n\to\infty}f_n(x)\d{x}\\
+                                               &= \int_{[0,\infty)]}\chi_{\{0\}}\d{x}\\
+                                               &= 0
+    \end{align*}
+\end{example}
+\begin{remark}
+    For the Riemann integral, we have $\int\lim f_n=\lim\int f_n$ as long as the convergence of $f_n$ is uniform.
+\end{remark}
+\chapter{Construction of Regular Measures}
+\section{The Vector Space $L^1(\mu)$}
+\subsection{Almost Everywhere}
+Let $(X,\mathcal{M},\mu)$ be a measure space.
+\begin{definition}
+    Let $E\in\mathcal{M}$.
+    We say that property $P$ holds almost everywhere in $E$ if there exists $N\in\mathcal{M}$ such that $\mu(N)=0$, $N\subset E$, and $P$ holds in $E\setminus N$.
+\end{definition}
+\begin{example}
+    Two functions $f,g:X\to\C$ are equal almost everywhere if $\exists N\subset X$ such that $\mu(N)$ and $f(x)=g(x)$ on $X\setminus N$.
+\end{example}
+\begin{proposition}
+    Let $E\subset X$ be such that $A_1,A_2,B_1,B_2\in\mathcal{M}$ for which $\int_X f\d{\mu}=\int_X g\d{\mu}$.
+    Then $A_1\subset E\subset B_1$, $A_2\subset E\subset B_2$, and $\mu(B_1\setminus A_1)=0$ and $\mu(B_2\setminus A_2)=0$.
+    Then $\mu(A_1)=\mu(A_2)$.
+\end{proposition}
+\begin{proof}
+    Note that $A_1\setminus A_2\subset E\setminus A_2\subset B_2\setminus A_2$.
+    As well, $\mu(A_1\setminus A_2)\leq \mu(B_2\setminus A_2)=0$.
+    Then
+    \begin{align*}
+        \mu(A_1)&=\mu(A_1\cap A_2^c)+\mu(A_1\cap A_2)=\mu(A_1\setminus A_2)+\mu(A_1\cap A_2)=\mu(A_1\cap A_2)\\
+        \mu(A_2)&=\mu(A_2\cap A_1^c)+\mu(A_2\cap A_1)=\mu(A_2\setminus A_1)+\mu(A_2\cap A_1)=\mu(A_1\cap A_2)
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Let $(X,\mathcal{M},\mu)$ be a measure space.
+    Let
+    \[\mathcal{M}^*=\{E\subset X:\exists A,B\in\mathcal{M}, A\subset E\subset B,\mu(B\setminus A)=0\}\]
+    Then $\mathcal{M}^*$ is a $\sigma-$algebra, and $\mu^*:\mathcal{M}^*\to[0,+\infty]$ defined by $\mu^*(E)=\mu(A)$.
+\end{proposition}
+\begin{proof}
+    We show that $\mathcal{M}^*$ is a $\sigma-$algebra, and $\mu$ is countably additive.
+    \begin{enumerate}[nolistsep]
+        \item $X\in\mathcal{M}$ so $X\in\mathcal{M}^*$.
+        \item If $E\in\mathcal{M}^*$, get $A\subset E\subset B$ so $B^c\subset E^c\subset A^c$, $A^c,B^c\in\mathcal{M}$.
+            As well, $\mu(A^c\setminus B^c)=\mu(A^c\cap B)=\mu(B\setminus A)=0$, so $E^c\in\mathcal{M}^*$.
+        \item If $E_i\in\mathcal{M}^*$ is a countable collection, then get $A_i\subset E_i\subset B_i$.
+            Fix $A=\bigcup A_i$ and $B=\bigcup B_i$.
+            Then $B\setminus A=\bigcup(B_i\setminus A)\subset U(B_i\subset A_i)$ so $\mu(B\setminus A)=0$ and $A\subset\bigcup E_i\subset B$ so $\bigcup E_i\in\mathcal{M}^*$.
+        \item Let $E_i$ be disjoint, $E=\bigcup E_i$, and $E_i\in\mathcal{M}^*$.
+            Get $A_i\subset E_i\subset B_i$.
+            Then $\mu^*(\bigcup E_i)=\mu(\bigcup A_i)=\sum\mu(A_i)=\sum\mu(E_i)$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    We call the space $(X,\mathcal{M}^*,\mu^*)$ the \textbf{completion} of $(X,\mathcal{M},\mu)$.
+\end{definition}
+In particular, every subset of a set with measure $0$ is measurable.
+\subsection{$L^1(\mu)$ as a normed space}
+\begin{proposition}
+    \begin{enumerate}
+        \item Let $f:X\to[0,+\infty)$ be measurable, $E\in\mathcal{M}$.
+            If $\int_E f\d{\mu}=0$, then $f=0$ almost everywhere in $E$.
+        \item Let $f\in L^1(\mu)$.
+            If $\int_E f\d{\mu}=0$ for all $E\in\mathcal{M}$, then $f=0$ almost everywhere in $X$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $A_n=\{x\in E:f(x)>1/n\}$, so that
+            \begin{equation*}
+                \frac{1}{n}\mu(A_n)\leq\int_{A_n}\d{\mu}\leq\int_E f\d{\mu}=0\Longrightarrow \mu(A_n)=0
+            \end{equation*}
+            for all $n$.
+            But then
+            \[N=\{x\in E:f(x)>0\}=\bigcup\limits_{n=1}^\infty A_n\to \mu(N)\leq\sum\mu(A_n)=0\]
+        \item Write $f=u+iv$ so that
+            \begin{equation*}
+                \int_E f\d{\mu}=\int_E u^+\d{\mu}-\int_E u^-\d{\mu}+i\int_E v^+\d{\mu}-i\int_E v^-\d{\mu}
+            \end{equation*}
+            We show that $u^+=0$ almost everywhere (the other terms are identical).
+            Let $E=\{x\in X:u(x)\geq 0\}$, so $\int_E f\d{\mu}=0$, so its real part is zero and $\int_E u^+\d{\mu}=0$.
+            Thus $u^+=0$ almost everywhere in $E$.
+            The result follows.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    A \textbf{normed space} over $\R$ is a vector space $V$ over $\R$ with a map $\norm{\cdot}:V\to\R$ such that
+    \begin{enumerate}[label=(\roman*)]
+        \item $x\in V\Rightarrow\norm{x}\geq 0$ and $\norm{x}=0$ if and only if $x=0$.
+        \item $\norm{\lambda x}\leq|\lambda|\norm{x}$ for all $\lambda\in\R$ and $x\in V$
+        \item $\norm{x+y}\leq\norm{x}+\norm{y}$ for all $x,y\in V$.
+    \end{enumerate}
+\end{definition}
+Now $L^1(\mu)=\{f:X\to\C\text{ measurable and }\int_X|f|\d{\mu}<\infty\}$.
+We certainly have that $L^1(\mu)$ is a vector space.
+We wish to define $\norm{f}=\int_X|f|\d{\mu}$.
+The only problem is that
+\[\int_X|f|\d{\mu}=0\Longrightarrow f=0\text{ almost everywhere}\]
+To deal with this problem, we quotient our space by the equivalence relation $f\sim g$ if and only if $f=g$ almost everywhere.
+With this in mind, define $V=L^1(\mu)/\sim$ denote the set of equivalence classes.
+We need to define $+,\cdot,\norm{\cdot}$ on $V$.
+Let $[f]$ denote the class of $f$.
+Then
+\begin{align*}
+    [f]+[g]&=[f+g]\\
+    c[f] &= [cf]\\
+    \norm{[f]} &= \int_X|f|\d{\mu}
+\end{align*}
+Let's verify that this is well defined: if $f_1\sim f_2$ and $g_1\sim g_2$, then $f_1+g_1\sim f_2+g_2$.
+Indeed, this is true since the sums are equal except perhaps on a union of measure zero sets, so equality holds almost everywhere.
+The second definition is obviously well defined.
+Finally, by a homework assignment, $\norm{[f]}$ is also well defined.
+Now, let's verify the properties of the norm.
+\begin{enumerate}[label=(\roman*)]
+    \item Certainly $\norm{[f]}\geq 0$, and $\norm{[f]}=0$ implies $f=0$ almost everywhere, so $[f]=[0]=0$.
+    \item We have $\norm{\lambda\cdot[f]}=\int_X|\lambda f|\d{\mu}=|\lambda|\int_X|f|\d{\mu}=|\lambda|\norm{[f]}$
+    \item We have $\norm{[f]+[g]}=\int_X|f+g|\d{\mu}\leq\int_X|f|+\int_X|g|=\norm{[f]}+\norm{[g]}$
+\end{enumerate}
+In $L^1(\mu)$, two functions are the same if they are equal almost everywhere.
+However, this can be a challenge: if $f\in L^1(\mu)$ and $x_0\in X$, then $f(x_0)$ is not well defined.
+For example, it is challenging to give meaning to boundary conditions of functions.
+\subsection{Construction of the Lebesgue measure}
+We begin from the Riemann integral $\int_a^b f(x)\d{x}$ for a continuous function $f$.
+Define $\supp f=\overline{\{x\in\R:f(x)\neq 0\}}$.
+For continuous functions with compact (bounded) support, define $\Lambda f=\int_{\R} f(x)\d{x}$ is the Riemann integral, which is a functional.
+In particular,
+\[\text{measure}((a,b))=\text{length}((a,b))=\sup\{\Lambda f:f\text{ is continuous, compact support, }0\leq f\leq 1,\supp f\subset(a,b)\}\]
+We will extend this to a $\sigma-$algebra containing the Borel sets.
+In order to define these, for open sets, $\mu(G)=\sup\{\Lambda f:0\leq f\leq 1,\supp f\subset G\}$, where $\Lambda$ is the Riemann integral.
+For an arbitrary set, $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$.
+However, this ``measure'' is not countably additive: the $\sigma-$algebra $\mathcal{P}(X)$ is too large (Vitali's construction).
+Instead, we will define $\mathcal{M}=\{E\subset X:E\text{ is locally regular}\}$, which means that $E\cap K$ is regular for any $K$ compact, and regular means that the outer measure and inner measure are equal.
+The outer measure is $\sup\{\mu(K):K\subset E\text{ compact}\}=\mu(E)$.
+\section{The Riesz Representation Theorem}
+In this section, we assume that $(X,\tau)$ be a locally compact, Hausdorff topological space.
+\begin{definition}
+    We denote the space of continuous functions with compact support by $C_c(X)=\{f:X\to\C\mid f\in C(X),\supp f\text{ is compact}\}$.
+\end{definition}
+\begin{definition}
+    Let $\Lambda:C_c(X)\to\C$ be a \textbf{linear functional}, i.e. $\Lambda(cf+g)=c\Lambda f+\Lambda g$.
+    $\Lambda$ is called a \textbf{positive} linear functional if $f\geq 0\Rightarrow\Lambda f\geq 0$.
+\end{definition}
+By positivity, if $f\leq g$, then $g-f\geq 0$ so $\Lambda g-\Lambda g=\Lambda(g-f)\geq 0$ and $\Lambda f\leq\Lambda g$.
+\begin{definition}
+    We say that $K\prec f$ if $K$ is compact and $f\in C_c(X)$, $0\leq f\leq 1$ implies that $x\in K\Rightarrow f(x)=1$.
+    We say that $f\prec G$ if $G$ is open, $f\in C_c(X)$, $0\leq f\leq 1$, and $\supp f\subset G$.
+\end{definition}
+\begin{lemma}[Urysohn]
+    Let $G\in\tau$, $K\subset G$ compact.
+    Then there exists $f\in C_c(X)$ such that $K\prec f\prec G$.
+\end{lemma}
+\begin{proof}
+    Will do later.
+\end{proof}
+\begin{lemma}[Partition of Unity]
+    Let $G_1,G_2,\ldots,G_n\in\tau$, an let $K\subset G_1\cup\cdots\cup G_n$ be compact.
+    Then there are functions $h_i\in C_c(X)$ such that $h_i\prec G_i$ and $K\prec \sum h_i$.
+\end{lemma}
+\begin{proof}
+    Also will do later.
+\end{proof}
+How can we create a positive linear functional on $C_c(X)$?
+If $\mu$ is a measure, and functions on $C_c(X)$ are measurable, then $\Lambda f=\int_X f\d{\mu}$ is a positive linear functional.
+The representation theorem says that there are no other examples.
+\begin{theorem}[Riesz Representation]
+    Let $(X,\tau)$ be as above.
+    If $\Lambda:C_c(X)\to\C$ is a positive linear functional, then there exists a unique measure space $(X,\mathcal{M},\mu)$ such that $\Lambda f=\int_Xf\d{\mu}$ for any $f\in C_c(X)$, $\mathcal{M}\supset\tau$, and
+    \begin{enumerate}[label=(\roman*),nolistsep]
+        \item $\mu(E)=\inf\{\mu(G):E\subset G\text{ open}\}$ for all $E\in\mathcal{M}$.
+        \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$ for all $E\in\mathcal{M}$ with $\mu(E)<\infty$.
+        \item $\mu(K)<\infty$ for any $K$ compact.
+        \item $\mathcal{M}$ is complete.
+    \end{enumerate}
+\end{theorem}
+First, let's get some definitions out of the way.
+Fix the notation as above.
+\begin{definition}
+    Fix a Borel measure $\mu$.
+    The \textbf{Lebesgue outer measure} is defined $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$.
+\end{definition}
+\begin{definition}
+    We say that $E\subset X$ is \textbf{regular} if $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
+    Similarly, $E\subset X$ is \textbf{locally regular} for every compact $K$, $K\cap E$ is regular.
+\end{definition}
+\textbf{Claim 0: Definition of $\mu$ and $\mathcal{M}$; completeness of $\mathcal{M}$.}
+\begin{proof}
+    For an open set $G\in\tau$, let $\mu(G)=\sup\{\Lambda f:f\prec G\}$.
+    Then $\mu(\emptyset)=0$ and $G_1\subset G_2$ implies that $\mu(G_1)\leq\mu(G_2)$.
+    Then extend $\mu$ to arbitrary $E\subset X$ as an outer measure.
+    Now let $\mathcal{M}=\{E\subset X:E\text{ is locally regular}\}$.
+    Note that $\mathcal{M}$ contains compact sets, since they are regular.
+    This is direct from the definition, since $\mu(F)\leq\mu(K)$ for any compact $F\subseteq K$ and the supremum occurs exactly at $K$.
+
+    As well, $\mathcal{M}$ is complete: let $E\in\mathcal{M}$, $\mu(E)=0$ and $A\subset E$.
+    We want to show that $A\in\mathcal{M}$.
+    Let $K$ be an arbitrary compact set; then $\mu(K\cap A)=0$.
+    Now if $F\subset K\cap A$ is compact, $\mu(F)=0$.
+    Thus $\sup\{\mu(F):F\subset K\cap A\text{ compact}\}=0$, so $K\cap A$ is regular and $A$ is locally regular and an element of $\mathcal{M}$.
+\end{proof}
+\textbf{Claim 1: $\mu$ is $\sigma-$subadditive.
+In other words, if $E_1,E_2,\ldots$ are arbitrary subsets of $X$, then
+\begin{equation*}\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)\leq\sum\limits_{i=1}^\infty \mu(E_i)\end{equation*}
+}
+\begin{proof}
+    If $\mu(E_j)=\infty$ for some $j$, then we are done.
+    Thus assume $\mu(E_j)<\infty$ for all $j$.
+    Let $\epsilon>0$, $\gamma<\mu\left(\bigcup_{j=1}^\infty E_j\right)$ be arbitrary.
+    We will show that $\gamma\leq\sum_{i=1}^\infty \mu(E_i)$.
+
+    Let $G_j\supset E_j$ be open, such that $\mu(G_j)\leq\mu(E_j)+\frac{\epsilon}{2^j}$.
+    Then
+    \[\gamma<\mu\left(\bigcup\limits_{j=1}^\infty E_j\right)\leq \mu\left(\bigcup\limits_{j=1}^\infty G_j\right)\]
+    so there exists some $f\prec \bigcup_{j=1}^\infty G_j$ so $\gamma<\Lambda f$ by the definition of $\mu$ on open sets.
+    Let $K=\supp f$ so that
+    \[K\subset\bigcup\limits_{j=1}^\infty G_j\imp K\subset\bigcup\limits_{j=1}^n G_j\]
+    since $\{G_j\}$ are an open cover for $K$ and $K$ is compact.
+    Get a partition of unity $h_j\prec G_j$ for each $j=1,\ldots,n$ which satisfies $\sum_{j=1}^n h_j(x)=1$ for any $x\in K$.
+    Then $f\cdot h_j\prec G_j$ and $f=f\cdot\sum_{j=1}^n h_j$ so that
+    \begin{align*}
+        \gamma &<\Lambda f=\Lambda\left(\sum\limits_{j=1}^n fh_j\right)=\sum\limits_{j=1}^n\Lambda(fh_j)\\
+               &\leq \sum\limits_{j=1}^n \mu(G_j)\leq \sum\limits_{j=1}^n\left(\mu(E_j)+\frac{\epsilon}{2^j}\right)\\
+               &\leq \sum\limits_{j=1}^\infty\left(\mu(E_j)\right)+\epsilon
+    \end{align*}
+    which holds for all $\epsilon>0$ if and only if $\gamma\leq\sum_{j=1}^\infty\mu(E_j)$.
+    This holds for any $\gamma\leq\mu\left(\bigcup_{j=1}^\infty E_j\right)$ and the result follows.
+\end{proof}
+\textbf{Claim 2:
+    If $K\prec f\prec G$, then $\mu(K)\leq\Lambda f\leq\mu(G)$.
+    Thus if $K$ is compact, $\mu(K)<\infty$.
+}
+\begin{proof}
+    It is direct from the definition of $\mu$ that $\Lambda f\leq\mu(G)$.
+    Thus let $\gamma<\mu(K)$ and $\alpha\in(0,1)$.
+    Let $V_\alpha:=\{x\in X:f(x)>\alpha\}$ and $K\subset V_\alpha$ since $f\equiv 1$ on $K$.
+    Since $f$ is continuous, $V_\alpha=f^{-1}((\alpha,\infty))$ is the preimage of an open set and thus open.
+
+    Now $\gamma<\mu(K)\leq\mu(V_\alpha)$, so we have some $h\prec V_\alpha$ such that $\gamma<\Lambda h$.
+    Then $\alpha\cdot h\leq f$ since in $V_\alpha$, $\alpha\cdot h\leq\alpha<f$ and in $V_\alpha^c$, $\alpha\cdot h=0\leq f$.
+    Now $\alpha\cdot\Lambda h=\Lambda(\alpha h)\leq\Lambda f$ so $\gamma<\Lambda f/\alpha$.
+    This is true for all $\alpha\in(0,1)$ and $\gamma\leq\Lambda f$.
+    Since this holds for all $\gamma<\mu(K)$, we have $\mu(K)\leq\Lambda f$ as required.
+
+    Now, let $K$ be compact so that $\mu(K)\leq\Lambda f$ for all $K\prec f$.
+    Let $\epsilon>0$ and get $G\in\tau$, $G\supset K$ such that $\mu(G)\leq\mu(K)+\epsilon$.
+    Then by Urysohn's lemma, get some $K\prec f\prec G$ so that $\mu(K)\leq\Lambda f\leq\mu(G)$, so $\Lambda f\leq\mu(K)+\epsilon$ and the result holds.
+    Now suppose $K$ is compact, so $\mu(K)=\inf\{\mu(G):K\subset G\in\tau\}$.
+    By Urysohn's Lemma, get $f$ with $K\prec f\prec G$, and by (1.), $\mu(K)\leq\Lambda f\leq\mu(G)$ so that $\mu(K)=\inf\{\Lambda f:K\prec f\}$.
+    As a corollary, we have that $\mu(K)<\infty$ (since $\Lambda$ is a positive linear functional).
+    Besides demonstrating one of our properties, this provides a convenient way of computing the measure of compact sets.
+\end{proof}
+\textbf{Claim 3: If $G\in\tau$, then $G$ is regular.}
+\begin{proof}
+    We first show that if $0\leq f\leq 1$, then $\Lambda f\leq\mu(\supp f)$.
+    Let $G\supset\supp f$ be open, so $f\prec G$ and $\mu(G)\geq\Lambda f$.
+    Then $\mu(\supp f)=\inf\{\mu(G):E\subset G\in\tau\}\geq\Lambda f$.
+
+    Now we want to show $\mu(G)=\sup\{\mu(K):K\subset G\text{ compact}\}$.
+    It suffices to show that $\sup\{\mu(K):K\subset G\text{ compact}\}\geq\mu(G)$, so let $\gamma<\mu(G)$ and we want $K$ compact so that $\mu(K)>\gamma$.
+    Let $f\prec G$ be such that $\Lambda f>\gamma$.
+    Then $\mu(\supp f)>\gamma$ by the previous claim is compact, as desired.
+\end{proof}
+\textbf{Claim 4: Suppose $E_1,E_2,\ldots$ are disjoint regular.
+Then
+\begin{equation*}\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)\end{equation*}
+If we assume additionally that $\mu(\cup E_i)<\infty$, then $\bigcup_{i=1}^\infty E_i$ is regular.
+}
+\begin{proof}
+    We first prove this for two compact sets.
+    Thus let $K_1,K_2$ be disjoint compact sets.
+    Then $K_2^c$ is open and $K_2^c\supset K_1$.
+    By Urysohn's lemma, get $f\in C_c(X)$ so that $K_1\prec f\prec K_2^c$ and $x\in K_1$ implies $f(x)=1$, and $x\in K_2$ implies $f(x)=0$.
+
+    Since $K_1\cup K_2$ is compact, for all $\epsilon>0$, get $g\prec K_1\cup K_2$ such that $\mu(K_1\cup K_2)+\epsilon>\Lambda g$ (by Claim 2).
+    Furthermore, $K_1\prec f\cdot g$ and $K_2\prec(1-f)\cdot g$.
+    Thus $\mu(K_1)+\mu(K_2)\leq\Lambda(f\cdot g)+\Lambda((1-f)\cdot g=\Lambda g<\mu(K_1\cup K_2)+\epsilon$ which is true for any $\epsilon>0$.
+    Thus $\mu(K_1)+\mu(K_2)\leq\mu(K_1\cup K_2)\leq\mu(K_1)+\mu(K_2)$ and equality holds, as required.
+
+    Now, by Claim 1, it remains to show that $\mu(\cup E_i)\geq\sum\mu(E_i)$.
+    If $\mu(\cup E_i)=+\infty$, we are done, so assume $\mu(\cup E_i)<+\infty$.
+    Since the $E_i$ are regular, there is a compact set $H_i\subset E_i$ so that $\mu(H_i)>\mu(E_i)-\frac{\epsilon}{2^i}$ for each $i\in\N$.
+    Let $K_n=\bigcup_{i=1}^n H_i$.
+    Now
+    \begin{equation*}
+        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) \geq \mu(K_n)= \sum\limits_{i=1}^n \mu(H_i)> \sum\limits_{i=1}^n\mu(E_i)-\epsilon
+    \end{equation*}
+    Taking the limit as $n$ goes to infinity gives $\mu(\cup E_i)\geq \sum\mu(E_i)-\epsilon$ for any $\epsilon>0$, so we are done.
+
+    Let's now see the second part.
+    For any $\epsilon>0$, there exists some $N\in\N$ so that
+    \begin{equation*}
+        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) \leq \sum\limits_{i=1}^N\mu(E_i)+\epsilon\leq \mu(K_N)+2\epsilon
+    \end{equation*}
+    with $K_N$ compact defined in the same way as above.
+    Since $\epsilon>0$ was arbitrary, the result follows directly.
+\end{proof}
+\textbf{Claim 5: $E$ is regular and $\mu(E)<\infty$ if and only if for any $\epsilon>0$, there exists $K$ compact, $G$ open so that $K\subset E\subset G$ and $\mu(G\setminus K)<\epsilon$.}
+\begin{proof}
+    There exists by regularity (and the definition of the outer measure) $K\subset E\subset G$ so that
+    \[\mu(E)-\frac{\epsilon}{2}\leq \mu(K)\leq \mu(G)\leq \mu(E)+\epsilon/2\]
+    As well, $\mu(G)=\mu(K\cup(G\setminus K))=\mu(K)+\mu(G\setminus K)$ and $\mu(G\setminus K)=\mu(G)-\mu(K)<\epsilon$.
+
+    Conversely, let $K\subset E\subset G$ and $\mu(G\setminus K)<\epsilon$.
+    Then
+    \[\mu(E)\leq\mu(G)=\mu(K)+\mu(G\setminus K)<\mu(K)+\epsilon\]
+    so $\mu(E)<\infty$ and $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, so $E$ is regular.
+\end{proof}
+\textbf{Claim 6:
+    \begin{enumerate}[nolistsep]
+        \item Let $A,B$ be regular with $\mu(A),\mu(B)<\infty$.
+            Then $A\setminus B$, $A\cup B$, $A\cap B$ are regular and have finite measure.
+        \item If $\mu(E)<\infty$, then $E$ is regular if and only if $E$ is locally regular.
+        \item If $E_i$ are regular, then $\bigcup_{i=1}^\infty E_i$ is regular.
+    \end{enumerate}
+}
+\begin{proof}
+    Recall that for any $\epsilon>0$, there exists $K_1\subset A \subset G_1$ and $K_2\subset B\subset G_2$ such that $\mu(G_1\setminus K_1)<\epsilon$ and $\mu(G_2\setminus K_2)<\epsilon$.
+    \begin{enumerate}
+        \item Note that $A\setminus B\subset G_1\setminus K_2\subset(G_1\setminus K_1)\cup(K_1\setminus G_2)\cup(G_2\setminus K_2)$, where $K_1\setminus G_2$ is compact.
+            Thus $\mu(A\setminus B)\leq\epsilon+\mu(K_1\setminus G_1)+\epsilon<\infty$ and $\mu(A\setminus B)-2\epsilon\leq\mu(K_1\setminus G_2)$ so $A\setminus B$ is regular.
+            Finally since $A\cup B=(A\setminus B)\cup B$, $A\cup B$ is regular and $\mu(A\cup B)<\infty$.
+            Thus $A\cap B=(A\cup B)\setminus( (A\setminus B)\cup(B\setminus A))$ is regular and has measure less than infinity.
+        \item Let $\mu(E)<\infty$, and first suppose $E$ is regular. Let $K$ be a compact set.
+            Then $\mu(K)<\infty$ and $K$ is regular, so $E\cap K$ is regular (by 1.) so $E$ is locally regular.
+
+            Conversely, suppose $E$ is locally regular.
+            Let $\epsilon>0$ and $G\supset E$ be open so that $\mu(G)<\mu(E)+1<\infty$.
+            As well, $G$ is regular, so there exists $K$ with $\mu(G)<\mu(K)+\epsilon/2$.
+            Now,
+            \begin{align*}
+                \mu(E)&=\mu((E\setminus K)\cup (E\cap K))\leq \mu(E\setminus K)+\mu(E\cap K)\\
+                      &\leq\mu(G\setminus K)+\mu(E\cap K)\\
+                      &<\frac{\epsilon}{2}+\mu(E\cap K)
+            \end{align*}
+            so $\mu(E\cap K)>\mu(E)-\epsilon/2$.
+            Then since $E$ is locally regular, $E\cap K$ is regular and get a compact set $L\subset E\cap K$ such that $\mu(L)>\mu(E\cap K)-\epsilon/2>\mu(E)-\epsilon$.
+            This holds for any $\epsilon>0$, so $E$ is regular.
+        \item Set $F_1=E_1$, $F_n=E_n\setminus\left(\bigcup\limits_{i=1}^{n-1}E_i\right)$ so $\bigcup\limits_{i=1}^\infty F_i=\bigcup\limits_{i=1}^\infty E_i$ and the $F_i$ as disjoint.
+            By Claim 4, $\cup F_i$ is regular and $F_i$ are regular. % (TODO: finiteness requirement?)
+    \end{enumerate}
+\end{proof}
+\textbf{Claim 7: $\mathcal{M}$ is a $\sigma-$algebra, $M\subset\tau$, and $\mu$ is countably additive on $\mathcal{M}$.}
+\begin{proof}
+    We demonstrate the requirements:
+    \begin{itemize}[nolistsep]
+        \item Let $A\in\mathcal{M}$: we see that $A^c\in\mathcal{M}$.
+            If $K$ is an arbitrary compact set, then $A^c\cap K=K\setminus(A\cap K)$ is regular by Claim 7 since $K$ is regular (and thus locally regular), and $A\cap K$ is regular since $A$ is locally regular.
+        \item Now let $A_n\in\mathcal{M}$; we will show that $A:=\bigcup\limits_{n=1}^\infty A_n\in\mathcal{M}$.
+            Indeed, if $K$ is an arbitrary compact set, then
+            \[A\cap K=\bigcup\limits_{n=1}^\infty (A_n\cap K)\]
+            is regular by Claim 6.
+        \item We now show $\mathcal{M}\supset\tau$.
+            It suffices by closure under complements to show that all closed sets are in $\mathcal{M}$.
+            If $A$ is closed, then $A\cap K$ is compact and thus regular, so $A\in\mathcal{M}$.
+        \item Finally, let $E_i\in\mathcal{M}$ be locally regular and disjoint; it suffices to show that
+            \begin{equation*}\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)\geq\sum\limits_{i=1}^\infty \mu(E_i)\end{equation*}
+            If $\mu(E_i)=+\infty$, we are done, so assume $\mu(E_i)<\infty$ for all $i$.
+            But then by Claim 6.2, the $E_i$ are regular, so the result holds by Claim 6.3.
+    \end{itemize}
+\end{proof}
+\textbf{Claim 8: $\Lambda f=\int_X f\d{\mu}$ for all $f\in C_c(X)$.}
+\begin{proof}
+    We are finally almost done: we just need to show that $\mu$, as defined, actually represents $\Lambda$.
+    Let's start by simplifying $f$ as much as possible.
+    \begin{itemize}[nolistsep]
+        \item \textit{It suffices to do this for real valued functions.}
+            If $f=u+iv$, then $\Lambda f=\Lambda u+i\Lambda v=\int_X u\d{\mu}+i\int_X v\d{\mu}=\int_X f\d{\mu}$.
+        \item \textit{It suffices to show $\Lambda f\leq\int_X f\d{\mu}$.}
+            If this holds for all $f$, then $\Lambda(-f)\leq\int_X -f\d{\mu}$ so that $-\Lambda f\leq -\int_X f\d{\mu}$ and $\Lambda f\geq\int_X f\d{\mu}$ and equality holds.
+        \item \textit{It is enough to prove that $\Lambda f\leq\int_X f\d{\mu}$ for $f\geq 0$.}
+            Assuming so, let $f$ be arbitrary and let $K=\supp f$ be compact, and $a=\min f$, $b=\max f$.
+            The general idea of the proof is to translate $f$ by the value $|a|$ so that it is positive.
+            However, we cannot do this directly since $f+|a|$ is not compactly supported; however, we can use Urysohn's Lemma to translate it on its support.
+            Now, let $\epsilon>0$ be arbitrary.
+            Fix $K=\supp f$ and get $G\supset K$ so that $\mu(G)\leq\mu(K)+\epsilon$.
+            By Urysohn's lemma, there exists $h\in C_c(X)$ so that $K\prec h\prec G$.
+            Thus $|a|\cdot h(x)=|a|$ for all $x\in K$, so $F:=f+|a|h\geq 0$ since $f\geq -|a|$.
+            Now by assumption,
+            \[\Lambda F\leq\int_X F\d{\mu}=\int_X f\d{\mu}+|a|\int_X h\d{\mu}\]
+            so that
+            \begin{align*}
+                \Lambda f &= \Lambda F-|a|\Lambda h\\
+                          &\leq\int_X f\d{\mu}+|a|\int_X h\d{\mu}-|a|\Lambda h\\
+                          &\leq \int_X f\d{\mu}+|a|\left(\int_X h\d{\mu}-\Lambda h\right)
+            \end{align*}
+            We now want to show $|\int_X h\d{\mu}-\Lambda h|<\epsilon$, and the result will follow.
+            By Claim 2, $\mu(K)\leq\Lambda h\leq\mu(G)$.
+            As well, $\int_X h\d{\mu}\leq \mu(G)$ since $h\prec G$ implies $h\leq\chi_G$.
+            Thus since $h\geq 0$, by assumption
+            \[\mu(K)\leq \Lambda h\leq\int_X h\d{\mu}\leq\mu(G)\]
+            and the result follows since $\mu(G)-\mu(K)<\epsilon$.
+            Thus $\Lambda f\leq\int f+|a|\epsilon$ for all $\epsilon>0$, so $\Lambda f\leq\int f$ as desired.
+    \end{itemize}
+
+    It now remains to show $\Lambda f\leq\int_X f\d{\mu}$ for $f\geq 0$.
+    Since $f=Mf/M$ where $M=\max f$, we can assume $0\leq f\leq 1$.
+    Fix $K=\supp f$, let $\epsilon>0$ be arbitrary.
+    Let $0=c_0<c_1<c_2<\cdots<c_n=1$ with $c_k-c_{k-1}<\epsilon$ for all $k$ and $\mu(f^{-1}(c_k))=0$ for all $k=1,\ldots,n-1$.
+    The existence of such a set follows from Assignment 6.
+    Let $K_j=K\cap f^{-1}([c_{j-1},c_j])$ for $j=1,2,\ldots,n$ and $L_j=K\cap f^{-1}([c_{j-1},c_j))$ for $j=1,2,\ldots,n-1$. %]
+
+    For each $K_j$ and any $\epsilon>0$, there exists $\tau\ni G_j\supset K_j$ such that $\mu(G_j)\leq\mu(K_j)+\frac{\epsilon}{2^j}$.
+    By Urysohn's lemma, get $h_j$ so that $K_j\prec h_j\prec G_j$.
+    Then $f\leq\sum_{j=1}^nc_j h_j$: if $x\in K^c$, $f=0$.
+    Otherwise, if $x\in K$, then $x\in K_j$ for some $j$.
+    Since $h_j=1$ and $f(x)\leq c_j$ on $K_j$, we have $f(x)\leq c_j=c_jh_j(x)\leq\sum_{i=1}^n c_ih_i$.
+    Now, there is just a lot of algebra.
+    \begin{align*}
+        \Lambda f&\leq\Lambda\left(\sum c_j h_j\right)=\sum\limits_{i=1}^n c_j\Lambda h_j&&(\text{linearity and positivity})\\
+                 &\leq\sum\limits_{j=1}^n c_j\mu(G_j)&&(h_j\prec G_j)\\
+                 &\leq \sum\limits_{j=1}^n c_j\mu(K_j)+\sum\limits_{j=1}^nc_j\frac{\epsilon}{2^j}&&(\text{choice of $K_j$})\\
+                 &\leq \sum\limits_{j=1}^n (c_{j-1}+c_j-c_{j-1})\mu(L_j)+\epsilon&&(L_j\subset K_j,|c_j|\leq 1)\\
+                 &\leq \sum\limits_{j=1}^n c_{j-1}\mu(L_j)+\epsilon\cdot\mu(K)+\epsilon&&(L_j\text{ disjoint},c_j-c_{j-1}<\epsilon)
+    \end{align*}
+    Now define $g$ so $g(x)=c_{j-1}$ if $x\in L_j$, and $g\equiv 0$ outside $K$.
+    Then $g$ is a simple function, so that the summation above is precisely the integral of $g$.
+    Furthermore, $g\leq f$ so $\int_X g\d{\mu}\leq\int_X f\d{\mu}$ and
+    \begin{align*}
+        \Lambda f &\leq \int_X g\d{\mu}+\epsilon+\epsilon\mu(K)\\
+                  &\leq \int_X f\d{\mu}+\epsilon(1+\mu(K))
+    \end{align*}
+    and, since $\mu(K)<\infty$, because this holds for any $\epsilon>0$, we are done!
+\end{proof}
+\section{Regularity Properties of Borel Measures}
+At the beginning of the Riesz Representation Theorem, we introduced a variety of conditions which we will summarize here independetly.
+\begin{definition}
+    A measure defined on the family of Borel sets is called a \textbf{Borel measure}.
+\end{definition}
+\begin{definition}
+    Let $\mu:\mathcal{B}\to[0,+\infty]$ be a Borel measure.
+    \begin{enumerate}[nolistsep]
+        \item $E$ is called \textbf{outer regular} if $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$.
+        \item $E$ is called \textbf{inner regular} if $\mu(E)=\sup\{\mu(K):K\subset E,K\text{ compact}\}$
+        \item $\mu$ is called \textbf{regular} if every $E\in\mathcal{B}$ is inner and outer regular.
+    \end{enumerate}
+\end{definition}
+The next condition is a finiteness condition: naturally, we like spaces that aren't too big.
+\begin{definition}
+    A set $E\subset X$ is called \textbf{$\sigma-$compact} if $E=\bigcup\limits_{n=1}^\infty E_n$, for $E_n$ compact.
+\end{definition}
+The sets in the next definition are standard in real analysis.
+\begin{definition}
+    A $G_\delta$ set is one of the form $\bigcap\limits_{n=1}^\infty A_n$ with $A_n$ open, and a $F_\sigma$ set is one of the form $\bigcup\limits_{n=1}^\infty B_n$ for $B_n$ closed.
+\end{definition}
+Measure spaces $(X,\mathcal{M},\mu)$ which satisfy these properties are particularly nice.
+To be precise, by ``nice'', we have the following theorem:
+\begin{theorem}
+    Let $X$ be a locally compact, $\sigma-$compact Hausdorff space.
+    Let $\mathcal{M}\supset\mathcal{B}$ be a $\sigma-$algebra, $\mu:\mathcal{M}\to[0,+\infty]$ be a measure such that
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$ (outer regularity)
+        \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, $\mu(E)<\infty$ (inner regularity for finite measure sets)
+        \item $\mu(K)<\infty$ for $K$ compact (finite on compact sets)
+    \end{enumerate}
+    Then
+    \begin{enumerate}[nolistsep]
+        \item For all $E\in\mathcal{M}$ and $\epsilon>0$, there exists $F$ closed and $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\epsilon$.
+        \item $\mu$ is regular
+        \item For all $E\in\mathcal{M}$, there exists a $F_\sigma$ set $A$ and a $G_\delta$ set $B$ so $A\subset E\subset B$ and $\mu(B\setminus A)=0$.
+    \end{enumerate}
+\end{theorem}
+Thankfully, the proof is not too hard.
+\begin{proof}
+    Since $X$ is $\sigma-$compact, write $X=\bigcup\limits_{n=1}^\infty K_n$, $K_n$ compact.
+    \begin{enumerate}[nolistsep]
+        \item By (iii), we have $\mu(K_n\cap E)<\infty$.
+            Thus by (i), get $G_n$ open so that $G_n\supset K_n\cap E$ with $\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2^{n+1}}$.
+            Let $G=\bigcup\limits_{n=1}^\infty G_n$ be open, so that
+            \begin{equation*}G\setminus E\subset\bigcup\limits_{n=1}^\infty G_n\setminus(K_n\cap E)\end{equation*}
+            and
+            \begin{equation*}
+                \mu(G\setminus E)\leq\sum\limits_{n=1}^\infty\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2}
+            \end{equation*}
+            Repeat this for $E^c$: get an open set $H$ such that $\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
+            Then $F=H^c\subset E$ satisfies $\mu(E\setminus F)=\mu(F^c\setminus E^c)=\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
+            Thus $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
+        \item $E$ is outer regular by (i).
+            If $\mu(E)<\infty$, then $E$ is inner regular by (ii), so $E$ is regular; thus suppose $\mu(E)=\infty$.
+
+            Let $F\subset E$ be given by 1, so that $\mu(F)=+\infty$ (or $\mu(E)$ would be finite).
+            Note that $H_n:=\bigcup_{k=1}^n(F\cap K_k)$ is a compact set, so that $H_n\subset F$.
+            Then $\bigcup_{n=1}^\infty H_n=F$, and $\mu(H_n)\to\mu(F)=\infty$.
+            Thus $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
+        \item Apply 1 wih $\epsilon=1/j$ for $j\in\N$.
+            Then there exists $F_j\subset E\subset G_j$ so $\mu(G_j\setminus F_j)<\frac{1}{j}$.
+            Define
+            \[A=\bigcup\limits_{j=1}^\infty F_j,\qquad B=\bigcap\limits_{j=1}^\infty G_j\]
+            Then $A\subset E\subset B$ and $\mu(B\setminus A)\leq\mu(G_j\setminus F_j)<\frac{1}{j}$ for any $j\in\N$, so $\mu(B\setminus A)=0$.
+    \end{enumerate}
+\end{proof}
+As a corollary to this, if we assume that $X$ is a locally compact and $\sigma-$compact space and $\Lambda$ is a positive linear functional on $C_c(X)$, then the measure $\mu$ representing $\Lambda$ is a regular measure.
+More generally, if we assume that \textit{every} open set is $\sigma-$compact, we have the following theorem:
+\begin{theorem}
+    Let $X$ be locally compact and Hausdorff, and assume that every open set is $\sigma-$compact.
+    Let $\lambda:\mathcal{B}\to[0,\infty]$ be a Borel measure such that $\lambda(K)<\infty$ for any compact set $K$.
+    Then $\lambda$ is regular.
+\end{theorem}
+\begin{proof}
+    Let $\Lambda f=\int_X f\d{\lambda}$.
+    Then $\Lambda:C_c(X)\to\C$ is a positive linear functional.
+    By the Riesz representation theorem, there exists $\mu:\mathcal{M}\to[0,\infty]$ such that $\int_Xf\d{\mu}=\Lambda f=\int_Xf\d{\lambda}$.
+    We see that $\lambda=\mu$ on $\mathcal{B}$, so that $\lambda$ is regular since $\mu$ is.
+
+    We first prove this for open sets.
+    Let $G\in\tau$; then there exists compact $K_n$ so $G=\bigcup_{n=1}^\infty K_n$.
+    By Urysohn's lemma, there exists $f_i$ such that $K_i\prec f_i\prec G$.
+    Let $g_n=\max\{f_1,f_2,\ldots,f_n\}$, so $g_n\in C_c(X)$, and $g_n\to\chi_G$ pointwise.
+    But then applying Lebesgue's Monotone Convergence theorem (and the fact that $\lambda=\mu$ on $C_c(X)$),
+    \begin{align*}
+        \lambda(G) &= \int_X\chi_G\d{\lambda}= \int_X\lim_{n\to\infty}g_n\d{\lambda}= \lim_{n\to\infty}\int_X g_n\d{\lambda}\\
+                   &= \lim_{n\to\infty}\int_X g_n\d{\mu}= \int_X\lim_{n\to\infty}g_n\d{\mu}= \int_X\chi_G\d{\mu}\\
+                   &=\mu(G)
+    \end{align*}
+    Now for any $E\in\mathcal{B}$, get $F$ closed, $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\epsilon$.
+    Since $G\setminus F$ is open, $\lambda(G\setminus F)=\mu(G\setminus F)<\epsilon$ so $\lambda(G)\leq\lambda(E)+\epsilon$.
+    Thus $|\mu(E)-\lambda(E)|<\epsilon$ for all $\epsilon>0$ so $\lambda(E)=\mu(E)$.
+\end{proof}
+\section{Construction of the Lebesgue Measure}
+We have the Riesz Representation Theorem in a locally compact Hausdorff space.
+\begin{definition}
+    Let $E\subset\R^k$, $x\in\R^k$.
+    Then $E+x=\{y+x:y\in E\}$ is the \textbf{translate} of $E$.
+\end{definition}
+\begin{definition}
+    We define a $k-$cell in $\R^k$ by $W=I_1\times I_2\times\cdots\times I_k$ where $I_j$ is an interval.
+    We also define $\vol(W)=(b_1-a_1)(b_2-a_1)\cdots(b_k-a_k)$ where $a_j,b_j$ are the endpoints of the $I_j$.
+\end{definition}
+We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
+\begin{theorem}
+    There exists a $\sigma-$algebra $\mathcal{M}$ in $\R^k$ and a complete measure $m:\mathcal{M}\to[0,+\infty]$ satisfying
+    \begin{enumerate}[nolistsep]
+        \item $m(W)=\vol(W)$ for any $k-$cell $W$.
+        \item $\mathcal{M}\supset\mathcal{B}$ and $E\in\mathcal{M}$ if and only if there exists $A\in F_\sigma,B\in G_\delta$ such that $A\subset E\subset B$ and $m(B\setminus A)=0$.
+        \item $m$ is translation invarient: $m(E+x)=m(E)$.
+        \item If $\mu$ is a translation invariant Borel measure, and $\mu(K)<\infty$ for all $K$ compact, then there exists $c\in\R$ so that $\mu(E)=c\cdot m(E)$.
+        \item If $T:\R^k\to\R^k$ is linear, then there exists $\Delta(T)\in\R$ such that $m(T(E))=\Delta(T)\cdot m(E)$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    For $f\in C_c(\R^k)$, let $\Lambda f=\int_{R^k}f(x)\d{x}$ (the Riemann Integral).
+    Then $\Lambda:C_c(\R^k)\to\C$ is a positive linear functional, so by the Riesz representation theorem, there exists a unique measure $m$ and $\mathcal{M}\supset\mathcal{B}$ so for all $f\in C_c(\R^k)$, $\Lambda f=\int_{\R^k}f\d{m}$.
+    Let's prove that this measure has the appropriate properties:
+    \begin{enumerate}[nolistsep]
+        \item By the definition of $m$, for an open $k-$cell $W$, $m(W)=\sup\{\Lambda f:f\prec W\}=\vol(W)$ (by definition of the Riemann integral).
+            If $W$ is an arbitrary $k-$cell, then there exist open $k-$cells $W_n$ such that $W=\bigcap\limits_{n=1}^\infty W_n$.
+            Then $\vol(W_n)\to\vol(W)$, so $m(W_n)\to m(W)$, and $\vol(W_n)=m(W_n)$.
+            Thus $\vol(W)=m(W)$.
+    \end{enumerate}
+    \textit{Let $\lambda$ be a Borel measure.
+    If $\lambda(W)=m(W)$ for all $W$ $k-$cells, then $\lambda(E)=m(E)$ for all $E\in\mathcal{B}$.}
+    For any $G$ open, $G=\bigcup\limits_{n=1}^\infty W_n$ disjointly, so $\lambda(G)=m(W)$.
+    Then since $\lambda$ and $m$ are regular, $\lambda(E)=\inf\{\lambda(G):E\subset G\in\tau\}=\inf\{m(G):E\subset G\in\tau\}=m(E)$ for all $E\in\mathcal{B}$.
+
+    We now see (iii).
+    Dfine $\lambda(E)=m(E+X)$.
+    If $W$ is a box, then $\lambda(W)=m(W+x)=\vol(W+x)=\vol(W)=m(W)$, so by the lemma, $\lambda(E)=m(E)$ for all $E\in\mathcal{B}$.
+    Then regularity implies $\lambda(E)=m(E)$ for all measurable $E$.
+
+    We have (iv): let $c=\mu([0,1]^k)=c\cdot\vol([0,1]^k)$.
+    Translation invariance of $\vol$ implies $\mu(W)=c\cdot\vol(W)$.
+
+    We have (v).
+    If $\dim(\im(T))<k$, then $m(\im(T))=0$ so $\Delta(T)=0$.
+    Otherwise, $T$ is a homeomorphism so $T(E)\in\mathcal{B}$ for all $E\in\mathcal{B}$.
+    Let $\mu(E)=m(T(E))$.
+    Then $\mu(E+x)=m(T(E)+T(x))=m(T(E))=\mu(E)$, so $\mu$ is translation invariant.
+    Then by (iv), $\mu(E)=c\cdot m(E)$ and set $\Delta(T)=c$.
+\end{proof}
+\begin{theorem}
+    If $A\subset\R$ for which every set is Lebesgue measurable, then $m(A)=0$.
+\end{theorem}
+\begin{proof}
+    Partition $\R$ into cosets by $\Q$; let $E$ be a set containing exactly one element of each class (axiom of choice).
+    Now if $r\neq s$, $r,s\in\Q$, then $(E+r)\cap (E+s)=\emptyset$.
+    But then $\R=\bigcup\limits_{r\in\Q}(E+r)$ disjointly.
+    Given $A$, define $A_t=A\cap (E+t)$ for $t\in\Q$.
+    Now let $K\subset A_t$, so $K\subset E+t$.
+    Since $(K+r_1)\cap (K+r_2)=\emptyset$, define $H=\bigcup\limits_{r\in\Q\cap[0,1]}(K+r)$ is a countable disjoint union.
+    But then $\infty>m(H)=\sum_r m(K)$ so $m(K)=0$ and $m(A_t)=0$.
+    But then
+    \[\bigcup\limits_{t\in\Q}A_t=\cup(A\cap(E+t))=A\cap\left(\bigcup\limits_{t\in\Q}(E+t)\right)=A\cap\R=A\]
+    so $m(A)=0$ as well.
+\end{proof}
+\section{Measurability and Continuity}
+Let $X$ be a locally compact, Hausdorff topological space.
+Let $\mathcal{M}$ be a $\sigma-$algebra, $\mu$ be a measure satisfying the properties in the Riesz representation theorem.
+We then have
+\begin{theorem}[Lusin]
+    Let $f:X\to\C$ be a measurable function, with $\supp f\subset A$ and $\mu(A)<\infty$.
+    Then for any $\epsilon>0$, there exists $g\in C_c(X)$ such that $\mu(\{x\in X:f(x)\neq g(x)\})<\epsilon$ and $\sup_X|G|\leq\sup_X|f|$.
+\end{theorem}
+\begin{proof}
+    It suffices to assume that we can do this for compact $K$.
+    Assuming so, let $\mu(A)<\infty$ and get $K\subset A$ compact with $\mu(A\setminus K)<\epsilon/2$.
+    Define $\hat f$ so that $\hat f=f$ on $K$ and $\hat f=0$ otherwise, so $\sup\hat f\subset K$ and $f'$ is measurable.
+    By assumption, get $g$ so that $\mu(\{x:g(x)\neq f'(x)\})<\epsilon/2$.
+    Then
+    \begin{align*}
+        \mu\left(\{x\in X:f(x)\neq g(x)\}\right) \leq \mu(A\setminus K)+\mu\left(\{x\in K\cup A^c:\hat f(x)\neq g(x)\}\right)< \frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon
+    \end{align*}
+    since $f'=f$ on $(A\setminus K)^c$.
+    Now, let's prove the statement for $A$ compact.
+
+    We first assume that $0\leq f\leq 1$.
+    For $t\geq 0$ and each $N\in\N$, define $k_n(t)=[2^n\cdot t]$, so $k_n(t)\in\Z$ and $k_n(t)\leq t\cdot 2^n<k_n(t)+1$.
+    Then define
+    \[\phi_n(t)=
+        \begin{cases}
+            k_n(t)\cdot 2^{-n},&0\leq t\leq n\\
+            n,&t >n
+        \end{cases}
+    \]
+    Let $s_n(x)=\phi_n(f(x))$ and $t_n=s_n-s_{n-1}$.
+    Observe that $f=\sum\limits_{n=1}^\infty t_n$; I claim that $2^n\cdot t_n\in\{0,1\}$.
+    To see this, first note that
+    \[k_{n-1}(t)\leq t\cdot 2^{n-1}<k_{n-1}(t)+1\Longrightarrow 2k_{n-1}(t)\leq t\cdot 2^n<2k_{n-1}(t)+2\]
+    so $2k_{n-1}(t)$ is the largest even number below $t\cdot 2^n$.
+    Thus $k_n-2k_{n-1}\in\{0,1\}$ for all $t$.
+    Since $0\leq f\leq 1$, for all $n$ and $x$,
+    \begin{align*}
+        2^n\cdot t_n(x) &= 2^n\cdot \left(\phi_n(f(x))-\cdot \phi_{n-1}(f(x))\right)\\
+                        &=2^n\left(2^{-n}\cdot k_n(f(x))-2^{-(n-1)}\cdot k_{n-1}(f(x))\right)\\
+                        &= k_n(f(x))-2k_{n-1}(f(x))\in\{0,1\}
+    \end{align*}
+    as required.
+    Thus $2^n\cdot t_n$ is the characteristic function of some set $T_n\subset A$, so $\mu(T_n)<\infty$.
+
+    Let $V\supset A$ be open so that $\overline{V}$ is compact; this set exists since $X$ is locally compact and $A$ is compact (by assumption).
+    \textit{To construct it, for each $x\in A$, let $V_x\subset F_x$ be a compact neighbourhood of $x$.
+        Since $\{V_x\}_{x\in A}$ is an open cover for $A$, there exists a subcover $\{V_{x_i}\}_{i=1}^n$.
+        Then $A\subset \overline{\bigcup_{i=1}^nV_x}\subset \bigcup_{i=1}^n F_{x_i}$ is a closed subset of a compact set, and thus compact.
+    }
+    Since $\mu(T_n)<\infty$, get $K_n$ compact, $V_n$ open, so that $K_n\subset T_n\subset V_n$ with $\mu(V_n\setminus K_n)<\epsilon/2^n$.
+    We can assume $V_n\subset V$ since we can always take $V_n\cap V$, which is open.
+
+    By Urysohn's lemma, there exists $h_n\in C_c(X)$ with $K_n\prec h_n\prec V_n$.
+    Define $g=\sum_{n=1}^\infty 2^{-n}\cdot h_n$ is a uniform limit, so $g$ is continuous and $\supp g\subset\overline{V}$.
+    If $x\in K_n$, then $h_n(x)=1$ and $t_n(x)=2^{-n}$, so $2^{-n}\cdot h_n(x)=t_n(x)$.
+    If $x\notin V_n$, then $h_n(x)=0$ so $t_n(x)=0$ and $2^{-n}\cdot h_n(x)=t_n(x)$.
+    Thus
+    \[S=\{x\in A:f(x)\neq g(x)\}\subset\bigcup\limits_{n=1}^\infty\left(V_n\setminus K_n\right)\]
+    and $\mu(S)\leq\sum_{n=1}^\infty\mu(V_n\setminus K_n)<\epsilon$.
+
+    If $-A\leq f\leq A$, then $0\leq f+A\leq 2A$ and apply the above theorem to $(f+A)/(2A)$ and get some $\hat g$.
+    Then $2A\hat g-A$ has the desired properties.
+    Additionally, for any real valued function, let $B_n=\{x\in X:|f(x)|>n\}$.
+    Then $\bigcap_{n=1}^\infty B_n=\emptyset$, $\mu(B_1)\leq\mu(\supp f)<\infty$, and $B_{n+1}\subset B_n$ for all $n$.
+    Thus $\mu(B_n)\to\mu(\bigcap B_n)=0$.
+    Let $N$ be such that $\mu(B_N)<\epsilon/2$, so if $x\notin B_N$, $f(x)\leq N$, and define $\tilde f(x)=(1-\chi_{B_n(x)})f(x)$.
+    Then $\tilde f$ is bounded, and apply the above to get $g\in C_c(x)$ so that $\mu\left(\{x:\tilde f(x)\neq g(x)\}\right)<\epsilon/2$.
+    But then
+    \[\mu\left(\{x:g(x)\neq f(x)\}\right)\leq\mu(\{x:f(x)\neq \tilde f(x)\})+\mu(\{x:\tilde f(x)\neq g(x)\})=\epsilon\]
+    All that is left is to do this for complex valued functions, satisfying the additional constraint.
+    To be precise, let $f$ be complex valued and write $f=f_1+if_2$.
+    Then for $\epsilon>0$, get $g_1,g_2\in C_c(X)$ satisfying the requirements for $\epsilon/2$ and set $g=g_1+ig_2$.
+    We will prove that $\sup|G|\leq\sup|f|$.
+    If $\sup|f|=\infty$ we are done, so let $R=\sup_X|f|$.
+    Let
+    \[\phi(z)=
+        \begin{cases}
+            z &:|z|\leq R\\
+            \frac{R\cdot z}{|z|}&: |z|>R
+        \end{cases}
+    \]
+    then $\phi$ is continuous and $|\phi|\leq R$.
+    We already have $g\in C_c(X)$ so that $\mu(\{x\in X:f(x)\neq g(x)\})<\epsilon$.
+    Let $\tilde g=\phi\circ g$, which is also continuous and $|\tilde g|\leq R$.
+    Finally, if $\tilde f\neq\tilde g$, then certainly $f\neq g$, so
+    \begin{equation*}\mu\{\tilde g\neq f\}=\mu\{\phi\circ f\neq\phi\circ g\}\leq\mu\{g\neq f\}<\epsilon\end{equation*}
+    and we are done.
+\end{proof}
+For the following corollary, we require the same context for $(X,\mathcal{M},\mu)$ as in Lusin's Theorem.
+\begin{corollary}
+    Let $f:X\to\C$ be measurable, $\supp f\subset A$, and $\mu(A)<\infty$ and $|f|\leq 1$.
+    Then there exists $g_n\in C_c(X)$ with $|g_n|\leq 1$ and $\lim g_n(x)=f_n(x)$ almost everywhere.
+\end{corollary}
+\begin{proof}
+    Apply Lusin's theorem with $\epsilon=1/n$ for each $g_n$.
+\end{proof}
+\chapter{Complex Measures}
+\section{Hilbert Spaces}
+\subsection{Basic Definitions}
+A complex vector space $H$ is called an inner product space if there is a pairing $\inner{\cdot}{\cdot}:H\to\C$ satisfying, for any $x,y\in H$ and $\alpha\in\C$
+\begin{enumerate}[nolistsep]
+    \item $\inner{x}{y}=\overline{\inner{y}{x}}$
+    \item $\inner{\alpha x+y}{z}=\alpha\inner{x}{z}+\inner{y}{z}$
+    \item $\inner{x}{x}\geq 0$
+    \item $\inner{x}{x}=0$ if and only if $x=0$
+\end{enumerate}
+One can define a norm by $\norm{x}=\sqrt{\inner{x}{x}}$.
+The fact that this is acutally a norm is a consequence of the following proposition:
+\begin{proposition}
+    On an inner product space $H$, the following inequalities hold:
+    \begin{enumerate}[nolistsep]
+        \item \textbf{Cauchy-Schwarz:} $|\inner{x}{y}|\leq\norm{x}\norm{y}$
+        \item \textbf{Triangle:} $\norm{x+y}\leq\norm{x}+\norm{y}$
+    \end{enumerate}
+\end{proposition}
+From the triangle inequality, we can define a metric $d(x,y)=\norm{x-y}$.
+Thus we call $H$ a Hilbert space if it is also complete with respect to this metric.
+
+There are some standard continuous functions on $H$:
+\begin{proposition}
+    For a fixed $y\in H$, the mappings
+    \[x\mapsto\inner{x}{y},\quad x\mapsto\inner{y}{x},\quad x\mapsto\norm{x}\]
+    are continuous functions.
+\end{proposition}
+The first map is particularly important since, to some $x\in H$, we can associate the continuous linear functional $\phi_x$ defined by $\phi_x(y)=\inner{x}{y}$.
+More importantly, in Hilbert spaces, the converse holds as well.
+The first part is the content of (the original) Riesz representation theorem:
+\begin{theorem}
+    Let $H$ be a Hilbert space, and $H^*$ be the vector space of continuous linear functions on $H^*$.
+    \begin{enumerate}[nolistsep]
+        \item For each $L\in H^*$, then there exists a unique $y\in H$ such that
+            \[Lx=\inner{x}{y}\]
+            for all $x\in H$.
+        \item $H^*$ is a Hilbert space with inner product
+            \[\inner{\phi_u}{\phi_v}=\inner{v}{u}\]
+            and is isomorphic (as a Hilbert space) to $H$, where $\phi_x(y)=\inner{x}{y}$.
+    \end{enumerate}
+\end{theorem}
+\subsection{The space $L^2(\mu)$}
+In particular, consider the space $L^2(\mu)$ where $(X,\mathcal{M},\mu)$ has $X$ compact, and $\mu$ is a regular complex measure on $\mathcal{M}$.
+Then $L^2(\mu)=\{f:X\to\C:f\text{ measurable, }\norm{f}_2<\infty\}$ and we have
+\[\inner{f}{g}=\int_Xf\overline{g}\d{\mu},\quad\norm{f}_2=\left(\int_X |f|^2\d{\mu}\right)^{1/2}\]
+is the inner product on this space.
+We also have
+\begin{theorem}[Riesz-Fisher]
+    $L^2(\mu)$ is complete (every Cauchy sequence of functions converges w.r.t. the $L^2$ norm).
+\end{theorem}
+so this inner product space is indeed a Hilbert space.
+Given a continuous linear functional $\Lambda$ on $H$, the Riesz representation theorem states that
+\[\Lambda f=\inner{f}{g}=\int_X f\overline{g}\d{\mu}\]
+for some $g\in\mathcal{M}$.
+But then define $\phi(E)=\int_E\overline{g}\d{\mu}$ as the image measure of $\overline{g}$, so
+\[\int_Xf\overline{g}\d{\mu}=\int_X f\d{\phi}\]
+In other words, $\Lambda f=\int_Xf\d{\phi}$, which looks much more similar to the standard Riesz representation theorem.
+
+$L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\infty$}\}$ is a Hilbert space (complete) with the inner product $\inner{f}{g}=\int_Xf\cdot\overline{g}\d{\mu}$.
+\begin{theorem}
+    If $H$ is a Hilbert space, $L:H\to\C$ is continuous and linear, then there exits a unique $y\in H$ so that $L(X)=\inner{x}{y}$ for all $x\in H$.
+\end{theorem}
+\section{Complex Measures}
+Let $\mathcal{M}$ be a $\sigma-$algebra on $X$.
+\begin{definition}
+    $\mu:\mathcal{M}\to\overline{\R}$ is called a \textbf{signed measure} if it is countably addivite and $+\infty$ and $-\infty$ are not in the range at the same time.
+\end{definition}
+\begin{definition}
+    $\mu:\mathcal{M}\to\C$ is called a \textbf{complex measure} if it is countably additive: if $E_i$ are disjoint, then
+    \[\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)\]
+\end{definition}
+For now, it is not at all obvious how to define integration with respect to a complex measure.
+This will appear following the proof of the Lebesgue-Radon-Nikodym theorem.
+\begin{definition}
+    For a set $E\in\mathcal{M}$, a \textbf{(measurable) partition} of $E$ is $\{E_i:i=1,2,\ldots\}$ so that $E_i\cap E_j=\emptyset$ and $\bigcup_{i=1}^\infty E_i=E$ and $E_i\in\mathcal{M}$ for all $I$.
+\end{definition}
+Let's try to motivate the following definition.
+Given a complex measure $\mu$, we want to find a positive measure $\lambda$ which satisfies $|\mu(E)|\leq\lambda(E)$ for every $E\in\mathcal{M}$.
+Such a measure, if it exists, must satisfy
+\[\lambda(E)=\sum\limits_{i=1}^\infty\lambda(E_i)\geq\sum\limits_{i=1}^\infty|\mu(E_i)|\]
+for any partition $\{E_i\}$ of $E$; thus, it must be at least as large as the supremum.
+With this in mind, we can define the following set function:
+\begin{definition}
+    Let $\mu$ be a complex or signed measure.
+    Its total variation
+    \[|\mu|:\mathcal{M}\to[0,+\infty]=\sup\left\{\sum\limits_{i=1}^\infty |\mu(E_i)|:\{E_i\}\text{ is a partition of $E$}\right\}\]
+\end{definition}
+Conveniently, $|\mu|$ is actually a positive measure (which we will see below).
+More surprisingly, $|\mu|(X)<\infty$; thus, for any $E\in\mathcal{M}$, $|\mu(E)|\leq|\mu|(E)\leq|\mu|(X)$, so every complex measure is actually a bounded measure and its image is contained in a disc of finite radius.
+This property is sometimes summarized by saying ``$\mu$ is of bounded variation''.
+\begin{theorem}
+    $|\mu|$ is a positive measure.
+\end{theorem}
+\begin{proof}
+    Let $E\in\mathcal{M}$, and $\{E_i\}$ an arbitrary partition of $E$.
+    We first see that $\sum_{i=1}^\infty|\mu|(E_i)\leq|\mu|(E)$.
+    Let $t_i<|\mu|(E_i)$, so there exists a partition $\{A_{ij}:j\in\N\}$ of $E_i$ so that
+    \[\sum\limits_{j=1}^\infty|\mu(A_{ij})|>t_i\]
+    for all $i$.
+    Then since $\{A_{ij}:(i,j)\in\N^2\}$ is a partition of $E$, and
+    \[\sum\limits_{i=1}^\infty t_i\leq\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty|\mu(A_{ij})|\leq|\mu|(E)\]
+    and since this holds for all $i$, we have $\sum_{i=1}^\infty|\mu|(E_i)\leq\mu(E)$.
+
+    We now see the opposite direction.
+    Let $\{A_j:j\in\N\}$ be an arbitrary partition of $E$.
+    The set $\{A_j\cap E_i:j\in\N\}$ is a partition of $E_i$, while $\{A_j\cap E_i:i\in\N\}$ is a partition of $A_j$.
+    Then
+    \begin{align*}
+        \sum\limits_{j=1}^\infty|\mu(A_j)| &= \sum\limits_{j=1}^\infty\left\lvert\sum\limits_{i=1}^\infty \mu(A_j\cap E_i)\right\rvert\\
+                                           &\leq\sum\limits_{j=1}^\infty\sum\limits_{i=1}^\infty|\mu(A_j\cap E_i)|\\
+                                           &=\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty|\mu(A_j\cap E_i)|\\
+                                           &\leq \sum\limits_{i=1}^\infty|\mu|(E_i)
+    \end{align*}
+    where absolute convergence allows us to change the order of summation.
+    Since this holds for an arbitrary partition $\{A_j\}$ of $E$, taking the supremum over all partitions gives the total variation.
+    Thus equality holds.
+\end{proof}
+\begin{lemma}
+    Let $z_1,z_2,\ldots,z_N\in\C$.
+    Then there exists $S\subset\{1,2,\ldots,N\}$ so that
+    \[\left\lvert\sum\limits_{k\in S}z_k\right\rvert\geq\frac{1}{\pi}\sum\limits_{k=1}^N|z_k|\]
+\end{lemma}
+\begin{proof}
+    Let $z_k=|z_k|e^{i\alpha_k}$, and for $\theta\in[-\pi,\pi]$, let $S(\theta)=\{k\in\{1,2,\ldots,N\}:\cos(\alpha_k-\theta)>0\}$.
+    Then
+    \begin{align*}
+        \left\lvert\sum\limits_{k\in S(\theta)}z_k\right\rvert&=\left\lvert\sum\limits_{k\in S(\theta)}|z_k|e^{-i\theta}\right\rvert\\
+                                                              &\geq \re\sum\limits_{k\in S(\theta)}e^{-i\theta}z_k\\
+                                                              &= \sum\limits_{k=1}^N|z_k|\cos^+(\alpha_k-\theta):=h(\theta)
+    \end{align*}
+    where $\cos^+=\max\{\cos,0\}$ is the positive part of $\cos$, and $h:[-\pi,\pi]\to\R$ is a continuous function on a compact set.
+    Thus it has a maximum at some $\theta_0$.
+    Fix $S=S(\theta_0)$ and
+    \begin{align*}
+        \left\lvert\sum\limits_{k\in S}z_k\right\rvert &= h(\theta_0)\geq \frac{1}{2\pi}\int_{-\pi}^\pi h\d{\theta}\\
+                                                       &=\frac{1}{2\pi}\int_{-\pi}^\pi \sum\limits_{k=1}^N|z_k|\cos^+(\alpha_k-\theta)\d{\theta}\\
+                                                       &= \frac{1}{2\pi}\sum\limits_{k=1}^N|z_k|\int_{-\pi}^\pi\cos^+(\alpha_k-\theta)\d{\theta}\\
+                                                       &=\frac{1}{\pi}\sum\limits_{k=1}^N|z_k|
+    \end{align*}
+    since $\int_{-\pi}^\pi\cos^+(\alpha_k-\theta)=2$ for all $k$.
+\end{proof}
+\begin{theorem}
+    If $\mu$ is a complex measure, then $|\mu|(X)<\infty$.
+\end{theorem}
+\begin{proof}
+    First, let $E\in\mathcal{M}$ be such that $|\mu|(E)=+\infty$.
+    We show that there exists $A,B$ so $E=A\cup B$ and $|\mu(A)|\geq 1$ and $|\mu(B)|\geq 1$.
+    Set $t=\pi(1+|\mu(E)|)$ and since $|\mu(E)|>t$, there exists a partition $\{E_i\}$ of $E$ such that
+    \[\sum\limits_{i=1}^N|\mu(E_i)|>t\]
+    for some $N$.
+    Then by the lemma with $z_k=\mu(E_k)$, get $S$ so that $\left\lvert\sum_{k\in S}\mu(E_k)\right\rvert\geq\frac{1}{\pi}\sum_{k=1}^N|\mu(E_k)|$
+    Thus
+    \[|\mu(A)|\geq\frac{1}{\pi}\sum\limits_{k=1}^N\left\lvert\mu(E_k)\right\rvert>\frac{t}{\pi}\geq 1\]
+    and let $B=E\setminus A$.
+    Then
+    \[|\mu(B)|\geq|\mu(A)|-|\mu(E)|\geq\frac{t}{\pi}-\left(\frac{t}{\pi}-1\right)=1\]
+    so that $E=A\cup B$ with $|\mu(A)|\geq1$ and $|\mu(B)|\geq1$.
+
+    Now assume $|\mu|(X)=\infty$ and apply the above procedure get $A_1,B_1$ with $|\mu(A_1)|\geq 1$ and $|\mu(B_1)|\geq 1$.
+    As well, at least one of $|\mu|(A_1)$, $|\mu|(B_1)$ is infinity.
+    Without loss of generality, it is $B_1$, so repeat this procedure to $B_1$.
+    Get a sequence $A_1,A_2,\ldots$ with $|\mu(A_i)|\geq 1$ and $A_i$ disjoint.
+    But then by countable additivity,
+    \[\sum\limits_{i=1}^\infty \mu(A_i)=\mu\left(\bigcup\limits_{i=1}^\infty A_i\right)<\infty\]
+    since $\mu$ is finite, a contradiction, since the LHS does not converge.
+\end{proof}
+Recall that $\mu:\mathcal{M}\to\C$ is a complex measure if it is countably additive.
+Then the total variation of $\mu$ is given by
+\[|\mu|(E)=\sup\left\{\sum\limits_{i=1}^\infty|\mu(E_i)|:\{E_i\}\text{ is a partition}\right\}\]
+Then $|\mu|$ is a positive measure and $|\mu|(X)<\infty$.
+If $\mu,\lambda:\mathcal{M}\to\C$ are complex measures, then $(\mu+\lambda)(E)=\mu(E)+\lambda(E)$ and $(c\cdot\mu)(E)=c\cdot\mu(E)$.
+Thus the set of complex measures is a vector space.
+Let $\norm{\mu}:=|\mu|(X)$.
+
+If $\mu$ is a signed measure $(\mu:\mathcal{M}\to\overline{R})$, then the total variation is defined in the same way.
+\begin{definition}
+    Let $\mu$ be a signed measure.
+    The \textbf{positive variation} of $\mu$ is $\mu^+:=\frac{1}{2}(|\mu|+\mu)$ and the \textbf{negative variation} of $\mu$ is $\mu^-:=\frac{1}{2}(|\mu|-\mu)$.
+\end{definition}
+These are positive measures since $|\mu|(E)\geq|\mu(E)|$.
+We have $\mu=\mu^+-\mu^-$; this is called the Jordan decomposition since we represent a signed measure as a difference between two positive measures.
+Additionally, we have $|\mu|=\mu_++\mu_-$.
+\section{Absolute Continuity and Singular Measures}
+\begin{definition}
+    Let $\mu$ be a positive measure and $\lambda$ be an arbitrary (positive, signed, or complex) measure.
+    Then $\lambda$ is \textbf{absolutely continuous} with respect to $\mu$ if $\mu(E)=0\Rightarrow\lambda(E)=0$.
+    We write $\lambda\ll\mu$.
+\end{definition}
+\begin{definition}
+    $\lambda$ is concentrated on a set $A\in\mathcal{M}$ if $\lambda(E)=\lambda(E\cap A)$ for all $E\in\mathcal{M}$.
+\end{definition}
+\begin{proposition}
+    $\lambda$ is concentrated on $A$ if and only if $\lambda(E)=0$ if $E\cap A=\emptyset$.
+\end{proposition}
+\begin{proof}
+    Let $E\cap A=\emptyset$.
+    Then $\lambda(E)=\lambda(E\cap A)=\lambda(\emptyset)=0$.
+    Conversely, let $E\in\mathcal{M}$.
+    Then $\lambda(E)=\lambda(E\cap A)+\lambda(E\cap A^c)=\lambda(E\cap A)$.
+\end{proof}
+\begin{definition}
+    $\lambda_1$ and $\lambda_2$ are called \textbf{mutually singular} if there exist disjoint sets $A$ and $B$ such that $\lambda_1$ is concentrated on $A$ and $\lambda_2$ is contentrated on $B$.
+    Then $\lambda_1\perp\lambda_2$.
+\end{definition}
+Let's summarize a number of properties concerning the aforementioned definitions and the total variation of a measure.
+\begin{proposition}
+    Let $\mu$ be a positive measure, $\lambda,\lambda_1,\lambda_2$ be arbitrary measures (positive, signed, or complex).
+    Then
+    \begin{enumerate}[nolistsep]
+        \item If $\lambda$ is concentrated on $A$, then $|\lambda|$ is also concentrated on $A$.
+        \item If $\lambda_1\perp\lambda_2$, then $|\lambda_1|\perp|\lambda_2|$
+        \item If $\lambda_1\perp\mu$ and $\lambda_2\perp\mu$, then $\lambda_1+\lambda_2\perp\mu$.
+        \item If $\lambda_1\ll\mu$ and $\lambda_2\ll\mu$, then $\lambda_1+\lambda_2\ll\mu$.
+        \item If $\lambda\ll\mu$, then $|\lambda|\ll\mu$
+        \item If$\lambda_1\ll\mu$ and $\lambda_2\perp\mu$, then $\lambda_1\perp\lambda_2$
+        \item If $\lambda\ll\mu$ and $\lambda\perp\mu$, then $\lambda=0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    These are all exercises in the definitions.
+    For simplicity of notation (and so that I don't repeat myself too much), let $\lambda$ be concentrated on $A$, $\lambda_1$ on $A_1$, $\lambda_2$ on $A_2$, and $\mu$ on $B$.
+    \begin{enumerate}[nolistsep]
+        \item Suppose $E\cap A=\emptyset$; we want to show $|\lambda|(E)=0$.
+            Let $\{E_i\}$ be an arbitrary partition of $E$, so $E_i\cap A=\emptyset$ and $\lambda(E_i)=0$ since $\lambda$ is concentrated on $A$.
+            Thus $\sum_{i=1}^n|\lambda(E_i)|=0$ and since the partition was arbitrary, $|\lambda|(E)=0$.
+        \item By (1), $|\lambda_1|$ is also concentrated on $A_1$ and $|\lambda_2|$ is concentrated on $A_2$, and $A_1\cap A_2=\emptyset$.
+        \item Let $\mu$ concentrated on $B_1$ with $B_1\cap A_1=\emptyset$, and $\mu$ is concentated on $B_2$ with $B_2\cap A_2=\emptyset$.
+            If $A_1\cap B=\emptyset$ and $A_2\cap B=\emptyset$, then $\lambda_1+\lambda_2$ is concentrated on $A_1\cup A_2$.
+            Furthermore, $\mu$ is concentrated on $B_1\cap B_2$ since if $E\cap B_1=\emptyset$ or $E\cap B_2=\emptyset$, then $\mu(E)=0$.
+        \item Let $\mu(E)=0$.
+            Then $\lambda_1(E)=0$ and $\lambda_2(E)=0$ so $(\lambda_1+\lambda_2)(E)=0$.
+        \item Let $\mu(E)=0$ and let $\{E_i\}$ be a partition of $E$.
+            Then $\mu(E_i)=0$ for all $i$, so $\lambda(E_i)=0$ for all $i$.
+            Thus  $\sum_{i=1}^\infty|\lambda(E_i)|=0$ for any partition, so $|\lambda|(E)=0$.
+        \item Since $\lambda_2\perp\mu$, get disjoint $A_2,B$ so $\lambda_2$ is concentrated on $A_2$ and $\mu$ is concentrated on $B$.
+            Then $\lambda_1$ is also concentrated on $B$ since, if $E\cap B=\emptyset$, then $\mu(E)=0$ so $\lambda_1(E)=0$ since $\lambda_1\ll\mu$.
+        \item By (6.), $\lambda\perp\lambda$, and $A\cap A=\emptyset$ implies $A=\emptyset$, so $\lambda=0$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $\mu$ be a positive measure, $\lambda$ a complex measure.
+    Then the following are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $\lambda\ll\mu$
+        \item For any $\epsilon>0$, there exists $\delta>0$ such that $\mu(E)<\delta$ so $|\lambda(E)|<\epsilon$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $(2\Rightarrow 1)$.
+    Let $\epsilon>0$ and choose $\delta$ satisfying the requirement.
+    Then let $\mu(E)=0$, so $\mu(E)<\delta$ and $|\lambda(E)|<\epsilon$.
+    This holds for any $\epsilon>0$ so $\lambda(E)=0$.
+
+    $(1\Rightarrow 2)$.
+    For contradiction, assume there exists some $\epsilon>0$ so that for each $\delta=1/2^n$, there exists a set $E_n$ so that $\mu(E_n)<1/2^n$ but $|\lambda(E_n)|\geq\epsilon$.
+    As is standard, define
+    \begin{equation*}
+        A_n=\bigcup\limits_{k=n}^\infty E_k,\qquad A=\bigcap\limits_{n=1}^\infty A_n
+    \end{equation*}
+    so that
+    \begin{equation*}\mu(A_n)\leq\sum\limits_{k=n}^\infty\mu(E_k)\leq\sum\limits_{k=n}^\infty\frac{1}{2^n}=\frac{1}{2^{n-1}}\end{equation*}
+    Thus since $\mu(A_1)<\infty$ and $A_1\supset A_2\supset\cdots$, $\mu(A)=0$.
+    Since $\lambda\ll\mu$, $|\lambda|\ll\mu$ so $|\lambda|(A)=0$.
+    However, $\lim_{n\to\infty}|\lambda|(A_n)=|\lambda|(A)=0$ since $|\lambda|$ is a measure, while $|\lambda|(E_n)\geq|\lambda(E_n)|\geq\epsilon$, a contradiction.
+\end{proof}
+If it important that $\lambda$ is finite; if not, then this may not hold.
+Set $f(x)=1/|x|$, $\lambda(E)=\int_Ef\d{\mu}$, and $\mu$ is the Lebesgue measure.
+However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^n$.
+\subsection{The Lebesgue-Radon-Nikodym Theorem}
+\begin{lemma}
+    If $\mu$ is a positive, $\sigma-$finite measure (that is, $X=\bigcup_{n=1}^\infty X_n$ where $\mu(X_n)<\infty$), then there exists $w\in L^1(\mu)$ so that $0<w<1$.
+\end{lemma}
+\begin{proof}
+    Let $X=\bigcup\limits_{n=1}^\infty X_n$, and $\mu(X_n)<\infty$.
+    Let
+    \[w_n(x)=
+        \begin{cases}
+            0 &:x\in X\setminus X_n\\
+            \frac{1}{2^n(1+\mu(X_n))} &: x\in X_n
+        \end{cases}
+    \]
+    and $w(x)=\sum_{n=1}^\infty w_n(x)$.
+    By construction, $0<w<1$ and
+    \[\int_X w\d{\mu}=\sum\limits_{n=1}^\infty\int w_n\d{\mu}<\sum\limits_{n=1}^\infty 1/2^n=1\]
+    by Lebesgue's Monotone Convergence Theorem, so $w\in L^1(\mu)$.
+\end{proof}
+
+\begin{theorem}[Lebesgue-Radon-Nikodym]
+    Let $\mu$ be a positive, $\sigma-$finite measure, $\lambda$ be a complex measure on $\mathcal{M}$.
+    \begin{enumerate}[label=(\alph*)]
+        \item There exists a unique decomposition of $\lambda$ as $\lambda=\lambda_a+\lambda_s$ such that $\lambda_a\ll\mu$ and $\lambda_s\perp\mu$.
+        \item There exists a unique $h\in L^1(\mu)$ such that $\lambda_a(E)=\int_E h\d{\mu}$ for all $E\in\mathcal{M}$.
+            This is the Radon-Nikodym derivative of $\lambda_a$ with respect to $\mu$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Let's first see that the decomposition is unique.
+    Assume $\lambda=\lambda_a+\lambda_s=\lambda_a'+\lambda_s'$, so $\lambda_a-\lambda_a'=\lambda_s'-\lambda_s$.
+    Then since  $\lambda_a-\lambda_a'\ll\mu$ and $\lambda_s'-\lambda_s\perp\mu$, we have $\lambda_a-\lambda_a'=0=\lambda_s'-\lambda_s$.
+    We also see that $h$ is unique.
+    Assume $h^*$ is another one, so $\lambda_a(E)=\int_E h^*\d{\mu}$.
+    Write $h=h_1+ih_2$, $h^*=h_1^*+ih_2^*$.
+    Let $A_1=\{x\in X:h_1(x)>h_1^*(x)\}$ and $A_2=\{x\in X:h_1(x)<h_1^*(x)\}$.
+    We will show $\mu(A_1)=\mu(A_2)=0$ (so that $h_1=h_1^*$ a.e.).
+    In particular,
+    \[\int_{A_1}h\d{\mu}=\int_{A_1}h^*\d{\mu}\Rightarrow\int_{A_1}(h-h^*)\d{\mu}=0\]
+    so $\mu(A_1)=0$.
+    We can argue similarly with $A_2$, so $h_1=h_1^*$.
+    In the exact same way, $h_2=h_2^*$ a.e., showing uniqueness.
+
+    Now, for the hard part of the theorem, we show existence of $\lambda_a$, $\lambda_s$, $\mu$.
+    Write $\lambda=\lambda_1^+-\lambda_1^-+i(\lambda_2^+-\lambda_2^i)$ and argue separately for each $\lambda_i^\pm$.
+    We thus assume without loss of generality that $\lambda$ is a positive, finite measure.
+    From the previous lemma, get $w\in L^1(\mu)$ such that $0<w<1$, and define $\phi(E)=\lambda(E)+\int_E w\d{\mu}$, so $\phi$ is a positive finite measure.
+    We have $\int_X f\d{\phi}=\int_X f\d{\lambda}+\int_X fw\d{\mu}$; this holds for characteristic functions, and thus for simple functions, and finally for any non-negative measurable $f$.
+    Let $f\in L^2(\phi)$, so
+    \begin{align*}
+        \left\lvert \int_X f\d{\lambda}\right\rvert &\leq \int_X|f|\d{\lambda}\\
+                                                    &\leq\int_X|f|\d{\phi}=\int_X 1\cdot|f|\d{\phi}\\
+                                                    &= \inner{1}{|f|}_{L^2(\phi)}\\
+                                                    &\leq\sqrt{\int_X 1\d{\phi}}\cdot\sqrt{\int_X|f|^2\d{\phi}}\\
+                                                    &<\infty
+    \end{align*}
+    since $\phi(X)<\infty$ by finiteness of $\lambda,\mu$ and the second term since $f\in L^2(\phi)$.
+    Let $T(f)=\int_X f\d{\lambda}$, so $T:L^2(\phi)\to\C$ is a bounded (and therefore continuous) linear functional.
+    By the Riesz theorem for Hilbert spaces, there exists $\overline{g}\in L^2(\phi)$ so that $T(f)=\inner{f}{\overline{g}}=\int_Xf\cdot g\d{\phi}$.
+    Thus
+    \begin{equation*}\int_X f\d{\lambda}=\int_X fg\d{\phi}\tag{1}\end{equation*}
+    Thus substituting $f=\chi_E$, $\lambda(E)=\int_E g\d{\phi}$.
+    Let's see that $0\leq g\leq 1$ a.e.$[\phi]$.
+    Define
+    \[A_1=\{x\in X:g(x)<0\},\quad A_2=\{x\in X:g(x)>1\}\]
+    Then $0\leq \lambda(A_1)=\int_{A_1}g\d{\phi}<0$ if $\phi(A_1)>0$, so $\phi(A_1)=0$.
+    Similarly, $\lambda(A_2)=\int_{A_2}g\d{\phi}>\phi(A_2)\geq\lambda(A_2)$, so $\phi(A_2)=0$.
+    We thus have by (1) and the definition of $\phi$,
+    \begin{equation*}\int_X f\d{\lambda}=\int_X fg\d{\lambda}+\int_X fgw\d{\mu}\imp\int_X f(1-g)\d{\lambda}=\int_X fgw\d{\mu}\tag{2}\end{equation*}
+    Let $A=\{x\in X:0\leq g(x)<1\}$, $B=\{x\in X:g(x)=1\}$, so $A\cap B=\emptyset$ and $\mu(X\setminus(A\cup B))=0$.
+    Finally, we can define
+    \[\lambda_a(E)=\lambda(E\cap A),\quad\lambda_s(E)=\lambda(E\cap B)\]
+
+    Let's prove that they have the desired properties.
+    Substitute $f=\chi_B$ into (2), so $\chi_B(1-g)=0$ everywhere.
+    We thus have $\int_B w\d{\mu}=0$ so $\mu(B)=0$.
+    Thus $\mu$ is concentrated on $A$ and, by definition, $\lambda_s$ is concentrated on $B$, so $\lambda_s\perp\mu$.
+
+    Now apply (2) with $f=(1+g+g^2+\cdots+g^n)\chi_E$ for any $E\in\mathcal{M}$ and every $n\in\N$.
+    On the LHS of (2), we have
+    \begin{align*}
+        \lim_{n\to\infty}\int_E(1-g^{n+1})\d{\lambda} &= \lim_{n\to\infty}\int_{E\cap A}(1-g^{n+1})\d{\lambda}+\lim_{n\to\infty}\int_{E\cap B}(1-g^{n+1})\d{\lambda}\\
+                                                      &= \int_{E\cap A}\lim_{n\to\infty}(1-g^{n+1})\d{\lambda}\\
+                                                      &=\int_{E\cap A}1\d{\lambda}\\
+                                                      &=\lambda(E\cap A)=\lambda_a(E)
+    \end{align*}
+    by the monotone convergence theorem, since $1-g^{n+1}=0$ on $B$ and $1-g^{n+1}\to 1$ on $A$ monotonically.
+    On the RHS of (2), we have
+    \begin{align*}
+        \lim_{n\to\infty} \int_Eg(1+g+\cdots+g^n)w\d{\mu} &= \int_E \lim_{n\to\infty} g(1+g+\cdots+g^n)w\d{\mu}=\int_E h\d{\mu}
+    \end{align*}
+    monotonically, where $h=\lim_{n\to\infty}g(1+g+\cdots+g^n)2$.
+    Thus $\lambda_a(E)=\int_E h\d{\lambda}$ for all $E\in\mathcal{M}$.
+    But then it follows directly that $\lambda_a\ll\mu$ and $h\in L^1(\mu)$, so $\lambda_a(X)<\infty$.
+\end{proof}
+\subsection{Applications of Radon-Nikodym}
+\begin{theorem}
+    Let $\mu$ be a complex measure.
+    Then there exists a measurable $h$ such that $|h|=1$ and $\mu(E)=\int_E h\d{|\mu|}$.
+    This is called the polar decomposition of $\mu$.
+\end{theorem}
+\begin{proof}
+    Note that $\mu\ll|\mu|$ since if $|\mu|(E)=0$ then $|\mu(E)|=0$.
+    Thus get $h\in L^1(|\mu|)$ so that $\mu(E)=\int_E h\d{|\mu|}$.
+    We will see that $|h|\leq 1$ a.e. and $|h|\geq 1$ a.e.
+    Let $A_r=\{x\in X:|h(x)|<r\}$.
+    Let $\{E_j\}$ be a partition of $A_r$.
+    Then
+    \[\sum\limits_{j=1}^\infty|\mu(E_j)|=\sum\limits_{j=1}^\infty\left\lvert\int_{E_j}h\d{|\mu|}\right\rvert\leq\sum\limits_{j=1}^\infty\int_{E_j}|h|\d{|\mu|}\leq\sum\limits_{j=1}^\infty r\cdot|\mu|(E_j)=r\cdot|\mu|(A_r)\]
+    for any partition, so taking the supremum over all partitions, $|\mu|(A_r)\leq r\cdot|\mu|(A_r)$, so $|\mu|(A_r)=0$ when $r<1$.
+
+    Otherwise, set $S=\C\setminus\overline{B_1(0)}$.
+    Let $B_r(z)\subset S$ for some $z$, and define $E=h^{-1}(B_r(z))$.
+    We want to show that $|\mu|(E)=0$.
+    Assuming so, write $S$ as a countable union of open balls $B_1,B_2,\ldots$ so that
+    \[\mu(\{x:|h(x)|>1\})=\mu(h^{-1}(S))=\sum\limits_{i=1}^\infty\mu(h^{-1}(B_i))=0\]
+    Thus let's show that $\mu(E)=0$.
+    Assume not; then, for any $E$, we have
+    \[\left\lvert\frac{1}{|\mu|(E)}\cdot\int_E h\d{|\mu|}\right\rvert=\frac{|\mu(E)|}{|\mu|(E)}\leq 1\]
+    so that
+    \begin{align*}
+        \left\lvert\frac{1}{|\mu|(E)}\int_E h\d{|\mu|}-z\right\rvert&=  \left\lvert\frac{1}{|\mu|(E)}\cdot\int_E(h-z)\d{|\mu|}\right\rvert\\
+                                                                    &\leq\frac{1}{|\mu|(E)}\int_E|h-z|\d{|\mu|}\\
+                                                                    &< \frac{r\cdot|\mu|(E)}{|\mu|(E)}=r
+    \end{align*}
+    a contradiction, since $B_r(z)\subset S$.
+\end{proof}
+\begin{theorem}
+    Let $\mu$ be a positive measure, and $g\in L^1(\mu)$.
+    Let $\lambda(E)=\int_E g\d{\mu}$.
+    Then $|\lambda|(E)=\int_E|g|\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    By the previous theorem, there exists $h$ so that $|h|=1$ and $\lambda(E)=\int_Eh\d{\lambda}$.
+    Then
+    \[\int_E g\d{\mu}=\int_E h\d{\lambda}\imp \int_X fg\d{\mu}=\int_X fh\d{\lambda}\]
+    by monotone convergence, for any measurable $f$.
+    In particular, consider $f=\overline{h}\cdot \chi_E$.
+    Then
+    \[\int_E\overline{h}g\d{\mu}=\int_E\d{|\lambda|}=|\lambda|(E)\]
+    and since the RHS is real and non-negative and $E$ is an arbitrary set, $\overline{h}g$ is real and non-negative almost everywhere.
+    Let $x\in X$ be such that $\overline{h}(x)\cdot g(x)\geq 0$, and let $g(x)=r\cdot e^{i\phi}$, $\overline{h}=e^{i\alpha}$.
+    Then $\overline{h}(x)g(x)=re^{i(\alpha+\phi)}=r=|g|$ since it is non-negative and real, so $\overline{h}\cdot h=|h|$ a.e.$[\mu]$.
+\end{proof}
+With these theorems, we are in place to prove the following decomposition theorem for measures.
+Recall that
+\[\mu^+=\frac{1}{2}(|\mu|+\mu),\quad\mu^-=\frac{1}{2}(|\mu|-\mu)\]
+so $\mu=\mu^+-\mu^-$ and $|\mu|=\mu^++\mu^-$.
+\begin{theorem}[Hahn Decomposition]
+    Let $\mu$ be a signed measure.
+    Then there exists $A,B\in\mathcal{M}$ so that $A\cup B=X$, $A\cap B=\emptyset$, and $\mu^+(E)=\mu(E\cap A)$ and $\mu^-(E)=-\mu(E\cap B)$.
+\end{theorem}
+\begin{proof}
+    By the first theorem, get $h$ so that $|h|=1$ and $\mu(E)=\int_E h\d{|\mu|}$.
+    Since $h$ is real-valued, $h=\pm 1$.
+    Let $A=h^{-1}(\{1\})$, $B=h^{-1}(\{-1\})$.
+    Then
+    \[\frac{1}{2}(h(x)+1)=
+        \begin{cases}
+            h(x) &: x\in A\\
+            0 &: x\in B
+        \end{cases}
+    \]
+    so that since $\mu^+=\frac{1}{2}(|\mu|+\mu)$,
+    \[\mu^+(E)=\frac{1}{2}\int_E(1+h)\d{|\mu|}=\int_{E\cap A} h\d{|\mu|}=\mu(E\cap A)\]
+    The same approach works with $\mu^-$.
+\end{proof}
+\begin{corollary}
+    If $\mu=\lambda_1-\lambda_2$, where $\lambda_1,\lambda_2$ are positive measures, then $\lambda_1\geq\mu^+$ and $\lambda_2\geq\mu^-$.
+\end{corollary}
+\begin{proof}
+    Since $\mu(E)\leq\lambda_1(E)$ for all $E$,
+    \begin{equation*}\mu^+(E)=\mu(E\cap A)\leq\lambda_1(E\cap A)\leq\lambda_1(E)\end{equation*}
+    and similarly for $\mu^-$.
+\end{proof}
+\section{Banach Spaces}
+Let $B$ be a Banach space (a complete, normed vector space).
+\begin{definition}
+    $L:B\to\C$ is called a \textbf{bounded linear functional} if $L(\alpha x+y)=\alpha L(x)+L(y)$ for $\alpha\in\C$, $x,y\in B$ and
+    \[\norm{L}:=\sup_{\norm{x}\leq 1}|L(x)|<\infty\]
+    Then $|L(x)|\leq\norm{L}\cdot\norm{x}$.
+    Let $B^*$ denote the collection of bounded linear functionals, called the \textbf{dual space} of $B$.
+    This is a normed vector space with pointwise addition and scalar multiplication.
+\end{definition}
+We won't go into too much detail about Banach spaces, but we will prove the following fundamental fact:
+\begin{proposition}
+    Let $B$ be any normed space.
+    Then $B^*$ is a Banach space.
+\end{proposition}
+\begin{proof}
+    Let $(L_n)$ be a Cauchy sequence in $B^*$.
+    We first observe that $|L(x)|\leq\norm{L}\norm{x}$, where the norms are taken over the appropriate spaces.
+    If $x=0$, then this certainly holds.
+    Otherwise, define $c=1/\norm{x}$ and
+    \[\frac{|L(x)|}{\norm{x}}=\frac{c|L(x)|}{c\norm{x}}=\frac{|L(cx)|}{\norm{cx}}\leq\sup_{x:\norm{x}\leq 1}\frac{|L(x)|}{\norm{x}}=\norm{L}\]
+    since $\norm{cx}\leq 1$.
+
+    We first see that $(L_n(x))$ is Cauchy for each $x\in B$.
+    If $x=0$ this is obvious (it is the constant 0 sequence).
+    Otherwise, let $\epsilon>0$ be arbitrary, and get $N$ so that $\norm{L_n-L_m}<\epsilon/\norm{x}$ for all $n,m\geq N$.
+    Then for all $n,m\geq N$,
+    \begin{align*}
+        |L_n(x)-L_m(x)| &= |(L_n-L_m)(x)|\\
+                        &\leq \norm{L_n-L_m}\norm{x}\\
+                        &< \frac{\epsilon}{\norm{x}}\norm{x}=\epsilon
+    \end{align*}
+    Thus, since $\C$ is complete, define $L_0(x)=\lim_{n\to\infty} L_n(x)$.
+    I claim that $L_0\in B^*$; let's demonstrate the two properties.
+    \begin{enumerate}[nolistsep]
+        \item \textit{$L_0$ is linear.}
+            We have
+            \begin{align*}
+                L_0(cx+y) &= \lim_{n\to\infty} L_n(cx+y)\\
+                          &= \lim_{n\to\infty}cL_n(x)+L_n(y)\\
+                          &= c\lim_{n\to\infty} L_n(x)+\lim_{n\to\infty}L_n(y)\\
+                          &= c L_0(x)+L_0(y)
+            \end{align*}
+            by linearity of each $L_n$ and the limit.
+        \item \textit{$L_0$ is bounded.}
+            Note that $f(x)=|x|$ is a continuous function; then, for any $x\in B$,
+            \begin{equation*}
+                |L_0(x)| = \left\lvert\lim_{n\to\infty}L_n(x)\right\rvert=\lim_{n\to\infty}|L_n(x)| %=\limsup_{n\to\infty}|L_n(x)|
+            \end{equation*}
+            so that
+            \begin{align*}
+                \norm{L_0} &= \sup_{x:\norm{x}\leq 1}|L_0(x)|\\
+                           &= \sup_{x:\norm{x}\leq 1}\lim_{n\to\infty}|L_n(x)|\\
+                           &\leq \sup_{x:\norm{x}\leq 1}\lim_{n\to\infty}\norm{L_n}\cdot\norm{x}\\
+                           &\leq \sup_{x:\norm{x}\leq 1}M\cdot\norm{x}\\
+                           &\leq M
+            \end{align*}
+            since $(L_n)$ is a Cauchy sequence and thus bounded above by some $M$ (with respect to the operator norm).
+    \end{enumerate}
+\end{proof}
+\chapter{Theory of $L^p$ Spaces}
+\section{Basic Inequalities}
+\begin{definition}
+    A real function $\phi:\R\to\R$ defined on $(a,b)$ is \textbf{convex} if
+    \begin{equation*}
+        \phi((1-\lambda)x+\lambda y)\leq(1-\lambda)\phi(x)+\lambda\phi(y)
+    \end{equation*}
+    whenever $x,y\in(a,b)$ and $0\leq\lambda\leq 1$.
+    Equivalently, whenever $a<s<t<u<b$,
+    \begin{equation*}
+        \frac{\phi(t)-\phi(s)}{t-s}\leq\frac{\phi(u)-\phi(t)}{u-t}
+    \end{equation*}
+\end{definition}
+If $f$ is differential, by the mean value theorem, $f$ is convex if and only if $f'$ is non-decreasing.
+\begin{theorem}
+    If $\phi$ is convex on $(a,b)$, then $\phi$ is continuous.
+\end{theorem}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{theorem}[Jensen's Inequality]
+    Let $\mu$ be a positive measure on a $\sigma-$algebra $\mathcal{M}$ in $\Omega$, so that $\mu(\Omega)=1$.
+    If $f\in L^1(\mu)$, $a<f(x)<b$ for all $x\in\Omega$, and $\phi$ is convex on $(a,b)$, then
+    \begin{equation*}
+        \phi\left(\int_\Omega f\d{\mu}\right)\leq\int_\Omega(\phi\circ f)\d{\mu}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Set $t=\int_\Omega f\d{\mu}$.
+    Since $\mu(\Omega)=1$, certainly $a<t<b$.
+    Then
+    \begin{equation*}
+        \beta:=\sup_{s\in(a,t)}\frac{\phi(t)-\phi(s)}{t-s}\Longrightarrow\beta\leq\frac{\phi(u)-\phi(t)}{u-t}
+    \end{equation*}
+    for any $u\in(t,b)$.
+    We thus have, for any $s\in(a,b)$,
+    \begin{equation*}
+        \phi(s)\geq\phi(t)+\beta\cdot(s-t)
+    \end{equation*}
+    where the inequality holds by definition for $s\in(a,t)$, by convexity for $s\in(t,b)$, and trivially for $s=t$.
+    In particular, for any $x\in\Omega$, we have by taking $s=f(x)$
+    \begin{equation*}
+        \phi(f(x))-\phi(t)-\beta\cdot(f(x)-t)\geq 0
+    \end{equation*}
+    Since $\phi$ is continuous, $\phi\circ f$ is measurable.
+    Integrating the above expression (since $\mu(\Omega)=1$), we have our desired result.
+\end{proof}
+\section{The Dual of $L^p$}
+A general question in functional analysis is the characterization of the dual space of a banach space $B$.
+When $B$ is a Hilbert space, the inner product provides this representation via the standard Riesz representation theorem.
+A standard example of a Hilbert space is $L^2(\mu)$.
+In general, we have a similar characterization for general $L^p$ spaces:
+\begin{theorem}
+    Suppose $1\leq p < \infty$, $\mu$ is a a-finite positive measure on $X$, and $\Theta$ is a bounded linear functional on $L^p(\mu)$.
+    Then there is a unique $g\in L^q(p)$, where $q$ is the exponent conjugate to $p$, such that
+    \begin{equation*}
+        \Theta(f)=\int_X fg\d{\mu}\qquad(f\in L^p(\mu))
+    \end{equation*}
+    Furthermore, if $\Theta$ and $g$ satisfy the above, then
+    \begin{equation*}
+        \norm{\Theta}=\norm{g}_q
+    \end{equation*}
+\end{theorem}
+\chapter{The Representation Theorems}
+\section{Representation Theorem for Bounded Linear Functionals}
+
+To frame our general approach, note that $C_c(X)$ is not complete (for non-compact $C$).
+For example, when $X=\R$, $1/(1+x^2)$ is not in $C_c(\R)$, but it is the limit of a sequence of functions in $C_c(X)$.
+\begin{definition}
+    We say $f:X\to\C$ \textbf{vanishes at infinity} if for all $\epsilon>0$, there exists $K\subset X$ compact such that for all $x\notin K$, $|f(x)|<\epsilon$.
+\end{definition}
+Let $C_0(X)$ be the set of comples functions which vanish at infinity, and the norm $\norm{f}=\sup_{x\in X}|f(x)|$.
+Note that $C_c(X)\subset C_0(X)$.
+\begin{proposition}
+    $C_0(X)$ is complete.
+\end{proposition}
+\begin{proof}
+    Let $(f_n)\subset C_0(X)$ be Cauchy.
+    Then for every $\epsilon>0$, get $N$ so that $\norm{f_n-f_m}<\epsilon$ for all $n,m\geq N$.
+    Thus $(f_n(x))\subset\C$ is Cauchy, so $(f_n)\to f$ pointwise.
+    Let's first show that $f$ is continuous.
+    Certainly $\norm{f-f_n}\leq\epsilon$ for all $n\geq N$, but then $f_n\to f$ uniformly, so $f$ is continuous.
+
+    Furthermore, $f$ vanishes at infinity since to any $\epsilon>0$, get $N$ so that $\norm{f-f_N}<\epsilon$, and since $f_N$ vanishes at infinity, get $K$ compact so that $|f_N(x)|<\epsilon$ if $x\notin K$.
+    Thus $|f(x)|<2\epsilon$ if $x\notin K$.
+
+    Note that $f_n(x)-\epsilon<f_m(x)<f_m(x)+\epsilon$ for all $n,m>N$ so that $|f(x)-f_n(x)|\leq\epsilon$ for all $n\geq N$.
+    Let's show that the limit is actually uniform.
+    For any $\epsilon>0$, since $f_n$ vanishes at infinity, get $K_n$ compact so that $f_n<\epsilon$ outside $K_n$.
+\end{proof}
+In fact, $C_c(X)$ is not complete; its closure is $C_0(X)$.
+\begin{definition}
+    Let $\mathcal{M}$ be a $\sigma-$algebra on $X$, and let $\mu:\mathcal{M}\to\C$ be a complex measure.
+    Then there exists $h:X\to\C$ measurable so that $\mu(E)=\int_E h\d{|\mu|}$.
+    Now for any $f:X\to\C$, we define
+    \[\int_E f\d{\mu}=\int_E fh\d{|\mu|}\]
+    where $|\mu|$ is a positive measure.
+\end{definition}
+\begin{definition}
+    A complex measure $\mu$ is regular of $|\mu|$ is regular.
+\end{definition}
+An example of a bounded linear functional on $C_0(X)$ is the map $\phi:C_0(X)\to\C$ given by
+\[\phi(f)=\int_X \d{\mu}\]
+with a given complex measure $\mu$.
+\begin{proposition}
+    $\phi$ is bounded, linear, and $\norm{\phi}\leq\norm{\mu}$.
+\end{proposition}
+\begin{proof}
+    Linearity is clear, so let $f\in C_0(X)$ with $\norm{f}\leq 1$.
+    Then $|f(x)|\leq 1$ for all $x$, so
+    \begin{equation*}|\phi(f)|=\left\lvert\int_X f\cdot h\d{|\mu|}\right\rvert\leq\int_X|f|\d{|\mu|}\leq\int_X 1\d{|\mu|}=|\mu|(X)=\norm{\mu}\end{equation*}
+\end{proof}
+\begin{theorem}
+    Every bounded linear function $\phi:C_0(X)\to\C$ can be given uniquely in the form $\phi(f)=\int_X f\d{\mu}$ and $\norm{\phi}=\norm{\mu}$.
+    In other words, $C_0(X)^*=\operatorname{Meas}(X,\C)$.
+\end{theorem}
+\begin{proof}
+    To see uniqueness, assume $\mu_1,\mu_2\in\Meas(X,\C)$ such that $\phi(f)=\int_X f\d{\mu_i}$ for $i=1,2$.
+    Let $\mu=\mu_1-\mu_2$; we will see that $\mu=0$.
+    Get $h$ so that $\int_Xf\d{\mu}=\int_X fh\d{|\mu|}$, so $\int_X f\cdot h\d{|\mu|}=0$ for all $f\in C_0(X)$.
+    Recall that
+    \[|\mu|(X)=\int_X|h|\d{|\mu|}=\int_X h(f_n-\overline{h})\d{|\mu|}\leq \int_X|h||f_n\overline{h}|\d{|\mu|}\to 0\]
+    since $C_0(X)$ is dense in $L^1(|\mu|)$, we can get $f_n\to\overline{h}$ in $L^1$.
+    Thus $|\mu|(X)=0$ so $|\mu|(E)=0$ for all $E$ so $\mu(E)=0$.
+
+    The real content of this theorem is uniqueness.
+    For $f\geq 0$, define
+    \begin{equation*}
+        \Lambda f=\sup\{|\phi(h)|:h\in C_c(X),|h|\leq f\}
+    \end{equation*}
+    If $f\in C_c(X)$, then $f=f_1^+-f_1^-+i(f_2^+-f_2^-)$ and define $\Lambda f=\Lambda f_1^+-\Lambda f_1^-+i\left(\lambda f_2^+-\Lambda f_2^-\right)$.
+    We will see that $\Lambda:C_c(X)\to\C$ is a positive, linear functional.
+    It suffices to show this for positive functions.
+    Let's see that $\Lambda(f+g)\geq\Lambda f+\Lambda g$.
+    To $f$ and $g$, there exists $h_1,h_2\in C_c(X)$ so that $\Lambda f\leq|\phi(h_1)|+\epsilon$, $\Lambda g\leq|\phi(h_2)|+\epsilon$, and $|h_1|\leq f$, $|h_2|\leq g$.
+    Let $\alpha_i$ be such that $|\phi(h_i)|=\alpha_i\phi(h_i)$, so $|\alpha_i|=1$.
+    Then
+    \begin{align*}
+        \Lambda f+\Lambda g &\leq |\phi(h_1)|+|\phi(h_2)|+2\epsilon\\
+                            &= \phi(\alpha_1h_1+\alpha_2h_2)+2\epsilon\\
+                            &\leq \Lambda(|\alpha_1h_1+\alpha_2h_2|)+2\epsilon\\
+                            &\leq \Lambda(|h_1|+|h_2|)+2\epsilon\\
+                            &\leq \Lambda(f+g)+2\epsilon
+    \end{align*}
+    for any $\epsilon>0$, as required.
+
+    Now, let's see that $\Lambda(f+g)\leq\Lambda f+\Lambda g$.
+    Let $h\in C_c(X)$, such that $|h|\leq f+g$.
+    Let $V=\{x\in X:f(x)+g(x)>0\}$ and define
+    \[h_1=\frac{f\cdot h}{f+g},\qquad h_2=\frac{g\cdot h}{f+g}\]
+    on $V$, and $0$ on $V^c$.
+    One can verify that $h_1,h_2\in C_c(X)$.
+    Then
+    \begin{equation*}
+        |\phi(h)|=|\phi(h_1)+\phi(h_2)|\leq|\phi(h_1)|+|\phi(h_2)|\leq\Lambda f+\Lambda g
+    \end{equation*}
+    and since this is true for all $|h|\leq f+g$, taking supremums, we have $\Lambda(f+g)\leq\Lambda f+\Lambda g$.
+
+    Furthermore, we have
+    \[|\phi(f)|\leq\Lambda(|f|)\leq\norm{f}\]
+    for all $f\in C_c(X)$.
+    This follows since for all $|h|\leq f+g$, $|\phi(h)|\leq\norm{h}\leq\norm{f}$.
+    Thus $\Lambda$ is a positive linear functional on $C_c(X)$, and by the Riesz representation theorem, there exists a positive Borel measure $\lambda$ so that
+    \[\Lambda f=\int_X f\d{\lambda}\]
+    for all $f\in C_c(X)$.
+    Since $\lambda(X)=\sup\{\Lambda f:f\prec X\}$, it follows that$\Lambda f\leq\norm{f}=1$.
+    Then
+    \[|\phi(f)|\leq\Lambda(|f|)=\int_X|f|\d{\lambda}=\norm{f}_{L^1(\lambda)}\]
+    Note that $\phi$ is defined in $C_0(X)$.
+    Since $C_0(X)$ is dense in $L^1(\lambda)$,
+    If $f\in L^1(\lambda)$, then there exists a sequence $(f_n)\subset C_0(X)$ such that $\norm{f_n-f}_{L^1(\lambda)}\to 0$.
+    Thus let $\widetilde{\phi}(f)=\lim_{n\to\infty}\phi(f_n)$ be an extension of $\phi$ to $L^1(\lambda)$.
+    Thus $\widetilde{\phi}:L^1(\lambda)\to\C$ is a bounded linear functional.
+    
+    Since $\widetilde{\phi}\in L^1(\lambda)^*$.
+    Then by the Riesz representation theorem for $L^p$, we have $(L^p)^*=L^q$, so when $p=q$, we have $\tilde\phi \in L^\infty(\lambda)$.
+    Thus there exists a bounded measurable function such that
+    \[\widetilde{\phi}(f)=\int_f\cdot g\d{\lambda}\]
+    for any $f\in L^1(\lambda)$, and $\norm{\widetilde{\phi}}=\sup|g|$, so $|g|\leq 1$.
+    Now define $\mu(E)=\int_Eg\d{\lambda}$.
+
+    If $f=\chi_E$, then $\widetilde{\phi}(\chi_E)=\int_Eg\d{\lambda}=\mu(E)=\int_X\chi_E\d{\mu}$.
+    Thus $\widetilde{\phi}(s)=\int_X s\d{\mu}$, for simple functions, so by LMC, $\widetilde{\phi}(f)=\int_X f\d{\mu}$ for non-negative functions.
+    Thus $\Lambda f=\int_X f\d{\lambda}$ for all $f\in C_c(X)$.
+
+    It remains to prove that $1=\norm{\phi}=\norm{\mu}=|\mu|(X)$.
+    Thus suppose $|f|\leq 1$.
+    Then
+    \[|\phi(f)|=\left\lvert\int_X f\cdot g\d{\lambda}\right\rvert\leq \int_X|f|\cdot|g|\d{\lambda}\leq\int_X|g|\d{\lambda}\]
+    and taking the supremum over all $|f|\leq 1$, we have
+    \[1=\norm{\phi}\leq\int_X|g|\d{\lambda}\leq\int_X 1\d{\lambda}=\lambda(X)\leq 1\]
+    We thus have that $|\mu|(X)=\int_X|g|\d{\lambda}=1$, since $\mu(X)=\int_Xg\d{\lambda}$ (absolute value by some theorem before).
+
+    Thus for $\phi\in C_0(X)^*$, there exists a unique $\mu\in\Meas(X,\C)$ so that $\phi(g)=\int_X f\d{\mu}$, and $\norm{\phi}=\norm{\mu}$.
+\end{proof}
+\begin{corollary}
+    $\Meas(X,\C)$ is complete.
+\end{corollary}
+\begin{proof}
+    The dual space of a normed space is complete.
+\end{proof}
+\chapter{Differentation of Measures}
+Let $f\in L^1(\R)$ and set $\mu(E)=\int_E f\d{\mu}$.
+If $f$ is continuous at $x$, then
+\[\lim_{r\to 0}\frac{\mu((x-r,x+r))}{m((x-r,r+r))}=f(x)\]
+To see this, by continuity, for every $\epsilon>0$ get $\delta$ so that whenever $|x-y|<\delta$, $|f(x)-f(y)|<\epsilon$.
+Let $r<\delta$, and then
+\begin{align*}
+    \left\lvert\frac{\mu((x-r,x+r))}{2r}-f(x)\right\rvert &= \frac{1}{2r}\left\lvert\int_{x-r}^{x+r} f(y)\d{y}-\int_{x-r}^{x+r}f(x)\d{y}\right\rvert\\
+                                                          &\leq \frac{1}{2}\int_{x-r}^{x+r}|f(x)-f(y)|\d{y}\\
+                                                          &< \frac{1}{2r} \cdot \epsilon\cdot 2r=\epsilon
+\end{align*}
+\begin{definition}
+    Let $f\in L^1(\R^k)$.
+    Then $x\in\R^k$ is called a \textbf{Lebesgue point} of $f$ if
+    \[\lim_{r\to 0}\frac{1}{m(B_r(x))}\int_{B_r(x)}|f(x)-f(y)|\d{y}=0\]
+\end{definition}
+\begin{proposition}
+    If $f$ is continuous at $x$, then $x$ is a Lebesgue point.
+\end{proposition}
+\begin{proposition}
+    Let $f\in L^1(\R^k)$, and let $\mu(E)=\int_E f\d{m}$.
+    If $x$ is a Lebesgue point of $f$, then $\lim_{r\to 0}\frac{\mu(B_r(x))}{m(B_r(x))}=f(x)$.
+\end{proposition}
+\begin{definition}
+    Let $x\in\R^k$.
+    A sequence $\{E_i:i\in\N\}$ of sets (in $\R^k$) shrinks regularly to $x$ if for all $\alpha>0$, there exists $(r_i)$ of positive numbers with $r_i\to 0$ and $E_i\subset B_{r_i}(x)$ and $m(E_i)\geq\alpha\cdot m(B_{r_i}(x))$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nolistsep]
+        \item $k=1$, $E_i=(x-1/i,x+1/i)$.
+            Then $\alpha=1$ and $r_i=1/i$.
+        \item $k=1$, $E_i=(x,x+1/i)$.
+            Then $\alpha=1/2$ and $r_i=1/i$.
+        \item $k=2$, $x=(0,0)$, $E_i=(-1/i,1/i)\times(-1/i,1/i)$, $r_i=\sqrt{2}/i$, $\alpha=\pi/2$.
+        \item $k=2$, $x=(0,0)$, $E_i=(-1/i,1/i)\times(-1/i^2,1/i^2)$.
+            Then $r_i\geq 1/i$ and $m(B_{r_i}(x))=\pi/i^2$ while $m(E_i)=4/i^3$.
+            But then there does not exist an $\alpha>0$.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let $\mu:\mathcal{B}\to\C$ be a complex Borel measure in $\R^k$.
+    Then $\mu$ is \textbf{differentiable} at a point $x\in\R^k$ if for any sequence $\{E_n:n\in\N\}$ shrinking regularly to $x$, the limit
+    \[\lim_{n\to\infty}\frac{\mu(E_n)}{m(E_n)}\]
+    exists and is finite.
+    This value is called the \textbf{derivative} of $\mu$ at $x$.
+\end{definition}
+Let's quickly see that this value is well-defined (i.e. does not depend on $\{E_n\}$).
+\begin{proof}
+    Let $\{E_n\}$ and $\{F_n\}$ shrink regular to $x$, and let $G_1=E_1$, $G_2=F_1$, $G_3=E_2$, etc.
+    Then $\{G_n\}$ shrinks regularly to $x$ so
+    \[\lim_{n\to\infty}\frac{\mu(G_n)}{m(G_n)}\]
+    exists and has $\mu(E_n)/m(E_n)$ as a subsequence (and similarly for $F_n$).
+\end{proof}
+\begin{theorem}
+    If $\mu\ll m$, then $\mu$ is almost everywhere differentiable and $\mu'=f$ is the Radon-Nikodym derivative of $\mu$.
+\end{theorem}
+\begin{proof}
+    Recall that almost every point is a Lebesgue point of $f$.
+    For such a Lebesgue point $x$, we show $\mu'(x)=f(x)$.
+    Let $\{E_n\}$ be a sequence shrinking regularly to $x$.
+    Then
+    \begin{align*}
+        \left\lvert\frac{\mu(E_n)}{m(E_n)}-f(x)\right\rvert &= \frac{1}{m(E_n)}\cdot\left\lvert\int_{E_n}f(y)\d{y}-\int_{E_n}f(x)\d{y}\right\rvert\\
+                                                            &\leq \frac{1}{\alpha}\cdot m(B_{r_n}(x))\int_{E_n}|f(y)-f(x)|\d{y}\\
+                                                            &\leq\frac{1}{\alpha}\cdot\frac{1}{m(B_{r_n}(x))}\int_{B_{r_n}(x)}|f(x)-f(y)|\d{y}
+    \end{align*}
+    which tends to $0$ as $n$ goes to infinity (and $r_n\to 0$) since $x$ is a Lebesgue point of $f$.
+\end{proof}
+\begin{theorem}
+    If $\mu\perp m$, then $\mu$ is almost everywhere diferentiable and $\mu'=0$ almost everywhere.
+\end{theorem}
+\begin{definition}
+    Let $f\in L^1(\R^k)$.
+    Let $Mf:\R^k\to[0,+\infty]$ be defined by
+    \[(Mf)(x)=\sup_{r>0}\frac{1}{m(B_r(x))}\int_{B_r(x)}|f|\d{m}\]
+\end{definition}
+\begin{theorem}
+    If $f\in L^1(\R^k)$, then almost every $x$ is a Lebesgue point.
+\end{theorem}
+\begin{lemma}
+    $Mf$ is measurable and $m(\{x\in\R^k:(Mf)(x)>\alpha)\leq\frac{3^k}{\alpha}\cdot\norm{f}_1$.
+\end{lemma}
+\begin{proof}
+    Let $\mu(E)=\int_E f\d{m}$, so $|\mu|(E)=\int_E |f|\d{m}$.
+    Then
+    \[(Mf)(x)=\sup_{r>0}\frac{|\mu|(B_r(x))}{m(B_r(x))}=:(M\mu)(x)\]
+    so $M\mu=Mf$.
+    We need to prove this for a general Borel measure $\mu$.
+\end{proof}
+\begin{lemma}
+    Let $x_1,x_2,\ldots,x_N\in\R^k$, $r_1,r_2,\ldots,r_N>0$.
+    Let $W=\bigcup_{n=1}^N B_{r_n}(x_n)$.
+    Then there exists $S\subset\{1,2,\ldots,N\}$ such that
+    \begin{enumerate}[nolistsep]
+        \item $B_{r_i}(x_i)$ for $i\in S$ are disjoint
+        \item $W\subset\bigcup_{i\in S}B_{3r_i}(x_i)$
+        \item $m(W)\leq 3^k\cdot\sum_{i\in S}m(B_{r_i}(x_i))$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Construct such a set inductively.
+    Let $r_{i_1}$ be the set with largest radius.
+    Let $r_{i_2}$ be the set with largest radius disjoint from $B_{r_{i_1}}(x_{i_1})$, etc.
+\end{proof}
+\begin{lemma}
+    $m(\{x\in \R^k:(M\mu)(x)>\alpha\})\leq 3^k\alpha^{-1}\norm{\mu}$
+\end{lemma}
+\begin{proof}
+    Do this for compact subsets, and take supremums.
+    Since $K$ is covered by open balls with $|\mu|(B_r(x))>\alpha\cdot m(B_r(x))$.
+\end{proof}
+\begin{proof}
+    Define
+    \[(T_rf)(x)=\frac{1}{B_r(x)}\int_{B_r(x)}|f(y)-f(x)|\d{y}\]
+    and
+    \[(Tf)(x)=\lim\sup_{r\to 0}T_rf(x)\]
+    We show that $Tf=0$ almost everywhere, to the limit exists and is 0.
+    Let $\alpha>0$, $n\in\N$ be arbitrary; we prove that $\{Tf>2\alpha\}$ is measurable and $m(\{Tf>2\alpha\})=0$.
+    Let $g\in C(\R^k)$ such that $\norm{f-g}_1<1/n$ by Lusin's theorem, and note that $Tg=0$ since it is continuous.
+    Let $h=f-g$.
+    Then $T_rh\leq Mh+|h|$ and $T_rf<T_rg+T_r$ so as $r\to 0$, $Tf\leq0+Th\leq Mh+|h|$.
+    Thus $\{Tf>2\alpha\}\subset\{Mh>\alpha\}\cup\{|h|>\alpha\}$.
+    By choice of $g$, $m(\{|h|>\alpha\})<\frac{1}{\alpha\cdot n}$.
+    Similarly, $m(\{Mh>\alpha\})\leq 3^k\alpha^{-1}\cdot\frac{1}{n}$.
+    Thus
+    \[m(\{Tf>2\alpha\})\leq\frac{3^k+1}{\alpha\cdot n}\]
+    But then since the inclusion holds for all $n$, it must be 0.
+    Then since $m$ is complete, $\{Tf>2\alpha\}$ is a measurable because t is a subset of a zero measure set.
+\end{proof}
+% TODO: clean up proof above, and re-do proof in the real case to see how nice I can make it
+\section{Theory of Real Functions}
+\begin{proposition}
+    Let $f\in L^1(\R)$, $a\in[-\infty,+\infty)$. %]
+    Let $F(x)=\int_a^x f\d{m}$.
+    Then $F$ is continuous.
+\end{proposition}
+\begin{proof}
+    We have
+    \begin{equation*}
+        |F(x+h)-f(X)| = \left\lvert\int_x^{x+h}f\d{m}\}\right\rvert\leq\int_x^{x+h}|f|\d{m}
+    \end{equation*}
+    Define $\mu(E)=\int_E|f|\d{m}$ so that $\mu\ll m$.
+    Thus to every $\epsilon>0$, get $\delta>0$ so that $m(E)<\delta$ implies $\mu(E)<\epsilon$.
+    But then if $|h|<\delta$,
+    \begin{equation*}
+        \int_x^{x+h}|f|\d{m}<\epsilon\Longrightarrow|F(x+h)-f(x)|<\epsilon
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    Let $f,a,F$ be as above.
+    Then $F$ is almost everywhere differentiable, and $F'=f$ almost everywhere.
+\end{proposition}
+\begin{proof}
+    Let $x$ be a Lebesgue point of $f$.
+    Since almost every point is a Lebesgue point, it suffices to prove that $F$ is differentiable at $x$ and $F'(x)=f(x)$.
+    We have
+    \begin{align*}
+        \left\lvert\frac{F(x+h)-f(X)}{h}-f(x)\right\rvert &= \left\lvert\frac{1}{h}\int_x^{x+h}f(y)\d{y}-\frac{1}{h}\int_x^{x+h} f(x)\d{y}\right\rvert\\
+                                                          &= \frac{1}{|h|}\int_x^{x+h}|f(y)-f(x)|\d{y}\\
+                                                          &\leq \frac{2}{2|h|}\int_{x-h}^{x+h}|f(y)-f(x)|\d{y}\\
+                                                          &\to 0
+    \end{align*}
+    since $x$ is a Lebesgue point.
+\end{proof}
+% TODO: is this true?
+% \begin{proposition}
+    % Let $f,a,F$ be as above.
+    % Then if $F$ is differentiable at $x$, then $x$ is a Lebesgue point of $f$.
+% \end{proposition}
+What can we say about the integral of the derivative?
+When does it hold that $f(x)-f(a)=\int_a^x f'\d{m}$?
+\begin{example}
+    \begin{enumerate}
+        \item Consider $f(x)=x^2\sin(1/x^2)$, a differentiable function.
+            Then $f(0)=0$ and $f'(x)=2x\sin(1/x^2)-\cos(1/x^2)\cdot 2/x$, so $f'\notin L^1$.
+        \item Suppose $f$ is the Cantor function, and let $f(0)=0$, $f(1)=1$.
+            We say
+            \begin{align*}
+                f|_{(1/3,2/3)}=\frac{1}{2}\\
+                f|_{1/9,2/9} = \frac{1}{4},f|_{7/9,8/9}=\frac{3}{4}\\
+            \end{align*}
+            etc and if $F$ denotes the cantor set, define $f(x)=\sup\{f(\xi):\xi<x,\xi\in[0,1]\setminus F\}$.
+            % TODO: what is the Radon-Nikodym here? can we characterize the absolutely continuous part and the perpindicular part?
+            % probably concentrated on Cantor set or something like that, might be a cool measure
+    \end{enumerate}
+\end{example}
+Let's try to characterize functions for which this holds.
+Now, let's assume that $f'\in L^1$, $f(x)-f(a)=\int_a^x f'\d{m}$.
+If $\mu(E)=\int_E f'\d{m}$, then $\mu\ll m$ so for every $\epsilon>0$, there exists $\delta>0$ so that whenever $m(E)<\delta$, $\mu(E)<\epsilon$.
+If $E$ is a union of disjoint open intervals $(\alpha_i,\beta_i)$, then
+\[\mu(E)=\sum\limits_{i=1}^n \int_{\alpha_i}^{\beta_i}f\d{m}=\sum\limits_{i=1}^n(f(\beta_i)-f(\alpha_i))<\epsilon\]
+whenever $\sum(\beta_i-\alpha_i)<\delta$.
+\begin{definition}
+    We say that $f:[a,b]\to\C$ is called \textbf{absolutely continuous} if for every $\epsilon>0$, there exists $\delta>0$ such that for all $n$ and any family $(\alpha_i,\beta_i)$ for $i=1,\ldots,n$ of disjoint open intervals,
+    \[\sum\limits_{i=1}^n(\beta_i-\alpha_i)<\delta\Longrightarrow\sum\limits_{i=1}^n|f(\beta_i)-f(\alpha_i)|<\epsilon\]
+\end{definition}
+Note that when $n=1$, we have uniform continuity.
+We already proved the following:
+\begin{proposition}
+    Let $f$ be a non-decreasing function.
+    If $f$ is almost everywhere differentiable and $f'\in L^1$, then $\int_a^c f'\d{m}=f(x)-f(a)$, then $f$ is absolutely continuous.
+\end{proposition}
+We will prove the converse, first for non-decreasing functions.
+\begin{theorem}
+    Let $f$ be non-decreasing and continuous.
+    Then the following statements are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $f$ is AC on $[a,b]$
+        \item If $E\in\mathcal{M}$ and  $m(E)=0$, then $m(f(E))=0$.
+        \item $f$ is almost everywhere differentiable, $f'\in L^1$, and $f(x)-f(a)=\int_a^x f'\d{m}$ for all $x\in[a,b]$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We showed earlier that (c)$\Rightarrow$(a).
+
+    (a)$\Rightarrow$(b).
+    Let $E\subset[a,b]$, $m(E)=0$.
+    Take $\epsilon>0$, and let $\delta$ be given by AC.
+    Then there exists $V\subset[a,b]$ open with $m(V)<\delta$ and $E\subset V$.
+    Write $V=\bigcup_{i=1}^\infty(\alpha_i,\beta_i)$ and for all $N$, we have
+    \[\sum\limits_{i=1}^N(\beta_i-\alpha_i)<\delta\Longrightarrow\sum\limits_{i=1}^N f(\beta_i)-f(\alpha_i)<\epsilon\]
+    so that $m(f(V))<\epsilon$.
+    Take $\epsilon=1/n$ and let $H_n=\bigcup_{i=1}^n[f(\alpha_i),f(\beta_i)]\supset f(V)\supset f(E)$.
+    Then $m(H_n)<1/n$, so $f(E)\subset\bigcap_{n=1}^\infty H_n$ so by completeness of $E$, $m(f(E))=0$.
+
+    (b)$\Rightarrow$(c).
+    Let $g(x)=f(x)+x$, so $g$ is strictly increasing.
+    It can be shown that $g$ satisfies (b), i.e. $m(g(E))=0$ if $m(E)=0$.
+    Let $\mu(E)=m(g(E))$, which is countably additive (since $g$ is bijective).
+    Then (b) implies that $\mu\ll m$, so by Radon-Nikodym, get $h\in L^1$ so $\mu(E)=\int_E h\d{m}$.
+    Apply this to $E=[a,x]$ so that $g(E)=[g(a),g(x)]$.
+    Then $g(x)-g(a)=m(g(E))=\mu(E)=\int_a^x h\d{m}$ so that $f(x)-f(a)=\int_a^x(h-a)\d{m}$.
+    We have thus proved $f'(x)=h(x)-1$.
+\end{proof}
+Let's extend to monotone functions.
+\begin{definition}
+    Let $f:[a,b]\to\R$.
+    The \textbf{total variation function} of $f$ is
+    \[F_a(x)=\sup\left\{\sum\limits_{i=1}^n|f(t_i)-f(t_{i-1})|:a=t_0<t_1<t_2<\cdots<t_n=x,n\in\N\right\}\]
+    We say that $f$ has \textbf{bounded variation} on $[a,b]$ of $F_a(b)<\infty$.
+\end{definition}
+\begin{example}
+    If $f$ is nondecreasing and bounded, then $f$ has bounded variation.
+\end{example}
+\begin{proposition}
+    Let $f$ have BV on $[a,b]$.
+    Then $F_a$, $F_a+f$, $F_a-f$ are non-decreasing and absolutely continuous on $[a,b]$.
+\end{proposition}
+\begin{proof}
+    Let $x<y$, so $t_0=a<t_1<\cdots<t_n=x<y$.
+    Then
+    \[F_a(y)\geq|f(y)-f(x)|+\sum\limits_{i=1}^n |f(t_i)-f(t_{i-1})|\]
+    Take the supremum in $\{t_i\}$, so
+    \[F_a(y)\geq|f(y)-f(x)|+F_a(x)\]
+    so $F_a(y)\geq F_a(x)$ and $F_a$ is nondecreasing.
+    Furthermore, $F_a(y)-F_a(x)\geq f(y)-f(x)$
+    If $|f(y)-f(x)|=f(y)-f(x)$, then $(F_a-f)(y)\geq(F_a-f)(x)$.
+    If $|f(y)-f(x)|=f(x)-f(y)$, then $(F_a+f)(y)\geq(F_a+f)(x)$.
+\end{proof}
+\begin{proposition}[Jordan Decomposition]
+    If $f$ has BV, then it is the difference of two nondecreasing functions.
+\end{proposition}
+\begin{proof}
+    Take $f=F_a-(F_a-f)$.
+\end{proof}
+\begin{proposition}
+    If $f$ is AC, then $F_a$ is AC.
+\end{proposition}
+The Jordan decomposition gives two non-decreasing AC functions.
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $f:[a,b]\to\R$ is AC.
+        \item $f$ is differentiable almost wverywhee, $f'\in L^1$, and $f(x)-f(a)=\int_a^x f'\d{m}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Write $f=f_1-f_2$ where $f_1,f_2$ are non-deceasing, and apply the previous theorem.
+\end{proof}
+\section{Differentiability of Monotone Functions}
+\subsection{The Lebesgue-Stieltjes measure}
+Let $f:[a,b]\to\R$ be a non-decreasing function.
+Then the number of jump discontinuities is at most countable.
+Define
+\begin{align*}
+    f(c-0) &:= \lim_{x\to c^-}f(x)\\
+    f(c+0) &:= \lim_{x\to c^+}f(x)\\
+\end{align*}
+The L-S measure corresponding to $f$ is denoted $m_f$ and satisfies
+\begin{align*}
+    m_f((\alpha,\beta)) &= f(\beta-0)-f(\alpha+0)\\
+    m_f([\alpha,\beta]) &= f(\beta+0)-f(\alpha-0)\\
+\end{align*}
+The definition of the Lebesgue-Stieltjes measure is similar to the Lebesgue measure.
+In the Lebesgue case, we have
+\[\Lambda g=\int_a^b g(x)\d{x}\]
+where $g$ is continuous, and get a measure $m$.
+We now define the Riemann-Stieltjes integral to be the supremum over all partitions
+\begin{equation*}
+    \int_a^b g(x)\d{f(x)} = \sum g(y_i)(f(x_i)-f(x_{i-1})
+\end{equation*}
+Note that the Riemann integral is equal to the Riemann-Stieltjes integral taking $f(x)=x$.
+Then $m_f$ is the corresponding measure to the Riemann-Stieltjes integral.
+\begin{theorem}[Lebesgue]
+    If $f$ is monotone, then $f$ is diferentiable almost everywhere.
+\end{theorem}
+\begin{proof}
+    Without loss of generality, $f$ is non-decreasing.
+    Get the Lebesgue-Stieltjes measure $m_f$.
+    We will see that $f$ is ifferentiable at $x_0$ if $m_f$ is differentiable at $x_0$; in which case, $f'(x_0)=m_f'(x_0)$.
+    In particular, we will see that
+    \begin{equation*}
+        \lim_{n\to\infty}\frac{f(x_n)-f(x_0)}{x_n-x_0}
+    \end{equation*}
+    for all sequences $(x_n)\to x_0$.
+    Let $E_n=[x_0,x_n]$ or $[x_n,x_0]$ which shrink nicely to $x_0$.
+    We have
+    \begin{equation*}
+        \frac{m_f((\alpha,\beta))}{m((\alpha,\beta))} \leq\frac{f(\beta)-f(\alpha)}{\beta-\alpha}\leq\frac{m_f([\alpha,\beta]}{m([\alpha,\beta])}
+    \end{equation*}
+    Now,
+    \begin{equation*}
+        \frac{m_f([x_n,x_0])}{m([x_0,x_n])}\to m_f'(x_0)
+    \end{equation*}
+    and since $(x_0,x_n)$ shrinks nicely to $x_0$,
+    \begin{equation*}
+        \frac{m_f((x_n,x_0))}{m((x_0,x_n))}\to m_f'(x_0)
+    \end{equation*}
+    and the result holds by the squeeze theorem.
+\end{proof}
+\begin{corollary}
+    If $f$ has bounded variation on $[a,b]$, then $f$ is almost everywhere differentiable.
+\end{corollary}
+\begin{theorem}
+    Let $f:[a,b]\to\R$ be non-decreasing.
+    Then $f$ is absolutely continuous if and only if $m_f\ll m$.
+\end{theorem}
+\begin{proof}
+    First let $\epsilon>0$, and let $\delta$ be given by absolute continuity of $f$.
+    We will see that $m(E)<\delta$ implies that $m_f(E)<\epsilon$; this implies that $m_f\ll m$.
+    Let $m(E)<\delta$, so there exists an open set $G\supset E$ such that $m(G)<\delta$.
+    Write $G=\bigcup_{i=1}^\infty(\alpha_i,\beta_i)$ disjointly.
+    Then for all $N\in\N$, we have $\sum_{i=1}^N(\beta_i-\alpha_i)<\delta$ so $\sum_{i=1}^N(f(\beta_i)-f(\alpha_i))<\epsilon$.
+    Thus
+    \[m_f(E)<m_f(G)\leq\sum\limits_{i=1}^\infty m_f((\alpha_i,\beta_i))\leq\epsilon\]
+    as required.
+
+    Conversely, suppose $m_f\ll m$.
+    Let $\epsilon>0$ and get $\delta$ so that $m(E)<\delta$ implies $m_f(E)<\epsilon$.
+    We first see that $f$ is uniformly continuous: if $|x_1-x_2|<\delta$, then set $E=[x_1,x_2]$ and $m(E)<\delta$ so $m_f(E)<\epsilon$ and $|f(x_1)-f(x_2)|<\epsilon$.
+    Now suppose $\sum_{i=1}^n(\beta_i-\alpha_i)<\delta$.
+    Then by continuity,
+    \begin{align*}
+        \sum\limits_{i=1}^n(f(\beta_i)-f(\alpha_i)) =\sum\limits_{i=1}^n m_f((\alpha_i,\beta_i))=m_f\left(\bigcup\limits_{i=1}^n(\alpha_i,\beta_i)\right)<\epsilon
+    \end{align*}
+    as required.
+\end{proof}
+\begin{theorem}
+    Let $f:[a,b]\to\R$ be non-decreasing.
+    Then $f'=0$ almost everywhere if and only if $m_f\perp m$.
+\end{theorem}
+\begin{proof}
+    Let $m_f\perp m$.
+    It can be shown that $m_f'=0$ almost everywhere.
+    We also saw that $f'=m_f'$ almost everywhere.
+
+    Conversely, suppose $f'=0$ almost everywhere.
+    Apply the Lebesgue decomposition theorem to $m_f$, so $m_f=m_1+m_2$ where $m_1\ll m$, $m_2\perp m$.
+    We will see that $m_1$ is the zero measure.
+    Let $g_1(x)=m_1([a,x])$, a continuous non-decreasing function.
+    Let $g_2(x)=m_2([a,x])$.
+    Then $m_{g_1}([a,x])=g_1(x)-g_1(a)=m_1([a,x])-m_1([a,a])=m_1([a,x])$ by absolute continuity.
+    Then $m_{g_1}=m_1$ on intervals, so they are equal.
+    Thus $m_{g_1}\ll m$, so $g_1$ is absolutely continuous, so $g_1(x)-g_1(a)=\int_a^x g'\d{m}$.
+    It remains to show that $g_1'=0$ almost everywhere.
+    Recall that $m_f([a,x])=m_1([a,x])+m_2([a,x])$; if $f$ is continuous at $x$, then $f(x)-f(a)=g_1(x)+g_2(x)$, so $g_2$ is almost everywhere differentiable and thus almost everywhere continuous.
+    Then $m_{g_2}([a,x])=m_2([a,x])$, so $m_{g_2}\perp m$.
+    Thus $g_2'=0$ almost everywhere, so $0=f'=g_1'+g_2'$ so $g_1'=0$ almost everywhere, as required.
+\end{proof}
+\begin{definition}
+    If $\phi_{x_n}$ is consant except for a single jump discontinuity at $x_n$ and $\phi=\sum_{n=1}^\infty \phi_{x_n}$ is convergent, then we call $\phi$ a jump function.
+\end{definition}
+\begin{proposition}
+    If $\phi$ is a jump function, then $\phi'=0$ almost everywhere.
+\end{proposition}
+\begin{theorem}
+    Let $f$ have bounded variation on $[a,b]$.
+    Then there exists an absolutely continuous function $f_1$, a singular function $f_2$, and a jump function $\phi$ so that $f=f_1+f_2+\phi$, unique up to additive constants.
+\end{theorem}
+\begin{proof}
+    It suffices to prove this for non-decreasing $f$.
+    If $x_0$ is a jump point of $f$, let
+    \[\phi_{x_0}=
+        \begin{cases}
+            0 &: x<x_0\\
+            f(x_0)-f(x_0-0) &: x=x_0\\
+            f(x_0+0)-f(x_0-0) &: x>x_0
+        \end{cases}
+    \]
+    Then $f-\phi_{x_0}$ is continuous at $x_0$.
+    Repeat this for each of the countably many jump points $(x_n)$, and define $\phi=\sum_{n=1}^\infty \phi_{x_n}$.
+    I claim that $g:=f-\phi$ is continuous (prove later).
+    Let $m_g=m_1+m_2$ be its Lebesgue decomposition, so $m_1\ll m$ and $m_2\perp m$.
+    Let $g_1(x)=m_1([a,x])$ and $g_2(x)=m_2([a,x])$.
+    Then $m_{g_1}=m_1$ and $m_{g_2}=m_2$ so by the previous theorems, $g_1$ is absolutely continuous and $g_2$ is singular.
+    Since $m_g=m_{g_1}+m_{g_2}$, then $g(x)-g(a)=g_1(x)-g_1(a)+g_2(x)-g_2(a)$, so $g(x)=g_1(x)+g_2(x)+c$ for some constant $c$.
+    Then $f=g+\phi=g_1+g_2+\phi+c$.
+\end{proof}
+\end{document}

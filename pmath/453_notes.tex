@@ -829,7 +829,8 @@ We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
     Then there exists $F\in X'$ such that $F|_Y=f$ and $F\leq\rho$ on $X$.
 \end{theorem}
 \begin{proof}
-    Given $x\in X\setminus Y$, we wish to find $c\in\R$ such that
+    We first do this for extensions by a single point $x\in X\setminus Y$.
+    We wish to find $c\in\R$ such that
     \begin{equation*}
         f(y)+\alpha c\leq\rho(y+\alpha x)
     \end{equation*}
@@ -855,8 +856,98 @@ We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
     Clearly, $f(y)+0\leq\rho(y+0x)$.
     Hence, we have our desired inequality.
 
-    \textit{To be continued...}
+    We now use Zorn's lemma to lift this result to the whole space.
+    Consider the set of ``$p$-extensions'' of $f$,
+    \begin{equation*}
+        \mathcal{E} = \Set{(\mathcal{M},\psi) | Y\subseteq\mathcal{M}\subseteq X,\mathcal{M}\text{ is a subspace}, \psi\in\mathcal{M}',\psi|_Y=f,\psi\leq P|_{\mathcal{M}}}
+    \end{equation*}
+    Define a partial order on $\mathcal{E}$ by
+    \begin{equation*}
+        (\mathcal{M},\psi)\leq(\mathcal{N},\phi)\text{ iff }\mathcal{M}\subseteq\mathcal{N},\phi|_{\mathcal{M}}=\psi
+    \end{equation*}
+    Suppose $\mathcal{C}\subseteq\mathcal{E}$ is a chain with respect to $\leq$.
+    We let
+    \begin{itemize}[nl]
+        \item $\mathcal{U}=\bigcup_{(\mathcal{M},\varphi)}\mathcal{M}$ which is a subspace, since $\mathcal{C}$ is a chain.
+        \item and define $\phi:\mathcal{U}\to\R$ by $\phi(x)=\psi(x)$ whenever $x\in\mathcal{M}$, which is again well-defined since $C$ is a chain.
+    \end{itemize}
+    Furthermore, we see that $\phi\in U'$, since if $x,y\in\mathcal{U}$, get $x\in\mathcal{M}$, $y\in\mathcal{N}$ for some $(\mathcal{M},\psi)\leq(\mathcal{N},\psi')\in\mathcal{C}$.
+    Then $\phi(x+y)=\psi'(x+y)=\psi'(x)+\psi'(y)=\phi(x)+\phi(y)$, etc.
+    Likewise, $\psi\leq p|_{\mathcal{U}}$.
+    Thus by Zorn's lemma, $\mathcal{E}$ admits a maximal element $\mathcal{M},F$
+    Then $\mathcal{M}=X$, for if not, then we would find $x\in X\setminus\mathcal{M}$ and we apply step one to $\spn\mathcal{M}\cup\{x\}$ to get $F'$, a strictly larger element violating maximality.
 \end{proof}
+Trivially, any $\C-$vector siace is a $\R-$vector space.
+\begin{lemma}
+    Let $X$ be a $\C-$vector space.
+    \begin{enumerate}[nl,r]
+        \item If $f\in X'_{\R}$ into $\R$, then define $f_{\C}$ given by $f_{\C}(x)=f(x)-if(ix)$ defines an element of $X'=X'_{\C}$.
+        \item If $g\in X'$, then $f=\Re g$ in $X'_{\R}$ satisfies $g=f_{\C}$.
+        \item If $X$ is a normed $\C-$vector space, then for $f\in X'_{\R}$,
+            \begin{equation*}
+                f\in X^*_{\R}\text{ if and only if}f_{\C}\in X^*=X^*_{\C}\text{ with }\norm{f}=\norm{f_{\C}}
+            \end{equation*}
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    (i) and (ii) are straightforward exercises; let's see (iii).
+    We let fr $x\in X$, $z=\sgn f_{\C}(x)$.
+    Then
+    \begin{align*}
+        \R\ni|f_{\C}(x)|&=\overline{z}f_{\C}(x)=f_{\C}(\overline{z}x)=\Re f_{\C}(\overline{z}x)=f(\overline{z}x)=|f(\overline{z}x)|\\
+                        &\leq\norm{f}\norm{\overline{z}x}=\norm{f}|\overline{z}|\norm{x}=\norm{f}\norm{x}
+    \end{align*}
+    so we see that $\norm{f_{\C}}\leq\norm{f}$.
+    Conversely,
+    \begin{equation*}
+        |f(x)|=|\Re f_{\C}(x)|\leq|f_{\C}(x)|\leq\norm{f_{\C}}\norm{x}\text{ so that }\norm{f}\leq\norm{f_{\C}}
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    If $X$ is a normed space, $Y\subseteq X$ a subspace and $f\in Y^*$, then there exists $F\in X^*$ such that $F|_{Y}=f$ and $\norm{F}=\norm{f}$.
+\end{corollary}
+\begin{proof}
+    Define $\rho:X\to\R$ be given by $p(x)=\norm{f}\cdot\norm{x}$, so $p$ is sublinear and $\Re f\leq p|_Y$.
+    Apply Hahn-banach to to this data and get $\tilde F\in X_{\R}^*$ such that $\tilde F|_Y=\Re f$ and $\tilde F\leq p$, and let $F=\tilde F_{\C}$.
+\end{proof}
+\begin{corollary}
+    If $X$ is a normed space, $x\in C$, then there is $f\in X^*$ such that
+    \begin{equation*}
+        \norm{x}=f(x)=|f(x)|\text{ and }\norm{f}=1
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    Let $f_0:\F x\to\F$ be given by $f_0(\alpha x)=\alpha\norm{x}$.
+    If $x\neq 0$, then
+    \begin{equation*}
+        \norm{f_0}=\sup_{\norm{\alpha x}\leq 1}|f_0(\alpha x)|=\sup_{\norm{\alpha x}\leq 1}|\alpha|\norm{x}=1
+    \end{equation*}
+    and apply the previous corollary.
+    If $x=0$, this is trivial.
+\end{proof}
+\begin{theorem}
+    Let $X$ be a normed space and $X^{**}$ denote the bidual.
+    For $x\in X$, define $\hat x:X^*\to\F$ by $\hat x(f)=f(x)$.
+    Then $\hat x\in X^{**}$ with $\norm{\hat x}=\norm{x}$, so that $x\mapso\hat x:X\to X^{**}$ is a linear isometry.
+\end{theorem}
+\begin{proof}
+    Notice that $|\hat x(f)|=|f(x)\leq\norm{f}\norm{x}$ so $\norm{\hat x}\leq\norm{x}$.
+    The last corollary provides for $x\in X$ an $f_x\in S(X^*)$ with $|f_x(x)|=\norm{x}$.
+    Then $\norm{\hat x}\leq|\hat x(f_x)|=\norm{x}$.
+    Hence $\norm{\hat x}=\norm{x}$.
+    Clearly $x\mapsto\hat x$ is linear.
+\end{proof}
+\begin{remark}
+    Since $X^{**}$, being a dual space, is complete, we have that $\hat X=\{\hat x:x\in X\}$ satisfies that its closure $\overline{\hat X}\subseteq X^{**}$ is complete.
+    Hence $\overline{\hat X}$ is a Banach space containing a dense copy of $X$.
+    Often, we will simply write $\overline{\hat X}=\overline{X}$ and call it the \textbf{completion} of $X$.
+\end{remark}
+\subsection{Geometric Hahn-banach}
+If $A,B\subset X$ with $A\cap B=\emptyset$ (and other suitable assumptions), we will find a $\R-$hyperplane between $A$ and $B$.
+\begin{definition}
+    In a vector space, a \textbf{hyperplane} is any set of the form $x_0+\ker f$ with $x_0\in X$ and $f\in X'$.
+    Then a \textbf{$\R-$hyperplane} is any set of the form $x_0+\ker\Re f$.
+\end{definition}
 \end{document}
 
 

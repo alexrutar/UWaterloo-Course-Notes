@@ -496,6 +496,67 @@ In this case, we also use the terminology ``quotient map'' for $\pi$.
     Thus $g$ induces a continuous map $\overline{g}$ on the quotient.
     We construct the inverse map in a similar way.
 \end{example}
+\begin{definition}
+    Let $X$ be a topological space.
+    Then
+    \begin{itemize}[nl]
+        \item $X$ is \textbf{T1} when for all $a,b\in X$ there exists an open set $U$ in $X$ with $a\in U$ and $b\notin U$
+        \item $X$ is \textbf{T2} or \textbf{Hausdorff} when for all $a,b\in X$, there exist disjoint open sets $U,V\subseteq X$ with $a\in U$ and $v\in B$
+        \item $X$ is \textbf{T3} or \textbf{regular} when $X$ is T1 and for every $a\in X$ and every closed set $B\subseteq X$ with $a\notin B$, there exist open sets $U,V\subseteq X$ with $a\in U$, $B\subseteq V$.
+        \item $X$ is \textbf{T4} or \textbf{normal} when $X$ is T1 and for all disjoint closed sets $A,B\subseteq X$ there exist disjoint open sets $U,V\subseteq X$ with $A\subseteq U$ and $B\subseteq V$.
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    Let $X$ be a topological space.
+    \begin{itemize}[nl]
+        \item $X$ is \textbf{first countable} when for every $a\in X$, there exists a countable set $B_a$ of open sets in $X$ which contain $a$ such that for every open set $W$ in $X$ with $a\in W$, there exists $U\in\mathcal{B}_a$ with $a\in U\subseteq W$.
+        \item $X$ is \textbf{second countable} when there exists a countable basis for the topology on $X$.
+    \end{itemize}
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $X$ is T1 if and only if every 1-point subset of $X$ is closed in $X$
+        \item Every compact Hausdorff space is regular.
+        \item Every second countable regular space is normal.
+        \item Every metric space is normal.
+        \item If $X$ is second countable, then every open cover admits a countable subcover.
+        \item Every secound countable space $X$ contains a countable dense subset.
+    \end{enumerate}
+\end{example}
+\begin{lemma}[Urysohn]
+    If $X$ is normal and $A,B\subseteq X$ are disjoint and closed, then there is a countinuous function $f:X\to[0,1]$ such that $f(A)=\{0\}$ and $f(B)=\{1\}$.
+\end{lemma}
+\begin{theorem}[Tietze Extension]
+    If $X$ is normal and $f:A\to\R$ is continuous for some $A\subseteq X$ closed, then there exists a continuous map $F:X\to\R$ such that $F|_A=f$ and $\sup_{a\in A}|f(a)|=\sup_{x\in X}|F(x)|$.
+\end{theorem}
+\begin{theorem}[Urysohn's Metrization]
+    If $X$ is second countable and regular, then $X$ is metrizable.
+\end{theorem}
+\begin{definition}
+    An \textbf{n-dimensional topological manifold} is a Hausdorff, second countable topological space $M$ which is \textbf{locally homeomorphic} to $\R^n$, meaning for every $p\in M$, there exists an open set $U\subseteq M$ with $p\in U$ and an open set $V\subseteq\R^n$ and a homeomorphism $\phi:U\subseteq M\to V\subseteq\R^n$.
+    Such a homomorphism $\phi$ is called a \textbf{(local) coordinate chart} or \textbf{chart} on $M$ at $p$.
+    The domain $U$ of a chart $\phi:U\subseteq M\to\phi(U)\subseteq\R^n$ is called a (local) \textbf{coordinate neighbourhood} at $p$.
+    Note that we can choose a set of charts
+    \begin{equation*}
+        \mathcal{A}=\{\phi_k:U_k\subseteq M\to\phi_k(U_k) : k\in K\}
+    \end{equation*}
+    where $K$ is any non-empty set such that $M=\bigcup_{k\in K}U_k$.
+    Such a set of charts is called an \textbf{atlas} for $M$.
+\end{definition}
+\begin{definition}
+    Two charts are called $\phi:U\to\phi(U)$ and $\psi:V\to\psi(V)$ are called \textbf{(smoothly) compatible} when either $U\cap V=\emptyset$ or $\phi^{-1}\circ\psi$ and $\psi\circ\phi^{-1}$ are smooth (meaning partial derivatives of all orders exist).
+    We say that an atlas is \textbf{smooth} if every pair of charts is compatible.
+\end{definition}
+Note that a smooth atlas $\mathcal{A}$ on $M$ can be extend to a unique maximal smooth atlas $\mathcal{M}$ on $M$ by adding to $\mathcal{A}$ every possible homeomorphism $\psi:U\subseteq M\to\phi(U)\subseteq\R^n$ which is compatible with all of the existing charts (since if $\psi$ and $\chi$ are both compatible with every chart $\psi\in\mathcal{A}$, then $\psi$ and $\chi$ will be compatible with each other).
+A maximal smooth atlas $\mathcal{M}$ on $M$ is called a \textbf{smooth structure} on $M$.
+\begin{definition}
+    An \textbf{$n-$dimensional smooth (or $C^\infty$) manifold} is an $n-$dimensional topological manifold with a smooth structure.
+\end{definition}
+Note that the maximal atlas $\mathcal{M}$ is determined from any subset $\mathcal{A}\susbeteq\mathcal{M}$ such that the domains of the charts in $\mathcal{A}$ cover $M$.
+\begin{definition}
+    Let $M$ be an $m-$dimensional smooth manifold and $N$ be an $n-$dimensional smooth manifold and let $f:M\to\N$ be a function.
+    Then we say $f$ is smooth \textbf{smooth} at $p$ when for some (hence for any) chart at $\phi$ on $M$ at $p$ and for s0me (hence any) chart $\psi$ on $N$ at $f(p)$, the map $\phi^{-1}\circ f\circ\psi$ is smooth at $x=\phi(p)$.
+\end{definition}
 
 \end{document}
 

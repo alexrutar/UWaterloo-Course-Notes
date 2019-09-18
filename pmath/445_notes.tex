@@ -488,6 +488,80 @@ We define the representation $\rho\otimes\tau:G\to\GL(V\otimes W)$
 \begin{equation*}
     (\rho\otimes\tau)(g)(v\otimes w)=\rho(g)(v)\otimes\tau(g)(w)
 \end{equation*}
+\section{Character Theory}
+We define the character of $\rho$ by $\rho:G\to\C$ as $\chi(G)=\Tr(\rho(g))$.
+\begin{remark}
+    If we choose a basis $\beta$ for $V$, then define $A(g)=[\rho(g)]_\beta$ and $\chi(G)$ is given by the sum of the diagonal entries of $A(g)$.
+    Furthermore, if $A,B\in M_n(\C)$, then $\Tr(AB)=\Tr(BA)$.
+\end{remark}
+The remark implies a number of facts:
+\begin{enumerate}[nl,r]
+    \item $\rho\cong\tau$, then $\Tr(\rho(g))=\Tr(\tau(g))$.
+    \item $\Tr(T)$ is the sum of eigenvalues of $T$
+    \item $\chi(1)=\dim(V)$.
+\end{enumerate}
+\begin{proposition}
+    For every $g\in G$ the eigenvalues of $\rho(g)$ have modulus 1.
+    In particular, $\chi(g^{-1})=\overline{\chi(g)}$.
+\end{proposition}
+\begin{proof}
+    Set $n=|G|$; then $\rho(g)^n=\rho(g^n)=I$ so that $\lambda^n-1=0$ for any eigenvalue $\lambda$, so $|\lambda|=1$.
+    Furthermore,
+    \begin{equation*}
+        \overline{\chi(g)}=\overline{\sum\lambda_i}=\sum\overline{\lambda_i}=\sum\lambda_i^{-1}=\chi(g^{-1})
+    \end{equation*}
+    proving the second component.
+\end{proof}
+\begin{proposition}
+    Let $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$.
+    Then $\chi_{\rho\oplus\tau}=\chi_\rho+\chi_\tau$ and $\chi_{\rho\otimes\tau}=\chi_\rho\cdot\chi_\tau$.
+\end{proposition}
+\begin{proof}
+    Let $\beta_1=\{v_1,\ldots,v_n\}$ be a basis for $V$ and $\beta_2=\{w_1,\ldots,w_m\}$ a basis for $W$.
+
+    Then a basis for $V\oplus W$ is given by $\beta=\{(v_1,0),\ldots,(v_n,0),(0,w_1),\ldots,(0,w_m)\}$.
+    In particular,
+    \begin{equation*}
+        [(\rho\oplus\tau)(g)]_\beta=
+        \begin{pmatrix}
+            [\rho(g)]_{\beta_1} & \\
+                                & [\tau(g)]_{\beta_2}
+        \end{pmatrix}
+    \end{equation*}
+    and the trace result follows.
+
+    A basis for $V\otimes W$ is given by $\gamma=\{v_i\otimes w_j:1\leq i\leq n,1\leq j\leq m\}$ in lexicographic order.
+    Fix $g\in G$, and set $A=[\rho(g)]_{\beta_1}$, $B=[\rho(g)]_{\beta_2}$.
+    Fix $v_i\otimes w_j\in\gamma$.
+    Then
+    \begin{align*}
+        (\rho\otimes\tau)(g)(v_i\otimes w_j)&=\rho(g)(v_i)\otimes\tau(g)(w_j)\\
+                                            &= (a_{1i}v_1+\cdots+a_{ni}v_n)\otimes(b_{1j}w_1+\cdots+b_{mj}v_m)\\
+                                            &= \cdots+a_{ii}b_{jj}\cdot(v_i\otimes w_j)+\cdots\\
+                                            &= \Tr([\rho\otimes\tau)(g)]_\delta)=\sum_{i,j}a_{ii}b_{jj}=\Tr(A)\Tr()=\chi_\rho(g)\cdot\chi_\tau(g)
+    \end{align*}
+\end{proof}
+\begin{example}
+    Suppose $\rho:S_n\to\GL(\C^n)$ is the permutation representation with respect to $\{e_1,\ldots,e_n\}$.
+    Then $\chi(\sigma)=|\{e_i:\rho(\sigma)(e_i)=e_i\}|=|\Fix(\sigma)|$, which is the number of indices $i$ fixed by $\sigma$.
+    Since $S_n$ acts transitively on $\{1,\ldots,n\}$, there is exactly 1 orbit, so by Burnside's lemma,
+    \begin{equation*}
+        n!=|S_n| = \sum_{\sigma\in S_n}\chi(\sigma)
+    \end{equation*}
+\end{example}
+\begin{example}
+    Let $\rho:G\to\GL(V)$ be the regular representation.
+    Note that if $g\neq 1$, then for all $h\in G$, $gh\neq h$.
+    In particular, this means that $\chi(g)=0$ if $g\neq 1$, and $\chi(1)=|G|$ (the dimension of $V$).
+\end{example}
+\begin{example}
+    Let $\rho:S_3\to\GL(V)$ be the regular representation.
+    Recall that $V=W_1\oplus W_2\oplus V_1\oplus V_2$.
+    Let $S_3=\langle (12),(123)\rangle$.
+\end{example}
+
+
+
 
 \end{document}
 
