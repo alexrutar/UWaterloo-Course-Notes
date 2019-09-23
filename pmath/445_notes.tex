@@ -625,6 +625,51 @@ If $\rho\ncong\tau$, then $T'=0$, so by viewing the RHS as a polynomial in the $
 \begin{equation*}
     \frac{1}{|G|}\sum_g b_{kl}(g^{-1})a_{ji}(g)=0
 \end{equation*}
+But now it $\rho=\tau$, then $T'=\lambda I$ where $\lambda=\Tr(T)/\dim(B)$ so that
+\begin{equation*}
+    \frac{1}{|G|}\sum_g\sum_{j,l}a_{kl}(g^{-1})x_{lj}a_{ji}(g) = \lambda\delta_{ki}=\frac{1}{\dim(V)}\sum_{j,l}\delta_{ki}\delta_{jl}x_{lj}
+\end{equation*}
+Then by equating coefficients of $x_{lj}$, we have
+\begin{equation*}
+    \frac{1}{|G|}\sum_g a_{kl}(g^{-1})a_{ji}(g)=\frac{1}{\dim(V)}\delta_{ki}\delta_{jl}
+\end{equation*}
+\begin{remark}
+    If $G$ is a finite group, the consider the vector space of all functions $\phi:G\to\C$.
+    For any $\phi,\psi$ in this vector space, $\langle\phi,\psi\rangle=\frac{1}{|G|}\sum_g\phi(g)\overline{\psi(g)}$ defines an inner product.
+    Then if $\chi_1$, $\chi_2$ are characters of $G$, then
+    \begin{equation*}
+        \langle\chi_1,\chi_2\rangle=\frac{1}{|G|}\sum_g\chi_1(g)\chi_2(g^{-1})
+    \end{equation*}
+    We thus have:
+\end{remark}
+\begin{theorem}
+    If $\chi$ is a character of an irreducible representation, then $\langle{\chi,\chi}=1$, and if $\chi_1$ and $\chi_2$ correspond to non-isomorphic representations, then $\langle\chi_1,\chi_2\rangle=0$.
+\end{theorem}
+\begin{proof}
+    Say $[\rho(g)]_\beta=(a_{ij}(g))$ where $\rho$ is an irreducible representation with character $\chi$.
+    Then
+    \begin{align*}
+        \langle\chi,\chi\rangle &= \frac{1}{|G|}\sum_g\chi(g)\chi(g^{-1}) = \frac{1}{|G|}\sum_g\chi(g^{-1})\chi(g)\\
+                                &= \frac{1}{|G|}\sum_g\sum_{i,j}a_{ii}(g^{-1})a_{jj}(g) = \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{jj}(g))\\
+                                &= \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{ii}(g)\\
+                                &= \sum_i\frac{1}{\dim(V)} = 1
+    \end{align*}
+    To see the second part,
+    \begin{align*}
+        \langle\chi_1,\chi_2\rangle = \frac{1}{|G|}\sum_g\chi_1(g)\chi_2(g^{-1}) = \frac{1}{|G|}\sum_g\sum_{ij} a_{ii}(g)a_{jj}(g^{-1}) = \sum_{i,j}0=0
+    \end{align*}
+\end{proof}
+If $\chi$ is a character corresponding to an irreducible representation, we say $\chi$ is irreducible.
+If $\rho$ and $\tau$ are isomorphic representations, we say $\chi_\rho$ and $\chi_\tau$ are isomorphic (in fact $\chi_\rho=\chi_\tau$).
+\begin{corollary}
+    Let $\rho:G\to\GL(V)$ be a representation with character $\chi$.
+    Say $V=W_1\oplus\cdots\oplus W_k$ is an irreducible decomposition of $V$.
+    If $\tau:G\to\GL(W)$ is an irreducible representations with character $\phi$, then the number of $W_i$ isomorphic to $W$ (i.e. $\rho_i\cong\tau$) is $\langle\chi,\phi\rangle$.
+\end{corollary}
+\begin{proof}
+    Write $\chi=n_1\chi_1+\cdots+n_l\chi_l$, where the $\chi_i$ are pairwise non-isomorphic.
+    Then $\langle\chi,\chi_i\rangle=n_i$.
+\end{proof}
 
 
 

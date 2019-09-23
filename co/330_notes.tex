@@ -239,7 +239,9 @@
 
 
 % file-specific preamble -------------------------------------------------------
-% REPLACE
+\DeclareMathOperator{\Inv}{Inv}
+\DeclareMathOperator{\inv}{inv}
+\newcommand{\sqbinom}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
 
 
 % constants --------------------------------------------------------------------
@@ -401,6 +403,45 @@
             \sum_{\rho=(h_1,\ldots,h_n)\in\mathcal{Q}_n}q^{(h_1-1)+(h_2-1)+\cdots+(h_n-1)} = \prod_{i=1}^n(1+q+\cdots+q^{i-1})=P_n(q)
         \end{equation*}
         so we can define $\nu(\rho)=|\rho|-n$ and $\sum_{q\in\mathcal{Q}_n}q^{|\rho|-n}=P_n(q)$.
+        We also have
+        \begin{equation*}
+            \sum_{\rho\in\mathcal{Q}_n}q^{(h_1-1)+\cdots+(h_n-1)} = (1+q+\cdots+q^{n-1})(1+q+\cdots+q^{n-2})\cdots(1+q)(1)
+        \end{equation*}
+        For notation, define $[m]_q=1+q+\cdots+q^{m-1}=\frac{1-q^m}{1-q}$.
+        Then $[m]_q!=[m]_q[m-1]_q\cdots[1]_q$.
+        \begin{equation*}
+            \begin{array}{c|cccccc}
+                &1&q&q^2&q^3&q^4\\
+                \hline
+                q[3]_q & 0&1&1&1\\
+                \hline
+                [2]_q[3]_q & 1&2&2&1\\
+                -q[2]_q[3]_q & 0&-1&-2&-2&-1\\
+                q^2[2]_q[3]_q & 0&0&1&2&2&1\\
+                \hline
+                [6]_q & 1&1&1&1&1&1
+            \end{array}
+        \end{equation*}
+        so that $[6]_q=(1-q+q^2)[2]_q[3]_q$.
+        An \textbf{inversion} in $\sigma=a_1\ldots a_n\in\mathcal{S}_n$ is a pair $(i,j)$ of indices $1\leq i<j\leq n$ with $a_i>a)j$.
+        Define $\Inv(\sigma)$ as the set of inversions of $\sigma$, and $\inv(\sigma)=|\Inv(\sigma)|$.
+        Notice that if $\sigma=a_1\ldots a_n\mapsto\rho=(h_1,\ldots,h_n)$, then for each $1\leq i\leq n$, $h_i-1$ is the number of inversions of $\sigma$ with $i$ in the first coordinate.
+        Recall
+        \begin{align*}
+            \mathcal{S}_n&\leftrightharpoons\mathcal{B}(n,k)\times\mathcal{S}_k\times\mathcal{S}_{n-k}\\
+            \sigma=a_1\ldots a_n&\leftrightarrow (A,\beta,\gamma)\\
+            \inv(\sigma) &= w(A)+\inv(\beta)+\inv(\gamma)
+        \end{align*}
+        Assuming such a weight fuction $w(A)$ exists, then
+        \begin{align*}
+            [n]!_q&=\sum_{\sigma\in\mathcal{S}_n}q^{\inv(\sigma)} =\sum_{(A,\beta,\gamma)}q^{w(A)+\inv(\beta)+\inv(\gamma)}\\
+                  &= [k]!_q\cdot[n-k]!_q\cdot\sum_{A\in\mathcal{B}(n,k)}q^{w(A)}
+        \end{align*}
+        so that
+        \begin{equation*}
+            \sum_{A\in\mathcal{B}(n,k)}q^{w(A)}=\frac{[n]!_q}{[k]!_q\cdot[n-k]!_q}=\sqbinom{n}{k}_q
+        \end{equation*}
+
 \end{enumerate}
 \end{document}
 

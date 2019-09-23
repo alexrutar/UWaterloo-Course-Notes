@@ -1042,6 +1042,67 @@ For example, if $X$ is a normed space, then any open set is absorbing around any
         \item if $A$ is absorbing around each of its points (for example if $A$ is open), then we have $\Re f(a)>\alpha\geq\Re f(b)$.
     \end{itemize}
 \end{theorem}
+\begin{proof}
+    We first re-centre at $0$.
+    Let $A-B=\{a-b:a\in A,b\in B\}$.
+    Then it is easy to verify that
+    \begin{enumerate}[nl,r]
+        \item $A-B$ is absorbing at any $a_0-b$, $b\in B$
+        \item $A-B$ is convex
+        \item if $X$ is normed and $A$ a neighbourhood of $a_0$, then $A-B$ is a neighbourhood of each $a_0-b$, $b\in B$; and if $A$ is absorbing around any of its points (resp. open), then $A_B$ is absorbing around any of its points (resp. open).
+    \end{enumerate}
+    Let $x_0=a_0-b_0$ for some $b_0\in V$, and set $C=x_0-(A-B)$, so we have $0=x_0-x_0\in C$.
+    Then by the above points, $C$ is absorbing at 0, convex, and if $X$ is normed and $A$ a neighbourhood of $a_0$, then $C$ is a neighbourhood of $0$; and if $A$ is absorbing at any of its points (resp. $A$ is open), then $C$ is absorbing at each of its points (resp. open).
+
+    Let $p$ be the Minkowski functional of $C$.
+    Notice that since $A\cap B=\emptyset$, $0\notin A-B$ so $x_0\notin C$.
+    Thus by (i) of the lemma, $p(x_0)>1$.
+
+    Let us find $f$ and $\alpha$.
+    Let $f_0:\R x_0\to\R$, by $f_0(sx)=sp(x_0)$.
+    Hence $f_0$ is linear and $f_0\leq p|_{Rx_0}$, so by Hahn-Banach, get $f\in X_{\R}'$ such that $f\leq p$ on $X$.
+    If $a\in A$ and $b\in B$, then $x_0-(a-b)\in C$, so by (i) of the lemma, since $p(x_0)\geq 1$, we have $f(x_0-(a-b))\leq p(x_0-(a-b))\leq 1$.
+    Thus $f(x_0)+f(b)\leq 1+f(a)$ so in fact $f(b)\leq f(a)$.
+    Thus there exists some $\alpha\in\R$ such that
+    \begin{equation*}
+        \sup\{f(b):b\in B\}\leq\alpha\leq\inf\{f(a):a\in A\}
+    \end{equation*}
+    If $\F=\R$, we are done; otherwise, we shall replace $f$ by $f_{\C}$
+
+    For the remainder of the proof, we suppose $X$ is a normed space, and $A$ is a neighbourhood of $a_0$.
+    Then part (ii) of the lemma provides $N>0$ so that $p(x)\leq N\norm{x}$.
+    Then for $x\in X$, $f(x)\leq p(x)\leq N\norm{x}$ and $-f(x)=p(-x)\leq N\norm{-x}=N\norm{x}$ so $|f(x)|\leq N\norm{x}$, in other words that $\norm{f}\leq N$ and $f\in X^*$.
+    If $A$ is absorbing around any of its points, then $f(a)>\alpha$ for any $a\in A$.
+    Indeed, suppose $f(a)=\alpha$.
+    Then there would be $t>0$ so $a+t(-x_0)\in A$.
+    But then $\alpha\leq f(a-tx_0)=f(a)-tf(x_0)<\alpha$, a contradiction.
+\end{proof}
+\begin{definition}
+    If $\emptyset\neq S\subset X$, then its \textbf{convex hull} is given by
+    \begin{equation*}
+        \conv(S) = \{\sum_{i=1}^n\lambda_jx_j:n\in\N,x_1,\ldots,x_n\in S\text{ and }\lambda_1,\ldots,\lambda_n\geq 0\text{ with }\sum_{j=1}^n\lambda_j=1\}
+    \end{equation*}
+    One can verify that $\conv(S)$ is in fact convex, and is the smallest convex set containing $S$, i.e.
+    \begin{equation*}
+        \conv(S)=\bigcap\{C:S\subseteq C\subseteq X,C\text{ convex}\}
+    \end{equation*}
+    If $X$ is normed, we let $\overline{\conv}(S)$ denote the \textbf{closed convex hull}, i.e. the closure of the convex hull.
+\end{definition}
+\begin{definition}
+    A \textbf{half-space} of $X$ is any set of the form $H=\{x\in X:\Re f(x)\leq \alpha\}$ for some $f\in X'$, $\alpha\in\R$.
+\end{definition}
+If $X$ is normed, then the last proposition shows $H$ is closed if and only if $f$ is bounded.
+\begin{theorem}
+    If $X$ is a normed vector space and $\emptyset\neq S\subset X$, then $\overline{\conv}(S)=\cap\{H:S\subseteq H\subset X, H\text{ a closed half space}\}$.
+\end{theorem}
+\begin{proof}
+    It is immediate that $\overline{\conv}(S)\subseteq\cap\{H:S\subseteq H\subset X,H\text{ a closed half-space}\}$.
+    Thus suppose $x_0\notin \overline{\conv}(S)$.
+    Then there is $\delta>0$ such that $(x_0+\delta D(X))\cap\overline{\conv}(S)=\emptyset$.
+    Since $x_0+\delta D(X)$ is open and convex, hyperplace separation gives provides $f\in X^*$ and $\alpha\in\R$ so $\Re f(a)>\alpha\geq\Re f(b)$ for $a\in x_0+\delta D(X)$ and $b\in\overline{\conv}(S)$.
+    Then $S\subset H=\{y\in X:\Re f(x)\leq\alpha\}$ but $x_0\notin H$.
+\end{proof}
+
 \end{document}
 
 

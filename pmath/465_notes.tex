@@ -590,6 +590,25 @@ Note that the maximal atlas $\mathcal{M}$ is determined from any subset $\mathca
     Manifolds are sometimes constructed using quotient constructions.
     These quotients can be given by polygons with pairs of edges identified up to orientation.
 \end{remark}
+There are other kinds of manifolds (other than $C^\infty$ manifolds); for example, one can define $C^k$ manifolds, or analytic $C^\omega$ manifold has an atlas in which the transition maps are analytic.
+\begin{example}
+    \begin{enumerate}[nl]
+        \item $\R^n$ is a smooth $n-$dimensional manifold.
+            It can be given an atlas consisting of 1 chart, the identity map.
+        \item Any $n-$dimensional vector space over $\R$ is a smooth $n-$dimensional manifold.
+            It can be given an atlas with one chart.
+            If $\{u_1,\ldots,u_n\}$ is a basis for $V$, then one can define $\phi:V\to\R^n$ by $\phi(\sum t^iu_i)=(t^1,\ldots,t^n)=t\in\R^n$.
+        \item Every open subset of a smooth $n-$dimensional manifold is also a smooth $n-$dimensional manifl.d
+        \item $M_{n\times m}(\R)$ is an $n\cdot m-$dimensional manifold with pointwise $\R^{nm}$ structure.
+        \item $\{A\in M_{n\times m}(\R):\rank(A)=\min\{n,m\}\}$ is a smooth manifold with one chart, since it is an open submanifold of $M_{n\times m}$.
+            Suppose $n>m$; then take all $n\times n$ submatrices which have non-zero determinant (open by continuity of $\det$), and maximal rank means that $A$ is contained in one of these open subsets.
+        \item The disjoint union of countably many $n-$dimensional smooth manifolds.
+        \item The cartesian product of finitely many smooth manifolds is a smooth manifold.
+            Let $\dim(M_k)=n_k$; the  $\dim(M_1\times\cdots\times M_\ell)=\sum_{k=1}^\ell n_k$.
+            If $\phi_k:U_k\subseteq M_k\to\phi_k(U_k)\subseteq\R^{n_k}$ is a chart on $M_k$, then $\chi_k:\prod_{k=1}^\ell U_k\to\prod_{k=1}^\ell\R^{n_k}$ given by $\chi_k(p_1,\ldots,p_\ell)=(\phi_1(p),\ldots,\phi_\ell(p)$ is a chart in $M_1\times\cdots\times M_\ell$.
+        \item One can show that $\mathbb{S}^n$ is a smooth $n-$dimensional manifold.
+    \end{enumerate}
+\end{example}
 
 \end{document}
 

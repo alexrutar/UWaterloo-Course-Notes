@@ -245,8 +245,8 @@
 
 
 % constants --------------------------------------------------------------------
-\newcommand{\subject}{REPLACE}
-\newcommand{\semester}{REPLACE}
+\newcommand{\subject}{Topics in Graph Theory}
+\newcommand{\semester}{Fall 2019}
 
 
 % formatting -------------------------------------------------------------------
@@ -601,6 +601,75 @@ A $d$-factor is a spanning subgraph of $G$ such that every vertex of the subgrap
     Certainly $\sum_{v_i\in V(G)}p_i\cong|E(G)|$ modulo $k$ by the modular summation condition on the $d_i$.
     Then we simply take all $A->B$ edges.
 \end{proof}
+Recall that if $G$ is 9-edge-connected, then there exists an orientation on $G$ balanced modulo $5$.
+We've shown that if $G$ is 9-edge-connected, then Tutte's 5-flow theorem follows.
+Jaeger conjectured that this in fact holds for 8-edge-connected graphs.
+
+\begin{example}
+    Which $K_n$ have an orientation balanced modulo 5?
+    If $n$ is odd, this always works, since then all the vertex degrees have even degree, and we can simply use an eulerian tour.
+    Now $K_8$ is 7-edge connected, and does not have an orientation balanced modulo 5.
+
+    We can write $7=7+0=6+1=5+2=4+3$; and if $K_8$ is balanced modulo 5, then all $d^+(v),d^-(v)\in\{1,6\}$.
+    If such an orientation exists, we must have 4 with out degree 6, and 4 with out degree 1 by counting flows.
+    But then on the $d^+=1$ side, the sum of the out degrees is 4, but it must be at least 6 (by counting internal vertices).
+
+    We can do $K_{10}$: partition into copies of $K_5$, make each balanced modulo 5, and then add all edges from one side to the other with the same orientation.
+    We can also generalize this, by adding two vertices.
+\end{example}
+Let $G$ be bipartite with $N(G)=A\cup B$.
+Set $V(G)=\{v_1,\ldots,v_n\}$, with $d_1,d_2,\ldots,d_n\in\N$.
+Then we want to find $G\supseteq H$ such that $d_H(v_i)\equiv d_i\pmod{k}$ where $\sum_{v_i\in A}d_i=\sum_{v_i\in B}d_i$.
+This is always doable if $G$ is $(3k-3)-$edge connected (for $k$ odd), else $G$ is $(2k^2+k)-$edge-connected that $k$ is even.
+
+Let $G$ be a graph and partition $G$ into sides $A$ and $B$ such that the number edges between them is maximal.
+Let $H$ be the graph induced by the maximum cut edges, so that $H$ is bipartite.
+Then the following properties hold:
+\begin{enumerate}[nl,r]
+    \item $d_H(v)\geq\frac{1}{2}d_G(v)$.
+    \item $|E(H)|\geq\frac{1}{2}|E(G)|$
+    \item If $G$ is $(2k-1)-$edge connected, then $H$ is $k-$edge-connected.
+\end{enumerate}
+How to see this?
+If $v\in B\subseteq V(G)$ is a given vertex, then the number of edges in the cut must be at least as large as the number of internal edges from $v$ on side $A$ (or we could swap $v$ to the other side and get a better cut).
+This shows (i) and (ii).
+To show (iii), suppose $H$ is not $k-$edge-connected ... (see paper).
+\begin{theorem}
+    Let $k\in\N$, and $G$ a $(6k-7)-$edge connected connected graph with $k$ odd.
+    Let $V(G)=\{v_1,\ldots,v_n\}$ and $d_1,\ldots,d_n\in\N$ given.
+    We wish to find $H\subseteq G$ such that $d_H(v_i)\cong d_i\pmod{k}$.
+    This can be done if for every partition $V(G)=A\cup B$, $\sum_{v_i}\in A d_i\cong\sum_{v_i\in B}d_i\pmod{k}$.
+\end{theorem}
+\begin{proof}
+    By the previous arguments, there exists some $H'\subseteq G$ with $H'$ bipartite and $(3k-3)-$edge connectivity, and apply the previous result with $H'\supseteq H$ satisfying the result.
+\end{proof}
+\begin{conjecture}
+    If $G$ is simple and $4-$regular, then $G$ contains a 3-regular subgraph.
+\end{conjecture}
+If $|E(G)|>2|V(G)|$, then $G\supseteq H$ all vertices degree equivalent to 0 modulo 3 where $H$ has nonempty edge set.
+
+Suppose $G$ is $4-$regular, perhaps with multiple edges.
+Then $G$ with an extra edge contains a 3-regular subgraph.
+
+Now consider the previous theorem where all $d_i=k$, and we work modulo $2k$.
+If $G$ is $[2(2(2k)^2+2k)-1]-$edge-connected with $|V(G)|$ even, then $G\supseteq H$ has all degrees congruent to $k$ modulo $2k$.
+
+\section{Group Valued Flows}
+Find an orientation on $G$ such that $G$ is almost balanced.
+There exists some small $\epsilon>0$ such that $E(A,B)\leq(1+\epsilon) E(B,A)$ ($E(A,B)$ is number of oriented edges from $A$ to $B$) and $E(B,A)\leq (1+\epsilon)E(A,B)$.
+Given an abelian group $\Gamma$ and $F\subseteq\Gamma$, and $G$ is a graph.
+We want an $F-$flow in $G$, in other words that each edge $e$ gets some $g\in G$ such that the sum of the in flow is equal to the sum of the out flow.
+
+If $G$ is 6-edge-connected, then $G$ has a $\{1,2\}-$flow.
+If $G$ is 2-edge connected, then $G$ has a $\{1,2,3,4,5\}-$flow.
+
+Let $f(F,\Gamma)$ denote the smallest $k$ such that every $k-$edge connected has an $F-$flow.
+For example, if $F=\{1,3\}\subseteq\Z$, this is not always possible.
+But we do have
+\begin{theorem}
+    $f(F,\Gamma)$ exists if and only if the odd sum condition holds.
+\end{theorem}
+The odd sum condition is the statement that it is possible to have a sum of an even number of elements and a sum of an odd number of elements have equal value.
 \end{document}
 
 
