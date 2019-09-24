@@ -609,6 +609,46 @@ There are other kinds of manifolds (other than $C^\infty$ manifolds); for exampl
         \item One can show that $\mathbb{S}^n$ is a smooth $n-$dimensional manifold.
     \end{enumerate}
 \end{example}
+\begin{remark}
+    For $A\in M_{n\times m}(\R)$, we denote the entry in the $k$\textsuperscript{th} row and $\ell$\textsuperscript{th} column by $A_\ell^k$.
+\end{remark}
+\begin{example}
+    $\mathbb{S}^n$ is an example of an $n-$dimensional smooth manifold.
+    It can, for example, be given a smooth atlas which contains $2(n+1)$ charts as follows.
+    For $1\leq k\leq n+1$, let
+    \begin{align*}
+        U_k&=\{x\in\mathbb{S}^n:x^k>0\}\\
+        \phi_k:U_k&\to B(0,1)\subseteq\R^{n}\\
+        \phi_k(x)&=(x^1,\ldots,x^{k-1},x^{k+1},\ldots,x^{n+1})\\
+        \phi_k^{-1}(t^1,\ldots,t^n)=\left(t_1,\ldots,t^{k-1},\sqrt{1-\sum(t^i)^2},t^k,\ldots,t^n\right)
+    \end{align*}
+    and the corresponding opposite charts for $x^k<0$.
+    Note that $\mathbb{S}^n$ is a metric space.
+    It has 2 standard metrics: eithre the one inherited from $\R^n$, or the arclength distance $d_s(U,v)=\cos^{-1}(u\cdot v)$.
+
+    We can also given $\mathbb{S}^n$ an atlas which only uses 2 charts, by stereographic projection from a north pole and a south pole.
+
+    This stereographic projection also shows that the rational points on the sphere are dense in $\mathbb{S}^n$, via the map
+    \begin{equation*}
+        \phi(x)=\alpha\left(\frac{1}{1-x^{n+1}}\\right) = \left(\frac{x^1}{1-x^{n+1}},\ldots,\frac{x^n}{1-x^{n+1}}\right)
+    \end{equation*}
+    One can also find $\phi^{-1}$ and verify that they are both rational functions.
+    In particular, $\phi^{-1}(\Q^n)\subseteq\mathbb{S}^n$ is dense.
+\end{example}
+\begin{example}
+    The projective space $\mathbb{P}^n=\mathbb{P}^n(\R)$ is commonly defined in at least 3 ways:
+    \begin{align*}
+        \mathbb{P}^n&=\{1\text{-dimensional subspaces of }\R^{n+1}\}\\
+        \mathbb{P}^n&=\quot{\R^{n+1}\setminus\{0\}}{\R^\times}=\{[x]:0\neq x\in\R^{n+1}\}, [x]=\{tx:t\in\R^\times\}\\
+        \mathbb{P}^n&=\quot{\mathbb{S}^n}{\pm 1}
+    \end{align*}
+    We can given $\mathbb{P}^n$ a smooth atlas with $n+1$ charts as follows: for $1\leq k\leq n+1$, set
+    \begin{align*}
+        U_k &= \{[x]\in\mathbb{P}^n:x^k\neq 0\}\\
+        \phi_k &:U_k\to\R^n,\phi_k([x])=\left(\frac{x^1}{x^k},\ldots,\frac{x^{k-1}}{x^{k-1}},\frac{x^{k+1}}{x^{k+1}},\ldots,x^{n+1}{x^k}\right)
+    \end{align*}
+    with $\phi_k^{-1}(t_1,\ldots,t^n)=[(t_1,\ldots,t^{k-1},1,t^k,\ldots,t^n)]$.
+\end{example}
 
 \end{document}
 

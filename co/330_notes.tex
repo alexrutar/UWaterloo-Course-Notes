@@ -441,8 +441,19 @@
         \begin{equation*}
             \sum_{A\in\mathcal{B}(n,k)}q^{w(A)}=\frac{[n]!_q}{[k]!_q\cdot[n-k]!_q}=\sqbinom{n}{k}_q
         \end{equation*}
-
 \end{enumerate}
+\begin{equation*}
+    \sum_{S\in\mathcal{B}(n,k)} q^{\text{sum}(S)} = q^{\binom{k+1}{2}}\sqbinom{n}{k}_q
+\end{equation*}
+\begin{theorem}
+    Let $V$ be an $n-$dimensional vector space over a finite field $\F_q$.
+    Then for $0\leq k\leq n$, the number of $k-$dimensional subspaces of $V$ is $\sqbinom{n}{k}_q$.
+\end{theorem}
+\begin{lemma}
+    Let $L:V\to W$ be a linear transformation that is surjective.
+    Then $\dim V=\dim W+\dim(\ker L)$.
+    So if this is over a finite field $\R_q$, every $w\in W$ is the image of exactly $q^{\dim(\ker(L)}$ vectors $v\in V$.
+\end{lemma}
 \end{document}
 
 

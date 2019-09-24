@@ -670,8 +670,65 @@ If $\rho$ and $\tau$ are isomorphic representations, we say $\chi_\rho$ and $\ch
     Write $\chi=n_1\chi_1+\cdots+n_l\chi_l$, where the $\chi_i$ are pairwise non-isomorphic.
     Then $\langle\chi,\chi_i\rangle=n_i$.
 \end{proof}
+Let $\tau:G\to\GL(V)$ be irreducible, and let $\tau$ have character $\varphi$.
+Then
+\begin{equation*}
+    \langle \chi,\varphi\rangle = \sum_{i=1}^k\langle\chi_i,\varphi\rangle
+\end{equation*}
+Now, $\langle\chi_i,\varphi\rangle=1$ if and only if $\rho_i\cong\tau$, so that $\langle\chi,\varphi\rangle$ counts the number of times in which $\tau$ appears in the irreducible decomposition of $\rho$.
 
-
-
+\begin{corollary}
+    If two representations of $G$ have the same character, then they are isomorphic.
+\end{corollary}
+\begin{proof}
+    They have the same irreducible decomposition.
+\end{proof}
+\begin{corollary}
+    If $\rho:G\to\GL(V)$ is a representation and $\chi$ is a character, then $\langle\chi,\chi\rangle\in\N$ and $\langle\chi,\chi\rangle=1$ if and only if $\chi$ is ireducible.
+\end{corollary}
+\begin{proof}
+    If $\chi_1,\ldots,\chi_k$ are irreducible, write $\chi=n_1\chi_1+\cdots+n_k\chi_k$ so that $\langle\chi,\chi\rangle=n_1^2+\cdots+n_k^2\in\N$.
+\end{proof}
+\begin{proposition}
+    Every irreducible representation of $G$ occurs as a subgroup fo the regular representation of $G$, with multiplicity equal to its degree.
+\end{proposition}
+\begin{proof}
+    Let $\chi$ be an irreducible character of $G$.
+    Then
+    \begin{equation*}
+        \langle\chi,\chi_{\text{reg}}\rangle=\frac{1}{|G|}\sum_g\chi(g)\overline{\chi_{\text{reg}}(g)}=\frac{1}{|G|}\chi(1)\overline{\chi_{\text{reg}}(1)}=\frac{1}{|G|}\deg(\chi)
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    Let $\chi_1,\ldots,\chi_k$ be the distinct irreducible characters of $G$, with $\deg(\chi_i)=n_i$.
+    Then $\sum n_i^2=|G|$ for for $g\neq 1$, $\sum_{i=1}^kn_1\chi_i(g)=0$
+\end{corollary}
+\begin{proof}
+    Recall that $\chi_{\text{reg}}=n_1\chi_1+\cdots+n_k\chi_k$.
+    Then $\chi_{\text{reg}}(1)=|G|=n_1^2+\cdots+n_k^2$, and evaluation at $g\neq 1$ gives the desired result.
+\end{proof}
+\begin{definition}
+    Let $G$ be a group.
+    A function $f:G\to\C$ is called a class function if $f$ is constant on each conjugacy class, i.e. for all $a,b\in G$, $f(bab^{-1})=f(a)$.
+\end{definition}
+\begin{proposition}
+    Let $\rho:G\to\GL(V)$ be a representation.
+    Then
+    \begin{equation*}
+        \rho_f=\sum_g f(g)\rho(g)
+    \end{equation*}
+    is a linear operator on $V$.
+    If $\rho$ is irreducible of degree $n$, then $\rho_f=\lambda I$, where $\lambda=\frac{|G|}{n}\langle f,\overline{x}\rangle$ where $\chi$ is the character of $\rho$.
+\end{proposition}
+\begin{proof}
+    Note that
+    \begin{align*}
+        \rho_f\circ\rho(h)&=\sum_g f(g)\rho(g)\rho(h)=\sum_g f(g)\rho(gh)\\
+                          &= \sum_g f(hgh^{-1})\rho(hg)\\
+                          &= \sum_g f(g)\rho(h)\rho(g)=\rho(h)\circ\rho_f
+    \end{align*}
+    so by Schur, $\rho_f=\lambda I$ where $\lambda=\Tr(\rho_f)/n$.
+    However, $\Tr(\rho_f)=\Tr(\sum_gf(g)\rho(g))=\sum_g f(g)\chi(g)=|G|\langle f,\overline{x}\rangle$.
+\end{proof}
 \end{document}
 

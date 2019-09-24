@@ -1102,6 +1102,88 @@ If $X$ is normed, then the last proposition shows $H$ is closed if and only if $
     Since $x_0+\delta D(X)$ is open and convex, hyperplace separation gives provides $f\in X^*$ and $\alpha\in\R$ so $\Re f(a)>\alpha\geq\Re f(b)$ for $a\in x_0+\delta D(X)$ and $b\in\overline{\conv}(S)$.
     Then $S\subset H=\{y\in X:\Re f(x)\leq\alpha\}$ but $x_0\notin H$.
 \end{proof}
+\section{Some Applications of Baire Category Theorem}
+\begin{theorem}[Baire Category I]
+    If $(X,d)$ is a complete metric space and $\{U_n\}_{n=1}^\infty$ is a countable collection of dense, open subsets, then $\bigcap_{n=1}^\infty U_n$ is dense in $X$.
+\end{theorem}
+\begin{definition}
+    Let $(X,d)$ be a metric space.
+    A subset $F\subset X$ is \textbf{nowhere dense} if $X\setminus F$ is dense in $X$; equivalently, $\overline{F}$ contains no non-trivlal open subsets.
+    We say that a subset $M\subseteq X$ is \textbf{meagre} (1st category) if $M=\bigcup_{n=1}^\infty F_n$ and each $F_n$ is nowehere dense; and a set is \textbf{non-meagre} (2nd category) otherwise.
+\end{definition}
+\begin{theorem}[Baire Category II]
+    Let $(X,d)$ be a complete metric space.
+    Then a non-empty open $U\subseteq X$ is non-meagre.
+\end{theorem}
+\begin{proof}
+    Suppose not, so $U=\bigcup_{n=1}^\infty F_n\subseteq\bigcup_{n=1}^\infty\overline{F}_n$, each $F_n$ (hence $\overline{F_n}$) nowhere dense.
+    Then each $V_n=X\setminus\overline{F_n}$ is open and dense, and hence by BCT I, $G=\bigcap_{n=1}^\infty V_n$ is dense in $X$, and hence $U\cap G\neq\emptyset$, violating assumption
+\end{proof}
+\begin{theorem}[Banach-Steinhaus]
+    Let $X,Y$ be normed spaces, $U\subseteq X$ be non-meagre, and $\mathcal{F}\subset\mathcal{B}(X,Y)$ be such that for each $x\in U$, $\sup\{\norm{Tx}:T\in\mathcal{F}\}<\infty$ (pointwise bounded).
+    Then $\mathcal{F}$ is uniformly bounded, i.e. $\sup\{\norm{T}:T\in\mathcal{F}\}<\infty$.
+\end{theorem}
+\begin{proof}
+    Let for each $n\in\N$
+    \begin{equation*}
+        F_n=\bigcap_{T\in\mathcal{F}} T^{-1}(nB(Y))=\{x\in X:\norm{Tx}\leq n\text{ for all }T\in\mathcal{F}\}
+    \end{equation*}
+    so each $F_n$ is closed and, by the pointwise boundedness assumption, $U\subseteq\bigcup_{n=1}^\infty F_n$.
+    By assumption of non-meagreness of $U$, at least one $F_{n_0}$ admis an interior point: there is $x_0\in F_{n_0}$ and $\delta>0$ such that $x_0+\delta D(X)\subseteq F_{n_0}$.
+    Then if $x\in D(X)$, we have
+    \begin{equation*}
+        Tx=\frac{1}{\delta}\left[T\left(x_0+\frac{\delta}{2}x\right)-T\left(x_0-\frac{\delta}{2}x\right)\right]
+    \end{equation*}
+    so $\norm{Tx}\leq\frac{2}{\delta}n_0$, in other words
+    \begin{equation*}
+        \norm{T}=\sup_{x\in D(x)}\norm{Tx}\leq\frac{2n_0}{\delta}<\infty
+    \end{equation*}
+    where the bound is independent of $T$.
+\end{proof}
+\begin{theorem}[Open Mapping]
+    Let $X,Y$ be Banach spaces, and $T\in B(X,Y)$ surjective.
+    Then $T$ is an open map; i.e. $T(U)$ is open in $Y$ whenver $U$ is open in $X$.
+\end{theorem}
+\begin{remark}
+    Given $x\in X$ and $\alpha\in\F\setminus\{0\}$, non-empty $A\subset X$, we have that $\overline{x+\alpha A}=x+\alpha\overline{A}$.
+    Indeed, note that for $(a_k)_{k=1}^\infty\subset A$, we have
+    \begin{equation*}
+        a_k\to a\in\overline{A}\text{ if and only if }x+\alpha a_k\to x+\alpha a\in x+\alpha\overline{A}
+    \end{equation*}
+\end{remark}
+\begin{lemma}
+    With the assumptions as above, we have that if $\overline{T(D(X)}\supset rB(Y)$ for some $r>0$, then $T(D(X))\supseteq rD(Y)$.
+\end{lemma}
+\begin{proof}
+    Let $z\in rD(Y)$ and let $0<\delta<1$ be so $\norm{z}<r(1-\delta)<r$.
+    Set $y=z/(1-\delta)$ so $\norm{y}<r/(1-\delta)$.
+    It suffices to show that $y\in\frac{1}{1-\delta}T(D(X))$.
+    To begin, let $A=T(D(X))\cap rB(Y)$, so $\overline{A}=rB(Y)$.
+    Indeed, if $y\in rB(Y)\subseteq\overline{T(D(X))}$, then there is $(y_k)_{k=1}^\infty\subset\overline{T(D(X))}$, so $y=\lim y_k$.
+    But then there is $x_k\in D(X)$ so each $\norm{y_k-T(x_k)}<1/k$ so $y=\lim T(x_k)$ with each $x_k\in D(X)$.
+
+    Now we inductively build a sequence $(y_n)_{n=1}^\infty$ as follows.
+    \begin{itemize}[nl]
+        \item Since $y\in rD(Y)\subseteq\overline{A}$, there is $y_1\in A\cap(y+\delta rD(Y))$
+        \item $y\in y_1+\delta r(D(Y))\subseteq y_1+\delta\overline{A}=\overline{y_1+\delta A}$, so there is $y_2\in(y_1+\delta A)\cap (y+\delta^2rD(Y))$
+        \item $y\in y_n+\delta^n rD(Y)\subseteq\overline{y_n+\delta^nA}$, so there is $y_{n+1}\in(y_n+\delta^n A)\cap(y+\delta^{n+1}rD(Y))$
+    \end{itemize}
+    By construction, $y_{n+1}-y_n\in\delta^n A$, so $\norm{y_{n+1}-y_n}\leq\delta^n r$ and there is $x_n\in\delta^n D(X)$ such that $y_{n+1}-y_n=Tx_n$.
+    Likewise, $y_1\in A\subseteq T(D(X))$ so $y=T(x_0)$ for some $x_0\in D(X)$.
+    Notice that each $y_n\in y+\delta^nr\inD(Y)$, so $\norm{y_n-y}\leq\delta^n r\to 0$.
+    Since $X$ is complete, we let $x=\sum_{n=0}^\infty x_n$, and by construction
+    \begin{equation*}
+        \norm{x}\leq\sum_{n=0}^\infty\norm{x_n}<\sum_{n=0}^\infty\delta^n=\frac{1}{1-\delta}
+    \end{equation*}
+    Then by linearity and continuity of $T$, we have
+    \begin{equation*}
+        Tx=\sum_{n=0}^\infty Tx_n=y_1+\sum_{n=1}^\infty(y_{n+1}-y_n)=y_N+\sum_{n=N}^\infty(y_{n+1}-y_n)\to y
+    \end{equation*}
+    so that indeed $T(x)=y$, as required.
+\end{proof}
+\begin{remark}
+    So far, we've only used completeness of $X$ and continuity of $T$.
+\end{remark}
 
 \end{document}
 
