@@ -730,5 +730,81 @@ Now, $\langle\chi_i,\varphi\rangle=1$ if and only if $\rho_i\cong\tau$, so that 
     so by Schur, $\rho_f=\lambda I$ where $\lambda=\Tr(\rho_f)/n$.
     However, $\Tr(\rho_f)=\Tr(\sum_gf(g)\rho(g))=\sum_g f(g)\chi(g)=|G|\langle f,\overline{x}\rangle$.
 \end{proof}
+Recall that
+\begin{itemize}[nl]
+    \item $\langle\chi,\chi\rangle=1$ if and only if $\chi$ is irreducible
+    \item If $\chi_\rho$ and $\chi_\tau$ are irreducible then $\langle\chi_\rho,\chi_\tau\rangle=0$ if $\rho\ncong\tau$, and $1$ otherwise.
+    \item If $\chi'$ is an irreducible subrepresentation of $\chi$, then $\langle\chi,\chi'\rangle$ is the multiplicity of $\chi'$ in $\chi$.
+    \item $|G|=n_1^2+\cdots+n_k^2$ where $n_i$ is the multiplicity of $\chi_i$ as an irreducible subrepresentation of the regular representation.
+    \item Every irreducible character is a character of some subrepresentation of the regular rep?
+    \item ... every irreducible represetation is a subrepresentation of the regular rep?
+\end{itemize}
+and
+\begin{equation*}
+    \rho_f=\sum_g f(g)\rho(g)=\lambda I
+\end{equation*}
+where $\lambda=|G|/\dim(V)\cdot\langle f,\overline{\chi}\rangle$.
+\begin{proposition}
+    Let $G$ be a group.
+    The irreducible characters of $G$ form an orthonormal basis for the vector space of class functions on $G$.
+\end{proposition}
+\begin{proof}
+    Let $\beta=\{\chi_1,\ldots,\chi_k\}$ be the irreducible characters of $G$.
+    We know that $\beta$ is orthonormal, and hence linearly independent.
+    Let $W=\spn(\beta)$.
+    To show $W=V$ where $V$ is the space of class functions, we prove that $W^{\perp}=\{0\}$.
+    Let $f\in W^\perp$, and suppose $\rho:G\to\GL(V)$ is irreducible.
+    By A2, $\overline{\chi}_1,\ldots,\overline{\chi}_k$ are all irreducible characters of $G$.
+    Thus $\rho_f=0$.
+    By considering irreducible decompositions, $\rho_f=0$ for all representations $\rho:G\to\GL(V)$.
+    In particular, when $\rho$ is the regular representation,
+    \begin{equation*}
+        0=\rho_f(v_1)=\sum_gf(g)\rho(g)(v_1)=\sum_g f(g)v_g
+    \end{equation*}
+    so by independence of $\{v_g:g\in G\}$, $f(g)=0$ for all $g\in G$.
+\end{proof}
+\begin{corollary}
+    The number of irreducible characters of $G$ is equal to the number of conjugacy classes of $G$.
+\end{corollary}
+\begin{proof}
+    Let $C_1,\ldots,C_k$ be the conjugacy classes.
+    Then a basis for $V_{\text{class}}=\{\phi_1,\ldots,\phi_k\}$ where each $\phi_i$ is the indicator for $C_i$.
+    Since bases must have the same size, the result follows.
+\end{proof}
+\begin{proposition}
+    Let $G$ be a group, $g\in G$, and $O_g$ the conjugacy class of $g$.
+    Let $\chi_1,\ldots,\chi_k$ be the irreducible characters of $G$.
+    Then
+    \begin{enumerate}[nl]
+        \item $\sum_{i=1}^k|\chi_i(g)|^2=|G|/|O_g|$
+        \item If $h$ is not conjugate to $g$, then $\sum_{i=1}^k\chi_i(g)\overline{\chi_i(h)}=0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Define $\phi:G\to\C$ where $\phi(x)$ is the indicator function for $O_g$.
+    Write $\phi=\sum_{i=1}^k \lambda_i\chi_i$ where
+    \begin{equation*}
+        \lambda_i=\langle\phi,\chi_i\rangle=\frac{1}{|G|}\sum_x\phi(x)\overline{\chi_i(x)}=\frac{|O_g|\overline{\chi_i(g)}}{|G|}
+    \end{equation*}
+    Therefore,
+    \begin{equation*}
+        \phi(x) = \frac{|O_g|}{|G|}\sum_{i=1}^k\overline{\chi_i(g)}\chi_i(x)
+    \end{equation*}
+    Then the result follows by evaluating $\phi$ at $g$ and $h$.
+\end{proof}
+\begin{example}
+    Let's compute the character table of $S_3$.
+    There are 2 degree 1 representations, and 3 irreducible characters since there are three conjugacy classes (cycle types).
+    In particular, $|S_3|=6=1^2+1^2+n_3^2$, so $n_3=2$.
+    \begin{equation*}
+        \begin{array}{c|ccc}
+            &\epsilon & (12) & (123)\\
+            \text{(triv)}\chi_1 & 1&1&1\\
+            \text{(sgn)}\chi_2 & 1&-1&1\\
+            \chi_3 & 2 &a & b
+        \end{array}
+    \end{equation*}
+    Note that the columns must be orthogonal, so by the previous proposition, we have $a=0$ and $b=-1$.
+\end{example}
 \end{document}
 

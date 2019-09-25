@@ -1182,9 +1182,73 @@ If $X$ is normed, then the last proposition shows $H$ is closed if and only if $
     so that indeed $T(x)=y$, as required.
 \end{proof}
 \begin{remark}
-    So far, we've only used completeness of $X$ and continuity of $T$.
+    So far, we've only used completeness of $X$ and continuity and linearity of $T$.
 \end{remark}
+We now proceed with the proof of the open mapping theorem.
+\begin{proof}
+    It suffices to see that $T(D(X))$ contains a neighbourhood of $0$ in $Y$.
+    Indeed, if $\emptyset\neq U\subseteq X$ is open, $x\in U$, then there is $\delta>0$ such that $x+\delta D(X)\subseteq U$, so $U-x\supseteq\delta D(X)$.
+    If $T(D(X))\supseteq rD(Y)$, then $T(U-x)\supseteq\delta T(D(X))\supseteq r\delta D(Y)$ so that $Tx+r\delta D(Y)\subseteq T(U)$.
+    In other words, $T(U)$ is a neighbourhood of any of its points, and thus open.
 
+    Now write $X=\bigcup_{n=1}^\infty nD(X)$, and we assume that $T(X)=Y$.
+    Hence $Y=\bigcup_{n=1}^\infty nT(D(X))$, so $Y=\bigcup_{n=1}^\infty n\overline{T(D(X))}$.
+    But $Y$ is complete, so by Baire category theorem, there is some $n$ so that $n\overline{T(D(X))}$ has non-empty interior.
+    Since $nT(D(X))$ is convex and symmetric, and hence $n\overline{T(D(X))}$ is convex and symmetric as well.
+    Thus if $y\in D(Y)$, then $y_0\pm\epsilon\in y_0+\epsilon D(Y)$ so
+    \begin{equation*}
+        \epsilon y=\frac{1}{2}\left[y_0+\epsilon y-(y_0-\epsilon y)\right]\in n\overline{T(D(X))}
+    \end{equation*}
+    and $\frac{\epsilon}{n}y\in\overline{T(D(X))}$, i.e. $\frac{\epsilon}{n} D(Y)\subseteq\overline{T(D(X))}$.
+    Thus applying the main lemma, $\frac{\epsilon}{n}D(Y)\subseteq T(D(X))$.
+\end{proof}
+\begin{theorem}[Inverse Mapping]
+    If $X,Y$ are Banach spaces and $T\in \mathcal{B}(X,Y)$ is invertible, $T^{-1}\in\mathcal{B}(Y,X)$
+\end{theorem}
+\begin{proof}
+    Direct application of the open mapping theorem.
+\end{proof}
+Let $X,Y$ be normed spaces.
+Then we define for $(x,y)\in X\oplus Y$, and we let $\norm{(x,y)}_1=\norm{x}+\norm{y}$.
+It is easy to check that $\norm{\cdot}_1$ is a norm on $X\oplus Y$, and if $X,Y$ are Banach, then so is $(X\oplus Y,\norm{\cdot}_1)$.
+In this case, we write $X\oplus_1 Y$.
+\begin{theorem}[Closed Graph]
+    Let $X,Y$ be Banach spaces and $T\in\mathcal{L}(X,Y)$.
+    Then $T\in\mathcal{B}(X,Y)$ if and only if $\Gamma(T)=\{(x,Tx):x\in X\}$ is closed in $X\oplus_1Y$.
+\end{theorem}
+\begin{proof}
+    Let $T\in\mathcal{B}(X,Y)$.
+    If $(x_n)\to x$ in $X$, then $Tx_n\to Tx$ in $Y$.
+    Thus if $(x,y)\in\overline{\Gamma(T)}$, then $(x,y)=\lim(x_n,Tx_n)$ where $(x_n,Tx_n)\in\Gamma(T)$.
+    But then
+    \begin{equation*}
+        \norm{y-Tx}\leq \norm{y-Tx_n}+\norm{Tx_n-Tx}\leq\norm{x-x_n}+\norm{y-Tx_n}+\norm{Tx_n-tx}=\norm{(x-y)-(x_n,Tx_n)}_1
+    \end{equation*}
+    so in fact $y=Tx$ so $(x,y)=(x,Tx)$.
+
+    Conversely, if $\Gamma(T)$ is closed in $X\oplus_1 Y$, then $\Gamma(T)$ is a Banach space.
+    Define $S:\Gamma(T)\to X$ by $S(x,Tx)=x$.
+    Notice that $S$ is linear, and
+    \begin{equation*}
+        \norm{S(x,Tx)}=\norm{x}\leq\norm{(x,Tx)}_1
+    \end{equation*}
+    so $\norm{S}\leq 1$, so $S$ is bounded.
+    It is also clear that $S$ is bijective, with $S^{-1}:X\to\Gamma(T)$ given by $S^{-1}(x)=(x,Tx)$.
+    Thus the inverse mapping theorem gives that $S^{-1}$ is also bounded.
+    Hence for any $x\in X$,
+    \begin{equation*}
+        \norm{Tx}\leq\norm{(x,Tx)}_1=\norm{S^{-1}x}\leq\norm{x}\norm{S^{-1}}
+    \end{equation*}
+    so that $T$ is in fact bounded.
+\end{proof}
+\begin{theorem}[Closed graph test]
+    Given normed spaces and $T\in\mathcal{L}(X,Y)$, we have that $\Gamma(T)$ is closed in $X\oplus_1 Y$ if and only if whenever $x_n\to 0$ for which we may assume that $Tx_n$ converges in $Y$, say $y=\lim Tx_n$, then $y=0$ too.
+\end{theorem}
+\begin{proof}
+    We have $(x_n,Tx_n)\to(x,z)\in\overline{\Gamma(T)}$ if and only if $(x_n-x,T(x_n-x))\to(x,z)-(x,Tx)=(0,z-Tx)$.
+    Set $y=z-Tx$.
+    We have $(x,z)\in\Gamma(T)$ if and only if $z=Tx$ if and only if $y=0$.
+\end{proof}
 \end{document}
 
 

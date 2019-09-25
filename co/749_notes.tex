@@ -670,6 +670,77 @@ But we do have
     $f(F,\Gamma)$ exists if and only if the odd sum condition holds.
 \end{theorem}
 The odd sum condition is the statement that it is possible to have a sum of an even number of elements and a sum of an odd number of elements have equal value.
+
+Recall:
+\begin{itemize}[nl]
+    \item 5-flow conjecture: if $G$ if 2-edge-connected, then there exists a flow with values $1,2,3,4$
+    \item 3-flow-conjecture: if $G$ is 4-edge-connected, then there exists a flow with values $1,2$
+    \item $(2+\epsilon)$-flow-conjecture: if $G$ is $\alpha(\epsilon)$-edge-connected, then there exists a flow with values $[1,1+\epsilon]$
+\end{itemize}
+To have a flow with only 1, graph must be Eulerian.
+
+If $G$ is 3-edge-connected, the $(2+\epsilon)$ flow need not exist (for example, with a 3-strut: two components with 3 edges joining them).
+
+Let $c(x,y)$ denote the number of edge-disjoint paths from $x$ to $y$ (the \textbf{local edge connectivity}).
+\begin{theorem}[Mader Lifting]
+    Let $G$ be a graph and $v$ a vertex with neighbours.
+    Fix a neighbour of $v$ such that $d(v)\geq 4$, $w,w'$ and remove the edges $\{v,w\}$ and $\{v,w'\}$ and add the edge $\{w,w'\}$.
+    This is called a lift.
+
+    The lifting can be chosen such that all $c(x,y)$, $x\neq y$, $x\neq y$, $y\neq v$.
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+Let $\Gamma$ be an abelian group and $F\subseteq\Gamma$.
+Then a $F-$flow is an assignment of $g\in F$ to each $v\in V(G)$ such that the sum of the ingoing edges is equal to the sum of the outgoing edges.
+\begin{theorem}
+    Suppose $F$ satisfies the odd-sum condition; in other words, there exists $a_i,b_i\in F$ so that $a_1+\cdots+a_{2p}=b_1+\cdots+b_{2q+1}$.
+    Then there exists a function $f(F,\Gamma)\leq 3k-1$ where $k=2p+2q+1$ such that every $f(F,\Gamma)-$edge-connected graph has an $F-$flow.
+\end{theorem}
+\begin{proof}
+    By induction on $|E(G)|$.
+    First suppose $|V(G)|=2$.
+    If there are an even number of vertices, choose half the orientations in either direction and take the same element of $F$ on all edges.
+    If $|E(G)|$ is odd, then there are at least $3k-1$ edges, so take $k$ and use the odd-sum identity and use the even trick as before.
+
+    Select a vertex $v$.
+    Suppose $v$ has a neighbour $w$ such that there are multiple edges.
+    Then repeatedly lift pairs of edges until there is only one pair of vertices left, which will have an even number of edges between them.
+    Then color $G\setminus\{v\}$ inductively, and add back the pairs (if $\deg(v)$ is even).
+    For the induction, use Mader's trick (1) if there is a vertex with even degree.
+
+    If there is a vertex with odd degree, apply Mader's trick to two neighbours.
+    But then the induction only fails if there is a vertex with degree precisely $3k$.
+    Fix an orientation of $G$ such that all vertices have out-degree 0, modulo $k$.
+    Then there are three cases: the out degree is $0$, $k$, $2k$, or $3k$.
+
+    We can reduce this to the case where every vertex has in-degree $k$ or out-degree $k$.
+    But then $G$ is bipartite (sorting by in or out degree).
+
+    Let $G$ be bipartite and $k-$regular: then $G=M_1\cup M_2\cup\cdots\cup M_k$ where each $M_i$ is a perfect matching (by Hall's theorem repeatedly).
+    But then write $\{1,\ldots,k\}=\{a_1,\ldots,a_{2q},-b_1,\ldots,-b_{2q+1}\}$ and apply that flow to each edge in $M_k$, and we are done.
+\end{proof}
+\begin{theorem}[Seymour]
+    If $G$ is $2-$edge-connected, then $G$ has a $(\Gamma\setminus\{0\})$-flow for $|\Gamma|\geq 6$.
+\end{theorem}
+If $|\Gamma|\geq 3$, then take $a+a=2a$ or if $a+a=0$ or all $a$, then $a+b=c$.
+If $G$ is $8-$edge-connected, then $G$ has a $\Gamma-$flow using only $a,2a$.
+
+To see the $(2+\epsilon)$ conjecture, take $\Gamma=\R$ and $F=\{1,1+1/k\}$.
+Then
+\begin{equation*}
+    \underbrace{1+1+\cdots+1}_{k+1} = \underbrace{(1+1/k)+\cdots+(1+1/k)}_k
+\end{equation*}
+If $G$ is $6k-$edge-connected, then $G$ has a $(1,1+1/k)-$flow, and the conjecture follows with $f(\epsilon)=6/\epsilon$.
+\subsection{Almost balanced orientation}
+Take a $1,1+1/k$ flow, and ignore the flows values (keep only the orientation).
+Take an arbitrary cut $A,B$, and let $E(A,B)$ denote the number of edges from side $A$ to side $B$.
+Then
+\begin{equation*}
+    |E(A,B)|\leq|A\to B\text{ flow}|=|B\to A\text{ flow}|\leq\left(1+\frac{1}{k}\right)|E(B,A)|
+\end{equation*}
+and likewise in reverse; thus, it gives an almost-balanced orientation.
 \end{document}
 
 

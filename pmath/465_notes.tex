@@ -649,6 +649,24 @@ There are other kinds of manifolds (other than $C^\infty$ manifolds); for exampl
     \end{align*}
     with $\phi_k^{-1}(t_1,\ldots,t^n)=[(t_1,\ldots,t^{k-1},1,t^k,\ldots,t^n)]$.
 \end{example}
+\subsection{Examples of Smooth Maps}
+\begin{itemize}[nl]
+    \item The inclusion $f:\mathbb{S}^n\to\R^{n+1}$ given by $f(x)=x$
+    \item The quotient map $f:\R^{n+1}\setminus\{0\}\to\mathbb{P}^n$
+    \item The exponential map $f:\R\to\mathbb{S}^1$ given by $f(t)=e^{i2\pi t}$, or more generally $f:\R^n\to\mathbb{T}^n$ given by $f(t^1,\ldots,t^n)=(e^{2\pi i t^1},\ldots,e^{2\pi i t^n})$
+    \item The determinant map $f:M_n(\R)\to\R$ given by $f(A)=\det(A)$ is smooth
+    \item For $A\in M_n(\R)$, left and right multiplication by $A$, the transpose map, and the inverse map $f(A)=A^{-1}$ are smooth.
+\end{itemize}
+\subsection{Partitions of Unity}
+\begin{lemma}
+    Every open cover of a manifold has an (at most) countable subcover.
+\end{lemma}
+\begin{proof}
+    Let $\mathcal{S}$ be any open cover of $M$, and let $\mathcal{B}$ be a countable basis for the topology on $M$.
+    For each $p\in M$, choose $U_p\in\mathcal{S}$ with $p\in U_p$, then choose $B_p\in\mathcal{B}$ with $p\in B_p\subseteq U_p$.
+    Then $\{B_p:p\in M\}\subseteq B$ is an open cover of $M$, and it is a subset of $\mathcal{B}$, so it is (at most) countable; but then $\{U_p:p\in M\}$ gives an at most countable subcover of $\mathcal{S}$.
+\end{proof}
+As a result, every manifold has a countable basis $\mathcal{B}$ such that for each $B\in\mathcal{B}$, there is a chart $\phi:U\to\phi(U)$ on $M$ with $\phi(U)=B(0,2)$ and $\phi(B)=B(0,1)$.
 
 \end{document}
 

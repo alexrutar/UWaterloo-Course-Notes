@@ -241,6 +241,7 @@
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator{\Inv}{Inv}
 \DeclareMathOperator{\inv}{inv}
+\DeclareMathOperator{\OB}{OB}
 \newcommand{\sqbinom}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
 
 
@@ -454,6 +455,32 @@
     Then $\dim V=\dim W+\dim(\ker L)$.
     So if this is over a finite field $\R_q$, every $w\in W$ is the image of exactly $q^{\dim(\ker(L)}$ vectors $v\in V$.
 \end{lemma}
+For every $w\in W$, is the image of exactly $q^k$ vectors in $V$.
+The number of ordered bases of $V$ is $q^{\binom{n}{2}}(q-1)^n[n]!_q$.
+\begin{theorem}
+    Let $V$ be an $n-$dimensional vector space over a finite field $\F_q$.
+    For $0\leq k\leq n$, the number of $k-$dimensional subspaces of $V$ is $\sqbinom{n}{k}_q$.
+\end{theorem}
+\begin{proof}
+    Let $\OB(V)$ be the set of ordered bases of $V$, and let $G(V,k)$ be the set of $k-$dimensional subspaces of $V$.
+    Define a function
+    \begin{equation*}
+        \OB(V)\to\bigcup_{U\in G(V,k)}\left(\{U\}\times\OB(U)\times\OB(V/U)\right)
+    \end{equation*}
+    as follows.
+    Given $(v_1,\ldots,v_n)$ an ordered basis of $V$, let $U=\spn_{\F_q}\{v_1,\ldots,v_k\}$.
+    Then $(v_1,\ldots,v_k)\in\OB(U)$ and $(v_{k+1}+U,\ldots,v_n+U)\in\OB(V/U)$.
+    Consider the map $L:V\to V/U$ given by $L(v)=v+U$, so that every $v+U$ in $V/U$ is the image of $q^k$ vectors in $V$.
+    Thus $(v_{k-1}+U,\ldots,v_n+U)$ is the image of $q^{k(n-k)}$ sequences $(z_{k+1},\ldots,z_n)$ of vectors in $V$.
+    Thus the function $(v_1,\ldots,v_n)\mapsto(U,(v_1,\ldots,v_k),(v_{k+1}+U,\ldots,v_n+U))$ is surjective and hits everything on the RHS $q^{k(n-k)}$ times.
+    But then counting both sides,
+    \begin{align*}
+        q^{\binom{n}{2}}(q-1)^n[n]!_q &= \sum_{U\in G(V,k)}1\cdot q^{\binom{k}{2}}(q-1)^k[k]!_q\cdot q^{\binom{n-k}{2}}(q-1)^{n-k}[n-k]!_q\cdot q^{k(n-k)}\\
+        q^{\binom{n}{2}}[n]!_q &= |G(V,k)|\cdot[k]!_q\cdot[n-k]!_q q^{\binom{k}{2}+\binom{n-k}{2}+k(n-k)}\\
+        [n]!_q &= |G(V,k)|\cdot[k]!_q\cdot[n-k]!_q
+    \end{align*}
+    giving our desired result.
+\end{proof}
 \end{document}
 
 
