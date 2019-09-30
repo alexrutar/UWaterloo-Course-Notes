@@ -166,6 +166,7 @@
 \newtheorem{definition}{Definition.}
 \theoremheaderfont{\itshape}
 \newtheorem{example}{Example.}
+\newtheorem{exercise}{Exercise.}
 \newtheorem{remark}{Remark.}
 
 % Proof / solution environments
@@ -240,7 +241,6 @@
 
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator{\Ps}{\mathcal{P}}
-\DeclareMathOperator{\im}{im}
 \renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
 \renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
 \DeclareMathOperator{\proj}{proj}
@@ -248,11 +248,12 @@
 \DeclareMathOperator{\Id}{Id}
 \DeclareMathOperator{\diam}{diam}
 \newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\st}{\text{ s.t. }}
 
 
 % constants --------------------------------------------------------------------
-\newcommand{\subject}{REPLACE}
-\newcommand{\semester}{REPLACE}
+\newcommand{\subject}{Real Analysis}
+\newcommand{\semester}{Summer 2018}
 
 
 % formatting -------------------------------------------------------------------
@@ -402,9 +403,6 @@ and write $a_i=U(i)$. On the other hand, if $A=\{a_i:i\in\N\}$, we have our bije
 \begin{theorem}
     Non-empty perfect sets are uncountable.
 \end{theorem}
-\begin{proof}
-    See~\ref{cantor} for a proof.
-\end{proof}
 Note that the proof is essentially the diagonalization argument described above!
 \begin{corollary}
     $\R$ is uncountable.
@@ -533,7 +531,9 @@ ordering by Schroeder-Bernstein. Finally by Cantor's argument, we have an infini
             are different for some $k$ and that means $f_r\neq f_{r+1}$ and $|[0,1)|\leq|2^{\N}|$.
 
             Similarly, we have an injection $2^{\N}\to[0,1)$ given
-            \[f\mapsto0.0f(1)0f(2)0f(3) \ldots \in [0,1)\]
+            \begin{equation*}
+                f\mapsto 0.0f(1)0f(2)0f(3) \ldots \in [0,1)
+            \end{equation*}
             This is an injection because non-unique binary representation have to end with a tail of 1's (in one case) and
             a tail of 0's (in the other case). (A good exercise is to think about how to formalize this properly). Thus
             by Schroeder-Bernstein, the result follows.
@@ -1388,17 +1388,19 @@ The pair $(V,\norm{\cdot})$ is called a normed vector space.
 \end{proof}
 \begin{example}
     \begin{enumerate}
-        \item Space of polynomials of degree less than or equal to $n$; $\norm{p}_\infty=\max_{x\in[0,1]}|p(x)|$,
-            $\norm{p}_1=\int_0^1|p(x)|$
-        \item $C[0,1]=$continuous functions on $[0,1]$. Then $\norm{f}_\infty=\max_{x\in[0,1]}|f(x)|$ so $d(f,g)=\max_{x\in[0,1]}|f(x)-g(x)|$
-            $\norm{f}_1=\int_0^1|f|$. We will show that $C[0,1]$ with $d_\infty$ is complete. Polynomials are dense in $C[0,1]$ with
+        \item Space of polynomials of degree less than or equal to $n$; $\norm{p}_\infty=\max_{x\in[0,1]}|p(x)|$, $\norm{p}_1=\int_0^1|p(x)|$
+        \item $C[0,1]=$continuous functions on $[0,1]$.
+            Then $\norm{f}_\infty=\max_{x\in[0,1]}|f(x)|$ so $d(f,g)=\max_{x\in[0,1]}|f(x)-g(x)|$ $\norm{f}_1=\int_0^1|f|$.
+            We will show that $C[0,1]$ with $d_\infty$ is complete and that the polynomials are dense in $C[0,1]$.
             $d_\infty$.
     \end{enumerate}
 \end{example}
 \begin{theorem}
-    Suppose $V$ is a finite dimensional normed vector space over $\R$ with basis $\{v_1,\ldots,v_k\}$. Then there
-    exists $0<A<B<\infty$ such that for all $a_1,\ldots,a_n\in\R$
-    \[A\norm{(a_1,\ldots,a_n)}_{\R^n}\leq \norm{\sum\limits_{i=1}^na_iv_i}_V\leq B\norm{(a_1,\ldots,a_n)}_{\R^n}\]
+    Suppose $V$ is a finite dimensional normed vector space over $\R$ with basis $\{v_1,\ldots,v_k\}$.
+    Then there exists $0<A<B<\infty$ such that for all $a_1,\ldots,a_n\in\R$
+    \begin{equation*}
+        A\norm{(a_1,\ldots,a_n)}_{\R^n}\leq \norm{\sum\limits_{i=1}^na_iv_i}_V\leq B\norm{(a_1,\ldots,a_n)}_{\R^n}
+    \end{equation*}
 \end{theorem}
 \begin{proof}
     We first have
@@ -1421,13 +1423,15 @@ The pair $(V,\norm{\cdot})$ is called a normed vector space.
         &\leq \left( \sum\limits_{i=1}^n|x_i-y_i|^2 \right)^{1/2} \left( \sum\limits_{i=1}^n\norm{v_i}^2 \right)^{1/2}\\
         &= B\norm{x-y}_{\R^n}=B_{\R^n}(x,y)
     \end{align*}
-    Hence $F$ is continuous. Now let $S=\{x\in\R^n:\norm{x}=1\}$ is the boundary of the sphere in $\R^n$. Then
-    $S$ is compact being a closed and bounded set in $\R^n$. Since $\{v_1,\ldots,v_n\}$ are a basis, $F(x)\neq 0$ for
-    any $x\in S$. Thus $F>0$ on $S$. By E.V.T, $F$ has a minimum on $S$, say $F(x_0)=\epsilon>0$. So $F(x)\geq\epsilon$
-    for all $x\in S$.
+    Hence $F$ is continuous. Now let $S=\{x\in\R^n:\norm{x}=1\}$ is the boundary of the sphere in $\R^n$.
+    Then $S$ is compact being a closed and bounded set in $\R^n$.
+    Since $\{v_1,\ldots,v_n\}$ are a basis, $F(x)\neq 0$ for any $x\in S$.
+    Thus $F>0$ on $S$.
+    By E.V.T, $F$ has a minimum on $S$, say $F(x_0)=\epsilon>0$.
+    So $F(x)\geq\epsilon$ for all $x\in S$.
 
-    Now let $(a_1,\ldots,a_n)\in\R^n$ with $a\neq 0$ without loss of generality. Then $a/\norm{a}_{\R^n}\in S$,
-    and
+    Now let $(a_1,\ldots,a_n)\in\R^n$ with $a\neq 0$ without loss of generality.
+    Then $a/\norm{a}_{\R^n}\in S$, and
     \begin{align*}
         F(a)&=\norm{\norm{A}\sum \frac{a_i}{\norm{A}}v_i}_V=\norm{a}\norm{\sum\frac{a_i}{\norm{A}}v_i}_V\\
         &= \norm{a}\norm{F\left( \frac{a}{\norm{a}} \right)}\\
@@ -1437,7 +1441,8 @@ The pair $(V,\norm{\cdot})$ is called a normed vector space.
     \[\epsilon\norm{(a_1,\ldots,a_n)}\leq F(a)=\norm{\sum a_iv_i}\]
     and the results holds.
 \end{proof}
-Consider the map $T:\R^n\to V$ given by $(a_1,\ldots,a_n)\mapsto\sum a_iv_i$. We have just proven that
+Consider the map $T:\R^n\to V$ given by $(a_1,\ldots,a_n)\mapsto\sum a_iv_i$.
+We have just proven that
 \[A\norm{(a_1,\ldots,a_n)}_{\R^n}\leq\norm{T(a_1,\ldots,a_n)}_V\leq B\norm{(a_1,\ldots,a_n)}_{\R^n}\]
 so that $T$ is continuous: $\norm{T(x)-T(y)}\leq B\norm{x-y}_{\R^n}$. In the exact same way, $T^{-1}$ is continuous as
 well. Thus $T$ is a homeomorphism between $\R^n$ and $V$. Thus $V\cong\R^n$ are homeomorphic.
@@ -1751,8 +1756,8 @@ Note that we need to do slightly more work for the forward direction since we on
     Since $f$ is continuous, notice $f(x_{n_k})\to f(x_0)$ so that $f(x_{n_k})\leq 0$, $f(x_0)\leq 0$.
     Thus $f\in U^c$ so we're done!
 \end{proof}
-\chapter{The Function Space $C(X)$}
-\section{Compactness in $C_b(X)$}
+\chapter{The Function Space \texorpdfstring{$C(X)$}{C(X)}}
+\section{Compactness in \texorpdfstring{$C_b(X)$}{Cb(X)}}
 Recall that $E\subseteq C_b(X)$ is compact if and only if it is complete and totally bounded, and that compactness implies closedness and boundedness (but the converse does not hold).
 In fact, $E\subseteq C_b(X)$ is bounded if and only if there exists $N$ such that $B(0,N)\supseteq E$.
 So in our case, we can take $N=M+\norm{f}$.
@@ -1871,8 +1876,8 @@ We can now prove the theorem!
     Since $E$ is pointwise bounded and equicontinuous, so is $\{f_n:n\in\N\}$.
     Thus by the above theorem, there is a convergent subsequence, but since $E$ is closed, this limit must be in $E$.
 \end{proof}
-\section{Dense Subsets of $C(X)$}
-\subsection{Polynomials in $C[0,1]$}
+\section{Dense Subsets of \texorpdfstring{$C(X)$}{C(X)}}
+\subsection{Polynomials in \texorpdfstring{$C[0,1]$}{C01}}
 \begin{theorem}[Weierstrass]
     Let $f:[0,1]\to\R$ be continuous and let $\epsilon>0$.
     Then there is a polynomial $p$ such that $\norm{p-f}<\epsilon$. So $\{\text{Poly}\}$ is dense in $C[0,1]$.
