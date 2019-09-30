@@ -668,6 +668,72 @@ There are other kinds of manifolds (other than $C^\infty$ manifolds); for exampl
 \end{proof}
 As a result, every manifold has a countable basis $\mathcal{B}$ such that for each $B\in\mathcal{B}$, there is a chart $\phi:U\to\phi(U)$ on $M$ with $\phi(U)=B(0,2)$ and $\phi(B)=B(0,1)$.
 
+\begin{lemma}
+    Let $M$ be a manifold, and let $\mathcal{S}$ be any open cover of $M$.
+    Then there exists an at most countable open cover $\mathcal{B}$ of $M$ such that
+    \begin{enumerate}[nl]
+        \item for each $B\in\mathcal{B}$ there is a chart $\phi_B:C_B\to\phi_B(C_B)=B(0,1)$ with $B\subseteq C_B\subseteq U_B\subseteq S$ for some $U_B\in S$ and $\phi_B(B)=B(0,1)$.
+        \item $\{C_B:B\in\mathcal{B}\}$ is locally finite, meaning that every point in $M$ has an open neighbourhood which only intersects with finitely many of the sets $C_B$, $B\in\mathcal{B}$ (and hence also the sets $\overline{B}$, $B\in\mathcal{B}$).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Choose a countable set $\mathcal{V}=\{V_1,V_2,\ldots\}$ of regular coordinate balls which cover $M$ with charts $\phi_i:W_i\to\phi_i(W_i)=B(0,2)$ such that $V_i=\phi_i^{-1}(B(0,1))$.
+    We use the sets $V_i$ to construct a strongly ascending chain of compact sets $K_i$ in $M$ with $K_i\subseteq H_{i+1}^{-1}$ for each $i$, and $M=\bigcup_{i=1}^\infty K_i$ as follows:
+    \begin{itemize}[nl]
+        \item Let $K_i=\overline{V_1}$; since $K_1$ is compact, we can choose $\ell_1\in\N$ so that $K_1\subseteq V_1\cup\cdots\cup V_{\ell_1}$.
+        \item Then we let $K_2=\overline{V_1\cup\cdots\cup V_{\ell_1}}$.
+            Since $K_2$ is compact, we can choose $\ell_2>\ell_1$ so that $K_2\subseteq V_1\cup\cdots\cup V_{\ell_2}$, and set $K_3=\overline{V_1\cup\cdots V_{\ell_2}}$.
+    \end{itemize}
+    Repeat the above process to obtain $K_1\subseteq K_2^\circ\subseteq K_2\subseteq K_3^\circ\subseteq\cdots$ with $\bigcup_{i=1}^kK_i=M$.
+    For each $m\in\N$, note that $K_{m+1}\setminus K_m^\circ$ is compact and contained in the open set $K_{m+2}\setminus K_{m-1}$ (with $K_0=\emptyset$).
+    For each $p\in K_{m+1}\setminus K_m^\circ$, choose $U_p\in\mathcal{S}$ with $p\in U_p$ and then choose a regular coordinate ball $B_p$ and a chart $\phi_p:C_p\subseteq M\to\phi_p(C_p)=B(0,2)\subseteq\R^n$ with $\phi_p(B_p)=B(0,1)$ and $C_p\subseteq U_p\cap(K_{m+2}^\circ\setminus K_{m-1})$.
+    The coordinate balls $B_p$, $p\in K_{m+1}\setminus K_m^\circ$ cover the compact set $K_{m+1}\setminus K_m^\circ$, so we can choose a \textit{finite} set $\mathcal{B}_m$ of such regular coordinate balls $B_p$ so that $K_{m+1}\setminus K_m^\circ\subseteq\cup \mathcal{B}_m\subseteq K_{m+2}^\circ\setminus K_{m-1}$.
+
+    Now, the set $\mathcal{B}=\bigcup_{m=1}^\infty\mathcal{B}_m$ is a countable set of such regular coordinate balls.
+    Note that for each $B\in\mathcal{B}$, we have  chart $\phi_B:C_B\to\phi_B(C_B)=B(0,2)$ and the set $\{C_B:B\in\mathcal{B}\}$ is locally finite since every point in $M$ is contained in one of the sets $K_{m+2}^\circ\setminus K_{m-1}$ and each of these sets only intersects with the coordinate balls from the finite sets $\mathcal{B}_l$ with $m-2\leq l\leq m+2$.
+\end{proof}
+\begin{theorem}[Partitions of Unity]
+    Let $M$ be a smooth manifold, and let $\mathcal{S}$ be any open cover of $M$.
+    There exists a set $\{\psi_u:u\in\mathcal{S}\}$ of smooth maps $\psi_u:M\to\R$ such that
+    \begin{enumerate}[nl]
+        \item $\psi_u(M)\subseteq[0,1]$ for each $u\in\mathcal{S}$
+        \item $\supp(\psi_u)\subseteq U$ for ech $U\in\mathcal{S}$
+        \item $\{\supp(\psi_u):u\in\mathcal{S}\}$ is locally finite: every point in $M$ contains an open neighbourhood whicl only intersects finitely many of the sets $\supp(\psi_n)$, $u\in\mathcal{S}$
+        \item $\sum_{u\in\mathcal{S}}\psi_u=1$
+    \end{enumerate}
+\end{theorem}
+Such a set of functions $\{\psi_u:u\in\mathcal{S}\}$ is called a (smooth) \textbf{partition of unity} on $M$ for $\mathcal{S}$ (or \textbf{subordinate} to $\mathcal{S}$).
+\begin{proof}
+    Let $\mathcal{B}$ be a countable set of regular coordinate balls as in the previous lemma.
+    Recall that the function $f:\R\to\R$ given by
+    \begin{equation*}
+        f(t)=
+        \begin{cases}
+            e^{1/t} &: t<0\\
+            0 &: t\geq 0
+        \end{cases}
+    \end{equation*}
+    is smooth, so the function $g:\R^n\to\R$ given by $g(x)=f(|x|^2-1)$ is smooth with $g(x)>0$ for $|x|<1$ and $g(x)=0$ for $|x|\geq 1$.
+    For each $B\in\mathcal{B}$, we define a smooth bump function $\sigma_B:M\to\R$ by
+    \begin{equation*}
+        \sigma_B(p)=
+        \begin{cases}
+            g(\phi_B(p)) &: p\in B\\
+            0 &: p\notin B
+        \end{cases}
+    \end{equation*}
+    where $\phi_B:C_B\subseteq M\to\phi_B(C_B)=B(9,2)$ with $\phi_B(B)=B(0,1)$ as in the previous lemma.
+    Note that $\sigma(B)$ is smooth with $\sigma_B(p)>0$ for $p\in B$ and $\sigma_B(p)=0$ for $p\notin B$.
+    Now for each $B\in\mathcal{B}$, define $\tau_B':M\to\R$ by
+    \begin{equation*}
+        \tau_B=\frac{\sigma_B}{c\in\mathcal{B}\sigma_c
+    \end{equation*}
+    Note that $\sum_{c\in\mathcal{B}}\sigma_c$ is well-defined by the local finiteness of $\mathcal{B}$ and $\sum_{c\in\mathcal{B}}\sigma_c(p)>0$.
+    Furthermore, note that $\tau_B(p)>0$ for all $p\in B$, and $\tau_B(p)=0$ for all $p\notin B$, and $\sum_{B\in\mathcal{B}}\tau_B=1$.
+    Then define $\rho_V:M\to\R$ by $\rho_V=\sum_{B\in\mathcal{B}_V}\tau_B$.
+\end{proof}
+\section{Immersions, Embedding, Submanifolds}
+
 \end{document}
 
 

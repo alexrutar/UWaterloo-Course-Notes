@@ -806,5 +806,83 @@ where $\lambda=|G|/\dim(V)\cdot\langle f,\overline{\chi}\rangle$.
     \end{equation*}
     Note that the columns must be orthogonal, so by the previous proposition, we have $a=0$ and $b=-1$.
 \end{example}
+Let $\chi_1,\ldots,\chi_k$ be the irreducible characters of $G$.
+Then $\sum_{g|\chi_i}^2=|G|$ and $\sum_{i=1}^k|\chi_i(g)|^2=|G|/|O_g|$.
+
+Let $G$ be abelian.
+By A1, $G$ has $|G|$ representations of degree 1, and $[G:[G,G]=|G|$.
+Since $G$ as $|G|$ conjugacy classes, these are all of the irreducible representations of $G$.
+Suppose $G$ is a group whose irreducible representations are all degree one.
+Since $n_1^2+\cdots+n_k^2=|G|$, then $k=|G|$.
+\begin{proposition}
+    Let $H$ be an abelian subgroup of $G$.
+    Then any irreducible representation of $G$ has degree at most $[G:H]$.
+\end{proposition}
+\begin{proof}
+    Let $\rho:G\to\GL(V)$ be an irreducible representation of $G$.
+    Consider the restriction $\tilde\rho:H\to\GL(V)$.
+    Let $W\leq V$ be an irreducible subrepresentation of $\tilde G$.
+    Since $H$ is abelian, $\dim W=1$.
+    Suppose $W=\spn\{x\}$, and let $W'=\{\rho(g)(x):g\in G\}$ so that $V'$ is $G-$stable, and in fact $V'=V$ since $\rho$ is irreducible.
+
+    Take $g\in G$ and $h\in H$, so $\rho(gh)=\rho(g)\rho(h)(x)=\rho(g)(\alpha x)=\alpha\rho(g)(x)$
+    Say $g_1,\ldots,g_m$ are coset representatives of $H$ in $G$.
+    Then $V=V'=\spn\{\rho(g_i)(x):1\leq i\leq m\}$, then $\dim(V)\leq m=[G:H]$.
+\end{proof}
+\begin{example}
+    Consider $D_4$.
+    Then the number of degree 1 representations is $[D_4:\langle r^2\rangle]=4$.
+    Since there are 5 conjugacy classes, we know that there are 5 irreducible representations, so that $n_5^2=8$.
+    Let's make the character table:
+    \begin{equation*}
+        \begin{array}{c|cccc}
+            D_4    & 1 & r &r^2& s & rs\\
+            \hline
+            \chi_1 & 1 & 1 & 1 & 1 & 1\\
+            \hline
+            \chi_2 & 1 &-1 & 1 & 1 &-1\\
+            \hline
+            \chi_3 & 1 & 1 & 1 &-1 &-1\\
+            \hline
+            \chi_4 & 1 &-1 & 1 &-1 & 1\\
+            \hline
+            \chi_5 & 2 & a & b & c & d
+        \end{array}
+    \end{equation*}
+    But then by column orthogonality, we have $a=0$, $b=-2$, $c=0$, $d=0$.
+\end{example}
+\begin{example}
+    Consider $S_4$.
+    Then $[S_4:A_4]=2$ so there are two degree 1 representations (the trivial and the sign), and the conjugacy classes are given by $1$, $(12)$, $(12)(34)$, $(123)$, $(1234)$, so there are 5 irreducible representations.
+    Since $24^2=1^2+1^2+n_3^2+n_4^2+n_5^2$, we have $22=n_3^2+n_4^2+n_5^2$, which forces $n_3=2$ and $n_4=n_5=3$.
+    Now we have
+    \begin{equation*}
+        \begin{array}{c|cccc}
+            D_4    & 1 & (12) &(12)(34)& (123) & (1234)\\
+            \hline
+            \chi_1 & 1 & 1 & 1 & 1 & 1\\
+            \hline
+            \chi_2 & 1 &-1 & 1 & 1 &-1\\
+            \hline
+            \chi_3 & 2 & 1 & 1 &-1 &-1\\
+            \hline
+            \chi_4 & 3 &-1 & 1 &-1 & 1\\
+            \hline
+            \chi_5 & 3 & a & b & c & d
+        \end{array}
+    \end{equation*}
+    Note that $K=\{1,(12)(34),(13)(24),(14)(23)\}\trianglelefteq S_4$ and $H=\{1,(12),(13),(123),(132),(23)\}$, so $S_4=KH$.
+    Let $\rho$ be an irreducible representation of $H$ of degree 2:
+    \begin{equation*}
+        \begin{array}{c|ccc}
+            S_3 & 1 & (12) & (123)\\
+            \hline
+            \alpha_1 & 1 & 1 & 1
+            \alpha_2 & 1 &-1 & 1
+            \alpha_3 & 2 & 0 & -1
+        \end{array}
+    \end{equation*}
+    Then $\rho:S_4\to\GL(V)$ by $\rho(kh):=\rho(h)$ is an irreducible representation of $S_4$ since $K\trianglelefteq S_4$.
+\end{example}
 \end{document}
 

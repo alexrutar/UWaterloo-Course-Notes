@@ -481,6 +481,55 @@ The number of ordered bases of $V$ is $q^{\binom{n}{2}}(q-1)^n[n]!_q$.
     \end{align*}
     giving our desired result.
 \end{proof}
+A \textbf{set partition} $\pi$ of a set $V$ is a collection of subsets $\pi=\{B_1,\ldots,B_k\}$ of $V$ such that
+\begin{itemize}[nl]
+    \item Each $B_i$ is not empty
+    \item $B_i\cap B_j=\emptyset$ if $i\neq j$
+    \item $B_1\cup\cdots\cup B_k=V$
+\end{itemize}
+Let $\Pi(n,k)$ be the set of set partitions of $N_n$ with $k$ blocks, and set $S(n,k)=|\Pi(n,k)|$.
+Certainly $S(0,0)=1$ for the empty set partition.
+If $n\geq 1$, then $S(n,0)=0$, $S(n,n)=1$, and $S(n,1)=1$.
+We can also define a recurrence relation.
+Let $\Pi'(n,k)$ be those $\pi\in\Pi(n,k)$ in which $\{n\}$ is a block, and $\Pi''(n,k)$ is the set of $\pi$ in which $n$ is in a block of size at least 2.
+Note that $\Pi'(n,k)\leftrightharpoons\Pi(n-1,k-1)$ by removing or adding the independent element.
+Furthemore, the function which removes the element $n$ from a block in $\Pi''(n,k)$ is a surjective function onto $\Pi(n-1,k)$ which hits every element of $\Pi(n-1,k)$ $k$ times.
+Thus combing these observations, $S(n,k)=S(n-1,k-1)+k\cdot S(n-1,k)$.
+Thus we can compute
+\begin{equation*}
+    \begin{array}{c|c|c|c|c|c|c|c}
+        S(n,k) & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+        \hline
+        0 & 1 & X & X & X & X & X & X\\
+        \hline
+        1 & 0 & 1 & X & X & X & X & X\\
+        \hline
+        2 & 0 & 1 & 1 & X & X & X & X\\
+        \hline
+        3 & 0 & 1 & 3 & 1 & X & X & X\\
+        \hline
+        4 & 0 & 1 & 7 & 6 & 1 & X & X\\
+        \hline
+        5 & 0 & 1 & 15& 25& 10& 1 & X\\
+        \hline
+        6 & 0 & 1 & 31&  & 1\\
+    \end{array}
+\end{equation*}
+From homework 2, we have that
+\begin{equation*}
+    x^n=\sum_{k=0}^n k! S(n,k)\binom{n}{k}
+\end{equation*}
+Invert this using Binomial Inversion.
+Let $a_0,a_1,\ldots$ be a sequence.
+For $h\in\N$, let $b_h=\sum_{i=0}^h\binom{h}{i}a_i$.
+Let $A(t)=\sum_{i=0}^\infty a_it^i$ and $B(t)=\sum_{h=0}^\infty b_ht^h$.
+Then
+\begin{align*}
+    B(t) &= \sum_{h=0}^\infty t^h\sum_{i=0}^h\binom{h}{i}a_i\\
+         &= \sum_{i=0}^\infty a_it^i\sum_{h=i}^\infty\binom{h}{h-i}t^{h-i}\\
+         &= \sum_{i=0}^\infty a_it^i\sum_{j=0}^\infty\binom{i+j}{j}t^j=\sum_{i=0}^\infty\frac{a_it^i}{(1-t)^{i+1})\\
+         &= \frac{1}{1-t}\sum_{i=0}^\infty a_i\left(\frac{t}{1-t}\right)^i=\frac{1}{1-t}A\left(\frac{t}{1-t}\right)
+\end{align*}
 \end{document}
 
 

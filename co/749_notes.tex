@@ -741,6 +741,56 @@ Then
     |E(A,B)|\leq|A\to B\text{ flow}|=|B\to A\text{ flow}|\leq\left(1+\frac{1}{k}\right)|E(B,A)|
 \end{equation*}
 and likewise in reverse; thus, it gives an almost-balanced orientation.
+
+Identify $\R^2=\C$, and consider the group $R_3=\{z:z^3=1\}$.
+\begin{theorem}
+    $G$ has a $\{1,2\}-$flow if and only if $G$ has an $R_3-$flow.
+\end{theorem}
+\begin{proof}
+    Assume that $G$ has a $\{1,2\}-$flow; we prove the claim by induction on the number of edges.
+    Fix a vertex $v$.
+    If $v$ has an incoming flow of $\alpha$ and an outgoing flow of $\alpha$, then we lift the two edges and use induction.
+    The only other case is that all incoming edges have flow $2$ and all outgoing edges have flow $1$.
+    Then there are twice as many outgoing edges as incoming edges, so we may separate the vertex into multiple vertices such that each incoming edge is 2 and the pair of outgoing edges is 1.
+    Then the edges of flow 2 form a perfect matching, and the edges of flow 1 form a 2-factor (which is a disjoint collection of cycles), where the edges in the cycle alternate in direction.
+    Then we give flow $1\in R_3$ to the edges with flow 2, and alternate labels $e^{\pm\frac{2\pi i}{3}}$ on the cycle.
+    Re-identifying vertices preserves the incoming and outgoing flow, so we are done.
+
+    Conversely, in the case when an incoming and outgoing flow are the same, we use the same argument as above.
+    Arguing by sign, this forces such a vertex to either have all incoming or all outgoing edges.
+    Then each of $1$, $e^{2\pi i/3}$, and $e^{2\pi i/3}$ must occur the same number of times.
+    But then we can separate the graph into a cubic bipartite graph, which therefore has a $1,2-$flow.
+\end{proof}
+\begin{theorem}
+    If $G$ is a cubic graph, then the following are equivlent:
+    \begin{enumerate}[nl,r]
+        \item $G$ has a $\{1,2\}-$flow
+        \item $G$ has a $R_3-$flow
+        \item $G$ has an $S^1-$flow
+        \item $G$ is bipartite
+    \end{enumerate}
+\end{theorem}
+Assume $G$ is cubic and has an $S^1-$flow.
+Re-orienting edges and changing sign (which preserves a $S^1-$element), we can guarantee that the flow only uses the 3 roots of unity.
+
+However, the implication (iii) implies (ii) does not work in general.
+If $G$ is planar, then $G$ has an $R_3-$flow if and only if $G^*$ has chromatic number at most 3 (this is Grotsch's theorem).
+Let's show that $G$ has an $S^1-$flow if and only if a homomorphic image of $G^*\subseteq U$ where $U$ is a unit distance graph.
+
+Assume $G$ has an $S^1-$flow, and let $e$ be an edge from $x$ to $y$ with flow $g\in S^1$.
+Then on the dual graph, we rotate the orientation counterclockwise and keep the same flow.
+Fix some vertex $x^*$ and assert $x^*$ is at $(0,0)$.
+Now take $v^*$, and a flow from $x^*$ to $v^*$, and place $v^*$ at $g_1+g_2-g_3+g_4$.
+This is well-defined since the cycles in the dual graph are balanced.
+The reverse construction certainly works as well.
+
+Now consider some dual graph $G^*$.
+If $G^*\subseteq U$, then $G$ has an $S^1-$flow.
+However if $\chi(G^*)\geq 4$, then $G$ has no $R_3-$flow.
+
+... TODO: draw this dual graph explicitly (from one of the first classes), give the $S^1$ flow.
+Also: connection to list colouring.
+
 \end{document}
 
 

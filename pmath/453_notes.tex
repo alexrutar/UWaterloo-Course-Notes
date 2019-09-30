@@ -1249,6 +1249,97 @@ In this case, we write $X\oplus_1 Y$.
     Set $y=z-Tx$.
     We have $(x,z)\in\Gamma(T)$ if and only if $z=Tx$ if and only if $y=0$.
 \end{proof}
+\subsection{Testing hypothesis of OMT}
+\begin{enumerate}[nl,r]
+    \item Let $1\leq p<r<\infty$.
+        We have that $\ell_p\subseteq\ell_r$, with $\norm{x}_r\leq\norm{x}_p$ for $x\in\ell_p$.
+        First, suppose $x\in B(\ell_p)$, so for each $k$, $|x_k|\leq\norm{x}_p\leq 1$ so $|x_k|^{r/p}\leq|x_k|$.
+        Hence
+        \begin{equation*}
+            \norm{x}_r = \left(\sum_{k=1}^\infty|x_k|^r\right)^{1/r}\leq \left(\sum_{k=1}^\infty|x_k|^p\right)^{1/r}=\norm{x}_p^{p/r}\leq 1
+        \end{equation*}
+        so if $x\in\ell_p\setminus\{0\}$, then the result follows.
+
+        Let $S:(\ell_p,\norm{\cdot}_p)\to(\ell_p,\norm{\cdot}_r)$ be the identity map.
+        Then $\norm{S}\leq 1$, and furthermore $S$ is bijective.
+        If $S$ were open, then by the proof of inverse mapping theorem, we would see that $\norm{S^{-1}}<\infty$.
+        Define $x^{(n)}\in\ell_p$ by
+        \begin{equation*}
+            x_k^{(n)}=
+            \begin{cases}
+                \frac{1}{ck^{1/p}} & k\leq n\\
+                0 & k>n
+            \end{cases}
+            ,
+            c=\sum_{k=1}^\infty\frac{1}{k^{r/p}}
+        \end{equation*}
+        We compute that $\norm{x^{(n)}}_r<1$ while $\norm{x^{(n)}}_p=\frac{1}{c}\left(\sum_{k=1}^n\frac{1}{k}\right)^{1/p}$.
+        In other words, $\norm{S^{-1}x^{(n)}}_p$ goes to infinity, while $\norm{x^{(n)}}_r<1$, contradicting $\norm{S^{-1}}<\infty$.
+        The moral of this is that if the range space is not complete, then OMT may not hold.
+    \item Take $X=C_b(0,1)$, $X_0=\{f\in X:f\text{ is diferentiable on }(0,1),f'\in C_b(0,1)\}$.
+        We have $X_0\subseteq X$, and we put the uniform norm $\norm{\cdot}_\infty$ on both spaces.
+        We let $D:X_0\to X$, $Df=f'$.
+        If $h_n(t)=t^n$, then $\norm{h_n}_\infty=1$ while $\norm{Dh_n}_\infty=n$, so $D$ is not bounded.
+        Despite this, we have that $\Gamma(D)=\{(f,f'):f\in X_0\}$ is closed in $X_0\oplus_1 X$.
+        We apply the closed graph test: let $(f_n,f_n')\to (0,g)$ in $X_0\oplus_1 X$.
+        Notice that $\norm{f_n'}_\infty<\infty$, so $f_n$ is Libschitz on $(0,1)$, so $f_n$ is uniformly continuous on $(0,1)$, so $f_n(0^+)=\lim_{t\to 0^+}f(t)$ exists.
+        Thus by the fundamental theorem of calculus, $f_n(t)=f_n(0^+)+\int_0^t f_n'$ for $t\in(0,1)$.
+        In particular,
+        \begin{itemize}[nl]
+            \item $f_n\to 0$ uniformly, so $f_n(0^+)\to 9$
+            \item $f_n'\to g$ uniformly, so for each $t\in(0,1)$,
+                \begin{equation*}
+                    \int_0^tg=\lim_{n\to\infty}\int_0^tf_n'=\lim_{n\to\infty}[f_n(t)-f_n(0^+)]=0
+                \end{equation*}
+        \end{itemize}
+        and again, by the FT of C, $g(t)=0$.
+        Thus $g=0$, so $\Gamma(D)$ is closed.
+        We say that $D:X_0\to X$ is a \textbf{closed} operator.
+        The moral here is that if the domain is not complete, then closedness of the graph does not imply boundedness of the operator.
+
+        Now, let $J:X\to X_0$ have $Jg(t)=\int_0^t g$ for $t\in(0,1)$.
+        By the FT of C, $D\circ J(G)=g$, in other words that $D\circ J=I$.
+        We have for $g\in X$,
+        \begin{equation*}
+            \norm{Jg}_\infty=\sup_{t\in(0,1)}|\int_0^tg|\leq\sup_{t\in(0,1)}t\norm{g}_\infty\leq\norm{g}_\infty
+        \end{equation*}
+        so $\norm{J}\leq 1$.
+        Hence $J(D(X))\subseteq D(X_0)$, and we apply $D$ to see $D(X)\subseteq D(D(X_0))$, in other words, that $D$ is open.
+        As an exercise, show that $C_b(0,1)=X$ is not separable, while $X_0$ is separable.
+\end{enumerate}
+Let $X\subsetneq Y$ be $\F-$vector spaces.
+We can always find a subspace $Z\subset Y$ so $X+Z=Y$ and $X\cap Z=\{0\}$.
+Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and take $Z=\spn B'$.
+\begin{theorem}
+    Let $Y$ be a Banach space and $X\subsetneq Y$ a closed subspace.
+    Then $X$ admis a closed complement $Z$ if and only if there is some $P\in\mathcal{B}(Y)$ such that $P\circ P=P$ and $\im P=P(Y)=X$.
+\end{theorem}
+\begin{remark}
+    We say that $X\subsetneq Y$ is \textbf{boundedly complemented} if either of the above conditions hold.
+\end{remark}
+\begin{proof}
+    $(\Leftarrow)$ Let $Z=\ker P$, which is closed.
+    If $y\in Y$, then $y=Py+(I-Py$ where $Py\in X$ and $P(I-P)y=0$ so $(I-P)y\in\ker P$.
+    If $z\in Z\cap X$, then $z=Py$ for some $y\in Y$ so $Pz=P^2y=Py=z$, but $z\in\ker P$, so $z=Pz=0$.
+
+    $(\Rightarrow)$ Let $S:X\oplus_1 Z\to Y$ be given by $S(x,z)=x+z$.
+    Then $S$ is surjective and if $(x,z)\in\ker S$, then $x+z=0$ so $x=-z\in X\cap Z=\{0\}$, hence $S$ is injective.
+    Furthermore,
+    \begin{equation*}
+        \norm{S(x+z)}=\norm{x+z}\leq\norm{(x,z)}_1
+    \end{equation*}
+    so $\norm{S}\leq 1$.
+    Hence $S$ is a bounded bijection between Banach space and hence $S^{-1}$ is bounded by the inverse mapping theorem.
+    Let $P_1:X\oplus_1 Z\to X$ be given by $P_1(x,z)=x$; and $J:X\to Y$ by $Jx=x$.
+    Notice that $\norm{P_1}=1$ and $\norm{J}=1$.
+    Define $P:Y\to Y$ by $Py=JP_1S^{-1}y$.
+    Then
+    \begin{itemize}[nl]
+        \item $\im J=X$, and each of $P_1,S^{-1}$ are surjective, so $\ran P=X$
+        \item If $y\in Y$, $\norm{Py}=\norm{JP_1S^{-1}y}\leq\norm{S^{-1}}\norm{y}$ so $\norm{P}\leq\norm{S^{-1}}$
+        \item Clearly $P^2=JP_1S^{-1}JP_1S^{-1}=P$
+    \end{itemize}
+\end{proof}
 \end{document}
 
 
