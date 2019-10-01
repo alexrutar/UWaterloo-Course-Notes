@@ -1340,6 +1340,78 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
         \item Clearly $P^2=JP_1S^{-1}JP_1S^{-1}=P$
     \end{itemize}
 \end{proof}
+\begin{theorem}
+    $c_0$ is not boundedly complemented in $\ell_\infty$.
+\end{theorem}
+\begin{proof}
+    Let us assume otherwise; hence, there is $P=P^2\in\mathcal{B}(\ell_\infty)$ such that $\im P=c_0$.
+    Note that $c_0=\ker(I-P)$.
+    As in A2, we let $\mathcal{F}\subset\mathcal{P}(\N)$ be a family of infinite subsets such that for $E\neq F$ in $\mathcal{F}$, $|E\cap F|<\infty$ and $|\mathcal{F}|=\mathfrak{c}$.
+    For each $F\in\mathcal{F}$, we let $y_F=(I_P)\chi_F\neq 0$.
+    If $\alpha_1,\ldots,\alpha_n\in F$ are pairwise distinct, $F_1,\ldots,F_m\in\mathcal{F}$, then
+    \begin{equation*}
+        \sum_{i=1}^n\alpha_i\chi_{F_i}=\underbrace{\sum_{i=1}^m\alpha_i\chi_{F_i\setminus\bigcup_{j\in[m]\setminus\{i\}}F_j}}_{:= z}+\underbrace{\sum_{k=2}^m\sum_{1\leq i<\cdots<i_k\leq m}(\alpha_{i_1}+\cdots+\alpha_{i_k})\chi_{F_{i_1}\cap\cdots\cap F_{i_k}}}_{\in c_0}
+    \end{equation*}
+    where $\norm{z}_\infty=\max_{k=1,\ldots,m}|\alpha_k|$.
+    Hence
+    \begin{equation}\label{e:ab}
+        \norm{\sum_{i=1}^m\alpha_iy_{F_i}}=\norm{(I-P)z}\leq\norm{I-P}\norm{z}=\norm{I-P}\max_{k=1,\ldots,m}|\alpha_k|
+    \end{equation}
+    Now, let for $n,k\in\N$, $\mathcal{F}_{n,k}=\{F\in\mathcal{F}:|\delta_k(y_F)|\geq\frac{1}{n}\}$m where $\delta_k(x_i)_{i=1}^\infty=x_k$, so $\delta_k\in\ell_\infty^*$ with $\norm{\delta_k}\leq 1$.
+    Let $F_1,\ldots,F_m$ be pairwise disjoint in $\mathcal{F}_{n,k}$, and $\alpha_i=\overline{\sgn\delta_k(y_{F_i})}$.
+    Then we have each $|\alpha_i|=1$, so by \cref{e:ab}, we find
+    \begin{equation*}
+        \norm{I-P}\geq\norm{\sum_{i=1}^\infty\alpha_iy_{F_i}}_\infty\geq|\delta_k\sum_{i=1}^n\alpha_iy_{F_i}|=\sum_{i=1}^m|\delta_k(y_{F_i})|\geq\frac{m}{n}
+    \end{equation*}
+    so $m\leq n\norm{I-P}$ and it folows that $\mathcal{F}_{n,k}$ is finite.
+    Since each $y_F\neq 0$ for $F\in\mathcal{F}$, we see that $\mathcal{F}=\bigcup_{n=1}^\infty\bigcup_{k=1}^\infty$, which contradicts that $|\mathcal{F}|=\mathfrak{c}$.
+    Hence such a $P$ must not exist.
+\end{proof}
+\begin{theorem}
+    If $X$ is a finite dimensional vector space over $\F$, then any two norms are equivalent.
+\end{theorem}
+\begin{proof}
+    Let $\norm{\cdot}$ be a norm on $X$.
+    Fix a basis $(e_1,\ldots,e_n)$ for $X$, and let $x=\sum_{k=1}^nx_ke_k$, $x_i\in\F$, $\norm{x_k}_\infty=\max_{k=1,\ldots,n}|x_k|$.
+    This is easily checked to be a norm.
+    Moreover, $B_\infty=\{x\in X:\norm{x}_\infty\leq 1\}$ admits a homeomorphic identification
+    \begin{equation*}
+        B_\infty=
+        \begin{cases}
+            [-1,1]^n &\F=\R\\
+            \overline{D}^n & \F=\C
+        \end{cases}
+    \end{equation*}
+    and hence is compact.
+    Thus $S_\infty=\{x\in X:\norm{x}_\infty=1\}$ is compact as well.
+    Hence, for $x=\sum_{k=1}^\infty x_ke_k$, we have
+    \begin{equation*}
+        \norm{x}\leq\sum_{k=1}^n|x_k|\norm{e_k}\leq\norm{x}_\infty\underbrace{\sum_{k=1}^n\norm{e_k}}_{:=M}
+    \end{equation*}
+    Now for $x,y\in X$, we have $|\norm{x}-\norm{y}|\leq\norm{x-y}\leq M\norm{x-y}_\infty$ so $\norm{\cdot}$ is Lipschitz with respect to $\norm{\cdot}_\infty$, and hence $\tau_{\norm{\cdot}_\infty}-$continuous.
+    Thus the extreme value theorem tells us that $m=\inf_{x\in S_\infty}\norm{x}>0$.
+    Hence for $x\in X\setminus\{0\}$, $\norm{x}=\norm{x}_\infty\cdot\norm{\frac{1}{\norm{x}_\infty}x}\geq\norm{x}_\infty m$.
+    In general, $m\norm{x}_\infty\leq\norm{x}\leq M\norm{x}_\infty$.
+    We thus have that $\norm{\cdot}\sim\norm{\cdot}_\infty$, so any norms are equivalent.
+\end{proof}
+\begin{corollary}
+    Let $(X,\norm{\cdot})$ be a finite dimensional normed space.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $K\subseteq X$ is compact if an only if $K$ is closed and bounded.
+        \item $(X,\norm{\cdot})$ is a Banach space
+        \item For any normed space $Y$, we have $\mathcal{L}(X,Y)=\mathcal{B}(X,Y)$
+        \item We have $X'=X^*$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item The forward direction is immediate.
+            If $K$ is closed and bounded, is contained in some scaled copy of $B_\infty$, which is compact.
+        \item Cauchy sequences are bounded, and thus contained in some scaled copy of $B_\infty$, which is compact.
+        \item Let $T\in\mathcal{L}(X,Y)$, and let $\norm{x}_0=\norm{x}+\norm{Tx}$.
+            Then the result follows by equivalence of norms.
+        \item Immediate.
+    \end{enumerate}
+\end{proof}
 \end{document}
-
-

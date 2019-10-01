@@ -360,7 +360,7 @@
                                                        &= \left(\sum_{m=0}^\infty z^m\right)^{s+t}\\
                                                        &= \frac{1}{(1-z)^{s+t}}=\frac{1}{(1-z)^s}\frac{1}{(1-z)^t}\\
                                                        &= \sum_{k=0}^\infty\binom{k+s-1}{s-1}z^k\sum_{\ell=0}^\infty\binom{\ell+t-1}{t-1}z^\ell\\
-                                                       &= \sum_{n=0}^\infty z^n\left(\sum_{k=0}^n\binom{k+s-1}{s-1}\binom{n-k+t-1}{t-1}
+                                                       &= \sum_{n=0}^\infty z^n\left(\sum_{k=0}^n\binom{k+s-1}{s-1}\binom{n-k+t-1}{t-1}\right)
         \end{align*}
         Similarly, \cref{e:van} is equivalent to saying $(1+z)^{a+b}=(1+z)^a(1+z)^b$.
         Note that $(1+z)^n=\sum_{k=0}^n\binom{n}{k}z^k=\sum_{k=0}^\infty\binom{n}{k}z^k$ for $n\in\N$.
@@ -520,16 +520,57 @@ From homework 2, we have that
     x^n=\sum_{k=0}^n k! S(n,k)\binom{n}{k}
 \end{equation*}
 Invert this using Binomial Inversion.
+\begin{theorem}[Binomial Inversion]
 Let $a_0,a_1,\ldots$ be a sequence.
-For $h\in\N$, let $b_h=\sum_{i=0}^h\binom{h}{i}a_i$.
-Let $A(t)=\sum_{i=0}^\infty a_it^i$ and $B(t)=\sum_{h=0}^\infty b_ht^h$.
-Then
+\end{theorem}
+\begin{proof}
+    For $h\in\N$, let $b_h=\sum_{i=0}^h\binom{h}{i}a_i$.
+    Let $A(t)=\sum_{i=0}^\infty a_it^i$ and $B(t)=\sum_{h=0}^\infty b_ht^h$.
+    Then
+    \begin{align*}
+        B(t) &= \sum_{h=0}^\infty t^h\sum_{i=0}^h\binom{h}{i}a_i\\
+             &= \sum_{i=0}^\infty a_it^i\sum_{h=i}^\infty\binom{h}{h-i}t^{h-i}\\
+             &= \sum_{i=0}^\infty a_it^i\sum_{j=0}^\infty\binom{i+j}{j}t^j=\sum_{i=0}^\infty\frac{a_it^i}{(1-t)^{i+1})}\\
+             &= \frac{1}{1-t}\sum_{i=0}^\infty a_i\left(\frac{t}{1-t}\right)^i=\frac{1}{1-t}A\left(\frac{t}{1-t}\right)
+    \end{align*}
+    Let $z=t/(1-t)$, so that $t=z/(1+z)$.
+    Thus
+    \begin{equation*}
+        B\left(\frac{z}{1+z}\right)=(1+z)A(z)
+    \end{equation*}
+    so that
+    \begin{align*}
+        \sum_{i=0}^\infty a_iz^i &= \frac{1}{1+z}B\left(\frac{z}{1+z}\right) = \sum_{h=0}^\infty b_h\frac{z^h}{(1+z)^{h+1}}\\
+                                &= \sum_{h=0}^\infty b_h\sum_{j=0}^\infty\binom{j+h}{h}z^{h}(-z)^j\\
+                                &= \sum_{n=0}^\infty z^n\sum_{j=0}^\infty\binom{n}{j}(-1)^{n-j}b_{j}
+    \end{align*}
+    Thus for all $m\in\N$, $a_m=\sum_{j=0}^m\binom{m}{j}(-1)^{m-j}b_j$.
+\end{proof}
+In particular, applying this to Stirling numbers of the second kind, for all $n\in\N$ in $\R[x]$, we have
+\begin{equation*}
+    x^n=\sum_{k=0}^n S(n,k)\binom{x}{k}k!
+\end{equation*}
+Let $b_i=i^n$ for $i=0,1,2,\ldots$.
+If $k>n$ or $k>i$, then $S(n,k)\binom{i}{k}=0$; thus,
 \begin{align*}
-    B(t) &= \sum_{h=0}^\infty t^h\sum_{i=0}^h\binom{h}{i}a_i\\
-         &= \sum_{i=0}^\infty a_it^i\sum_{h=i}^\infty\binom{h}{h-i}t^{h-i}\\
-         &= \sum_{i=0}^\infty a_it^i\sum_{j=0}^\infty\binom{i+j}{j}t^j=\sum_{i=0}^\infty\frac{a_it^i}{(1-t)^{i+1})\\
-         &= \frac{1}{1-t}\sum_{i=0}^\infty a_i\left(\frac{t}{1-t}\right)^i=\frac{1}{1-t}A\left(\frac{t}{1-t}\right)
+    i^n &= \sum_{k=0}^nS(,nk)\binom{i}{k}k! = \sum_{k=0}^{\min(n,i)}S(n,k)\binom{i}{k}k!=\sum_{k=0}^i S(n,k)\binom{i}{k}k!\\
+        &= \sum_{k=0}^i\binom{i}{k}a_k
 \end{align*}
+where $a_k=k!S(n,k)$ for all $k\in\N$.
+But then apply binomial inversion to get
+\begin{equation*}
+    a_k=\sum_{j=0}^k\binom{k}{j}(-1)^{k-j}b_j
+\end{equation*}
+Suppose $m^n=\sum_{k=0}^n S(n,k)\binom{m}{k}k!$.
+Then $[m]_q^n=\sum_{k=0}^\infty S[n,k]_q\sqbinom{m}{k}_q[k]!_q$, where $S[n,k]_q=\sum_{\pi\in\Pi(n,k)}q^{w(\pi)}$.
+Is there some function $w:\Pi(n,k)\to\N$ that makes this work?
+\chapter{Power Series Identities}
+\begin{enumerate}[nl,r]
+    \item $\displaystyle\frac{1}{(1-z)^h}=\sum_{k=0}^\infty\binom{k+h-1}{h-1}z^k$
+    \item Let $a_0,a_1,\ldots$ be a sequence, and $b_h=\sum_{i=0}^h\binom{h}{i}a_i$.
+        Then $a_m=\sum_{i=0}^m\binom{m}{i}(-1)^{m-i}b_i$.
+\end{enumerate}
+
 \end{document}
 
 

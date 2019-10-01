@@ -884,5 +884,15 @@ Since $n_1^2+\cdots+n_k^2=|G|$, then $k=|G|$.
     \end{equation*}
     Then $\rho:S_4\to\GL(V)$ by $\rho(kh):=\rho(h)$ is an irreducible representation of $S_4$ since $K\trianglelefteq S_4$.
 \end{example}
+\section{Induced Representations}
+Given a subgroup $H\leq G$ and a representation $\rho:H\to\GL(V)$, construct a representation of $G$.
+Let $H\leq G$ and $\rho:H\to\GL(V)$ a representation.
+Say the cosets of $H$ in $G$ are $g_1H,\ldots,g_mH$.
+For each $i$, let $g_iV=\{g_iv:v\in V\}$ be an isomorphic copy of $G$, and let $W=\bigoplus_{i=1}^m g_iV$ so that every $w\in W$ can be uniquely written as $w=g_1v_1+\cdots+g_mv_m$, where $m=[G:H]$.
+Fix $g\in G$; then there exists $\pi\in S_m$ such that for every $i$, $gg_i=g_{\pi(i)}h_i$, $h_i\in H$.
+We then define $\Ind_H^G(\rho):G\to\GL(W)$ by
+\begin{equation*}
+    \Ind_H^G(\rho)(g)(\sum g_iw_i0=\sum g_{\pi(i)}\rho(h_i)v_i
+\end{equation*}
 \end{document}
 

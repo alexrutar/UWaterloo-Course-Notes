@@ -240,8 +240,10 @@
 
 % file-specific preamble -------------------------------------------------------
 \usepackage{braket}
-\DeclareMathOperator{\SS}{{\mathbb{S}}}
-\DeclareMathOperator{\PP}{{\mathbb{P}}}
+\DeclareMathOperator{\Ss}{{\mathbb{S}}}
+\DeclareMathOperator{\Pp}{{\mathbb{P}}}
+\newcommand{\prt}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\inner}[2]{\ensuremath{\langle #1,#2\rangle}}
 
 
 % constants --------------------------------------------------------------------
@@ -465,11 +467,11 @@ In this case, we also use the terminology ``quotient map'' for $\pi$.
 \end{remark}
 \begin{example}
     Define an equivalence class on $[0,1]\subseteq\R$ by $s\sim t$ if and only if $s=t$ or $\{s,t\}=\{0,1\}$.
-    Then $\quot{[0,1]}{\sim}\cong\SS^1$.
+    Then $\quot{[0,1]}{\sim}\cong\Ss^1$.
     Define $f:[0,1]\to\S^1$ by $f(t)=e^{i2\pi t}$.
-    Note that $f(0)=f(1)$, so $f$ induces a continuous map $\overline{f}:\quot{[0,1]}{\sim}\to\SS^1$.
+    Note that $f(0)=f(1)$, so $f$ induces a continuous map $\overline{f}:\quot{[0,1]}{\sim}\to\Ss^1$.
     The inverse map can be constructed as follows.
-    We define $g:\SS^1\to\quot{[0,1]}{\sim}$ by
+    We define $g:\Ss^1\to\quot{[0,1]}{\sim}$ by
     \begin{equation*}
         g(x,y)=
         \begin{cases}
@@ -479,14 +481,14 @@ In this case, we also use the terminology ``quotient map'' for $\pi$.
     \end{equation*}
     Then $g$ is continuous by the Glueing lemma.
 
-    In particular, the same proof shows that $\quot{\R}{\Z}$ is homeomorphic to $\SS^1$.
+    In particular, the same proof shows that $\quot{\R}{\Z}$ is homeomorphic to $\Ss^1$.
 \end{example}
 \begin{example}
-    The projective space $\PP^n=\PP^n(\R)$ can be defined in several ways.
-    $\PP^n$ is the set of all $1-$dimensional vector subspaces of $\R^{n+1}$, or $\PP^n=\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$, or $\PP^n=\quot{\SS^n}{\pm 1}$ where $\SS^n=\{u\in\R^{n+1}:|u|=1\}$.
+    The projective space $\Pp^n=\Pp^n(\R)$ can be defined in several ways.
+    $\Pp^n$ is the set of all $1-$dimensional vector subspaces of $\R^{n+1}$, or $\Pp^n=\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$, or $\Pp^n=\quot{\Ss^n}{\pm 1}$ where $\Ss^n=\{u\in\R^{n+1}:|u|=1\}$.
 
-    Let us show that $\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$ is homeomorphic to $\quot{\SS^n}{\pm 1}$.
-    Define $f:\R^{n+1}\setminus\{0\}\to\SS^n$ by $f(x)=x/|x|$, and $g=\pi\circ f$.
+    Let us show that $\quot{\R^{n+1}\setminus\{0\}}{\R^\times}$ is homeomorphic to $\quot{\Ss^n}{\pm 1}$.
+    Define $f:\R^{n+1}\setminus\{0\}\to\Ss^n$ by $f(x)=x/|x|$, and $g=\pi\circ f$.
     Then $g$ is given by $g(x)=\{\pm x/|x|\}$.
     Note that for $t\in\R^\times$,
     \begin{equation*}
@@ -570,7 +572,7 @@ A maximal smooth atlas $\mathcal{M}$ on $M$ is called a \textbf{smooth structure
         \item $\phi:U\subseteq M\to\R^n$
     \end{itemize}
 \end{remark}
-Note that the maximal atlas $\mathcal{M}$ is determined from any subset $\mathcal{A}\susbeteq\mathcal{M}$ such that the domains of the charts in $\mathcal{A}$ cover $M$.
+Note that the maximal atlas $\mathcal{M}$ is determined from any subset $\mathcal{A}\subset\mathcal{M}$ such that the domains of the charts in $\mathcal{A}$ cover $M$.
 \begin{definition}
     Let $M$ be an $m-$dimensional smooth manifold and $N$ be an $n-$dimensional smooth manifold and let $f:M\to N$ be a function.
     Then we say $f$ is smooth \textbf{smooth} at $p$ when for some (hence for any) chart at $\phi$ on $M$ at $p$ and for some (hence any) chart $\psi$ on $N$ at $f(p)$, the map $\phi^{-1}\circ f\circ\psi$ is smooth at $x=\phi(p)$, and $f$ is \textbf{smooth} if $f$ is smooth at ever $p\in M$.
@@ -628,7 +630,7 @@ There are other kinds of manifolds (other than $C^\infty$ manifolds); for exampl
 
     We can also given $\mathbb{S}^n$ an atlas which only uses 2 charts, by stereographic projection from a north pole and a south pole.
 
-    This stereographic projection also shows that the rational points on the sphere are dense in $\mathbb{S}^n$, via the map
+    This stereographic projection also shows that the rational points on the sphere are dense in $\Ss^n$, via the map
     \begin{equation*}
         \phi(x)=\alpha\left(\frac{1}{1-x^{n+1}}\\right) = \left(\frac{x^1}{1-x^{n+1}},\ldots,\frac{x^n}{1-x^{n+1}}\right)
     \end{equation*}
@@ -726,13 +728,42 @@ Such a set of functions $\{\psi_u:u\in\mathcal{S}\}$ is called a (smooth) \textb
     Note that $\sigma(B)$ is smooth with $\sigma_B(p)>0$ for $p\in B$ and $\sigma_B(p)=0$ for $p\notin B$.
     Now for each $B\in\mathcal{B}$, define $\tau_B':M\to\R$ by
     \begin{equation*}
-        \tau_B=\frac{\sigma_B}{c\in\mathcal{B}\sigma_c
+        \tau_B=\frac{\sigma_B}{c\in\mathcal{B}\sigma_c}
     \end{equation*}
     Note that $\sum_{c\in\mathcal{B}}\sigma_c$ is well-defined by the local finiteness of $\mathcal{B}$ and $\sum_{c\in\mathcal{B}}\sigma_c(p)>0$.
     Furthermore, note that $\tau_B(p)>0$ for all $p\in B$, and $\tau_B(p)=0$ for all $p\notin B$, and $\sum_{B\in\mathcal{B}}\tau_B=1$.
     Then define $\rho_V:M\to\R$ by $\rho_V=\sum_{B\in\mathcal{B}_V}\tau_B$.
 \end{proof}
 \section{Immersions, Embedding, Submanifolds}
+\begin{theorem}[Inverse Function Theorem]
+    Let $U\subseteq\R^n$ be open, $p\in U$, and $f:U\subseteq\R^n\to\R^n$ be smooth and suppose $Df(p)$ is invertible.
+    Then $f$ is a local diffeomorphism.
+\end{theorem}
+\begin{corollary}
+    Let $n<m$ and $U\subseteq\R^n$ be open, and let $p\in U$, and $f:U\subseteq\R^n\to\R^n$ be smooth and suppose $Df(p)$ has rank $n$.
+    Then the range of $f$ is locally equal to the graph of a smooth function.
+    Such a map $f$ is called a local \textbf{immersion} at $p$.
+\end{corollary}
+\begin{proof}
+    Since $Df(p)$ is an $m\times n$ matrix of rank $n$, some $n$ rows of $Df(p)$ form an invertible submatrix.
+    Reorder the variables in $\R^m$ (if necessary) so that the top $n$ rows form an invertible matrix.
+    Write elements in $U\subseteq\R^n$ as $t$ and write elements of $\R^m$ as $(x,y)$.
+    Also write $(x,y)=f(t)=(u(t),v(t))$ so
+    \begin{equation*}
+        Df=\begin{pmatrix}\prt{u}{t}\\\prt{v}{t}\end{pmatrix}
+    \end{equation*}
+    with $\prt{u}{t}(p)$ invertible.
+    Then by the inverse function theorem, $u(t)$ is a local diffeomorphism.
+    Say $u:U_0\subseteq U\to V_0\subseteq\R^n$ is the diffeomorphism, and let $g:V_0\to U_0$ be its inverse.
+    Then the range of $f$ is locally equal to the graph of the function $y=v(g(x))=:h(x)$.
+    If $(x,y)\in\Gamma(f)$ with $(x,y)=f(t)=(u(t),v(t))$, then since $x=u(t)$ we have $t=g(x)$ so $y=v(t)=v(g(x))=k(x)$.
+    If $(x,y)\in\Gamma(k)$, then $y=k(x)=v(g(x))$ and we can choose $t=g(x)$ to get $x=u(t)$ and $y=v(g(x))=v(t)$ so that $(x,y)=(u(x),v(t))=f(t)$.
+\end{proof}
+\begin{theorem}[Implicit Function]
+    Let $n<m$, $U\subseteq\R^m$ be open, $p\in U$, and $f:U\subseteq\R^m\to\R^n$ be smooth.
+    Suppose $Df(p)$ has rank $n$ and let $q=f(p)$.
+    Then the level set $f^{-1}(q)$ is locally equal to a graph of a smooth function.
+\end{theorem}
 
 \end{document}
 
