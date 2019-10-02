@@ -569,6 +569,31 @@ Is there some function $w:\Pi(n,k)\to\N$ that makes this work?
     \item $\displaystyle\frac{1}{(1-z)^h}=\sum_{k=0}^\infty\binom{k+h-1}{h-1}z^k$
     \item Let $a_0,a_1,\ldots$ be a sequence, and $b_h=\sum_{i=0}^h\binom{h}{i}a_i$.
         Then $a_m=\sum_{i=0}^m\binom{m}{i}(-1)^{m-i}b_i$.
+    \item General Binomial Series.
+        For $k\in\N$, let $\binom{y}{k}=\frac{y(y-1)\cdots(y-k+1)}{k!}\in\Q[y]$.
+        Then we define
+        \begin{equation*}
+            (1+x)^y=\sum_{k=0}^\infty\binom{y}{k}x^k
+        \end{equation*}
+        which is a power series in $x$.
+        Each coefficient of $[x^n]$ is in $\Q[y]$.
+        Then by Vandermone convolution,
+        \begin{align*}
+            (1+x)^y(1+x)^z&=\sum_{i=0}^\infty\binom{y}{i}x^i\sum_{j=0}^\infty\binom{z}{j}x^j\\
+                          &=\sum_{n=0}^\infty x^n\left(\sum_{i=0}^n\binom{y}{i}\binom{z}{n-i}\right)\\
+                          &= \sum_{n=0}^\infty\binom{y+z}{n}x^n=(1+x)^{y+z}
+        \end{align*}
+        Furthermore, if $y=-p<0$ is an integer, then
+        \begin{align*}
+            (1+x)^{-p}&=\sum_{k=0}^\infty\binom{-p}{k}x^k\\
+                      &=\sum_{k=0}^\infty\binom{k+p-1}{p-1}
+        \end{align*}
+        For $\alpha\in\C$, $f(x)=(1+x)^\alpha$ is analytic for $|x|<1$.
+        In particular, by Taylor's theorem,
+        \begin{equation*}
+            (1+x)^\alpha=\sum_{k=0}^\infty c_kx^k
+        \end{equation*}
+        where $c_k=\frac{1}{k!}\frac{d^k}{dx^k}(1+x)^\alpha|_{x=0}$.
 \end{enumerate}
 
 \end{document}

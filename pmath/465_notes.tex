@@ -764,8 +764,100 @@ Such a set of functions $\{\psi_u:u\in\mathcal{S}\}$ is called a (smooth) \textb
     Suppose $Df(p)$ has rank $n$ and let $q=f(p)$.
     Then the level set $f^{-1}(q)$ is locally equal to a graph of a smooth function.
 \end{theorem}
+\begin{theorem}
+    Let $U\subseteq\R^n$ be open with $p\in U$, let $f:U\to\R^m$ be smooth with $f(p)=q$< and suppose that $Df$ has constant rank $r$ in $U$.
+    Then the level set (or fibre) $f^{-1}(q)$ is locally equal to the graph of a smooth function (with $n-r$ independent variables and $r$ dependent variables).
+\end{theorem}
+\begin{proof}
+    Since $Df$ is an $m\times n$ matrix of rank $r$, there is some $r\times r$ submatrix of $Df(p)$ which is invertible; without loss of generality, it is the upper left submatrix.
+    Write elements in $\R^n$ as $(x,y)$ with $x\in\R^r$ and $y\in \R^{n-r}$ and write elements in $\R^m$ as $(u,v)$ with $u\in\R^r$ and $v\in\R^{m-r}$, with say $p=(a,b)$ and $q=f(p)=(c,d)$.
+    Then we have $(u,v)=f(x,y)=\bigl(u(x,y),v(x,y)\bigr)$ so that
+    \begin{equation*}
+        Df =
+        \begin{pmatrix}
+            \prt{u}{x} & \prt{u}{y}\\
+            \prt{v}{x} & \prt{v}{y}
+        \end{pmatrix}
+    \end{equation*}
+    with $\prt{u}{x}(p)=\prt{u}{x}(a,b)$ being an invertible $r\times r$ matrix.
+    Define $F:U\subseteq\R^m\to\R^m$ by $F(x,y)=(u(x,y),y)$.
+    Then
+    \begin{equation*}
+        Df=\begin{pmatrix}
+            \prt{u}{x} & \prt{u}{y}\\
+            0 & I
+        \end{pmatrix}
+    \end{equation*}
+    so that $DF(p)$ is inertible.
+    By the IVT, $F$ is a local diffeomorphism, say $F:U_0\subseteq U\subseteq\R^n\to V_0\subseteq\R^n$ is a diffeomorphism with $U_0$ an open rectangular box.
+    Let $G:V_0\to U_0$ denote the smooth inverse of $F$.
+    Note that $G$ is of the form $G(u,y)=(g(u,y),y)$ for some smooth function $g:V_0\to\R^r$.
+    We claim that $f^{-1}(q)=f^{-1}(c,d)$ is locally equal to the graph of $x=g(c,y)$.
+    FIrst, note that
+    \begin{equation*}
+        (u,y)=F(G(u,y))=F(g(u,y),y)=\bigl(u(g(u,y),y),y\bigr)
+    \end{equation*}
+    so that, in particular, $u(g(u,y),y)=u$ and so
+    \begin{equation*}
+        f(G(u,y))=(u(g(u,y),y),v(g(u,y),y))=(u,h(u,y))
+    \end{equation*}
+    where $h(u,y)=v(g(u,y),y)$.
+    Thus
+    \begin{equation*}
+        Df(x,y)\cdot DG(u,y)=D(f\circ G)(u,y)=
+        \begin{pmatrix}
+            I & 0\\
+            \prt{h}{u} & \prt{h}{y}
+        \end{pmatrix}
+    \end{equation*}
+    Since $Df$ has constant rank $r$ and $DG$ is invertible, the matrix on the right is of rank $r$ for all $(u,v)\in V_0$.
+    Thus it follows that $\prt{h}{y}=0$ for all $u,b$, so that $h(u,y)$ is independent of $y$ and $h(u,y)=h(u,b)$ for all $y$; let $k(u)=h(u,b)$.
+    Let us calculate $k(c)$.
+    We have
+    \begin{align*}
+        f(a,b) = (c,d) &\implies (u(a,b),v(a,b))=(c,d)\\
+                       &\implies u(a,b)=c\\
+                       &\implies F(a,b)=(u(a,b),b)=(c,b)\\
+                       &\implies (a,b)=G(c,b)\\
+                       &\implies (c,d)=f(a,b)=f(G(c,b))=(c,h(c,b))=(c,k(c))\\
+                       &\implies k(c)=d
+    \end{align*}
+    Finally, let us show that $f^{-1}(c,d)$ is (locally) the graph of $x=g(c,y)$.
+    We have
+    \begin{align*}
+        (x,y)=f^{-1}(c,d) &\implies f(x,y)=(c,d)\\
+                          &\implies u(x,y)=c\text{ and }v(x,y)=d\\
+                          &\implies F(x,y)=(u(x,y),y)=(c,y)\\
+                          &\implies (x,y)=G(c,y)=(g(c,y),y)\\
+                          &\implies x=g(c,y)
+    \end{align*}
+    We thus have
+    \begin{align*}
+        x=g(c,y) &\implies G(c,y)=(g(c,y),y)=(x,y)\\
+                 &\implies f(x,y)=f(G(x,y))=(c,h(c,y))=(c,k(c))=(c,d)
+    \end{align*}
+    as required.
+\end{proof}
+\begin{definition}
+    When $N$ and $M$ are smooth manifolds and $f:N\to M$ is a smooth map, we say that $f$ has \textbf{rank r} at $p\in N$ when for some (hence for every) chart $\phi$ on $N$ at $p$ and for some (hence every) chart $\psi$ on $M$ at $f(p)$, the matrix $D(\psi f \phi^{-1})(\phi(p))$ has rank $r$.
+\end{definition}
+\begin{corollary}
+    Let $N$ and $M$ be smooth manifolds, with $p\in N$.
+    Let $f:N\to M$ be smooth with $f(p)=q\in M$.
+    Suppose $f$ has constant rank $r$ in an open neighbourhood of $p$.
+    Then there exists a chart $\phi$ on $N$ at $p$ and a chart $\psi$ on $M$ at $q=f(p)$ such that $\phi(p)=0$ and $\psi(q)=0$ and
+    \begin{equation*}
+        (\psi\circ f\circ\phi^{-1})(x^1,\ldots,x^r,\ldots,x^n)=(x^1,\ldots,x^r,0,\ldots,0)
+    \end{equation*}
+    where $n=\dim(N)$ and $m=\dim(M)$.
+\end{corollary}
+\begin{proof}
+    Choose any chart $\phi_0$ on $N$ at $p$ and any chart $\psi_0$ on $M$ at $q$ with $\phi_0(p)=0$ and $\psi_0(q)=0$.
+    Then $D(\psi_0f\phi_0^{-1})$ has constant rank $r$ near $0$.
+    Let $\phi_1$ and $\psi_1$ be linear permutation maps so that the upper left $r\times r$ submatrix of $D(\psi,\psi_0,f\phi_0^{-1}\phi_1^{-1})(0)$.
+    Say $f_1=\psi_1\psi_0 f\phi_0^{-1}\phi_1^{-1}$.
+    Let $F,G,f_1$ be as in the proof of the rank theorem (for the function $f_1$).
+    Let us verify that for the charts $\phi=F\phi_1\phi_0$ and $\psi=H\psi_1\psi_0$ where $H(u,v)=(u,v-k(u))$ we have $(\psi f\phi^{-1})(u,y)=(u,0)$.
 
+\end{proof}
 \end{document}
-
-
-

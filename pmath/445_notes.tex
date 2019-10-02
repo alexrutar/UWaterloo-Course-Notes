@@ -240,6 +240,8 @@
 
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator{\Free}{Free}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Tr}{Tr}
 
 
 % constants --------------------------------------------------------------------
@@ -466,9 +468,9 @@ Clearly,
 \begin{example}
     Let $\rho:S_3\to\GL(V)$ be the regular representation.
     Let $W_1=\spn\{\sum_{\sigma\in S_3}v_\sigma\}$ and $W_2=\spn\{\sum_{\sigma\in S_3}\sgn(\sigma)v_\sigma\}$, and
-    \begin{equation*}
-        W_3 = \Set{\sum\alpha_\sigma v_\sigma | \begin{array}\alpha_\epsilon+\alpha_{(123)}+\alpha_{(1,3,2)}&=0\\\alpha_{(12)}+\alpha_{(13)}+\alpha_{(23)} &= 0\end{array}}
-    \end{equation*}
+    % \begin{equation*}
+        % W_3 = \left\{\sum\alpha_\sigma v_\sigma | \begin{array}\alpha_\epsilon+\alpha_{(123)}+\alpha_{(1,3,2)}&=0\\\alpha_{(12)}+\alpha_{(13)}+\alpha_{(23)} &= 0\end{array}\right\}
+    % \end{equation*}
     Now let's focus on $W_3$.
     A basis for $W_3$ is given by
     \begin{align*}
@@ -571,7 +573,7 @@ The remark implies a number of facts:
 \end{example}
 \begin{example}
     Let $\rho:G\to\GL(V)$ be a representation.
-    In particular, $\rho(ghg^{-1})=\rho(g)\rho(h)\rho(g)$ so that $\Tr\rho(ghg^{-1})=\Tr\rho(h)$ so $\chi(ghg^{-1})=\ghi(h)$; in other words, that characters are constant on conjugacy classes.
+    In particular, $\rho(ghg^{-1})=\rho(g)\rho(h)\rho(g)$ so that $\Tr\rho(ghg^{-1})=\Tr\rho(h)$ so $\chi(ghg^{-1})=\chi(h)$; in other words, that characters are constant on conjugacy classes.
 \end{example}
 \begin{lemma}[Schur]
     Let $\rho:G\to\GL(V)$ and $\tau:G\to\GL(W)$ be irreducible representations, and suppose $T:V\to W$ is linear such that for all $g\in G$, $\tau(g)\circ T=T\circ\rho(g)$.
@@ -604,6 +606,7 @@ The remark implies a number of facts:
     \begin{enumerate}[nl,r]
         \item If $T'\neq 0$, then $\rho\cong\tau$ via $T'$.
         \item If $V=W$, $\rho=\tau$, then $T'=\Tr(T)/\dim(V)\cdot I$.
+    \end{enumerate}
 \end{corollary}
 \begin{proof}
     Clearly $T':V\to W$ is linear, and for any $h\in G$,
@@ -650,8 +653,8 @@ Then by equating coefficients of $x_{lj}$, we have
     Then
     \begin{align*}
         \langle\chi,\chi\rangle &= \frac{1}{|G|}\sum_g\chi(g)\chi(g^{-1}) = \frac{1}{|G|}\sum_g\chi(g^{-1})\chi(g)\\
-                                &= \frac{1}{|G|}\sum_g\sum_{i,j}a_{ii}(g^{-1})a_{jj}(g) = \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{jj}(g))\\
-                                &= \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{ii}(g)\\
+                                &= \frac{1}{|G|}\sum_g\sum_{i,j}a_{ii}(g^{-1})a_{jj}(g) = \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{jj}(g)\right)\\
+                                &= \sum_{i,j}\left(\frac{1}{|G|}\sum_g a_{ii}(g^{-1})a_{ii}(g)\right)\\
                                 &= \sum_i\frac{1}{\dim(V)} = 1
     \end{align*}
     To see the second part,
@@ -835,7 +838,7 @@ Since $n_1^2+\cdots+n_k^2=|G|$, then $k=|G|$.
     Since there are 5 conjugacy classes, we know that there are 5 irreducible representations, so that $n_5^2=8$.
     Let's make the character table:
     \begin{equation*}
-        \begin{array}{c|cccc}
+        \begin{array}{c|ccccc}
             D_4    & 1 & r &r^2& s & rs\\
             \hline
             \chi_1 & 1 & 1 & 1 & 1 & 1\\
@@ -857,7 +860,7 @@ Since $n_1^2+\cdots+n_k^2=|G|$, then $k=|G|$.
     Since $24^2=1^2+1^2+n_3^2+n_4^2+n_5^2$, we have $22=n_3^2+n_4^2+n_5^2$, which forces $n_3=2$ and $n_4=n_5=3$.
     Now we have
     \begin{equation*}
-        \begin{array}{c|cccc}
+        \begin{array}{c|ccccc}
             D_4    & 1 & (12) &(12)(34)& (123) & (1234)\\
             \hline
             \chi_1 & 1 & 1 & 1 & 1 & 1\\
@@ -874,11 +877,11 @@ Since $n_1^2+\cdots+n_k^2=|G|$, then $k=|G|$.
     Note that $K=\{1,(12)(34),(13)(24),(14)(23)\}\trianglelefteq S_4$ and $H=\{1,(12),(13),(123),(132),(23)\}$, so $S_4=KH$.
     Let $\rho$ be an irreducible representation of $H$ of degree 2:
     \begin{equation*}
-        \begin{array}{c|ccc}
+        \begin{array}{c|cccc}
             S_3 & 1 & (12) & (123)\\
             \hline
-            \alpha_1 & 1 & 1 & 1
-            \alpha_2 & 1 &-1 & 1
+            \alpha_1 & 1 & 1 & 1\\
+            \alpha_2 & 1 &-1 & 1\\
             \alpha_3 & 2 & 0 & -1
         \end{array}
     \end{equation*}
@@ -894,5 +897,40 @@ We then define $\Ind_H^G(\rho):G\to\GL(W)$ by
 \begin{equation*}
     \Ind_H^G(\rho)(g)(\sum g_iw_i0=\sum g_{\pi(i)}\rho(h_i)v_i
 \end{equation*}
+\begin{example}
+    Let $\{1\}\leq G$ and suppose $\rho:\{1\}\to\GL(\C)$ is the trivial representation.
+    Then $G=\{g_1,\ldots,g_n\}$.
+    Then for $g\in G$, $gg_i1\in G$ and
+    \begin{equation*}
+        \Ind(\rho)(s)\left(\sum_{i=1}^ng_i\alpha_i\right) = \sum gg_i\rho(1)(\alpha_i)=\sum gg_i\alpha_i
+    \end{equation*}
+    so that $\Ind(\rho)$ is isomorphic to the regular representation.
+\end{example}
+\begin{example}
+    Consider $\langle r\rangle\leq D_n$, and let $\rho:\langle r\rangle\to\GL(\C)$ be given by $\rho(r)(1)=\zeta_n$.
+    Let the coset representatives be given by $\epsilon$ and $s$.
+    \begin{enumerate}[nl,r]
+        \item Let $r\in D_n$< so $r\epsilon=\epsilon r$ and $rs=sr^{n-1}$.
+            Fix $W=\epsilon\C\oplus s\C$.
+            Then $\Ind(\rho):D_n\to\GL(W)$ is given by $\Ind(\rho)(r)(\epsilon\alpha_1+s\alpha_2)=\epsilon\zeta_n\alpha+1+s\zeta_n^{n-1}\alpha_2$.
+        \item Let $s\in D_n$.
+            Then $s\epsilon=s\epsilon$ and $ss=\epsilon\epsilon$.
+            Then $\Ind(\rho)(s)(\epsilon\alpha_1+s\alpha_2)=s\rho(\epsilon)(\alpha_1)+\epsilon\rho(\epsilon)(\alpha_2)=s\alpha_1+\epsilon\alpha_2$.
+    \end{enumerate}
+    Take the basis $\beta=\{\epsilon,s\}$ for $W$, so we have
+    \begin{equation*}
+        [\Ind(\rho)(r)]_\beta=
+        \begin{pmatrix}
+            \zeta_n & 0\\
+            0 & \zeta_n^{n-1}
+        \end{pmatrix}
+        \quad
+        [\Ind(\rho)(s)]_\beta=
+        \begin{pmatrix}
+            0 & 1\\
+            1 & 0
+        \end{pmatrix}
+    \end{equation*}
+\end{example}
 \end{document}
 

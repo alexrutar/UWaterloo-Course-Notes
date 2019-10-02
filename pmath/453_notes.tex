@@ -1414,4 +1414,98 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
         \item Immediate.
     \end{enumerate}
 \end{proof}
+\begin{proposition}
+    A finite dimensional subspace of normed space is always closed and boundedly complemented.
+\end{proposition}
+\begin{proof}
+    Let $Y\subseteq X$ be so $Y$ is finite dimensional and $X$ a normed space.
+    We can find a basis $(e_1,\ldots,e_n)$ for $Y$.
+    We may assume that each $\norm{e_k}=1$.
+    We define $f_1,\ldots,f_n\in Y'=Y^*$ by
+    \begin{equation*}
+        f_k\left(\sum_{j=1}^n\alpha_je_j)=\alpha_k
+    \end{equation*}
+    By Hahn-Banach, get $F_1,\ldots,F_n\in X^*$ such that $F_k|_Y=f_k$ and $\norm{F_k}=\norm{f_k}$.
+    Define $P:X\to X$ by $Px=\sum_{k=1}^n F_k(x)e_k$.
+    Notice that $\im P\subseteq Y$ and by choice of $F_k|_Y=f_k$, we have $P|_Y=I_Y$.
+    Thus $P^2=P$.
+    Finally, for $x\in X$, $\norm{Px}\leq\sum_{k=1}^n\norm{f_k}\norm{x}$ so $\norm{P}\leq\sum\norm{f_k}<\infty$, i.e. $P$ is bounded.
+    Closedness of $Y$ thus follows from the last corollary.
+    Alternatively, $Y=\ker(I-P)$.
+\end{proof}
+\section{On Compactness of the Unit Ball}
+\begin{lemma}
+    Let $X$ be a normed space and $Y\subsetneq X$ a closed subspace.
+    Then given $\epsilon\in(0,1)$ there is $x_0\in D(X)\subseteq B(X)$ such that $d(x_0,Y)>1-\epsilon$.
+\end{lemma}
+\begin{proof}
+    Let $x\in X\setminus Y$ and let $f:Y+\F x\to\F$ be given by $f(y+\alpha x)=\alpha$, $y\in Y$, $\alpha\in \F$.
+    Then $f$ is linear and $\ker f=Y$ is closed, $Y\subsetneq Y+\F x$, so $f$ is bounded.
+    Let $F\in X^*$ be any Hahn-Banach extension of $f$ with $\norm{F}=\norm{f}$.
+
+    Now, we find $x_0\in D(X)$ such that $|F(x_0)|>(1-\epsilon)\norm{F}$.
+    Since $Y\subseteq\ker F$, we have for $y\in Y$ that $\norm{F}\norm{x_0-y}\geq|f(x_0-y)|=|F(x_0)|>(1-\epsilon)\norm{F}$, so $\norm{x_0-y}>1-\epsilon$.
+    Hence $d(x_0,Y)=\inf_{y\in Y}\norm{x_0-y}\geq 1-\epsilon$.
+\end{proof}
+\begin{theorem}
+    Let $X$ be a normed space.
+    Then $B(X)$ is compact if and only if $X$ is finite dimensional.
+\end{theorem}
+\begin{proof}
+    The reverse implication is standard.
+    Thus suppose $X$ is not finite dimensional.
+    Let $\epsilon\in(0,1)$ and let $x_1\in B(X)\setminus\{0\}$.
+    Inductively,
+    \begin{itemize}[nl,r]
+        \item Find $x_2\in B(X)$ such that $d(x_2,\F x_1)\geq 1-\epsilon$
+        \item Find $x_3\in B(X)$ such that $d(x_3,\spn\{x_1,x_2\})\geq 1-\epsilon$
+        \item Find $x_{n+1}\in B(X)$ such that $d(x_{n+1},\spn\{x_1,\ldots,x_n\})\geq 1-\epsilon$
+    \end{itemize}
+    Hence we have $\{x_n\}_{n=1}^\infty\subset B(X)$ such that for $m<n$,
+    \begin{equation*}
+        \norm{x_n-x_m}\geq d(x_n,\spn\{x_1,\ldots,x_{n-1}\})\geq 1-\epsilon
+    \end{equation*}
+    so the sequence admis no converging subsequence and $B(X)$ is not compact.
+\end{proof}
+\section{More Topology}
+\begin{definition}
+    Let $(X,\tau)$ be a topological space.
+    A \textbf{base} for $\tau$ is any family $\beta\subseteq\tau$ such that for any $U\in\tau$ and $x\in U$, there is $B\in\beta$ such that $x\in B\subseteq U$.
+    A \textbf{subbase} for $\tau$ is any family $\alpha\subseteq\tau$ such that $\{\bigcap_{k=1}^n U_k:n\in\N,U_1,\ldots,U_n\in\alpha\}$ is a base for $\tau$.
+\end{definition}
+Note that if $\emptyset\neq X$ and $\beta\subseteq\mathcal{P}(X)$ for which $\bigcup_{B\in \beta}B=X$ and $\beta$ is closed under finite intersections, then
+\begin{equation*}
+    \tau_\beta=\{\bigcup_{i\in I}B_i:\{B_i\}_{i\in I}\subset B,I\text{ any index set with }|I|\leq|\beta|\}
+\end{equation*}
+is a topology.
+\begin{definition}
+    Let $X\neq\emptyset$.
+    Suppose we are given
+    \begin{itemize}[nl]
+        \item a family $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ of topological spaces, and
+        \item for each $\alpha\in A$, a function $f_\alpha:X\to X_\alpha$
+    \end{itemize}
+    Then the \textbf{initial topology} on $X$ given this data is denoted
+    \begin{equation*}
+        \sigma=\sigma(X,(f_\alpha)_{\alpha\in A})=\sigma(X,(f_\alpha,\tau_\alpha)_{\alpha\in A})
+    \end{equation*}
+    and is the topology with base
+    \begin{equation*}
+        \bigcap_{k=1}^n f_{\alpha_k}^{-1}(U_{\alpha_k}),n\in\N,\alpha_1,\ldots,\alpha_n\in A,\text{ each }U_{\alpha_k}\in\tau_{\alpha_k}
+    \end{equation*}
+\end{definition}
+In particular, $\{f_\alpha^{-1}(U_\alpha):U_\alpha\in\tau_\alpha,\alpha\in A\}$ is a subbase for $\sigma$.
+\begin{remark}
+    The topology is chosen so that each $f_\alpha:X\to X_\alpha$ is $\sigma-\tau_\alpha-$continuous.
+    Furthermore, if $\tau\subseteq\mathcal{P}(X)$ is any topology for which every $f_\alpha$ is $\sigma-\tau_\alpha-$continuous, then $\sigma\subseteq\tau$.
+    We say that $\sigma$ is the \textbf{coarsest} topology so that all the $f_\alpha$ are continuous.
+\end{remark}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $(X,d)$ is a metrix space, for each $x\in X$, let $d_x$ be given by $d_x(x')=d(x,x')$.
+            Then $\sigma(X,(d_x)_{x\in X})=\tau_d$.
+        \item Relative topology: If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
+            Then $\tau|_X=\sigma(X,\{i\})$.
+    \end{enumerate}
+\end{example}
 \end{document}

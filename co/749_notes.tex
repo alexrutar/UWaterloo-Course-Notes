@@ -25,7 +25,13 @@
 \pgfplotsset{compat=1.15}
 \usetikzlibrary{intersections,positioning,cd}
 \usetikzlibrary{arrows,arrows.meta}
+\usetikzlibrary{decorations.markings}
 \tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+\tikzset{
+    vtx/.style={inner sep=2pt,circle,fill=black},
+    e/.style={thick},
+    de/.style={e,decoration={markings,mark=at position 0.5 with {\arrow{>}}},postaction={decorate}}
+}
 
 % Set hyperref
 \usepackage[hidelinks]{hyperref}
@@ -144,6 +150,7 @@
 \theoremheaderfont{\bfseries\boldmath}
 \newtheorem{theorem}{Theorem.}[section]
 \newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{conjecture}[theorem]{Conjecture.}
 \newtheorem{corollary}[theorem]{Corollary.}
 \newtheorem{proposition}[theorem]{Proposition.}
 
@@ -239,10 +246,6 @@
 
 
 % file-specific preamble -------------------------------------------------------
-\tikzset{% 
-    vtx/.style={inner sep=2pt,circle,fill=black}
-}
-
 
 % constants --------------------------------------------------------------------
 \newcommand{\subject}{Topics in Graph Theory}
@@ -375,7 +378,7 @@ We then have the following classification:
 Recall that a planar graph $G$ is one for which there exists an embedding of $G$ into the plane such that each edge is a disjoint curve.
 Note that it suffices to consider edges which are polygonal curves, which consist of a finite number of straight line segments; in fact we can also do it with straight line segments (requiring that the graph is simple).
 \begin{theorem}[Thomassen]
-    If $G$ is planar, then $\ch(G)\leq 5$.
+    If $G$ is planar, then $\chi_\ell(G)\leq 5$.
 \end{theorem}
 In fact, we prove a stronger statement.
 We call an ``almost-triangulation'' a planar drawing in which every face except possibly the infinite face is a triangle.
@@ -790,6 +793,97 @@ However if $\chi(G^*)\geq 4$, then $G$ has no $R_3-$flow.
 
 ... TODO: draw this dual graph explicitly (from one of the first classes), give the $S^1$ flow.
 Also: connection to list colouring.
+
+Recall that $R_k=\{z\in\C:z^k=1\}$.
+\begin{itemize}[nl]
+    \item If there exists an orintation of $G$ balanced modulo 3, then $G$ has an $R_3-$flow.
+    \item$G$ has an orientation balanced modulo 3 if and only if $G$ has a $\{1,2\}-$flow in $\Z$ or $\Z_3$.
+    \item Conjecture of Kamal Jain: $f(S^1,\R^2)=4$, $f(S^2,\R^3)=2$.
+    \item Tutte 3-flow implies conjecture of Jain
+\end{itemize}
+If there exists a balanced orientation modulo $k$, then $G$ has an $R_k-$flow.
+\begin{proof}
+    Induction.
+    The base case is straightforward (two vetices with a number of edges).
+    Thus take a vertex $v$ with some incoming edge and outgoing edge.
+    Then one can lift the edge, and use induction ...
+\end{proof}
+\begin{proposition}
+    If $G$ has an $R_5-$flow, then there exists an orientation balanced modulo 5.
+\end{proposition}
+\begin{proof}
+    Assume $G$ has an $R_5-$flow.
+    As before, assume we have a vertex $v$ with an incoming and outgoing edge with the same flow; then we lift those edges and replace the flow and use induction.
+    Thus we assume that all vertices $v$ have all outgoing edges with flow distinct from all incoming flow...
+\end{proof}
+
+Let $T$ denote the set of all vectors in $\R^3$ with one 0 and two $\pm 1$.
+\begin{theorem}
+    $G$ has a $T-$flow if and only if $G=H_1\cup H_2\cup H_3$ such that every edge is covered twice and every vertex of $H_i$ has even degree.
+    Furthermore, if $G$ is cubic, then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $G$ has a $T-$flow
+        \item $G=M_1\cup M_2\cup M_3$ where each $M_i$ is a perfect matching.
+        \item $G$ is 3-edge-colourable
+        \item $G$ is class 1 (Vizing theorem, +1 case)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{center}
+        \begin{tikzpicture}[d/.style={decoration={markings,mark=at position 0.5 with {\arrow{>}}},postaction={decorate}},scale=2]
+            \node[vtx] (a) at (0,0) {};
+            \node[vtx] (b) at (1,0.5) {};
+            \node[vtx] (c) at (2,0) {};
+            \node[vtx] (d) at (1,-0.5) {};
+            \path[]
+                (a) edge[d] (b)
+                (b) edge[d] (c)
+                (c) edge[d] (d)
+                (d) edge[d] (a)
+                (b) edge[d] (d);
+        \end{tikzpicture}
+    \end{center}
+    Given $H_1\cup H_2\cup H_3$, to each edge, assign $(a_1,a_2,a_3)$ where
+    \begin{equation*}
+        a_i =
+        \begin{cases}
+            1 &: e\in H_i\text{ with the same orientation}\\
+            -1 &:e\in H_i\text{ with the opposite orientation}\\
+            0 &: e\notin H_i
+        \end{cases}
+    \end{equation*}
+    clearly this has exactly two $\pm 1$ and that the edge sums work.
+
+    Conversely, let
+    \begin{align*}
+        H_1 &= \{e:\text{first coordinate is $\pm 1$}\}\\
+        H_1 &= \{e:\text{second coordinate is $\pm 1$}\}\\
+        H_1 &= \{e:\text{third coordinate is $\pm 1$}\}
+    \end{align*}
+
+    Now suppose $G$ is cubic.
+    If $G$ is a union of perfect matchings, take $M_1\cup M_2$, $M_1\cup M_3$, $M_2\cup M_3$.
+    Conversely, take $M_i=E(G)\setminus E(H_i)$.
+\end{proof}
+Note that this also shows that if we have a graph covering, then we have an $S^2-$flow (scale $T-$flow by $\sqrt{2}$).
+\begin{theorem}
+    Suppose $G$ is $(3k-1)-$edge-connected.
+    Then $G$ is covered by $k$ even graphs such that every edge is covered precisely $k-1$ times.
+\end{theorem}
+\begin{proof}
+    Let $\Z_2^k=\Z_2\times\cdots\times \Z_2$, and let $F$ be the set of all vectors with precisely one 0.
+    Suppose $G$ has an $F-$flow; then take $H_i$ composed of the edges in $E(G)$ where the $i-$th coordinate is 1.
+\end{proof}
+\begin{theorem}
+    Every 2-edge-connected planar graph $G$ has a $T-$flow.
+\end{theorem}
+\begin{proof}
+    Consider $G$, so that $G^*$ is 4-colorable.
+    Assign every color to the vertex of the tetrahedron, and place the vertices on these corners.
+    Then given some edge $(x^*,y^*)\in E(G^*)$, give the edge the flow equal to the vector corresponding to the edge of the tetrahedron.
+\end{proof}
+
+
 
 \end{document}
 
