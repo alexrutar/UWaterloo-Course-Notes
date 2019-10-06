@@ -883,8 +883,88 @@ Note that this also shows that if we have a graph covering, then we have an $S^2
     Then given some edge $(x^*,y^*)\in E(G^*)$, give the edge the flow equal to the vector corresponding to the edge of the tetrahedron.
 \end{proof}
 
+Recall:
+\begin{conjecture}
+    If $G$ is 4-edge-connected, it contains an $R_3$-flow.
+\end{conjecture}
+This conjecture is equivalent to Tutte's 3-flow conjecture.
+\begin{conjecture}
+    If $G$ is 8-edge-connected (or maybe 9-edge-connected), it contains an $R_5$-flow.
+\end{conjecture}
+This conjecture implies Tutte's 5-flow conjecture.
+Is there some kind of converse?
 
+To prove the 5-flow conjecture, it is sufficient to consider cubic graphs which are 3-connected.
 
+\begin{proposition}
+    If $G$ has a $(\Gamma\setminus\{0\})-$flow (NZ $\Gamma-$flow) and if $|\Gamma'|\geq|\Gamma|$, then $G$ has a NZ $\Gamma'-$flow.
+\end{proposition}
+Let $f(G,\Gamma)$ denote the number of NZ $\Gamma-$flows (allowing $G$ to have loops and multiple edges).
+Fix a non-loop edge $e$, and consider the graphs $G/e$ (edge contraction) and $G-e$.
+We can then generate a bijection ... TODO: type
+But then $f(G/e,\Gamma)=f(G,\Gamma)+f(G-e,\Gamma)$.
+Futhermore, for the base case, let $G$ be a graph with $1$ vertex and $q$ loops.
+But then $\Gamma(G,\Gamma)=(|\Gamma|-1)^q$.
+
+Now if $G$ has a $\Gamma-$flow, then $G$ has a NZ $\Z_n-$flow, so $G$ has a $\{1,2,\ldots,n-1\}-$flow, so $G$ has a NZ $Z_{n'}$-flow for any $n'\geq n$.
+
+What happens if $\Gamma'$ is infinite?
+If it contains an infinite copy of $\Z$, we are certainly done; otherwise, $G'$ finite groups of arbitrary large size, and we stop when we have a subgroup of size at least $|\Gamma|$.
+
+\begin{proposition}
+    If $G$ is 4-edge-connected, then $G$ contains two edge-disjoint spanning trees.
+\end{proposition}
+If $G$ is 3-edge-connected, this is not true (except for small base cases).
+For example, if $G$ must have at least $2n-2$ edges, while if $G$ is cubic, then $G$ has $3n/2$ edges.
+
+\begin{proof}
+    To do this, we use Mader's lifting theorem.
+\end{proof}
+\begin{corollary}
+    More generally, if $G$ is $2k-$edge-connected, then $G$ contains $k$ edge-disjoint spanning trees.
+\end{corollary}
+\begin{proof}
+    We prove this by induction on $|E(G)|$.
+    Delete $e$ if possible such that $G-e$ is $2k-$edge-connected, and use induction.
+    Thus assume no such edge exists.
+    Using the proposition below, there exists some vertex $v$ with degree $2k$.
+    Then apply Mader's lifting theorem to remove the vertex, and get $k$ loops which is $2k-$edge-connected.
+    By induction, get $k$ edge-disjoint spanning trees.
+    If each edge from the lift has a distinct tree, then we are done.
+    Otherwise, suppose some pair of edges in the lift has the same tree.
+\end{proof}
+\begin{proposition}
+    Consider the case when $G$ is minimally $k-$edge-connected.
+    Then $\delta(G)=k$.
+\end{proposition}
+\begin{proof}
+    For any edge $e$, there is a cut $(A,B)$ containing $e$ of size $k$.
+    In particular, choose $(A,B)$ such that one size of the cut $B$ has minimal size.
+    If $|B|=1$, then the result follows.
+    Otherwise, $|B|>1$ so $B$ must have some internal edge $e'$
+    Now take another cut containing $e'$ of minimal size.
+    ... see paper
+\end{proof}
+\begin{proposition}
+    Let $A\subseteq V(T)$ such that $|A|$ is even.
+    Then there exists some pairing of $A$ and edge disjoint paths betwen those elements.
+\end{proposition}
+\begin{proof}
+    By induction.
+    If there is some leaf $v$ not in $A$, remove $v$ and apply induction.
+    Otherwise, every leaf is in $A$, so select an arbitrary one, and look at its neighbour in $T$.
+    If its neighbour is not in $A$, remove $v$, and label its neighbour and apply induction.
+    If its neighbour is in $A$, connect the two and apply induction to the rest of $G$.
+\end{proof}
+\begin{corollary}
+    Let $G$ be 4 edge connected, so $G$ contains $T_1,T_2$ edge-disjoint spanning trees.
+    Then $G-E(T_1)$ is connected, and for each odd degree vertex, add a path in $T_1$ joining odd degree vertex.
+    Then this graph is even and connected (hence Eulerian).
+\end{corollary}
+\begin{corollary}
+    If $G$ is 4-edge-connected, then $G=H_1\cup H_2$ where each $H_i$ is even.
+    Then $G$ has a nowhere zero 4-flow.
+\end{corollary}
 \end{document}
 
 

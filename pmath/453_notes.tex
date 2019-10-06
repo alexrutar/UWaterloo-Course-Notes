@@ -1502,10 +1502,83 @@ In particular, $\{f_\alpha^{-1}(U_\alpha):U_\alpha\in\tau_\alpha,\alpha\in A\}$ 
 \end{remark}
 \begin{example}
     \begin{enumerate}[nl,r]
-        \item If $(X,d)$ is a metrix space, for each $x\in X$, let $d_x$ be given by $d_x(x')=d(x,x')$.
+        \item \textit{Metric topology:} If $(X,d)$ is a metric space, for each $x\in X$, let $d_x$ be given by $d_x(x')=d(x,x')$.
             Then $\sigma(X,(d_x)_{x\in X})=\tau_d$.
-        \item Relative topology: If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
+        \item \textit{Relative topology:} If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
             Then $\tau|_X=\sigma(X,\{i\})$.
+        \item \textit{Product topology:} Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of topological spaces.
+            Let $X=\Prod_{\alpha\in A}X_\alpha$.
+            Let for $\alpha\in A$, $p_\alpha:X\to X_\alpha$ denote the projection map onto the component $\alpha$.
+            Then the product topology $\pi=\sigma(X,\{p_\alpha\}_{\alpha\in A})$.
+            Hence, $V\in\mathcal{P}(X)$, then $V\in\pi$ if and only if for any $x\in V$, there is $\alpha_1,\ldots,\alpha_n\in A$ and $U_{\alpha_k}\in\tau_{\alpha_k}$ such that $x_{\alpha_k}=p_{\alpha_k(x)}\in U_{\alpha_k}$ and $x\in \bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_j})\subseteq V$.
+
+            Note that if $X=\Prod_{n=1}^\infty X_n$, each $(X_n,\tau_n)$ is a topological space, then the basic open sets look like $U_1\times U_2\times\cdots\times U_m\times X_{m+1}\times X_{m+2}\times\cdots$.
+        \item \textit{Linear topology:} Let $X$ be a vector space and $Z\subseteq X'$ a subspace.
+            Then $\sigma(X,Z)$ is the coarsest topology allowing each $f\in Z$ to be continuous, $f:X\to\F$.
+            The basic open sets are given as follows: let $x_0\in X$, $\epsilon>0$, and $D=D(\F)$, and we consider for $f\in Z$
+            \begin{equation*}
+                f^{-1}(f(x_0)+\epsilon D)=\underbrace{\{x\in X:|f(x)-f(x_0)|<\epsilon\}}_{\text{"affine hypertube"}}=\{x\in X:|\frac{1}{\epsilon}f(x)-\frac{1}{\epsilon}f(x_0)|<1\}
+            \end{equation*}
+            so that
+            \begin{equation*}
+                \left\{\bigcap_{k=1}^n\{x\in X:|f_k(x)-f_k(x_0)|<1\}:f_1,\ldots,f_n\in Z,n\in\N\right\}
+            \end{equation*}
+            is a base for $\sigma(X,Z)$.
+        \item Now let $X$ be a normed space.
+            Then the \textbf{weak topology} on $X$ is $\omega=\sigma(X,X^*)$.
+            Certainly $\omega\subseteq\tau_{\norm{\cdot}}$.
+            Similarly, the \textbf{weak*-topology} on $X^*$ is $\omega^*=\sigma(X^*,\hat X)$ (recall for $x\in X$, $\hat x(f)=f(x)$).
+            Since $\hat X\subseteq X^{**}$, we have $\omega^*\subseteq\omega=\sigma(X^*,X^{**})\subseteq\tau_{\norm{\cdot}}$.
     \end{enumerate}
 \end{example}
+Let $(X,\tau)$ be a topological space.
+\begin{definition}
+    A subset $K\subseteq X$ is called \textbf{compact} if for any collection $\{U_\alpha\}_{\alpha\in A}\subseteq\tau$ with $\bigcup_{\alpha\in A}U_\alpha\supseteq K$, there exists some finite $U_1,\ldots,U_n$ covering $K$.
+    If $X$ itself is $\tau-$compact, we call $(X,\tau)$ a compact space.
+\end{definition}
+\begin{definition}
+    A set $F\subseteq X$ is \textbf{closed} if $X\setminus F\in\tau$.
+    If $S\subseteq X$, then the \textbf{closure} of $S$ is $\overline{S}=\cap\{F\subseteq X:S\subseteq F,X\setminus F\in\tau\}$.
+\end{definition}
+Note that $\overline{S}=\{x\in X:\text{for any }U\in\tau\text{ with }x\in U,U\cap S\neq\emptyset\}$.
+\begin{definition}
+    A family $\mathcal{F}\subseteq\mathcal{P}(X)$ has the \textbf{finite intersection property} if for any $F_1,\ldots,F_n\in\mathcal{F}$, $\bigcap_{l=1}^n F_k\neq\emptyset$.
+\end{definition}
+\begin{proposition}
+    Let $(X,\tau)$ be a topological space.
+    Then $(X,\tau)$ is compact if and only if any $\mathcal{F}\subseteq\mathcal{P}(X)$ with the finite intersection property has $\bigcap_{F\in\mathcal{F}}\overline{F}\neq\emptyset$.
+\end{proposition}
+\begin{proof}
+    Suppose $X$ is compact and $\mathcal{F}\subset\mathcal{P}(X)$ has the finite intersection property but with $\bigcap_{F\in\mathcal{F}}\overline{F}$, then $\{X\setminus\overline{F}\}_{F\in\mathcal{F}}$ is an open cover of $X$ with no finite subcover.
+
+    Conversely, if $\mathcal{O}\subseteq\tau$ is an open cover of $X$, then $\mathcal{F}=\{X\setminus U\}_{U\in\mathcal{O}}$ satisfies $\bigcap_{F\in\mathcal{F}}=\emptyset$, so there is $F_1,\ldots,F_n\in\mathcal{F}$ with $\bigcap_{k=1}^n F_k=\emptyset$.
+    Then $\{X\setminus F_i\}_{i=1}^k$ is a finite subcover.
+\end{proof}
+\begin{definition}
+    Let $X$ be a non-empty set.
+    An \textbf{ultrafilter} is a family $\mathcal{U}\subset\mathcal{P}(X)$ such that
+    \begin{itemize}[nl]
+        \item $\mathcal{U}$ has the finite intersection property
+        \item If $A\in\mathcal{P}(X)$, then either $A\in\mathcal{U}$ or $X\setminus A\in\mathcal{U}$.
+    \end{itemize}
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item \textit{Principal / trivial ultrafilter:} If $x_0\in X$, let $U_{x_0}=\{U\subseteq X:x_0\in U\}$.
+    \end{enumerate}
+\end{example}
+\begin{lemma}[Ultrafilter]
+    If $\mathcal{F}\subseteq\mathcal{P}(X)$ is any set with the finite intersection property, then there is an ultrafilter $\mathcal{U}$ with $\mathcal{F}\subset\mathcal{U}$.
+\end{lemma}
+\begin{proof}
+    Let $\Phi=\{\mathcal{G}\subseteq\mathcal{P}(X):\mathcal{F}\subseteq\mathcal{G},\mathcal{G}\text{ has f.i.p.}\}$.
+    Then $\Phi$ is partially ordered by inclusion.
+    If $\Gamma\subseteq\Phi$ is a chain, then $\mathcal{G}_\Phi=\bigcup_{\mathcal{G}\in\Gamma}\mathcal{G}$ contains $\mathcal{F}$ and has the finite intersection property.
+    Hence $\Phi$ admits a maximal element $\mathcal{U}$.
+    Let $A\in\mathcal{P}(X)\setminus\mathcal{U}$.
+    Then $U\cup\{A\}\supsetneq\mathcal{U}$, so $\mathcal{U}\cup\{A\}$ fails the finite intersection property.
+    Hence get $U_1,\ldots,U_n$ so $A\cap\bigcap_{k=1}^n U_k=\emptyset$.
+    Now if $V_1,\ldots,V_m\in\mathcal{U}$, then $\bigcap_{j=1}^n V_j\cap\bigcap_{k=1}^n U_j\subseteq\bigcap_{k=1}^n U_k\subseteq X\setminus A$, so $(X\setminus A)\cap\bigcap_{j=1}^m V_j$.
+    Thus $\mathcal{U}\cup\{X\setminus A\}$ has finite intersection property, so $X\setminus A\in\mathcal{U}$ by maximality.
+\end{proof}
 \end{document}

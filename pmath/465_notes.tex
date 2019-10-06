@@ -858,6 +858,61 @@ Such a set of functions $\{\psi_u:u\in\mathcal{S}\}$ is called a (smooth) \textb
     Say $f_1=\psi_1\psi_0 f\phi_0^{-1}\phi_1^{-1}$.
     Let $F,G,f_1$ be as in the proof of the rank theorem (for the function $f_1$).
     Let us verify that for the charts $\phi=F\phi_1\phi_0$ and $\psi=H\psi_1\psi_0$ where $H(u,v)=(u,v-k(u))$ we have $(\psi f\phi^{-1})(u,y)=(u,0)$.
-
 \end{proof}
+\begin{corollary}
+    When $f:M\to N$ is a smooth map of smooth manifolds with constant rank $r$ in $M$, for $q\in\im f$, the level set (fibre) $f^{-1}(q)$ can be given charts (obtainedd from canonical charts) to make it a smooth $(\dim M-r)-$dimnsional manifold.
+\end{corollary}
+\begin{definition}
+    Let $N$ and $M$ be smooth manifolds (of dimensions $m$ and $n$).
+    A smooth map $f:N\to M$ is called a (smooth) \textbf{immersion} when $f$ has rank $n$ in $N$.
+    An \textbf{immersed submanifold} of $M$ is the image of an immersion $f:N\to M$ or the image of an injective immersion $f:N\to M$.
+\end{definition}
+Note that when $f:N\to M$ is injective, we can give the image $f(N)$ a smooth atlas which mapes $f:N\to f(N)$ a diffeomorphism.
+When we do this, the resulting topology on $f(N)\subseteq M$ does not necssarily agree with the subspace topology of $M$.
+\begin{definition}
+    An \textbf{embedded submanifold} of $M$ is a subset $N\subseteq M$ which is a smoth manifold such that the inclusion map $f:N\to M$ (given by $f(p)=p$) is an immersion such that the topology in the previous remark agrees with the subspace topology.
+\end{definition}
+When $f:M\to N$ is a smooth map of smooth manifolds of constant rank $r$ and $q\in\im f$, the level set $f^{-1}(q)$ is an embedded submanifold of $M$.
+\section{Non-Commutative Module Theory}
+Let $R$ be a ring with unity and $(M,+)$ an abelian group.
+We can equip $\End(M)$ with a ring structure given by $(f+g)(x)=f(x)+g(x)$ and $fg(x)=f(g(x))$.
+\begin{definition}
+    A (left) $R-$module is an abelian group $(M,+)$ equipped with a unitary ring homomorphism $\alpha:A\to\End(M)$.
+\end{definition}
+This map $\alpha$ defines a multiplication between elements of $r$ and $m$ given by $rm=\alpha(r)(m)$.
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $F$ is a field, a $F-$module is a $F-$vector space.
+        \item $M$ is a $\Z-$module if and only if $M$ is an abelian group.
+        \item $R$ is an $R-$module (left multiplication)
+        \item If $I$ is a left ideal of $R$, then $I$ is a left $R-$module.
+        \item $R=M_n(F)$, and $V=F^n$.
+            Then $V$ is an $R-$module.
+        \item Let $R$ be a ring and $I$ a left ideal of $R$.
+            Then $R/I=\{a+I:a\in R\}$, so $R/I$ is an $R-$module with $r(a+I)=ra+I$.
+    \end{enumerate}
+\end{example}
+Let $M$ be an $R-$module.
+We say a subgroup $(N,+)$ of $(M,+)$ is an $R-$submodule of $M$ if $N$ is $\alpha(r)-$invariant for each $r\in R$.
+\begin{definition}
+    Let $G$ be a finite group and $F$ a field.
+    We define the group algebra $F[G]=\{\alpha_1g_1+\cdots+\alpha_ng_n:\alpha_i\in F\}$ equipped with $G-$pointwise addition and multiplication $ag_i\cdot bg_j=(ab)g_ig_j$, extended by distributivity.
+\end{definition}
+\begin{example}
+    Let $M$ be a $\C[G]-$module.
+    Then $M$ is also a $\C-$vector space, and $\rho:G\to\GL(M)$ given by $\rho(g)(m)=gm$ is a representation.
+\end{example}
+\begin{example}
+    If $\rho:G\to\GL(V)$ be a representation, the $\rho$ induces a $\C[G]-$multiplication on $V$, making $V$ a $\C[G]-$module.
+    Moreover, if $N\leq M$ is a submodule, then it is $\rho(cg)-$invariant for any $cg\in\C[G]$ if and only if $N$ as a subspace of $M$ is $G-$stable.
+\end{example}
+To be precise, we have $c g\cdot v=\rho(g)(c v)$.
+In fact, there is an isomorphic of categories from representations of $G$ and $\C[G]$-modules.
+\begin{definition}
+    Let $N,M$ be $R-$modules.
+    We say $\psi:N\to M$ is a (module) homomorphism if $\phi$ commutes with the structures on $N$ and $M$.
+\end{definition}
+If $\phi:N\to M$ is a homomorphism where $N,M$ are $\C[G]-$modules, with multiplication maps $\rho$ and $\tau$.
+Then $\phi\circ\rho=\tau\circ\phi$, in other words that it is an intertwining map.
 \end{document}
+
