@@ -1581,4 +1581,85 @@ Note that $\overline{S}=\{x\in X:\text{for any }U\in\tau\text{ with }x\in U,U\ca
     Now if $V_1,\ldots,V_m\in\mathcal{U}$, then $\bigcap_{j=1}^n V_j\cap\bigcap_{k=1}^n U_j\subseteq\bigcap_{k=1}^n U_k\subseteq X\setminus A$, so $(X\setminus A)\cap\bigcap_{j=1}^m V_j$.
     Thus $\mathcal{U}\cup\{X\setminus A\}$ has finite intersection property, so $X\setminus A\in\mathcal{U}$ by maximality.
 \end{proof}
+\begin{corollary}
+    If $U\subseteq\mathcal{P}(X)$ is an ultrafilter, then
+    \begin{enumerate}[nl,r]
+        \item If $A\in\mathcal{P}(X)$, $A\in\mathcal{U}$ if and only if $A\cap U\neq\emptyset$ for each $U\in\mathcal{U}$
+        \item If $A,B\in\mathcal{P}(X)$, then $A\cup B\in\mathcal{U}$ implies at least one of $A$ or $B$ is in $\mathcal{U}$
+        \item If $A\in\mathcal{U}$ and $A\subseteq V$ implies $V\in\mathcal{U}$
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    The forward implication of (i) follows since $\mathcal{U}$ has finite intersection.
+    Conversely, $X\setminus A\notin\mathcal{U}$, so $A\in\mathcal{U}$.
+    (ii) and (iii) follow consequently.
+\end{proof}
+\begin{corollary}
+    If $X$ is an infinite set, it admits a non-principle ultrafilter.
+\end{corollary}
+\begin{proof}
+    Let $\mathcal{F}=\{F\in\mathcal{P}(X):X\setminus F\text{ is finite}\}$.
+    Then $\mathcal{F}$ has the finite intersection property.
+    Apply the lemma.
+\end{proof}
+\begin{proposition}
+    There are at least $\mathfrak{c}$ many ultrafilters in $\mathcal{P}(\N)$.
+\end{proposition}
+\begin{proof}
+    We let $\mathcal{F}\subset\mathcal{P}(\N)$ be a collection of infinite sets such that $E\neq F$ in $\mathcal{F}$ implies $|E\cap F|<\infty$, and $|\mathcal{F}|=\mathfrak{c}$.
+    For each $F\in\mathcal{F}$, we let $\mathcal{F}_F=\mathcal{F}_0\cup\{F\}$, which has the finite intersection property.
+    Moreover, if $E\in\mathcal{F}\setminus\{F\}$, then $\mathcal{F}_F\cup\{E\}$ would fail f.i.p.
+    Hence, for $F\in\mathcal{F}$, let $\mathcal{U}_F$ be any ultrafilter containing $\mathcal{F}_F$, giving $\mathfrak{c}$ many ultrafilters.
+\end{proof}
+\begin{remark}
+    It can be shown (with a lot more work) that $\N$ admits $2^\mathfrak{c}$ ultrafilters.
+\end{remark}
+Let $\mathcal{U}\subset\mathcal{P}(\N)$ be a non-principal ultrafilter.
+Define $\delta_{\mathcal{U}}:\mathcal{P}(\N)\to\{0,1\}\subset\R$ by $\delta_{\mathcal{U}}(A)=1$ if $A\in\mathcal{U}$, and $0$ if $X\setminus A\in\mathcal{U}$.
+Since $\N\in\mathcal{U}$, we see that $\delta_{\mathcal{U}}(\emptyset)=0$.
+If $\emptyset\neq A,B\in\mathcal{P}(\N)$ with $A\cap B=\emptyset$, then if $A\cup B\in\mathcal{U}$, then exactly one of $A$ or $B$ is in $\mathcal{U}$.
+Thus $\delta_U(A\cup B)=\delta_U(A)+\delta_U(B)$.
+If $E_1,\ldots,E_n\subseteq\N$ with $E_j\cap E_k=\emptyset$ for $j\neq k$, then $\sum_{k=1}^n|\delta_{\mathcal{U}}(E_k)|\leq 1$ so $\norm{\delta_{\mathcal{U}}}_{\text{var}}\leq 1$.
+Since $\delta_{\mathcal{U}}(\N)=1$, we have $\norm{\delta_{\mathcal{U}}}_{\text{var}}=1$.
+Let $L_{\mathcal{U}}\in\ell_\infty^*$ be the linear functional associated to $\delta_{\mathcal{U}}$.
+We then have (with some verification possibly needed)
+\begin{enumerate}[nl,r]
+    \item $L_{\mathcal{U}}(1)=1$, $\norm{L_{\mathcal{U}}}=1$
+    \item $L_{\mathcal{U}}|_{\mathbf{c_0}}=0$, so if $x\in\ell_\infty^{\R}$, then $\liminf_{n\to\infty}x_n\leq L_{\mathcal{U}}\leq\limsup_{n\to\infty}x_n$
+    \item Exactly one of $2\N$ and $2\N-1$ is in $\mathcal{U}$, so $L(\chi_{2\N})\neq L_{\mathcal{U}}(\chi_{2\N-1})$, so $L_{\mathcal{U}}$ is not translation invariant.
+    \item Let $S\in\mathcal{B}(\ell_\infty)$ be given by $Sx=\left(\frac{x_1+\cdots+x_n}{n}\right)_{n=1}^\infty$.
+        Then $L_{\mathcal{U}}\circ S$ is a Banach limit.
+\end{enumerate}
+\begin{definition}
+    If $(X,\tau)$ is a topological space, $\mathcal{U}$ an ultrafilter on $X$, we say that $x_0\in X$ is a $(\tau-)$limit point for $\mathcal{U}$ if for each $U\in\tau$ with $x_0\in U$, we have $U\in\mathcal{U}$.
+\end{definition}
+\begin{proposition}
+    Let $(X,\tau)$ be a topological space.
+    Then $(X,\tau)$ is compact if and only if any ultrafilter on $X$ admits a $\tau-$limit point.
+\end{proposition}
+\begin{proof}
+    Let us begin with an observation: if $x\in X$ and $\mathcal{U}$ is an ultrafilter on $X$, then
+    \begin{align*}
+        \x\in\bigcap_{V\in\mathcal{U}}\overline{V} &\Leftrightarrow\text{for any }U\in\tau\text{ with }x\in U, U\cap V\neq\emptyset\text{ for each }V\in \mathcal{U}\\
+                                                   &\Leftrightarrow x\text{ is a $\tau-$limit point of }\mathcal{U}
+    \end{align*}
+    
+    If $(X,\tau)$ is compact, then $\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
+    If $\mathcal{F}\subseteq\mathcal{P}(X)$ has the finite intersection property, then there exists an ultrafilter $\mathcal{U}\supseteq\mathcal{F}$, so $\bigcap_{F\in\mathcal{F}}\overline{F}\supseteq\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
+
+\end{proof}
+\begin{theorem}[Tychonoff]
+    Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of compact spaces, and $X=\prod_{\alpha \in A}X_\alpha$ with the product topology $\pi$.
+    Then $(X,\pi)$ is compact.
+\end{theorem}
+\begin{proof}
+    Let $\mathcal{U}$ be an ultrafilter on $X$; we will show that it admits a $\pi-$limit point.
+    Fix $\alpha\in A$ and let $\mathcal{U}_\alpha=\{p_\alpha(V):V\in\mathcal{U}\}$, where $p_\alpha$ is the coordinate projection onto $\alpha$.
+    If $\emptyset\neq S_\alpha\subseteq X_\alpha$, then $S_\alpha=p_\alpha^{-1}(p_\alpha^{-1}(S_\alpha))$, so $S_\alpha\in\mathcal{U}_\alpha$ if and only if $p^{-1}(S_\alpha)\in\mathcal{U}$, and since $p^{-1}$ commutes with complementation, $\mathcal{U}_\alpha$ is an ultrafilter.
+    The last proposition provides a $\tau_\alpha-$limit point $x_\alpha$ for $\mathcal{U}_\alpha$.
+    Now let $x=(x_\alpha)_{\alpha\in A}$, where $x_\alpha$ is found as above.
+    If $W\in\pi$ with $x\in W$, then there are $\alpha_1,\ldots,\alpha_n$ in $A$, $U_{\alpha_i}\in\tau_{\alpha_i}$ with $x\in\bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_k})\subseteq W$.
+    Since each $x_{\alpha_k}$ is a $\tau_{\alpha_k}-$limit point of $\mathcal{U}_{\alpha_k}$, we see that each $U_{\alpha_k}\in\mathcal{U}_{\alpha_k}$, so $p_{\alpha_k}^{-1}(U_{\alpha_k})\in\mathcal{U}$.
+    Thus we see that $W\in\mathcal{U}$, so $x$ is a $\pi-$limit point of $\mathcal{U}$.
+\end{proof}
 \end{document}

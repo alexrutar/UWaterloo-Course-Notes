@@ -932,5 +932,51 @@ We then define $\Ind_H^G(\rho):G\to\GL(W)$ by
         \end{pmatrix}
     \end{equation*}
 \end{example}
+Note that $\rho:G\to\GL(V)$ is faithful if only if the unique zero map on $v$ is $0$.
+\begin{definition}
+    Let $M$ be an $R-$module.
+    The \textbf{annhilator} $\Ann(M)=\{r\in R:rm=0\}$.
+    Then $M$ is \textbf{faithful} if $\Ann(M)=(0)$.
+\end{definition}
+\begin{proposition}
+    Let $M$ be an $R-$module.
+    Then $\Ann(M)$ is a (2-sided) ideal of $R$.
+    Moreover, $M$ is a faithful $R/\Ann(M)-$module.
+\end{proposition}
+\begin{definition}
+    An $R-$module $M$ is \textbf{irreducible} if $M\neq (0)$ and the only submdules of $M$ are $(0)$ and $M$.
+\end{definition}
+Recall that a division ring is a unital ring such that every non-zero element is invertible.
+\begin{theorem}
+    Let $M$ be an irreducible $R-$module.
+    Then $\End_R(M)$ is a division ring.
+\end{theorem}
+\begin{theorem}
+    Let $M$, $N$ be $R-$modules and let $\psi:M\to N$ be a module homomorphism.
+    Then $M/\ker\psi\cong\psi(M)\leq N$.
+\end{theorem}
+\begin{proposition}
+    Let $M$ is an irreducible $R-$module, then $M\cong R/I$, where $I$ is a maximal left ideal.
+    Conversely, if $I$ is a maximal let ideal, then $R/I$ is irreducible.
+\end{proposition}
+\begin{proof}
+    Let $M$ be an irreducible $R-$module and fix $0\neq m\in M$, and define $\phi:R\to M$ by $\phi(r)=rm$, so $\phi$ is a homomorphism and $R/\ker\phi\cong\phi(R)=M$ by irreducibility.
+    But then $I$ is maximal since $R/I\cong M$ is simple.
+\end{proof}
+\begin{definition}
+    Let $R$ be a ring.
+    Then the \textbf{Jacobson radical} of $R$ is $J(R)=\bigcap_{\text{irred left }M}\Ann(M)$.
+\end{definition}
+\begin{definition}
+    A left ideal $I$ of $R$ is called \textbf{left quasiregular} if for all $a\in I$, $R(1+a)=R$.
+\end{definition}
+\begin{theorem}
+    If $R$ is a ring, then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $a\in J(R)$.
+        \item $Ra$ is left quasiregular
+        \item $a\in\bigcap_{I\leq R\text{ maximal}}I$.
+    \end{enumerate}
+\end{theorem}
 \end{document}
 

@@ -914,5 +914,58 @@ In fact, there is an isomorphic of categories from representations of $G$ and $\
 \end{definition}
 If $\phi:N\to M$ is a homomorphism where $N,M$ are $\C[G]-$modules, with multiplication maps $\rho$ and $\tau$.
 Then $\phi\circ\rho=\tau\circ\phi$, in other words that it is an intertwining map.
+\begin{remark}
+    When $N\subseteq M$ is an embedded submanifold,
+    \begin{itemize}[nl]
+        \item If $f:M\to K$ is smooth, then the restriction $f:N\to K$ is smooth
+        \item If $f:K\to M$ is smooth and $f(K)\subseteq N$, then $f:K\to N$ is smooth
+    \end{itemize}
+\end{remark}
+\begin{example}
+    $\SL_n(R)$ is a smooth manifold.
+    Recall that $\GL_n(\R)$ is a smooth $n^2-$dimensional manifold, since it is open in the $n^2-$dimensional vector space $M_n(\R)$.
+    We have $\SL_n(\R)=f^{-1}(\{1\})$ where $f$ is the determinant evaluation map.
+    Then for fixed $\ell$, $\det X=\sum_{i=1}^n(-1)^{i+\ell}X^i_\ell\deg X^{(i)}_{(\ell)}$, where $X^{(i)}_{(l)}$ is the matrix obtained from $X$ by removing row $i$ and column $j$.
+    We have
+    \begin{equation*}
+        Df=\left(\pr{f}{x_1^1},\ldots,\prt{f}{x^n_n}\right)\in M_{1\times n^2}(\R)
+    \end{equation*}
+    with $\prt{f}{x^k_\ell}=(-1)^{k+\ell}\det X^{(k)}_{(\ell)}$, so that $Df=0$ if and only if $\det X=0$.
+    Thus $f$ has contant rank 1, so $\SL_n(\R)=f^{-1}(1)$ is an embedded submanifold of $M_n(\R)$ of dimension.
+\end{example}
+\section{Tangent Vectors}
+\begin{definition}
+    A vector $u$ in $\R^n$ at a point $a\in\R^n$ is an ordered pair $(a,u)$.
+\end{definition}
+\begin{definition}
+    Let $M$ be a smooth manifold and let $p\in M$.
+    A \textbf{tangent vector} on $M$ at $p$ is a set of vectors $X=\{\phi_*x:\phi\text{ is a chart on $M$ at $p$}\}$, where $\phi_*x$ is a vector in $\R^n$ at the point $x=\phi(p)$ such that when $\phi$ and $\psi$ are two charts on $M$ at $p$, we have $\psi_*X=D(\psi\phi^{-1})(\phi(p))\phi_*X$.
+\end{definition}
+The set of all tangent vectors on $M$ at $p$ is denoted by $T_pM$.
+Note that $T_pM$ is an $n-$dimensional vector space.
+When $I\subseteq\R$ is an open interval, $s\in I$, and $\alpha:I\subseteq\R\to M$ is a smooth map with $\alpha(s)=p$, we define $\alpha'(s)$ to be the tangent vector $\alpha'(s)\in T_pM$ given by $\phi_*\alpha'(s)=\beta'(s)$ where $\beta(t)=\phi(\alpha(t))$.
+Note that, by the chain rule, we do have $\phi_*\alpha'(s)=D(\psi\phi^{-1})\phi_*\alpha'(s)$.
+
+When $\phi$ is a chart on $M$ at $p$, we often write
+\begin{equation*}
+    x=x(p)=\phi(p)=(\phi^1(p),\ldots,\phi^n(p))=(x^1(p),\ldots,x^n(p))
+\end{equation*}
+(so each $x^k=\phi^k$ is a function $x^k,\phi^k:U\subseteq M\to\R$.
+When $\psi$ is another chart and we write $y=\psi(p)$, we often write $y=y(x)=(\psi\phi^{-1})(x)=(y^1(x),\ldots,y^n(x))$ and we write
+\begin{equation*}
+    \prt{y}{x}=
+    \begin{pmatrix}
+        \prt{y^1}{x^1} & \cdots & \prt{y^1}{x^n}\\
+        \vdots &&\vdots\\
+        \prt{y^n}{x^1} & \cdots & \prt{y^n}{x^n}
+    \end{pmatrix}
+\end{equation*}
+With this notation, if $u=\phi_*X$ and $v=\psi_*X$, then $v=D(\psi\phi^{-1})u=\prt{y}{x}u$, so $V^k=\sum_{i=1}^n\prt{y^k}{x^i}u^i$.
+\begin{definition}
+    Let $f:M\to N$ be a smooth map of smooth manifolds with $p\in M$.
+    We define the \textbf{induced map} or the \textbf{pushforward} $f_*$ or the \textbf{differential} $df$ to be the map $f_*=df:T_pM\to T_{f(p)}N$ given as folows.
+    Given $X\in T_pM$, choose $\alpha:(-\epsilon,\epsilon)\to M$ smooth with $\alpha(0)=p$, $\alpha'(0)=X$, when we let $\beta(t)=f(\alpha(t))$ and define $df(x)=f_*(x)=\beta'(0)$.
+    Given a chart $\phi$ on $M$ at $p$ and $\psi$ on $N$ at $f(p)$, if $u=\phi_*X$ and $V=\psi_*(f_*x)$, then verify that $v=D(\psi f\phi^{-1})(\phi(p))u$.
+\end{definition}
 \end{document}
 
