@@ -1662,4 +1662,81 @@ We then have (with some verification possibly needed)
     Since each $x_{\alpha_k}$ is a $\tau_{\alpha_k}-$limit point of $\mathcal{U}_{\alpha_k}$, we see that each $U_{\alpha_k}\in\mathcal{U}_{\alpha_k}$, so $p_{\alpha_k}^{-1}(U_{\alpha_k})\in\mathcal{U}$.
     Thus we see that $W\in\mathcal{U}$, so $x$ is a $\pi-$limit point of $\mathcal{U}$.
 \end{proof}
+\begin{remark}
+    \begin{enumerate}[r]
+        \item Tychonoff's theorem implies the axiom of choice.
+            Given $\{X_\alpha\}_{\alpha\in A}$ be a family of non-empty sets.
+            Find $y$ which is not a member of any $X_\alpha$, and let $Y_\alpha=X_\alpha\cup\{y\}$ and $\tau_\alpha=\{\emptyset,\{y\},X_\alpha,Y_\alpha\}$, and $(Y_\alpha.\tau_\alpha)$ is compact.
+            The constant element $y$ is an element of $Y$, so by Tychonoff, $(Y,\pi)$ is compact.
+            Given $\alpha_1,\ldots,\alpha_n\in A$, then $\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
+            Since $\prod_{k=1}^n X_{\alpha_k}\neq 0$, we see that $Y\subsetneq\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
+            Hence by compactness, $Y\not\subseteq\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})$.
+            Hence $\prod_{x\in A}X_\alpha=Y\setminus\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})\neq 0$.
+        \item If we are given $(X_\alpha,\tau_\alpha)_{\alpha\in A}$ a family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$, we can define the \textbf{box topology}, i.e. the topology with base $\left\{\prod_{\alpha\in A}U_\alpha:U_\alpha\in\tau_\alpha\setminus\{\emptyset\}\text{ for each }\alpha\right\}$
+            Of course, $\pi\subseteq\tau$, and the inclusion is proper on infinite products.
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    Let $(X,\tau)$ be a compact space.
+    \begin{enumerate}[nl,r]
+        \item If $K\subseteq X$ is closed, then $K$ is compact.
+        \item If $(Y,\sigma)$ is a topological space and $f:X\to Y$ is continuous, then $f(X)$ is compact.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Immediate.
+\end{proof}
+\begin{remark}
+    If $X$ is a normed space, $w^*=\sigma(X^*,\hat X)$, if $x\in X$, $\hat x\in X^{**}$, $\hat x(f)=f(x)$, $\hat X=\{\hat x:x\in X\}$.
+    If $A,B$ are non-empty sets, $A^B\cong \{f:B\to A\}$.
+\end{remark}
+\begin{theorem}[Alaoglu]
+    Let $X$ be a normed space.
+    Then $B(X^*)$ is $w^*=\sigma(X^*,\hat X)-$compact
+\end{theorem}
+\begin{proof}
+    Let $\Gamma:X^*\to\F^X$ be given by $\Gamma(f)=(f(x))_{x\in X}$, so $\Gamma$ is injective.
+    Let $\pi=\sigma(\F^X,\{p_x\}_{x\in X})$ be the product topology.
+    If $U_1,\ldots,U_n\subseteq\F$ are open and $x_1,\ldots,x_n\in X$, then
+    \begin{equation*}
+        \Gamma\left(\bigcap_{k=1}^n\hat x_n^{-1}(U_k)\right)=\bigcap_{k=1}^n\Gamma\left(\hat x^{-1}_n(U_k)\right)=\bigcap_{k=1}^n \hat x_n^{-1}(U_k)\cap\Gamma(X^*)
+    \end{equation*}
+    is $\pi|_{\Gamma(X^*)}-$open in $\Gamma(X^*)\subset\F^X$.
+    Hence $\Gamma:X^*\to\Gamma(X^*)$ is $w^*-\pi|_{\Gamma(X^*)}-$open, so $\Gamma^{-1}:\Gamma(X^*)\to X^*$ is $\pi|_{\Gamma(X^*)}-w^*-$open.
+    Now we study $\overline{\Gamma(B(X^*))}\subset\F^X$.
+    Let $g\in \overline{\Gamma(B(X^*))}$ and let $D=D(\F)$.
+    Given $x,y\in X$ and $\alpha\in\F$, and then given $\epsilon>0$, we find $f\in B(X^*)$ such that
+    \begin{equation*}
+        \Gamma(f)\in p_x^{-1}\left(g(x)+\frac{\epsilon}{3}D\right)\cap p_y^{-1}\left(g(y)+\frac{\epsilon}{3(|\alpha|+1)}D\right)\cap p_{x+\alpha y}^{-1}\left(g(x+\alpha y)+\frac{\epsilon}{3}D\right)
+    \end{equation*}
+    We have that $f$ is linear with $\Gamma(f)(x)=f(x)$, etc. so we have
+    \begin{equation*}
+        |g(x)+\alpha g(y)-g(x+\alpha y)|\leq|g(x)-f(x)|+|\alpha||g(y)-f(y)|+|g(x+\alpha y)-f(x+\alpha y)|<\epsilon
+    \end{equation*}
+    and since $\norm{f}\leq 1$, we have $|g(x)|\leq|g(x)-f(x)|+|f(x)|<\epsilon/3+\norm{x}$.
+    Then since $\epsilon>0$ is arbitrary, get $g\in X'$ and $|g(x)|\geq\norm{x}$, i.e. $g\in B(X^*)$.
+    Hence we have that $g=\Gamma(g)$.
+
+    Thus $\Gamma(B(X^*))\subseteq\prod_{x\in X}\norm{x}\overline{D}\subseteq\F^X$ is a closed subset of a compact subset of $\F^X$.
+    Thus $B(X^*)$ is the continuous image of a compact set and hence compact.
+\end{proof}
+\begin{remark}
+    If $r>0$, then we may replace $B(X^*)$ with $rB(X^*)$ in the proof above, with trivial modifications.
+    Thus any ball is $w^*-$compact.
+    Hence bounded $w^*-$closed sets in $X^*$ are automatically $w^*-$compact.
+\end{remark}
+\begin{definition}
+    A topological space $(X,\tau)$ is Hausdorff if given $x\neq y$ in $X$, there are $U_x,V_y\in\tau$ such that $x\in U_x$ and $y\in V_y$ and $U_x\cap U_y=\emptyset$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item A metric space is Hausdorff.
+        \item $X$ a normed space, $w=\sigma(X,X^*)$ is Hausdorff (by Hahn-Banach and A2Q1).
+        \item If $X$ is a normed space, then $w^*=\sigma(X^*,\hat X)$ on $X^*$ is Hausdorff.
+        \item $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$ with $\pi$ the product topology.
+            Then $(X,\pi)$ is Hausdorff if and only if all $(X_\alpha,\tau_\alpha)$ are Hausdorff.
+            (Straightfoward exercise).
+    \end{enumerate}
+\end{example}
 \end{document}
+

@@ -932,6 +932,47 @@ We then define $\Ind_H^G(\rho):G\to\GL(W)$ by
         \end{pmatrix}
     \end{equation*}
 \end{example}
+\section{Non-Commutative Module Theory}
+Let $R$ be a ring with unity and $(M,+)$ an abelian group.
+We can equip $\End(M)$ with a ring structure given by $(f+g)(x)=f(x)+g(x)$ and $fg(x)=f(g(x))$.
+\begin{definition}
+    A (left) $R-$module is an abelian group $(M,+)$ equipped with a unitary ring homomorphism $\alpha:A\to\End(M)$.
+\end{definition}
+This map $\alpha$ defines a multiplication between elements of $r$ and $m$ given by $rm=\alpha(r)(m)$.
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $F$ is a field, a $F-$module is a $F-$vector space.
+        \item $M$ is a $\Z-$module if and only if $M$ is an abelian group.
+        \item $R$ is an $R-$module (left multiplication)
+        \item If $I$ is a left ideal of $R$, then $I$ is a left $R-$module.
+        \item $R=M_n(F)$, and $V=F^n$.
+            Then $V$ is an $R-$module.
+        \item Let $R$ be a ring and $I$ a left ideal of $R$.
+            Then $R/I=\{a+I:a\in R\}$, so $R/I$ is an $R-$module with $r(a+I)=ra+I$.
+    \end{enumerate}
+\end{example}
+Let $M$ be an $R-$module.
+We say a subgroup $(N,+)$ of $(M,+)$ is an $R-$submodule of $M$ if $N$ is $\alpha(r)-$invariant for each $r\in R$.
+\begin{definition}
+    Let $G$ be a finite group and $F$ a field.
+    We define the group algebra $F[G]=\{\alpha_1g_1+\cdots+\alpha_ng_n:\alpha_i\in F\}$ equipped with $G-$pointwise addition and multiplication $ag_i\cdot bg_j=(ab)g_ig_j$, extended by distributivity.
+\end{definition}
+\begin{example}
+    Let $M$ be a $\C[G]-$module.
+    Then $M$ is also a $\C-$vector space, and $\rho:G\to\GL(M)$ given by $\rho(g)(m)=gm$ is a representation.
+\end{example}
+\begin{example}
+    If $\rho:G\to\GL(V)$ be a representation, the $\rho$ induces a $\C[G]-$multiplication on $V$, making $V$ a $\C[G]-$module.
+    Moreover, if $N\leq M$ is a submodule, then it is $\rho(cg)-$invariant for any $cg\in\C[G]$ if and only if $N$ as a subspace of $M$ is $G-$stable.
+\end{example}
+To be precise, we have $c g\cdot v=\rho(g)(c v)$.
+In fact, there is an isomorphic of categories from representations of $G$ and $\C[G]$-modules.
+\begin{definition}
+    Let $N,M$ be $R-$modules.
+    We say $\psi:N\to M$ is a (module) homomorphism if $\phi$ commutes with the structures on $N$ and $M$.
+\end{definition}
+If $\phi:N\to M$ is a homomorphism where $N,M$ are $\C[G]-$modules, with multiplication maps $\rho$ and $\tau$.
+Then $\phi\circ\rho=\tau\circ\phi$, in other words that it is an intertwining map.
 Note that $\rho:G\to\GL(V)$ is faithful if only if the unique zero map on $v$ is $0$.
 \begin{definition}
     Let $M$ be an $R-$module.
@@ -978,5 +1019,44 @@ Recall that a division ring is a unital ring such that every non-zero element is
         \item $a\in\bigcap_{I\leq R\text{ maximal}}I$.
     \end{enumerate}
 \end{theorem}
+\begin{proof}
+    \imp{i}{ii}
+    Let $a\in J(R)$ and for contradiction assume for some $x\in R$ $R(1+xa)\neq R$.
+    Thus there exists a maximal let ideal $I$ such that $R(1+xa)\subseteq I$, so that $R/I$ is an irreducible $R-$module.
+    Thus $a(R/I)=(0)$, so that $a(\overline{1})=\overline{a}=\overline{0}$, so $xa\in I$ and $1\in I$, a contradiction.
+
+    \imp{ii}{iii}
+    Assume $Ra$ is left quasiregular.
+    Assume there exists some maximal left ideal $I$ with $a\notin I$.
+    Since $R/I$ is irreducible, $I+Ra/I\leq R/I$ is a non-zero ideal.
+    By irreducibility, $I+Ra/I=R/I$, so there exists $x\in R$ so that $\overline{x}\overline{a}=\overline{-1}$, so $1+xa\in I$ is left-invertible, so $I=R$, a contradiction.
+
+    \imp{iii}{i}
+    Let $A=\bigcap_{I\text{ left max}}I$.
+    Suppose there exists an irreducible module $M$ so that $AM\neq(0)$.
+    Then there exists $0\neq m\in M$ such that $Am\neq(0)$.
+    Note that $am$ is a left $R-$submodule of $M$, so there exists $a\in A$ so that $am=-m$.
+    Thus $(1+a)m=0$, so if $(1+a)$ is in a maximal left ideal, then $1+a-a$ is as well.
+    Thus $(1+a)$ is left-invertible, so $m=0$, a contradiction.
+\end{proof}
+\begin{remark}
+    \begin{equation*}
+        J(R)=\bigcap_{M\text{ irreducible}}\Ann(M)=\bigcap_{\text{left max}}I=\sum_{\text{left quasi-reg}}Ra
+    \end{equation*}
+    Let $a\in J(R)$, $x\in R$, and suppose $R(1+ax)\neq R$, so $R(1+ax)\subseteq I$ where $I$ is left maximal.
+    Thus $R/I$ is irreducible, so $a(x+I)=\overline{0}$, so $ax\in I$, so $1\in I$.
+
+    If $a\in J(R)$, then $1+a$ is invertible so get $b\in R$ so that $b(1+a)-a$.
+    Then since $a+b+ba=0$, so $b\in J(R)$.
+    By the same argumetn, get $c\in J(R)$ with $c(1+b)=-b$.
+    But then subtracting, manipulating, we get $cb=ba$ so that $a+b=b+c$ and in fact $a=c$.
+    Thus $(1+a)b=b+ab=b+cb=-a$.
+    Thus $(1+a)b=-a$, so $(1+a)R=R$.
+    Thus $J(R)=\{x:xr\text{ is right quasiregular}\}$.
+\end{remark}
+\begin{definition}
+    A ring is \textbf{semiprimitive} if $J(R)=(0)$.
+\end{definition}
+
 \end{document}
 

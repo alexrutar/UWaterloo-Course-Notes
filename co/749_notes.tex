@@ -965,6 +965,92 @@ For example, if $G$ must have at least $2n-2$ edges, while if $G$ is cubic, then
     If $G$ is 4-edge-connected, then $G=H_1\cup H_2$ where each $H_i$ is even.
     Then $G$ has a nowhere zero 4-flow.
 \end{corollary}
+
+We say $H\subseteq G$ is an $r-$factor in $G$ if $V(H)=V(G)$ and $H$ is $R-$regular.
+Suppose $r=p\cdot q$ and $G$ is $r-$regular.
+In this case, is $G$ a union of a $p$ $q-$factors?
+
+\begin{proposition}
+    Next time, we will show that $G$ is $6-$edge-connected and 9-regular implies that $G$ is a union of 3 3-factors, and similarly for 4-edge-connected (if the 3-flow conjecture is true).
+\end{proposition}
+\begin{proposition}
+    Let $G$ be a planar $2-$connected graph.
+    Then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item If $G$ is cubic, then $G=M_1\cup M_2\cup M_3$ where $M_i$ are 1-factors.
+        \item $G$ is 4-colourable.
+        \item If $G$ is 9-regular, then $G=F_1\cup F_2\cup F_3$ where $F_i$ are 3-regular.
+\end{proposition}
+\begin{proof}
+    \imp{i}{ii}
+    Assume the 4 color theorem.
+    Color the faces with colours from $K_4$ (Klein 4-group), then for any edge in $G$, colour it equal to the sum of adjacent elements on the faces.
+    But then this is a valid 3-coloring, since the sum of distinct elements of $K_4$ is 0 precisely when the elements are the same, and no two edges of the same face can be coloured the same.
+
+    \imp{ii}{i}
+    Conversely, suppose $G=M_1\cup M_2\cup M_3$.
+    Consider $M_1\cup M_2$, which is a 2-factor and hence a collection of disjoint cycles.
+    This $G$ gets a face coloring using colors 0 and 1, with $C_1(p)$.
+    Repeat with $M_1\cup M_3$ and get $C_2(p)$.
+    Then set $C(p)=(C_1(p),C_2(p))$.
+
+    \imp{iii}{ii}
+    Let $G$ be planar cubic 2-edge-connected.
+    Take each vertex $v$ with edges $e_1,e_2,e_3$ and expand the vertex into three vertices each with 4 edges connecting them, and apply (iii) to this graph.
+    Then precisely one of $e_1,e_2,e_3$ is contained in some distinct 3-factor $F_i$.
+    Color that edge $i$.
+\end{proof}
+\begin{proposition}
+    Let $G$ be planar and 2-edge-connected.
+    Then the edges of $G$ can be colored with $\{1,2,3\}$ and $c_1(v),c_2(v),c_3(v)$ (the color count for each vertex $v$) are all equal or two are equal and the third differs by $\pm 2$.
+\end{proposition}
+\begin{proof}
+    Assume not.
+    Consider the following conditions:
+    \begin{enumerate}[nl,r]
+        \item The number of blocks (piece with no cut vertex) is minimum
+        \item The number of vertex degrees not equivalent to 0 mod 3 is minimal
+        \item The sum of the vertex degrees greater than 3 is minimal
+        \item Number of edges is minimal
+    \end{enumerate}
+
+    Let $G_0$ be 2-connected and minimal with respect to the above conitions.
+    Let's determine some properties of $G_0$.
+    \begin{enumerate}[nl]
+        \item If there are blocks, separate and apply induction, permuting the colors in one of the components of necessary.
+            Thus the number of blocks is 1
+        \item Let $v$ be a vertex with degree not 0 modulo 3.
+            If $v$ has degree 7, separate the vertex into a pair $v_1,v_2$ (degrees 2 and 5) and with an additional edge between $v_1,v_2$.
+            Then the number of blocks is unchanged, and the number of not 0 modulo 3 degrees goes down, so we may apply induction.
+            If $v$ has degree 5, separate the vertex into a pair $v_1,v_2$ (degrees 1 and 4), with 2 additional edges, and repeat the same process.
+            Every possible degree falls into one of these degrees.
+            Thus, every vertex has degree equivalent to 0 modulo 3.
+        \item A least one vertex has degree at least 6.
+        \item $G$ is 3-edge connected; if not, get a bridge with 2 edges, do the standard swap.
+        \item For all $x$ of degree at least 3, there exists $y$ such that $\{x,y\}$ is a 2-vertex-cut.
+            Suppose some vertex $x$ has degree at least $n\geq 6$.
+            Then separate into a vertex $x'$ with degree 3 and $x''$ with degree $n-3$.
+            Suppose the number of blocks is now 2.
+            Then there exists some vertex $y$ such that every $x'$ to $x''$ path contains $y$.
+        \item Every vertex has at least 3 neighbours.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    We have the following increasing sequence of dependencies:
+    \begin{enumerate}[nl]
+        \item If $G$ is 4-edge-connected.
+        \item $G$ contains two edge-disjoint spanning trees.
+        \item $G\supseteq H_1\cup H_2$ where $H_i$ are eulerian
+        \item $G=H_1\cup H_2\cup H_3$ such $H_i$ is even and every edge is covered twice.
+        \item There is a cycle double cover (collection of cycles)
+        \item $L(G)$ is Hamiltonian
+        \item $G$ has an $S^2-$flow.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We show 3 implies 4.
+    Put $E(H_3)$ as the symmetric difference of $E(H_1)$ and $E(H_2)$.
+\end{proof}
 \end{document}
 
 

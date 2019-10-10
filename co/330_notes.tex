@@ -25,7 +25,13 @@
 \pgfplotsset{compat=1.15}
 \usetikzlibrary{intersections,positioning,cd}
 \usetikzlibrary{arrows,arrows.meta}
+\usetikzlibrary{shapes.geometric}
 \tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+\tikzset{
+    vtx/.style={inner sep=2pt,circle,fill=black},
+    e/.style={thick},
+    de/.style={e,decoration={markings,mark=at position 0.5 with {\arrow{>}}},postaction={decorate}}
+}
 
 % Set hyperref
 \usepackage[hidelinks]{hyperref}
@@ -564,6 +570,52 @@ But then apply binomial inversion to get
 Suppose $m^n=\sum_{k=0}^n S(n,k)\binom{m}{k}k!$.
 Then $[m]_q^n=\sum_{k=0}^\infty S[n,k]_q\sqbinom{m}{k}_q[k]!_q$, where $S[n,k]_q=\sum_{\pi\in\Pi(n,k)}q^{w(\pi)}$.
 Is there some function $w:\Pi(n,k)\to\N$ that makes this work?
+\begin{enumerate}
+    \item[B.5] For $\mathcal{S}$ a set of BTs, let $\mathcal{R}$ be the trees in $\mathcal{S}$ with a red root and $\mathcal{B}$ be the trees in $\mathcal{S}$ with a blue root, so $\mathcal{S}=\mathcal{R}\cupdot\mathcal{B}$ disjointly.
+        Let $r(T)$ count the number of red notes, and $b(T)$ count the number of blue nodes, and let $S(x,y)=\sum_{T\in\mathcal{S}}x^{r(T)}y^{b(T)}$.
+        In particular, $S(t,t)=\sum_{T\in\mathcal{S}}t^{n(T)}$ where $n(T)=r(T)+b(T)$ is the total number of notes.
+
+        We have bijections
+        \begin{align*}
+            \mathcal{R} &\leftrightharpoons \{{\color{red}\bullet}\}\times\bigcup_{k=0}^\infty\mathcal{S}^k\\
+            \mathcal{B} &\leftrightharpoons\{{\color{blue}\bullet}\}\times\bigl((\epsilon\cup\mathcal{R})(\mathcal{B}\mathcal{R})^*(\epsilon\cup\mathcal{B})\bigr)\\
+            \mathcal{S} &\leftrightharpoons\mathcal{R}\cup\mathcal{B}
+        \end{align*}
+        so that
+        \begin{align*}
+            S&=R+B\\
+            R &= \frac{x}{1-S}\\
+            B &= y(1+R)\frac{1}{1-BR}(1+B)
+        \end{align*}
+        Substituting $R$ and $B$ using the first two equations, we get
+        \begin{equation*}
+            S-\frac{x}{1-S}=\frac{y\left(1+\frac{x}{1-S}\right)\left(1+S-\frac{x}{1-S}\right)}{1-\frac{x}{1-S}\left(S-\frac{x}{1-S}\right)}
+        \end{equation*}
+        \begin{center}
+            \begin{tikzpicture}[btree/.style={draw=black,regular polygon, regular polygon sides=3,rounded corners}]
+                \node[vtx,fill=red,draw=black] (v) at (2,2) {};
+                \node[btree] (b1) at (0,0) {$S_1$};
+                \node[btree] (b2) at (2,0) {$S_2$};
+                \node[draw=none] (eps) at (3.5,0) {$\cdots$};
+                \node[btree] (b3) at (5,0) {$S_n$};
+                \draw (v) -- ([yshift=-0.087cm]b1.north);
+                \draw (v) -- ([yshift=-0.087cm]b2.north);
+                \draw (v) -- ([yshift=-0.087cm]b3.north);
+            \end{tikzpicture}
+        \end{center}
+        \begin{center}
+            \begin{tikzpicture}[btree/.style={draw=black,regular polygon, regular polygon sides=3,rounded corners}]
+                \node[vtx,fill=blue,draw=black] (v) at (2,2) {};
+                \node[btree,fill=blue,fill opacity=0.1,text opacity=1] (b1) at (0,0) {$S_1$};
+                \node[btree,fill=red,fill opacity=0.1,text opacity=1] (b2) at (2,0) {$S_2$};
+                \node[draw=none] (eps) at (3.5,0) {$\cdots$};
+                \node[btree,fill=blue,fill opacity=0.1,text opacity=1] (b3) at (5,0) {$S_n$};
+                \draw (v) -- ([yshift=-0.087cm]b1.north);
+                \draw (v) -- ([yshift=-0.087cm]b2.north);
+                \draw (v) -- ([yshift=-0.087cm]b3.north);
+            \end{tikzpicture}
+        \end{center}
+\end{enumerate}
 \chapter{Power Series Identities}
 \begin{enumerate}[nl,r]
     \item $\displaystyle\frac{1}{(1-z)^h}=\sum_{k=0}^\infty\binom{k+h-1}{h-1}z^k$
