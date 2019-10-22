@@ -1738,5 +1738,161 @@ We then have (with some verification possibly needed)
             (Straightfoward exercise).
     \end{enumerate}
 \end{example}
+\begin{proposition}
+    Let $(X,\tau)$ be a Hausdorff space, $K\subseteq X$ $\tau-$compact.
+    Then $K$ is $\tau-$closed.
+\end{proposition}
+\begin{proof}
+    Straightforward exercise.
+\end{proof}
+\begin{proposition}
+    Let $(X,\tau)$ be a compact space.
+    \begin{enumerate}[nl,r]
+        \item If $(Y,\sigma)$ is a Hausdorff space and $\phi:X\to Y$ is continuous and bijective, then $\phi^{-1}:Y\to X$ is continuous.
+        \item If $\tau'\subseteq\tau$ is a Hausdorff topology on $X$, so $\tau'=\tau$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $F\subseteq X$ is $\tau-$closed, then it is $\tau-$compact.
+            Hence $(\phi^{-1})^{-1}(F)=\phi(F)$ is $\sigma-$closed, so by A1Q1, $\phi^{-1}$ is continuous.
+        \item $\id:X\to X$ is continuous, so if $U\in\tau'$, then $\id^{-1}(U)=U\in\tau$, so $\id$ is continuous.
+            Hence by (1) $\id^{-1}$ is continuous so $\tau\subseteq\tau'$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[Metrization]
+    If $X$ is a separable normed space, then $B(X^*)$ is $w^*-$metrizable, i.e. there exists a metric $\rho$ on $B(X^*)$ such that $w^*|_{B(X^*)}=\tau_\rho$.
+\end{theorem}
+\begin{proof}
+    Let $\{x_n\}_{n=1}^\infty\subset B(X)$ be any set which is separating for $X^*$, i.e. if $f\in X^*\setminus\{0\}$, then $f(x_n)\neq 0$ for some $n$ (for example, take any dense subset of $D(X)\setminus\{0\}$).
+    Let $\rho$ be given by
+    \begin{equation*}
+        \rho(f,g)=\sum_{k=1}^\infty\frac{|(f-g)(x_k)|}{2^k}\leq 2
+    \end{equation*}
+    It is easy to see that this is a metric.
+
+    Given $f_0\in B(X^*)$, take $\epsilon>0$ and let
+    \begin{itemize}[nl]
+        \item $n$ be so $\sum_{k=n+1}^\infty\frac{2}{2^k}<\frac{\epsilon}{2}$, and
+        \item $V=\bigcap_{k=1}^n\{f\in B(X^*):|\hat x_k(f)-\hat x_k(f_0)|<\epsilon/2\}\in w^*|_{B(X^*)}$, $f_0\in V$.
+    \end{itemize}
+    Then if $f\in V$,
+    \begin{align*}
+        g(f,f_0) &= \sum_{k=1}^n\frac{|f(x_k)-f_0(x_k)|}{2^k}+\sum_{k=n+1}^\infty\frac{|f(x_k)-f_0(x_k)|}{2^k}<\epsilon
+    \end{align*}
+    so $f_0\in V\subset B^\circ_{\rho,\epsilon}(f_0)$.
+    Since $f_0$ is arbitrary, we have $\tau_\rho\subseteq w^*|_{B(X^*)}$, but since $w^*$ is compact and $\tau_\rho$ is Hausdorff, these must be equal.
+\end{proof}
+\begin{enumerate}[nl,r]
+    \item Note that different separating families from $B(X)$ may produce different metrics, but always the same topology.
+    \item The definition of $\rho$ above extends to all of $X^*\times X^*$.
+        However, $X^*$ with the weak$\phantomP{}^*$ topology is not in metrizable if $X$ is infinite dimensional.
+    \item $X^*=\bigcup_{=1}^\infty nB(X^*)$, so each $nB(X^*)$ is metrizable and compact, and thus $w^*-$separable.
+        Thus if $X$ is separable, then $X^*$ is itself separable.
+\end{enumerate}
+\section{Nets}
+\begin{definition}
+    A pair $(N,\leq)$ is a \textbf{preorder} on $N$ if
+    \begin{itemize}[nl]
+        \item $v\leq v$ for $v\in N$
+        \item $v_1\leq v_2$ and $v_2\leq v_3$ implies $v_1\leq v_3$.
+    \end{itemize}
+    This pair is \textbf{cofinal} if for any $v_1,v_2\in N$, there is $v_3\in N$ so $v_1\leq v_3$ and $v_2\leq v_3$.
+    Then $(N,\leq)$ is a \textbf{directed set} if $\leq$ is a cofinal preorder.
+
+    Given a non-empty set $X$, a \textbf{net} is a function $x:N\to X$.
+\end{definition}
+If $(x_0)_{v\in N}$ is a net in $X$, $A\subseteq X$, we say that $(x_0)_{n\in\N}$ is
+\begin{itemize}[nl]
+    \item \textbf{eventually} in $A$ if there is $v_A\in N$ so $x_v\in A$ whenever $v\geq v_A$
+    \item \textbf{frequently} in $A$ if for any $v\in N$, there is $v'\in N$ with $v'\geq g$ so $x_{v'}\in A$.
+\end{itemize}
+Now, let $(M,\leq)$ be anther directed set
+A map $\phi:M\to N$ is \textbf{eventually cofinal} if for any $v\in N$, there is $\mu_v\in N$ s $\phi(u)\geq v$ whenever $\mu\geq \mu_0$.
+Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(x_{\phi(\mu)})_{\mu\in M}$.
+\begin{definition}
+    We call $\phi:M\to N$ a \textbf{directed map} if
+    \begin{enumerate}[nl,r]
+        \item $\mu\leq \mu'$ in $M$ implies $\phi(\mu)\leq\phi(\mu')$ in $N$
+        \item For any $v\in N$, there is $\mu\in M$ s $v\leq\phi(\mu)$.
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $(\N,\leq)$ is directed, and subsequences are special types of subnets.
+        \item $(\R,\leq)$ is directed
+        \item Let $a<b$ in $\R$.
+            We let
+            \begin{equation*}
+                N=\{(P,P^*):P=\{a=t_0<t_1<\cdots<t_n=b\},P^*=\{t_1^*,\ldots,t_n^*\},t_k^*\in[t_{k-1},t_k]\}
+            \end{equation*}
+            and say $(P,P^*)\leq (Q,Q^*)$ if $P\subseteq Q$.
+            One can verify that this is a net (the Riemann sum net).
+        \item (nets from filtering families).
+            We say that $\mathcal{F}\subset\mathcal{P}(X)\setminus\{\emptyset\}$ is a \textbf{filtering family} if for each $F_1,F_2\in\mathcal{F}$, there is $F_3\in\mathcal{F}$ such that $F_3\subseteq F_1\cap F_2$.
+            For example, an ultrafilter is a filtering family.
+            Let
+            \begin{equation*}
+                N_{\mathcal{F}}=\{(x,F):x\in F,F\in\mathcal{F}\}
+            \end{equation*}
+            equipped with the pre-order $(x,F)\leq(x',F')$ if and only if $F\supseteq F'$.
+            Since $\mathcal{F}$ is a filtering family, $(N_{\mathcal{F}},\leq)$ is directed.
+            Let $x_{(x,F)}=x$, so $(x)_{(x,F)\in N_{\mathcal{F}}}$ is the net built from $\mathcal{F}$.
+
+            If $\mathcal{F}$ is an ultrafilter, then $(x)_{(x,F)\in N_{\mathcal{F}}}$ is an \textbf{ultranet}.
+            An \textbf{ultranet} $(x_v)_{v\in N}\subset X$ is a net for which any $A\in\mathcal{P}(X)$, $(x_v)_{v\in N}$ is either eventually in $A$ or eventually in $X\setminus A$.
+    \end{enumerate}
+\end{example}
+Now, suppose $(X,\tau)$ is a topological space.
+\begin{definition}
+    Let $(x_v)_{v\in N}$ be a net in $X$.
+    We say that $x_0\in X$ is
+    \begin{itemize}[nl]
+        \item a \textbf{limit point} if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is eventually in $U$.
+            That is, there is $\nu_U$ such that $x_\nu\in U$ whenever $\nu\geq\nu_U$.
+            We write $x_0=\lim_{v\in N}x_v$, the $\tau-$limit of $(x_v)_{v\in N}$.
+        \item a \textbf{cluster point} of $(x_v)_{v\in N}$ if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is frequently in $U$.
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    If $(x_v)_{v\in N}$ is a net in $(X,\tau)$ and $x_0\in X$, then $x_0$ is a cluster point for $(x_v)_{v\in N}$ if and only if $x_0$ is a $\tau-$limit point of $x_{v_\mu}$ for some subnet $(x_{v_\mu})_{\mu\in M}$ of $(x_v)_{v\in N}$.
+\end{proposition}
+\begin{proof}
+    $(\Rightarrow)$ Let for each $v\in N$ and $U\in\tau$ with $x_0\in U$
+    \begin{equation*}
+        F_{v,U}=\{v'\in N:v'\geq v,x_{v'}\in U\}\neq\emptyset
+    \end{equation*}
+    We let $\mathcal{F}=\{F_{v,U}:v\in N,U\in\tau\text{ with }x_0\in U\}\subset\mathcal{P}(N)$, which is filtering.
+    We let $M=N_{\mathcal{F}}$ as in (iv) above, and $v_{v,\mathcal{F}}=v$.
+    Check that $(x_v)_{(v,F)\in N_{\mathcal{F}}}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$.
+    [Check: $(v,F)\mapsto v:N_{\mathcal{F}}\to N$ is cofinal, but is not evidently directed]
+    
+    $(\Leftarrow)$ If for some subnet $(x_{v_\mu})_{\mu\in M}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$, then $(x_v)_{v\in N}$ is frequently in $U$ for such $U$ by definition of a subnet.
+\end{proof}
+\begin{proposition}
+    If $(Y,\sigma)$ is another topological space, then $f:X\to Y$ is continuous if and only if for any $x_0\in X$ and net $(x_v)_{v\in N}$ with having $x_0$ as a limit, $f(x_0)=\lim_{v\in N}f(x_v)$.
+\end{proposition}
+\begin{proof}
+    If $V\in\sigma$ with $f(x_0)\in V$, then $f^{-1}(V)\in\tau$ with $x_0\in f^{-1}(V)$.
+    Since $(x_v)_{v\in N}$ is eventually in $f^{-1}(V)$, so $(f(x_v))_{v\in N}$ is eventually in $V$.
+
+    Conversely, let $\tau_{x_0}=\{U\in\tau:x_0\in U\}$, which is filtering on $X$.
+    Let $N_{\tau_{x_0}}=\{(x,U):x\in U,U\in\tau_{x_0}\}$ be directed by $(x,U)\leq(x',U')$ if and only if $U\supseteq U'$ as in (iv) above.
+    Then $x_0=\lim_{(x,U)\in N_{\tau_{x_0}}}x$.
+    Now, let $V\in\sigma$ with $f(x_0)$.
+    The assumptions on $f$ tell us there is $v-V\in N_{\tau_{x_0}}$ such that for $v\geq v_V$, we have $f(x_0)\in V$
+    We have $v_V=(x,U)$ for some $U\in\tau_{x_0}$ and $x\in U$, so for any $x'\in U$, $(x',U)\geq(x,U)$ and $f(x')=f(x_{x',U})\in V$, so that $x_0\in U=\bigcup_{x'\in U}\{x'\}\subseteq f^{-1}(V)$, so $f$ is continuous at $x_0$.
+    But $x_0\in X$ was arbitrary.
+\end{proof}
+\begin{remark}
+    We get the following consequences of this result:
+    \begin{enumerate}[nl,r]
+        \item Given topologies $\tau,\tau'$ on $X$, $\tau'\subseteq\tau$ if and only if $\tau'-\lim_{v\in N}x_v=x_0$ whenever $\tau-\lim_{v\in N}x_v=x_0$ for any $x_0\in X$.
+        \item (limits in product topology) $\{(x_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be topological space and $X=\prod_{\alpha\in A}X_\alpha$ equipped with the product topology $\pi$.
+            If $(x^{(v)})_{v\in N}$ is a net in $X$ and $x^{(0)}\in X$, then $\pi-\lim_{v\in N}x^{(v)}=x^{(0)}$ if and only if for every $\alpha\in A$, $\tau_\alpha-\lim_{v\in N}x_\alpha^{(v)}=x_\alpha^{(0)}$.
+            Recall that $\pi$ is the coarsest topology making each $\mu_\alpha$ continuous.
+        \item If $X$ is a normed space and $(f_v)_{v\in N}\subset X^*$, $f_0\in X^*$, then $w^*-\lim_{v\in N}f_v=f_0$ if and only if $\lim_{v\in N}f_v(x)=f_0(x)$ for each $x\in X$.
+    \end{enumerate}
+\end{remark}
 \end{document}
 

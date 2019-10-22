@@ -1057,6 +1057,65 @@ Recall that a division ring is a unital ring such that every non-zero element is
 \begin{definition}
     A ring is \textbf{semiprimitive} if $J(R)=(0)$.
 \end{definition}
+Recall that
+\begin{equation*}
+    J(R)=\bigcap_{\text{left max}}I = \bigcap_{\text{irred left}}\Ann(M) = \bigcap_{\text{left quasi-ref}}\{Ra:\forall x, R(1+xa)=R\}
+\end{equation*}
+\begin{example}
+    \begin{enumerate}
+        \item $J(\Z)=\bigcap_{p\text{ prime}}\langle p\rangle$
+        \item $J(F[[x]])=\langle x\rangle$
+        \item $J(\Z_{12})=\langle 2\rangle\cap\langle 3\rangle=\langle 6\rangle$
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let $R$ be a ring.
+    We say $a\in R$ is \textbf{nilpotent} if there exists $n=n(a)\in\N$ such that $a^n=0$.
+    An ideal (left,right,both) is \textbf{nil} if every element is nilpotent.
+    An ideal $I$ (left,right,both) is \textbf{nilpotent} if there exists some $n\in\N$ such that $I^n=(0)$.
+\end{definition}
+\begin{proposition}
+    Every nil left ideal of $R$ is contained in $J(R)$.
+\end{proposition}
+\begin{proof}
+    It suffices to show that for every nil element $a$ that $(1+a)$ is invertible.
+    Indeed, since $a^n=0$ for some $n$, $(1-a+a^2-\cdots+(-1)^{n-1}a^{n-1})(1+a)=1$.
+\end{proof}
+\begin{proposition}
+    $J\left(\quot{R}{J(R)}\right)=(0)$, in other words, $\quot{R}{J(R)}$ is semiprimitive.
+\end{proposition}
+\begin{proof}
+    \begin{equation*}
+        J\left(\quot{R}{J(R)}\right) = \bigcap_{\substack{I\subseteq R\text{ max}\\J(R)\subseteq I}}\quot{I}{J(R)} = \bigcap_{\substack{I\subseteq R\\\text{left max}}}\quot{I}{J(R)}=\quot{J(R)}{J(R)}=(0)
+    \end{equation*}
+\end{proof}
+\begin{definition}
+    A ring $R$ is \textbf{(left) Artinian} if whenever $I_1\supseteq I_2\supseteq\cdots$ is a descending chain of left ideals, then there exists $N\in\N$ such that $I_k=I_N$ for all $k\geq N$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $\Z$ is not Artinian.
+        \item If $R$ Artinian, then $M_n(R)$ is Artinian.
+            If $I$ is an ideal of $M_n(R)$, then $I=M_n(I')$ where $I'$ is an ideal of $R$.
+        \item Division rings are artinian
+        \item Suppose $R$ is an $F-$algebra, where $F$ is a field (isomorphic copy of $F$ contained in the center of $R$).
+            If $\dim_FR<\infty$, then $R$ is Artinian
+        \item If $F$ is a field and $G$ is a finite group, then $F[G]$ is Artinian since $\dim F[G]=|G|<\infty$
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    If $R$ is Artinian, then $J(R)$ is nilpotent.
+\end{proposition}
+\begin{proof}
+    Consider $J(R)\supseteq J(R)^2\supseteq\cdots$.
+    Thus there exists $N$ such that $J(R)^k=J(R)^n$ for all $k\geq N$.
+    Let $I=J(R)^N$; let's see that $I=(0)$.
+    Suppose $I\neq (0)$.
+    Let $A$ be a minimal left ideal fo $R$ such that $IA\neq (0)$.
+    Let $a\in A$ so that $Ia\neq(0)$, so $Ia$ is a left ideal and $I(Ia)=I^2a=Ia$.
+    Thus by minimality, $A=Ia$ so there is some $x\in I$ such that $a=xa$.
+    Thus $(1-x)a=0$ so $a=0$, a contradiction.
+\end{proof}
 
 \end{document}
 

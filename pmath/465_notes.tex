@@ -909,7 +909,7 @@ When $\phi$ is a chart on $M$ at $p$, we often write
 \begin{equation*}
     x=x(p)=\phi(p)=(\phi^1(p),\ldots,\phi^n(p))=(x^1(p),\ldots,x^n(p))
 \end{equation*}
-(so each $x^k=\phi^k$ is a function $x^k,\phi^k:U\subseteq M\to\R$.
+(so each $x^k=\phi^k$ is a function $x^k,\phi^k:U\subseteq M\to\R$).
 When $\psi$ is another chart and we write $y=\psi(p)$, we often write $y=y(x)=(\psi\phi^{-1})(x)=(y^1(x),\ldots,y^n(x))$ and we write
 \begin{equation*}
     \prt{y}{x}=
@@ -945,6 +945,58 @@ Let $X$ be the vector on $\mathbb{S}^2$ at $p$ with $\phi_*X=(1,0)$.
 Let $\iota:\mathbb{S}^2\to\R^3$ be the inclusion map.
 We have $\phi^{-1}(x,y)=(x,y,\sqrt{1-x^2-y^2})$ with $u=\phi_*X=(1,0)$.
 Then $\iota_*X=D(\psi\ita\phi^{-1})_{\phi(p)}\phi_*X$ where $\psi$ is the identity on $\R^3$.
+\subsection{Tangent Vectors as Differential Operators}
+Recall that a vector $u\in\R^n$ at a point $a\in\R^n$ acts as a differential operator on smooth maps $f:\R^n\to\R$ by directional derivative.
+Choose any smooth map $\alpha:(-\epsilon,\epsilon)\subseteq\R\to\R^n$ with $\alpha(0)=a$ and $\alpha'(0)=u$, and define $u(f)=u_a(f)=D_uf(a)=\beta'(0)$ where $\beta(t)=f(\alpha(t))$.
+Since $\beta(t)=f(\alpha(t))$, we have $\beta'(t)=Df(\alpha(t))\cdot\alpha'(t)$ so
+\begin{align*}
+    u(f) &= D_uf(a)=\beta'(0)=Df(a)\cdot u\\
+         &= \left(\prt{f}{x^1}(a),\ldots,\prt{f}{x^n}(a)\right)\begin{pmatrix}u^1\\\vdots\\u^n\end{pmatrix}\\
+         &=\sum_{i=1}^n\prt{f}{x^i}(a)\cdot u^i
+\end{align*}
+or as a differential operator, $u=\sum_{i=1}^n u^i\prt{}{x^i}$.
+\begin{definition}
+    When $M$ is a smooth manifold, $p\in M$, and $X\in T_pM$, $X$ acts as a differential operator on a smooth function $f:M\to\R$ as follows: choose a smooth map $\alpha(-\epsilon,\epsilon)\subseteq\R\to M$ with $\alpha(0)=p$ and $\alpha'(0)=X$, and define $X(f)=X_p(f)=\beta'(0)$ where $\beta(t)=f(\alpha(t))$.
+\end{definition}
+When $\phi$ is a chart on $M$ at $p$, then
+\begin{align*}
+    X(f) &= (\phi_*X)(f\circ\phi^{-1})=D_{\phi_*X}(f\circ\phi^{-1})(\phi(p))\\
+         &= D(f\circ\phi^{-1})(\phi(p))\cdot(\phi_*X)\\
+         &= \sum_{i=1}^n \prt{f\circ\phi^{-1}}{x^i}(\phi(p))\cdot u^i
+\end{align*}
+where $u=\phi_*X\in\R^n$.
+So when $u=\phi_*X\in\R^n$, $X$ acts as the differential operator $X=\sum_{i=1}^n u^i\left.\prt{}{x^i}\right\rvert_p$ where $\left.\prt{}{x^i}\right\rvert_p(f)=\prt{f\circ\phi^{-1}}{x^i}(\phi(p))$.
+With this notation,
+\begin{equation*}
+    T_pM=\spn\left\{\left.\prt{}{x^1}\right\rvert_p,\ldots,\left.\prt{}{x^n}\right\rvert_p\right\}
+\end{equation*}
+If $\phi$ and $\psi$ are two charts at $p$ on $M$, then $T_pM$ has to representations as differential operators.
+Let us determine how $\prt{}{x^k}$ and $\prt{}{y^\ell}$ are related.
+When $X\in T_pM$, $u=\phi_*X\in\R^n$ and $v=\psi_*X\in\R^n$, we have $V=D(\psi\circ\phi^{-1})(\phi(p))\cdot u=\left(\prt{y}{x}\right)(\phi(p))\cdot u$.
+When $u=\prt{}{x^j}$,
+\begin{equation*}
+    v=\left(\prt{y}{x}\right)\cdot e_k
+\end{equation*}
+so $v^\ekk=\left(\prt{y}{x}\right)_k^\ell=\prt{y^\ell}{x^k}$ so that
+\begin{equation*}
+    v=\sum_{i=1}^n\prt{y^i}{x^k}\prt{}{y^i}
+\end{equation*}
+\begin{definition}
+    A \textbf{derivation} on $M$ at $p$ is a linear map $L:C^\infty(M)\to\R$ or $L:C_p^\infty(M)\to\R$ where $C_p^\infty(M)$ is the vector space of \textbf{germs} of smooth functions on $M$ at $p$, which satisfies the product rule at $p$:
+    \begin{equation*}
+        L(fg)=L(f)\cdot g(p)+f(p)\cdot L(g)
+    \end{equation*}
+\end{definition}
+Every $X\in T_pM$ gives a derivation on $M$ at $p$.
+Moreover, it can be shown that every derivation on $M$ at $p$ is of this form.
+Thus allows us to give an alternate definition for $T_pM$ as the space of derivations on $M$ at $p$.
 
+\begin{definition}
+    Let $TM$ be the disjoint union of all the tangent spaces.
+    A \textbf{vector field} on $M$ is a function $X:M\to TM$ such that $X(p)\in T_pM$.
+\end{definition}
+Given a chart $\phi:U\to\phi(U)$ on $M$, the restriction of $X$ to $U$ determines and is determine by the vetor field $\phi_*X$ on $\phi(u)\subseteq\R^n$ by $(\phi_*X)(\phi(p))=\phi_*(X(p))$, or $(\phi_*X)(x)=\phi_*(X(\phi^{-1}(x)))\in\R^n$.
+We say that $X$ is \textbf{smooth} at $p$ when for some chart $\phi$ on $M$ at $p$, the vector field $\phi_*X$ is smooth at $\phi(p)$.
+When $X$ is a smooth vector field on $M$, $X$ acts as a differential operator $X:C^\infty(M)\to C^\infty(M)$ by $X(f)(p)=X_p(f)$.
 \end{document}
 

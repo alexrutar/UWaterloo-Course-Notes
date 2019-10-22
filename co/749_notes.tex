@@ -1051,6 +1051,54 @@ In this case, is $G$ a union of a $p$ $q-$factors?
     We show 3 implies 4.
     Put $E(H_3)$ as the symmetric difference of $E(H_1)$ and $E(H_2)$.
 \end{proof}
+If $G$ is 40-regular, can $G$ be factorized into 5 $8-$factors?
+Yes: if $G$ is $2k-$regular, can decompose into $k$ $2-$factors (take an Euler walk and split the vertices into 2, with all the out weight or all the in-weight).
+\begin{theorem}
+    Let $r=k\cdot q$ where $q$ is odd.
+    \begin{enumerate}[nl,r]
+        \item Suppose $k$ is odd, $G$ is $r-$regular, and $(3k-3)-$edge-connected.
+            Then we can factor $G$ into $k$ $q-$factors.
+        \item If $k$ is even, the same holds with $(2k^2+k)-$edge-connected and $|V(G)|$ is even.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Recall if $k$ is odd and $G$ is $(3k-3)-$connected, then $G$ has an orientation with prescribed out-degree modulo $k$ (given degree constraints, which are satisfied when $|V(G)|$ is even).
+    Moreover, if $G$ has odd edge connectivity at least $3k-2$, then $G$ has an orientation balanced modulo $k$.
+
+    Fix a vertex $v$ with in-degree $\alpha$ and out-degree $\beta$.
+    Then $\alpha\cong\beta\pmod{k}$ and $\alpha+\beta\cong 0\pmod{k}$, so $\alpha\cong 0\pmod{k}$ and $\beta\cong 0\pmod{k}$.
+    Thus we can split each vertex at $\alpha$ and $\beta$ ...
+\end{proof}
+If $G$ is a $9-$reglar graph with odd edge connectivity at least $7$, then $G=F_1\cup F_2\cup F_3$ where the $F_i$ are $3-$factors.
+If Tutte's 3-flow holds, we may take $5$ instead.
+\begin{proposition}
+    Let $n\equiv 3\pmod{6}$.
+    Then for any $s_1,\ldots,s_k$ with $s_i\geq 2$ and $\sum_{i=1}^k s_i=n$, $G$ can be factorized into $k$ factors $M_1,\ldots,M_k$ where each $M_i$ is $s_i-$regular.
+\end{proposition}
+\begin{proof}
+    Let $o_1,\ldots,o_\ell$ and $e_1,\ldots,e_m$ enumerate $s_i$ with $o_i$ odd and $e_i$ even.
+    Get $G$ as a union of $r/3$ $3-$factors, and identify ...
+\end{proof}
+Let $G$ have $\Delta(G)\leq r$, with $r=r_1+\cdots+r_m$ and $r_i\geq 2$ satisfying the same conditions as the previous proposition.
+Then there is a decomposition $G=G_1\cup\cdots\cup G_m$ where $\Delta(G_i)\leq r_i$.
+
+\begin{theorem}
+    If $G$ is 2-edge-connected, then $G$ has a flow with values $\{1,2,\ldots,7\}$.
+\end{theorem}
+\begin{proof}
+    Since $G$ is 2-edge-connected, let's first see that $G=H_1\cup H_2\cup H_3$ where each $H_i$ is even.
+    By induction.
+    \begin{enumerate}[nl,r]
+        \item If a vertex has degree $2$, flatten the vertex and apply induction.
+        \item If $G$ has a vertex with degree at least 4, lift some pair of vertices and apply induction.
+        \item If $G$ is cubic and $2-$connected, fold the bridge (standard technique) and merge the pieces by induction
+        \item Finally, if $G$ is cubic and 3-connected, double every edge to get a 6-edge-connected, and thus contains three 3 edge disjoint spanning trees $T_1,T_2,T_3$.
+            Return the trees to $G$, and set $H_1=G-E(T_1)$, and for each edge $e$, there is some tree not containing $e$.
+
+    Then on each $H_i$, pick an orientation on the cycles and assign values $\pm 1$ on $H_1$, $\pm 2$ on $H_2$, and $\pm 4$ on $H_3$.
+    Flip the orientations on edges with negative values.
+\end{proof}
+
 \end{document}
 
 
