@@ -242,6 +242,8 @@
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\Lip}{Lip}
+\newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
+\newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
 
 
 % constants --------------------------------------------------------------------
@@ -1701,9 +1703,10 @@ We then have (with some verification possibly needed)
     \begin{equation*}
         \Gamma\left(\bigcap_{k=1}^n\hat x_n^{-1}(U_k)\right)=\bigcap_{k=1}^n\Gamma\left(\hat x^{-1}_n(U_k)\right)=\bigcap_{k=1}^n \hat x_n^{-1}(U_k)\cap\Gamma(X^*)
     \end{equation*}
-    is $\pi|_{\Gamma(X^*)}-$open in $\Gamma(X^*)\subset\F^X$.
-    Hence $\Gamma:X^*\to\Gamma(X^*)$ is $w^*-\pi|_{\Gamma(X^*)}-$open, so $\Gamma^{-1}:\Gamma(X^*)\to X^*$ is $\pi|_{\Gamma(X^*)}-w^*-$open.
-    Now we study $\overline{\Gamma(B(X^*))}\subset\F^X$.
+    so $\Gamma$ is an open map onto its image in $\F^X$.
+    Similarly, it is easy to show that $\Gamma^{-1}$ is also an open map, so in fact $\Gamma$ is a homeomorphism onto its image.
+
+    We now consider $\overline{\Gamma(B(X^*))}\subset\F^X$.
     Let $g\in \overline{\Gamma(B(X^*))}$ and let $D=D(\F)$.
     Given $x,y\in X$ and $\alpha\in\F$, and then given $\epsilon>0$, we find $f\in B(X^*)$ such that
     \begin{equation*}
@@ -1894,5 +1897,183 @@ Now, suppose $(X,\tau)$ is a topological space.
         \item If $X$ is a normed space and $(f_v)_{v\in N}\subset X^*$, $f_0\in X^*$, then $w^*-\lim_{v\in N}f_v=f_0$ if and only if $\lim_{v\in N}f_v(x)=f_0(x)$ for each $x\in X$.
     \end{enumerate}
 \end{remark}
+\subsection{Roles of weak and weak* topologies in convexity}
+\begin{theorem}[$w^*-$Separation]
+    Let $X$ be a normed space, $A,B\subset X^*$ each be non-empty and convex, with $A\cap B=\emptyset$ and $B$ $w^*-$open.
+    Then there is $x\in X$ and $\alpha\in\R$ such that
+    \begin{equation*}
+        \Re f(x)\leq \alpha < \Re g(x)
+    \end{equation*}
+    for $f\in A$ and $g\in B$.
+\end{theorem}
+\begin{proof}
+    The separation theorem and the fact that $B$ is $\norm{\cdot}-$open (i.e. $w^*\subseteq\tau_{\norm{\cdot}}$) provides $F\in X^{**}$ and $\alpha\in\R$ such that $\Re F(f)\leq\alpha\Re F(g)$ for $f\in A$, $g\in B$.
+    Since $B\in w^*=\sigma(X^*,\hat X)$, if $f_0\in B$, then there are $x_1,\ldots,x_n$ in $X$ such that
+    \begin{equation*}
+        f_0\in U=\bigcap_{i=1}^n \hat x_i^{-1}(f_0(x_i)+\mathbb{D})\subseteq B
+    \end{equation*}
+    Let $Y=\bigcap_{i=1}^n\ker\hat{x_i}\subseteq X^*$.
+    Then for $i=1,\ldots,n$, $\hat x_i(f_0+Y)=\{f_0(x_i)\}\subset f_0(x_i)+\mathbb{D}$, so that $f_0+Y\subseeq U\subseteq B$.
+    Thus if $f\in Y$, then $\Re F(f_0+f)>\alpha$ and hence $\Re F(f)>\alpha-\Re F(f_0)$ which implies that $f\in\ker\Re F$, so $f\in\ker F$.
+    That is, $Y\subseteq\ker F$.
+    The next lemma shows that $F\in\spn\{\hat x_1,\ldots,\had x_n\}\subseteq\hat X$, i.e. $F=\hat x$ for some $x\in X$.
+\end{proof}
+\begin{lemma}
+    In an $\F-$vector space, if $f_0,f_1,\ldots,f_\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$, then $f\in\spn\{f_1,\ldots,f_n\}$.
+\end{lemma}
+\begin{proof}
+    Define $T:X\to\F^n$ by $Tx=(f_1(x),\ldots,f_n(x))$.
+    Then $\ker T=\bigcap_{i=1}^n\ker f_i$.
+    Let $\mathcal{R}=\im T\subseteq\F^$ and $g_0\in\mathcal{R}'$ by $g_0(Tx)=f_0(x)$.
+    Then $g_0$ is well-defined: if $Tx=Ty$, then $x-y\in\ker T\subseteq\ker f_0$, so $f_0(x-y)=0$ so $f_0(x)=f_0(y)$.
+    Also $g_0$ is linear.
+    Let $g\in(\F^n)'$ such that $g|_{\mathcal{R}}=g_0$.
+    Hence there are $\alpha_1,\ldots,\alpha_n\in\F$ such that $g(y_1,\ldots,y_n)=\sum_{j=1}^n\alpha_jy_j$.
+    Hence for $x\in X$,
+    \begin{equation*}
+        f_0(x)=g_0(Tx)=g(Tx)=g(f_1(x),\ldots,f_n(x))=\sum_{j=1}^n\alpha_jf_j(x)
+    \end{equation*}
+    so that $f_0=\sum_{j=1}^n\alpha_jf_j$.
+\end{proof}
+\begin{theorem}[$w^*-$Closed Convex Hull]
+    If $S\subset X^*$, then
+    \begin{equation*}
+        \cwx S=\cap\{\{f\in X^*:\Re f(x)\leq \alpha\}\supseteq S:x\in X,\alpha\in\R\}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    The set on the right is $w^*-$closed and convex being the intersection of such.
+    Conversely, if $f\in X^*\setminus\cwx S$, which is open, then there is a basic $w^*-$open neighbourhood
+    \begin{equation*}
+        B=\bigcap_{j=1}^n\hat x_j^{-1}(f(x_j)+\mathbb{D})\subseteq X^*\setminus\cwx S
+    \end{equation*}
+    so that $B\cap\cwx S=\emptyset$.
+    Also, $B$ is convex.
+\end{proof}
+\begin{remark}
+    If $X$ is a normed spacee, a closed half space $H=\{x\in X:\Re f(x)\leq\alpha\}$ for some $f$ in $X^*$, $\alpha\in\R$.
+    Hence, $H$ is weakly closed $(\Re f)^{-1}([\alpha,\infty))=f^{-1}(\{z\in\C:\Re z\geq\alpha\})$ is $w-$closed.
+    Thus if $S\subset X$, we have $\cw S\in w=\sigma(X,X^*)\subseteq\tau_{\norm{\cdot}}$, so $\cw S$ is automatically weakly closed.
+    Hence if $C\subseteq X$ is convex, then $C$ is norm closed if and only if $C$ is $w-$closed.
+\end{remark}
+\begin{definition}
+    Let $X$ be a normed space.
+    If $E\subseteq X$ (non-empty), the \textbf{polar} of $E$ is given by
+    \begin{align*}
+        E^\circ&=\{f\in X^*:\Re f(x)\leq 1\text{ for all $x$ in }E\}\subseteq X^*\\
+               &= \bigcap_{x\in E}\{f\in X^*:\Re\hat x(f)\leq 1\}
+    \end{align*}
+    so $E^\circ$ is convex and $w^*-$closed in $X^*$, and $0\in E^\circ$.
+
+    If $F\subseteq X^*$ (non-empty), let the \textbf{pre-polar} of $F$ be given by
+    \begin{equation*}
+        F_\circ=\{x\in X:\Re f(x)\leq 1\text{ for all $f$ in }F\}
+    \end{equation*}
+    so, like above, $F_0$ is convex, $(w-)$closed, and $0\in F_0$.
+\end{definition}
+\begin{theorem}[Bipolar]
+    \begin{enumerate}[nl,r]
+        \item If $\emptyset\neq E\subseteq X$, then $(E^\circ)_\circ=\cw(E\cup\{0\})$.
+        \item If $\emptyset\neq F\subseteq X^*$, then $(F_\circ)^\circ=\cwx(F\cup\{0\})$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Note that $E\cup\{0\}\subseteq (E^\circ)_\circ$, so $\cw(E\cup\{0\})\subseteq(E^\circ)_\circ$.
+            If $x_0\in X\setminus\cw(E\cup\{0\})$, then the separation theorem provides $f\in X^*$, $\alpha\in \R$ so $\Re f(x_0)>\alpha\geq\Re f(x)$ for $x\in E\cup\{0\}$.
+            Notice that $\alpha\geq \Re f(0)=0$, and we let $\beta=\frac{1}{2}[\Re f(x_0)+\alpha]>0$, so $\Re f(x_0)>\beta\geq\Re f(x)$ for $x\in E\cup\{0\}$, $\beta>0$.
+            Let $g=\frac{1}{\beta}f$ and we see that $g\in E^\circ$ and as $\Re g(x_0)>1$, $x_0\notin (E^\circ)_\circ$.
+        \item Similar, use $w^*-$separation.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Let $Y\subseteq X$ be a subspace.
+    If $f\in Y^0$, then $\Re f(y)\leq 1$ for $y\in Y$ implies that $f(y)=0$ for all $y\in Y$.
+    We write $Y^a=Y^0$, and $Y^a=\{f\in X^*:f|_Y=0\}$ is called the \textbf{annhilator} of $Y$.
+    Likewise, if $Z\subseteq X^*$ is a subspace, then $Z_a=Z_0$ where $Z_a=\{x\in X:f(x)=0\text{ for each }f\in Z\}$ is called the \textbf{pre-annhilator}.
+    Notice that $Y^a$ and $Z_a$ are subspaces.
+\end{remark}
+\begin{corollary}
+    \begin{enumerate}[nl,r]
+        \item If $Y\subseteq $ is a subspace, then $(X^a)_a=\overline{X}$.
+        \item If $Z\subseteq X^*$ is a subspace, then $(Z_a)^a=\overline{Z}^{w^*}$.
+    \end{enumerate}
+\end{corollary}
+\begin{lemma}
+    If $X$ is a normed space, then $B(X)^0=B(X^*)$ and $B(X^*)_0=B(X)$.
+\end{lemma}
+\begin{proof}
+    If $f\in B(X^0)$, then $\Re f(x)\leq 1$ for $x\in B(X)$.
+    Thus for $x\in B(X)$, $|f(x)|=\overline{\sgn f(x)}f(x)=f(\overline{\sgn f(x)}x)\leq 1$, so $\norm{f}\leq 1$ and $f\in B(X^*)$.
+    Conversely, if $f\in B(X^*)$, $x\in B(X)$, then $\Re f(x)\leq|f(x)|\leq 1$ so $f\in B(X)^\circ$.
+    Then use the Bipolar theorem.
+\end{proof}
+\begin{theorem}[Goldstine]
+    If $X$ is a normed space, then $\overline{B(\hat X)}^{w^*}=B(X^{**})$.
+    Note that $w^*=\sigma(X^{**},\hat{X^*})$.
+\end{theorem}
+\begin{proof}
+    The Bipolar theorem provides $\overline{B(\hat X)}^{w^*}=\cwx B(\hat x)=(B(\hat X)_\circ)^\circ$.
+    But, in $X^*$,
+    \begin{align*}
+        B(X)^\circ &= \{f\in X^*:\Re f(x)\leq 1\text{ for $x$ in }B(X)\}\\
+                   &= \{f\in \hat{X^*}:\Re \hat x(f)\leq 1\text{ for $x$ in }B(X)\}\\
+                   &= B(\hat X)_\circ
+    \end{align*}
+    Hence we have, using the lemma,
+    \begin{equation*}
+        \overline{B(\hat X)}^{w^*}=(B(\hat X)_\circ)^\circ=(B(X)^\circ)^\circ=B(X^*)^\circ=B(X^{**})
+    \end{equation*}
+\end{proof}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Recall that $c_0^*\cong\ell_1$ and $\ell_1^*\cong\ell_\infty$, wheren $c_0\subseteq\ell_\infty$.
+            Thus by Goldstine, $\overline{B(c_0)}^{w^*}=B(\ell_\infty)$, so $w^*=\sigma(\ell_\infty,\ell_1)$.
+            Since $\ell_1$ is separable, we have that $(B(\ell_\infty),w^*)$ is metrizable.
+            In fact, if $x\in\ell_\infty$, then if $x^{(n)}=(x_1,\ldots,x_n,0,0,\ldots)\in c_0$, we have $x=w^*-\lim_{n\to\infty}x^{(n)}$.
+        \item $\ell_\infty^*\cong\FA(\N)$.
+            But $B(\FA(\N),w^*)$ is not metrizable.
+            Since $\ell_1^*\cong\ell_\infty$, there is a natural isometric embedding $\ell_1\hookrightarrow\FA(\N)$.
+            Then $y^{(n)}=\frac{1}{n}(1,1,\ldots)\in B(\ell_1)$, and $w^*-$cluster point of $(y^{(n)})_{n=1}^\infty\subset B(\FA(\N))$ is a Banach limit.
+    \end{enumerate}
+\end{example}
+\begin{corollary}
+    If $F\in X^{**}$, there always exists a net $(x_\nu)_{\nu\in N}\subset X$ such that
+    \begin{equation*}
+        F=w^*-\lim_{\nu\in N}\hat x_\nu\text{ and }\norm{x_\nu}\leq\norm{F}
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    If $F\neq 0$, $\frac{1}{\norm{F}}F\in B(X^{**})=\overline{B(\hat X)}^{w^*}$, and we may find $(y_\nu)_{\nu\in N}\subset B(X)$ such that $(\hat y_\nu)_{\nu\in N}\subset B(\hat X)$ and $\frac{1}{\norm{F}}F=w^*-\lim_{\nu\in N}\hat y_\nu$.
+    Let $x_\nu=\norm{F}y_\nu$.
+\end{proof}
+Consider $\mathcal{F}=w^*_{\frac{1}{\norm{F}}F}=\{U\in w^*|_{B(X^{**})}:F\in U\}$ is a filtering family.
+Each $U\in w^*_{\frac{1}{\norm{F}}F}$ has $U\cap B(\hat X)\neq\emptyset$ by Goldstine.
+Let $N_{\mathcal{F}}=\{(x,U):x\in B(X),\hat x\in U,U\in\mathcal{F}\}$.
+Then $(x_\nu)_{\nu\in N_{\mathcal{F}}}=(x)_{(x,U)\in N_{\mathcal{F}}}$ works.
+\begin{definition}
+    A normed space $X$ is \textbf{reflexive} if $\hat X=X^{**}$.
+\end{definition}
+Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, so a reflexive space is always complete.
+\begin{theorem}
+    Let $X$ be a Banach space.
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $X$ is reflexive
+        \item $B(X)$ is $w-$compact
+        \item $w^*=w$ on $X^*$
+        \item $X^*$ is reflexive.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    The map $x\mapsto\hat x$ is a $w-w^*|_{\hat X}-$homeomorphism.
+    Recall $w^*=\sigma(X^{**},\hat X^*)$, and $w^*|_{\hat X}=\sigma(\hatX,(\hat X)^*|_{\hat X})$ and we have for $x_0\in X$, net $(x_\nu)_{\nu\in N}$ in $X$,
+    \begin{align*}
+        w-\lim_{\nu\in N}x_\nu = x_0 &\iff \lim_{\nu\in N}f(x_\nu)=f(x_0)\forall f\in X^*\\
+                                     &\iff \lim_{\nu\in N}\hat x_\nu(f)=\hat x_0(f)\forall f\in X^*\\
+                                     &\iff \lim_{\nu\in N}\hat f(\hat x_\nu)\hat f(\hat x_0)
+    \end{align*}
+    and having the same convergent nets means that the topologies are the same.
+\end{proof}
 \end{document}
 

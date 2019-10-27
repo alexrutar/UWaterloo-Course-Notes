@@ -690,7 +690,7 @@ Let $c(x,y)$ denote the number of edge-disjoint paths from $x$ to $y$ (the \text
     Fix a neighbour of $v$ such that $d(v)\geq 4$, $w,w'$ and remove the edges $\{v,w\}$ and $\{v,w'\}$ and add the edge $\{w,w'\}$.
     This is called a lift.
 
-    The lifting can be chosen such that all $c(x,y)$, $x\neq y$, $x\neq y$, $y\neq v$.
+    The lifting can be chosen such that all $c(x,y)$ remains the same for all $x\neq y$, $x\neq v$, $y\neq v$.
 \end{theorem}
 \begin{proof}
     TODO
@@ -1099,6 +1099,91 @@ Then there is a decomposition $G=G_1\cup\cdots\cup G_m$ where $\Delta(G_i)\leq r
     Flip the orientations on edges with negative values.
 \end{proof}
 
+\begin{definition}
+    Let $G$ be an undirected graph and $D$ a directed graph.
+    \begin{itemize}[nl]
+        \item $G$ is $k-$connected if for all $x,y\in V(G)$, there are $k$ internally vertex disjoint paths between $x$ and $y$.
+        \item $G$ is $k-$edge-connected if there are $k$ edge disjoint paths between any $x$ and $y$.
+        \item $D$ is strongly $k-$connected if there are $k$ internally disjoint directed paths.
+        \item $D$ is strongly $k-$edge-connected (or $k$-arc-connected) if there are $k$ internally edge disjoint directed paths.
+    \end{itemize}
+\end{definition}
+\begin{theorem}[Robbin]
+    Let $G$ be a graph.
+    Then $G$ has an orientation that makes it strongly connected if and only if $G$ is 2-edge-connected.
+\end{theorem}
+\begin{proof}
+    Since $G$ is 2-edge-connected, begin with a cycle and orient the edges in the same direction.
+    If we are not done, there exists some edge adjacent to a vertex already in some oriented cycle.
+    This is called an ear decomposition.
+\end{proof}
+\begin{theorem}
+    Let $G$ be a mixed graph: some edges have orientations, while other edges do not.
+    Then $G$ has no bridge and no directed cut (a cut with all edges with the same orientation) if and only if $G$ can be extended to a strongly oriented $G$.
+\end{theorem}
+\begin{proof}
+    Let's see that every edge is in a consistent cycle.
+    Suppose $e$ is an edge from $x$ to $y$, and let $B$ be the set of vertices which can be reached with a directed path from $y$.
+    If $e$ is oriented from $x$ to $y$ with no consistent cycle, then it means that every other path connecting $x$ and $y$ must have the same orientation across some cut, a contradiction.
+    If $e$ is not directed, the only case we need to treat is when the $A$ to $B$ cut containing $e$ has all edges oriented from $A$ to $B$.
+    But then since $e$ is not a bridge, there exists some distinct edge $e'$ with orientation from $A$ to $B$, which is contained in a consistent cycle, and this cycle ust contained $e$.
+\end{proof}
+\begin{theorem}[Nash-Williams]
+    Let $G$ be a graph.
+    Then $G$ has an orientation that makes it $k-$arc-conected if and only if $G$ is $2k-$edge-connected.
+\end{theorem}
+\begin{proof}
+    Delete edges until $G$ is minimally $2k-$edge-connected.
+    Consider a vertex $x$ with degree precisely $2k$.
+    By mader's lifting theorem, we can lift all the pairs of edges so that $G$ remains $2k-$edge-connected, and possibly leaving some $x_0$ with multiple edges.
+    Apply induction on the lifted graph to get an orientation on $G'$.
+    Then maintain the orientations on the edges to $v$.
+    The only case that to verify that $x$ and $y$ are $k-$arc-connected for any $y$ that is not a neigbour of $x$.
+
+    Let $A$ be a component containins $x$ and $B$ a component containing $y$, and suppose for contradiction $A$ and $B$ define a cut with less than $k$ directed edges in some direction.
+    If there is another vertex $z$ in $A$, we have a contradiction by induction on the lifted $G$.
+    But then if $x\in A$ is the only vertex, there are the same number of edges going out and in.
+\end{proof}
+\begin{conjecture}
+    If $G$ is $f(k)-$connected, then there exists an orientation on $G$ which is strongly $k$-connected.
+\end{conjecture}
+This is open for $k=3$.
+
+If $G$ is cubic $3-$connected, then there is no orientation which makes $G$ strongly $2-$connected.
+\begin{conjecture}[Frank]
+    There exists an orientation on $G$ so it is strongly $k-$connected if and only if for all $S\subseteq V(G)$ with $|S|<k$, $G\setminus S$ is $2(k-|S|)-$edge-connected.
+\end{conjecture}
+The forward implication is trivial, but the reverse implciation is false for each $k\geq 2$.
+However, it does hold for $k=2$.
+\begin{proof}
+    If $G$ is cubic 3-connected, then $G$ has a 1-factor $M$ in $G$.
+    Double the edges contained in $M$.
+    Then $G\setminus M$ is composed of disjoint cycles.
+    Give those any orientation, and the resulting orientation on $G$ is strongly $2-$connected.
+
+    Now let $v\in V(G)$ arbitrary and fix a direced cut in $G\setminus v$.
+    Then this cut must have size at least 2.
+
+\end{proof}
+\begin{proposition}
+    Let $G$ be 4-regular 4-edge-connected.
+    Then there exists an orientation on $G$ so that it is strongly 2-connected.
+\end{proposition}
+\begin{proof}
+    By induction.
+    Let $v$ be a vertex incident with 2 other vertices with 2 double edges.
+\end{proof}
+\begin{theorem}
+    $G$ has a strongly connected orientation if and only if $G$ is 4-edge-connected and for any vertex $v$, $G\setminus v$ is 2-edge-connected.
+\end{theorem}
+Let $G$ be a graph with $|V(G)|\geq 3$ satisfying
+\begin{enumerate}[nl]
+    \item $G$ is 2-connected
+    \item $G$ is 3-edge-connected
+    \item $G$ is almost 4-edge-connected (exists some $y_0$ with a 3-edge-cut)
+    \item $G\setminus v$ is almost $2-$edge-connected (only way to make a bridge is to delete the two vertices joining an edge).
+\end{enumerate}
+Then there exists an orientation on $G$ (denoted by $D$) such that $D$ is strong and for all $v$, $D\setminus v$ is almost strong.
+
+
 \end{document}
-
-

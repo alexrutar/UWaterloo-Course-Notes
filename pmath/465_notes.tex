@@ -242,7 +242,9 @@
 \usepackage{braket}
 \DeclareMathOperator{\Ss}{{\mathbb{S}}}
 \DeclareMathOperator{\Pp}{{\mathbb{P}}}
+\DeclareMathOperator{\Ind}{Ind}
 \newcommand{\prt}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\prtt}[3]{\ensuremath{\frac{\partial^2 #1}{\partial #2\partial #3}}}
 \newcommand{\inner}[2]{\ensuremath{\langle #1,#2\rangle}}
 
 
@@ -998,5 +1000,76 @@ Thus allows us to give an alternate definition for $T_pM$ as the space of deriva
 Given a chart $\phi:U\to\phi(U)$ on $M$, the restriction of $X$ to $U$ determines and is determine by the vetor field $\phi_*X$ on $\phi(u)\subseteq\R^n$ by $(\phi_*X)(\phi(p))=\phi_*(X(p))$, or $(\phi_*X)(x)=\phi_*(X(\phi^{-1}(x)))\in\R^n$.
 We say that $X$ is \textbf{smooth} at $p$ when for some chart $\phi$ on $M$ at $p$, the vector field $\phi_*X$ is smooth at $\phi(p)$.
 When $X$ is a smooth vector field on $M$, $X$ acts as a differential operator $X:C^\infty(M)\to C^\infty(M)$ by $X(f)(p)=X_p(f)$.
-\end{document}
 
+The space of smooth vector fields on $M$ is $\Gamma(M,TM)=\Gamma(TM)=\mathcal{X}(M)$.
+\subsection{The Pushforward or Differential}
+If $X$ is a smooth vector field on a smooth manifold $N$ and $f:N\to M$ is a smooth map, for each point $p\in N$, we have the linear map $df=f_*:T_pN\to T_{f(p)}M$.
+
+Note that $f_*$ does not in general give a map $f_*:\Gamma(TN)\to\Gamma(TM)$, if $f$ is not surjective, or $f$ is not injective with $p,q\in N$ with $p\neq q$ and $f(p)=f(q)$ and $f_*X_p\neq f_*X_q$.
+
+If $f:N\to M$ is a diffeomorphism, then $f)*$ dos give a well-defined bijective map $f_*:\Gamma(TN)\to\Gamma(TM)$.
+If $f$ is an injective immersion, then $f:N\to f(N)$ is a diffeomorphism.
+
+\subsection{The Lie Bracket of Vector Fields}
+\begin{definition}
+    When $X$ and $Y$ are two smooth vector fields on $M$, we define the \textbf{Lie bracket} of $X$ and $Y$, denoted by $[X,Y](f)$, by $[X,Y]f=X(Y(f))-Y(X(f))$ for all $f\in C^\infty(M)$.
+\end{definition}
+Note that $[X,Y]$ satisfies the product rule since
+\begin{align*}
+    [X,Y](fg) &= X(Y(fg))-Y(X(fg))\\
+              &= X(f\cdot Y(g)+g\cdot Y(f)) - Y(f\cdot X(g)+g\cdot X(f))\\
+              &= f\cdot X(Y(g))+X(f)\cdot Y(g)+g\cdot X(Y(f))+X(g)\cdot Y(f)-y\cdot Y(X(g)) - Y(f)\cdot X(g)-g\cdot Y(X(f))-Y(g)\cdot X(f)\\
+              &= g[X,Y](g)+g[X,Y](f)
+\end{align*}
+Given a chart $\phi:U\to\phi(U)$ on $M$ at $p$, we can calculate a formula for the Lie bracket: say $u=\phi_*X$ and $v=\phi_*Y$ ($u(x)=\phi_*(X_{\phi^{-1}(x)})$, $v(x)=\phi_*(Y_{\phi^{-1}(x)})$).
+Then for $f\in C^\infty(M)$,
+\begin{align*}
+    [X,Y]_p(f) &=X_p(Y(f))-Y_p(X(f))\\
+               &= \sum_i u^i\prt{}{x^i}\left(\sum)j v\prt{g}{x^j}\right) - \sum_iv^i\prt{}{x^i}\left(\sum_j u^j\prt{g}{x^j}\right)\\
+               &= \sum_{i,j}\left(u^i\prt{v^j}{x^i}\cdot\prt{g}{x^j} + u^ig^j\prtt{g}{x^i}{x^j}-v^i\prt{u^j}{x^i}\cdot\prt{g}{x^j}-v^iu^j\prtt{g}{x^i}{x^j}\right)\\
+               &= \sum_{i,j}\left(\prt{v^j}{x^i}\cdot u^i-\prt{u^j}{x^i}\cdot v^i\right)\prt{g}{x^j}
+\end{align*}
+Thus $[X,Y]_p$ is a vector in $T_pM$.
+It is the vector given by $w^j=\sum_i\left(\prt{v^j}{x^i}u^i-\prt{u^j}{x^i}v^i\right)$ and $w=\sum_j w^j\prt{}{x^j}=Dv\cdot u-Du\cdot v$.
+\subsection{Integral Curves and Flows}
+Given a smooth vector field $X$ on a smooth manifold $M$, and given $p\in M$, the existence and uniqueness theorem for (systems) of ODEs guarantees that there is a unique smooth map (or curve) $\alpha_p:I_p\subseteq\R\to M$ where $I$ is the (unique) maximal open interval $\alpha$ and $\alpha(0)=p$ and $\alpha'(t)=X_{\alpha(t)}$.
+A stronger version of the existence and uniqueness theorem also guarantees that $\alpha_p(t)$ varies smoothly with $p$ to give a unique smooth map $\theta:U\subseteq M\times\R\to M$ where $U$ is the (unique) maximal open connected domain given by $\theta(p,t)=\alpha_p(t)$.
+
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Find a vector field which is a parabola at each point.
+        \item Find a smooth vector field so that the solution curves have vertical asymptote.
+    \end{enumerate}
+\end{example}
+
+When a vector field $X$ on a 2 dimensional manifold $M$, we define the \textbf{index} of $X$ at $p$ as follows.
+Choose a chart $\phi:C\to\phi(C)=B(0,2)$ on $M$ at $p$.
+Thus $U=\phi_*X$ is a vector field in $\R^2$ with no zeros in $B(0,2)$ except at $0$.
+
+When we restrict $u$ to the circle $\mathbb{S}^1$ and we define the index of $X$ at $p$ to be the winding number of this map $u:\mathbb{S}^1\to\C\setminus\{0\}$.
+When a vector field on $X$ has finitely many isolated zeros, the index of $X$ is the sum of the indices at the zeros of $X$.
+\begin{theorem}
+    When $X$ is a smooth vector field with isolated zeros on a \textbf{compact} 2-dimensional manifold $M$, $\Ind X=\chi(M)$, the Euler characteristic of $M$.
+\end{theorem}
+\section{Lie Groups}
+\begin{definition}
+    A Lie group $G$ is both a smooth manifold and a group such that the group operations $\mu:G\times G\to G$ and inversion $\nu:G\to\G$ are smooth maps.
+\end{definition}
+\begin{example}
+    $O_n(\R)=\{A\in\GL_n(\R):A^TA=I\}$ is a Lie group.
+    Define $F:\GL_n(\R)\to M_n(\R)$ by $F(X)=X^TX$.
+    Thus $O_n(\R)=F^{-1}(I)$.
+    When $n=2$, $X=\begin{pmatrix}x&z\\y&w\end{pmatrix}$ we have $F(X)=\begin{pmatrix}x^2+y^2&xz+yw\\xz+yw&z^2+w^2\end{pmatrix}$ so that
+    \begin{equation*}
+        DF =
+        \begin{pmatrix}
+            2x & 2y & 0 & 0\\
+            z & w & x & y\\
+            z & w & x & y\\
+            0 & 0 & 2z & 2w
+        \end{pmatrix}
+    \end{equation*}
+    In general, for $A\in\GL_n(\R)$, $F(R_A(X))=F(XA)=A^TX^TXA=L_{A^T}R_AF(x)$.
+    Thus by the chain rule, $DF(XA)\cdot DR_A(X)=DL_{A^T}(X^TXA)\cdot DR_A(X^TX)\cdot DF(X)$
+\end{example}
+\end{document}

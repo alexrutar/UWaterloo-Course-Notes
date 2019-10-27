@@ -988,7 +988,7 @@ Note that $\rho:G\to\GL(V)$ is faithful if only if the unique zero map on $v$ is
     An $R-$module $M$ is \textbf{irreducible} if $M\neq (0)$ and the only submdules of $M$ are $(0)$ and $M$.
 \end{definition}
 Recall that a division ring is a unital ring such that every non-zero element is invertible.
-\begin{theorem}
+\begin{theorem}[Schur]
     Let $M$ be an irreducible $R-$module.
     Then $\End_R(M)$ is a division ring.
 \end{theorem}
@@ -1116,6 +1116,172 @@ Recall that
     Thus by minimality, $A=Ia$ so there is some $x\in I$ such that $a=xa$.
     Thus $(1-x)a=0$ so $a=0$, a contradiction.
 \end{proof}
+\begin{theorem}[Maschke]
+    Let $G$ be a finite group.
+    If $F$ is a field such that $\chr(F)=0$ or $\chr(F)=p$ does not divide $|G|$, then $F[G]$ is semiprimitive and Artinian (and hence semisimple, by the assignment).
+\end{theorem}
+\begin{proof}
+    Since $\dim_F F[G]<\infty$, $F[G]$ is Artinian.
+    For contradiction, suppose $I$ is a nonzer nil ideal of $R$.
+    Take $0\neq x\in I$, so $x=\sum a_gg$ where $a_h\neq 0$ for some $h\in G$.
+    By multiplying by $h^{-1}$, we may assume $a_1\neq 0$.
+    For each $a\in F[G]$, define $T_a:F[G]\to F[G]$ by $T_a(v)=av$, so $T_a$ is a $F-$linear operator.
+    Note that $T_x=\sum a_gT_g$ so that $\Tr(T_x)=\sum a_g\Tr(T_g)$, so $x$ is not nilpotent, a contradiction.
+\end{proof}
+\subsection{Artin-Wedderburn Theory}
+\begin{definition}
+    A ring $R$ is \textbf{primitive} if it has a faithful, irreducible module.
+\end{definition}
+Note that primitive rings are semiprimitive.
+\begin{example}
+    If $D$ is a division ring, then $M_n(D)$ is primitive.
+    In particular, $D^n$ is faithful and irreducible
+\end{example}
+Let $R$ be primitive and commutative.
+Then if $M$ is faithful and irreducible, $M\cong\quot{R}{I}$ where $I$ is a maximal ideal so $R$ is a field.
+\begin{definition}
+    A ring $R$ is \textbf{simple} if $R\neq(0)$ and $R$ has no proper non-zero two-sided ideals.
+\end{definition}
+For example, $M_n(D)$ is simple.
+If $J\leq M_n(D)$ is an ideal, then $J=M_n(I)$ for some ideal $I$ of $D$.
+\begin{remark}
+    If $R$ is irreducible, then $R$ is simple.
+    However, the converse does not hold since $M_2(\R)$ is simple but $I=\{\begin{bmatrix}a&0\\b&0\end{bmatrix}:a,b\in\R\}$ is a left ideal.
+\end{remark}
+\begin{proposition}
+    Every simple ring is primitive.
+\end{proposition}
+\begin{proof}
+    Let $R$ be simple and $I$ be a maximal left ideal of $R$ so that $M:=R/I$is irreducible.
+    Since $\Ann(M)$ is an ideal of $R$ and $\Ann(M)\neq R$, $\Ann(M)=(0)$.
+\end{proof}
+For the remainder of this section, $R$ is primitive, $M$ is faithful and irreducible, and $D=\End_R(M)$ is a division ring.
+We give $M$ the structure of a $D-$module by $\phi\cdot m=\phi(m)$.
+\begin{definition}
+    We say $R$ \textbf{acts densely} on $M$ if for all $D-$linearly independent $v_1,\ldots,v_n\in M$ and all $w_1,\ldots,w_n\in M$, there exists $r\in R$ such that $rv_i=w_i$ for $i=1,2,\ldots,n$.
+\end{definition}
+\begin{remark}
+    Suppose $\dim_DM<\infty$ and $R$ acts densely on $M$
+    If $\{v_1,\ldots,v_n\}$ is a $D-$basis, then for all $w_1,\ldots,w_n$, there exists $r\in R$ so that $rv_i=w_i$.
+    Thus $R\cong\{T:M\to M:D-\text{linear}\}\cong M_n(D)$.
+\end{remark}
+\begin{lemma}
+    If for every finite dimensional $D-$subspace $V$ of $M$ and every $m\in M\setminus V$ there exists $r\in R$ such that $rV=(0)$ but $rm\neq 0$, then $R$ acts densely on $M$.
+\end{lemma}
+\begin{proof}
+    Let $v_1,\ldots,v_n$ be $D-$linearly independent in $M$ and suppose $w_1,\ldots,w_n$ are in $M$.
+    For each $i$, let $V_i=\spn\{v_1,\ldots,v_{i-1},v_{i+1},\ldots,v_n\}$.
+    By assumption, since $v_i\notin V_i$, there exists $t_i\in R$ so that $t_iV_i=(0)$ but $t_iv_i\neq 0$.
+    Observe that $Rt_iv_i=M$ since $M$ is irreducible, so get $r_i\in R$ such that $r_it_iV_i=(0))$ and $r_it_iv_i=w_i$.
+    Let $t=r_1t_1+\cdots+r_nt_n$, so $tv_i=w_i$.
+\end{proof}
+\begin{theorem}[Jacobson Density]
+    Let $R$ be primitive and $M$ a faithful irreducible $R-$module.
+    Then $R$ acts densely on $M$.
+\end{theorem}
+\begin{proof}
+    Let $V$ be a finite dimensional $D-$subspace of $M$, and let $m\in M\setminus V$.
+    We proceed by induction on $\dim V$.
+    If $\dim V=0$, $V=(0)$, and take $r=1$.
+    Proceeding inductively, suppose $\dim V>0$ and $0\neq w\in V$ with $V=V_0\oplus\spn\{w\}$, where $\dim V_0=\dim V-1$.
+    Let $A(V_0)=\{x\in R:xV_0=(0)\}$.
+    By induction, for every $y\in V_0$, there exists $r\in A(V_0$ such that $ry\neq 0$.
+    Note that $A(V_0)$ is a left ideal: since $w\notin V_0$, $A(v_0)w\neq(0)$ so $A(v_0)w=M$ by irreducibility.
+    Consider $\tau:M\to M$ given by $\tau(aw)=am$, where $a\in A(v_0)$.
+    This is well-defined for if $aw=a'w$, then $(a-a')w=0$ so $(a-a')V=0$ (since $V=V_0\oplus\spn_D\{w\}$).
+    For contradiction, assume that if $r\in R$ and $rV=(0)$, then $rm=0$.
+    Thus $(a-a')m=0$ so $am=a'm$ and $\tau(a2)=\tau(a'w)$ and $\tau$ is well-defined.
+    Notice that $\tau\in\End_R(M)=D$.
+    For all $a\in A(v_0)$, $am=\tau(aw)=a\tau(w)$ so $a(m-\tau(w))=0$.
+    Thus by the inductive hypothesis, $M-\tau(w)\in V_0$, so $m\in v_0\oplus\spn_D(w)=V$.
+\end{proof}
+\begin{proposition}
+    If $R$ is primitive and (left) Artinian, then $R\cong M_n(D)$ where $D\cong\End_R(M)$.
+\end{proposition}
 
+\section{Facts about Non-Commutative Modules}
+General structures on modules:
+\begin{definition}
+    A \mbf{(left) $R-$module} is an abelian group $(M,+)$ equipped with a unitary ring homomorphism $\alpha:A\to\End(M)$.
+    If $N,M$ be $R-$modules, then a group homomorphism $\psi:N\to M$ is a \textbf{(module) homomorphism} if $\phi(rm)=r\phi(m)$ for any $r\in R$.
+    The kernel and image of $\psi$ are submodules of $N$ and $M$ respectively.
+    The \textbf{annhilator} $\Ann(M)=\{r\in R:rm=0\}$.
+    Then $M$ is \textbf{faithful} if $\Ann(M)=(0)$.
+\end{definition}
+Annhilators:
+\begin{definition}
+    Let $R$ be a ring.
+    We say $a\in R$ is \textbf{nilpotent} if there exists $n=n(a)\in\N$ such that $a^n=0$.
+    An ideal (left,right,both) is \textbf{nil} if every element is nilpotent.
+    An ideal $I$ (left,right,both) is \textbf{nilpotent} if there exists some $n\in\N$ such that $I^n=(0)$.
+\end{definition}
+Key example:
+\begin{definition}
+    Let $G$ be a finite group and $F$ a field.
+    We define the \textbf{group algebra} $F[G]=\{\alpha_1g_1+\cdots+\alpha_ng_n:\alpha_i\in F\}$ equipped with $G-$pointwise addition and multiplication $ag_i\cdot bg_j=(ab)g_ig_j$, extended by distributivity.
+\end{definition}
+\begin{example}
+    Let $M$ be a $\C[G]-$module.
+    Then $M$ is also a $\C-$vector space, and $\rho:G\to\GL(M)$ given by $\rho(g)(m)=gm$ is a representation.
+    If $\rho:G\to\GL(V)$ be a representation, the $\rho$ induces a $\C[G]-$multiplication on $V$, making $V$ a $\C[G]-$module.
+    Moreover, if $N\leq M$ is a submodule, then it is $\rho(cg)-$invariant for any $cg\in\C[G]$ if and only if $N$ as a subspace of $M$ is $G-$stable.
+    To be precise, we have $c g\cdot v=\rho(g)(c v)$.
+    In fact, there is an isomorphic of categories from representations of $G$ and $\C[G]$-modules.
+\end{example}
+Basic results on modules:
+\begin{proposition}
+    Let $M$ be an $R-$module.
+    Then $\Ann(M)$ is a (2-sided) ideal of $R$.
+    Moreover, $M$ is a faithful $\quot{R}{\Ann(M)}-$module.
+\end{proposition}
+\begin{theorem}[First Isomorphism]
+    Let $M$, $N$ be $R-$modules and let $\psi:M\to N$ be a module homomorphism.
+    Then $M/\ker\psi\cong\psi(M)\leq N$.
+\end{theorem}
+Types of modules:
+\begin{definition}
+    Let $M$ be an $R-$module.
+    \begin{itemize}[nl]
+        \item $M$ is \textbf{irreducible} if $M\neq (0)$ and the only submodules of $M$ are $(0)$ and $M$.
+    \end{itemize}
+\end{definition}
+Types of ideals:
+\begin{definition}
+    Let $R$ be a ring.
+    \begin{itemize}[nl]
+        \item A left ideal $I$ of $R$ is called \textbf{left quasiregular} if for all $a\in I$, $R(1+a)=R$.
+        \item The \textbf{Jacobson radical} of $R$ is $J(R)=\bigcap_{\text{irred left }M}\Ann(M)$.
+    \end{itemize}
+\end{definition}
+Types of rings:
+\begin{definition}
+    Let $R$ be a ring.
+    \begin{itemize}[nl]
+        \item $R$ \textbf{semiprimitive} if $J(R)=(0)$.
+        \item $R$ is \textbf{(left) Artinian} if whenever $I_1\supseteq I_2\supseteq\cdots$ is a descending chain of left ideals, then there exists $N\in\N$ such that $I_k=I_N$ for all $k\geq N$.
+    \end{itemize}
+\end{definition}
+Relationships:
+\begin{proposition}
+    The following hold:
+    \begin{itemize}[nl]
+        \item Every nil left ideal of $R$ is contained in $J(R)$.
+        \item $\quot{R}{J(R)}$ is semiprimitive.
+        \item If $R$ is Artinian, then $J(R)$ is nilpotent.
+        \item $M$ is an irreducible $R-$module if and only if then $M\cong \quot{R}{I}$ as $R-$modules, where $I$ is a maximal left ideal of $R$.
+    \end{itemize}
+\end{proposition}
+\begin{theorem}[Schur]
+    Let $M$ be an irreducible $R-$module.
+    Then $\End_R(M)$ is a division ring.
+\end{theorem}
+\begin{theorem}
+    If $R$ is a ring, then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $a\in J(R)$.
+        \item $Ra$ is left quasiregular
+        \item $a\in\bigcap_{I\leq R\text{ maximal}}I$.
+    \end{enumerate}
+\end{theorem}
 \end{document}
 
