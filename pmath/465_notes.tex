@@ -1070,6 +1070,37 @@ When a vector field on $X$ has finitely many isolated zeros, the index of $X$ is
         \end{pmatrix}
     \end{equation*}
     In general, for $A\in\GL_n(\R)$, $F(R_A(X))=F(XA)=A^TX^TXA=L_{A^T}R_AF(x)$.
-    Thus by the chain rule, $DF(XA)\cdot DR_A(X)=DL_{A^T}(X^TXA)\cdot DR_A(X^TX)\cdot DF(X)$
+    Thus by the chain rule, $DF(XA)\cdot DR_A(X)=DL_{A^T}(X^TXA)\cdot DR_A(X^TX)\cdot DF(X)$, so we can identify $T_p\GL_n(\R)$ or $T_pM_n(\R)$ with the vectr space $M_n(R)$.
+    Note that $L_{A^T}$ and $R_A$ are diffeomorphisms of $\GL_n(\R)$, so $DL_{A^T}$ and $DR_A$ are invertible.
+    Thus $\rank DF(XA)=\rank DF(X)$.
+    In particular, taking $X=I$, $\rank DF(A)=\rank DF(I)$, so $F$ has consant rank.
+    Let us calculate $\rank DF:T_I\GL_n(\R)\to T_IM_n(\R)$.
+    Let $A\in T_i\GL_n(\R)$, so $A\in M_n(\R)$, and let $\alpha(t)=I+tA$ so that $\alpha(0)=I$ and $\alpha'(0)=A$.
+    Then $DF(I)\cdot A=\beta'(0)$ where $\beta(t)=F(\alpha(t))=(I+tA)^T(I+t(A+A^T)+t^2A^TA$.
+    Then $\beta'(t)=A+A^T+2tA^TA$, so $\beta'(0)=A+A^T$ so that $DF(I)\cdot A=A+A^T$.
+    The range of $DF$ at $I$ is the set of matrices $B$ of the form $B=A+A^T$ for some matrix $A\in M_n(\R)$, or equivalently, the set of symmetric matrices in $M_n(\R)$.
+    Thus the dimension of the range of $DF$ is $(n^2+n)/2$, so $F$ has constant rank $r=(n^2+n)/2$ and thus $\dim O_n(\R)=n^2-r=\frac{n^2-n}{2}$.
+
+    Thus by the constant rank theorem, $O_n(\R)$ is a regular embedded submanifold of $\GL_n(\R)$.
+    In fact, $T_IO_n(\R)$ can be identified with $\ker DF(I)\subseteq T_I\GL_n(\R)=M_n(\R)$, which is $\{A\in M_n(\R^n):A^T+A=0\}$ .
+    One can do the same for $U_n(\C)=\{A\in\GL(\C):A^*A=I\}$ and $A^*=\overline{A}^T$.
+\end{example}
+\begin{definition}
+    When $f:M\to M$ is a diffeomorphisn and $X\in \Gamma(M,TM)$, we say that $X$ is \textbf{invariant} under $f$ when $f_*X=X$ (where $f_*(X_p)=X_{f(p)}$ for all $p\in M$).
+    When $G$ is a Lie group and $X\in\Gamma(G,TG)$, we say that $X$ is \textbf{left-invariant} when $X$ is invariant under the left multiplication map $\ell_a:G\to G$ where $\ell_a(p)=ap$ for all $a\in G$.
+\end{definition}
+Note that $(\ell_a)_*(X)=X$ for all $a\in G$.
+
+On the other hand, if we define a vector field $X$ on $G$ by the formula $X_a=(\ell_a)_*A$ where $A\in T_eG$, then $X$ is left invariant since for all $a,b\in G$,
+\begin{equation*}
+    (\ell_a)_*X_b=((\ell_a)_*\circ(\ell_b)_*)(X_e)=X_{ab}
+\end{equation*}
+\begin{definition}
+    A \textbf{Lie algebra} is a vector space $V$ with an alternating bilinear map $[,]:V\times V\to V$ which satisfies the Jacobi identity $[[A,B],C]+[[B,C],A]+[[C,A],B]=0$.
+\end{definition}
+\begin{example}
+    $M_n(\R)$ is a Lie algebra using $[A,B]=AB-BA$, as one can verify directly.
+    More generally, when $V$ is a vector space, $\End V$ is a Lie algebra with Lie bracket $[A,B]=AB-BA$.
+    For example, when $M$ is a smooth manifold, $X(M)=\Gamma(M,TM)$ is a vector space with Lie bracket $[X,Y](f)=X(Y(f))-Y(X(f))$.
 \end{example}
 \end{document}

@@ -1198,7 +1198,63 @@ We give $M$ the structure of a $D-$module by $\phi\cdot m=\phi(m)$.
 \begin{proposition}
     If $R$ is primitive and (left) Artinian, then $R\cong M_n(D)$ where $D\cong\End_R(M)$.
 \end{proposition}
+\begin{proof}
+    We first show that $\dim_D(M)<\infty$.
+    Suppose $\{v_1,v_2,\ldots\}$ is infinite and $D-$linearly independent.
+    For each $m$, let $I_m=\{r\in R:rv_i=0\text{ for }i=1,\ldots,m\}$, so that $I_1\supseteq I_2\supseteq\cdots$.
+    By the JDT, $R$ acts densely on $M$.
+    In particular, for every $m>1$, there exists $r\in R$ so that $rv_1=\cdots=rv_{m-1}=0$ but $rv_m=v_m\neq 0$, so $r\in I_{m-1}\setminus I_m$.
+    Thus $I_1\supsetneq I_2\supsetneq\cdots$, contradicting Artinianity.
 
+    Consider the map $\phi:R\to\End_D(M)\cong M_n(D)$ by $\phi(r)=(v_i\mapsto rv_i)$.
+    Then by the homework, this is a ring isomorphism.
+\end{proof}
+In particular, on A4, we prove that every semiprimitive Artinian ring is a finite direct sum of primitive Artinian rings.
+We thus have
+\begin{theorem}[Artin-Wedderburn]
+    Every semiprimitive Artinian (i.e. semisimple) ring is isomorphic to a finite direct sum of matrix rings over division rings, i.e. $R\cong M_{n_1}(D_1)\oplus\cdots\oplus M_{n_k}(D_k)$
+\end{theorem}
+Note that the $D_i$ and the $n_i$ are unique up to reordering.
+\begin{corollary}
+    Every commutative semisimple ring is isomorphic to a finite direct sum of fields.
+\end{corollary}
+Let $R$ be primitive $F-$algebra where $F$ is a field.
+Let $M$ be a faithful, irreducible $R-$module, and $D=\End_R(M)$.
+For $\alpha\in F$, consider $\phi_\alpha:M\to\M$ given by $\phi_\alpha(m)=\alpha m$ since $F\subseteq Z(R)$, $\phi_\alpha\in D$.
+
+Now define $\psi:F\to D$ by $\psi(\alpha)=\phi_\alpha$, which is an injective homomorphism.
+Furthermore, for each $\psi\in D$, $\psi(\phi_\alpha(m))=\phi(\alpha m)=\phi_\alpha(\phi(m))$ so $\phi(\phi_\alpha(m))=\phi(\alpha m)=\alpha\phi(m)=\phi_\alpha(\phi(m))$ so $\phi\circ\phi_\alpha=\phi_\alpha\circ\phi$, so $D$ is an $F-$algebra.
+\begin{lemma}
+    Suppose $F=\overline{F}$.
+    If $D$ is a division $F-$algebra which is algebraic over $F$, then $D=F$.
+\end{lemma}
+\begin{proof}
+    Let $a\in D$, and let $p(x)\in F[x]$ with $p(a)=0$.
+    Then $p(x)=\prod_i(x-\lambda_i)$ with $\lambda_i\in F$.
+    However, $p(a)=\prod_i(a-\lambda_i)$ since $F\subseteq Z(D)$.
+    Since $D$ is a division ring, $(a-\lambda_i)=0$ so that $a=\lambda_i\in F$.
+\end{proof}
+\begin{remark}
+    Suppose $D$ is a division $F-$algebra.
+    If $\dim_F(D)<\infty$, then $D$ is algebraic over $F$.
+\end{remark}
+\begin{theorem}
+    Let $F=\overline{F}$.
+    If $R$ is a finite dimensional semisimple $F-$algebra, then $R\cong M_{n_1}(F)\oplus\cdots\oplus M_{n_k}(F)$.
+\end{theorem}
+\begin{proof}
+    Write $R\cong M_{n_1}(D_1)\oplus\cdots\oplus M_{n_k}(D_k)$, so that $\dim_F(D_i)<\infty$.
+    Thus since each $D_i$ is an $F-$algebra with finite dimension, each $D_i=F$.
+\end{proof}
+We thus have
+\begin{theorem}
+    If $F=\overline{F}$, $G$ a finite group, and $\chr F=0$ or $\chr F\nmid |G|$, then $F[G]$ is semisimple and thus $F[G]\cong M_{n_1}(F)\oplus\cdots\oplus M_{n_k}(F)$.
+\end{theorem}
+\begin{remark}
+    Suppose $F=\C$.
+    Then $\C[G]\cong M_{n_1}(\C)\oplus M_{n_k}(\C)$.
+    Taking $\dim_{\C}$: $|G|=n_1^2+\cdots+n_k^2$.
+\end{remark}
 \section{Facts about Non-Commutative Modules}
 General structures on modules:
 \begin{definition}

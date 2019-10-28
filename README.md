@@ -3,6 +3,9 @@
 The notes here are not my original work; they are derived from courses taught by the mentioned professor.
 The newer PDFs have embedded hyperlinks (which don't work on GitHub), so you can download the PDF or open it in its own page in your brower to use them.
 ## Courses
+- [**RFM**](budapest/RFM_notes.pdf), Real Functions and Measures: Fall 2018 - 
+- [**GRT**](budapest/GRT_notes.pdf), Graph Theory: Fall 2018 -
+- [**PRO**](budapest/PRO_notes.pdf), Introductory Probability Theory: Fall 2018 -
 - [**PMATH 351**](pmath/351_notes.pdf), Real Analysis: Summer 2018 - Kathryn Hare
 - [**PMATH 441**](pmath/441_notes.pdf), Algebraic Number Theory: Winter 2019 - Matthew Satriano
 - [**PMATH 451**](pmath/451_notes.pdf), Measure Theory: Winter 2019 -  Nico Spronk

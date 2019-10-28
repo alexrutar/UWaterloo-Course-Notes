@@ -58,8 +58,8 @@
 % proof implications
 \newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
-\newcommand{\impr}{{($\Rightarrow$)\hspace{0.2cm}}}
-\newcommand{\impl}{{($\Leftarrow$)\hspace{0.2cm}}}
+\newcommand{\impr}{{($\Longrightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Longleftarrow$)\hspace{0.2cm}}}
 
 % align macros
 \newcommand{\agspace}{\ensuremath{\phantom{--}}}
@@ -242,6 +242,7 @@
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\Lip}{Lip}
+\DeclareMathOperator{\ext}{ext}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
 \newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
 
@@ -1802,17 +1803,20 @@ We then have (with some verification possibly needed)
     \end{itemize}
     This pair is \textbf{cofinal} if for any $v_1,v_2\in N$, there is $v_3\in N$ so $v_1\leq v_3$ and $v_2\leq v_3$.
     Then $(N,\leq)$ is a \textbf{directed set} if $\leq$ is a cofinal preorder.
-
     Given a non-empty set $X$, a \textbf{net} is a function $x:N\to X$.
 \end{definition}
-If $(x_0)_{v\in N}$ is a net in $X$, $A\subseteq X$, we say that $(x_0)_{n\in\N}$ is
-\begin{itemize}[nl]
-    \item \textbf{eventually} in $A$ if there is $v_A\in N$ so $x_v\in A$ whenever $v\geq v_A$
-    \item \textbf{frequently} in $A$ if for any $v\in N$, there is $v'\in N$ with $v'\geq g$ so $x_{v'}\in A$.
-\end{itemize}
-Now, let $(M,\leq)$ be anther directed set
-A map $\phi:M\to N$ is \textbf{eventually cofinal} if for any $v\in N$, there is $\mu_v\in N$ s $\phi(u)\geq v$ whenever $\mu\geq \mu_0$.
-Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(x_{\phi(\mu)})_{\mu\in M}$.
+\begin{definition}
+    If $(x_0)_{v\in N}$ is a net in $X$, $A\subseteq X$, we say that $(x_0)_{n\in\N}$ is
+    \begin{itemize}[nl]
+        \item \textbf{eventually} in $A$ if there is $v_A\in N$ so $x_v\in A$ whenever $v\geq v_A$
+        \item \textbf{frequently} in $A$ if for any $v\in N$, there is $v'\in N$ with $v'\geq g$ so $x_{v'}\in A$.
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    Now, let $(M,\leq)$ be anther directed set
+    A map $\phi:M\to N$ is \textbf{eventually cofinal} if for any $v\in N$, there is $\mu_v\in N$ s $\phi(u)\geq v$ whenever $\mu\geq \mu_0$.
+    Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(x_{\phi(\mu)})_{\mu\in M}$ a \textbf{subnet}.
+\end{definition}
 \begin{definition}
     We call $\phi:M\to N$ a \textbf{directed map} if
     \begin{enumerate}[nl,r]
@@ -1820,18 +1824,20 @@ Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(
         \item For any $v\in N$, there is $\mu\in M$ s $v\leq\phi(\mu)$.
     \end{enumerate}
 \end{definition}
+Directed maps are always cofinal.
+Different sources use directed maps over eventually cofinal maps.
 \begin{example}
     \begin{enumerate}[nl,r]
         \item $(\N,\leq)$ is directed, and subsequences are special types of subnets.
         \item $(\R,\leq)$ is directed
-        \item Let $a<b$ in $\R$.
+        \item (\textit{Riemann sums}) Let $a<b$ in $\R$.
             We let
             \begin{equation*}
                 N=\{(P,P^*):P=\{a=t_0<t_1<\cdots<t_n=b\},P^*=\{t_1^*,\ldots,t_n^*\},t_k^*\in[t_{k-1},t_k]\}
             \end{equation*}
             and say $(P,P^*)\leq (Q,Q^*)$ if $P\subseteq Q$.
             One can verify that this is a net (the Riemann sum net).
-        \item (nets from filtering families).
+        \item (\textit{Nets from filtering families}).
             We say that $\mathcal{F}\subset\mathcal{P}(X)\setminus\{\emptyset\}$ is a \textbf{filtering family} if for each $F_1,F_2\in\mathcal{F}$, there is $F_3\in\mathcal{F}$ such that $F_3\subseteq F_1\cap F_2$.
             For example, an ultrafilter is a filtering family.
             Let
@@ -1841,31 +1847,47 @@ Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(
             equipped with the pre-order $(x,F)\leq(x',F')$ if and only if $F\supseteq F'$.
             Since $\mathcal{F}$ is a filtering family, $(N_{\mathcal{F}},\leq)$ is directed.
             Let $x_{(x,F)}=x$, so $(x)_{(x,F)\in N_{\mathcal{F}}}$ is the net built from $\mathcal{F}$.
+            Note that if $F\in\mathcal{F}$, then $(x)_{(x,F)\in\mathcal{F}}$ is eventually in $F$.
 
-            If $\mathcal{F}$ is an ultrafilter, then $(x)_{(x,F)\in N_{\mathcal{F}}}$ is an \textbf{ultranet}.
             An \textbf{ultranet} $(x_v)_{v\in N}\subset X$ is a net for which any $A\in\mathcal{P}(X)$, $(x_v)_{v\in N}$ is either eventually in $A$ or eventually in $X\setminus A$.
+            If $\mathcal{F}$ is an ultrafilter, then $(x)_{(x,F)\in N_{\mathcal{F}}}$ is an \textbf{ultranet}.
     \end{enumerate}
 \end{example}
+\subsection{Nets and Topology}
 Now, suppose $(X,\tau)$ is a topological space.
 \begin{definition}
-    Let $(x_v)_{v\in N}$ be a net in $X$.
     We say that $x_0\in X$ is
     \begin{itemize}[nl]
-        \item a \textbf{limit point} if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is eventually in $U$.
+        \item Some $x_0\in X$ is a \textbf{limit point} if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is eventually in $U$.
             That is, there is $\nu_U$ such that $x_\nu\in U$ whenever $\nu\geq\nu_U$.
             We write $x_0=\lim_{v\in N}x_v$, the $\tau-$limit of $(x_v)_{v\in N}$.
-        \item a \textbf{cluster point} of $(x_v)_{v\in N}$ if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is frequently in $U$.
+            Note that this is an abuse of notation, since limit points need not be unique (when $(X,\tau)$ is not Hausdorff).
+        \item Some $x_0\in X$ is a \textbf{cluster point} of $(x_v)_{v\in N}$ if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is frequently in $U$.
     \end{itemize}
 \end{definition}
 \begin{proposition}
     If $(x_v)_{v\in N}$ is a net in $(X,\tau)$ and $x_0\in X$, then $x_0$ is a cluster point for $(x_v)_{v\in N}$ if and only if $x_0$ is a $\tau-$limit point of $x_{v_\mu}$ for some subnet $(x_{v_\mu})_{\mu\in M}$ of $(x_v)_{v\in N}$.
 \end{proposition}
 \begin{proof}
-    $(\Rightarrow)$ Let for each $v\in N$ and $U\in\tau$ with $x_0\in U$
+    \impr
+    Suppose $x_0$ is a cluster point for $(x_\nu)_{\nu\in N}$.
+    Then for each $v\in N$ and $U\in\tau$ containing $x_0$, define
     \begin{equation*}
-        F_{v,U}=\{v'\in N:v'\geq v,x_{v'}\in U\}\neq\emptyset
+        F_{\nu,U}=\{\nu'\in N:\nu'\geq \nu,x_{\nu'}\in U\}
     \end{equation*}
-    We let $\mathcal{F}=\{F_{v,U}:v\in N,U\in\tau\text{ with }x_0\in U\}\subset\mathcal{P}(N)$, which is filtering.
+    which is non-empty since $x_0$ is a cluster point.
+    Then set
+    \begin{equation*}
+        \mathcal{F}=\{F_{\nu,U}:\nu\in N,U\in\tau,x_0\in U\}\subset\mathcal{P}(N)
+    \end{equation*}
+    Let's see that $\mathcal{F}$ is filtering: suppose $F_{\nu,U}$ and $F_{\nu',U'}$ are in $\mathcal{F}$.
+    Get $\mu\geq\nu$ and $\mu\geq\nu'$ by definition of a net and set $V=U\cap U'$, which is open and contains $x_0$.
+    Then since $x_0$ is a cluster point, get some $\mu'\geq \mu$ such that $x_{\mu'}\in V$, so $F_{\mu',V}\subseteq F_{\nu,U}\cap F_{\nu',U'}$
+    We then let $M=N_{\mathcal{F}}$ be the net construction from the filtering family and set $v_{(\nu,F)}=V$.
+
+    Now set $N_{\mathcal{F}}=\{(\nu,F):\nu\in F,F\in\mathcal{F}\}$ with the standard preorder and $\nu_{(\nu,F)}=\nu$.
+    Then the map $(\nu,F)\mapsto\nu$ from $N_{\mathcal{F}}\to N$ is eventually cofinal: if $\nu_0\in N$ is arbitrary, take any $F_0=F_{\nu_0,U}\in\mathcal{F}$.
+    Then $F_0=\{\nu\in N:\nu\geq\nu_0,x_\nu\in U\}$, so if $F_{\mu,V}\in\mathcal{F}$ with $F_{\mu,V}\subseteq$
     We let $M=N_{\mathcal{F}}$ as in (iv) above, and $v_{v,\mathcal{F}}=v$.
     Check that $(x_v)_{(v,F)\in N_{\mathcal{F}}}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$.
     [Check: $(v,F)\mapsto v:N_{\mathcal{F}}\to N$ is cofinal, but is not evidently directed]
@@ -2066,14 +2088,76 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    The map $x\mapsto\hat x$ is a $w-w^*|_{\hat X}-$homeomorphism.
+    The map $\iota:x\mapsto\hat x$ is a $w-w^*|_{\hat X}-$homeomorphism.
     Recall $w^*=\sigma(X^{**},\hat X^*)$, and $w^*|_{\hat X}=\sigma(\hatX,(\hat X)^*|_{\hat X})$ and we have for $x_0\in X$, net $(x_\nu)_{\nu\in N}$ in $X$,
     \begin{align*}
         w-\lim_{\nu\in N}x_\nu = x_0 &\iff \lim_{\nu\in N}f(x_\nu)=f(x_0)\forall f\in X^*\\
                                      &\iff \lim_{\nu\in N}\hat x_\nu(f)=\hat x_0(f)\forall f\in X^*\\
-                                     &\iff \lim_{\nu\in N}\hat f(\hat x_\nu)\hat f(\hat x_0)
+                                     &\iff \lim_{\nu\in N}\hat f(\hat x_\nu)=\hat f(\hat x_0)
     \end{align*}
     and having the same convergent nets means that the topologies are the same.
+
+    \imp{i}{ii}
+    By assumption, $\widehat{B(X)}=B(\hat X)=B(X^{**})$.
+    Since $B(X^{**})$ is $w^*-$compact, and hence $\iota^{-1}(B(X^{**}))=B(X)$ is $w-$compact
+
+    \imp{ii}{i}
+    If $B(X)$ is $w-$compact, then since $x\mapsto\hat x:X\to X^{**}$ is continuous, we see that $B(\hat X)=\widehat{B(X)}$ is $w^*-$compact.
+
+    \imp{i}{iii}
+    We have $\hat X=X^{**}$ so on $X^*$, we have $w=\sigma(X^*,X^{**})=\sigma(X^*,\hat X)=w^*$.
+
+    \imp{iii}{iv}
+    $B(X^*)$ is compact, hence $w-$compct, so by $(ii)$ implies $(i)$ applied to $X^*$, we have that $X^*$ is reflexive.
+
+    \imp{iv}{i}
+    We assume $\widehat{X^*}=X^{***}$.
+    Thus on $X^{***}$, we have $w=\sigma(X^{**},X^{***})=\sigma(X^{**},\widehat{X^*})=w^*$.
+    Now $B(\hat X)=B(X^{**})\cap\hat X$ is norm-closed and convex, hence $w-$closed, by Closed Convex Hull theorem.
+    Thus from above, $B(\hat X)$ is $w^*-$closed, so $B(\hat X)=\overline{B(\hat X)}^{w^*}=B(X^{**})$ by Goldstine, so $\hat X=X^{**}$.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nl,r]
+        \item Any finite dimensional normed space is reflexive.
+        \item Any closed subspace $Y$ of a normed space $X$ is reflexive.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item A finite dimensional normed space is complete, and its closed ball is compact, and thus $w-$compact as $\tau_{\norm{\cdot}}\supseteq w$.
+        \item By Hahn-Banach, $Y^*=X^*|_Y$, so $\sigma(Y,Y^*)=\sigma(Y,X^*|_Y)=\sigma(X,X^*)|_Y$.
+            Now $B(Y)=B(X)\cap Y$ is norm-closed and convex, hence $w-$closed in $B(X)$.
+            But $B(X)$ is $w-$compact, so $B(Y)$ is a $w-$closed subset of a $w-$compact space and thus $w-$compact.
+    \end{enumerate}
+\end{proof}
+\subsection{Extreme Points and the Krein-Milman Theorem}
+\begin{definition}
+    Let $X$ be a vector space and $C\subset X$ convex.
+    A \textbf{face} $F$ of $C$ is any non-empty subset such that if $x\in F$, $x=(1-t)y+tz$, $t\in(0,1)$, $y,z\in C$ implies that $y,z\in F$.
+    A \textbf{extreme point} of $C$ is a singleton face, i.e. $\ext C=\{x\in C:\{x\}\text{ is a face of }C\}$.
+    Hence $x\in\ext C$ if for any $t\in(0,1)$ and $y,z\in C$, if $x=(1-t)y+tz$ then $x=y=z$.
+\end{definition}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item Faces of $C$ are themselves convex subsets.
+        \item A face $F'$ of a face $F$ of $C$ is itself a face of $C$.
+        \item $\ext F\subseteq\ext C$.
+        \item If $f\in X'$ and $\Re f(C)=[a,b]$, then $(\Re f)^{-1}(\{b\})$ is itself a face of $C$.
+    \end{enumerate}
+\end{remark}
+\begin{theorem}[Krein-Milman]
+    Let $X$ be a normed space and $C\subset X^*$ convex and $w^*-$compact.
+    Then $C=\overline{co}^{w^*}\ext C$.
+\end{theorem}
+\begin{proof}
+    We first verify that any $w^*-$closed face of $C$ admits an extreme point.
+    We let $\mathcal{F}=\{F:F\text{ is a $w^*-$closed face of $C$}\}$, which is partially ordered by reverse inclusion.
+    If $\mathcal{C}$ is a chain in $\mathcal{F}$ with $F_1,\ldots,F_n\in\mathcal{C}$, we may assume $F_1\supseteq\cdots\supseteq F_n$ so that $\mathcal{C}$ has the finite intersection property.
+    Thus $\emptyset\neq F_0=\bigcap_{F\in\mathcal{C}}F$.
+    If $x\in F_0$, $t\in(0,1),y,z\in C$ and $x=(1-t)y+tz$, then $x\in F$ for any $F\in\mathcal{C}$ so $y,z\in F$ for any $f\in\mathcal{C}$.
+    Thus $y,z\in\bigcap_{F\in\mathcal{C}}F=F_0$.
+    Also $F_0$ is closed, so $F_0\in\mathcal{F}$.
+    Thus $F_0$ is an upper bound in $\mathcal{F}$ for $\mathcal{C}$, so by Zorn, get some maximal element $M$.
 \end{proof}
 \end{document}
 
