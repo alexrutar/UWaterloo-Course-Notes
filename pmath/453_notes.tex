@@ -2139,8 +2139,8 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
 \end{definition}
 \begin{remark}
     \begin{enumerate}[nl,r]
-        \item Faces of $C$ are themselves convex subsets.
-        \item A face $F'$ of a face $F$ of $C$ is itself a face of $C$.
+        \item Faces of $C$ are not necessarily convex.
+        \item A face $F'$ of a convex face $F$ of $C$ is itself a face of $C$.
         \item $\ext F\subseteq\ext C$.
         \item If $f\in X'$ and $\Re f(C)=[a,b]$, then $(\Re f)^{-1}(\{b\})$ is itself a face of $C$.
     \end{enumerate}
@@ -2151,13 +2151,81 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
 \end{theorem}
 \begin{proof}
     We first verify that any $w^*-$closed face of $C$ admits an extreme point.
-    We let $\mathcal{F}=\{F:F\text{ is a $w^*-$closed face of $C$}\}$, which is partially ordered by reverse inclusion.
+    We let $\mathcal{F}=\{F:F\text{ is a convex $w^*-$closed face of $C$}\}$, which is partially ordered by reverse inclusion.
     If $\mathcal{C}$ is a chain in $\mathcal{F}$ with $F_1,\ldots,F_n\in\mathcal{C}$, we may assume $F_1\supseteq\cdots\supseteq F_n$ so that $\mathcal{C}$ has the finite intersection property.
     Thus $\emptyset\neq F_0=\bigcap_{F\in\mathcal{C}}F$.
     If $x\in F_0$, $t\in(0,1),y,z\in C$ and $x=(1-t)y+tz$, then $x\in F$ for any $F\in\mathcal{C}$ so $y,z\in F$ for any $f\in\mathcal{C}$.
     Thus $y,z\in\bigcap_{F\in\mathcal{C}}F=F_0$.
     Also $F_0$ is closed, so $F_0\in\mathcal{F}$.
     Thus $F_0$ is an upper bound in $\mathcal{F}$ for $\mathcal{C}$, so by Zorn, get some maximal element $M$.
+
+    Let $M$ be a minimal $w^*-$closed convex face of $F$.
+    Then given $x\in X$, $\Re\hat x:X^*\to\R$ is $w^*-$continuous, and hence $\Re\hat x(M)=[a_x,b_x]$ since the only compact convex subsets of $\R$ are compact intervals.
+    But then $F_x=(\Re \hat x)^{-1}(\{b_x\})\cap M$ is a $w^*-$closed convex face in $M$, so that $F_x=M$.
+    If $f,g\in M$, then $\Re f(x)=\Re\hat x(f)=b_x=\Re\hat x(g)=\Re g(x)$, so $f=g$ and hence $M=\{f\}$ and $f\in\ext F$.
+
+    Now let $f_0\in X^*\setminus\cwx\ext C$.
+    Since $C$ is $w^*-$compact and convex, $\Re\hat x(C)=[a_x,b_x]$, so $C_x=(\Re\hat x)^{-1}(\{b_x\})\cap C$ is a $w^*-$closed convex face of $C$.
+    Hence by above, there is $f\in\ext C_x\subseteq\ext C$ with $\Re\hat x(f)=b_x$.
+    But then $\Re\hat x(f_0)>\alpha\geq\Re\hat x(f)=b_x$, so $\Re\hat x(f_0)\notin[a_x,b_x]=\Re\hat x(C)$, so $f_0\notin C$.
+    Thus $C\subseteq\cwx\ext C$, where the converse inclusion is obvious.
 \end{proof}
+\begin{corollary}
+    \begin{enumerate}[nl,r]
+        \item If $C\subset X$ is a $w-$compact convex set, then $C=\cw\ext C$.
+        \item If $C\subset X$ is a norm-compact convex set, then $C=\cw\ext C$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We have that $x\mapsto\hat x:X\to\hat X\subseteq X^{**}$ is continuous.
+            Hence $\hat C$ is $w^*-$compact in $X^{**}$, so $x\mapsto\hat x:C\to\hat C$ is a homeomorphism.
+            In $\hat C$, we have
+            \begin{equation*}
+                \widehat{\cw^w\ext C}=\cwx\ext\hat C=\hat C
+            \end{equation*}
+            so that $C=\cw^w\ext C=\overline{co}\ext C$ by the closed convex hull theorem.
+        \item Since $w\subseteq\tau_{\norm{\cdot}}$, any norm-compact is $w-$compact.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Let $X$ be a normed space.
+    Then $\ext B(X)\subseteq S(X)$.
+\end{remark}
+\begin{proposition}
+    $\ext B(\ell_p)=S(\ell_p)$
+\end{proposition}
+\begin{proof}
+    Let $x\in S(\ell_p)$, so $x=(1-t)y+tz$.
+    Then
+    \begin{equation*}
+        1=\norm{x}_p\leq(1-t)\norm{y}_p+t\norm{z}_p\leq 1
+    \end{equation*}
+    so that $\norm{y}_p=\norm{z}_p=1$ and $\norm{x}_p=(1-t)\norm{y}_p+t\norm{z}_p$.
+    Thus by the equality case for Minkowski, there is $s\geq 0$ so $s(1-t)y=tz$.
+    Taking norms, we have $y=z$.
+\end{proof}
+\begin{proposition}
+    $\ext B(c_0)=\emptyset$.
+    Let $x=(x_1,x_2,\ldots)\in B(C_0)$.
+    Since $\lim x_n=0$, get $n_0$ so $|x_{n_0}|\leq 1/2$.
+    If $x_{n_0}\neq 0$, let $y=(x_1,\ldots,x_{n_0-1},2x_{n_0},x_{n_0+1},\ldots)$ and $z=(x_1,\ldots,x_{n_0-1},0,x_{n_0+1},\ldots)$, and similarly for $x_{n_0}=0$.
+    Thus we have in each case that $y,z\in B(c_0)$ and $x=y/2+z/2$.
+\end{proposition}
+\begin{corollary}
+    There exists no normed space $X$ for which $c_0\cong X^*$.
+\end{corollary}
+\begin{proof}
+    If there were such $X$, then $B(c_0)$ would be $w^*-$compact, and hence Krein-Milman would imply $\ext B(c_0)\neq\emptyset$.
+\end{proof}
+\begin{definition}
+    Let $(X,\tau)$ be a compact Hausdorff space, and let
+    \begin{equation*}
+        P(X)=\{\mu\in B(C^{\R}(X,\tau)^*):\mu(1)=1\}
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    $\ext P(X)=\{\hat x:x\in X\}$, where $\hat x(f)=f(x)$.
+\end{theorem}
 \end{document}
 

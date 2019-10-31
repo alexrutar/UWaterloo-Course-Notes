@@ -1255,6 +1255,45 @@ We thus have
     Then $\C[G]\cong M_{n_1}(\C)\oplus M_{n_k}(\C)$.
     Taking $\dim_{\C}$: $|G|=n_1^2+\cdots+n_k^2$.
 \end{remark}
+\begin{lemma}
+    Let $R$ be semisimple, so that $R=M_1\oplus\cdots\oplus M_k$ where $M_i$ are irreducible.
+    \begin{enumerate}[nl,r]
+        \item If $M$ is an irreducible $R-$module, then $M\cong M_i$ for some $i$.
+        \item If $R\cong N_1\oplus\cdots\oplus N_m$ is another irreducible decomposition, then $m=n$ and up to reordering $M_i\cong N_i$.
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $M\cong\quot{R}{I}$ where $I$ is left maximal.
+            Then $\phi_i:M_i\to R\to\quot{R}{I}\cong M$, so either $\phi_i=0$ or $\phi_i$ is an isomorphism.
+            Suppose $\phi_i=0$ for all $i$.
+            Then $\phi=\sum\phi_i$, so $\phi:R\to\quot{R}{I}$ as $\phi(1)=0$, so $1\in I$, a contradiction.
+        \item The maximal submodules of $R$ are precisely $P_i:=\bigoplus_{j\neq i}M_j$.
+\end{proof}
+Let $D$ be a division ring, $R=M_n(D)$ semisimple, so $R=M_1\oplus\cdots\oplus M_n$ where each $M_i$ is the ideal composition of column $i$ of $D^n$.
+Then $R\cong D^n\oplus\cdots\oplus D^n$.
+Since $R$ is semisimple, Artin-Wedderburn implies that $R\cong M_{n_1}(D_1)\oplus\cdots\oplus M_{n_k}(D_k)$ as rings, so that
+\begin{equation*}
+    R\cong D_1^{n_1}\oplus\cdots D_1^{n_1}\oplus\cdots\oplus D_k^{n_k}\oplus\cdots\oplus D_k^{n_k}
+\end{equation*}
+and in fact
+\begin{equation*}
+    \C[G] &\cong M_{n_1}(\C)\oplus\cdots M_{n_k}(\C)\\
+          &\cong \underbrace{\C^{n_1}\oplus\cdots\oplus\C^{n_1}}_{n_1\text{ times}}\oplus\cdots\oplus\underbrace{\C^{n_k}\oplus\cdots\oplus\C^{n_k}}_{n_k\text{ times}}
+\end{equation*}
+Let $M$ be an irreducible $\C[G]-$module.
+By the lemma, $M\cong\C^{n_i}$ for some $i$.
+The degree of the associated representation is $\dim_{\C}M=n_i$, and whenver $M$ occurs in $\C[G]$ (regular representation) $n_i$ times.
+Moreover, $k$ is the number of conjugact classes of $G$.
+
+Exercise: if $C$ is a conjugacy classes and $z_c=\sum_{g\in C}g\in\C[G]$, $\{z_C:C\text{ conj class}\}$ forms a basis for $Z(\C[G])$ (use Artin-Wedderburn).
+
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item In $\C[S_3]$, we have $\C[S_3]\cong \C\oplus\C\oplus M_2(\C)$.
+        \item If $G$ is abelian with $|G|=n$, then $\C[G]\cong \C\oplus\cdots\oplus\C$ $n$ times.
+        \item If $G,H$ are abelian, then $\C[G]\cong\C[H]$ if and only if $|G|=|H|$.
+    \end{enumerate}
+\end{example}
 \section{Facts about Non-Commutative Modules}
 General structures on modules:
 \begin{definition}

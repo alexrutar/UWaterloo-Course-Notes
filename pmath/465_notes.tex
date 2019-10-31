@@ -1103,4 +1103,38 @@ On the other hand, if we define a vector field $X$ on $G$ by the formula $X_a=(\
     More generally, when $V$ is a vector space, $\End V$ is a Lie algebra with Lie bracket $[A,B]=AB-BA$.
     For example, when $M$ is a smooth manifold, $X(M)=\Gamma(M,TM)$ is a vector space with Lie bracket $[X,Y](f)=X(Y(f))-Y(X(f))$.
 \end{example}
+Given $A\in T_eG$, there is a unique left invariant vector field $X$ on $G$ with $X_e=A$, and $X$ is given by $X_p=(\ell_p)_{*}A$.
+By the assignment if $X$ and $Y$ are left-invariant vector fields on a Lie group $G$, then $[X,Y]$ is left invariant since $(\ell_a)_*[X,Y]=[(\ell_a)_*X,(\ell_a)_*Y]=[X,Y]$.
+\begin{definition}
+    For a Lie group $G$, the \textbf{Lie algebra} of $G$, denoted by $\mathfrak{g}$, is the Lie algebra of left-invariant vector fields on $G$.
+\end{definition}
+Equivalently, we may define $\mathfrak{g}=T_eG$ with the corresponding Lie algebra given by $[A,B]=[X,Y]_e$, where $A,B\in T_eG=\mathfrak{g}$, and $X,Y$ are the left invariant vector fields on $G$ with $X_e=A$ and $Y_e=B$.
+\begin{definition}
+    A \textbf{Lie subgroup} of a Lie group $G$ is a subgroup $H\subseteq G$ that is also an immersed (or embedded) submanifold.
+\end{definition}
+Let $G$ be a Lie subgroup of $\GL_n(\R)$.
+We identify $T_p\GL_n(\R)$ with $M_n(\R)$, and we identify $T_pG$ with a subspace of $M_n(\R)$.
+\begin{example}
+    \begin{enumerate}[nl]
+        \item Given $A\in T_IG\subseteq M_n(\R)$, find a formula for $U_p=U(P)$, where $P\in G\subseteq M_n(\R)$ and $U$ is the left-invariant vector field on $G$ with $U_i=A$.
+
+            We have $U_p=(L_P)_*A$, where $L_P:G\to G$ is given by $L_P(X)=PX$.
+            Note that $L_P$ is the restriction of the map $L_P:M_n(\R)\to M_n(\R)$.
+            This map $L_p$ is linear, so $DL_P$ is equal to $L_P$ as a linear map on $M_n(\R)$.
+            Thus we have $U_P=(P_P)_*(A)=(DL_P)A=PA$.
+        \item Given $A,B\in\mathfrak{G}=T_IG\subseteq M_n(\R)$, let $U$ and $V$ be given by $U(P)=PA$ and $V(P)=PB$.
+            Note that $U=R_A$, $V=R_B$, so $DU=R_A$ and $DV=R_B$ as inear maps on $M_n(\R)$, and we have
+            \begin{equation*}
+                [A,B]=[U,V]_I=DV(I)U(I)-DU(I)V(I)=R_B(A)-R_A(B)=AB-BA
+            \end{equation*}
+        \item Let $A\in\mathfrak{G}=T_I(G)\subseteq M_n(\R)$, let $U(P)=PA$.
+            We need to find the integral curve $\alpha:I\subseteq\R\to G$ with $\alpha(0)=I$.
+            Then we want $\alpha'(t)=U(\alpha(t))=\alpha(t)A$ for all $t$.
+            The solution to this DE is given by $\alpha(t)=e^{tA}=I+tA+\frac{1}{2!}t^2A^2+\cdots$ so that $\alpha'(t)=(e^{tA})A$.
+            As a consequence of the above formula, note that $\mathfrak{g}=\{A\in M_n(\R):e^{tA}\in G\text{ for all }t\in\R\}$.
+            Thus formula allows us to give an explicit description of the Lie algebras of many Lie subgroups of $\GL_n(\R)$.
+    \end{enumerate}
+\end{example}
+Given $A\in M_n(\R)$, $\det e^A=e^{\tr A}$.
+By Schur's Theorem or the Jordan Normal Form, there is a matrix $P\in\GL_n(\C)$ so that $P^{-1}AP=T$ where $T$ is upper triangular.
 \end{document}
