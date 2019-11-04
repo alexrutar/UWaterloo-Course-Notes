@@ -202,6 +202,8 @@
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
@@ -241,11 +243,15 @@
 % file-specific preamble -------------------------------------------------------
 \usepackage{braket}
 \DeclareMathOperator{\Ss}{{\mathbb{S}}}
+\DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\Pp}{{\mathbb{P}}}
 \DeclareMathOperator{\Ind}{Ind}
 \newcommand{\prt}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
 \newcommand{\prtt}[3]{\ensuremath{\frac{\partial^2 #1}{\partial #2\partial #3}}}
 \newcommand{\inner}[2]{\ensuremath{\langle #1,#2\rangle}}
+
+\newcommand{\dd}[1]{\ensuremath{\frac{\operatorname{d}}{\operatorname{d}\!#1}}}
+\newcommand{\qbinom}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}_q}
 
 
 % constants --------------------------------------------------------------------
@@ -946,7 +952,7 @@ In this situation, we identify $T_pN$ with the subspace $\iota_*(T_pN)\subseteq 
 Let $X$ be the vector on $\mathbb{S}^2$ at $p$ with $\phi_*X=(1,0)$.
 Let $\iota:\mathbb{S}^2\to\R^3$ be the inclusion map.
 We have $\phi^{-1}(x,y)=(x,y,\sqrt{1-x^2-y^2})$ with $u=\phi_*X=(1,0)$.
-Then $\iota_*X=D(\psi\ita\phi^{-1})_{\phi(p)}\phi_*X$ where $\psi$ is the identity on $\R^3$.
+Then $\iota_*X=D(\psi\eta\phi^{-1})_{\phi(p)}\phi_*X$ where $\psi$ is the identity on $\R^3$.
 \subsection{Tangent Vectors as Differential Operators}
 Recall that a vector $u\in\R^n$ at a point $a\in\R^n$ acts as a differential operator on smooth maps $f:\R^n\to\R$ by directional derivative.
 Choose any smooth map $\alpha:(-\epsilon,\epsilon)\subseteq\R\to\R^n$ with $\alpha(0)=a$ and $\alpha'(0)=u$, and define $u(f)=u_a(f)=D_uf(a)=\beta'(0)$ where $\beta(t)=f(\alpha(t))$.
@@ -979,7 +985,7 @@ When $u=\prt{}{x^j}$,
 \begin{equation*}
     v=\left(\prt{y}{x}\right)\cdot e_k
 \end{equation*}
-so $v^\ekk=\left(\prt{y}{x}\right)_k^\ell=\prt{y^\ell}{x^k}$ so that
+so $v^\ell=\left(\prt{y}{x}\right)_k^\ell=\prt{y^\ell}{x^k}$ so that
 \begin{equation*}
     v=\sum_{i=1}^n\prt{y^i}{x^k}\prt{}{y^i}
 \end{equation*}
@@ -1053,7 +1059,7 @@ When a vector field on $X$ has finitely many isolated zeros, the index of $X$ is
 \end{theorem}
 \section{Lie Groups}
 \begin{definition}
-    A Lie group $G$ is both a smooth manifold and a group such that the group operations $\mu:G\times G\to G$ and inversion $\nu:G\to\G$ are smooth maps.
+    A Lie group $G$ is both a smooth manifold and a group such that the group operations $\mu:G\times G\to G$ and inversion $\nu:G\to G$ are smooth maps.
 \end{definition}
 \begin{example}
     $O_n(\R)=\{A\in\GL_n(\R):A^TA=I\}$ is a Lie group.
@@ -1136,5 +1142,88 @@ We identify $T_p\GL_n(\R)$ with $M_n(\R)$, and we identify $T_pG$ with a subspac
     \end{enumerate}
 \end{example}
 Given $A\in M_n(\R)$, $\det e^A=e^{\tr A}$.
-By Schur's Theorem or the Jordan Normal Form, there is a matrix $P\in\GL_n(\C)$ so that $P^{-1}AP=T$ where $T$ is upper triangular.
+By Schur's Theorem or the Jordan Normal Form, there is a matrix $P\in\GL_n(\C)$ so that $P^{-1}AP=T$ where $T$ is upper triangular, so that
+\begin{equation*}
+    \det e^A=\det (Pe^TP^{-1})=\det e^T=e^{\tr A}
+\end{equation*}
+
+Recall when $G$ is a Lie subgroup of $\GL_n(\R)\subseteq M_n(\R)$ and if $J=T_IG\subseteq T_I\GL_n(\R)$, the left invariant vctor field $U$ on $G$ with $U(I)=A\in J$ is given by $U(P)=PA$.
+The Lie bracket on $J$ is given by $[A,B]=AB-BA$, and the integral curve of $U(P)=PA$ is given by $\alpha:\R\to G$ where $\alpha(t)=e^{tA}$, and hence
+\begin{equation*}
+    J=\{A\in M_n(\R):e^{tA}\in G\text{ for all }t\in\R\}
+\end{equation*}
+For example, the Lie algebra of $\SL_n(\R)$ is
+\begin{align*}
+    \mathfrak{sl}_n(\R) &= \{A\in M_n(\R):e^{tA}\in\SL_n(\R)\forall t\}\\
+                        &= \{A\in M_n(\R):\det e^{tA}=1\forall t\}\\
+                        &= \{A\in M_n(\R):e^{\tr tA}=1\forall t\}\\
+                        &= \{A\in M_n(\R):\tr(tA)=0\forall t\}\\
+                        &= \{A\in M_n(\R):\tr(A)=0\}\\
+\end{align*}
+The Lie algebra of $O_n(\R)$ is
+\begin{align*}
+    \mathfrak{o}_n(\R) &= \{A\in M_n(\R):e^{tA}\in O_n(\R)\forall t\}\\
+                       &= \{A\in M_n(\R):(e^{tA})^T(e^{tA})=I\forall t\}\\
+                       &= \{A\in M_n(\R):(e^{tA^T})(e^{tA})=I\forall t\}
+\end{align*}
+If $(e^{tA^T})(e^{tA})=I$ for all $t\in\R$, then $\dd{t}(e^{tA^T})(e^{tA})=\dd{t}I$ so that
+\begin{equation*}
+    (e^{tA^T}A^T(e^{tA})+(e^{tA^T})(e^{tA})\cdot A=0
+\end{equation*}
+and taking $t=0$ gives $A^T+A=0$.
+Then $A^T=-A$ so $tA^T=-tA$ so $e^{tA^T}=e^{-tA}=(e^{tA})^{-1}$ for all $t$, so $e^{tA^T}\cdot e^{tA}=I$ for all $t$.
+Thus $\mathfrak{o}_n(\R)=\{A\in M_n(\R):A+A^T=0\}$.
+
+Table of Lie algebras:
+\begin{equation*}
+    \begin{array}{cc}
+        G & \mathfrak{g}\\
+        \hline
+        \GL_n(\R)=\{A\in M_n(\R):\det A\neq 0\}&\mathfrak{gl}_n(\R)=M_n(\R)\\
+        \GL_n^+(\R)=\{A\in M_n(\R):\det A>0\}&\mathfrak{gl}_n(\R)=M_n(\R)\\
+        \SL_n(\R)=\{A\in \GL_n(\R):\det A=1\}&\mathfrak{sl}_n(\R)=\{A\in M_n(\R):\tr A=0\}\\
+        \O_n(\R)=\{A\in \GL_n(\R):A^TA=I\}&\mathfrak{o}_n(\R)=\{A\in M_n(\R):A+A^T=0\}\\
+        \SO_n(\R)=\{A\in \GL_n(\R):A^TA=I,\det A=1\} & \mathfrak{so}_n(\R)=\{A\in M_n(\R):A+A^T=0\}\\
+        \GL_n(\C)=\{A\in M_n(\R):\det A\neq 0\}&\mathfrak{gl}_n(\R)=M_n(\C)\\
+        \SL_n(\C)=\{A\in M_n(\R):\det A=1\}&\mathfrak{sl}_n(\R)=\{A\in M_n(\C):\tr A=0\}\\
+        O_n(\C)=\{A\in \GL_n(\C):A^TA=I\}&\mathfrak{o}_n(\R)=\{A\in M_n(\C):A+A^T=0\}\\
+        \SO_n(\C)=\{A\in \SL_n(\C):A^TA=I,\det A=1\} & \mathfrak{so}_n(\C)=\{A\in M_n(\R):\tr A=0,A+A^T=0\}\\
+        U_n(\C)=\{A\in \GL_n(\C):A^*A=1\} & \mathfrak{so}_n(\R)=\{A\in M_n(\C):A^*+A=0\}\\
+        SU_n(\C)=\{A\in \SL_n(\C):A^*A=1\} & \mathfrak{so}_n(\R)=\{A\in M_n(\C):\tr A=0,A^*+A=0\}
+    \end{array}
+\end{equation*}
+\section{Smooth $k-$forms}
+Suppose $\alpha:I\subseteq\R\to U\subseteq\R^3$ and let $f:U\subseteq\R^3\to\R$, then the length of $\alpha$ is
+\begin{equation*}
+    \int_C dL=\int_\alpha dL=\int_{t\in I}|\alpha'(t)|dt
+\end{equation*}
+and
+\begin{equation*}
+    \int_C fdL = \int_\alpha f dL=\int_{t\in I}f(\alpha(t))|\alpha'(t)|dt
+\end{equation*}
+Given $\sigma:R\subseteq\R^2\to U\subseteq\R^3$, $f:U\subseteq\R^3\to R$, the area of $\im \sigma$ is given by
+\begin{align*}
+    \sigma(s,t)&=(x(s,t),y(s,t),z(s,t))\\
+    D\sigma&=
+    \begin{pmatrix}
+        \prt{}{s}x(s,t) & \prt{}{t}x(s,y)\\
+        \prt{}{s}y(s,t) & \prt{}{t}y(s,y)\\
+        \prt{}{s}z(s,t) & \prt{}{t}z(s,y)
+    \end{pmatrix}
+\end{align*}
+and denote $\sigma_s$, $\sigma_t$ as the respective columns, so
+\begin{equation*}
+    A = \int_S dA=\int_\sigma dA=\iint_{(s,t)\in R}|\sigma_s(s,t)\times\sigma_t(st)|dsdt
+\end{equation*}
+and
+\begin{equation*}
+    \int_S fdA=\int_\sigma fdA=\iint_{(s,t)\in R}f(\sigma(s,t))|\sigma_s\times\sigma_t|ds dt
+\end{equation*}
+For $\alpha:I\subseteq\R\to U\subseteq\R^3$, $F:U\to\R^3$, say $F=(P,Q,R)$, then
+\begin{align*}
+    W &= \int_CF\cdot TdL = \int_\alpha F\cdot TdL\\
+      &= \int_{t\in I}F(\alpha(t))\cdot\frac{\alpha'(t)}{|\alpha'(t)|}|\alpha'(t)|dt\\
+      &= \int_{t\in I}(P(\alpha(t))x'(t)+Q(\alpha(t))y'(t)+R(\alpha(t))z'(t))dt\\
+      &= \int_\alpha Pdx+Qdy+Rdz
+\end{align*}
 \end{document}

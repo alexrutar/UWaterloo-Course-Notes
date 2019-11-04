@@ -244,6 +244,8 @@
 \DeclareMathOperator{\Lip}{Lip}
 \DeclareMathOperator{\ext}{ext}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
+\newcommand{\idc}{\mathbb{1}}
+\newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
 \newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
 
 
@@ -2226,6 +2228,83 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
 \end{definition}
 \begin{theorem}
     $\ext P(X)=\{\hat x:x\in X\}$, where $\hat x(f)=f(x)$.
+    Furthermore, $\cwx\ext P(X)=P(X)$.
 \end{theorem}
+\begin{proof}
+    Write $C=C^{\R}(X,\tau)$.
+    Note that $P(X)=B(C^*)\cap\hat 1^{-1}(\{1\})$ is $w^*-$compact and convex.
+    Hence by Krein-Milman, we have that $\cwx\ext P(X)=P(X)$.
+    It remains to describe $\ext P(X)$.
+    
+    (I) Some inequalities.
+    Fix $\mu\in P(X)$.
+    If $0\leq f\leq 1$ in $C$, then $0\leq \idc-f\leq 1$ so $\norm{f}_\infty$, $\norm{\idc -f}_\infty\leq 1$.
+    Thus $|\mu(f)|\leq 1$ and $|1-\mu(f)|=|\mu(\idc-f)|\leq 1$.
+    Thus $0\leq\mu(f)\leq 1$.
+    Then if $g\neq 0$ and $g\geq 0$ in $C$, then we have $\mu(g/\norm{g}_\infty)\geq 0$, so $\mu(g)>0$; if $g\leq h$ in $C$, then $h-g\geq 0$ and $\mu(h)\geq\mu(g)$.
+
+    If $g\in C$, $g^+=\max\{g,0\}$, $g^-=\max\{-g,0\}\in C$, and $g=g^+-g^-$ while $|g|=g^++g^-$.
+    Hence if $0\leq f\leq 1$ in $C$ and let $\mu_f(g)=\mu(fg)$ for $g\in C$, we have
+    \begin{equation}\label{e:in1}
+        |\mu_f(g)|=|\mu_f(g^+-g^-)|=|\mu(fg^+)+\mu(fg^-)|\leq\mu(fg^+)+\mu(fg^-)=\mu(f(g))\leq\mu(f\norm{g}_\infty)=\mu(f)\norm{g}_\infty
+    \end{equation}
+    and, with $f=\idc$, we have
+    \begin{equation}\label{e:in2}
+        |\mu(g)|\leq\mu(|g|)
+    \end{equation}
+
+    (II) Let $\delta\in\ext P(X)$.
+    We first show for $h,g$ in $C$ that $\delta(hg)=\delta(h)\delta(g)$.
+    To see this, since $\delta\neq 0$, we may find $0\leq f\leq 1$ such that $0<\delta(f)<1$.
+    Now let $\mu=\frac{1}{\delta(f)}\delta_f$ so, for $g\in C$, \cref{e:in1} provides
+    \begin{equation*}
+        |\mu(g)|=\frac{1}{\delta(f)}|\delta_f(g)|\leq\frac{1}{\delta(f)}\delta(f)\norm{y}_\infty=\norm{y}_\infty
+    \end{equation*}
+    so that $\mu\in B(C^*)$.
+    We also know that $\mu(\idc)=1$.
+    Hence $\mu\in P(X)$.
+    Likewise, $\nu=\frac{1}{1-\delta(f)}\delta_{\idc-f}\in P(X)$.
+    We have that
+    \begin{equation*}
+        \delta(f)\mu+(1-\delta(f))\nu=\delta
+    \end{equation*}
+    so by assumption on $\delta$, $\mu=\delta$.
+    Thus $\frac{1}{\delta(f)}\delta(fg)=\mu(g)=\delta(g)$, so that $\delta(fg)=\delta(f)\delta(g)$.
+    Note that $C=\spn\{f\in C:0\leq f\leq 1\}$, so we get multiplicativity of $\delta$.
+
+    Suppose now for each $x\in X$, there exists some $f_x\in\ker\delta$ so that $f_x(x)\neq 0$.
+    Let $U_x=f_x^{-1}(\R\setminus\{0\})$, so $X=\bigcup_{x\in X}\{x\}=\bigcup_{x\in X}U_x$ so there are $x_1,\ldots,x_n$ in $X$ so $X=\bigcup_{j=1}^n U_{x_j}$.
+    Then $f=\sum_{j=1}^n f_{x_j}^2>0$ on $X$ (by definition of each $U_{x_j}$), so $1/f\in C$.
+    Then
+    \begin{equation*}
+        1 = \delta(\idc)=\delta\left(\frac{1}{f}\right)\delta(f)=\delta\left(\frac{1}{f}\right)\sum_{j=1}^n\delta(f_{x_j})^2=0
+    \end{equation*}
+    since each $f_{x_i}\in\ker\delat$, which is absurd.
+    Hence there is $x\in X$ so $f(x)=0$ whenever $f\in\ker\delta$, so $\ker\delta\supsetneq\ker\hat x$, so $\delta\in\R\hat x$ and since $\delta(\idc)=1=\hat x(\idc)$, so $\delta=\hat x$.
+
+    (III) If $\hat x=(1-t)\mu+tv$ and $t\in(0,1)$, $\mu,\nu\in P(X)$, then by \cref{e:in2},
+    \begin{equation*}
+        t|\nu(f)|\leqt\nu(|f|)\leq\hat x(|f|)=|f(x)|
+    \end{equation*}
+    so $\ker\nu\supseteq\her\hat x$ and as above, $\nu=\hat x$.
+    Then $\mu=\hat x$.
+\end{proof}
+\begin{remark}
+    For $\F=\R$ or $\F=\C$, it is similar to show that $\ext B(C^{\F}(X,\tau)^*)=\{z\hat x:z\in\F,|z|=1,x\in X^*\}$.
+\end{remark}
+Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $PA(\N)$ is a $w^*=\sigma(\FA(\N),\ell_\infty)-$compact set.
+\begin{proposition}
+    $\ext PA(\N)=\{\delta_{\mathcal{U}}:\mathcal{U}\text{ is an ultrafilter on}\N\}$
+\end{proposition}
+\begin{proof}
+    If $\delta\in\ext PA(\N)$, let $f_\delta\in\ell_\infty^*$ be as in $A1$.
+    As above, we compute that $f_\delta(\chi_E\chi_F)=f_\delta(\chi_E)f_\delta(\chi_F)$, and we have $\chi_E\chi_F=\chi_{E\cap F}$ and hence $\delta(E\cap F)=\delta(E)\delta(F)$.
+    Hence
+    \begin{equation*}
+        \mathcal{U}=\{E\subseteq\N:\delta(E)\neq 0\}=\{E\subseteq\N:\delta(E)=1\}
+    \end{equation*}
+    is an ultrafilter.
+    The converse is easy.
+\end{proof}
 \end{document}
 
