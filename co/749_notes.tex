@@ -1187,5 +1187,58 @@ Then there exists an orientation on $G$ (denoted by $D$) such that $D$ is strong
 
 If $G$ is $2-$edge-connected, then $G$ has a $S^6-$flow..
 
-
+\section{Infinite Graphs}
+\begin{lemma}[König Infinity]
+    If $G$ is infinite, locally finite, and connected, then there exists a path of infinite length.
+\end{lemma}
+\begin{proof}
+    Fix some vertex $v_1$.
+    Every vertex $v\in G$ can be reached from $v_1$, and $G$ is infinite, there must be some child $v_2$ of $v_1$ contained in infinitely many simple paths originating at $v_1$.
+    Repeat this process (axiom of dependent choice) to construct the desired path.
+\end{proof}
+\begin{theorem}[Erdös]
+    Let $G$ be a countable graph.
+    $G$ is planar if and only if every finite $G'\subseteq G$ is planar.
+\end{theorem}
+\begin{proof}
+    List the vertices $\{v_i\}_{i=1}^\infty$ and let $G_k$ be the subgraph induced by $\{v_1,\ldots,v_k\}$.
+    Let $P$ be the graph with vertex set the set of all plane drawings of all $G_k$ (up to homeomorphism).
+    We say $p_1$ and $p_2$ are connected if $p_1\in G_k$, $p_2\in G_{k+1}$, and $p_2$ restricted to $G_k$ is homeomorphic to $p_1$.
+    Then $P$ is an infinite locally finite graph, so by König's infinity lemma, $P$ has an infinite path $T=(p_1,p_2,\ldots)$ where we may take each $p_k$ to be a planar embedding of $G_k$.
+\end{proof}
+Let $\mathcal{F}$ be a collection of finite forbidden $k-$colored subsets.
+Then a $k-$coloring of $A'$ is $\mathcal{F}-$admissible if it does not contained an element in $\mathcal{F}$.
+\begin{theorem}[De Bruijn-Erdös]
+    $A$ has a $\mathcal{F}-$admissible colouring if and only if every finite $A'\subseteq A$ has an $\mathcal{F}-$admissible colouring.
+\end{theorem}
+\begin{proof}
+    By Zorn, extend $\mathcal{F}$ to some maximal $\mathcal{F}_0$ such that every finite subset $A'\subseteq A$ has an $\mathcal{F}_0-$admissible colouring.
+    By maximality of $\mathcal{F}_0$, there is exactly one vertex-colour pair $(\{x\},i)$ that is not an element of $\mathcal{F}_0$.
+    Repeat this for every vertex; verify that this is a valid colouring.
+\end{proof}
+\begin{theorem}[Tutte]
+    Let $G$ be locally finite.
+    Then $G$ has a 1-factor if and only if the number of odd components of $G-S$ is at most $|S|$.
+\end{theorem}
+\begin{proof}
+    Let $G$ be a graph, $V_0\subseteq V(G)$ and all $x$ in $V_0$ of finite degree.
+    Then $G$ has a matching covering $V_0$ if and only if for all $S\subseteq V(G)$ ($S$ finite), the number of odd finite components consisting of vertices in $V_0$ is less than $|S|$.
+    Colour the edges $0,1$, and let $\mathcal{F}$ forbid a vertex having a pair of adjacent 1's, and any vertex $v\in V_0$ does not have all adjacent $0$.
+    Let $E_f\subseteq E(G)$ be a finite set of edges.
+    Let $V_1$ be the set of vertices $v$ in $V_0$ such that all edges adjacent to $v$ are in $E_f$.
+    Consider the graph $G$ conisting of $V_1$, $N(V_1)$, and a complete graph $K_m$, and include every edge from $N(V_1)$ and $K_m$.
+    ...
+\end{proof}
+\begin{theorem}
+    $G$ is a union of $k-$forests if and only if for any finite $A\subseteq V(G)$, $|E(G[A])|\leq k(|A|-1)$.
+\end{theorem}
+There exists a connected graph $G$ and vertices $x,y$ so that for any path $P$ from $x$ to $y$, $G-E(P)$ is disconnected.
+Let $G_0$ be $k-$connected and $x_1,x_2,\ldots,x_k\in V(G)$ far apart.
+Now fix a copy of $G_0$.
+Then for every path $P=(e_1,\ldots,e_k)$ of length $k$ in $G_0$, take a new copy of $G_0$ and add $G_0$ by placing each $x_k$ on each $e_k$.
+Repeat this construction on each new $G_0$.
+Suppose we delete $k-1$ vertice
+\begin{theorem}
+    $G$ is $k-$edge-connected
+\end{theorem}
 \end{document}

@@ -1226,4 +1226,56 @@ For $\alpha:I\subseteq\R\to U\subseteq\R^3$, $F:U\to\R^3$, say $F=(P,Q,R)$, then
       &= \int_{t\in I}(P(\alpha(t))x'(t)+Q(\alpha(t))y'(t)+R(\alpha(t))z'(t))dt\\
       &= \int_\alpha Pdx+Qdy+Rdz
 \end{align*}
+\begin{definition}
+    A \textbf{smooth $k-$form} in $U\subseteq\R^n$ is an expression of the form $a(x)=\sum_Ia_I(x) dx^I$ where the sum is taken over multi-indices $I=(i_1,\ldots,i_k)$ with $1\leq i_1<\cdots<i_k\leq n$ and each $a_I:U\subseteq\R^n\to\R$ is a smooth map and $dx^I=dx^{i_1}\weddge\cdots\wedge dx^{i_k}$.
+\end{definition}
+For a smooth map $\sigma:R\subseteq\R^k\to\R^n$ and $s=\im\sigma$ and for $a(x)=\sum_Ia_I(x)dx^{I}$, we define
+\begin{align*}
+    \int_S a=\int_\sigma a:=\sum_I\int_R a_I(\sigma(t))\det\left(\prt{x^I}{t}\right)dt^{i_1}\cdots t^{k}
+\end{align*}
+where
+\begin{equation*}
+    \prt{x^I}{x}=\begin{pmatrix}
+        \prt{x^{i_1}}{t^1} & \cdots & \prt{x^{1}}{k}\\
+        \vdots&&\vdots\\
+        \prt{x^{i_k}}{t^1} & \cdots & \prt{x^{i_k}}{t^k}
+    \end{pmatrix}
+\end{equation*}
+For $a(x)=\sum_Ia_I(x) dx$, we define $da=\sum_I\sum_j\prt{a_I}{x_j}dx^j\wedge dx^I$, using the rule $dx^j\wedge dx^i=-dx^i\wedge dx^j$.
+With this notation, Gauss' Theorem and Stoke's Theorem become
+\begin{align*}
+    \int_S d\alpha &= \int_{\delta S}\alpha 
+\end{align*}
+where $S=\im\sigma$, $\sigma:R\subseteq R^{k+1}\to\R^n$, $\alpha=\sum a_Idx^I$ is a $k-$form, and $d\alpha$ is a $(k+1)-$form.
+\subsection{The Exterior Algebra}
+If $V$ is a vector space with basis $\{u_1,\ldots,u_n\}$, then the dual space $V^*=\{\text{linear maps }g:V\to\R\}$ has dual basis $\{f^1,\ldots,f^k\}$ where each $f^k:V\to\R$ and $f^k(u_\ell)=\delta^k_\ell$.
+
+We have a canonical evaluation map $E:V\to V^{**}$ given by $E(v)(g)=g(v)$, which is an isomorphism.
+
+The space $\Lambda^kV=\{\text{alternating $k-$linear maps }L:V^*\times\cdots\times V^*\to\R\}$ has a basis
+\begin{equation*}
+    \{U_i=U_{i_1}\wedge\cdots\wedge U_{i_k}:I\text{is an increasing multi-index}\}
+\end{equation*}
+where for $v^i\in V$ and $g^i\in V^*$,
+\begin{equation*}
+    (v_1\wedge\cdots\wedge v_k)(g^1,\ldots,v^k)=\det
+    \begin{pmatrix}
+        g^1(v_1) & \cdots & g^1(v_k)\\
+        \vdots && \vdots\\
+        g^k(v_1) & \cdots & g^k(v_k)
+    \end{pmatrix}
+\end{equation*}
+Also $\Lambda^kV^*$ has basis given similarly.
+
+$\R^n$ has standard basis $\{e_1,\ldots,e_n\}$, which we can consider as differential operators $\left\{\prt{}{x^1},\ldots,\prt{}{x^n}\right\}$.
+The dual basis for $(\R^n)^*$ is denoted by $\{dx^1,\ldots,dx^n\}$ where $dx^k\left(\prt{}{x^\ell}\right)=\delta^k_\ell$.
+So for example,
+\begin{equation*}
+    (dx^{i_1}\wedge\cdots\wedge dx^{i_k})\left(\prt{}{x^{j_1}},\ldots,\prt{}{x^{j_k}}\right)=
+    \begin{cases}
+        (-1)^\sigma &: J=\sigma(I)\\
+        0 &: \text{otherwise}
+    \end{cases}
+\end{equation*}
+A $k-$form
 \end{document}
