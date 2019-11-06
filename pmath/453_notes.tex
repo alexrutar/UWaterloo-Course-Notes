@@ -252,7 +252,8 @@
 % constants --------------------------------------------------------------------
 \newcommand{\subject}{Functional Analysis}
 \newcommand{\semester}{Fall 2019}
-\newcommand{\lbr}[1]{\ensuremath{\langle#1\rangle}}
+\newcommand{\lbr}[1]{\ensuremath{\left[#1\right]}}
+\newcommand{\inr}[1]{\ensuremath{\left(#1\right)}}
 
 
 % formatting -------------------------------------------------------------------
@@ -2375,14 +2376,14 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
 \begin{definition}
     A non-degenerate positive Hermitian form on a vector space $\mathcal{E}$ is called an \textbf{inner product}.
     The pair $(\mathcal{E},(\cdot,\cdot))$ is called a Euclidean space.
-    If, further, $\mathcal{E}$ is complete with respect to the induced norm $\norm{x}=\lbr{x,x}^{1/2}$, then we call $(\mathcal{E},\lbr{\cdot,\cdot})$ a \textbf{Hilbert space}.
+    If, further, $\mathcal{E}$ is complete with respect to the induced norm $\norm{x}=\inr{x,x}^{1/2}$, then we call $(\mathcal{E},\inr{\cdot,\cdot})$ a \textbf{Hilbert space}.
 \end{definition}
 \begin{examples}
     \begin{enumerate}[r]
-        \item (Euclidean Space) $(C[0,1],\langle\cdot,\cdot\rangle)$ given by $\lbr{f,g}=\int_0^1 f\overline{g}$
+        \item (Euclidean Space) $(C[0,1],\langle\cdot,\cdot\rangle)$ given by $\inr{f,g}=\int_0^1 f\overline{g}$
         \item (Euclidean Space) Recall $\ell=\{x\in\F^{\N}:x_n=0\text{ for all but finitely many }n\}$, and $(\ell,\langle\cdot,\cdot\rangle)$ with $\langle x,y\rangle=\sum_{j=1}^\infty x_j\overline{y}_j$
-        \item (Hilbert Space) $(L_2[0,1],\lbr{\cdot,\cdot})$, $\lbr{f,g}=\int_{[0,1]}f\overline{g}$.
-        \item (Hilbert Space) $(\ell_2,\lbr{\cdot,\cdot})$, $\lbr{x,y}=\sum_{j=1}^\infty x_j\overline{y}_j$ (convergence by Hölder's inequality)
+        \item (Hilbert Space) $(L_2[0,1],\inr{\cdot,\cdot})$, $\inr{f,g}=\int_{[0,1]}f\overline{g}$.
+        \item (Hilbert Space) $(\ell_2,\inr{\cdot,\cdot})$, $\inr{x,y}=\sum_{j=1}^\infty x_j\overline{y}_j$ (convergence by Hölder's inequality)
         \item (Non-separable Hilbert Space) Let $\Gamma$ be an uncountable set.
             If $a=(a_\gamma)_{\gamma\in\Gamma}\in[0,\infty)^\Gamma$, we let $\mathcal{F}=\{F\subset\Gamma:|F|<\infty\}$.
             We define $\sum_{\gamma\in\Gamma}a_\gamma=\sup_{F\in\mathcal{F}}\sum_{\gamma\in F}a_\gamma=\lim_{F\in\mathcal{F}}\sum_{\gamma\in F}a_\gamma$ where $\mathcal{F}$ is pre-ordered by inclusion.
@@ -2400,12 +2401,108 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
                 \sum_{k=1}^\infty|x_{\gamma_k}\overline{y}_{\gamma_k}|\leq\left(\sum_{k=1}^\infty|x_{\gamma_k}|^2\right)^{1/2}\left(\sum_{k=1}^\infty|y_{\gamma_k}|^2\right)^{1/2}<\infty.
             \end{equation*}
             Thus, $\sum_{k=1}^\infty x_{\gamma_k}\overline{y_{\gamma_k}}$ is absolutely converging.
-            Write $\lbr{x,y}=\sum_{\gamma\in\Gamma}x_\gamma\overline{y_\gamma}=\sum_{k=1}^\infty x_{\gamma_k}\overline{y_{\gamma_k}}$.
+            Write $\inr{x,y}=\sum_{\gamma\in\Gamma}x_\gamma\overline{y_\gamma}=\sum_{k=1}^\infty x_{\gamma_k}\overline{y_{\gamma_k}}$.
             Now if $(x^{(n)})_{n=1}^\infty\subset\ell_2(\Gamma)$ is $\norm{\cdot}_2-$Cauchy, then $\Gamma'=\bigcup_{n=1}^\infty\Gamma_{|x^{(n)}|^2}$ is countable.
             Then since $\ell_2(\Gamma')\cong\ell_2$ (up to counting $\Gamma'$), so the Cauchy sequence has a limit.
             Thus $\ell_2(\Gamma)$ is a Hilbert space.
             It is immediate that $(\ell_2(\Gamma),\norm{\cdot}_2)$ is non-separable.
+        \item Let $w:\N\to(0,\infty)$.
+            Let $\ell_2^w=\{x\in\F^{\N}:\sum_{k=1}^\infty|x_k|^2w(k)<\infty\}$.
+            Notice that if $x,y\in\ell_2^w$, then $(x_kw(k)^{1/2})_{k=1}^\infty$, $(y_kw(k)^{1/2})_{k=1}^\infty\in\ell_2$, so it follows that
+            \begin{equation*}
+                \inr(x,y)_w=\sum_{k=1}^\infty x_k\overline{y_k}w(k)
+            \end{equation*}
+            defines an inner product, and $W:\ell_2^2\to\ell_2$ by $W(x_k)_{k=1}^\infty=(x_kw(k)^{1/2})_{k=1}^\infty$ is a surjective linear isometry, so $\ell_2^w$ is a hilbert space.
     \end{enumerate}
 \end{examples}
+\subsection{Various Identities}
+Let $\lbr{\cdot,\cdot}$ be a Hermitian form on $X$.
+Then we have the \textit{polarization identitiy}: then over $\R$, $4[x,y]=[x+y,x+y]-[x-y,x-y]$, and over $\C$, $4[x,y]=\sum_{k=0}^3 i^k[x+i^ky,x+i^ky]$.
+
+Now suppose $(\mathcal{E},\inr{\cdot,\cdot})$ is a Euclidean space.
+We say that $x,y\in\mathcal{E}$ are \textbf{orthogonal} if $\inr{x,y}=0$ and write $x\perp y$.
+We call a subset $E\subset\mathcal{E}$ \textbf{orthogonal} if $x\neq y\in E$ implies $x\perp y$.
+We write $x\perp E$ if $x\perp y$ for each $y\in E$.
+We have
+\begin{itemize}[nl]
+    \item \textit{Pythagoreans' identity}: if $\{x_1,\ldots,x_n\}\subset\mathcal{E}$ orthogonal, then $\norm{\sum_{j=1}^n x_j}^2=\sum_{j=1}^n\norm{x_j}^2$.
+    \item \textit{Parallelogram law}: $\norm{x+y}^2+\norm{x-y}^2=2\norm{x}^2+2\norm{y}^2$.
+\end{itemize}
+Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ defines an inner product, for any norm satisfying the parallelogram law.
+\begin{proposition}
+    If $y\in\mathcal{E}$ with $(\mathcal{E},\inr{\cdot,\cdot})$ a Euclidean space, then $f_y:\mathcal{E}\to\F$ by $f_y(x)=\inr{x,y}$ is linear with $\norm{f_y}=\norm{y}$.
+    Furthermore, $|f_y(x)|=\norm{y}$ for $y\neq 0$, $x\in B(\mathcal{E})$ if and only if $x=\frac{\zeta}{\norm{y}}y$ where $|\zeta|=1$.
+\end{proposition}
+\begin{proof}
+    Linearity isfrom an assumption on $\inr{\cdot,\cdot}$.
+    Furthermore, Cauchy-Schwarz tells us that
+    \begin{equation*}
+        |f_y(x)|=|\inr{x,y}|\leq\norm{x}\norm{y}\Rightarrow\norm{f_y}\leq\norm{y}
+    \end{equation*}
+    so the equality case for Cauchy-Schwarz provides the last statement of the proposition, and supplies $\norm{f_y}\geq\norm{y}$.
+\end{proof}
+\begin{definition}
+    In a Euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$, a set $E\subset\mathcal{E}$ is called \textbf{orthonormal} provided that for $e,e'\in E$,
+    \begin{equation*}
+        \inr{e,e'}=\begin{cases}
+            1 &: e=e'\\
+            0 &: e\neq e'
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{lemma}[Closest Approximation to Finite]
+    Let $\{e_1,\ldots,e_n\}$ be orthonormal in a Euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$ and $\mathcal{M}=\spn\{e_1,\ldots,e_n\}$.
+    Then for $x\in\mathcal{E}$ we have that
+    \begin{enumerate}[nl,r]
+        \item $P_{\mathcal{M}}x=\sum_{j=1}^n \inr{x,e_j}e_j$ satisfies that $x-P_{\mathcal{M}}x\per\mathcal{M}$ and hence $\norm{x}^2=\norm{P_{\mathcal{M}}}^2+\norm{x-P_{\mathcal{M}}x}^2$
+        \item $\dist(x,\mathcal{M})=\norm{x-\sum_{j=1}^n(x,e_j)e_j}^{1/2}$
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $1\leq k\leq n$, we have
+            \begin{equation*}
+                \inr{x-P_{\mathcal{M}}x,e_k} = \inr{x,e_k}-\sum_{j=1}^n\inr{e,e_j}\inr{e_j,e_k}=\inr{x,e_k}-\inr{x,e_k}=0
+            \end{equation*}
+            and it follows that $x-P_{\mathcal{M}}x\perp\mathcal{M}$.
+            Pythagoras' law provides the second formula.
+        \item Endow $\F^n$ with the usual inner product $\norm{\cdot}_2$.
+            By Cauchy-Schwarz, for $x\in\mathcal{E}$ and $\alpha\in\F^n$,
+            \begin{equation*}
+                \left\lvert\inr{((x,e_j))_{j=1}^n,\alpha}\right\rvert=\left\lvert\sum_{j=1}^n(x,e_j)\overline{\alpha}_j\right\rvert\leq\left(\sum_{j=1}^n|\inr{x,e_j}|^2\right)^{1/2}=\norm{P_{\mathcal{M}}x}\norm{\alpha}_2
+            \end{equation*}
+            so that
+            \begin{align*}
+                \norm{x-\sum_{j=1}^n\alpha_je_j}^2 &= \norm{x}^2-2\Re\sum_{i=1}^n\inr{x,e_j}\overline{\alpha}_j+\sum_{j=1}^n|\alpha_j|^2\\
+                                                   &\geq\norm{x}^2-2\left\lvert\left((\inr{x,e_j})_{j=1}^n,\alpha\right)\right\rvert+\norm{\alpha}_2^2\\
+                                                   &\geq\norm{x^2-2\norm{P_{\mathcal{M}}x}\norm{\alpha}_2+\norm{\alpha}_2^2\\
+                                                   &=\norm{x-P_{\mathcal{M}}x}^2+\left(\norm{P_{\mathcal{M}}x}-\norm{\alpha}_2\right)
+            \end{align*}
+            We get equality above if $x\perp\mathcal{M}$ or otherwise there is some $s\geq0$ so $\alpha_j=s\inr{x,e_j}$ for $j=1,\ldots,n$.
+            Hence, in this case,
+            \begin{equation*}
+                \norm{x-\sum_{j=1}^n s\inr{x,e_j}e_j}^2=\norm{x-P_{\mathcal{M}}x}^2+\norm{P_{\mathcal{M}}x}^2(1-s)^2
+            \end{equation*}
+            which is minimized when $s=1$.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item The proof above shows that $P_{\mathcal{M}}x$ is the unique elemet of $\mathcal{M}$ satisfying $\dist(x,\mathcal{M})=\norm{x-P_{\mathcal{M}}x}$.
+        \item It may be shown that $P_{\mathcal{M}}:\mathcal{E}\to\mathcal{E}$ is linear with $\im P_{\mathcal{M}}=\mathcal{M}$, $P_{\mathcal{M}}^2=P_{\mathcal{M}}$, and $\norm{P_{\mathcal{M}}}=1$ (in other words, this map is actually a projection operator)
+    \end{enumerate}
+\end{remark}
+\begin{theorem}[Orthonormal Basis]
+\item let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space, $E\subset\mathcal{E}$ an orthonormal set.
+    Then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $\overline{\spn}E=\mathcal{E}$
+        \item for $x\in\mathcal{E}$= $x=\sum_{e\in E}\inr{x,e}e=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e$, where $\mathcal{F}=\{F\subseteq E:|f|<\infty\}$, directed by inclusion (Bessel's identity)
+        \item For $x,y\in\mathcal{E}$, $\inr{x,y}=\sum_{e\in E}\inr{x,e}\inr{e,y}$ (Parseval's identity).
+    \end{enumerate}
+\end{theorem}
+\begin{definition}
+    Any set $E\subset\mathcal{E}$ satisfying the above conditions is called a \textbf{orthonormal basis} for $\mathcal{E}$.
+\end{definition}
 \end{document}
 

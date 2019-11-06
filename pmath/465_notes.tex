@@ -1277,5 +1277,104 @@ So for example,
         0 &: \text{otherwise}
     \end{cases}
 \end{equation*}
-A $k-$form
+A smooth $k-$form on $U\subseteq\R^n$ is a smooth map $\alpha:U\subseteq\R^n\to\Lambda^k(\R^n)^*$.
+Note that $dx^I:\R^n\times\cdots\times\R^n\to\R$ has
+\begin{align*}
+    dx^I(u_1,\ldots,u_k) &= dx^I\left(\sum_{j_1=1}^n u_1^{j_1}\prt{}{x^{j_1}},\ldots,\sum_{j_k=1}^n u_k^{j_j}\prt{}{x^{j_k}}\right)\\
+                         &= \sum_{\text{all }J}u_1^{j_1}\cdots u_k^{j_k}\underbrace{dx^I\left(\prt{}{x^{j_1}},\ldots,\prt{}{x^{j_k}}\right)}_{(-1)^\sigma\text{ if }J=\sigma(I);0\text{ otherwise}}\\
+                         &= \sum_{\sigma\in S_n}(-1)^\sigma u_1^{i_{\sigma(1)}}\cdots u_k^{i_{\sigma(k)}}\\
+                         &= \det(A^I)
+\end{align*}
+where $A^I$ consists of the rows $i_1,\ldots,i_k$ of the matrix $A=(u_1,\ldots,u_k)$.
+\subsection{$k$-forms at a point on a Manifold}
+Let $M$ be a smooth manifold and fix a point $p\in M$.
+Given a chart $\phi$ on $M$ at $p$, $T_pM$ has a basis $\left\{\prt{}{x^1},\ldots,\prt{}{x^n}\right\}$.
+We denote the ual basis for $T_p^*M=(T_pM)^*$ by $\{dx^1,\ldots,dx^n\}$.
+Then $\Lambda^kT_p^*M$ has basis $\{dx^I:I\text{ increasing}\}$ (it is $\binom{n}{k}$ dimensional).
+If $X_j=\sum_{i=1}^n u_j^i\prt{}{x^i}\in T_pM$, then
+\begin{equation*}
+    dx^I(X_1,\ldots,X_k) = 
+    \det
+    \begin{pmatrix}
+        u_1^{i_1} &\cdots & u_k^{i_1}\\
+        \vdots&&\vdots\\
+        u_1^{i_k} &\cdots & u_k^{i_k}\\
+    \end{pmatrix}
+\end{equation*}
+An element $\alpha\in\Lambda^k T_p^*M$ can be written uniquely as $\alpha=\sum_{I\text{ increasing}}a_Idx^I$ with $A_I\in\R$, and $\alpha$ is called a $k-$form on $M$ at $p$.
+\subsubsection{Change of Coordinates}
+Suppose that $\phi$ and $\psi$ are two charts on $M$ at $p$, so that $T_pM$ has bases $\left\{\prt{}{x^1},\ldots,\prt{}{x^n}\right\}$ and $\left\{\prt{}{y^1},\ldots,\prt{}{y^n}\right\}$, and $T_p^*M$ has dual bases $\{dx^1,\ldots,dx^n\}$ and $\{dy^1,\ldots,dy^n\}$ with corresponding bases for $\Lambda^kT_p^*M$.
+Let $\alpha\in\Lambda^kT_pM$.
+Say $\alpha=\sum_I a_Idx^I=\sum_Jb_Jdx^J$.
+If $X=\sum_iu^i\prt{}{x^i}=\sum_jv^j\prt{}{y^j}$, then $v=D(\psi\phi^{-1})$ is
+\begin{align*}
+    v^j &= \sum_i\prt{y^j}{x^i}u^i\\
+    \prt{}{x^i} &= \sum_j\prt{y^j}{x^i}\prt{}{y^j}
+\end{align*}
+where $y(x)=\psi\circ\phi^{-1}(x)$.
+Then for each increasing multi-index $I$,
+\begin{align*}
+    a_I &= \alpha\left(\prt{}{x^{i_1}},\ldots,\prt{}{x^{i_k}}\right)\\
+        &= \left(\sum_J b_J dy^J\right)\left(\sum_{\ell_1}\prt{y^{\ell_1}}{x^{\ell_1}}\prt{}{y^{\ell_1}}\ldots,\sum_{\ell_k}\prt{y^{\ell_k}}{x^{\ell_k}}\prt{}{y^{\ell_k}}\right)\\
+        &= \sum_{\text{incr }J}\sum_{\text{all }L}b_J\prt{y^{\ell_1}}{x^{i_1}}\cdots\prt{y^{\ell_k}}{x^{i_k}}dy^J\left(\prt{}{y^{\ell_1}},\ldots,\prt{}{y^{\ell_k}}\right)\\
+        &= \sum_{\text{incr }J}\sum_{\sigma\in S_n}(-1)^\sigma b_J\prt{y^{j_{\sigma(1)}}}{x^{i_1}}\cdots\prt{y^{j_{\sigma(k)}}}{x^{i_k}}\\
+        &= \sum_{\text{incr J}}b_J\det\left(\prt{y^J}{x^I}\right)
+\end{align*}
+where
+\begin{equation*}
+    \prt{y^J}{x^I}=
+    \begin{pmatrix}
+        \prt{y^{j_1}}{x^{i_1}}&\cdots& \prt{y^{j_k}}{x^{i_1}}\\
+        \vdots&&\vdots\\
+        \prt{y^{j_1}}{x^{i_k}}&\cdots& \prt{y^{j_k}}{x^{i_k}}
+    \end{pmatrix}
+\end{equation*}
+When $\alpha=\sum_Ia_Idx^I=\sum_Jb_Jdy^J$,
+\begin{equation*}
+    a_I=\sum_Jb_J\det\left(\prt{y^J}{x^I}\right)
+\end{equation*}
+For an increasing multi-index $L$, taking $b_K=1$ and $b_J=0$ for $J\leq L$, we obtain
+\begin{equation*}
+    dy^L=\sum_Ia_Idx^I,a_I=1\cdot\det\left(\prt{y^L}{x^I}\right)
+\end{equation*}
+so
+\begin{equation*}
+    dy^L = \sum_I\det\left(\prt{y^L}{x^I}\right)dx^I
+\end{equation*}
+\subsection{The Wedge Product or Exterior Product}
+When $\phi$ is a chart on $M$ at $p$ and $\alpha=\sum_Ia_Idx^I\in\Lambda^kT_p^*M$ and $\beta=\sum_Jb_Jdx^J\in\Lambda^\ellT_p^*M$, we would like to define $\alpha\wedge\beta\in\Lambda^{k+\ell}T_p^*M$ by $\alpha\wedge\beta=\sum_{I,J}a_Ib_Jdx^I\wedge dx^J$ (where we can use the rule $dx^i\wedge dx^j=-dx^j\wedge dx^i$ to put the multi-index in increasing order).
+We need to make sure that the definition does not depend on the choice of the chart $\phi$.
+Note that for vectors $X_1,\ldots,X_{k+\ell}\in T_pM$, given (in the chart $\phi$) by $X_j=\sum_{i=1}^n u_j^i\prt{}{x^i}$ we have
+\begin{align*}
+    (dx^I\wedge dx^J)(X_1,\ldots,X_{k+\ell}) &= \det
+    \begin{pmatrix}
+        u_1^{i_1} &\cdots&u^{i_1}u_{k+\ell}\\
+        \vdots&&\vdots\\
+        u_1^{i_k} &\cdots&u^{i_k}u_{k+\ell}\\
+        u_j^{i_1} &\cdots&u^{j_1}u_{k+\ell}\\
+        \vdots&&\vdots\\
+        u_\ell^{i_1} &\cdots&u^{j_\ell}u_{k+\ell}\\
+    \end{pmatrix}\\
+    &= \sum_{\sigma\in S_{k+\ell}}(-1)^\sigma u^{i_1}u_{\sigma(1)}\cdots u^{i_k}_{\sigma(k)}u^{j_1}_{\sigma(k+1)}\cdots u^{j_\ell}_{\sigma(k+\ell)}\\
+    &= \sum_\tau\sum_\mu\sum_\nu(-1)^\tau(-1)^\mu(-1)^\nu\mu^{i_1}_{\mu(\tau(1))}\cdots u^{i_k}_{\mu(\tau(k))}u^{j_1}_{\nu(\tau(k+1))}\cdots u^{j_\ell}_{\nu(\tau(k+1))}\\
+    \intertext{where the sums are over $\tau$ a permutation of $\{1,\ldots,k+\ell\}$ so that $\tau(1)<\cdots<\tau(k)$ and $\tau(k+1)<\cdots,\tau(k+\ell)$, $\mu$ is a permutation of $\{(\tau(1),\ldots,\tau(k)\}$ and $\nu$ is a permutation of $\{\tau(k+1),\ldots,\tau(k+\ell)\}$, so that}
+    &= \sum_\tau(-1)^\tau\det
+    \begin{pmatrix}
+        u^{i_1}_{\tau(1)} &\cdots &u^{i_k}_{\tau(1)}\\
+        \vdots&&\vdots\\
+        u^{i_1}_{\tau(k)} &\cdots &u^{i_k}_{\tau(k)}
+    \end{pmatrix}
+    \det
+    \begin{pmatrix}
+        u^{j_1}_{\tau(k+1)} &\cdots &u^{i_\ell}_{\tau(k+1)}\\
+        \vdots&&\vdots\\
+        u^{i_1}_{\tau(k+\ell)} &\cdots &u^{i_\ell}_{\tau(k+\ell)}
+    \end{pmatrix}\\
+    &= \sum_{\tau}(-1)^\tau dx^I(X_{\tau(1)},\ldots,X_{\tau(k)})dx^J(X_{\tau(k+1)},\dots,X_{\tau(k+\ell)})
+\end{align*}
+Thus for $\alpha=\sum a_Idx^I$, $\beta=\sum b_Jdx^J$, $\gamma=\sum_{I,J}a_Ib_Jdx^I\wedge dx^J$ we have
+\begin{equation*}
+    \gamma(X_1,\ldots,X_{k+\ell})=\sum_{\tau\in T_{k,\ell}}(-1)^\tau\alpha(X_{\tau(1)},\ldots, X_{\tau(k)})\cdot\beta(X_{\tau(k+1)},\ldots,X_{\tau(k+\ell)})
+\end{equation*}
+where $T_{k,l}$ is the set of permutations $\tau$ of $\{1,\ldots,k+\ell\}$ such that $\tau(1)<\cdots<\tau(k)$ and $\tau(k+1)<\cdots\tau(k+\ell)$.
 \end{document}

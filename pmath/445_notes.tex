@@ -240,6 +240,7 @@
 
 % file-specific preamble -------------------------------------------------------
 \DeclareMathOperator{\Free}{Free}
+\DeclareMathOperator{\Res}{Res}
 \DeclareMathOperator{\Ind}{Ind}
 \DeclareMathOperator{\Tr}{Tr}
 
@@ -1431,7 +1432,48 @@ Let $G$ be a finite group with irreducible characters $\chi_i$ and corresponding
     is a finite sum of products of algebraic integers, and hence an algebraic integer.
     Thus $|G|/\chi_i(1)$ is an algebraic integer and a rational number, hence an integer.
 \end{proof}
+Representations of modules, artin-wedderburn theory
+E.g. take a group ring and write it as a product of matrix rings over $\C$.
 
+proof from class (ring/module theory)
 
+question on induced representations, computational (e.g. think about example from class)
+
+Be comfortable with $D_4$, in general, representations of $D_n$.
+\subsection{Frobenius Reciprocity}
+Let $M$ be a $\C[G]$ module, where $\dim_{\C}M<\infty$.
+Since $\C[G]$ is semisimple, $M$ is semisimple (finite direct sum), and write $M=M_1\oplus\cdots\oplus M_k$ where each $M_i$ is irreducible.
+Let $N$ be an irreducible $\C[G]-$module, so $\dim_{\C}N<\infty$.
+Consider $\Hom_{\C[G]}(M,N)$, which is a $\C-$vector space.
+As vector spaces, $\Hom_{\C[G]}(M,N)\cong\bigoplus_{i=1}^k\Hom(M_i,N)$.
+By Schur, $\dim_{\C}\Hom_{\C[G]}(M_i,N)$ is $0$ if $M_i$ is not congruent to $N$, and $1$ if $M_i\cong N$ (map is a $\C-$multiple of the identity).
+Thus the multiplicity of $N$ in $M$ (i.e. the number of $i$ such that $M_i\cong N$) is $\dim_{\C}\Hom_{\C[G]}(M,N)$.
+Say $\rho\sim M$, $\tau\sim N$ (irreducible), then $\dim_{\C}\Hom_{\C[G]}(M,N)=\langle\chi_\rho,\chi_\tau\rangle$.
+
+Now suppose $H\leq G$ and $M$ is a $\C[H]-$module, with $N$ a $\C[G]-$module.
+Let $M^G:=\C[G]\otimes_{\C[G]}M$, and let $\iota:M\to M^G$ by $\iota(m)=1\otimes m$.
+For $f\in\Hom_{\C[G]}(M,N)$, there exists a unique $T_f\in\Hom_{\C[G]}(M^G,N)$ such that $f=T_f\circ\iota$.
+
+\begin{theorem}[Frobenius Reciprocity]
+    The map $\phi:\Hom_{\C[H]}(M,N)\to\Hom_{\C[G]}(M^G,N)$ given by $\phi(f)=T_f$ is an isomorphism of $\C-$vector spaces.
+\end{theorem}
+\begin{proof}
+    Let $f_1,f_2\in\Hom_{\C[G]}(M,N)$, so $(T_{f_1}+T_{f_2})\circ\iota=T_{f_1}\circ\iota+T_{f_2}\circ\iota=f_1+f_2$.
+    Thus $T_{f_1}+T_{f_2}=T_{f_1+f_2}$ by uniqueness; similarly, $T_{\alpha f_1}=\alpha T_{f_1}$.
+    Thus $\phi$ is linear.
+
+    Suppose $T_{f_1}=T_{f_2}$, so $T_{f_1}\circ\iota=T_{f_2}\circ\iota$ so $f_1=f_2$ and we have injectivity.
+    To see surjectivity, let $F\in\Hom_{\C[G]}(M^G,N)$, and let $f=F\circ\iota\in\Hom_{\C[H]}(M,N)$.
+    Then $T_f=F$ by uniqueness.
+\end{proof}
+Let $M$ be irreducible as a $\C[H]-$module, and $N$ irreducible as a $\C[G]-$module.
+Let $\rho:H\to\GL(M)$ and $\tau:G\to\GL(N)$.
+Denote the restriction of $\tau$ to $H$ by $\Res_G^H(\tau)$
+By Frobenius reciprocity, $\dim_{\C}\Hom_{\C[H]}(M,N)=\dim_{\C}\Hom_{\C[G]}(M^G,N)$ and equivalently
+\begin{equation*}
+    \langle \chi_\rho,\chi_{\Res(\tau)}\rangle_H = \langle \chi_{\Ind(\rho)},\chi_\tau\rangle_G
+\end{equation*}
+We write $\Res(\chi_\tau)=\chi_{\Res(\tau)}$ and $\Ind(\chi_\rho)=\chi_{\Ind(\rho)}$.
+In other words, the number of times $\rho$ appears in the restriction of $\tau$ is equal to the number of times $\tau$ appears in the induced representation of $\rho$.
 \end{document}
 
