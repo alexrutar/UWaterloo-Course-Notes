@@ -1475,5 +1475,53 @@ By Frobenius reciprocity, $\dim_{\C}\Hom_{\C[H]}(M,N)=\dim_{\C}\Hom_{\C[G]}(M^G,
 \end{equation*}
 We write $\Res(\chi_\tau)=\chi_{\Res(\tau)}$ and $\Ind(\chi_\rho)=\chi_{\Ind(\rho)}$.
 In other words, the number of times $\rho$ appears in the restriction of $\tau$ is equal to the number of times $\tau$ appears in the induced representation of $\rho$.
+
+Let $V,W$ be $\C[G]-$modules, and $\langle V,W\rangle:=\dim_{\C}\Hom_{\C[G]}(V,W)$.
+In particular, if $H\leq G$, $V$ is a $\C[H]-$module, then $\Ind_H^G(V):=\C[G]\otimes_{\C[]}V$.
+Then by Frobnius reciprocity, we have the following adjointness relationship: $\Hom_{\C[G]}(V,\Res_G^H(W))\cong\Hom_{\C[G]}(\Ind_H^G(V),W)$.
+\begin{lemma}
+    Let $V,W$ be $\C[G]-$modules, with $V\sim\chi_\rho$ and $W\sim\chi_\tau$ are characters.
+    Then $\dim_{\C}\Hom_{\C[G]}(V,W)=\langle\chi_\rho,\chi_\tau\rangle$.
+\end{lemma}
+\begin{proof}
+    Write $W=W_1\oplus\cdots\oplus W_n$ where the $W_i$ are irreducible.
+    Then $\Hom_{\C[G]}(V,W)\cong\bigoplus_{i=1}^n\Hom_{\C[G]}(V,W_i)$.
+    Taking dimensions, we have
+    \begin{align*}
+        \dim_{\C}\Hom_{\C[G]}(V,W) &=\sum_{i=1}^n\dim_{\C}\Hom_{\C[G]}(V,W_i)=\sum_{i=1}^n\langle\chi_\rho,\chi_{\tau_i}\rangle\\
+                                   &= \langle\chi_\rho,\chi_\tau\rangle
+    \end{align*}
+\end{proof}
+\begin{remark}
+    $\Hom_{\C[H]}(V,\Res(W))\cong \Hom_{\C[G]}(\Ind(V),W)$.
+    In particular, if $\rho:H\to\GL(V)$ and $\tau:G\to\GL(W)$, $\langle\chi_\rho,\Res(\chi_\tau)\rangle_H=\langle\Ind(\chi_\rho),\chi_\tau\rangle$.
+\end{remark}
+\begin{example}
+    Consider $H=S_3\leq S_4=G$, and $\rho:H\to\GL(\C^2)$ irreducible of degree 2.
+    Recall
+    \begin{equation*}
+        \begin{array}{c|ccc}
+            S_3 & \epsilon & (12) & (123)\\
+            \chi_1 & 1 & 1 & 1\\
+            \chi_2 & 1 & -1 & 1\\
+            \chi_3 & 2 & 0 & -1
+        \end{array}
+    \end{equation*}
+    and
+    \begin{equation*}
+        \begin{array}{c|ccc}
+            S_4 & \epsilon & (12) & (12)(34) & (123) & (123) & (1234)\\
+            \phi_1 & 1 & 1 & 1 & 1 & 1\\
+            \phi_2 & 1 & -1 & 1 & 1 & -1\\
+            \phi_3 & 2 & 0 &* & -1&*\\
+            \phi_4 & 3 & 1 &* & 0&*\\
+            \phi_5 & 3 & -1 &* & 0&*
+        \end{array}
+    \end{equation*}
+    But now apply Frobenius so $\langle\Ind(\chi_3),\phi_1\rangle=\langle\chi_3,\Res(\phi_1)\rangle=\langle\chi_3,\chi_1\rangle=0$.
+    Similarly, $\langle\Ind(\chi_3),\phi_2\rangle=\langle\chi_3,\chi_2\rangle=0$ and $\langle\Ind(\chi_3),\phi_3\rangle=\langle\chi_3,\chi_3\rangle=1$.
+    Now, $\langle\Ind(\chi_3),\chi_4\rangle=\langle\chi_3,\Res\phi_4\rangle=\langle\chi_3,\chi_1+\chi_3\rangle=1$ and finally, $\langle\Ind(\chi_3),\phi_5\rangle=\langle\chi_3,\Res(\phi_5)\rangle=\langle\chi_3,\chi_2+\chi_3\rangle=1$.
+    Thus $\Ind(\chi_\rho)=\phi_3+\phi_4+\phi_5$.
+\end{example}
 \end{document}
 

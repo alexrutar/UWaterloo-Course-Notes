@@ -2501,8 +2501,111 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
         \item For $x,y\in\mathcal{E}$, $\inr{x,y}=\sum_{e\in E}\inr{x,e}\inr{e,y}$ (Parseval's identity).
     \end{enumerate}
 \end{theorem}
+\begin{proof}
+    \imp{i}{ii}
+    For $F\in\mathcal{F}$, let $\mathcal{E}_{F}=\spn F$, so that $\mathcal{E}_F\subseteq\mathcal{E}_{F'}$ if $F\subseteq F'$ in $\mathcal{F}$ and $\spn E=\bigcup_{F\in\mathcal{F}}\mathcal{E}_F$.
+    Hence for $x\in\mathcal{E}$, we have
+    \begin{equation*}
+        0=\dist(x,\spn E)=\dist\left(x,\bigcup_{F\in\mathcal{F}}\mathcal{E}_F\right)=\inf_{F\in\mathcal{F}\dist(x,\mathcal{E}_F)=\lim_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)
+    \end{equation*}
+    Thus by the f.d. approximation lemma, we have
+    \begin{equation*}
+        0 = \lim_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)=\lim_{F\in\mathcal{F}}\norm{x-\sum_{e\in F}\inr{x,e}e}
+    \end{equation*}
+
+    \impe{ii}{iii}
+    We have
+    \begin{align*}
+        0&=\lim_{F\in\mathcal{F}}\norm{x-\sum_{e\in F}\inr{x,e}e}^2\\
+         &=\lim_{F\in\mathcal{F}}\left(\norm{x}^2-2\Re\sum_{e\in F}\overline{\inr{x,e}}\inr{x,e}+\sum_{e\in F}\norm{\inr{x,e}}^2\right)\\
+         &= \lim_{F\in\mathcal{F}}\left(\norm{x}^2-\sum_{e\in F}|\inr{x,e}^2|\right)\\
+         &= \norm{x}^2-\sum_{e\in E}|\inr{x,e}|^2
+    \end{align*}
+
+    \imp{ii}{iv}
+    Recall that $f_y=\inr{\cdot,y}\in\mathcal{E}^*$ so that
+    \begin{equation*}
+        \inr{x,y}=f_y\left(\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e\right)=\lim_{F\in\mathcal{F}\sum_{e\in F}\inr{x,e}f_y(e)=\sum_{e\in E}\inr{x,e}\inr{e,y}
+    \end{equation*}
+    
+    \imp{iv}{ii}
+    Take $x=y$.
+    
+    \imp{iii}{i}
+    Obvious; $x=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e\in\overline{\spn E}$, i.e. $\mathcal{E}\subseteq\overline{\spn{E}}\subseteq\mathcal{E}$.
+\end{proof}
 \begin{definition}
     Any set $E\subset\mathcal{E}$ satisfying the above conditions is called a \textbf{orthonormal basis} for $\mathcal{E}$.
 \end{definition}
+\begin{theorem}
+    Let $(x_1,x_2,\ldots)$ be a linearly independent sequence in a euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$.
+    There exists an orthogonal sequence $(z_1,z_2,\ldots)$ which satisfies $\spn\{z_1,\ldots,z_n\}=\spn\{x_1,\ldots,x_n\}$ for $n=1,2,\ldots$ so that $\spn\{z_1,z_2,\ldots\}=\spn\{x_1,x_2,\ldots\}$.
+\end{theorem}
+\begin{proof}
+    Let $\mathcal{E}_n=\spn\{x_1,\ldots,x_n\}$.
+    We set
+    \begin{align*}
+        z_1&=x_1 & e_1 &=\frac{z_1}{\norm{z_1}}\\
+        z_2&=x_2-P_{\epsilon_1}x_2 & e_2&=\frac{z_2}{\norm{z_2}}\\
+           &\vdots\\
+        z_{n+1}&=x_{n+1}-P_{\mathcal{E}_n}x_{n+1} & e_{n+1}&=\frac{z_{n+1}}{\norm{z_{n+1}}}
+    \end{align*}
+    where $P_{\mathcal{E}_n}x=\sum_{j=1}^n\inr{x,e_j}e_j$.
+    Inductively, $z_n\in\mathcal{E}_n$ and $z_n\per\mathcal{E}_k$ for $k=1,\ldots,n-1$.
+    Hence each set $\{z_1,\ldots,z_n\}$is orthonormal and $\spn\{z_1,\ldots,z_n\}\subseteq\spn\{x_1,\ldots,x_n\}$ is of full dimension and hence equal.
+\end{proof}
+\begin{corollary}
+    Any separable Euclidean space admits an orthonormal basis.
+\end{corollary}
+\begin{proof}
+    Let $\{x_n\}_{n=1}^\infty$ be dense in $\mathcal{E}$.
+    Let $n_1=\min\{n:x_n\neq 0\}$, and $n_{k+1}=\min\{n:x_n\notin\spn\{x_{n_1},\ldots,x_{n_k}\}\}$.
+    Then $\{x_{n_1},x_{n_2},\ldots\}$ and normalize to get an orthonormal set $E=\{e_1,e_2,\ldots\}$ which satisfies $\overline{\spn E}=\overline{\spn}\{x_n\}_{n=1}^\infty=\mathcal{E}$.
+\end{proof}
+\begin{theorem}[Riesz Fischer]
+    Let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space.
+    Then $\mathcal{E}$ is a Hilbert space if and only if for any orthonrmal set $E$ and an $\alpha=(\alpha_e)_{e\in E}\in\ell_2(E)$, we have that $\sum_{e\in E}\alpha_ee\in\mathcal{E}$.
+\end{theorem}
+\begin{proof}
+    \impr
+    If $\alpha\in\ell_2(E)$ then $E_\alpha=\{e\in E:\alpha_e\neq 0\}$ is countable, and write $E_\alpha=(e_1,e_2,\ldots)$.
+    If $m<n$, we have
+    \begin{equation*}
+        \norm{\sum_{k=1}^n\alpha_{e_k}e_k-\sum_{k=1}^m\alpha_{e_k}e_k}^2=\sum_{k=m+1}^n|\alpha_{e_k}|^2\leq\sum_{k=n+1}^\infty|\alpha_{e_k}|^2\to 0
+    \end{equation*}
+    so $x_\alpha=\sum_{k=1}^\infty \alpha_{e_k}e_k=\lim_{n\to\infty}\sum_{k=1}^n\alpha_{e_k}e_k$ converges.
+    If $F\in\mathcal{F}$, $F\supseteq\{e_1,\ldots,e_n\}$, then
+    \begin{equation*}
+        \norm{x_\alpha-\sum_{e\in F}\alpha_ee}^2=\sum_{e=\{e_1,e_2,\ldots\}\setminus F}|\alpha_e|^2\leq\sum_{k=n+1}^\infty |\alpha_{e_k}|^2\to 0
+    \end{equation*}
+    so $x_\alpha=\sum_{e\in E}\alpha_ee=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e$.
+
+    \impl
+    Let $(x^{(n)})_{n=1}^\infty$ be Cauchy in $\mathcal{E}$.
+    Let $\mathcal{M}=\overline{\spn\{x^{(n)}\}_{n=1}^\infty}\subset\mathcal{E}$ so $\mathcal{M}$ is separable and admits a countable orthonormal basis $E=(e_1,e_2,\ldots)$.
+    Then we appeal to orthonormal basis to see that for any $x\in\mathcal{M}$, $\sum_{k=1}^\infty|\inr{x,e_k}|^2=\norm{x}^2<\infty$ and $x=\sum_{k=1}^\infty\inr{x,e_k}e_k$.
+
+    Our present assumption show that $U:\ell_2(E)\to\mathcal{M}$ given by $U_\alpha=\sum_{k=1}^\infty \alpha_ke_k$ always converges in $\mathcal{M}\subseteq\mathcal{E}$.
+    Then orthonormal basis theorem gives $\norm{U_\alpha}=\norm{\alpha}_2$ so $U$ is a surjective isometry.
+    We let $\alpha^{(n)}=((x^{(n)},e_k))_{k=1}^\infty\in\ell_2(E)$, then $\norm{\alpha^{(n)}-\alpha^{(m)}}_2=\norm{U_\alpha^{(n)}-U_\alpha^{(m)}}=\norm{x^{(n)}-x^{(m)}}$ so $(\alpha^{(n)})_{n=1}^\infty$ is Cauchy and in $\ell_2(E)$ and hence admits a limit $\alpha$.
+    Furthermore,
+    \begin{equation*}
+        \norm{\sum_{k=1}^\infty\alpha_ke_k-x^{(n)}}=\norm{U_\alpha-U_\alpha^{(n)}}=\norm{\alpha-\alpha^{(n)}\to 0
+    \end{equation*}
+    as required.
+\end{proof}
+\begin{definition}
+    If $\emptyset\neq S\subset\mathcal{E}$, $(\mathcal{E},\inr{\cdot,\cdot})$ a Euclidean space, we define its \textbf{perpindicular} by $S^\perp=\{y\in\mathcal{E}:(\inr{x,y}=0\text{ for any }x\in S)\}$.
+\end{definition}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item $S\subseteq T$ implies $T^\perp\subseteq S^\perp$
+        \item $S^\perp=\bigcap_{x\in S}\ker f_x$ and is thus closed.
+        \item $\overline{S}^\perp=S^\perp$, since $\overline{S}^\perp\subseteq\overline{S}^\perp$, and if $y\in S^\perp$ and $x\in\overline{S}$, then $x=\lim x_n$ with $x_n\in S$ so $\inr{x,y}=f_y(x)=f_y\lim x_n=\lim f_y(x_n)=\lim\inr{x_n,y}=0$.
+        \item $(\overline{\spn}S)^\perp=S^\perp$.
+            Notice that $(\spn S)^\perp=S^\perp$ (easy test) and use (iii)
+        \item $\overline{\spn}S\cap S^\perp=\{0\}$.
+    \end{enumerate}
+\end{remark}
 \end{document}
 

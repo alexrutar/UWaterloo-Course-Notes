@@ -647,6 +647,32 @@ Is there some function $w:\Pi(n,k)\to\N$ that makes this work?
         \end{equation*}
         where $c_k=\frac{1}{k!}\frac{d^k}{dx^k}(1+x)^\alpha|_{x=0}$.
 \end{enumerate}
+Consider the class $\mathcal{Q}$ of (unrooted) tres in which every vertex has odd degree.
+We identify $\mathcal{Q}^\bullet\equiv\chi *\xi_{\text{odd}}[\mathcal{N}]$ for some class $\mathcal{N}$ describing the components of $T\setminus \{v\}$.
+A structure in $\mathcal{N}$ is a rooted tree in which every vertex has an even number of children.
+Moreover, $\mathcal{N}\equiv\chi *\xi_{\text{even}}[\mathcal{N}]$.
+Note that the exponential generating function for $\xi_{\text{odd}}$ is $\sum_{j=0}^\infty\frac{e^{2j+1}}{(2j+1)!}$, and similarly for the even components.
+This give
+\begin{align*}
+    \mathcal{Q}^\bullet &= x\cdot E_{\text{odd}}(N(x))=x\cdot\sinh(N(x))\\
+    N(x) &= x\cdot E_{\text{even}}(N(x))=x\cdot\cosh(N(x))\\
+\end{align*}
+Now apply LIFT with $K=\Q$, $G(u)=\cosh(u)$, and $F(u)=\sinh(u)$, so $F'(u)=\cosh(u)$.
+Now for $n\geq 2$,
+\begin{align*}
+    |\mathcal{Q}_n|&=\frac{1}{n}|\mathcal{Q}^\bullet_n|=\frac{1}{n}\cdot n![x^n]Q^\bullet(x)\\
+                   &= (n-1)![x^n]x\sinh(N(x))\\
+                   &= (n-1)![x^{n-1}]\sinh(N(x))\\
+                   &= (n-1)!\cdot\frac{1}{n-1}[u^{n-2}]F'(u)G(u)^{n-1}\\
+                   &= (n-2)!\cdot[u^{n-2}]\cosh(u)^n\\
+                   &= (n-2)![u^{n-2}]\left(\frac{e^u+e^{-u}}{2}\right)^n\\
+                   &= \frac{(n-2)!}{2^n}[u^n]\sum_{j=0}^n\binom{n}{j}(e^u)^j(e^{-u})^{n-j}\\
+                   &= \frac{(n-2)!}{2^n}[u^{n-2}]\sum_{j=0}^n\binom{n}{j}e^{(2j-n)u}\\
+                   &= \frac{(n-2)!}{2^n}\sum_{j=0}^n\binom{n}{j}[u^{n-2}]\sum_{i=0}^\infty\frac{((2j-n)u)^i}{i!}\\
+                   &= \frac{(n-2)!}{2^n}\sum_{j=0}^n\binom{n}{j}\frac{(2j-n)^{n-2}}{(n-2)!}\\
+                   &= \frac{1}{2^n}\sum_{j=0}^n\binom{n}{j}(2j-n)^{n-2}
+\end{align*}
+If $n$ is odd, then this summation is zero, as expected.
 
 \end{document}
 

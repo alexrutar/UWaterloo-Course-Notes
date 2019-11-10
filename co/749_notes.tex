@@ -1237,8 +1237,49 @@ Let $G_0$ be $k-$connected and $x_1,x_2,\ldots,x_k\in V(G)$ far apart.
 Now fix a copy of $G_0$.
 Then for every path $P=(e_1,\ldots,e_k)$ of length $k$ in $G_0$, take a new copy of $G_0$ and add $G_0$ by placing each $x_k$ on each $e_k$.
 Repeat this construction on each new $G_0$.
-Suppose we delete $k-1$ vertice
+Suppose we delete $k-1$ vertices...
 \begin{theorem}
     $G$ is $k-$edge-connected
 \end{theorem}
+\begin{theorem}
+    If $G$ is locally inite and connected, $A_0\subseteq V(G)$ is finite.
+    Then $G$ ``looks like a finite graph'' in the sense that $V(G)\setminus A_0$ can be partitioned into a finite number of sets, each of which is a \textbf{singleton} or a \textbf{boundary-linked set}.
+\end{theorem}
+A boundary linked set is an infinite set with some outgoing edges, where for each outgoing edge, there is a distinct one-way infinite path, all belonging to the same \textbf{end}
+We say $P\sim P'$ if and only if $P$ and $P'$ are not separated by a finite cut, and the ends are the equivalence classes of $\sim$.
+It is straightforward to see that $\sim$ is an equivalence relation.
+If two paths are in the same end, then there are infinitely many disjoint paths connecting them.
+In a sense, the ends of a graph are the number of ways to go off to infinity in some disjoint way.
+
+Now let $B$ be infinite, with finite boundary of size $k'$.
+We will always choose $k'$ to be minimal.
+\begin{proof}
+    Label the outgoing edges of $A_0$ by $e_1,\ldots,e_k$, with neighbourhood $A_1$.
+    We may assume $k>1$, for if $k=1$, this statement is immediately true.
+    Now let $B$ be a component with finite boundary of size $k'$.
+    Choose $k'$ minimal, where $k'\leq j$.
+    We prove this by induction on $k-k'$.
+
+    First suppose $k-k'=0$.
+    Pick a $1-\infty$ path $P_0$, and separate $G$ into components.
+    Let $A_2$ be the boundary of the infinite connected component $G_2$ containing $P_0$, so the boundary has size $k'$.
+    Since $k'=k$, we may apply Menger's theorem (infinite case) to get $P_{1,1},\ldots,P_{1,k}$ edge disjoint $A_0-A_2$ paths.
+    Then remove $A_2$ from $G_2$, and let $A_3$ be the boundary of a connected component of $G_2$ containing $P_0$.
+    As before, there must be at least $k'$ edges, so we may choose $P_{2,1},P_{2,2},\ldots,P_{2,k}$.
+    Always do this with minimal total length.
+    Continue this to get an infinite family of paths rowwise edge disjoint.
+    Then one can construct $k$ disjoint 1-way infinite paths.
+    We must ensure that all paths are in the same end.
+
+    Let $H$ be a component with a distinct end, and suppose (for example) $P_3$ has edges in $H$.
+    Consider $P_{i,1},\ldots,P_{i,k}$, which uses the boundary of $H$ in only finitely many ways.
+    Thus $P_{i,1},\ldots,P_{i,k}$ use $H$ in only finitely many ways, for if not, then they would extend arbitrarily far into $H$, contradicting minimality.
+
+    Now suppose $k'<k$.
+    Contract the maximal components (under inclusion) $A'$ with boundary of size $k'$ into a vertex $a'$.
+    Do that for all infinite components with boundary size $k'$ to get a set of components $A'$, contracted to vertices $a'$.
+    Now apply induction to the resulting graph to get some connecting paths.
+    If some path goes through some vertex $a'$, when we expand to $A'$, applying the base case to $A'$, there are $k'$ edge-disjoint paths in $A'$ which allows us to extend the edges to $a'$ into finite paths through $A'$.
+    This is doable since the incoming edges need not be paired with the outgoing edges in a fixed order (taking minimal connections).
+\end{proof}
 \end{document}

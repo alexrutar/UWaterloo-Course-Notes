@@ -1377,4 +1377,39 @@ Thus for $\alpha=\sum a_Idx^I$, $\beta=\sum b_Jdx^J$, $\gamma=\sum_{I,J}a_Ib_Jdx
     \gamma(X_1,\ldots,X_{k+\ell})=\sum_{\tau\in T_{k,\ell}}(-1)^\tau\alpha(X_{\tau(1)},\ldots, X_{\tau(k)})\cdot\beta(X_{\tau(k+1)},\ldots,X_{\tau(k+\ell)})
 \end{equation*}
 where $T_{k,l}$ is the set of permutations $\tau$ of $\{1,\ldots,k+\ell\}$ such that $\tau(1)<\cdots<\tau(k)$ and $\tau(k+1)<\cdots\tau(k+\ell)$.
+\begin{definition}
+    When $f:M\to N$ is a smooth map of smooth manifolds and $p\in M$, we define the \textbf{pullback}
+    \begin{equation*}
+        f^*=f^*(p):\Lambda^kT^*_{f(p)}N\to\Lambda^kT_pM
+    \end{equation*}
+    by $f^*(\beta)(X_1,\ldots,X_k)=\beta(f_*X_1,\ldots,f_*X_k)$ where $\beta\in\Lambda^kT^*_{f(p)}N$ and each $X_j\in T_pM$ so that $f_*X_j\in T_{f(p)}N$.
+\end{definition}
+Let $M$ be a chart on $M$ at $p$ and $\psi$ a chart on $N$ at $f(p)$.
+Let $\beta=\sum b_Jdx^J$, write $X_j=\sum_i u_j^j\prt{}{x^i}$ and say $\alpha=f^*\beta=\sum_Ia_Idx^I$.
+\begin{align*}
+    a_I &= \alpha\left(\prt{}{x^{i_1}},\ldots,\prt{}{x^{i_k}}\right)\\
+        &= \beta\left(f_*\prt{}{x^{i_1}},\ldots,f_*\prt{}{x^{i_k}}\right)\\
+        &= \left(\sum_J b_Jdy^J\right)\left(\sum_{\ell_1}\prt{y^{\ell_1}}{x^{i_1}},\ldots,\sum_{\ell_k}\prt{y^{\ell_k}}{x^{i_k}}\right)\\
+        &= \sum_{J\text{ incr}}\sum_{\text{all }L}B)J\prt{y^{\ell_1}}{x^{i_1}}\cdots\prt{y^{\ell_k}}{x^{i_k}}dy^J\left(\prt{}{y^{\ell_1}},\prt{}{y^{\ell_k}}\right)\\
+        &= \sum_{J\text{ incr}}\sum_{\sigma\in S_k}(-1)^\sigma b_J\prt{y^{j_{\sigma(1)}}}{x^{i_1}}\cdots\prt{y^{j_{\sigma(1)}}}{x^{i_1}}\\
+        &= \sum_J b_J\det\left(\prt{y^J}{x^I}\right)
+\end{align*}
+where $y=y(x)=(\psif\phi^{-1})(x)$.
+\begin{definition}
+    A $k-$form at each point $p$ on a smooth manifold $M$ is given by a map $\alpha:M\to\bigcupdot_{p\in M}\Lambda^kT_p^*M$, where $\alpha(p)\in\Lambda^kT_p^*M$ for all $p\in M$.
+    We say that sucha  map $\alpha$ is \textbf{smooth} at $p\in M$ when for some (hence for every) chart $\phi:U\subseteq M\to\phi(U)\subseteq\R^m$ on $M$ at $p$, when we write the restriction of $\alpha$ to $U$ as $\alpha(p)=\sum_I\alpha_I(p)dx^I$, the coefficient functions $\alpha_I:U\subseteq M\to\R$ are smooth.
+    Such a map $\alpha:M\to\bigcupdot_{p\in M}\Lambda^kT_p^*M$ is called smooth (on $M$) when it is smooth at every point $p\in M$.
+\end{definition}
+Another way to think about smooth $k-$forms is as follows.
+Consider $\alpha:M\to\bigcupdot_{p\in M}\Lambda^kT_p^*M$ with $\alpha(p)\in\Lambda^kT_p^*M$ for all $p\in M$.
+Let $\Lambda^kT^*M=\bigcupdot_{p\in M}\Lambda^*T_p^*M$ and define the \textbf{projection map} $\pi:\Lambda^kT^*M\to M$ by $\pi(\alpha_p)=p$, when $\alpha_p\Lambda^kT_p^*M$.
+We give $\Lambda^kT^*M$ the structure of a smooth vector bundle of rank $\binom{n}{k}$ on $M$ as follows.
+For each chart $\phi:U\to\phi(U)$ on $M$, we define a chart
+\begin{equation*}
+    \Phi:\pi^{-1}(U)=\bigcupdot_{p\in U}\Lambda^jT_p^*M\to\phi(U)\times\Lambda^k(\R^n)^*\equiv\phi(U)\times\R^{\binom{n}{k}}
+\end{equation*}
+by $\Phi(\alpha_p)=(\phi(p),\sum_Ia_Idx^I)$, where the restriction of $\alpha$ to $U$ is given by $\alpha(p)=\sum_Ia_I(\phi(p))dx^I$.
+
+With this definition, a smooth $k-$form on $M$ is a smooth map $\alpha:M\to\Lambda^kT^*M$ such that $\pi(\alpha(p))=p$.
+We denote the space of all $k-$forms on $M$ by $\Omega^k(M)$ or $\Gamma(M,\Lambda^kT^*M)$ (sections) or $\Gamma(\Lambda^kT^*M)$.
 \end{document}
