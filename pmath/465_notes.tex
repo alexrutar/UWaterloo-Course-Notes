@@ -640,7 +640,7 @@ There are other kinds of manifolds (other than $C^\infty$ manifolds); for exampl
 
     This stereographic projection also shows that the rational points on the sphere are dense in $\Ss^n$, via the map
     \begin{equation*}
-        \phi(x)=\alpha\left(\frac{1}{1-x^{n+1}}\\right) = \left(\frac{x^1}{1-x^{n+1}},\ldots,\frac{x^n}{1-x^{n+1}}\right)
+        \phi(x)=\alpha\left(\frac{1}{1-x^{n+1}}\right) = \left(\frac{x^1}{1-x^{n+1}},\ldots,\frac{x^n}{1-x^{n+1}}\right)
     \end{equation*}
     One can also find $\phi^{-1}$ and verify that they are both rational functions.
     In particular, $\phi^{-1}(\Q^n)\subseteq\mathbb{S}^n$ is dense.
@@ -1192,7 +1192,7 @@ Table of Lie algebras:
         SU_n(\C)=\{A\in \SL_n(\C):A^*A=1\} & \mathfrak{so}_n(\R)=\{A\in M_n(\C):\tr A=0,A^*+A=0\}
     \end{array}
 \end{equation*}
-\section{Smooth $k-$forms}
+\section{Smooth \texorpdfstring{$k-$}{k-}forms}
 Suppose $\alpha:I\subseteq\R\to U\subseteq\R^3$ and let $f:U\subseteq\R^3\to\R$, then the length of $\alpha$ is
 \begin{equation*}
     \int_C dL=\int_\alpha dL=\int_{t\in I}|\alpha'(t)|dt
@@ -1227,7 +1227,7 @@ For $\alpha:I\subseteq\R\to U\subseteq\R^3$, $F:U\to\R^3$, say $F=(P,Q,R)$, then
       &= \int_\alpha Pdx+Qdy+Rdz
 \end{align*}
 \begin{definition}
-    A \textbf{smooth $k-$form} in $U\subseteq\R^n$ is an expression of the form $a(x)=\sum_Ia_I(x) dx^I$ where the sum is taken over multi-indices $I=(i_1,\ldots,i_k)$ with $1\leq i_1<\cdots<i_k\leq n$ and each $a_I:U\subseteq\R^n\to\R$ is a smooth map and $dx^I=dx^{i_1}\weddge\cdots\wedge dx^{i_k}$.
+    A \textbf{smooth $k-$form} in $U\subseteq\R^n$ is an expression of the form $a(x)=\sum_Ia_I(x) dx^I$ where the sum is taken over multi-indices $I=(i_1,\ldots,i_k)$ with $1\leq i_1<\cdots<i_k\leq n$ and each $a_I:U\subseteq\R^n\to\R$ is a smooth map and $dx^I=dx^{i_1}\wedge\cdots\wedge dx^{i_k}$.
 \end{definition}
 For a smooth map $\sigma:R\subseteq\R^k\to\R^n$ and $s=\im\sigma$ and for $a(x)=\sum_Ia_I(x)dx^{I}$, we define
 \begin{align*}
@@ -1342,7 +1342,7 @@ so
     dy^L = \sum_I\det\left(\prt{y^L}{x^I}\right)dx^I
 \end{equation*}
 \subsection{The Wedge Product or Exterior Product}
-When $\phi$ is a chart on $M$ at $p$ and $\alpha=\sum_Ia_Idx^I\in\Lambda^kT_p^*M$ and $\beta=\sum_Jb_Jdx^J\in\Lambda^\ellT_p^*M$, we would like to define $\alpha\wedge\beta\in\Lambda^{k+\ell}T_p^*M$ by $\alpha\wedge\beta=\sum_{I,J}a_Ib_Jdx^I\wedge dx^J$ (where we can use the rule $dx^i\wedge dx^j=-dx^j\wedge dx^i$ to put the multi-index in increasing order).
+When $\phi$ is a chart on $M$ at $p$ and $\alpha=\sum_Ia_Idx^I\in\Lambda^kT_p^*M$ and $\beta=\sum_Jb_Jdx^J\in\Lambda^\ell T_p^*M$, we would like to define $\alpha\wedge\beta\in\Lambda^{k+\ell}T_p^*M$ by $\alpha\wedge\beta=\sum_{I,J}a_Ib_Jdx^I\wedge dx^J$ (where we can use the rule $dx^i\wedge dx^j=-dx^j\wedge dx^i$ to put the multi-index in increasing order).
 We need to make sure that the definition does not depend on the choice of the chart $\phi$.
 Note that for vectors $X_1,\ldots,X_{k+\ell}\in T_pM$, given (in the chart $\phi$) by $X_j=\sum_{i=1}^n u_j^i\prt{}{x^i}$ we have
 \begin{align*}
@@ -1394,7 +1394,7 @@ Let $\beta=\sum b_Jdx^J$, write $X_j=\sum_i u_j^j\prt{}{x^i}$ and say $\alpha=f^
         &= \sum_{J\text{ incr}}\sum_{\sigma\in S_k}(-1)^\sigma b_J\prt{y^{j_{\sigma(1)}}}{x^{i_1}}\cdots\prt{y^{j_{\sigma(1)}}}{x^{i_1}}\\
         &= \sum_J b_J\det\left(\prt{y^J}{x^I}\right)
 \end{align*}
-where $y=y(x)=(\psif\phi^{-1})(x)$.
+where $y=y(x)=(\psi f\phi^{-1})(x)$.
 \begin{definition}
     A $k-$form at each point $p$ on a smooth manifold $M$ is given by a map $\alpha:M\to\bigcupdot_{p\in M}\Lambda^kT_p^*M$, where $\alpha(p)\in\Lambda^kT_p^*M$ for all $p\in M$.
     We say that sucha  map $\alpha$ is \textbf{smooth} at $p\in M$ when for some (hence for every) chart $\phi:U\subseteq M\to\phi(U)\subseteq\R^m$ on $M$ at $p$, when we write the restriction of $\alpha$ to $U$ as $\alpha(p)=\sum_I\alpha_I(p)dx^I$, the coefficient functions $\alpha_I:U\subseteq M\to\R$ are smooth.

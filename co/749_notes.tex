@@ -980,6 +980,7 @@ In this case, is $G$ a union of a $p$ $q-$factors?
         \item If $G$ is cubic, then $G=M_1\cup M_2\cup M_3$ where $M_i$ are 1-factors.
         \item $G$ is 4-colourable.
         \item If $G$ is 9-regular, then $G=F_1\cup F_2\cup F_3$ where $F_i$ are 3-regular.
+    \end{enumerate}
 \end{proposition}
 \begin{proof}
     \imp{i}{ii}
@@ -1094,6 +1095,7 @@ Then there is a decomposition $G=G_1\cup\cdots\cup G_m$ where $\Delta(G_i)\leq r
         \item If $G$ is cubic and $2-$connected, fold the bridge (standard technique) and merge the pieces by induction
         \item Finally, if $G$ is cubic and 3-connected, double every edge to get a 6-edge-connected, and thus contains three 3 edge disjoint spanning trees $T_1,T_2,T_3$.
             Return the trees to $G$, and set $H_1=G-E(T_1)$, and for each edge $e$, there is some tree not containing $e$.
+    \end{enumerate}
 
     Then on each $H_i$, pick an orientation on the cycles and assign values $\pm 1$ on $H_1$, $\pm 2$ on $H_2$, and $\pm 4$ on $H_3$.
     Flip the orientations on edges with negative values.
