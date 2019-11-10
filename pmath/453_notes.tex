@@ -1465,10 +1465,10 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     Thus suppose $X$ is not finite dimensional.
     Let $\epsilon\in(0,1)$ and let $x_1\in B(X)\setminus\{0\}$.
     Inductively,
-    \begin{itemize}[nl,r]
-        \item Find $x_2\in B(X)$ such that $d(x_2,\F x_1)\geq 1-\epsilon$
-        \item Find $x_3\in B(X)$ such that $d(x_3,\spn\{x_1,x_2\})\geq 1-\epsilon$
-        \item Find $x_{n+1}\in B(X)$ such that $d(x_{n+1},\spn\{x_1,\ldots,x_n\})\geq 1-\epsilon$
+    \begin{itemize}[nl]
+        \item Find $x_2\in B(X)$ such that $\dist(x_2,\F x_1)\geq 1-\epsilon$
+        \item Find $x_3\in B(X)$ such that $\dist(x_3,\spn\{x_1,x_2\})\geq 1-\epsilon$
+        \item Find $x_{n+1}\in B(X)$ such that $\dist(x_{n+1},\spn\{x_1,\ldots,x_n\})\geq 1-\epsilon$
     \end{itemize}
     Hence we have $\{x_n\}_{n=1}^\infty\subset B(X)$ such that for $m<n$,
     \begin{equation*}
@@ -2412,7 +2412,7 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\text{var}}\leq 1,\mu(\N)=1\}$ so, as ab
             Let $\ell_2^w=\{x\in\F^{\N}:\sum_{k=1}^\infty|x_k|^2w(k)<\infty\}$.
             Notice that if $x,y\in\ell_2^w$, then $(x_kw(k)^{1/2})_{k=1}^\infty$, $(y_kw(k)^{1/2})_{k=1}^\infty\in\ell_2$, so it follows that
             \begin{equation*}
-                \inr(x,y)_w=\sum_{k=1}^\infty x_k\overline{y_k}w(k)
+                \inr{x,y}_w=\sum_{k=1}^\infty x_k\overline{y_k}w(k)
             \end{equation*}
             defines an inner product, and $W:\ell_2^2\to\ell_2$ by $W(x_k)_{k=1}^\infty=(x_kw(k)^{1/2})_{k=1}^\infty$ is a surjective linear isometry, so $\ell_2^w$ is a hilbert space.
     \end{enumerate}
