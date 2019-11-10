@@ -243,6 +243,8 @@
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\Lip}{Lip}
 \DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dist}{dist}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
 \newcommand{\idc}{\mathbb{1}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
@@ -935,7 +937,7 @@ Trivially, any $\C-$vector siace is a $\R-$vector space.
 \begin{theorem}
     Let $X$ be a normed space and $X^{**}$ denote the bidual.
     For $x\in X$, define $\hat x:X^*\to\F$ by $\hat x(f)=f(x)$.
-    Then $\hat x\in X^{**}$ with $\norm{\hat x}=\norm{x}$, so that $x\mapso\hat x:X\to X^{**}$ is a linear isometry.
+    Then $\hat x\in X^{**}$ with $\norm{\hat x}=\norm{x}$, so that $x\mapsto\hat x:X\to X^{**}$ is a linear isometry.
 \end{theorem}
 \begin{proof}
     Notice that $|\hat x(f)|=|f(x)\leq\norm{f}\norm{x}$ so $\norm{\hat x}\leq\norm{x}$.
@@ -1177,7 +1179,7 @@ If $X$ is normed, then the last proposition shows $H$ is closed if and only if $
     \end{itemize}
     By construction, $y_{n+1}-y_n\in\delta^n A$, so $\norm{y_{n+1}-y_n}\leq\delta^n r$ and there is $x_n\in\delta^n D(X)$ such that $y_{n+1}-y_n=Tx_n$.
     Likewise, $y_1\in A\subseteq T(D(X))$ so $y=T(x_0)$ for some $x_0\in D(X)$.
-    Notice that each $y_n\in y+\delta^nr\inD(Y)$, so $\norm{y_n-y}\leq\delta^n r\to 0$.
+    Notice that each $y_n\in y+\delta^nr\in D(Y)$, so $\norm{y_n-y}\leq\delta^n r\to 0$.
     Since $X$ is complete, we let $x=\sum_{n=0}^\infty x_n$, and by construction
     \begin{equation*}
         \norm{x}\leq\sum_{n=0}^\infty\norm{x_n}<\sum_{n=0}^\infty\delta^n=\frac{1}{1-\delta}
@@ -1342,7 +1344,7 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     Define $P:Y\to Y$ by $Py=JP_1S^{-1}y$.
     Then
     \begin{itemize}[nl]
-        \item $\im J=X$, and each of $P_1,S^{-1}$ are surjective, so $\ran P=X$
+        \item $\im J=X$, and each of $P_1,S^{-1}$ are surjective, so $\im P=X$
         \item If $y\in Y$, $\norm{Py}=\norm{JP_1S^{-1}y}\leq\norm{S^{-1}}\norm{y}$ so $\norm{P}\leq\norm{S^{-1}}$
         \item Clearly $P^2=JP_1S^{-1}JP_1S^{-1}=P$
     \end{itemize}
@@ -1430,7 +1432,7 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     We may assume that each $\norm{e_k}=1$.
     We define $f_1,\ldots,f_n\in Y'=Y^*$ by
     \begin{equation*}
-        f_k\left(\sum_{j=1}^n\alpha_je_j)=\alpha_k
+        f_k\left(\sum_{j=1}^n\alpha_je_j\right)=\alpha_k
     \end{equation*}
     By Hahn-Banach, get $F_1,\ldots,F_n\in X^*$ such that $F_k|_Y=f_k$ and $\norm{F_k}=\norm{f_k}$.
     Define $P:X\to X$ by $Px=\sum_{k=1}^n F_k(x)e_k$.
@@ -1514,12 +1516,12 @@ In particular, $\{f_\alpha^{-1}(U_\alpha):U_\alpha\in\tau_\alpha,\alpha\in A\}$ 
         \item \textit{Relative topology:} If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
             Then $\tau|_X=\sigma(X,\{i\})$.
         \item \textit{Product topology:} Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of topological spaces.
-            Let $X=\Prod_{\alpha\in A}X_\alpha$.
+            Let $X=\prod_{\alpha\in A}X_\alpha$.
             Let for $\alpha\in A$, $p_\alpha:X\to X_\alpha$ denote the projection map onto the component $\alpha$.
             Then the product topology $\pi=\sigma(X,\{p_\alpha\}_{\alpha\in A})$.
             Hence, $V\in\mathcal{P}(X)$, then $V\in\pi$ if and only if for any $x\in V$, there is $\alpha_1,\ldots,\alpha_n\in A$ and $U_{\alpha_k}\in\tau_{\alpha_k}$ such that $x_{\alpha_k}=p_{\alpha_k(x)}\in U_{\alpha_k}$ and $x\in \bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_j})\subseteq V$.
 
-            Note that if $X=\Prod_{n=1}^\infty X_n$, each $(X_n,\tau_n)$ is a topological space, then the basic open sets look like $U_1\times U_2\times\cdots\times U_m\times X_{m+1}\times X_{m+2}\times\cdots$.
+            Note that if $X=\prod_{n=1}^\infty X_n$, each $(X_n,\tau_n)$ is a topological space, then the basic open sets look like $U_1\times U_2\times\cdots\times U_m\times X_{m+1}\times X_{m+2}\times\cdots$.
         \item \textit{Linear topology:} Let $X$ be a vector space and $Z\subseteq X'$ a subspace.
             Then $\sigma(X,Z)$ is the coarsest topology allowing each $f\in Z$ to be continuous, $f:X\to\F$.
             The basic open sets are given as follows: let $x_0\in X$, $\epsilon>0$, and $D=D(\F)$, and we consider for $f\in Z$
@@ -1647,7 +1649,7 @@ We then have (with some verification possibly needed)
 \begin{proof}
     Let us begin with an observation: if $x\in X$ and $\mathcal{U}$ is an ultrafilter on $X$, then
     \begin{align*}
-        \x\in\bigcap_{V\in\mathcal{U}}\overline{V} &\Leftrightarrow\text{for any }U\in\tau\text{ with }x\in U, U\cap V\neq\emptyset\text{ for each }V\in \mathcal{U}\\
+        x\in\bigcap_{V\in\mathcal{U}}\overline{V} &\Leftrightarrow\text{for any }U\in\tau\text{ with }x\in U, U\cap V\neq\emptyset\text{ for each }V\in \mathcal{U}\\
                                                    &\Leftrightarrow x\text{ is a $\tau-$limit point of }\mathcal{U}
     \end{align*}
     
@@ -1794,7 +1796,7 @@ We then have (with some verification possibly needed)
 \begin{enumerate}[nl,r]
     \item Note that different separating families from $B(X)$ may produce different metrics, but always the same topology.
     \item The definition of $\rho$ above extends to all of $X^*\times X^*$.
-        However, $X^*$ with the weak$\phantomP{}^*$ topology is not in metrizable if $X$ is infinite dimensional.
+        However, $X^*$ with the weak* topology is not in metrizable if $X$ is infinite dimensional.
     \item $X^*=\bigcup_{=1}^\infty nB(X^*)$, so each $nB(X^*)$ is metrizable and compact, and thus $w^*-$separable.
         Thus if $X$ is separable, then $X^*$ is itself separable.
 \end{enumerate}
@@ -1939,10 +1941,10 @@ Now, suppose $(X,\tau)$ is a topological space.
         f_0\in U=\bigcap_{i=1}^n \hat x_i^{-1}(f_0(x_i)+\mathbb{D})\subseteq B
     \end{equation*}
     Let $Y=\bigcap_{i=1}^n\ker\hat{x_i}\subseteq X^*$.
-    Then for $i=1,\ldots,n$, $\hat x_i(f_0+Y)=\{f_0(x_i)\}\subset f_0(x_i)+\mathbb{D}$, so that $f_0+Y\subseeq U\subseteq B$.
+    Then for $i=1,\ldots,n$, $\hat x_i(f_0+Y)=\{f_0(x_i)\}\subset f_0(x_i)+\mathbb{D}$, so that $f_0+Y\subseteq U\subseteq B$.
     Thus if $f\in Y$, then $\Re F(f_0+f)>\alpha$ and hence $\Re F(f)>\alpha-\Re F(f_0)$ which implies that $f\in\ker\Re F$, so $f\in\ker F$.
     That is, $Y\subseteq\ker F$.
-    The next lemma shows that $F\in\spn\{\hat x_1,\ldots,\had x_n\}\subseteq\hat X$, i.e. $F=\hat x$ for some $x\in X$.
+    The next lemma shows that $F\in\spn\{\hat x_1,\ldots,\hat x_n\}\subseteq\hat X$, i.e. $F=\hat x$ for some $x\in X$.
 \end{proof}
 \begin{lemma}
     In an $\F-$vector space, if $f_0,f_1,\ldots,f_\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$, then $f\in\spn\{f_1,\ldots,f_n\}$.
@@ -1950,7 +1952,7 @@ Now, suppose $(X,\tau)$ is a topological space.
 \begin{proof}
     Define $T:X\to\F^n$ by $Tx=(f_1(x),\ldots,f_n(x))$.
     Then $\ker T=\bigcap_{i=1}^n\ker f_i$.
-    Let $\mathcal{R}=\im T\subseteq\F^$ and $g_0\in\mathcal{R}'$ by $g_0(Tx)=f_0(x)$.
+    Let $\mathcal{R}=\im T\subseteq\F$ and $g_0\in\mathcal{R}'$ by $g_0(Tx)=f_0(x)$.
     Then $g_0$ is well-defined: if $Tx=Ty$, then $x-y\in\ker T\subseteq\ker f_0$, so $f_0(x-y)=0$ so $f_0(x)=f_0(y)$.
     Also $g_0$ is linear.
     Let $g\in(\F^n)'$ such that $g|_{\mathcal{R}}=g_0$.
@@ -2093,7 +2095,7 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
 \end{theorem}
 \begin{proof}
     The map $\iota:x\mapsto\hat x$ is a $w-w^*|_{\hat X}-$homeomorphism.
-    Recall $w^*=\sigma(X^{**},\hat X^*)$, and $w^*|_{\hat X}=\sigma(\hatX,(\hat X)^*|_{\hat X})$ and we have for $x_0\in X$, net $(x_\nu)_{\nu\in N}$ in $X$,
+    Recall $w^*=\sigma(X^{**},\hat X^*)$, and $w^*|_{\hat X}=\sigma(\hat X,(\hat X)^*|_{\hat X})$ and we have for $x_0\in X$, net $(x_\nu)_{\nu\in N}$ in $X$,
     \begin{align*}
         w-\lim_{\nu\in N}x_\nu = x_0 &\iff \lim_{\nu\in N}f(x_\nu)=f(x_0)\forall f\in X^*\\
                                      &\iff \lim_{\nu\in N}\hat x_\nu(f)=\hat x_0(f)\forall f\in X^*\\
@@ -2281,20 +2283,20 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
     \begin{equation*}
         1 = \delta(\idc)=\delta\left(\frac{1}{f}\right)\delta(f)=\delta\left(\frac{1}{f}\right)\sum_{j=1}^n\delta(f_{x_j})^2=0
     \end{equation*}
-    since each $f_{x_i}\in\ker\delat$, which is absurd.
+    since each $f_{x_i}\in\ker\delta$, which is absurd.
     Hence there is $x\in X$ so $f(x)=0$ whenever $f\in\ker\delta$, so $\ker\delta\supsetneq\ker\hat x$, so $\delta\in\R\hat x$ and since $\delta(\idc)=1=\hat x(\idc)$, so $\delta=\hat x$.
 
     (III) If $\hat x=(1-t)\mu+tv$ and $t\in(0,1)$, $\mu,\nu\in P(X)$, then by \cref{e:in2},
     \begin{equation*}
-        t|\nu(f)|\leqt\nu(|f|)\leq\hat x(|f|)=|f(x)|
+        t|\nu(f)|\leq t\nu(|f|)\leq\hat x(|f|)=|f(x)|
     \end{equation*}
-    so $\ker\nu\supseteq\her\hat x$ and as above, $\nu=\hat x$.
+    so $\ker\nu\supseteq\ker\hat x$ and as above, $\nu=\hat x$.
     Then $\mu=\hat x$.
 \end{proof}
 \begin{remark}
     For $\F=\R$ or $\F=\C$, it is similar to show that $\ext B(C^{\F}(X,\tau)^*)=\{z\hat x:z\in\F,|z|=1,x\in X^*\}$.
 \end{remark}
-Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $PA(\N)$ is a $w^*=\sigma(\FA(\N),\ell_\infty)-$compact set.
+Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\text{var}}\leq 1,\mu(\N)=1\}$ so, as above, $PA(\N)$ is a $w^*=\sigma(\FA(\N),\ell_\infty)-$compact set.
 \begin{proposition}
     $\ext PA(\N)=\{\delta_{\mathcal{U}}:\mathcal{U}\text{ is an ultrafilter on}\N\}$
 \end{proposition}
@@ -2338,7 +2340,7 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
     Furthermore, in this case, we have
     \begin{itemize}[nl]
         \item Equality in (ii) if and only if $x,y$ are linearly dependent
-        \item $\br{x,y}=p(x)p(y)$ if and only if there is $s\geq 0$ such that $x=sy$ or $y=sx$ if and only if equality holds in $(iii)$.
+        \item $\lbr{x,y}=p(x)p(y)$ if and only if there is $s\geq 0$ such that $x=sy$ or $y=sx$ if and only if equality holds in $(iii)$.
     \end{itemize}
 \end{proposition}
 \begin{proof}
@@ -2378,7 +2380,7 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
     The pair $(\mathcal{E},(\cdot,\cdot))$ is called a Euclidean space.
     If, further, $\mathcal{E}$ is complete with respect to the induced norm $\norm{x}=\inr{x,x}^{1/2}$, then we call $(\mathcal{E},\inr{\cdot,\cdot})$ a \textbf{Hilbert space}.
 \end{definition}
-\begin{examples}
+\begin{example}
     \begin{enumerate}[r]
         \item (Euclidean Space) $(C[0,1],\langle\cdot,\cdot\rangle)$ given by $\inr{f,g}=\int_0^1 f\overline{g}$
         \item (Euclidean Space) Recall $\ell=\{x\in\F^{\N}:x_n=0\text{ for all but finitely many }n\}$, and $(\ell,\langle\cdot,\cdot\rangle)$ with $\langle x,y\rangle=\sum_{j=1}^\infty x_j\overline{y}_j$
@@ -2388,7 +2390,7 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
             If $a=(a_\gamma)_{\gamma\in\Gamma}\in[0,\infty)^\Gamma$, we let $\mathcal{F}=\{F\subset\Gamma:|F|<\infty\}$.
             We define $\sum_{\gamma\in\Gamma}a_\gamma=\sup_{F\in\mathcal{F}}\sum_{\gamma\in F}a_\gamma=\lim_{F\in\mathcal{F}}\sum_{\gamma\in F}a_\gamma$ where $\mathcal{F}$ is pre-ordered by inclusion.
             Suppose that $\sum_{\gamma\in\Gamma}a_\gamma<\infty$.
-            Let $\Gamma_n=\{\gamma\in\Famma:a_\gamma\geq 1/n\}$ and we have
+            Let $\Gamma_n=\{\gamma\in\Gamma:a_\gamma\geq 1/n\}$ and we have
             \begin{equation*}
                 \infty>\sum_{\gamma\in\Gamma}a_\gamma\geq\sup_{F\in\mathcal{F}}\sum_{\gamma\in F\cap\Gamma_n}a_\gamma\geq\sum_{F\in\mathcal{F}}\frac{F\cap\Gamma_n}{n}
             \end{equation*}
@@ -2414,7 +2416,7 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\var}\leq 1,\mu(\N)=1\}$ so, as above, $
             \end{equation*}
             defines an inner product, and $W:\ell_2^2\to\ell_2$ by $W(x_k)_{k=1}^\infty=(x_kw(k)^{1/2})_{k=1}^\infty$ is a surjective linear isometry, so $\ell_2^w$ is a hilbert space.
     \end{enumerate}
-\end{examples}
+\end{example}
 \subsection{Various Identities}
 Let $\lbr{\cdot,\cdot}$ be a Hermitian form on $X$.
 Then we have the \textit{polarization identitiy}: then over $\R$, $4[x,y]=[x+y,x+y]-[x-y,x-y]$, and over $\C$, $4[x,y]=\sum_{k=0}^3 i^k[x+i^ky,x+i^ky]$.
@@ -2454,8 +2456,8 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     Let $\{e_1,\ldots,e_n\}$ be orthonormal in a Euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$ and $\mathcal{M}=\spn\{e_1,\ldots,e_n\}$.
     Then for $x\in\mathcal{E}$ we have that
     \begin{enumerate}[nl,r]
-        \item $P_{\mathcal{M}}x=\sum_{j=1}^n \inr{x,e_j}e_j$ satisfies that $x-P_{\mathcal{M}}x\per\mathcal{M}$ and hence $\norm{x}^2=\norm{P_{\mathcal{M}}}^2+\norm{x-P_{\mathcal{M}}x}^2$
-        \item $\dist(x,\mathcal{M})=\norm{x-\sum_{j=1}^n(x,e_j)e_j}^{1/2}$
+        \item $P_{\mathcal{M}}x=\sum_{j=1}^n \inr{x,e_j}e_j$ satisfies that $x-P_{\mathcal{M}}x\perp\mathcal{M}$ and hence $\norm{x}^2=\norm{P_{\mathcal{M}}}^2+\norm{x-P_{\mathcal{M}}x}^2$
+        \item $d(x,\mathcal{M})=\norm{x-\sum_{j=1}^n(x,e_j)e_j}^{1/2}$
     \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -2475,7 +2477,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
             \begin{align*}
                 \norm{x-\sum_{j=1}^n\alpha_je_j}^2 &= \norm{x}^2-2\Re\sum_{i=1}^n\inr{x,e_j}\overline{\alpha}_j+\sum_{j=1}^n|\alpha_j|^2\\
                                                    &\geq\norm{x}^2-2\left\lvert\left((\inr{x,e_j})_{j=1}^n,\alpha\right)\right\rvert+\norm{\alpha}_2^2\\
-                                                   &\geq\norm{x^2-2\norm{P_{\mathcal{M}}x}\norm{\alpha}_2+\norm{\alpha}_2^2\\
+                                                   &\geq\norm{x}^2-2\norm{P_{\mathcal{M}}x}\norm{\alpha}_2+\norm{\alpha}_2^2\\
                                                    &=\norm{x-P_{\mathcal{M}}x}^2+\left(\norm{P_{\mathcal{M}}x}-\norm{\alpha}_2\right)
             \end{align*}
             We get equality above if $x\perp\mathcal{M}$ or otherwise there is some $s\geq0$ so $\alpha_j=s\inr{x,e_j}$ for $j=1,\ldots,n$.
@@ -2506,7 +2508,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     For $F\in\mathcal{F}$, let $\mathcal{E}_{F}=\spn F$, so that $\mathcal{E}_F\subseteq\mathcal{E}_{F'}$ if $F\subseteq F'$ in $\mathcal{F}$ and $\spn E=\bigcup_{F\in\mathcal{F}}\mathcal{E}_F$.
     Hence for $x\in\mathcal{E}$, we have
     \begin{equation*}
-        0=\dist(x,\spn E)=\dist\left(x,\bigcup_{F\in\mathcal{F}}\mathcal{E}_F\right)=\inf_{F\in\mathcal{F}\dist(x,\mathcal{E}_F)=\lim_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)
+        0=\dist(x,\spn E)=\dist\left(x,\bigcup_{F\in\mathcal{F}}\mathcal{E}_F\right)=\inf_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)=\lim_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)
     \end{equation*}
     Thus by the f.d. approximation lemma, we have
     \begin{equation*}
@@ -2525,7 +2527,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     \imp{ii}{iv}
     Recall that $f_y=\inr{\cdot,y}\in\mathcal{E}^*$ so that
     \begin{equation*}
-        \inr{x,y}=f_y\left(\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e\right)=\lim_{F\in\mathcal{F}\sum_{e\in F}\inr{x,e}f_y(e)=\sum_{e\in E}\inr{x,e}\inr{e,y}
+        \inr{x,y}=f_y\left(\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e\right)=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}f_y(e)=\sum_{e\in E}\inr{x,e}\inr{e,y}
     \end{equation*}
     
     \imp{iv}{ii}
@@ -2551,7 +2553,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
         z_{n+1}&=x_{n+1}-P_{\mathcal{E}_n}x_{n+1} & e_{n+1}&=\frac{z_{n+1}}{\norm{z_{n+1}}}
     \end{align*}
     where $P_{\mathcal{E}_n}x=\sum_{j=1}^n\inr{x,e_j}e_j$.
-    Inductively, $z_n\in\mathcal{E}_n$ and $z_n\per\mathcal{E}_k$ for $k=1,\ldots,n-1$.
+    Inductively, $z_n\in\mathcal{E}_n$ and $z_n\perp\mathcal{E}_k$ for $k=1,\ldots,n-1$.
     Hence each set $\{z_1,\ldots,z_n\}$is orthonormal and $\spn\{z_1,\ldots,z_n\}\subseteq\spn\{x_1,\ldots,x_n\}$ is of full dimension and hence equal.
 \end{proof}
 \begin{corollary}
@@ -2590,7 +2592,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     We let $\alpha^{(n)}=((x^{(n)},e_k))_{k=1}^\infty\in\ell_2(E)$, then $\norm{\alpha^{(n)}-\alpha^{(m)}}_2=\norm{U_\alpha^{(n)}-U_\alpha^{(m)}}=\norm{x^{(n)}-x^{(m)}}$ so $(\alpha^{(n)})_{n=1}^\infty$ is Cauchy and in $\ell_2(E)$ and hence admits a limit $\alpha$.
     Furthermore,
     \begin{equation*}
-        \norm{\sum_{k=1}^\infty\alpha_ke_k-x^{(n)}}=\norm{U_\alpha-U_\alpha^{(n)}}=\norm{\alpha-\alpha^{(n)}\to 0
+        \norm{\sum_{k=1}^\infty\alpha_ke_k-x^{(n)}}=\norm{U_\alpha-U_\alpha^{(n)}}=\norm{\alpha-\alpha^{(n)}}\to 0
     \end{equation*}
     as required.
 \end{proof}
