@@ -1524,5 +1524,54 @@ Then by Frobnius reciprocity, we have the following adjointness relationship: $\
     Now, $\langle\Ind(\chi_3),\chi_4\rangle=\langle\chi_3,\Res\phi_4\rangle=\langle\chi_3,\chi_1+\chi_3\rangle=1$ and finally, $\langle\Ind(\chi_3),\phi_5\rangle=\langle\chi_3,\Res(\phi_5)\rangle=\langle\chi_3,\chi_2+\chi_3\rangle=1$.
     Thus $\Ind(\chi_\rho)=\phi_3+\phi_4+\phi_5$.
 \end{example}
+Suppose $\Ind_H^G(\rho)$ is irreducible.
+Then necessarily $\rho$ is irreducible, for if $W\leq V$ is a submodule, then $\C[G]\otimes_{\C[H]}W$ is a $\C[G]-$submodule of $\C[G]\otimes_{\C[H]}V$.
+
+Let $H\leq G$, and for $g\in G$, let $H_g=gHg^{-1}\cap H\leq H$.
+Let $\rho:H\to\GL(V)$ be a representation: then we obtain two representations of $H_g$:
+\begin{enumerate}[nl]
+    \item $\Res_g(\rho)=\Res_H^{H_g}(\rho)$
+    \item $\rho^g:H_g\to\GL(V)$ by $\rho^g(ghg^{-1})=\rho(h)$
+\end{enumerate}
+\begin{definition}
+    If $\rho_1$ and $\rho_2$ are reps of $G$, we say $\rho_1$ and $\rho_2$ are \textbf{disjoint} of $\langle\chi_{\rho_1},\chi_{\rho_2}\rangle=0$.
+\end{definition}
+\begin{theorem}[Mackey]
+    Let $H\leq G$, $\rho:H\to\GL(V)$.
+    Then $\Ind_H^G(\rho)$ is irreducible if and only if
+    \begin{enumerate}[nl]
+        \item $\rho$ is irreducible, and
+        \item For all $g\in G-H$, $\rho^g$ and $\Res_g(\rho)$ are disjoint.
+    \end{enumerate}
+\end{theorem}
+\begin{corollary}
+    Let $H\triangleleftleq G$, $\rho:H\to\GL(V)$.
+    Then $\Ind_H^G(\rho)$ is irreducible if and only if $\rho$ is irreducible and for all $g\in G\setminus H$, $\rho^g$ is disjoint from $\rho$.
+\end{corollary}
+To approach this theorem, we need some additional group theory.
+\begin{definition}
+    Let $H\leq G$ and $g\in G$.
+    The \textbf{double coset} of $H$ containing $G$ is $HgH=\{h_1gh_2:h_i\in H\}$.
+\end{definition}
+Consider $H\times H$ acting on $G$ by $(h_1,h_2)\cdot g=h_1gh_2^{-1}$, so the double cosets are exactly the orbits of this action.
+Thus,
+\begin{enumerate}[nl]
+    \item Two double cosets of $H$ in $G$ are equal or disjoint
+    \item The distinct double cosets of $H$ in $G$ partition $G$
+\end{enumerate}
+\begin{example}
+    Take $H=\{\epsilon,(12)\}\leq S_3$.
+    Then $H(123)H=\{(13),(23),(123),(132)\}$ and $H\epsilon H=H\{\epsilon,(12)\}$.
+\end{example}
+Now let $H\triangleleftleq G$ with cosets $g_1H,\ldots,g_mH$.
+Consider $Hg_1H,\ldots,Hg_mH$.
+Then $g_iH\subseteq Hg_iH$ by normality, so $Hg_iH=g_iH$.
+\begin{proposition}
+    Let $H\leq G$, $\rho:G\to\GL(V)$, and $S$ a set of double coset representatives.
+    Then
+    \begin{equation*}
+        \Res_G^H\Ind_H^G(\rho)\cong\bigoplus_{s\in S}\Ind H_s^H(\rho^s)
+    \end{equation*}
+\end{proposition}
 \end{document}
 

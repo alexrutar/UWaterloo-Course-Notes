@@ -1412,4 +1412,106 @@ by $\Phi(\alpha_p)=(\phi(p),\sum_Ia_Idx^I)$, where the restriction of $\alpha$ t
 
 With this definition, a smooth $k-$form on $M$ is a smooth map $\alpha:M\to\Lambda^kT^*M$ such that $\pi(\alpha(p))=p$.
 We denote the space of all $k-$forms on $M$ by $\Omega^k(M)$ or $\Gamma(M,\Lambda^kT^*M)$ (sections) or $\Gamma(\Lambda^kT^*M)$.
+
+When $U\subseteq\R^n$ is open and $p\in U$, we often identify
+\begin{align*}
+    T_pU&=T_p\R^n=\R^n=M_{n\times 1}(\R)\\
+    T_p^*U&=T_p^*\R^n=\R^n=M_{1\times n}(\R)\\
+    \Lambda^kT_p^*U&=\Lambda^kT_p^*\R^n=\Lambda^k(\R^n)^*=\spn\{dx^I:I\text{ incr}\}\\
+    TU &= \bigcupdot_{p\in U}T_pU=\bigcup_{p\in U}\R^n=U\times\R^n\\
+    T^*U &= U\times(\R^n)^*\\
+    \Lambda^kT^*U &= U\tims\Lambda^k(\R^n)^*\\
+    \mathfrak{X}(U) &= \Gamma(TU)=C^\infty(U,\R^n)\\
+    \Omega^k(U) &= \Gamma(\Lambda^kT^*U)=\Gamma(U\times\Lambda^k(\R^n)^*)=C^\infty(U,\Lambda^k(\R^n)^*)
+\end{align*}
+where we identify $\Gamma(TU)=C^\infty(U,\R^n)$ by $X:U\to U\times\R^n$ and $X(p)=(p,u(p))$ with $u:U\to\R^n$.
+
+When $U\subseteq M$ is open and $p\in U$, $T_pU=T_pM$, $T_p^*U=T_p^*M$, $\Lambda^kT_p^*U=\Lambda^kT_p^*M$.
+When $\phi:U\to\phi(U)$ is a chart on $M$ and if $X\in\mathfrak{X}(M)=\Gamma(TM)$ is given locally by $X(p)=\sum_{i=1}^n X^i(p)\prt{}{x^i}$ then
+\begin{equation*}
+    (\phi_*X)(x) =\sum_{i=1}^n u^i(x)\prt{}{x^i}
+\end{equation*}
+for $x\in\phi(u)$ where $u^i(x)=X^i(\phi^{-1}(x))$, $X^i(p)=u^i(\phi(p))$.
+If $\alpha\in\Omega^k(M)=\Gamma(\Lambda^kT^*M)$ and the restriction of $\alpha$ to $U$ is given by
+\begin{equation*}
+    \alpha(p)=\sum_{I\text{ incr}}\alpha_I(p)dx^I
+\end{equation*}
+then
+\begin{equation*}
+    (\phi^{-1})^*(\alpha)(x)=\sum_{I\text{ incr}}a_I(x)dx^I
+\end{equation*}
+where
+\begin{align*}
+    a_I(x)&=\alpha_I(\phi^{-1}(x)) & \alpha_I(p)&=a_I(\phi(p))
+\end{align*}
+Note that when $f\in C^\infty(M)$, we have $df=f_*\in\Omega^1(M)$.
+Indeed, we have $f:M\to\R$, $df(p)=f_*(p):T_pM\to T_p\R=\R$, so $df(p)=f_*(p)\in T_p^*M$ so that $df=f_*:M\to T^*M$ with $df(p)=f_*(p)\in T_p^*M$ for all $p\in M$.
+
+Locally, $df=f_*$ is given by
+\begin{equation*}
+    df = \sum_{i=1}^n\prt{f}{x^i}dx^i
+\end{equation*}
+To be precise, if $\phi:U\to\phi(U)$ is a chart on $M$ then the restriction of $f$ to $U$ is given by
+\begin{equation*}
+    df(p)=\sum_{i=1}^n\prt{f}{x^i}(p)dx^i
+\end{equation*}
+so that
+\begin{equation*}
+    (\phi^{-1})^*(df)(x)=\sum_{i=1}^n\prt{f\circ\phi^{-1}}{x^i}dx^i
+\end{equation*}
+\begin{definition}
+    When $M$ is a smooth manifold, we define a smooth 0-form on $M$ to be a smooth function $f:M\to\R$.
+\end{definition}
+We define
+\begin{align*}
+    \Omega^0(M) &= C^\infty(M)=C^\infty(M,\R)\\
+    \Lambda^0T_p^*M &= \R\\
+    \Lambda^0T^*M&=\bigcupdot_{p\in M}\R=M\times\R
+\end{align*}
+so that $\Omega^0(M)=\Gamma(\Lambda^0T^*\R)=C^\infty(M)$.
+
+Now, we want to define $d:\Omega^k(M)\to\Omega^{k+1}(M)$ by the local definition
+\begin{equation*}
+    d\left(\sum_Ia_Ix^*\right)=\sum_I\sum_j\prt{a_I}{x^j}dx^J\wedge dx^I
+\end{equation*}
+To be precise, given $\alpha\in\Omega^k(M)$, if $\phi:U\to\phi(U)$ is a chart and the restriction of $\alpha$ to $U$ is given by $\alpha(p)=\sum \alpha_I(p)dx^I$, so
+\begin{equation*}
+    (\phi^{-1})^*(\alpha)(x)=\sum_Ia_I(x)dx^I
+\end{equation*}
+then we want $d\alpha$ restricted to $U$ to be given by
+\begin{equation*}
+    d\alpha(p)=\sum d\alpha_I(p)\wedge dx^I
+\end{equation*}
+that is
+\begin{equation*}
+    (\phi^{-1})(d\alpha)(x)=\sum_I\sum_j\prt{a_I}{x^j}dx^j\wedge dx^I
+\end{equation*}
+However, it is not immediate that this definition does not depend on the chosen chart $\phi$.
+\begin{theorem}[Exterior Derivative]
+    Let $M$ be a smooth manifold.
+    Then there exists a unique $\R-$linear map $d:\Omega^k(M)\to\Omega^{k+1}(M)$ for all $k\geq 0$ such that
+    \begin{enumerate}[nl]
+        \item $d:\Omega^0(M)\to\Omega^1(M)$ is given by $df=f_*$ (as previously defined)
+        \item If $\alpha\in\Omega^k(M)$ and $\beta\in\Omega^\ell(M)$, $d(\alpha\wedge\beta)=d\alpha\wedge\beta+(-1)^k\alpha\wedge d\beta$
+        \item $d^2=0$ (where $d^2=d\circ d$).
+    \end{enumerate}
+    Such a map $d$ is given locally by $d\left(\sum_Ia_Idx^I\right)=\sum_I\sum_j\prt{a_I}{x^j}dx^j\wedge dx^I$.
+\end{theorem}
+\begin{proof}
+    We claim that if such a map $d$ exists, then $d$ is determined locally: for $\alpha,\beta\in\Omega^k(M)$, if $\alpha(p)=\beta(p)$ for all $p\in U$ where $U\subseteq\R^n$ is open, then $d\alpha(p)=d\beta(p)$ for all $p\in U$.
+    Suppose $\alpha=\beta$ in $U$.
+    Let $\gamma=\beta-\alpha$, so $\gamma=0$ in $U$.
+    Let $p\in U$.
+
+    Choose a smooth bump function $S:m\to\R$ with $S=1$ in a neighbourhood of $p$ and $\supp(S)\subseteq U$.
+    Then $s\Gamma=0\in\Omega^k(M)$, so that
+    \begin{align*}
+        0 &= d(s\gamma)\\
+          &= ds\wedge\gamma+s\wedge d\gamma\\
+          &= 0\wedge\gamma+1\wedge d\gamma
+    \end{align*}
+    in a neighbourhood of $p$.
+    Thus $d\gamma=0$ in a neighbourhood of $p$, so that $d\gamma(p)=0$.
+    In particular, $p\in U$ was arbitrary, so $\gamma=0$ in $U$.
+\end{proof}
 \end{document}

@@ -673,7 +673,51 @@ Now for $n\geq 2$,
                    &= \frac{1}{2^n}\sum_{j=0}^n\binom{n}{j}(2j-n)^{n-2}
 \end{align*}
 If $n$ is odd, then this summation is zero, as expected.
+\subsection{Endofunctions}
+An \textbf{endofunction} is any function $\phi:X\to X$.
+If $|X|=n$, then there are $n^n$ endofunctions $\phi:X\to X$.
+Call this class $\mathcal{F}$.
+We can define the \textbf{functional directed graph} of $\phi:X\to X$ with vertices $X$ and directed edges $v\to\phi(v)$ for $v\in X$.
+When we say $\phi$ is connected, we mean the underlying undirected graph is connected.
+Call this class $\mathfrak{C}$.
+Certainly $\mathcal{F}\equiv\xi[\mathfrak{C}]$.
 
+What is the expected number of components among all $n^n$ endofunctions on $\{1,2,\ldots,n\}$?
+Certainly $F(x)=\exp(C(x))$ for the EGFs $F(x)$ and $C(x)$ for $\mathcal{F}$ and $\mathfrak{C}$ respectively.
+Let $c(\phi)$ be the number of connected components of $\phi\in\mathcal{F}_X$.
+Then
+\begin{equation*}
+    F(x,y) = \sum_{n=0}^\infty\left(\sum_{\phi\in\mathcal{F}_n}y^{c(\phi)}\right)\frac{x^n}{n!}
+\end{equation*}
+Recall $F(x)=\sum_{k=0}^\infty\frac{C(x)^k}{k!}$, where $C(x)^k$ is the generating function for a graph with $k$ connected components.
+Thus
+\begin{equation*}
+    F(x,y)=\sum_{k=0}^\infty\frac{(C(x)y)^k}{k!}=\exp(yC(x))
+\end{equation*}
+
+Let's determine the structure of a connected endofunction $\phi\in\mathfrak{C}_X$.
+By following arrows, the graph must contain a directed cycle; in fact, this directed cycle must be unique.
+The same argument allows use to decompose the graph into a set of components, one for each vertex in the directed cycle.
+But then each component is in fact a rooted tree.
+We can thus identify $\mathfrak{C}\equiv\mathcal{C}[\mathcal{R}]$ where $\mathcal{R}=\mathcal{T}^\bullet$ is the class of rooted trees and $\mathcal{C}$ is the class of cyclic permutations.
+Passing to EGFs, we have
+\begin{align*}
+    F(x,y) &= \exp(yC(x))\\
+    C(x) &= \log\left(\frac{1}{1-R(x)}\right)\\
+    R(x) &= x\exp(R(x))
+\end{align*}
+Thus,
+\begin{equation*}
+    F(x,y)=\exp\left(\log\left(\left(\frac{1}{(1-R(x))}\right)^y\right)\right)=\left(\frac{1}{1-R(x)}\right)^y
+\end{equation*}
+Apply LIFT with $R(x)=x\exp(R(x))$, $G(u)=\exp(u)$, $F(u)=\frac{1}{(1-u)^y}$.
+Then $F'(u)=\prt{}{u}F(u)=\frac{y}{(1-u)^{y+1}}$
+Thus the total number of components among all $n^n$ $\phi\in\mathcal{F}_n$ is
+\begin{align*}
+    n![x^n]\prt{}{y}F(x,y)|_{y=1} &= \left.n!\prt{}{y}\frac{1}{n}[u^{n-1}]\frac{y}{(1-u)^{y+1}}\exp(u)^n\right|_{y=1}\\
+                                  &=(n-1)![u^{n-1}]\exp(nu)\left[\frac{(1-u)^{y+1}-y(y+1)(1-u)^y}{(1-u)^{2y+2}}\right]_{y=1}\\
+                                  &=(n-1)![u^{n-1}]\exp(nu)\left[\frac{(1-u)^{2}-2(1-u)}{(1-u)^{4}}\right]
+\end{align*}
 \end{document}
 
 

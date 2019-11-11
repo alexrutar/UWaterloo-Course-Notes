@@ -240,6 +240,7 @@
 
 
 % file-specific preamble -------------------------------------------------------
+% \usepackage{therefore}
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\Lip}{Lip}
 \DeclareMathOperator{\ext}{ext}
@@ -2609,5 +2610,114 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
         \item $\overline{\spn}S\cap S^\perp=\{0\}$.
     \end{enumerate}
 \end{remark}
+\begin{theorem}[Existence of Orthonormal Basis]
+    Let $(H,\inr{\cdot,\cdot})$ be a Hilbert space.
+    \begin{enumerate}[nl,r]
+        \item Given an orthonormal set $E\subset H$, $P_E:H\to H$, $P_Ex=\sum_{e\in E}\inr{x,e}e$ satisfies
+            \begin{equation*}
+                \im P_E\subseteq\overline{\spn E}\text{ for }x\in H, x-P_Ex\in E^\perp
+            \end{equation*}
+        \item $H$ admits an orthonormal basis, i.e. an orthonormal set $M$ such that $\overline{\spn M}=H$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item Let $\mathcal{F}=\{F\subseteq E:|F|<\infty\}$ be directed by inclusion, and for $F\in\mathcal{F}$, $\mathcal{E}_F=\spn F$.
+            Then as in the proof of OMBT, we have for $x\in H$
+            \begin{equation*}
+                0\leq \dist(x,\spn E)^2=\lim_{F\in\mathcal{F}}\dist(x,\mathcal{E}_F)^2=\norm{x}^2-\sum_{e\in E}|\inr{x,e}|^2
+            \end{equation*}
+            so $\sum_{e\in E}|\inr{x,e}|^2\leq\norm{x}^2<\infty$.
+            Thus appealing to Riesz-Fischer, $P_Ex=\sum_{e\in E}\inr{x,e}e$ converges in $H$.
+            Since $P_Ex=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e},e$, we see that $P_Ex\in\overline{\spn}E$, so $\im P_E\subseteq\overline{\spn}E$.
+            Moreover, if $e'\in E$, $f_{e'}=\inr{\cdot,e'}\in H^*$ so
+            \begin{equation*}
+                \inr{x-P_Ex,e'}=\inr{x,e'}-f_{e'}\left(\sum_{e\in E}\inr{x,e}e\right)=\inr{x,e'}-\sum_{e\in E}\inr{x,e}f_{e'}(e)=-
+            \end{equation*}
+            so $x-P_Ex\in E^\perp$.
+        \item Let $\mathcal{O}=\{E\subseteq H:E\text{ is orthonormal}\}$, which is partially ordered by inclusion.
+            Note that $\emptyset\in\mathcal{O}$ vacuously.
+            If $\mathcal{C}\subseteq\mathcal{O}$ is a chain, then $\bigcup_{E\in\mathcal{C}}\in\mathcal{O}$ is an upper bound for $\mathcal{C}$.
+            By Zorn' get a maximal element $M$.
+
+            Suppose $\overline{\spn} M\subsetneq H$, and get $x\in H\setminus \overline{\spn} M$ and $y=x-P_Mx\in(\overline{\spn} M)^\perp\setminus\{0\}$.
+            But then $M\subsetneq M\cup\{\frac{1}{\norm{y}}y\}$, violating maximality.
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    If $H$ is a Hilber space with orthonormal basis $E$, then the map
+    \begin{equation*}
+        U:H\to\ell_2(E), Ux=(\inr{x,e})_{e\in E}
+    \end{equation*}
+    is a surjective isometry which respects inner products.
+\end{corollary}
+\begin{proof}
+    We know $\norm{x}^2=\sum_{e\in E}|\inr{x,e}|^2=\norm{Ux}_2$ from ONBT.
+    It is evident that $U$ is linear and $\im U$ is dense in $\ell_2(E)$ so that $U$ is surjective.
+    Finally, if $x,y\in H$, then
+    \begin{equation*}
+        \inr{x,y}_H=\sum_{e\in E}\inr{x,e}\inr{e,y}=\sum_{e\in E}\inr{x,e}\overline{\inr{y,e}}=\inr{Ux,Uy}_{\ell_2(E)}
+    \end{equation*}
+    as required.
+\end{proof}
+\begin{remark}
+    If each of $E$, $E'$ is an orthonormal basis for a Euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$, then $|E|=|E'|$.
+    We let $\mathfrak{k}$ be any countable dense subfield of $\F$.
+    Then $D=\spn_{\mathfrak{k}}$, so $|D|=\aleph_0|E|=|E|$ when $|E|$ is infinite.
+    Since for $e'$, $e''$ in $E'$, $\norm{e'-e''}=\sqrt{2}$, we have that any ball $e'+\frac{1}{\sqrt{2}}D(\mathcal{E})$ contains at least one element of $D$, and $d_{e'}\neq d_{e''}$ if $e'\neq e''$ in $E'$.
+    This shows that $|E|\geq|E'|$.
+    Likewise $|E'|\leq|E|$.
+\end{remark}
+\begin{corollary}[Orthogonal complementation]
+    Let $(\mathcal{E},\norm{\cdot,\cdot})$ be a Euclidean space and $\mathcal{M}\subseteq\mathcal{E}$ a subspace which is complete with respect to the norm induced from $\inr{\cdot,\cdot}$, i.e. $(\mathcal{M},\inr{\cdot,\cdot})$ is a Hilbert space.
+    Then there is a unique operator $P_{\mathcal{M}}=P:\mathcal{E}\to\mathcal{E}$ such that $\im P=\mathcal{M}$ and $\im(I-P)=\mathcal{M}^\perp$.
+    Moreover,
+    \begin{itemize}[nl]
+        \item $P$ is linear
+        \item $\norm{P}\leq 1$, $\norm{P}=1$ if $\mathcal{M}\neq\{0\}$
+        \item $P^2=P$
+        \item for $x,y\in\mathcal{E}$, $\inr{Px,y}=\inr{Px,Py}=\inr{x,Py}$.
+    \end{itemize}
+    Such an operator is called the \textbf{orthogonal projection}.
+\end{corollary}
+\begin{proof}
+    The theorem above prvides an orthonormal basis $E$ for $\mathcal{M}$.
+    Then $P_E$, as defined above, satisfies $\im P=\mathcal{M}$ and $\im(I-P)=\mathcal{M}^\perp$.
+    Moreover, if $P$ satisfies those conditions, then for $x\in\mathcal{E}$,
+    \begin{equation*}
+        Px+x-Px=x=P_Ex+x-P_eX
+    \end{equation*}
+    so that
+    \begin{equation*}
+        Px-P_eX=[x-P_Ex]-[x-Px]\in\mathcal{M}\cap\mathcal{M}^\perp=\{0\}
+    \end{equation*}
+    so $Px=P_ex$.
+    Then if $x,y\in\mathcal{E}$ and $\alpha\in\F$,
+    \begin{equation*}
+        P(x+\alpha y)+x+\alpha y-P(x+\alpha y)=x+\alpha y=Px+x-Px+\alpha[Py+y-Py]
+    \end{equation*}
+    so
+    \begin{equation*}
+        P(x+\alpha y)-[Px+\alpha py]=x-Px+\alpha[y-Py]-[x+\alpha y-P(x+\alpha y)]\in\mathcal{M}\cap\mathcal{M}^\perp=\{0\}
+    \end{equation*}
+    and we have linearity.
+
+    If $x\in\mathcal{E}$, Pythagoras tells us that $\norm{x}^2=\norm{Px}^2+\norm{x-Px}^2$ so $\norm{Px}\leq\norm{x}$, i.e. $\norm{P}\leq 1$.
+    If $e'\in E$, $Pe'=P_Ee'=\sum_{e\in E}\inr{e',e}e=e'$, so $P|_{\spn E}=\id$ and by uniqueness of extension of bounded linear functionals (uniformly continuous), we see that $P|_{\mathcal{M}}=\id_{\mathcal{M}}$.
+    This shows that if $\mathcal{M}\neq\{0\}$, $\norm{P}=1$ and $P=P^2$.
+    Furthermore, this also shows that $\im P=\mathcal{M}$.
+    Finally,
+    \begin{equation*}
+        \inr{Px,y}=\inr{Px,Py+y-Py}=\inr{Px,Py}
+    \end{equation*}
+    and likewise $\inr{x,Py}=\inr{Px,Py}$.
+\end{proof}
+\begin{corollary}
+    Let $H$ be a Hilbert space.
+    \begin{enumerate}[nl,r]
+        \item If $\mathcal{M}$ is a closed subspace, then $(\mathcal{M}^\perp)^\perp=\mathcal{M}$.
+        \item If $\emptyset\neq S\subset H$, then $(S^\perp)^\perp=\overline{\spn}S$.
+    \end{enumerate}
+\end{corollary}
 \end{document}
 
