@@ -247,7 +247,7 @@
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
-\newcommand{\idc}{\mathbb{1}}
+\newcommand{\idc}{\mathbf{1}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
 \newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
 
@@ -2200,7 +2200,8 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
     Then $\ext B(X)\subseteq S(X)$.
 \end{remark}
 \begin{proposition}
-    $\ext B(\ell_p)=S(\ell_p)$
+    Let $1<p<\infty$.
+    Then $\ext B(\ell_p)=S(\ell_p)$.
 \end{proposition}
 \begin{proof}
     Let $x\in S(\ell_p)$, so $x=(1-t)y+tz$.
@@ -2213,12 +2214,14 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
     Taking norms, we have $y=z$.
 \end{proof}
 \begin{proposition}
-    $\ext B(c_0)=\emptyset$.
+    We have $\ext B(c_0)=\emptyset$.
+\end{proposition}
+\begin{proof}
     Let $x=(x_1,x_2,\ldots)\in B(C_0)$.
     Since $\lim x_n=0$, get $n_0$ so $|x_{n_0}|\leq 1/2$.
     If $x_{n_0}\neq 0$, let $y=(x_1,\ldots,x_{n_0-1},2x_{n_0},x_{n_0+1},\ldots)$ and $z=(x_1,\ldots,x_{n_0-1},0,x_{n_0+1},\ldots)$, and similarly for $x_{n_0}=0$.
     Thus we have in each case that $y,z\in B(c_0)$ and $x=y/2+z/2$.
-\end{proposition}
+\end{proof}
 \begin{corollary}
     There exists no normed space $X$ for which $c_0\cong X^*$.
 \end{corollary}
@@ -2237,22 +2240,23 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
 \end{theorem}
 \begin{proof}
     Write $C=C^{\R}(X,\tau)$.
-    Note that $P(X)=B(C^*)\cap\hat 1^{-1}(\{1\})$ is $w^*-$compact and convex.
+    Note that $P(X)=B(C^*)\cap\hat \idc^{-1}(\{1\})$ is $w^*-$compact and convex.
     Hence by Krein-Milman, we have that $\cwx\ext P(X)=P(X)$.
     It remains to describe $\ext P(X)$.
     
     (I) Some inequalities.
     Fix $\mu\in P(X)$.
     If $0\leq f\leq 1$ in $C$, then $0\leq \idc-f\leq 1$ so $\norm{f}_\infty$, $\norm{\idc -f}_\infty\leq 1$.
-    Thus $|\mu(f)|\leq 1$ and $|1-\mu(f)|=|\mu(\idc-f)|\leq 1$.
+    Thus $|\mu(f)|\leq 1$ and $|\idc-\mu(f)|=|\mu(\idc-f)|\leq 1$.
     Thus $0\leq\mu(f)\leq 1$.
     Then if $g\neq 0$ and $g\geq 0$ in $C$, then we have $\mu(g/\norm{g}_\infty)\geq 0$, so $\mu(g)>0$; if $g\leq h$ in $C$, then $h-g\geq 0$ and $\mu(h)\geq\mu(g)$.
 
     If $g\in C$, $g^+=\max\{g,0\}$, $g^-=\max\{-g,0\}\in C$, and $g=g^+-g^-$ while $|g|=g^++g^-$.
     Hence if $0\leq f\leq 1$ in $C$ and let $\mu_f(g)=\mu(fg)$ for $g\in C$, we have
-    \begin{equation}\label{e:in1}
-        |\mu_f(g)|=|\mu_f(g^+-g^-)|=|\mu(fg^+)+\mu(fg^-)|\leq\mu(fg^+)+\mu(fg^-)=\mu(f(g))\leq\mu(f\norm{g}_\infty)=\mu(f)\norm{g}_\infty
-    \end{equation}
+    \begin{align}\label{e:in1}
+        |\mu_f(g)|&=|\mu_f(g^+-g^-)|=|\mu(fg^+)+\mu(fg^-)|\leq\mu(fg^+)+\mu(fg^-)=\mu(f(g))\nonumber\\
+                  &\leq\mu(f\norm{g}_\infty)=\mu(f)\norm{g}_\infty
+    \end{align}
     and, with $f=\idc$, we have
     \begin{equation}\label{e:in2}
         |\mu(g)|\leq\mu(|g|)
