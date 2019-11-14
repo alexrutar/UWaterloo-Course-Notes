@@ -2544,7 +2544,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
 \begin{definition}
     Any set $E\subset\mathcal{E}$ satisfying the above conditions is called a \textbf{orthonormal basis} for $\mathcal{E}$.
 \end{definition}
-\begin{theorem}
+\begin{theorem}[Gram-Schmidt]
     Let $(x_1,x_2,\ldots)$ be a linearly independent sequence in a euclidean space $(\mathcal{E},\inr{\cdot,\cdot})$.
     There exists an orthogonal sequence $(z_1,z_2,\ldots)$ which satisfies $\spn\{z_1,\ldots,z_n\}=\spn\{x_1,\ldots,x_n\}$ for $n=1,2,\ldots$ so that $\spn\{z_1,z_2,\ldots\}=\spn\{x_1,x_2,\ldots\}$.
 \end{theorem}
@@ -2723,5 +2723,98 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
         \item If $\emptyset\neq S\subset H$, then $(S^\perp)^\perp=\overline{\spn}S$.
     \end{enumerate}
 \end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We have $\mathcal{M}\subseteq\mathcal{M}^{\perp\perp}$ and $\mathcal{M}$ is complete and thus admis an orthogonal projection $P_{\mathcal{M}}H\to H$ with $\im P_{\mathcal{M}}=\mathcal{M}$ and $\im(I-P_{\mathcal{M}})=M^\perp$.
+            Now if $x\in\mathcal{M}^{\perp\perp}$, $P_{\mathcal{M}}x\in\mathcal{M}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^{\perp\per}+\mathcal{M}=\mathcal{M}^{\perp\perp}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^\perp$.
+            Thus
+            \begin{equation*}
+                x-P_{\mathcal{M}}x\in\mathcal{M}^{\perp\perp}\cap\mathcal{M}^\perp=\{0\}
+            \end{equation*}
+            so that $x\in P_{\mathcal{M}}x\in\mathcal{M}$.
+            Hence $\mathcal{M}^{\perp\perp}\subseteq\mathcal{M}$.
+        \item We have $(\overline{\spn} S)^\perp=S^\perp$ and apply (i).
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[Riesz-Fréchet]
+    If $H$ is a Hilbert space and $f\in H^*$, then there is a unique $x_0\in H$ such that $f=f_{x_0}$; i.e. $f(x)=(x,x_0)$ for all $x\in H$.
+\end{theorem}
+\begin{proof}
+    If $f=0$, let $x_0=0$.
+    If $f\neq 0$, $\ker f\subsetneq H$ so $(\ker f)^{\perp\perp}=\ler f$, so $(\ker f)^\perp\neq\{0\}$.
+    If $x_1,x_2\in(\ker f)^\perp$, then $f(x_2)x_1-f(x_1)x_2\in(\ker f)^\perp\cap\ker f=\{0\}$, so that $\dim(\ker f)^\perp=1$ and $(\ker f)^\perp=\F x_1$.
+    But then $f_{x_1}=\inr{\cdot,x_1}$ has $\ker f_{x_1}=(\F x_1)^\perp=(\ker f)^{\perp\perp}=\ker f$, so there is $\alpha\in\F$ so $f=\alpha f_{x_1}=f_{\overline{\alpha}x_1}$.
+    Set $x_0=\overline{\alpha}x_1$.
+
+    Uniqueness holds since $x\mapsto f_x:H\to H^*$ is an isometry and thus injective.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item Many results above may fail in a non-complete Euclidean space.
+            Consider $(\ell,\inr{\cdot,\cdot})$ where $\ell$ is the space of finitely supported sequences.
+            Define $f:\ell\to\F$ by $f(x)=\sum_{k=1}^\infty\frac{1}{k}x_k$.
+            By Hölder, $|f(x)|\leq\left(\sum_{k=1}^\infty\frac{1}{k^2}\right)\norm{x}_2$ so that $f\in\ell^*$.
+            If there were $x^{(0)}\in\ell$ so that $f=f_{x^{(0)}}$ for some $x^{(0)}\in(\ker f)^\perp\setminus\{0\}$, we would then have $x_k^{(0)}=(e_k,x^{(0)})=\frac{1}{k}$, which is non-zero for infinitely many $k$, giving a contradiction.
+            In fact, $(\ker f)^{\perp}=\{0\}$ so that $(\ker f)^{\perp\perp}=\ell$.
+        \item Let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space.
+            Let $H=\overline{\mathcal{E}}$ be the metrical completion with respect to $\norm{x}_2$.
+            If $x,y\in H$, then $x=\lim x_n=\lim x_n'$ with $x_n,x_n'\in\mathcal{E}$, and $y=\lim y_n=\lim y_n'$ similarly.
+            Then
+            \begin{align*}
+                \left\lvert\inr{x_n,y_n}-\inr{x_n,y_n}\right\rvert&\leq |\inr{x_n,y_n}-\inr{x_n,y_m}|+|\inr{x_n,y_m}-\inr{x_n,y_n}|\\
+                                                                  &\leq\norm{x_n}\norm{y_n-y_m}+\norm{x_n-x_m}\norm{y_m}
+            \end{align*}
+            so that $(\inr{x_n,y_n})_{n=1}^\infty\subset\F$ is Cauchy, and thus admits a limit.
+            Moreover, $|\inr{x_n,y_n}-\inr{x_n',y_n'}|\leq\norm{x_n}\norm{y_n-y_n'}+\norm{x_n-x_n'}\norm{y_n'}$.
+            Thus, $\inr{x,y}=\lim_{n\to\infty}\inr{x_n,y_n}=\lim_{n\to\infty}\inr{x_n',y_n'}$ is well-defined on $H\times H$.
+            It is straightforward to verify that this is an inner product, and $\norm{x}=\lim_{n\to\infty}\norm{x_n}=\inr{x,x}^{1/2}$.
+            Thus the completion of a Euclidean space is a Hilber space.
+        \item As a consequence of (ii), we have $\mathcal{E}^*=\{f_x:x\in H\}$ where $H=\overline{\mathcal{E}}$, as above.
+            Furthermore, $\overline{\mathcal{E}}\cong H^{**}$.
+        \item If $H$ is a Hilbert space, the map $f\mapsto f_x$ from $H\to H^*$ is
+            \begin{itemize}[nl]
+                \item a conjugate linear map: $f_{x+\alpha y}=f_x+\overline{\alpha}f_y$
+                \item an isometry: $\norm{f_x}=\norm{x}$
+            \end{itemize}
+    \end{enumerate}
+\end{remark}
+\section{Adjoint Operators}
+\begin{definition}
+    Let $X,Y$ be vector spaces over $\F$, and $T\in\mathcal{L}(X,Y)$.
+    Define the \textbf{adjoint} of $T$, $T^*:Y'\to X'$ by $T^*f=f\circ T$.
+\end{definition}
+Notice that $T^*\in \mathcal{L}(Y',X')$.
+\begin{proposition}
+    Let $X,Y,Z$ be normed spaces, $T\in\mathcal{B}(X,Y)$ and $S\in\mathcal{B}(Y,Z)$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $T^*\in\mathcal{B}(Y^*,X^*)$ with $\norm{T^*}=\norm{T}$
+        \item $T\mapsto T^*:\mathcal{B}(X,Y)\to\mathcal{B}(Y^*,X^*)$ is linear
+        \item $T^{**}:=(T^*)^*$ satisfies $T^{**}\in\mathcal{B}(X^{**},Y^{**})$ and $T^{**}\hat x=\widehat{Tx}$.
+        \item $(S\circ T)^*=T^*\circ S^*\in\mathcal{B}(Z^*,X^*)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item[(i),(iii)] If $f\in Y^*$, then
+            \begin{equation*}
+                \norm{T^*f}=\sup\{|T^*f(x)|:x\in B(X)\}\leq\sup\{\norm{f}\norm{Tx}:x\in B(X)\}\leq\norm{f}\norm{T}
+            \end{equation*}
+            so $\norm{T^*}\leq\norm{T}$.
+            If $x\in X$ and $f\in Y^*$, then
+            \begin{equation*}
+                T^{**}\hat{x}(f)=\hat{x}(T^*f)=T^*f(x)=f(Tx)=\widehat{Tx}(f)
+            \end{equation*}
+            so that $\norm{T}=\norm{T^{**}|_{\hat X}}\leq\norm{T^{**}}\leq\norm{T^*}$.
+        \item[(ii)] Immediate.
+        \item[(iv)] Immediate.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    If $H,K$ are Hilbert spaces and $T\in\mathcal{B}(H,K)$, then we define for $x\in K$, $T^*x$ by $f_{T^*x}=T^*f_x$.
+    Notice that (i) and (iv) hold in this setting.
+    However, (ii) is replaced by $T\mapsto T^*$ is conjugate linear.
+    Notice that $T^*$ satisfies $(Tx,y)=(x,T^*y)$ for $x,y\in H$.
+\end{remark}
 \end{document}
 

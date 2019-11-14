@@ -1573,5 +1573,49 @@ Then $g_iH\subseteq Hg_iH$ by normality, so $Hg_iH=g_iH$.
         \Res_G^H\Ind_H^G(\rho)\cong\bigoplus_{s\in S}\Ind H_s^H(\rho^s)
     \end{equation*}
 \end{proposition}
+\begin{proof}
+    We must construct an isomorphism as $\C[H]-$modules.
+    For each $s\in S$, let $W(s)=\spn\{x\otimes v:x\in HsH,v\in V\}$, so that $W(s)$ is a $\C[H]-$submodule of $\C[G]\otimes_{\C[H]}V$ since double cosets are closed under $H-$multiplication.
+    Since the double cosets partition $G$, $\C[G]\otimes_{\C[H]}V=\bigoplus_{s\in S}W(s)$ as $\C[G]-$modules.
+
+    It remains to show for $s\in S$ that $W(s)\cong\C[H]\otimes_{\C[H_2]}V$ as $\C[H]-$module.
+    Consider $f:V\to W(s)$ given by $f(v)=s\otimes v$.
+    Certainly $f$ is additive.
+    Now,
+    \begin{align*}
+        f(shs^{-1}\cdot v)&=f(hv)=s\otimes hv=sh\otimes v\\
+                          &= (shs^{-1})s\otimes v\\
+                          &= shs^{-1}f(v)
+    \end{align*}
+    so that $f$ is a $\C[H_s]-$module homomorphism.
+    Thus by the universal property, there exists a $\C[H]-$module homomorphism $F:\C[G]\otimes_{\C[H]}V\to W(s)$ such that $F\circ i=f$.
+    Once can show that $F$ is the desired isomorphism.
+\end{proof}
+We can now prove Mackey's theorem
+\begin{proof}
+    We have
+    \begin{align*}
+        \left\langle\Ind_H^G(\chi_\rho),\Ind_H^G(\chi_\rho)\right\rangle &= \left\langle\chi_\rho,\Res_G^H\Ind_H^G(\chi_p)\right\rangle\\
+                                                                         &= \left\langle\chi_\rho,\sum_{s\in S}\Ind_{H_s}^H(\chi_{\rho^s})\\
+                                                                         &= \sum_{s\in S}\left\langle\chi_\rho,\Ind_{H_s}^H(\chi_{\rho^s})\right\rangle\\
+                                                                         &= \sum_{s\in S}\underbrace{\left\langle \Res_H^{H_s}(\chi_\rho),\chi_{\rho^s}\right\rangle}_{d_s}\\
+                                                                         &= d_1+\sum_{s\in S,s\neq 1}d_s\\
+                                                                         &= \underbrace{\langle\chi_\rho,\chi_\rho\rangle}_{\geq 1}+\sum_{s\neq 1}d_s
+    \end{align*}
+    where $d_s=0$ precisely when $\langle\Res_s(\chi_\rho),\chi_{\rho^s}\rangle=0$, so the result follows.
+\end{proof}
+\begin{corollary}
+    Let $H\trianglelefteq G$ and $\rho:H\to\GL(V)$.
+    Then $\Ind(\rho)$ is irreducible if and only if $\rho$ is irreducible and $\rho\neq\rho^g$ for all $g\in G\setminus H$.
+\end{corollary}
+\begin{example}
+    Take $G=D_5$ and $H=\langle r\rangle\trianglelefteq G$.
+    Then $\rho:H\to\C^\times$ with $\rho(r)=\zeta_5$.
+    Let's show that $\Ing_H^G(\rho)$ is irreducible.
+    Since $\rho$ is degree 1, it is irreducible.
+    Moreover, since $H\trianglelefteq G$ and $\deg(\rho)=1$, we must show that $\rho\neq\rho^g$ for all $g\in G\setminus H$.
+    Indeed, $\rho^{sr^i}(r)=\rho((sr^i)^{-1}rsr^i)=\rho(r^{-1})=\zeta_5^4$.
+\end{example}
+
 \end{document}
 

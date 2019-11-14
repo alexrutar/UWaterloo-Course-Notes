@@ -1284,4 +1284,52 @@ We will always choose $k'$ to be minimal.
     If some path goes through some vertex $a'$, when we expand to $A'$, applying the base case to $A'$, there are $k'$ edge-disjoint paths in $A'$ which allows us to extend the edges to $a'$ into finite paths through $A'$.
     This is doable since the incoming edges need not be paired with the outgoing edges in a fixed order (taking minimal connections).
 \end{proof}
+\begin{theorem}[Nash-Williams]
+    Let $G$ be finite and $2k-$edge-connected.
+    Then $G$ has an orientation such that $G$ is $k-$arc-connected.
+\end{theorem}
+We can extend Nash-Williams to the infinite case:
+\begin{theorem}
+    Let $G$ be possibly infinite and $8k-$edge-connected.
+    Then $G$ has an orientation such that $G$ is $k-$arc-connected.
+\end{theorem}
+Let $G$ be 1000-connected.
+Then there exists $H\subseteq G$ such that $H$ is finite and 2-connected.
+Moreover, there exists some $H\subseteq G$ such that $H$ is a subdivision of a 3-connected graph.
+\begin{proposition}
+    For all $k$, there exists a $k-$connected planar graph.
+\end{proposition}
+\begin{proposition}
+    Let $G$ be $4k-$edge-connected and $A_0\subseteq V(G)$ finite.
+    Then $G$ has an immersion of a finite $2k-$edge-connected Eulerian graph with vertex set $A_0$.
+    Contract the boundary-linked components to get $G'$, which is $4k-$edge connected.
+    Get $2k-$edge-disjoint spanning trees $T_1,\ldots,T_{2k}$, and get $H_1\subseteq T_1\cup T_2$ Eulerian, etc.
+    Take $G''=H_1\cup\cdots\cup H_k$.
+    Since each $H_i$ is Eulerian, every cut is even, so that $G''$ is $2k-$edge-connected.
+
+    Now apply Mader's lifting theorem on $G''$ on all vertices outside $A_0$.
+    Suppose we lift some $e_1$ and $e_2$ connected to some $a$ contracted from $A$.
+    Then get 1-way disjoint paths from $e_1$ and $e_2$, which we may reconnect within $G$...
+
+    This may not work.
+    Given some vertex $a$ contracted from $A$, define the lifting graph $L(G'',a)$ defined on $e_1,\ldots,e_q$.
+    Two of $e_i$, $e_j$ are neighbours if the lifting of $e_i,e_j$ preserves $2k-$edge-connectivity.
+    By Mader's lifting theorem, $H_1=L(G'',a)$ has an edge.
+    Now define the pseudo-lifting graph $H_2=PL(G,A)$ defined on $e_1,\ldots,e_q$, where two of $e_i,e_j$ are neighbours if $P_i$ and $P_j$ are joined by a path $P$ edge-disjoint from $P_1,P_2,\ldots,P_q$.
+    It suffices to show that $H_1$ and $H_2$ share an edge.
+    
+    We first show that $H_2$ is connected.
+    Equivalently, partition $H_2=A\cup B$; let's show there is a path from $A$ to $B$.
+    But this follows by taking a minimal path.
+    Now, it suffices to show $H_1$ has a spanning complete bipartite subgraph.
+    We prove this by induction.
+    Take the case when $d(v)=4$.
+    If the lifting graph is complete, then we are fine.
+    Otherwise, lift some pair of vertices, and there is a $2k-2$-cut, and arguing by counting, we get a complete bipartite subgraph.
+
+    Now let $v$ have $d(v)\geq 6$ and even.
+    Suppose for contradiction $\overline{H}_1$ is connected, so there exists $x,y$ which are not neighbours such that $G-x-y$ is connected unless $G$ is complete or a cycle.
+    We know $G$ cannot be complete since $H_1$ is non-empty.
+    Let's also show $H_1$ is not a cycle.
+\end{proposition}
 \end{document}

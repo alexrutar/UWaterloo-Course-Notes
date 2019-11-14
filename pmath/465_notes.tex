@@ -1513,5 +1513,60 @@ However, it is not immediate that this definition does not depend on the chosen 
     in a neighbourhood of $p$.
     Thus $d\gamma=0$ in a neighbourhood of $p$, so that $d\gamma(p)=0$.
     In particular, $p\in U$ was arbitrary, so $\gamma=0$ in $U$.
+
+    We now claim that if such a map $d$ exists, then $d$ must be given locally by the formula $d(\sum a_Idx^I)=\sum_I\sum_j\prt{a_I}{x^j}dx^j\wedge dx^I$.
+    To be precise, if $\alpha\in\Omega^k(M)$ and $\phi:U\to\phi(U)$ is a chart, and if the restriction of $\alpha$ to $U$ is given by $\alpha(p)=\sum_I\alpha_I(p)dx^I$ so that $(\phi^{-1})^*(\alpha)(x)=\sum_Ia_I(x)dx^I$ then $d\alpha$, restricted to $U$, is given by
+    \begin{equation*}
+        (d\alpha)(p)=\su_Id\alpha_I(p)dx^I
+    \end{equation*}
+    so that
+    \begin{equation*}
+        (\phi^{-1})^*(d\alpha)(x)=\sum_I\sum_j\prt{a_I}{x^j}(x)dx^j\wedge dx^I
+    \end{equation*}
+    Suppose $d$ exists.
+    Let $\alpha\in\Omega^k(M)$ and $\phi:U\to\phi(U)$ be a chart on $M$.
+    Say the restriction of $\alpha$ to $U$ is given by $\alpha(p)=\sum_I\alpha_I(p)dx^I$ for all $p\in U$.
+    Fix $p\in U$.
+    Use a smooth step function which is equal to 1 in an open neighbourhood of $p$ and supported in $U$ to construct smooth functions $\beta_I:M\to\R$ and $\gamma^i:M\to\R$ such that $\beta_I=\alpha_I$ and $\gamma^i=\phi^i$ in an open neighbourhood of $p$ (where $\phi:U\to\phi(U)$ is given by $\phi=(\phi^1,\ldots,\phi^n)$).
+    Define $\beta\in\Omega^k(M)$ by $\beta=\sum_I\beta_Id\gamma^I$.
+    Then $\beta=\alpha$ in an open neighbourhood of $p$.
+    Then in this neighbourhood $d\alpha=d\beta=d(\sum_I\beta_Id\gamma^I)=\sum_Id\beta_I\wedge d\gamma^I$ by linearity and rules (2) and (3).
+    Also, by our knowledge of $d:\Omega^0(M)\to\Omega^1(M)$ in the open neighbourhood, we have $d\beta_I=d\alpha_I$ and $d\gamma^i=d\phi^i=dx^i$
+
+    On the other hand, given a chart $\phi:U\to\phi(U)$, we can define $d:\Omega^k(U)\to\Omega^{k+1}(U)$ by the ocal formula
+    \begin{equation*}
+        d(\sum_I\alpha_Idx^I)=\sum_Id\alpha_I\wedge dx^I
+    \end{equation*}
+    and then $d$ is linear and satisfies the required properties since
+    \begin{align*}
+        d\left(\sum_Ia_Idx^I\wedge\sum_Jb_Jdx^J\right) &= d\left(\sum_{I,J}a_Ib_Jdx^I\wedge dx^J\right)\\
+                                                       &= \sum_{I,J}\sum_j\left(\prt{a_I}{x^j}b_J+a_I\prt{b_J}{x^i}\right)dx^j\wedge dx^I\wedge dx^J\\
+                                                       &= \sum_{I,J}\sum_j\left(\prt{a_I}{x^j}dx^j\wedge dx^I\right)\wedge b_Jdx^J+(-1)^k(a_Idx^I)\wedge\left(\prt{b_J}{x^j}dx^j\wedge dx^J\right)
+    \end{align*}
+    and
+    \begin{align*}
+        d^2(\sum a_Idx^I) &= d\left(\sum_I\sum_j\prt{a_I}{x^j}dx^j\wedge dx^I\right)\\
+                          &= \sum_I\sum_{i,j}\prtt{a_I}{x^i}{x^j}dx^i\wedge dx^j\wedge dx^I\\
+                          &= 0
+    \end{align*}
+    Finally, note that we can define $d:\Omega^k\to\Omega^{k+1}$ globally by using the local formula in the domains of all charts, and the definitions agree on intersections of charts.
 \end{proof}
+As an exercise, we have the following formulas:
+\begin{enumerate}[nl,r]
+    \item For $\alpha\in\Omeg^k(M)$, $\beta\in\Omega^\ell(M)$, $\beta\wedge\alpha=(-1)^{k\cdot\ell}\alpha\wedge\beta$.
+    \item For $f:L\to M$, $g:M\to N$, $(g\circ f)^*=f^*\circ g^*$.
+        Also, if $f:M\to M$ is the identity, then $f^*:\Omega^k(M)\to\Omega^k(M)$ is the identity.
+    \item $f^*(\alpha\wedge\beta)=(f^*\alpha)\wedge(f^*\beta)$
+    \item $d\circ f^*=f^*\circ d$
+    \item For $\alpha\in\Omega^k(M)$ and each $X_i\in\mathfrak{X}(M)$, then
+        \begin{align*}
+            d\alpha(X_1,\ldots,X_{k+1}) &= \sum_i(-1)^{i+1}X_i(\alpha(X_1,\ldots,\widehat X_i,\ldots,X_{k+1}))\\
+                                        &\agspace +\sum_{i<j}(-1)^{i+j}\alpha\left([X_i,X_j],X_1,\ldots,\widehat X_i,\ldots,\widehat X_j,\ldots,X_{k+1}\right)
+        \end{align*}
+        In particular, when $\alpha=f\in\Omega^0(M)$, $df(X)=X(f)$ and when $\alpha\in\Omega^1$,
+        \begin{align*}
+            (d\alpha)(X,Y) &= X(\alpha(Y))-Y(\alpha(X))-\alpha([X,Y])
+        \end{align*}
+        
+\end{enumerate}
 \end{document}
