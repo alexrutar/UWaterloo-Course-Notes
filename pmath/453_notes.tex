@@ -2816,5 +2816,91 @@ Notice that $T^*\in \mathcal{L}(Y',X')$.
     However, (ii) is replaced by $T\mapsto T^*$ is conjugate linear.
     Notice that $T^*$ satisfies $(Tx,y)=(x,T^*y)$ for $x,y\in H$.
 \end{remark}
+\begin{theorem}[Kernel-Annhilator]
+    If $X$ and $Y$ are Banach spaces, $T|in B(X,Y)$, then $\ker T=[\im(T^*)]_a$ and $\ker(T^*)=(\im T)^a$.
+\end{theorem}
+\begin{proof}
+    We have
+    \begin{equation*}
+        \ker T = \{x\in X:Tx=0\}=\{x\in X:T^*g(x)=g(Tx)=0\text{ for all }x\in X\}=[\im(T^*)]_a
+    \end{equation*}
+    and
+    \begin{equation*}
+        \ker(T^*)= \{g\in Y^*:T^*g=0\}=\{g\in Y^*:g(Tx)=T^*g(x)=0\text{ for all }x\in X\}=[\im(T)]^a
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    If $T\in \mathcal{B}(H,K)$ where $H,K$ are Hilbert spaces, then $\ker T=(\im T^*)^\perp$, identifying $T^{**}=T$ since Hilbert spaces are reflexive.
+\end{remark}
+\begin{theorem}[Characterization of Invertibility]
+    Let $X,Y$ be Banach spaces, $T\in B(X,Y)$.
+    Then TFAE:
+    \begin{enumerate}[nl,r]
+        \item $T$ is invertible
+        \item $T^*$ is invertible
+        \item $\overline{\im T}=Y$ and $\inf\{\norm{Tx}:x\in S(X)\}>0$, we say that $T$ is \textbf{bounded below}, and
+        \item both $T$ and $T^*$ are bounded below.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \imp{i}{ii}
+    Let $T^{-1}\in \mathcal{B}(Y,X)$, so $I_Y=TT^{-1}$, $I_X=T^{-1}T$.
+    Then $(T^{-1})^*T^*=(TT^{-1})^*=I_Y^*=I_{Y^*}$ and likewise for the reverse.
+
+    \imp{ii}{iii}
+    By the kernel-annhilator theorem, we have $(\im T)^a=\ker(T^*)=\{0\}$ in $Y^*$, so by annhilator-preannhilator, $\overline{\im T}=(\im T)^a_a=\{0\}_a=Y$.
+    Now if $x\in S(X)$, find $f\in X^*$ so $f(x)=\norm{x}=1=\norm{f}$ (by Hahn-Banach).
+    Then
+   \begin{equation*}
+        1=f(x)=[T^*(T^*{-1})f](x)=[(T^*)^{-1}f](Tx)\leq\norm{(T^*)^{-1}f}\norm{Tx}\leq\norm{(T^*)^{-1}}\norm{Tx}
+    \end{equation*}
+    so that $\norm{Tx}\geq\frac{1}{\norm{(T^*)^{-1}}}>0$ and $T$ is bounded below.
+
+    \imp{iii}{i}
+    Let $T$ be bounded below, and set $c=\inf\{\norm{Tx}x:x\in S(X)\}>0$, then for $x\in X\setminus\{0\}$, $\norm{Tx}=\norm{x}\norm{T\left(\frac{1}{\norm{x}}x\right)}\geq c\norm{x}$.
+    If $y\in\overline{\im T}$, then $y=\lim y_n$, each $y_n=Tx_n\in\im T$.
+    Then
+    \begin{equation*}
+        \norm{x_n-x_m}\leq\frac{1}{c}\norm{Tx_n-Tx_m}
+    \end{equation*}
+    so $(x_n)_{n=1}^\infty$ is Cauchy as $(Tx_n)_{n=1}^\infty$ converges.
+    THen $x=\lim x_n\in X$ and by continuity of $T$, $y=Tx\in\im T$.
+    Notive as well that bounded below implies $\ker T=\{0\}$.
+
+    We assume that $T$ is bounded below and $\im T=\overline{\im T}=Y$, so $T$ is bijective, hence invertible.
+
+    \imp{i,ii}{iv}
+    Use (iii)
+
+    \imp{iv}{iii}
+    We suppose that $T$ is bounded below, and so is $T^*$.
+    Then $\{0\}=\ker(T^*)$ in $Y^*$, so $Y=\{0\}_a=\ker(T^*)_a=\overline{\im T}$ and $T$ is bounded below provides $\im T=\overline{\im T}=Y$, so $\ker T=\{0\}$.
+\end{proof}
+\begin{remark}
+    Reasins why $T\in\mathcal{B}(X,Y)$ is not intervible: $\ker T\supsetneq\{0\}$, $\im T\subsetneq Y$, $T$ is not bounded below.
+\end{remark}
+\begin{example}
+    Let $T:\ell_p\to\ell_p$ be given by $T(x_n)_{n=1}^\infty=\left(\frac{1}{n}x_n\right)_{n=1}^\infty$, so $\norm{T}-1$.
+    Notice that $\ker T=\{0\}$ and $\overline{\im T}=\ell_p$.
+    However, $T$ is not bounded below.
+\end{example}
+\section{Spectral Theory for Bounded operators}
+Let $X$ be a $\C-$Banach space, and $\mathcal{B}(X)=\mathcal{B}(X,X)$.
+\begin{definition}
+    If $T\in\mathcal{V}(X)$, we define the \textbf{resolvent} of $T$ by $\rho(T)=\{\lambda\in\C:\lambda I-T\text{ is invertible}\}$.
+    Then the \textbf{spectrum} of $T$, $\sigma(T)$, is given by $\sigma(T)=\C\setminus\rho(T)$.
+    We define the \textbf{point spectrum} $\sigma_p(T)=\{\lambda\in \C:\ker(\lambda I-T)\supsetneq\{0\}\}$, so $\sigma_p(T)\subseteq\sigma(T)$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $X$ is finite dimensional, then $\sigma(T)=\sigma_p(T)$.
+        \item Let $1\leq p<\infty$ and define $S:\ell_p\to\ell_p$ by $S(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$.
+            Notive that $S$ is linear and $\norm{Sx}_p=\norm{x}_p$, so $\norm{S}=1$.
+            Also, $\ker S=\{0\}$.
+            Suppose $\lambda\in\sigma_p$, so there is $x\in\ker(\lambda I-S)\setminus\{0\}$.
+            We let $k=\min\{n\in\N:x_n\neq 0\}$, we see $0=(S_x)_k=\lambda_{x_k}$, but $\ket S=\{0\}$, so $0\notin\sigma_p(T)$, but hence no $\lambda$ as above exists, so $\sigma_p(X)=\emptyset$.
+    \end{enumerate}
+\end{example}
+For any $T\in\mathcal{B}(X)$, is $\sigma(T)\neq\emptyset$?
 \end{document}
 

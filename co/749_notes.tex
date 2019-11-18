@@ -1332,4 +1332,56 @@ Moreover, there exists some $H\subseteq G$ such that $H$ is a subdivision of a 3
     We know $G$ cannot be complete since $H_1$ is non-empty.
     Let's also show $H_1$ is not a cycle.
 \end{proposition}
+Algorithm $O_1$: selected an undirected cycle and directs it in an arbitrary direction.
+This algorithm terminates if and only if the initial graph was Eulerian.
+Moreover, every cut in this direct graph will be balanced, so the result edge connectivity is $1/2$ the original.
+
+Algorithm $O_2$: suppose there are $2k-1$ mixed paths connecting vertices $x$ and $y$.
+Then identify $x$ and $y$.
+
+Let's show that repeatedly applying $O_1$ and $O_2$ results in some oriented $G'$.
+Suppose this stops with some $G'$ with $n'\geq 2$ and $e'\geq(2k-1)n'$.
+The the number of undirected edges is at most $n'-1$ (or we would have a cycle).
+Thus the number of directed edges is at least $(2k-1)n'-n'+1=(2k-2)n'+1$.
+Thus $H$ has $n$ vertices and $e\geq(k-1)(n-1)+1$ edges.
+
+Partition $G$ into components $K_1,K_2$ connected by $k-1$ edges and edge set $e_1,e_2$.
+Then
+\begin{align*}
+    e_1 &\leq (k-1)(n_1-1)\\
+    e_2 &\leq (k-1)(n_2-1)\\
+    (k-1)(n-1)+1 \leq e &\leq (k-1)(n_1+n_2-2)+k-1=(k-1)(n-2)+k-1=(k-1)(n-1)
+\end{align*}
+a contradiction.
+
+Now follow the $O_2'$ algorithm backwards.
+Let's show that we never get a cut with fewer than $k$ directed edges.
+Suppose such a cut existed after separating some $x$ and $y$.
+Then necessarily $x$ and $y$ are on opposite sides of the cut.
+Since the directed edges of $G$ form an Eulerian subgraph (we only add them in cycles), the number of edges in each direction must be the same.
+
+\begin{theorem}
+    Suppose $G$ is $8k-$edge-connected.
+    Then there exists an orientation on $G$ so that it is $k-$arc-connected.
+\end{theorem}
+\begin{proof}
+    Assume first $G$ is locally finite, so that $E(G)=\{e_1,e_2,\ldots,\}$.
+    Let $A_0'$ be composed of the vertices on $e_1$, $x$ and $y$.
+    Then join $x$ and $y$ with $2k$ oriented edges.
+    Then $A_0=e_1\cup e_2$.
+
+    There exists an immersion of a $4k-$edge-connected graph on $A_0$.
+    Use $O_1'+O_2'$ on $A_0$ so that it is $k-$arc-connected.
+
+    Now let $G$ be countable.
+    Fix some vertex $v$ such that $G-v$ is connected.
+    Then split $v$ into vertices of finite degree such that $G$ has the same edge connectivity.
+
+    Recall that if $T$ is a tree and $A\subseteq V(T)$, then $A$ or $A\setminus\{a\}$ can be paired in $T$ by edge disjoint paths.
+    We will prove this later for infinite graphs.
+
+    Now apply this, and since $G-v$ is connected, we may apply this result to pair all the neighbours of $v$.
+    But now we may inductively group the edges of $v$ into arbitrarily large groups consisting of distinct members.
+\end{proof}
+
 \end{document}
