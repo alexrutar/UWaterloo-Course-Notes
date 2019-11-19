@@ -241,8 +241,8 @@
 
 % file-specific preamble -------------------------------------------------------
 % \usepackage{therefore}
+\newcommand{\TODO}[1]{[\textit{\textbf{TODO: #1}}]}
 \DeclareMathOperator*{\esssup}{ess\,sup}
-\DeclareMathOperator{\Lip}{Lip}
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
@@ -250,6 +250,17 @@
 \newcommand{\idc}{\mathbf{1}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
 \newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
+
+% Tons of notation:
+% \newcommand{\Lip}[1]{\ensuremath{\operatorname{Lip}_{\F}(#1)}}
+\newcommand{\Lipspace}{\ensuremath{\operatorname{Lip}_{\F}(X,d)}}
+
+
+\newcommand{\lp}[1]{\ensuremath{\ell^{#1}}}
+\newcommand{\lpspace}[1]{\ensuremath{\ell^{#1}_{\F}}}
+\newcommand{\Lp}[1]{\ensuremath{L^{#1}_{\F}}}
+% \newcommand{\Lpm}{\ensuremath{L^{#1}_{\F}(X,\mathcal{M},\mu)}}
+\DeclareMathOperator{\Lip}{Lip}
 
 
 % constants --------------------------------------------------------------------
@@ -279,10 +290,10 @@
 \renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
 \setlength\cftchapternumwidth{4em} % Add space before chapter name
 \cftpagenumbersoff{chapter} % Turn off page numbers for chapter
-\maxtocdepth{section} % table of contents up to section
+\maxtocdepth{subsection} % table of contents up to section
 
 % Section / Subsection headers
-\setsecnumdepth{section} % numbering up to and including "section"
+\setsecnumdepth{subsection} % numbering up to and including "subsection"
 \newcommand*{\shortcenter}[1]{%
     \sethangfrom{\noindent ##1}%
     \Large\boldmath\scshape\bfseries
@@ -321,112 +332,8 @@
 
 
 % main document ----------------------------------------------------------------
-\chapter{Fundamentals of Functional Analysis}
-\section{Basic Elements of Functional Analysis}
-Throughout, we denote by $\F$ either the field $\R$ or the field $\C$.
-\subsection{Banach Spaces}
-\begin{definition}
-    Let $X$ be a vector space over $\F$.
-    A \textbf{norm} is a functional $\norm{\cdot}:X\to\R$ such that it is
-    \begin{itemize}[nl]
-        \item \textit{(non-negative)} $\norm{x}\geq 0$ for any $x\in X$
-        \item \textit{(non-degenerate)} $\norm{x}=0$ if and only if $x=0$
-        \item \textit{(subadditivity)} $\norm{x+y}\leq\norm{x}+\norm{y}$ for $x,y\in X$
-        \item \textit{($\abs{\cdot}-$homogeneity)} $\norm{\alpha x}=\abs{\alpha}\norm{x}$ for $\alpha\in\F$, $x\in X$.
-    \end{itemize}
-    We call the pair $(X,\norm{\cdot})$ a \textbf{normed vector space}.
-    Furthermore, we say that $(X,\norm{\cdot})$ is a \textbf{Banach space}  provided that $X$ is complete with respect to the metric $\rho(x,y)=\norm{x-y}$.
-\end{definition}
-\begin{example}
-    \begin{enumerate}[r]
-        \item $(\F,\abs{\cdot})$ is a Banach space.
-        \item $(\F^b,\norm{\cdot}_p)$, $x=(x_j)_{j=1}^n$,
-            \begin{equation*}
-                \norm{x}_p=\begin{cases}
-                    \left(\sum_{i=1}^n\abs{x_j}^p\right)^{1/p} & 1\leq p<\infty\\
-                    \max_{j=1,\ldots,n}|x_j| & p=\infty
-                \end{cases}
-            \end{equation*}
-        \item Consider the space
-            \begin{equation*}
-                \quot{L_p^{\F}=\Set{f:[0,1]\to\F | f\text{ is Lebesgue measurable}, \left(\int_0^1\abs{f}^p\right)^{1/p}<\infty}}{\sim_{\text{a.e.}}}
-            \end{equation*}
-            where $1\leq p<\infty$.
-        \item $\displaystyle L_\infty^{\F}[0,1]$, $\norm{f}_\infty=\esssup_{t\in[0,1]}|f(t)|$.
-        \item Let $(X,d)$ be a metric space.
-            Then
-            \begin{equation*}
-                C_b^{\F}(x)=\Set{f:X\to\F | f\text{ is continuous and bounded}},\quad\norm{f}_\infty=\sup_{x\in X}|f(x)|
-            \end{equation*}
-            is a Banach space.
-    \end{enumerate}
-\end{example}
-Here is a more interesting example:
-\begin{example}
-    Let $(X,d)$ be a metric space.
-    We define the space of Lipschitz functions
-    \begin{equation*}
-        \Lip^{\F}(X,d)=\Set{f:X\to\F | f\text{ is bounded}, L(f)=\sup_{\substack{x,y\in X\\x\neq y}}\frac{|f(x)-f(y)|}{d(x,y)}<\infty}
-    \end{equation*}
-    We note that for $f:X\to\F$ that
-    \begin{equation}\label{e:lip}
-        f\in\Lip^{\F}(X,d)\Leftrightarrow\text{there is }L\geq 0\text{ s.t. }|f(x)-f(x)|\leq Ld(x,y)\text{ for all }x,y\in X
-    \end{equation}
-    It is easy to verify that $L(f)=\min\{L\geq 0:\text{\cref{e:lip} holds for }f\}$.
-    It is an easy exercise to see that $\Lip^{\F}$ is a vector space, and that $L:\Lip^{F}(X,d)\to\R$ is a \textbf{semi-norm} (non-negative, subadditive, $\abs{\cdot}-$homogeneous).
-    However, we do not have non-degeneracy (for example, constants are taken to $0$).
-    We define the Lipschitz norm
-    \begin{equation*}
-        \norm{f}_{\Lip}=\norm{f}_\infty+L(f)
-    \end{equation*}
-\end{example}
-\begin{proposition}
-    $(\Lip^{\F}(X,d),\norm{\cdot}_{\Lip})$ is a Banach space.
-\end{proposition}
-\begin{proof}
-    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(\Lip^{\F}(X,d),\norm{\cdot}_{\Lip})$.
-    Since $\norm{\cdot}_\infty\leq\norm{\cdot}_{\Lip}$ on $\Lip^{F}(X,d)$, we see that $(f_n)_{n=1}^\infty$ is uniformly Cauchy (and bounded), and hence there is $f=\lim_{n\to\infty} f_n$ in $C_b^{\F}(X)$, where the limit is taken with respect to $\norm{\cdot}_\infty$, since $(C_b^{\F}(X),\norm{\cdot}_\infty)$ is a Banach space.
-    If $x,y\in X$, then
-    \begin{align*}
-        |f(x)-f(x)| &= \lim_{n\to\infty}|f_n(x)-f_n(y)|\leq \sup_{n\in\N}|f_n(x)-f_n(y)|\\
-                    &\leq \sup_{n\in\N} L(f_n)d(x,y)\leq\sup_{n\in\N}\norm{f_n}_{\Lip} d(x,y)
-    \end{align*}
-    Since Cauchy sequences are bounded, we see that $|f(x)-f(y)|\leq Ld(x,y)$, where $L=\sup_{n\in\N}\norm{f_n}_{\Lip}<\infty$.
-    Thus by \cref{e:lip}, $f\in\Lip^{\F}(X,d)$.
-    Exercise: one may verify that $\norm{f-f_n}_{\Lip}\to 0$.
-\end{proof}
-Another collection of basic examples are given by the sequence spaces.
-We can define
-\begin{equation*}
-    \ell_1^{\F}=\Set{x=(x_j)_{j=1}^\infty\in\F^{\N} | \norm{x}_1=\sum_{j=1}^\infty|x_j|<\infty}
-\end{equation*}
-It is easy to see that $(\ell_1,\norm{\cdot}_1)$ is a normed vector space.
-
-For $1<p<\infty$, and write
-\begin{equation*}
-    \ell_p^{\F}=\Set{x\in\F^{\N} |\norm{x}_p=\left(\sum_{j=1}^\infty|x_j|^p\right)^{1/p}<\infty}
-\end{equation*}
-Note that $0\in\ell_p$, $\alpha\in\F$, $\alpha x\in\ell_p$ if $x\in\ell_p$.
-Let $q=p/(p-1)$ so that $1/p+1/q=1$.
-Then $q$ is called the \textbf{conjugate index}.
-We have
-\begin{proposition}[Young's Inequality]
-    If $a,b\geq 0$ in $\R$, then $ab\leq a^p/p+b^q/q$, with equality only if $a^p=b^q$.
-\end{proposition}
-and
-\begin{proposition}[H\"older's Inequality]
-    If $x\in\ell_p$ and $y\in\ell_q$, then $xy=(x_iy_i)_{i=1}^\infty\in\ell_1$, with
-    \begin{equation*}
-        \sum_{i=1}^\infty \abs{x_iy_i}\leq\norm{x}_p\norm{y}_q
-    \end{equation*}
-    with equality exactly when $\sgn(x_iy_i)=\sgn(x_ky_k)$ for all $j,k\in\N$ where $x_iy_i\neq 0\neq x_ky_k$, and $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\ell_1$.
-\end{proposition}
-and finally
-\begin{proposition}[Minkowski's Inequality]
-    If $x,y\in\ell_p$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
-\end{proposition}
-
-\subsection{Review of Topology}
+\chapter{Analysis in Metric Spaces}
+\section{Topology}
 Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$.
 \begin{definition}
     A \textbf{topology} on a set $X$ is a set $\tau$ of subsets of $X$ such that
@@ -435,63 +342,193 @@ Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$
         \item If $U_\alpha\in\tau$ for all $\alpha\in A$, then $\bigcup_{\alpha\in A}U_\alpha\in\tau$.
         \item If $n\in\N$ and $U_i\in\tau$ for each $1\leq i\leq n$, then $\bigcap_{i=1}^n U_i\in\tau$.
     \end{enumerate}
-    The sets $U\in\tau$ are called the \textbf{open sets} in $X$, and sets of the form $X\setminus U$ for some open set $U$ are caled the \textbf{closed sets} in $X$.
+    The sets $U\in\tau$ are the \textbf{open sets} in $X$, and sets $X\setminus U$ for some open set $U$ are the \textbf{closed sets} in $X$.
     The pair $(X,\tau)$ is called a \textbf{topological space}.
 \end{definition}
-The metric topology on a metric space $(X,d)$ is the topology
-\begin{equation*}
-    \tau_d = \Set{U\subseteq X |\text{ for each }x_0\in U\text{, there is }\delta=\delta(x_0)\text{ s.t. }\\B_\delta(x_0)\subseteq U}
-\end{equation*}
 \begin{example}
-    \begin{enumerate}[r]
-        \item Given two metrics $d,\rho$ on $X$, we say that $d\sim\rho$ if and only if there are $c,C>0$ such that
-            \begin{equation*}
-                cd(x,y)\leq\rho(x,y)\leq Cd(x,y)\text{ for any }x,y\in X
-            \end{equation*}
-            Note that $d\sim\rho$ implies that $\tau_d=\tau_\rho$, but the reverse implication is not true.
-            An example of this are the metrics on $X=\R$ given by $d(x,y)$ and $\rho(x,y)=\frac{|x-y|}{1+|x-y|}$.
-            Then $d\not\sim\rho$ but $\tau_d=\tau_\rho$.
-        \item ``Sorgenfry line''
+    \begin{enumerate}[nl,r]
+        \item \textit{Sorgenfry line:}
             Set $X=\R$, and consider
             \begin{equation*}
                 \sigma=\Set{V\subseteq\R | \text{ for any }s\in V,\text{ there is }\delta=\delta(s)>0\text{ s.t. }[s,s+\delta)\subseteq V}
             \end{equation*}
-            It is an exercise to verify that $\tau_{\abs{\cdot}}\subsetneq\sigma$.
+            It is a straightforward exercise to verify that $\tau_{\abs{\cdot}}\subsetneq\sigma$.
             We say that $\sigma$ is \textbf{finer} than $\tau_{\abs{\cdot}}$.
-        \item Relative topology: let $(X,\tau)$ be a topological space, and $\emptyset\neq A\subseteq X$.
+        \item \textit{Relative or subset topology}: let $(X,\tau)$ be a topological space and $\emptyset\neq A\subseteq X$.
             Then we can define a topology $\tau|_A=\{U\cap A:U\in\tau\}$.
     \end{enumerate}
 \end{example}
+\subsection{Metric Topology}
+A metric space $(X,d)$ is naturally a topological space, where the topology is given by
+\begin{equation*}
+    \tau_d = \Set{U\subseteq X |\text{ for each }x_0\in U\text{, there is }\delta=\delta(x_0)\text{ s.t. }\\B_\delta(x_0)\subseteq U}.
+\end{equation*}
+Given two metrics $d,\rho$ on $X$, we say that $d\sim\rho$ are \textbf{equivalent} if and only if there are $c,C>0$ such that
+\begin{equation*}
+    cd(x,y)\leq\rho(x,y)\leq Cd(x,y)\text{ for any }x,y\in X
+\end{equation*}
+Note that $d\sim\rho$ implies that $\tau_d=\tau_\rho$, but the reverse implication is not true.
+An example of this are the metrics on $X=\R$ given by $d(x,y)$ and $\rho(x,y)=\frac{|x-y|}{1+|x-y|}$.
+Then $d\not\sim\rho$ but $\tau_d=\tau_\rho$.
+Let $(X,d)$, $(Y,\rho)$ be metric spaces.
+A map $f:X\to Y$ is an \textbf{isometry} if for any $x,y\in X$, $d(x,y)=\rho(f(x),f(y))$.
+By non-degeneracy, $f$ is automatically injective.
+In particular, when $(X,d)$ is complete, then $(f(X),\rho|_{f(X)})$ is a complete metric space.
 \begin{definition}
     Let $(X,\tau)$ and $(Y,\sigma)$ be topological spaces, and $f:X\to Y$.
-    We say that $f$ is \textbf{$(\tau-\sigma-)$continuous} at $x_0$ in $X$ if,
-    \begin{itemize}
-        \item given $V\in\sigma$ such that $f(x_0)\in V$, then there exists $U\in\tau$ such that $x_0\in U$ and $f(U)\subseteq V$.
-    \end{itemize}
-    We say that $f$ is $(\tau-\sigma-)$continuous if it is continuous at each $x_0$ in $X$.
+    We say that $f$ is \mbf{$(\tau-\sigma-)$continuous at $x_0$} in $X$ if for any $V\in\sigma$ such that $f(x_0)\in V$, then there exists $U\in\tau$ such that $x_0\in U$ and $f(U)\subseteq V$.
+    We say that $f$ is \mbf{$(\tau-\sigma-)$continuous} if it is continuous at each $x_0$ in $X$.
 \end{definition}
-\subsection{Space of bounded continuous functions into a normed space}
-Let $(Y,\norm{\cdot})$ denote a normed space.
-We let $\tau_{\norm{\cdot}}$ denote the topology given by the metric $\rho(x,y)=\norm{x-y}$.
-Let $(X,\tau)$ denote any topological space.
-Then we write
+An easy application of definitions yields the following:
+\begin{proposition}
+    Let $(X,\tau)$, $(Y,\sigma)$ be topological spaces and $f:X\to Y$.
+    Then $f$ is continuous if and only if for any $U\in\sigma$, $f^{-1}(U)\in\tau$.
+\end{proposition}
+\begin{lemma}
+    If $x_0\in X$ where $(X,\tau)$ is a topological space, then
+    \begin{equation*}
+        \mathcal{I}(x_0)= \Set{f\in C_b(X) | f(x_0)=0}
+    \end{equation*}
+    is closed, hence complete, subspace of $C_b(X)$.
+\end{lemma}
+\begin{proof}
+    If $(f_n)_{n=1}^\infty\subseteq\mathcal{I}(x_0)$ and $f=\lim_{n\to\infty}f_n$ with respect to $\norm{\cdot}_\infty$ in $C_b(X)$, then $f(x_0)=\lim_{n\to\infty}f_n(x_0)=0$.
+    Thus $f\in\mathcal{I}(x_0)$, and closed subsets of complete spaces are themselves complete.
+\end{proof}
+\chapter{Basic Elements of Functional Analysis}
+\section{Banach Spaces}
+Throughout, we denote by $\F$ either the field $\R$ or the field $\C$.
+\begin{definition}
+    Let $X$ be a vector space over $\F$.
+    A \textbf{seminorm} is a functional $\norm{\cdot}:X\to\R$ such that it is
+    \begin{itemize}[nl]
+        \item \textit{(non-negative)} $\norm{x}\geq 0$ for any $x\in X$
+        \item \textit{(subadditive)} $\norm{x+y}\leq\norm{x}+\norm{y}$ for $x,y\in X$
+        \item \textit{($\abs{\cdot}-$homogenous)} $\norm{\alpha x}=\abs{\alpha}\norm{x}$ for $\alpha\in\F$, $x\in X$.
+    \end{itemize}
+    If in addition, $\norm{\cdot}$ satisfies the added requirement
+    \begin{itemize}[nl]
+        \item \textit{(non-degenerate)} $\norm{x}=0$ if and only if $x=0$
+    \end{itemize}
+    we call $\norm{\cdot}$ a \textbf{norm} for $X$.
+    In this case, the pair $(X,\norm{\cdot})$ a \textbf{normed vector space}.
+    We say that $(X,\norm{\cdot})$ is a \textbf{Banach space} provided that $X$ is complete with respect to the metric $\rho(x,y)=\norm{x-y}$ induced by the norm.
+\end{definition}
+\begin{example}
+    Here are some standard examples of Banach spaces:
+    \begin{enumerate}[r]
+        \item $(\F,\abs{\cdot})$ is probably the simplest example of a Banach space.
+        \item \textit{Finite-dimensional space:} denoted $(\F^d,\norm{\cdot}_p)$ with points $x=(x_j)_{j=1}^n$ equipped with the $p-$norm
+            \begin{equation*}
+                \norm{x}_p=\begin{cases}
+                    \left(\sum_{i=1}^n\abs{x_j}^p\right)^{1/p} & 1\leq p<\infty\\
+                    \max_{j=1,\ldots,n}|x_j| & p=\infty
+                \end{cases}
+            \end{equation*}
+            is a Banach space
+        \item If you have a background in basic measure theory, the space $L_{p,\F}(\Omega)$, where $\Omega$ is a compact domain.
+            For a concrete example, take for example
+            \begin{equation*}
+                \quot{L^p{\F}([0,1])=\Set{f:[0,1]\to\F | f\text{ is Lebesgue measurable}, \left(\int_0^1\abs{f}^p\right)^{1/p}<\infty}}{\sim_{\text{a.e.}}}
+            \end{equation*}
+            where $1\leq p<\infty$.
+            To enforce non-degeneracy, we must mod out by equivalence almost everywhere.
+        \item The space of essentially bounded functions, $\displaystyle L_\infty^{\F}[0,1]$, $\norm{f}_\infty=\esssup_{t\in[0,1]}|f(t)|$.
+        \item \textit{Function spaces:} let $(X,d)$ be a metric space, and define
+            \begin{align*}
+                C_b(X,\F)&=\Set{f:X\to\F | f\text{ is continuous and bounded}},&\norm{f}_\infty&=\sup_{x\in X}|f(x)|.
+            \end{align*}
+    \end{enumerate}
+\end{example}
+Here, we define a more involved example.
+\begin{example}
+    Let $(X,d)$ be a metric space.
+    We define the space of \textit{Lipschitz functions}
+    \begin{equation*}
+        \Lipspace=\Set{f:X\to\F | f\text{ is bounded}, L(f)=\sup_{\substack{x,y\in X\\x\neq y}}\frac{|f(x)-f(y)|}{d(x,y)}<\infty}
+    \end{equation*}
+    Note that for any $f:X\to\F$, $f\in\Lipspace$ if and only if there is some $L\geq 0$ such that $|f(x)-f(y)|\leq Ld(x,y)$ for all $x,y$ in $X$.
+    One may verify that $L(f)$ is the infimum over all values of $L$ for which this inequality holds over $X$.
+
+    It is an easy exercise to see that $\Lipspace$ is a vector space and that $L:\Lipspace\to\R$ is a seminorm.
+    However, we do not have non-degeneracy - for example, if $f$ is constant, then $L(f)=0$.
+    To define a norm on the space of Lipschitz functions, we essentially force non-degeneracy by construction: we define the \textit{Lipschitz norm}
+    \begin{equation*}
+        \norm{f}_{\Lip}=\norm{f}_\infty+L(f).
+    \end{equation*}
+\end{example}
+In this case, we do in fact have what we want:
+\begin{proposition}
+    $(\Lipspace,\norm{\cdot}_{\Lip})$ is a Banach space.
+\end{proposition}
+\begin{proof}
+    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(\Lipspace,\norm{\cdot}_{\Lip})$.
+    Since $\norm{\cdot}_\infty\leq\norm{\cdot}_{\Lip}$ on $\Lipspace$, this sequence is uniformly Cauchy and hence converges to some $f\in C_b(X,\F)$ with respect to the uniform norm.
+    Moreover, if $x,y\in X$, then
+    \begin{align*}
+        |f(x)-f(y)| &= \lim_{n\to\infty}|f_n(x)-f_n(y)|\leq \sup_{n\in\N}|f_n(x)-f_n(y)|\\
+                    &\leq \sup_{n\in\N} L(f_n)d(x,y)\leq\sup_{n\in\N}\norm{f_n}_{\Lip} d(x,y).
+    \end{align*}
+    Since Cauchy sequences are bounded in norm, we have that $|f(x)-f(y)|\leq Ld(x,y)$ where $L=\sup_{n\in\N}\norm{f_n}_{\Lip}<\infty$, so in fact $f\in\Lipspace$.
+    It is easy to verify that $\lim_{n\to\infty}\norm{f-f_n}_{\Lip}=0$.
+\end{proof}
+\subsection{Sequence Spaces}
+Since we do not assume the background of measure theory in this treatment, one of our main basic examples of Banach spaces will be the sequence spaces.
+Let $\F^{\N}$ denote the set of all sequences in $\F$, and define
 \begin{equation*}
-    C_b^Y(X) = \Set{f:X\to Y | f\text{ is bounded  and }\tau-\tau_{\norm{\cdot}}-\text{continuous}}
+    \lp{1}=\Set{x=(x_j)_{j=1}^\infty\in\F^{\N} | \norm{x}_1=\sum_{j=1}^\infty|x_j|<\infty}.
 \end{equation*}
-With pointwise operations, we see that $C_b^Y(X)$ is a vector space.
-We also define for $f\in C_b^Y(X)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$, making $(C_b^Y(X),\norm{\cdot}_\infty)$ a normed vector space.
+It is easy to see that $(\ell_1,\norm{\cdot}_1)$ is a normed vector space.
+
+More generally, for $1<p<\infty$, we may define
+\begin{equation*}
+    \lp{p}=\Set{x\in\F^{\N} |\norm{x}_p=\left(\sum_{j=1}^\infty|x_j|^p\right)^{1/p}<\infty}.
+\end{equation*}
+As always, it is easy to verify that the $\lp{p}-$spaces, for $1\leq p<\infty$, are in fact normed vector spaces.
+The interesting work is in proving that they are Banach spaces.
+
+Let $q=p/(p-1)$ so that $1/p+1/q=1$.
+Then $q$ is called the \textbf{conjugate index} to $p$.
+We have a number of standard inequalities on $\ell_p-$spaces, the proofs of which can be found in general in \TODO{eventually link measure theory result}.
+\begin{proposition}[Inequalities in $\lp{p}-$spaces]
+    Throughout, let $1<p,q<\infty$ be conjugate exponents.
+    \begin{itemize}
+        \item \textit{Young's Inequality:} If $a,b\geq 0$ in $\R$, then $ab\leq \frac{a^p}{p}+\frac{b^q}{q}$, with equality if and only if $a^p=b^q$.
+        \item \textit{Hölder's Inequality:} If $x\in\lp{p}$ and $y\in\lp{q}$, then $xy=(x_iy_i)_{i=1}^\infty\in\ell_1$, with
+            \begin{equation*}
+                \sum_{i=1}^\infty \abs{x_iy_i}\leq\norm{x}_p\norm{y}_q.
+            \end{equation*}
+            Note that equality holds if and only if the following two conditions hold:
+            \begin{enumerate}[nl,r]
+                \item $\sgn(x_iy_i)=\sgn(x_ky_k)$ for all $j,k\in\N$ where $x_iy_i\neq 0\neq x_ky_k$, and
+                \item $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\ell_1$.
+            \end{enumerate}
+        \item \textit{Minkowski's Inequality:} If $x,y\in\ell_p$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
+    \end{itemize}
+\end{proposition}
+In particular, Minkowski's Inequality \TODO{cite certain labels by name? and also link - would be nice}
+
+\subsection{Bounded Continuous Functions into a Normed Space}
+Let $(Y,\norm{\cdot})$ be a normed space and $\tau=\tau_{\norm{\cdot}}$ the topology induced by $\norm{\cdot}$.
+Let $(X,\tau)$ be any topological space.
+We define the space
+\begin{equation*}
+    C_b(X,Y) = \Set{f:X\to Y | f\text{ is bounded  and }\tau-\tau_{\norm{\cdot}}-\text{continuous}}
+\end{equation*}
+With pointwise operations, we see that $C_b(X,Y)$ is a vector space.
+We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$, making $(C_b(X,Y),\norm{\cdot}_\infty)$ a normed vector space.
 \begin{theorem}
-    If $(Y,\norm{\cdot})$ is a Banach space, then $(C_b^Y(X),\norm{\cdot}_\infty)$ is a Banach space.
+    If $(Y,\norm{\cdot})$ is a Banach space, then $(C_b(X,Y),\norm{\cdot}_\infty)$ is a Banach space.
 \end{theorem}
 \begin{proof}
-    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(C_b^Y(X),\norm{\cdot}_\infty)$.
+    Let $(f_n)_{n=1}^\infty$ be a Cauchy sequence in $(C_b(X,Y),\norm{\cdot}_\infty)$.
     Then for any $x\in X$, we have that $(f_n(x))_{n=1}^\infty$ is Cauchy in $(Y,\norm{\cdot})$ since $\norm{f_n(x)-f_m(x)}\leq\norm{f_n-f_m}_\infty$, and hence admis a limit $f(x)$.
-    In particular, $x\mapsto f(x)$ defines a function from $X$ to $Y$.
-    We shall fix $x_0\in X$ and show that $f$ is continuous at $x_0$.
-    Given $\epsilon>0$, we let
+    This defines a pointwise limit $f:X\to Y$.
+    Fix $x_0\in X$: we must show that $f$ is continuous at $x_0$.
+    Given $\epsilon>0$, set
     \begin{itemize}[nl]
-        \item $n_1$ be so $n,m\geq n_1$ so that $\norm{f_n-f_m}_\infty<\epsilon/4$.
-        \item $n_2$ be so $n\geq n_2$ so that $\norm{f_n(x_0)-f(x_0)}<\epsilon/4$.
+        \item $n_1$ so that whenever $n,m\geq n_1$, $\norm{f_n-f_m}_\infty<\epsilon/4$.
+        \item $n_2$ so that whenever $n\geq n_2$, $\norm{f_n(x_0)-f(x_0)}<\epsilon/4$.
         \item $N=\max\{n_1,n_2\}$.
         \item $U\in \tau$, $x_0\in U$ such that $f_N(U)\subseteq B_{\epsilon/4}(f(x_0))\subset Y$.
     \end{itemize}
@@ -501,37 +538,34 @@ We also define for $f\in C_b^Y(X)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$
         \norm{f(x)-f(x_0)} &\leq \norm{f(x)-f_{n_x}(x)} + \norm{f_{n_x}(x)-f_N(x)} + \norm{f_N(x)-f_N(x_0)} + \norm{f_N(x_0)-f(x_0)}\\
                            &<\frac{\epsilon}{4}+\norm{f_{n_x}-f_N}_\infty+\frac{\epsilon}{4}+\frac{\epsilon}{4}<\epsilon
     \end{align*}
-    in other words that $f(U)\subseteq B_\epsilon(f(x_0))$.
+    in other words that $f(U)\subseteq B_\epsilon(f(x_0))$ so that $f$ is continuous.
 
     Now let us check that $\norm{f}_\infty<\infty$.
-    Since $|\norm{f_n}_\infty-\norm{f_m}_\infty|\leq\norm{f_n-f_m}_\infty$, so $(\norm{f_n}_\infty)_{n=1}^\infty\subseteq\R$ is Cauchy, hence bounded.
+    Since $|\norm{f_n}_\infty-\norm{f_m}_\infty|\leq\norm{f_n-f_m}_\infty$, $(\norm{f_n}_\infty)_{n=1}^\infty\subseteq\R$ is Cauchy, hence bounded.
     If $x\in X$, then
     \begin{equation*}
         \norm{f(x)} = \lim_{n\to\infty}\norm{f_n(x)}\leq\sup_{n\in\N}\norm{f_n(x)}\leq\sup_{n\in\N}\norm{f_n}_\infty<\infty
     \end{equation*}
     so $\norm{f}_\infty=\sup_{x\in X}\norm{f(x)}<\infty$.
 
-    Notice that if $\epsilon$, $n_1$ are as above, and further $x_0,N$ are as above, we have for $n\geq n_1$
+    Finally, to show that the limit indeed converges approriately, if $\epsilon, n_1, x_0,N$ are as above, we have for $n\geq n_1$
     \begin{equation*}
         \norm{f_n(x_0)-f(x_0)} \leq \norm{f_n(x_0)-f_N(x_0)}+\norm{f_N(x_0)-f(x_0)}<\frac{\epsilon}{2}
     \end{equation*}
     so $\norm{f_n-f}_\infty=\sup_{x_0\in X}\norm{f_n(x_0)-f(x_0)}\leq\epsilon/2<\epsilon$.
-    This is uniform since $n_1$ is chosen uniformly in $X$.
+    The convergence is uniform since $n_1$ is chosen uniformly in $X$.
 \end{proof}
 \begin{corollary}
-    $(C_b^{\F}(X),\norm{\cdot}_\infty)$ is a Banach space.
+    $(C_b(X,\F),\norm{\cdot}_\infty)$ is a Banach space.
 \end{corollary}
-Let's first note the following general priniple: let $(X,d)$, $(Y,\rho)$ be metric spaces, where $(X,d)$ is complete.
-If $\psi:X\to Y$ is a $(d-\rho-)$isometry, then $(\psi(X),\rho|_{\psi(X)})$ is a complete metric space.
 \begin{example}
     \begin{enumerate}[nl,r]
         \item Let $T$ be a non-empty set and let
             \begin{equation*}
-                \ell_\infty(T) = \Set{x=(x_t)_{t\in T}\in\F^T | \norm{x}_\infty}<\infty
+                \lp{\infty}(T) = \Set{x=(x_t)_{t\in T}\in\F^T | \norm{x}_\infty}<\infty
             \end{equation*}
             With pointwise operations, $(\ell_\infty,\norm{\cdot}_\infty)$ is a normed space.
-            In fact, it is a Banach space.
-            Let us note that
+            In fact, it is a Banach space, since
             \begin{align*}
                 f\mapsto (f(t))_{t\in T}:C_b(T,\mathcal{P}(T))\to\ell_\infty(T)
             \end{align*}
@@ -543,26 +577,17 @@ If $\psi:X\to Y$ is a $(d-\rho-)$isometry, then $(\psi(X),\rho|_{\psi(X)})$ is a
                 \tau_\omega=\mathcal{P}(\N)\cup\bigcup_{n\in\N}\{k\in\N:k\geq n\}
             \end{equation*}
             The map $f\mapsto(f(n))_{n=1}^\infty:C_b(\omega)\to c$ is a linear surjective isometry.
-        \item $c_0=\Set{x\in\F^{\N} | \lim_{n\to\infty}x_n=0}\subseteq c\subseteq\ell_\infty$.
-            \begin{lemma}
-                If $x_0\in X$ where $(X,\tau)$ is a topological space, then
-                \begin{equation*}
-                    \mathcal{I}(x_0)= \Set{f\in C_b(x) | f(x_0)=0}
-                \end{equation*}
-                is closed, hence complete, subspace of $C_b(X)$.
-            \end{lemma}
-            \begin{proof}
-                If $(f_n)_{n=1}^\infty\subseteq\mathcal{I}(x_0)$ and $f=\lim_{n\to\infty}f_n$ with respect to $\norm{\cdot}_\infty$ in $C_b(X)$, then $f(x_0)=\lim_{n\to\infty}f_n(x_0)=0$.
-                Thus $f\in\mathcal{I}(x_0)$, and closed subsets of complete spaces are themselves complete.
-            \end{proof}
-            Now, $f\mapsto(f(n))_{n=1}^\infty:\mathcal{I}(\infty)\to c_0$ is a (linear) surjective isometry.
-        \item Consider the Sorgenfty line $(\R,\sigma)$: verify that
+        \item Recall that $\mathcal{I}(\infty)$ is a closed, and hence complete, subspace of $c$.
+            We may define $c_0=\Set{x\in\F^{\N} | \lim_{n\to\infty}x_n=0}\subseteq c\subseteq\ell_\infty$.
+            In this case, $f\mapsto(f(n))_{n=1}^\infty:\mathcal{I}(\infty)\to c_0$ is a (linear) surjective isometry.
+        \item Consider the Sorgenfry line $(\R,\sigma)$.
+            One may verify that
             \begin{equation*}
-                c_b(\R,\sigma)=\Set{f:\R\to\F | f\text{ is bounded and }\lim_{t\to t_0^+} f(t)=f(t_0)\text{ for }t\in\R}
+                C_b((\R,\sigma),\F)=\Set{f:\R\to\F | f\text{ is bounded and }\lim_{t\to t_0^+} f(t)=f(t_0)\text{ for }t\in\R}
             \end{equation*}
     \end{enumerate}
 \end{example}
-\section{Linear operators and linear functionals}
+\section{Linear Functionals and Operators}
 Let $X,Y$ be vector spaces.
 We let $\mathcal{L}(X,Y)=\Set{S:X\to Y | S\text{ is linear}}$; this is itself a vector space with pointwise operations.
 Let $(X,\norm{\cdot})$ be a normed space.
@@ -2902,5 +2927,132 @@ Let $X$ be a $\C-$Banach space, and $\mathcal{B}(X)=\mathcal{B}(X,X)$.
     \end{enumerate}
 \end{example}
 For any $T\in\mathcal{B}(X)$, is $\sigma(T)\neq\emptyset$?
-\end{document}
 
+Let
+\begin{equation*}
+    \mathcal{G}(X)=\{T\in\mathcal{B}(X):T\text{ is invertible}\}
+\end{equation*}
+Notive that if $S,T\in\mathcal{G}(X)$, then $(ST)^{-1}=T^{-1}S^{-1}$, so $\mathcal{G}(X)$ is a group in $\mathcal{B}(X)$ with identity $I$.
+Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\norm{ST}\leq\norm{S}\norm{T}$, so that $S\mapsto ST$ and $S\mapsto TS$ for some $T\in\mathcal{B}(X)$ are continuous.
+\begin{theorem}[Inversion]
+    \begin{enumerate}[nl,r]
+        \item If $T\in D(X)$, then $\sum_{k=0}^\infty T_k$ converges in $\mathcal{B}(X)$, and $\sum_{k=0}^\infty T^k=(I-T)^{-1}$
+        \item If $S,T\in\mathcal{B}(X)$ such that $S\in\mathcal{G}(X)$ and $\norm{T-S}<\frac{1}{\norm{S^{-1}}}$, then $T\in\mathcal{G}(X)$ with $T^{-1}=S^{-1}+\sum_{k=1}^\infty[S^{-1}(S-T)]^kS$.
+    \end{enumerate}
+    Thus, we find that $\mathcal{G}(X)$ is open in $\mathcal{B}(X)$ and $T\mapsto T^{-1}$ on $\mathcal{G}(X)$ is continuous.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $S_n=\sum_{k=0}^\infty T^k$, so for $m<n$, we have
+            \begin{equation*}
+                \norm{S_n-S_m}\leq\sum_{k=m+1}^\infty\norm{T^k}\leq\sum_{k=m+1}^n\norm{T}^k=\frac{\norm{T}^{m+1}}{1-\norm{T}}\to 0
+            \end{equation*}
+            since $\norm{T}<1$, so $(S_n)_{n=1}^\infty$ is Cauchy, and thus convergent in $\mathcal{B}(X)$.
+            Also,
+            \begin{equation*}
+                (I-T)S_n=I-T^{n+1}\to U\text{ as }T^{n+1}\to 0
+            \end{equation*}
+            since $\norm{T}<1$.
+            Similarly, $S_n(I-T)\to I$, so that $S=\sum_{k=0}^\infty T^k$ has $S(I-T)=I=(I-T)S$.
+        \item We have $\norm{S^{-1}S-T)}\leq\norm{S^{-1}}\norm{S-T}<1$ so by (i)
+            \begin{equation*}
+                T=S-(S-T)=S[I-S^{-1}(S-T)]\in\mathcal{G}(X)
+            \end{equation*}
+            Furthermore,
+            \begin{equation*}
+                T^{-1}=[I-S^{-1}(S-T)]^{-1}S^{-1}=\sum_{k=0}^\infty[S^{-1}(S-T)]^kS^{-1}
+            \end{equation*}
+    \end{enumerate}
+    In particular, we see that for $S\in\mathcal{G}(X)$, $S+\frac{1}{\norm{S^{-1}}}D(X)\subseteq\mathcal{G}(X$, so (a) holds.
+    From (ii), we see that
+    \begin{equation*}
+        \norm{T^{-1}-S^{-1}}\leq\sum_{k=1}^\infty\norm{[S^{-1}(T-S)]^kS}\leq\sum_{k=1}^\infty\norm{S^{-1}}^k\norm{T-S}^k\norm{S^{-1}}=\frac{\norm{S^{-1}}^2\norm{T-S}}{1-\norm{S^{-1}}\norm{T-S}}
+    \end{equation*}
+    so that $\lim_{T\so S}\norm{T^{-1}-S^{-1}}=0$.
+\end{proof}
+\begin{definition}
+    Suppose $\mathcal{B}$ is a $\C-$Banach space, $U\subseteq\C$ and $F:U\to\mathcal{B}$.
+    We say that $F$ is \textbf{holomorphic} if for any $z_0\in U$,
+    \begin{equation*}
+        F'(z_0)=\lim_{z\to z_0}\frac{1}{z-z_0}[F(z)-F(z_0)]
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Just as in calculus, a holomorphic funtion is continuous on its domain.
+\end{remark}
+\begin{proposition}
+    Let $T\in\mathcal{B}(X)$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\rho(T)$ is open in $\C$
+        \item $R(z)=R_T(z)=(zI-T)^{-1}$ defines a holomorphic function on $\rho(T)$, called the \textbf{resolvent function}, and
+        \item $\sigma(T)\subseteq\norm{T}\overline{\mathbb{D}}$, and for $|z|>\norm{T}$, $R(z)\leq\frac{1}{|z|-\norm{T}}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Define $F:\C\to\mathcal{B}(X)$ by $F(z)=zI-T$.
+            Then $F$ is continuous and $\rho(T)=F^{-1}(\mathcal{G}(X))$.
+        \item If $z,z_0\in\rho(T)$, then
+            \begin{align*}
+                R(z)-R(z_0) &= (zI-T)^{-1}-(z_0I-T)^{-1}=(zI-T)^{-1}[(z_0I-T)-(zI-T)](z_0I-T)^{-1}\\
+                            &= (z_0-z)(zI-T)^{-1}(z_0I-T)^{-1}
+            \end{align*}
+            Hence
+            \begin{equation*}
+                \frac{1}{z-z_0}[R(z)-R(z_0)]=-(zI-T)^{-1}(z_0I-T)^{-1}\to -(z_0I-T)^{-2}
+            \end{equation*}
+            by continuity of inversion.
+        \item If $|z|>\norm{T}$, then $\norm{\frac{1}{z}T}<1$ so $zI-T=z(I-\frac{1}{z}T)\in\mathcal{G}(X)$, so $\sigma(T)\subseteq\norm{T}\overline{\mathbb{D}}$.
+            Furthermore, for $|z|>\norm{T}$, we have
+            \begin{equation*}
+                R(z)=(zI-T)^{-1}=\fra{1}{z}(I-\frac{1}{z}T)^{-1}=\frac{1}{z}\sum_{k=0}^\infty\frac{1}{z^k}T^k
+            \end{equation*}
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[Liouville]
+    If $f:\C\to\C$ is holomorphic and bounded, then $f$ is constant.
+\end{theorem}
+\begin{proof}
+    Apply Cauchy integral formula.
+\end{proof}
+\begin{theorem}[Liouville for Banach Spaces]
+    If $F:\C\to\mathcal{B}$ is holomorphic and bounded, then $F$ is constant.
+\end{theorem}
+\begin{proof}
+    Let $f\in\mathcal{B}^*$ and let $F_f=f\circ F:\C\to\C$.
+    Notice that for $z,z_0\in\C$,
+    \begin{equation*}
+        \frac{F_f(z)-F_f(z_0)}{z-z_0}=f\left(\frac{1}{z-z_0}[F(z)-F(z_0)]\right)\to f(F^1(z_0))
+    \end{equation*}
+    by linearity and continuity of $f$, and hence $F_f'=f\circ F'$.
+    Also, if $F$ is bounded, then for $z\in\C$, $|F_f(z)|=|f(F(z))|\leq\norm{f}\norm{F(z)}$ shows that $F_f$ is bounded, so by Liouville's theorem, is constant.
+    In particular, if $z,z'\in\C$, $f(F(z)-F(z'))=F_f(z)-F_f(z')=0$.
+    Thus by Hahn-Banach, we have $F(z)=F(z')$ for any $z,z'\in\C$, so $F$ is constant.
+\end{proof}
+\begin{theorem}
+    If $T\in\mathcal{B}(X)$, then $\sigma(T)\neq\emptyset$ and compact.
+\end{theorem}
+\begin{proof}
+    If $\sigma(T)=\emptyset$, then $R:\C\to\mathcal{B}(X)$ is holomorphic.
+    Hence, as $\norm{T}\overline{\mathbb{D}}$ is compact in $\C$, $R$ is bounded on $\norm{T}\overline{\mathbb{D}}$; and if $|z|>\norm{T}$, we have
+    \begin{equation*}
+        \norm{R(z)}\leq\frac{1}{|z|-\norm{T}}\to 0
+    \end{equation*}
+    It follows that $R$ is bounded on $\mathcal{B}(X)$, and hence constant, and thus $R=0$.
+    But $R(z)(zI-T)=I$, a contradiction.
+
+    Moreover, $\rho(T)=\C\setminus\sigma(T)$ is open, and $\sigma(T)\subseteq\norm{T}\overline{\mathbb{D}}\subset\C$.
+    Thus $\sigma(T)$ is a non-empty compact set.
+\end{proof}
+\begin{corollary}[Joke]
+    $\C$ is algebraically closed.
+\end{corollary}
+\begin{proof}
+    Let $p(x)\in\C[x]$ be an arbitrary irreducible polynomial with $p(x)=(x-r_1)\cdots(x-r_n)$ for some $r_i\in\overline{\C}$.
+    Consider the operator $T:\C^n\to\C^n$ with diagonal $r_1,\ldots,r_n$ and hence characteristic polynomial $p(x)$.
+    Then $\emptyset\neq\sigma(T)=\sigma_p(T)=\{x\in\C:p(x)=0\}$, so $p$ has some root in $\C$, so that $\deg p=1$.
+\end{proof}
+
+
+\end{document}

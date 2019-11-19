@@ -1616,6 +1616,30 @@ We can now prove Mackey's theorem
     Moreover, since $H\trianglelefteq G$ and $\deg(\rho)=1$, we must show that $\rho\neq\rho^g$ for all $g\in G\setminus H$.
     Indeed, $\rho^{sr^i}(r)=\rho((sr^i)^{-1}rsr^i)=\rho(r^{-1})=\zeta_5^4$.
 \end{example}
+\section{Representation Theory of $S_n$}
+\begin{definition}
+    A \textbf{partition} $\lambda$ of $n\in\N$ is a sequence $\lambda_1\geq\cdots\geq\lambda_k$ such that $\sum_{i=1}^k\lambda_i=n$.
+    We write $\lambda\vdash n$.
+    A \textbf{Young Tableau} of shape $\lambda$ is obtained by taking the corresponding Young diagram and filling in the boxes with $1,2,\ldots,n$ bijectively.
+\end{definition}
+\begin{remark}
+    If $T$ is a $\lambda-$Tableau and $\lambda\vdash n$, then $S_n$ acts on $T$ by $(\sigma T)(i,j)=\sigma(T(i,j))$.
+    We say that $\lambda-$Tablueaux $T_1$ and $T_2$ are row-equivlent if their rows contain the same entries.
+\end{remark}
+Let $T_1,\ldots,T_{n!}$ be the $\lambda-$Tableaux where $\lambda\vdash n$ is fixed.
+Take $V=\spn_{\C}\{T_1,\ldots,T_k\}$ which is a $\C[S_n]-$module via the previous group action.
+This is not irreducible: $W_1=\spn_{\C}\{t_1+\cdots+T_k\}$.
+
+Let $[T]$ be the set of row-equivalence classes, say $[T_1],\ldots,[T_\ell]$.
+Then $W_2=\spn_{\C}\{\sum_{T\in[T_1]}T,\ldots,\sum_{T\in[T_\ell]}T\}$.
+\begin{definition}
+    The row equivalence classes $[T]$ are called \textbf{$\lambda-$tabloids}.
+\end{definition}
+Note that $S_n$ acts on the set of $\lambda-$tabloids by $\sigma\cdot[T]=[\sigma T]$.
+Say $[T_1],\ldots,[T_k]$ are all distinct $\lambda-$tabloids.
+We call the $\C[S_n]-$module $M^\lambda=\spn_{\C}\{[T_1],\ldots,[T_k]\}$ the \textbf{permutation module} associated to $\lambda$.
+
+Take $\lambda=(n)$.
+Then $M^\lambda=\spn_{\C}\{\}$.
 
 \end{document}
-

@@ -1567,6 +1567,96 @@ As an exercise, we have the following formulas:
         \begin{align*}
             (d\alpha)(X,Y) &= X(\alpha(Y))-Y(\alpha(X))-\alpha([X,Y])
         \end{align*}
-        
 \end{enumerate}
+\section{Integration}
+If $\alpha(x)dx^1\wedge\cdots\wedge dx^n$ is a smooth $n-$form on an open set $U\subseteq\R^n$ with compact support in $U$, we define
+\begin{align*}
+    \int_U\alpha&=\int_U a(x)dx^1\wedge\cdots\wedge dx^n\\
+                &=\int_Ua(x)dx^1dx^2\ldots dx^n\\
+                &= \int_{\R^n}a(x)dx^1\ldots dx^n
+\end{align*}
+where we extend $a(x)$ by zero to all of $\R^n$.
+
+Note that if $f:U\to V$ is a diffeomorphism of open sets $U,V$ in $\R^n$ which preserves orientation, then for a smooth $n=$form $\beta$ with compact support in $V$,
+\begin{equation*}
+    \int_Uf^*\beta=\int_V\beta
+\end{equation*}
+(if $\beta(y)=b(y)dy^1\wedge\cdots\wedge dy^n$ then
+\begin{align*}
+    (f^*\beta)(x)&=b(f(x))\det(Df)dx^1\wedge\vdots\wedge dx^n
+\end{align*}
+so that
+\begin{align*}
+    \int_Uf^*\beta&= \int_Ub(f(x))\left\lvert\det Df(x)\right\rvert dx^1\ldots dx^n\\
+                  &= \int_V b(y)dy^1\ldots dy^n=\int_V\beta
+\end{align*}
+Let $M$ be a smooth oriented $n-$dimensional manifold and $\omega$ a smooth $n-$form on $M$ with compact support.
+We define the integral as follows.
+Choose finitely many positively oriented charts $\phi_i:U_i\subseteq M\to\phi_i(U_i)\subseteq\R^n$ such that $\supp(\omega)\subseteq\bigcup_{i=1}^m U_i=:U$.
+Let $U_0=M\setminus\supp(W)$ so that $M=\bigcup_{i=0}^mU_i$.
+Choose a partition of unity $\{\rho_i:0\leq i\leq m\}$ subordinate to the cover $\{U_i:0\leq i\leq m\}$ and note that
+\begin{equation*}
+    \omega=\sum_{i=0}^m\rho_i\omega=\sum_{i=0}^m\rho_i\omega
+\end{equation*}
+Then we define
+\begin{align*}
+    \int_M\omega &= \sum_{i=0}^m\int_M\rho_i\omega
+\end{align*}
+where
+\begin{align*}
+    \int_M\rho_i\omega=\int_{\phi_i(U_i)}(\phi_i^{-1})^*(\rho_i\omega)=\int_{\R^n}(\phi_i)^{-1}(\rho_i\omega)
+\end{align*}
+\begin{proposition}
+    Integration, as define here, does not depend on the choice of charts or the choice of the partition of unity $\rho_i$.
+\end{proposition}
+\begin{proof}
+    Let $\psi_i:V_i\to\psi_i(V_i)$ be positively oriented charts $\supp(\omega)\subseteq V\subseteq\bigcup_{j=1}^\ell V_j$ and add $V_0=M\setminus\supp(\omega)$.
+    Let $\sigma_j$ be a subordinat partition of unity.
+    Then for each $i$ and $j$, we can restrict $\phi_i:U_i\to\phi_i(U_i)$ and $\phi_j:V_j\to\psi_j(V_j)$ to get new charts
+    \begin{align*}
+        \phi_{i,j}&:U_i\cap U_j\to\phi_{i,j}(U_i\cap V_j)\\
+        \psi_{i,j}&:U_i\cap V_j\to\psi_{i,j}(U_i\cap V_j)
+    \end{align*}
+    and a subordinate partition of unity $\{\rho_i\sigma_j:0\leq i\leq m,0\leq j\leq \ell\}$ subordinate to $U_i\cap V_j$.
+    Then
+    \begin{align*}
+        \sum_J\int_{\psi_j(V_j)}(\psi_j^{-1})\sigma_j\omega &= \sum_j\int_{\psi_j(V_j)}(\psi_j^{-1})^*(\sum_i\rho_i\cdot\sigma_j\omega)\\
+                                                            &= \sum_{i,j}\int_{\psi_j(V_)}(\psi_j^{-1})^*\rho_i\sigma_j\omega\\
+                                                            &= \sum_{i,j}\int_{\psi_j(U_i\cap V_j)}(\psi_{i,j}^{-1})^*\rho_i\sigma_j\omega\\
+                                                            &= \sum_{i,j}(\psi_{i,j}\circ\phi_{i,j}^{-1})^*(\psi_{i,j}^{-1})^*\rho_i\sigma_j\omega\\
+                                                            &= \sum_{i,j}\int_{\phi_i(U_i\cap V_j)}(\phi_{ij}^{-1})^*\rho_i\sigma_j\omega\\
+                                                            &= \sum_i\int_{\phi_i(U_i\cap V_j)}(\phi_i^{-1})^*\rho_i\sum_j\sigma_j\omega\\
+                                                            &= \sum_i\int_{\phi_i(U_i)}(\phi_i^{-1})^*\rho_i\omega
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    If $M$ and $N$ are oriented $n-$dimensional manifolds and if $f:N\to M$ is a positively oriented diffeomorphism, then for a smooth $n-$form on $M$ with compact support, we have
+    \begin{equation*}
+        \int_Nf^*\omega=\int_M\omega
+    \end{equation*}
+\end{proposition}
+When $f:N\to M$ is a smooth immersion of smooth oriented manifolds of dimensions $n=\dim N$ and $M=\dim M$ and $\alpha\in\Omega^n(M)$, we often write
+\begin{equation*}
+    \int_{f(N)}\omega=\int_Nf^*\omega.
+\end{equation*}
+When $N\subseteq M$ and the inclusion map $\iota:N\hookrightarrow M$ is an immersion, we write $\int_N\alpha=\int_N\iota^*\alpha$.
+\begin{example}
+    When $f:D\subseteq\R^n\to\R^m$ and $\beta\in\Omega^n(\R^m)$ is given by $\beta=\sum_Jb_J(y)dy^J$, the pullback $\alpha=f^*\beta$ is given by
+    \begin{equation*}
+        \alpha=\sum_Jb_J(f(x))\det\left(\prt{y^J}{x}\right)
+    \end{equation*}
+    and
+    \begin{equation*}
+        \int_{f(D)}\sum_Jb_J(f(x))\det\left\prt{y^J}{x}dx^1\ldots dx^n
+    \end{equation*}
+\end{example}
+\begin{theorem}
+    Let $M$ be a smooth orientable manifold and suppose $M$ has a finite positively oriented atlas with charts $\phi_i:U_i\subseteq M\to\phi_i(U_i)\subseteq\R^n$ for $0\leq i\leq m$ such that $\phi_j\setminus(U_j)\setminus\phi_j(U_i\cap U_0)$ has measure zero for all $j\neq 0$.
+    Then for a smooth compactly supported $n-$form $\omega\in\Omega^n(M)$,
+    \begin{align*}
+        \int_M\omega &= \int_{\phi_0(U_0)}(\phi_0^{-1})^*\omega\\
+                     &=\int_{\mathbb{S}^2}xdy\wedge dz+ydz\wedge dx+zdx\wedge dy
+    \end{align*}
+\end{theorem}
 \end{document}
+

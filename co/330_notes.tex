@@ -718,6 +718,90 @@ Thus the total number of components among all $n^n$ $\phi\in\mathcal{F}_n$ is
                                   &=(n-1)![u^{n-1}]\exp(nu)\left[\frac{(1-u)^{y+1}-y(y+1)(1-u)^y}{(1-u)^{2y+2}}\right]_{y=1}\\
                                   &=(n-1)![u^{n-1}]\exp(nu)\left[\frac{(1-u)^{2}-2(1-u)}{(1-u)^{4}}\right]
 \end{align*}
+For each $j\geq 1$, let $M_i\subseteq\N$ be a set of \textbf{allowed multiplicites} (for parts of size $j$)
+\begin{equation*}
+    \lambda\mapsto\underline{m}(\lambda)=\langle m_1,m_2,m_3,\ldots\rangle
+\end{equation*}
+We require that only finitely many $j\geq 0$ have $0\notin m_j$.
+Consider $\mathcal{Z}\subseteq \mathcal{Y}$ given by
+\begin{equation*}
+    \mathcal{Z} = \{\lambda\in\mathcal{Y}:m_j(\lambda)\in M_j\text{ for all }j\geq 1\}
+\end{equation*}
+\begin{theorem}
+    \begin{equation*}
+        \Phi_{\mathcal{Z}}(x,y)=\sum_{\lambda\in\mathcal{Z}}x^{n(\lambda)}y^{k(\lambda)}=\prod_{j=1}^\infty\left(\sum_{m\in M_j}x^{jm}y^m\right)
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Let $\hat{\mathcal{Z}}=\{\underline{m}(\lambda):\lambda\in\mathcal{Z}\}$.
+    For $\ell\geq 1$, let $\mathcal{M}(\ell)=\{\rho\in\mathcal{M}:r_j=0\text{ if }j>\ell\}$.
+    Then $\bigcup_{\ell=1}^\infty\mathcal{M}(\ell)=\mathcal{M}$.
+    Consider partitions in $\hat{\mathcal{Z}}\cap\mathcal{M}(\ell)$ when $\ell$ is bigger than the greatest index $i$ such that $0\notin M_i$.
+    Then $\lambda\in \hat{\mathcal{Z}}\cap\mathcal{M}(\ell)$ if and only if $\underline{m}(\lambda)=\langle m_1,m_2,\ldots\rangle$ with $m_j\in M_j$ and $m_j=0$ if $j>\ell$.
+    Thus $\hat{\mathcal{Z}}\cap\mathcal{M}(\ell)\leftrightharpoons M_1\times\cdots\times M_\ell$.
+    Thus
+    \begin{align*}
+        \sum_{\substack{\lambda\in\mathcal{Z}\\\underline{m}(\lambda)\in\mathcal{M}(\ell)}}x^{n(\lambda)}y^{k(\lambda)} &= \sum_{\rho\in M_1\times\cdots\times M_\ell}x^{r_1+2r_2+\cdots+\ell r_\ell}y^{r_1+\cdots+r_\ell}\\
+                                                                                                                        &= \sum_{r\in M_1}x^ry^r\sum_{r\in M_2}x^{2r}y^r\cdots\sum_{j\in M_\ell}x^{\ell r}y^r\\
+                                                                                                                        &= \prod_{j=1}^\ell\left(\sum_{r\in M_j}x^{jr}y^r\right)
+    \end{align*}
+    Since $\mathcal{M}(1)\subseteq\mathcal{M}(2)\subseteq\cdots\subseteq\mathcal{M}$ and $\bigcup_{\ell=1}^\infty\mathcal{M}(\ell)=\mathcal{M}$, by taking limits,
+    \begin{align*}
+        \Phi_{\mathcal{Z}}(x,y) &= \lim_{\ell\to\infty}\Phi_{\hat{\mathcal{Z}}\cap\mathcal{M}(\ell)}(x,y)\\
+                                &= \lim_{\ell\to\infty}\prod_{j=1}^\infty\left(\sum_{r\in \mathcal{M}_j}x^{jr}y^r\right)\\
+                                &= \prod_{j=1}^\infty\left(\sum_{r\in M_j}x^{jr}y^r\right)
+    \end{align*}
+\end{proof}
+\begin{example}
+    Partitions with distinct parts $\mathcal{D}$.
+    Then $M_j=\{0,1\}$ for all $j\geq 1$.
+    Then $\phi_{\mathcal{D}}(x,y)=\prod_{j=1}^\infty(1+x^jy)$
+\end{example}
+\begin{example}
+    Partitions with only odd parts $\mathcal{O}$.
+    Then $M_j=\{0\}$ if $j=2i$ is even, and $M_j=\N$ if $j=2i+1$ is odd.
+    Then
+    \begin{equation*}
+        \Phi_{\mathcal{O}}(x,y)=\prod_{i=0}^\infty\left(\sum_{r\in\N}x^{(2i+1)r}y^r\right)=\prod_{i=0}^\infty\frac{1}{1-x^{2i+1}y}
+    \end{equation*}
+\end{example}
+Set $y=1$ in $\Phi_{\mathcal{D}}(x,y)$ and $\Phi_{\mathcal{O}}(x,y)$.
+Then
+\begin{align*}
+    \Phi_{\mathcal{D}}(x,1)&=\prod_{j=1}^\infty(1+x^j)=\prod_{j=1}^\infty\frac{(1+x^j)(1-x^j)}{(1-x)^j}\\
+                           &= \prod_{j=1}^\infty\frac{(1-x^{2j})}{(1-x^j)}\\
+                           &= \prod_{i=0}^\infty\frac{1}{1-x^{2i+1}}=\Phi_{\mathcal{O}}(x,1)
+\end{align*}
+We thus have a bijection $\mathcal{D}\leftrightharpoons\mathcal{O}$ where if $\lambda\leftrightarrow\mu$, then $n(\lambda)=n(\mu)$ (but in general, lengths are not preserved).
+\begin{example}
+    Let $\mathcal{A}$ denote the set of partitions in which each part occurs 0,1,4, or 5 times.
+    Then
+    \begin{align*}
+        \Phi_{\mathcal{A}}(x,1) &= \prod_{j=1}^\infty(1+x^j+x^{4j}+x^{5j})
+    \end{align*}
+    Let $\mathcal{B}$ denote the set of partitions with no parts congrudent to 2 mod 4, and parts divisible by 4 are distinct.
+    Then
+    \begin{equation*}
+        M_j = 
+        \begin{cases}
+            \N &:j\text{ odd}\\
+            \{0\} &: j\equiv 2\pmod{4}\\
+            \{0,1\} & : 4\div j
+        \end{cases}
+    \end{equation*}
+    So
+    \begin{equation*}
+        \Phi_{\mathcal{B}}(x)=\prod_{i=1}^\infty\left(\frac{1}{1-x^{2i-1}}\right)(1+x^{4i})
+    \end{equation*}
+    Now,
+    \begin{align*}
+        \Phi_{\mathcal{A}}(x) &= \prod_{j=1}^\infty(1+x^j+x^{4j}+x^{5j})\\
+                              &= \prod_{j=1}^\infty(1+x^j)(1+x^{4j})\\
+                              &= \prod_{j=1}^\infty(1+x^{4j})\frac{(1+x^j)(1-x^j)}{(1-x^j)}\\
+                              &= \prod_{j=1}^\infty(1+x^{4j})\left(\frac{1-x^{2j}}{1-x^j}\right)\\
+                              &= \prod_{j=1}^\infty\frac{(1+x^{4j}}{1-x^{2j-1}}=\Phi_{\mathcal{B}}(x)
+    \end{align*}
+\end{example}
 \end{document}
 
 
