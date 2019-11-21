@@ -1384,4 +1384,42 @@ Since the directed edges of $G$ form an Eulerian subgraph (we only add them in c
     But now we may inductively group the edges of $v$ into arbitrarily large groups consisting of distinct members.
 \end{proof}
 
+\begin{theorem}
+    Let $A\subseteq V(T)$, then $T$ has an $A-$pairing or a near-$A$-pairing.
+\end{theorem}
+\begin{proof}
+    We first show the finite case.
+    Fix some root vertex $v\in T$.
+    Then there exists an $A-$path $P[a_1,a_2]$ such that $A\setminus\{a_1,a_2\}$ is contained in some component of $T-E(P)$ which contains the root $v$.
+    To see this, simply choose $a_1,a_2$ so that the component containing $r$ contains the maximum number of vertices in $A$.
+
+    In general, given a path $P\subseteq T$, $E(T)\setminus E(P)$ is a disjoint union of trees.
+    Write $V(T)=\{v_1,v_2,\ldots\}$.
+
+    Step 1: suppose there exists some $v_i,v_j$ such that all vertices of $A\setminus\{v_i,v_j\}$ are in the same component of $T-E(P_1)$.
+    Repeat as long as possible using Zorn.
+    To make this precise, let $\mathcal{P}$ be a path-system pairing some vertices in $A$ such that all vertices in $A-\{\text{ends of }\mathcal{P}\}$.
+    Order the set of path-systems by inclusion; then some chain $\mathcal{C}$ has an upper bound given by taking unions, say, $\mathcal{P}^*$.
+    We must verify that the vertices not in $A$ lie in the same component.
+    Take some pair of vertices $u,v$ in $A$ not covered by the maximal $\mathcal{P}^*$.
+    If there is some path $Q$ connecting them, then $Q$ would be in $\mathcal{P}^*$.
+    If we are left with finitely many unpaired vertices in $A$ after step 1, we apply the finite proof with possibly 1 vertex leftover.
+
+    Step 2: Let $v_i$ be the smallest unpaired vertex after step 1.
+    Suppose we can pair $v_i$ with some $v_j$, and consider the path $Q$ connecting $v_i$ and $v_j$.
+    Then the remaining tree is divided into components such that for each component, there is either 1 vertex of $A$ or infinitely many vertices of $A$.
+    If there are finitely many vertices in $A$, then take a minimal path within that component, which would be a valid path in step 1, a contradiction.
+    Suppose there is some component which has 1 vertex $u$, and take the component with minimal distance from $v_i$.
+    Then connect $v_i$ with $u$ with some path $P$.
+    If the component of $T-P$ containing $v_j$ has finitely many components, we argue as before.
+    Otherwise, $v_j$ is alone; but then we may pair $v_j$ and $u$, contradicting the property from step 1.
+
+    We now have the following property: for any minimal unpaired $v_i$ and some $a\in A$, take a path $P$ from $v_i$ to $a$ such that each component has either no vertices in $A$ or infinitely many vertices in $A$.
+    We must verify that the infinite components have the property from step 1.
+    Suppose not; fix some component $C$, take some path $P$, and apply step 1.
+    Suppose there is some vertex $z$ in $C$ which is unpaired.
+    Then we can reconstruct the pairing such that, without loss of generality, $z$ has a path to $Q$ disjoint from the pairings.
+    But then if there are multiple components, we simply pair these extra vertices using paths through $P$.
+
+\end{proof}
 \end{document}

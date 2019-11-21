@@ -614,7 +614,7 @@ We denote
 \end{proposition}
 \begin{proof}
     \imp{i}{ii}
-    Obvious
+    By definition.
 
     \imp{ii}{iii}
     Note that
@@ -2902,7 +2902,7 @@ Notice that $T^*\in \mathcal{L}(Y',X')$.
     Then $\{0\}=\ker(T^*)$ in $Y^*$, so $Y=\{0\}_a=\ker(T^*)_a=\overline{\im T}$ and $T$ is bounded below provides $\im T=\overline{\im T}=Y$, so $\ker T=\{0\}$.
 \end{proof}
 \begin{remark}
-    Reasins why $T\in\mathcal{B}(X,Y)$ is not intervible: $\ker T\supsetneq\{0\}$, $\im T\subsetneq Y$, $T$ is not bounded below.
+    Reasons why $T\in\mathcal{B}(X,Y)$ is not intervible: $\ker T\supsetneq\{0\}$, $\im T\subsetneq Y$, $T$ is not bounded below.
 \end{remark}
 \begin{example}
     Let $T:\ell_p\to\ell_p$ be given by $T(x_n)_{n=1}^\infty=\left(\frac{1}{n}x_n\right)_{n=1}^\infty$, so $\norm{T}-1$.
@@ -3052,6 +3052,118 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     Let $p(x)\in\C[x]$ be an arbitrary irreducible polynomial with $p(x)=(x-r_1)\cdots(x-r_n)$ for some $r_i\in\overline{\C}$.
     Consider the operator $T:\C^n\to\C^n$ with diagonal $r_1,\ldots,r_n$ and hence characteristic polynomial $p(x)$.
     Then $\emptyset\neq\sigma(T)=\sigma_p(T)=\{x\in\C:p(x)=0\}$, so $p$ has some root in $\C$, so that $\deg p=1$.
+\end{proof}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item If $X$ is a (non-Hilbert) Banach space, then $\sigma(T^*)=\sigma(T)$.
+        \item If $H$ is a Hilbert space, $T\in\mathcal{B}(H)$, then $\sigma(T^*)=\{\overline{\lambda}:\lambda\in\sigma(T)\}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item $(\lambda I_X-T)^*=\lambda I_{X^*}-T^*$ and is invertible if and only if $\lambda I_X-T$ is invertible
+        \item Same.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    We define the \textbf{point spectrum} $\sigma_p(T)=\{\lambda\in\C:\ker(\lambda I-T)\neq\{0\}\}$, the \textbf{approximate point spectrum} $\sigma_{ap}(T)=\{\lambda\in\C:\lambda I-T\text{ is not bounded below}\}$, and the \textbf{compression spectrum} $\sigma_{com}(T)=\{\lambda\in\C:\overline{\im}(\lambda I-T)\subsetneq X\}$.
+\end{definition}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item $\sigma_p(T)\subseteq\sigma_{ap}(T)$.
+        \item We have $[\ran(\lambda I-T)]^a=\ker(\lambda I-T^*)$ by kernel-annhilator so $\overline{\im}(\lambda I-T)=\ker(\lambda I-T^*)$ by annhilator-preannhilator, so that $\sigma_{com}(T)=\sigma_p(T^*)$.
+    \end{enumerate}
+\end{remark}
+\begin{lemma}
+    If $(T_n)_{n=1}^\infty\subset\mathcal{G}(X)$ satisfies that
+    \begin{itemize}[nl]
+        \item $T=\lim_{n\to\infty}T_n$
+        \item $M=\sup_{n\in\N}\norm{T_n^{-1}}<\infty$
+    \end{itemize}
+    then $T\in\mathcal{G}(X)$.
+\end{lemma}
+\begin{proof}
+    Since $M>0$, for sufficiently large $n$, we have $\norm{T-T_n}\leq\frac{1}{M}\leq\frac{1}{\norm{T_n^{-1}}}$, so $T\in\mathcal{G}(X)$ by inversion theorem.
+\end{proof}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item $\partial\sigma(T)\subseteq\sigma_{ap}(T)$
+        \item $\sigma_{ap}(T)$ is closed
+    \end{enumerate}
+    Hence $\sigma_{ap}(T)$ is always a non-empty closed subset of $\C$.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $\lambda\in\partial\sigma(T)$, so there is $(\lambda_n)_{n=1}^\infty\subset\rho(T)=\C\setminus\sigma(T)$ such that $\lambda=\lim_{n\to\infty}\lambda_n$.
+            Then $\norm{(\lambda_nI-T)-(\lambda I-T)}=|\lambda_n-\lambda|\to 0$, but $\lambda I-T\notin\mathcal{G}(X)$, so by the lemma, $\sup_{n\in\N}\norm{(\lambda_nI-T)^{-1}}=\infty$.
+            Passing to a subsequence if necessary, we may suppose $\lim_{n\to\infty}\norm{(\lambda_n I-T)^{-1}}=\infty$.
+
+            For each index $n$, let $x_n\in S(X)$ so $\alpha_n=\norm{(\lambda_n I-T)^{-1}x_n}>\norm{(\lambda n-T)^{-1}}-\frac{1}{n}$ so $\lim_{n\to\infty}\alpha_n=\infty$.
+            Then $y_n=\frac{1}{\alpha_n}(\lambda_n I-T)^{-1}x_n$, so $y_n\in S(X)$ and
+            \begin{align*}
+                (\lambda I-T)y_n&=(\lambda_n I-T)y_n+(\lambda-\lambda_n)y_n\\
+                                &= \frac{1}{\alpha_n}x_n+(\lambda-\lambda_n)y_n\to 0
+            \end{align*}
+            so $\lambda I-T$ is not bounded below.
+        \item If $\lambda=\lim_{n\to\infty}\lambda_n$, each $\lambda_n\in\sigma_{ap}(T)$, for each $n$ find $x_n\in S(X)$ so $\norm{(\lambda_n I-T)x_n}<\frac{1}{n}$.
+            Then
+            \begin{align*}
+                \norm{(\lambda I-T)x_n} &\leq\norm{(\lambda_n I-T)x_n}+\norm{(\lambda-\lambda_n)x_n}<\frac{1}{n}+|\lambda-\lambda_n|\to 0
+            \end{align*}
+            so $\lambda I-T$ is not bounded below.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    Let $S\in B(\ell_p)$, $1<p<\infty$, where $S(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$, the \textit{unilateral shift} map.
+    It is immediate that $\norm{Sx}_p=\norm{x}_p$ for $x\in\ell_p$, so $\norm{S}=1$.
+    Recall that $\ell_p^*\cong\ell_q$ where $p,q$ are conjugate.
+    Define a bilinear form on $\ell_p\times\ell_q$ by $\langle x,y\rangle=\sum_{k=1}^\infty x_ky_k$.
+    We compute $\langle x,S^*y\rangle=\langle Sx,y\rangle=\sum_{k=1}^\infty x_ky_{k+1}=\langle x,(y_2,y_3,\ldots)\rangle$ so $S^*(y_1,y_2,\ldots)=(y_2,y_3,\ldots)$.
+    Recall that $\sigma_p(S)=\emptyset$.
+    However, if $\lambda\in\mathbb{D}$, let $y_\lambda=(1,\lambda,\lambda^2,\ldots)\in\ell_q$.
+    Then $S^*(y_\lambda)=\lambda\cdot y_\lambda$.
+    Hence $\sigma_p(S^*)\supseteq\mathbb{D}$.
+    Furthermore, if $\lambda\in\sigma_p(S^*)$ and $y\in\ker(\lambda I-S^*)$, then $\lambda^ny=(S^*)^n\to 0$ so $\lambda^n\to 0$, forcing $|\lambda|<1$.
+    Thus
+    \begin{equation*}
+        \mathbb{D}=\sigma_p(S^*)\subseteq\sigma(S^*)=\sigma(S)\subseteq\overline{D}
+    \end{equation*}
+    since $\norm{S}=1$, and since $\sigma(S)$ is compact, $\sigma(S)=\overline{D}$.
+
+    We know that $\sigma_{ap}(S)\supseteq\partial\sigma(S)=\mathbb{S}$.
+    If $\lambda\in\mathbb{D}$, then for $x\in\ell_p$, $\norm{(S-\lambda I)x}_p\geq\norm{Sx}_p-\norm{\lambda x}_p=(1-|\lambda|)\norm{x}_p$, so $S-\lambda I$ is bounded below.
+    Thus $\sigma_{ap}(S)\cap\mathbb{S}=\emptyset$, so $\sigma_{ap}(S)=\mathbb{S}$.
+    In conclusion,
+    \begin{align*}
+        \sigma(S)&=\mathbb{D} & \sigma_p(S)&=\emptyset\\
+        \sigma_{ap}(S)&=\mathbb{S}=\partial\sigma(S) & \sigma_{com}(S)&=\sigma_p(S^*)=\mathbb{D}\\
+        \sigma(S^*) &= \overline{\mathbb{D}} & \sigma_p(S^*)^=\mathbb{D}\\
+        \sigma_{ap}(S^*)&=\partial\sigma(S^*)\cup\sigma_p(S^*)=\overline{\mathbb{D}} & \sigma_{com}(S^*)=\emptyset
+    \end{align*}
+\end{example}
+\begin{remark}
+    Let $\sigma_p(T)$, $\sigma_{com}(T)$ may be empty, and if non-empty need not be closed.
+\end{remark}
+\begin{remark}
+    If $p=1$ and $S\in B(\ell_1)$ is the unilateral shift, as above, and $L\in\ell_\infty^*$ be a Banach limit.
+    Then
+    \begin{equation*}
+        S^{**}L=L\circ S^L
+    \end{equation*}
+    so $\sigma_p(S^{**})\ni 1$.
+    Thus $\sigma_{com}(S^*)=\sigma_p(S^{**})\neq\emptyset$.
+\end{remark}
+\begin{theorem}[Spectral Mapping]
+    Let $T\in \mathcal{B}(X)$, $p\in\C[x]$, then $\sigma(p(T))=p(\sigma(T))$.
+\end{theorem}
+\begin{proof}
+    We may assume that $p\neq 0$.
+    Let $\lambda_0\in\C$ and write $p(t)-\lambda_0=\alpha\prod_{k=1}^n(t-\lambda_k)$.
+    Then
+    \begin{equation*}
+        p(T)-\lambda_0 = \alpha\prod_{k=1}^n(T-\lambda_kI)
+    \end{equation*}
+    Thus $p(T)-\lambda_0I\notin\mathcal{G}(X)$ if and only some $T-\lambda_I\notin\mathcal{G}(X)$, so $\lambda_0\in\sigma(p(T))$ if and only if at least one $\lambda_k\in\sigma(T)$ if and only if $p(\lambda)-\lambda_0=0$ for some $\lambda\in\sigma(T)$, i.e. $\lambda_0=p(\lambda)\in p(\sigma(T))$.
 \end{proof}
 
 

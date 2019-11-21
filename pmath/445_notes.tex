@@ -1641,5 +1641,89 @@ We call the $\C[S_n]-$module $M^\lambda=\spn_{\C}\{[T_1],\ldots,[T_k]\}$ the \te
 
 Take $\lambda=(n)$.
 Then $M^\lambda=\spn_{\C}\{\}$.
+\begin{remark}
+    Let $\lambda\vdash n$, $M^\lambda$, with $[T]\in M^\lambda$.
+    Let $[U]\in M^\lambda$.
+    Then, there exists $\sigma\in S_n$ such that $\sigma T=U$, so $\sigma[T]=[U]$.
+    Thus $M^\lambda=\C[G][T]$ for any $\lambda-$tabloid $[T]$.
+\end{remark}
+\subsection{Specht Module}
+\begin{definition}
+    Let $\lambda\vdas n$, $T$ a $\lambda-$tableau.
+    Then the \textbf{row-stabilizer}
+    \begin{equation*}
+        R_T=\{\sigma\in S_n:\text{for all }i,j,(\sigma T)(i,j),T(i,j)\text{ are in the same row}\}
+    \end{equation*}
+    and likewise the \textbf{column-stabilizer}.
+    These are subgroups of $S_n$.
+\end{definition}
+\begin{remark}
+    $\sigma\in R_T$ if and only if $\sigma[T]=[\sigma T]=[T]$.
+\end{remark}
+Let $H\subseteq S_n$.
+Then $H^-=\sum_{\sigma\in H}\sgn(\sigma)\sigma\in\C[S_n]$.
+Define $K_T=C_T^-$.
+\begin{definition}
+    Let $T$ be a $\lambda-$tableau.
+    The \textbf{polytabloid} associated to $T$ is $e_T=K_T[T]\in M^\lambda$.
+\end{definition}
+\begin{example}
+    Consider $T=\begin{array}{|c|c|c|}\hline 4&1&3\\\hline 2&5\\\hline\end{array}$.
+    Then $C_T=\{(15),(24),(15)(24),\epsilon\}$, $K_T=\epsilon+(15)(24)-(15)-(24)$, $e_T=[T]+[(15)(24)T]-[(15)T]-[(24)T]$.
+\end{example}
+\begin{lemma}
+    Let $\lambda\vdash n$, $T$ a $\lambda-$tableau.
+    Let $\pi\in S_n$.
+    Then
+    \begin{enumerate}[nl]
+        \item $R_{\pi T}=\pi R_T\pi^P{-1}$
+        \item $C_{\pi T}=\pi C_T\pi^{-1}$
+        \item $K_{\pi T}=\pi K_T\pi^{-1}$
+        \item $e_{\pi T}=\pi e_T$
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item
+            \begin{align*}
+                \sigma\in R_{\pi T} &\iff \sigma[\pi T]=[\pi T]\\
+                                    &\iff \sigma\pi[T]=\pi[T]\\
+                                    &\iff \pi^{-1}\sigma\pi[T]=[T]\\
+                                    &\iff\pi^{-1}\sigma\pi\in R_T\\
+                                    &\iff\sigma\in\pi R_T\pi^{-1}
+            \end{align*}
+        \item Identical to (1)
+        \item
+            \begin{align*}
+                K_{\pi T}&=C_{\pi T}^{-1}=\sum_{\sigma\in C_{\pi T}}\sgn(\sigma)\sigma\\
+                         &= \sum_{\sigma\in C_T}\pi^{-1}\sgn(\sigma)\sigma=\sum_{\sigma\in C_T}\sgn(\pi\sigma\pi^{-1})\pi\sigma\pi^{-1}\\
+                         &= \pi\left(\sum_{\sigma\in C_T}\sgn(\sigma)\sigma\right)\pi^{-1}\\
+                         &= \pi K_T\pi^{-1}
+            \end{align*}
+        \item $e_{\pi T}=K_{\pi T}[\pi T]=\pi K_T\pi^{-1}\pi[T]=\pi K_T[T]=\pi e_T$
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    $\spn_{\C}\{e_T:T\quad\lambda\text{-tableau}\}$ is a $\C[S_n]-$submodule.
+\end{remark}
+\begin{definition}
+    Let $\lambda\vdash n$.
+    The submodule $S^\lambda=\spn_{\C}\{e_T:T\quad\lambda\text{-tableau}\}$ is called the \textbf{Specht module} associated to $\lambda$.
+\end{definition}
+\begin{example}
+    Let $\lambda=(n)$ and $T=\begin{array}{|c|c|c|c|c|}\hline 1&2&3&\cdots&n\\\hline\end{array}$.
+    Then $M^\lambda=\spn_{\C}\{[T]\}$, $C_T=\{\epsilon\}$, $K_T=1$.
+    Then $E_T=K_T[T]=[T]$, so if $U$ is a $\lambda-$tableau, $\pi T=U$ so $\pi e_T=e_{\pi T}e_U$ and $S^\lambda=M^\lambda$.
+\end{example}
+\begin{example}
+    $\lambda=(1,1,\ldots,1)\vdash n$, and $T$ a $\lambda-$tableau.
+    Then $C_T=S_n$, so $K_T=\sum_{\sigma\in S_n}\sgn(\sigma)\sigma$.
+    Then if $\pi\in S_n$,
+    \begin{align*}
+        e_{\pi T}&=\pi e_T=\sum_{\sigma\in S_n}\sgn(\sigma)\pi\sigma[T]\\
+                 &= \sum_{\tau\in S_n}\sgn(\pi^{-1}\tau)\tau[T]]\\
+                 &= \sgn(\pi)e_T
+    \end{align*}
+\end{example}
 
 \end{document}

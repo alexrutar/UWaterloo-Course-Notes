@@ -1652,11 +1652,80 @@ When $N\subseteq M$ and the inclusion map $\iota:N\hookrightarrow M$ is an immer
 \end{example}
 \begin{theorem}
     Let $M$ be a smooth orientable manifold and suppose $M$ has a finite positively oriented atlas with charts $\phi_i:U_i\subseteq M\to\phi_i(U_i)\subseteq\R^n$ for $0\leq i\leq m$ such that $\phi_j\setminus(U_j)\setminus\phi_j(U_i\cap U_0)$ has measure zero for all $j\neq 0$.
-    Then for a smooth compactly supported $n-$form $\omega\in\Omega^n(M)$,
-    \begin{align*}
-        \int_M\omega &= \int_{\phi_0(U_0)}(\phi_0^{-1})^*\omega\\
-                     &=\int_{\mathbb{S}^2}xdy\wedge dz+ydz\wedge dx+zdx\wedge dy
-    \end{align*}
+    Then
+    \begin{equation*}
+        \int_M\alpha = \int_{U_0}\alpha|_{U_0}=\int_{\phi_0(U_0)}(\phi_0^{-1})^*\alpha
+    \end{equation*}
 \end{theorem}
+\begin{proof}
+    Let $\rho_k:0\leq k\leq m$ be a partition of unity subordinate to the cover $\{U_k:0\leq k\leq m\}$.
+    Then
+    \begin{align*}
+        \int_M\alpha &= \sum_{k=0}^m\int_{\phi_k(U_k)}(\phi_k^{-1})^*\phi_k\alpha\\
+                     &= \sum_{k=0}^m\int_{\phi_k(U_k\cap U_0)}(\phi_k^{-1})^*(\phi_k\alpha)\\
+                     &= \sum_{k=0}^m\int_{\phi_k(U_k\cap U_0)}(\phi_{k,0}^{-1})^*(\rho_k\alpha)|_{U_k\cap U_0}\\
+                     &= \int_{U_0}\alpha|_{U_0}\\
+                     &= \int_{\phi_0(U_0)}(\phi_0^{-1})^*\alpha
+    \end{align*}
+    where $\phi_{k,0}$ is the restriction of $\phi_k$ to $U_k\cap U_0$.
+\end{proof}
+\begin{example}
+    Let $\alpha=x dy\wedge dz-ydx\wedge dz+zdx\wedge dy\in\Omega^2(\R^3)$.
+    Find $\int_{\mathbb{S}^2}\alpha=\int_{\mathbb{S}^2}\iota^*\alpha$, where $\iota:\mathbb{S}^2\to\R^3$ is the inclusion map.
+
+    Using spherical coordinates chart given by $(x,y,z)=\phi^{-1}(\psi,\theta)=(\sin\psi\cos\theta,\sin\psi\sin\theta,\cos\psi)$ for $\psi\in(0,\pi)$ and $\theta\in(0,2\pi)$.
+    We have
+    \begin{equation*}
+        D\phi^{-1}=
+        \begin{pmatrix}
+            \cos\psi\cos\theta &-\sin\psi\sin\theta\\
+            \cos\psi\sin\theta & \sin\psi\cos\theta\\
+            -\sin\psi & 0
+        \end{pmatrix}
+    \end{equation*}
+    Then
+    \begin{align*}
+        \int_{\mathbb{S}^2}\alpha &= \int_{(0,\pi)\times(0,2\pi)}(\phi^{-1})^*\alpha\\
+                                  &= \int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}
+        \sin\psi\cos\theta\det\begin{pmatrix}\cos\psi\sin\theta & \sin\psi\cos\theta\\-\sin\psi&0\end{pmatrix}
+        -\sin\psi\cos\theta\det\begin{pmatrix}\cos\psi\cos\theta &-\sin\psi\sin\theta\\-\sin\psi&0\end{pmatrix}
+        +\cos\psi\det\begin{pmatrix}\cos\psi\cos\theta & -\sin\psi\sin\theta\\\cos\psi\sin\theta & \sin\psi\cos\theta\end{pmatrix}d\psi d\theta\\
+                                                       &= \int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}(\sin^3\psi\cos^2\theta+\sin^3\psi\sin^2\theta+\sin\psi\cos^2\psi)d\psi d\theta\\
+                                                       &=\int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}\sin\psi d\psi d\theta\\
+                                                       &= 4\pi
+    \end{align*}
+\end{example}
+If $\alpha=x\dy\wedge dz+\cdots$, then
+\begin{align*}
+    dy&=\prt{y}{\psi}d\psi+\prt{y}{\theta}d\theta\cos\psi\sin\theta d\psi+\sin\psi\cos\theta d\theta\\
+    dz&=\prt{z}{\psi}d\psi+\prt{z}{\theta}d\ehta=-\sin\psi d\psi
+\end{align*}
+For the sphere, let $\sigma(\psi,\theta)=\phi^{-1}(\psi,\theta)$.
+Then
+\begin{align*}
+    A &= \int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}|\sigma_{\psi}\times\sigma_{\theta}|d\psi d\theta\\
+      &= \iint\sqrt{\sin^4\psi\cos^2\theta+\sin^4\psi\sin^2\theta+\sin^2\psi\cos^2\psi}d\psi d\theta\\
+      &= \int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}\sin\psi d\psi d\theta
+\end{align*}
+\begin{example}
+    Let $f:\mathbb{S}^2\to\mathbb{S}^2$ be given in spherical coordinates by $f(\psi,\theta)=(\psi,2\theta)$ (this really means $(\phi f \psi^{-1})(\psi,\theta)=(\psi,2\theta)$).
+    Find $\int_{\mathbb{S}^2}f^*\alpha$ where $\alpha$ is as above.
+
+    \begin{align*}
+        \int_{\mathbb{S}^2}f^*\alpha &= \int_{(0,\pi)\times(0,2\pi)}(\phi^{-1})^*f^*\iota^*\alpha\\
+                                     &= \int_{(0,\pi)\times(0,2\pi)}(\phi^{-1})^*f^*\phi^*(\phi^{-1})^*\alpha\\
+                                     &= \int_{(0,\pi)\times(0,2\pi)}(\phi f\phi^{-1})^*(\phi^{-1})^*\alpha\\
+                                     &= \int_{\psi=0}^\pi\int_{\theta=0}^{2\pi}\det\begin{pmatrix}1&0\\0&2\end{pmatrix}\sin\psi d\psi d\theta\\
+                                     &= 8\pi
+    \end{align*}
+    In fact, for any smooth map $f:\mathbb{S}^2\to\mathbb{S}^2$, $\frac{1}{4\pi}\int f^*\alpha\in\Z$.
+    We define the \textbf{degree} of $f$ to be this value.
+\end{example}
+\section{Manifolds with Boundary}
+\begin{definition}
+    An $n-$dimensional \textbf{topological manifold with boundary} is a Hausdorff, second-countable topological space $M$ such that for every point $p\in M$ has an open neighbourhood which is homeomorphic either to an open set in $\R^n$ or to an open set in $\H^n=\{x\in\R:x^n\geq 0\}$.
+\end{definition}
+Such a manifold with boundary can be given an atlas of charts $\phi_k:U_k\to\phi_k(U_k)$, $k\in K$, such that for each $k\in K$, either $\phi_k(U_k)\subseteq\R^n$ or $\phi_k(U_k)\subseteq\mathbb{H}^n$ with $\phi_k(U_k)\cap\partial\mathbb{H}^n=\emptyset$.
+
 \end{document}
 
