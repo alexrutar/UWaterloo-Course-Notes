@@ -1420,6 +1420,55 @@ Since the directed edges of $G$ form an Eulerian subgraph (we only add them in c
     Suppose there is some vertex $z$ in $C$ which is unpaired.
     Then we can reconstruct the pairing such that, without loss of generality, $z$ has a path to $Q$ disjoint from the pairings.
     But then if there are multiple components, we simply pair these extra vertices using paths through $P$.
-
 \end{proof}
+\begin{conjecture}
+    Let $G$ be $2-$edge-connected.
+    Then $G$ has a collection of cycles covering each edge between 1 and two times.
+\end{conjecture}
+For finite graphs, this is equivalent to having a collection of cycles covering each edge exactly twice.
+We know we can do this covering each edge at most 3 times.
+We proved this by showing that we could cover any such graph using 3 even graphs.
+\begin{proposition}
+    Let $G$ be $2-$edge-connected (and possibly infinite).
+    Then $G$ has a collection of cycles covering each edge between 1 and $\aleph_0$ times.
+\end{proposition}
+\begin{theorem}
+    Let $G$ be $2-$edge-connected and fix $v_0\in V(G)$.
+    Then $G$ has a collection $\mathcal{C}_n$ of cycles such that
+    \begin{enumerate}[nl,r]
+        \item $\mathcal{C}_0\subseteq\mathcal{C}_1\subseteq\cdots$ such that $\mathcal{C}_n$ covers each edge at most finitely many times and $G_n=\bigcup_{C\in\mathcal{C}_n}C$ is an induced subgraph.
+        \item $G_n$ contains all vertices of distance at most $n$ from $v_0$.
+        \item If we add an external matching $M$ to the vertex-boundary of $G_n$, then $G_n+M$ has a collection of cycles $\mathcal{C}_M$ covering each edge only finitely often and each edge in $M$ at least once.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Take $\mathcal{C}_0=\{C_0\}$, where $C_0$ is a shortest cycle containing $v_0$.
+    Then (i), (ii), and (iii) hold trivially.
+
+    Now suppose we have constructed $\mathcal{C}_{n-1}$, and let $B$ be the boundary of $G_{n-1}$.
+    Let $H$ be the set of neighbours of $G_{n-1}$.
+    We then construct the set of $H-$paths.
+    First given some $v\in H$ neighbour to some $N(v)\subseteq G_{n-1}$, take as many $w_1-v-w_2$ pairs of edges.
+    Remove these edges, and take a spanning tree $T$ containing the vertices in $H$ which have unpaired edges, let $A=N(G_{n-1})$, and apply the previous proposition to get edge-disjoint paths in $T$ connecting the vertices of $A$.
+    This is the set of $H-$paths.
+
+    Now consider all $H-$paths for all $H$, and by Zorn add maximally many disjoint cycles within the set of $H-$paths to $\mathcal{C}_n$.
+    The remaining edges in $H-$paths form a forest $F$.
+    Pair the edges of $F$; then, extending paths maximally, we get a matching in the boundary of $G_{n-1}$ so we may apply property (iii) to get a collection of cycles covering $\mathcal{G}_{n-1}$ and the matchings.
+
+    Now we must show that we can extend $\mathcal{C}_n$ so that $G_n$ is an induced subgraph (there may be many ``chord edges'').
+    Take maximally many edge-disjoint cycles consisting of chord edges and add them to $\mathcal{C}_n$.
+    What remains of the edges is a forest, which we can decompose into two pseudo-matchings (matchings with paths, not edges).
+    Extend these matchings to (possibly overlapping cycles, but only finitely mant times) reach the neighbourhod of $G_{n-1}$.
+    Apply the same argument as before, take maximally many edge-disjoint cycles by Zorn, apply condition (iii) to the remaining forest of path pairings, and add these paths back.
+
+    Note that the same proof technique shows that condition (iii) holds in $G_n$.
+\end{proof}
+Let $A,B$ be components separated by a non-empty cut $D$.
+We say that $E\subseteq E(G)$ if $G$ has a component $G'$ such that $G'-E$ is disconnected.
+If $D$ is a cut, then $D$ is separating; the converse is not true (e.g. all the edges in a triangle).
+Note that every separating set contains a cut.
+Thus, $D$ is a minimal cut if and only if $D$ is a minimal separating set.
+Every cut can be decomposed into a disjoint union of minimal cuts.
+But then every separating set contains a cut, which contains a minimal cut, which is a minimal separating set.
 \end{document}

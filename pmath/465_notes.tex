@@ -1725,7 +1725,13 @@ Then
 \begin{definition}
     An $n-$dimensional \textbf{topological manifold with boundary} is a Hausdorff, second-countable topological space $M$ such that for every point $p\in M$ has an open neighbourhood which is homeomorphic either to an open set in $\R^n$ or to an open set in $\H^n=\{x\in\R:x^n\geq 0\}$.
 \end{definition}
-Such a manifold with boundary can be given an atlas of charts $\phi_k:U_k\to\phi_k(U_k)$, $k\in K$, such that for each $k\in K$, either $\phi_k(U_k)\subseteq\R^n$ or $\phi_k(U_k)\subseteq\mathbb{H}^n$ with $\phi_k(U_k)\cap\partial\mathbb{H}^n=\emptyset$.
+Such a manifold with boundary can be given an atlas of charts $\phi_k:U_k\to\phi_k(U_k)$, $k\in K$, such that for each $k\in K$, either $\phi_k(U_k)\subseteq\R^n$ or $\phi_k(U_k)\subseteq\mathbb{H}^n$ with $\phi_k(U_k)\cap\partial\mathbb{H}^n\neq\emptyset$.
+We say that $M$ is \textbf{smooth} when it has such an atlas for which the transition maps
+\begin{equation*}
+    \phi_\ell\circ\phi_k^{-1}:\phi_k(U_k\cap U_\ell)\to\psi(U_k\cap U_\ell)
+\end{equation*}
+are all \textbf{smooth} where for $A\subseteq\R^n$, we say $g:A\to\R^m$ is smooth when $g$ extends to a smooth map $g:U\to\R^m$ where $U$ is open with $A\subseteq U$.
+A \textbf{boundary point} of such a smoth manifold $M$ with boundary is a point $p\in M$ for which there is a chart $\phi$ which sends $p$ to $\partial\mathbb{H}^n$.
 
 \end{document}
 

@@ -3165,6 +3165,98 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     \end{equation*}
     Thus $p(T)-\lambda_0I\notin\mathcal{G}(X)$ if and only some $T-\lambda_I\notin\mathcal{G}(X)$, so $\lambda_0\in\sigma(p(T))$ if and only if at least one $\lambda_k\in\sigma(T)$ if and only if $p(\lambda)-\lambda_0=0$ for some $\lambda\in\sigma(T)$, i.e. $\lambda_0=p(\lambda)\in p(\sigma(T))$.
 \end{proof}
+\begin{theorem}[Spectral Radius Formula]
+    If $T\in\mathcal{B}(X)$, let $r(T)=\sup\{|\lambda|:\lambda\in\sigma(T)\}$.
+    Then $r(T)=\lim_{n\to\infty}\norm{T^n}^{1/n}$.
+\end{theorem}
+\begin{proof}
+    By the spectral mapping theorem, $r(T^n)=r(T)^n$.
+    Moreover, $r(T^n)\leq\norm{T^n}$ since $\sigma(T^n_\subseteq\norm{T^n}\overline{\mathbb{D}}$.
+    Thus $r(T)=r(T^n)^{1/n}\leq\norm{T^n}^{1/n}$ so that $r(T)\leq\liminf_{n\to\infty}\norm{T^n}^{1/n}$.
+
+    Now, let $f\in\mathcal{B}(X)^*$.
+    We recall that for $|z|>\norm{T}$,
+    \begin{align*}
+        R(z)&=(zI-T)^{-1}=\frac{1}{z}(I-\frac{1}{z}T)^{-1}=\frac{1}{z}\sum_{k=0}^\infty\frac{1}{z^k}T^k\\
+            &= \sum_{k=1}^\infty\frac{1}{z^k}T^{k-1}.
+    \end{align*}
+    Thus the Holomorphic funciton $F_f=f\circ R:\rho(T)=\C\setminus\sigma(T)\to\C$ satisfies $F_f(z)=\sum_{k=1}^\infty f(T^{k-1})\frac{1}{z^k}$.
+    From $\C-$analysis, the holomorphic function admits a Laurent series for all $z$ with $|z|>r(T)$, and by uniqueness of Laurent series, $F_f(z)=\sum_{n=1}^\infty f(T^{k-1})\frac{1}{z^k}$ for $|z|>r(T)$.
+    Hence if $|z_0|>r(T)$, we have that $\left\{f\left(\frac{1}{z_0^k}T^k\right)\right\}_{k=1}^\infty$ is bounded in $\C$.
+    Doing this for any $f\in\mathcal{B}(X)^*$, we may apply Banach-Steinhaus to see that $\left\{\frac{1}{z_0}^kT^k\right\}_{k=1}^\infty$ is bounded in $\mathcal{B}(X)$, so
+    \begin{equation*}
+        \sup_{n\in\N}\norm{\frac{1}{z_0^n}T^n}\leq M<\infty
+    \end{equation*}
+    Then $\norm{T^n}\leq M|z_0|^n$ so  $\norm{T^n}^{1/n}\leq M^{1/n}|z_0|$, so that
+    \begin{equation*}
+        \limsup_{n\to\infty}\norm{T^n}^{1/n}\leq|z_0|.
+    \end{equation*}
+    This applies for any $|z_0|>r(T)$, so the result follows.
+\end{proof}
+\section{Compact Operators}
+\begin{definition}
+    Let $X,Y$ be Banach spaces over $\F$.
+    A linear opeartor $K:X\to Y$ is called \textbf{compact} if $\overline{K(B(X))}$ is compact in $Y$.
+    We let
+    \begin{equation*}
+        \mathcal{K}(X,Y)=\{K\in\mathcal{L}(X,Y):K\text{ is compact}\}.
+    \end{equation*}
+    Since compact sets in $Y$ are bounded, we immediately see that $K(X,Y)\subseteq\mathcal{B}(X,Y)$.
+\end{definition}
+\begin{proposition}
+    Let $X,Y$ be Banach spaces.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\mathcal{K}(X,Y)$ is a closed subspace of $\mathcal{B}(X,Y)$, and
+        \item If $W,Z$ are also Banach spaces, $S\in\mathcal{B}(Y,Z)$, $T\in\mathcal{B}(W,X)$, $K\in\mathcal{K}(X,Y)$, then $SKT\in\mathcal{K}(W,Z)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $K,L\in\mathcal{K}(X,Y)$, $\alpha\in\F$, and $(x_n)_{n=1}^\infty\subset B(X)$.
+            Then $\overline{K(B(X))}\times\overline{L(B(X))}$ is compact in $Y\times Y\cong Y\oplus_1 Y$, so we have converging
+            \begin{equation*}
+                \left(\left(Kx_{n_j},Lx_{n_j}\right)\right)_{j=1}^\infty\subset\overline{K(B(X))}\times\overline{L(B(X))}
+            \end{equation*}
+            Now, $(K+\alpha L)(x_{n_j})=Kx_{n_j}+\alpha Lx_{n_j}\to y+\alpha y'$, so $((K+\alpha L)x_n)_{n=1}^\infty$ admits a converging subsequence in $Y$.
+            
+            Now let $K\in\overline{\mathcal{K}(X,Y)}\subseteq\mathcal{B}(X,Y)$, so $K=\lim_{n\to\infty}K_n$ with each $K_n\in\mathcal{K}(X,Y)$.
+            Let $\epsilon>0$.
+            Let $n_0\in\N$ be so $n\geq n_0$ implies $\norm{K-K_n}<\epsilon/3$.
+            Since $K_{n_0}$ is compact, there are $\{x_1,\ldots,x_m\}\subset B(X)$ such that
+            \begin{equation*}
+                K_{n_0}(B(X))\subseteq\bigcup_{j=1}^m(K_{n_0}x_j+\frac{\epsilon}{3}B(Y))
+            \end{equation*}
+            Then for $x\in B(X)$, find $x_j$ so $K_{n_0}x\in K_{n_0}x_j+\frac{\epsilon}{3}B(X)$ and hence
+            \begin{align*}
+                \norm{Kx-Kx_j}&\leq\norm{Kx-K_{n_0}x}+\norm{K_{n_0}x-K_{n_0}x_j}+\norm{K_{n_0}x_j-Kx_j}\\
+                              &\leq \norm{K-K_0}\norm{x}+\frac{\epsilon}{3}+\norm{K-K_{n_0}}\norm{x_j}<\epslion
+            \end{align*}
+            and we see that $K(B(X))\subseteq\bigcup_{j=1}^m(Kx+\epsilon B(Y))$, and hence is totally bounded.
+        \item We have
+            \begin{align*}
+                \overline{SKT(B(W))}&\subseteq\overline{SK(\norm{T}B(X))}=\norm{T}\overline{SK(B(X))}\\
+                                    &=\norm{T}\overline{S(K(B(X)))}\subseteq\norm{T}\overline{S(\overline{K(B(X))})}=\norm{T}S(\overline{K(B(X))})
+            \end{align*}
+            is a continuous image of a compact set and hence compact.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Given Banach spaces $X,Y$, let $\mathcal{F}(X,Y)=\{F\in\mathcal{B}(X,Y):\rank F<\infty\}$.
+            Note that $\rank F=\dim(\im F)$.
+            If $F\in\mathcal{F}(X,Y)$, then $F(B(X))\subseteq\norm{F}B(\im F)$ is subset of a compact set, so $F$ is compact.
+            Thus $\overline{\mathcal{F}(X,Y)}\subseteq\mathcal{K}(X,Y)$.
+        \item Also $W,Z$ Banach spaces, $S\in\mathcal{B}(Y,Z)$, $T\in\mathcal{B}(W,Z)$, then $SFT\in\mathcal{F}(W,Z)$ for $F\in\mathcal{F}(X,Y)$.
+        \item Let $I=[0,1]$ and $k\in C(I^2)$.
+            Then for $f\in C(I)$, $x\in I$, define
+            \begin{equation*}
+                Kf(x)=\int_0^1k(x,y)f(y)dy
+            \end{equation*}
+            This defines a compact operator in $\mathcal{K}(C(I),C(I))$.
+    \end{enumerate}
+\end{example}
+
 
 
 \end{document}

@@ -242,6 +242,7 @@
 \DeclareMathOperator{\Free}{Free}
 \DeclareMathOperator{\Ind}{Ind}
 \DeclareMathOperator{\Tr}{Tr}
+\usepackage{youngtab}
 
 
 % constants --------------------------------------------------------------------
@@ -1545,7 +1546,7 @@ Let $\rho:H\to\GL(V)$ be a representation: then we obtain two representations of
     \end{enumerate}
 \end{theorem}
 \begin{corollary}
-    Let $H\triangleleftleq G$, $\rho:H\to\GL(V)$.
+    Let $H\trianglelefteq G$, $\rho:H\to\GL(V)$.
     Then $\Ind_H^G(\rho)$ is irreducible if and only if $\rho$ is irreducible and for all $g\in G\setminus H$, $\rho^g$ is disjoint from $\rho$.
 \end{corollary}
 To approach this theorem, we need some additional group theory.
@@ -1563,7 +1564,7 @@ Thus,
     Take $H=\{\epsilon,(12)\}\leq S_3$.
     Then $H(123)H=\{(13),(23),(123),(132)\}$ and $H\epsilon H=H\{\epsilon,(12)\}$.
 \end{example}
-Now let $H\triangleleftleq G$ with cosets $g_1H,\ldots,g_mH$.
+Now let $H\trianglelefteq G$ with cosets $g_1H,\ldots,g_mH$.
 Consider $Hg_1H,\ldots,Hg_mH$.
 Then $g_iH\subseteq Hg_iH$ by normality, so $Hg_iH=g_iH$.
 \begin{proposition}
@@ -1596,7 +1597,7 @@ We can now prove Mackey's theorem
     We have
     \begin{align*}
         \left\langle\Ind_H^G(\chi_\rho),\Ind_H^G(\chi_\rho)\right\rangle &= \left\langle\chi_\rho,\Res_G^H\Ind_H^G(\chi_p)\right\rangle\\
-                                                                         &= \left\langle\chi_\rho,\sum_{s\in S}\Ind_{H_s}^H(\chi_{\rho^s})\\
+                                                                         &= \left\langle\chi_\rho,\sum_{s\in S}\Ind_{H_s}^H(\chi_{\rho^s})\right\rangle\\
                                                                          &= \sum_{s\in S}\left\langle\chi_\rho,\Ind_{H_s}^H(\chi_{\rho^s})\right\rangle\\
                                                                          &= \sum_{s\in S}\underbrace{\left\langle \Res_H^{H_s}(\chi_\rho),\chi_{\rho^s}\right\rangle}_{d_s}\\
                                                                          &= d_1+\sum_{s\in S,s\neq 1}d_s\\
@@ -1616,7 +1617,7 @@ We can now prove Mackey's theorem
     Moreover, since $H\trianglelefteq G$ and $\deg(\rho)=1$, we must show that $\rho\neq\rho^g$ for all $g\in G\setminus H$.
     Indeed, $\rho^{sr^i}(r)=\rho((sr^i)^{-1}rsr^i)=\rho(r^{-1})=\zeta_5^4$.
 \end{example}
-\section{Representation Theory of $S_n$}
+\section{Representation Theory of \texorpdfstring{$S_n$}{Sn}}
 \begin{definition}
     A \textbf{partition} $\lambda$ of $n\in\N$ is a sequence $\lambda_1\geq\cdots\geq\lambda_k$ such that $\sum_{i=1}^k\lambda_i=n$.
     We write $\lambda\vdash n$.
@@ -1725,5 +1726,50 @@ Define $K_T=C_T^-$.
                  &= \sgn(\pi)e_T
     \end{align*}
 \end{example}
+\begin{example}
+    Consider $\lambda=(n-1,1)\vdash n$, and $T=\begin{array}{|c|c|c|c|}\hline i&*&*&*\\\hline j\\\hline\end{array}$.
+    Set $v_j:=[T]$.
+    Then $C_T=\{\epsilon,(ij)\}$, $K_T=\epsilon-(ij)$,
+    \begin{equation*}
+        e_T = (\epsilon-(ij)][T]=(\epsilon-(ij))vj=v_j-v_i
+    \end{equation*}
+    so that $S^\lambda=\spn_{\C}\{v_i-v_j:1\leq i<j\leq n\}$, which has basis $\{v_1-v_2,v_1-v_3,\ldots,v_1-v_n\}$ and $\dim_{\C} S^\lambda=n-1$.
+\end{example}
+\begin{lemma}
+    Let $H\leq S_n$.
+    \begin{enumerate}[nl]
+        \item If $\pi\in H$, then $\pi H^-=H^-\pi=\sgn(\pi)H^-$
+        \item If $u,v\in M^\lambda$, then $\langle H^-u,v\rangle=\langle u,H^-v\rangle$.
+        \item If the transposition $(bc)\in H$, then $H^-=x(\epsilon-(bc))$ for some $x\in\C[S_n]$.
+        \item Let $\lambda\vdash n$ and $T$ is a $\lambda-$tableau.
+            If $b,c$ are in the same row of $T$ and $(bc)\in H$, then $H^-[T]=0$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item Direct computation
+        \item $\delta_{[T],[U}=\delta_{[\pi T],[\pi U]}$, and moreover $\langle [T],[U]]=\langle \pi[T],\pi[U]\rangle$, so that
+            \begin{align*}
+                \langle H^-u,v\rangle &= \sum_{\pi\in H}\langle\sgn(\pi)\pi u,v\rangle\\
+                                      &= \sum_{\pi\in H}\langle\pi u,\sgn(\pi)v\rangle\\
+                                      &= \sum_{\pi\in H}\langle u,\sgn(\pi^{-1})\pi^{-1}v\rangle\\
+                                      &= \langle u,H^-v\rangle
+            \end{align*}
+        \item Let $(bc)\in H$ so that $K=\{\epsilon,(bc)\}\leq H$.
+            Say $S$ is a set of coset reps of $K$ in $H$.
+            Then
+            \begin{equation*}
+                \left(\sum_{\tau\in S}\sgn(\tau)tau\right)(\epsilon-(bc))=H^-
+            \end{equation*}
+        \item Since $(bc)\in H$, $H^-=x(\epsilon-(bc))$.
+            Then $H^-[T]=x(\epsilon-bc)[T]=x([T]-[(bc)T])=0$ since $[(bc)T]=[T]$ because $b,c$ are in the same row.
+    \end{enumerate}
+\end{proof}
 
+Final Exam
+\begin{enumerate}[nl]
+    \item True/False - 10 qs
+    \item Assignment questions (questions 2 through 5)
+    \item Frobenius reciprocity / Mackey irreducibility
+\end{enumerate}
 \end{document}
