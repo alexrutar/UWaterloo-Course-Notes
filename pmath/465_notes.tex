@@ -1799,6 +1799,63 @@ Moreover, for $\alpha\in\Omega^k(M)$ and $\beta\in\Omega^\ell(M)$
 \end{equation*}
 the wedge product is well-defined on cohomology space $\Omega:H^k(M)\times H^\ell(M)\to H^{k+\ell}(M)$.
 We define $H(M)=\bigcup_{k=0}^n H^k(M)$ and this is a so-called \textbf{graded algebra}.
+
+The elements in $\ker d_k$ are called \textbf{closed} $k-$oforms, and the elements in $\im d_{k-1}$ are called \textbf{exact} $k-$forms.
+We can calculate $H^0*M)$ given $f\in\Omega^0(M)=C^\infty(M)$.
+If we choose a chart $\phi$, we can write $df(p)=\sum_{i=1}^n\prt{(f\circ\phi^{-1})}{x^i}\phi(p)dx^i$, so $df=0$ when $\prt{f\circ\phi^{-1}}{x}=0$ everywhere, which happens when $f$ is locally constant.
+We thus have $0\fto{d_{-1}=0} \Omega^0(M)\fto{d_0}\Omega^1\lto$, so
+\begin{equation*}
+    H^0(M) &= \ker d_0=\{f:M\to\R:df=0\}\\
+           &= \{\text{locally constant funtions }f:M\to\R\}\\
+           &\cong\R^m
+\end{equation*}
+when $M$ has $m$ connected components.
+\begin{theorem}[Poincaré's Lemma]
+    Let $\pi:\R^{n+1}\to\R^n$ and $\iota:\R^n\to\R^{n+1}$ be the projection and inclusion maps on the last index.
+    Then $\pi^*:H^k(\R^n)\to H^k(\R^{n+1})$ and $\iota^*:H^k(\R^{n+1})\to H^k(\R^n)$ are inverses.
+    It follows that
+    \begin{equation*}
+        H^k(\R^n)\cong
+        \begin{cases}
+            \R &: k=0\\
+            0 &: k\neq 0
+        \end{cases}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Note that $\pi\circ\iota=I:\R^n\to\R^n$, so $\iota^*\circ\pi^*=I:\Omega^k(\R^n)\to\Omega^k(\R^n)$, and thus $\iota^*\circ\pi^*=I:H^k(\R^n)\to H^k(\R^n)$.
+    It remains to prove that $\pi^*\circ\iota^*=I:H^k(\R^{n+1})\to H^k(\R^{n+1})$.
+    We do this by constructing a map $h:\Omega^{k+1}(\R^{n+1})\to\Omega^k(\R^{n+1})$ such that $\pm dh\pm hd=\pi^*\circ\iota^*-I$ (such a map is called a \textbf{homotopy operator}).
+    Then if $\alpha\in\Omega^{k+1}(\R^{n+1})$ with $d\alpha=0$ then $(\pm dh\pm hd)\alpha=\pm dh\alpha\in\im d$, so $\pi dh\pi hd=0$ as a map $H^k(\R^{n+1})\to H^k(\R^{n+1})$.
+
+    Check that when
+    \begin{equation*}
+        \omega=\sum_Ja_J(x,y)dx^J=\sum_{J,j_k=n+1}a_J(x,y)dx^I\wedge dy +\sum_{J,j_k\leq n}a_J(x,y) dx^I
+    \end{equation*}
+    we have
+    \begin{align*}
+        \pi^*\omega&=\sum_Ja_Jdx^J &\iota^*\omega &= \sum_{J,j_k\leq n}a_J(x,a)dx^J.
+    \end{align*}
+    Now, for $\omega\in\Omega^{k}(\R^{n+1})$, define
+    \begin{equation*}
+        h(\omega)=\sum_{J=(I,n+1)}\left(\int_a^ya_J(x,t)dt\right) dx^I.
+    \end{equation*}
+    Then for $\omega\in\Omega^k(\R^{n+1})$ as above,
+    \begin{align*}
+        dh\omega &= d\sum_{J=(I,n+1)}\left(\int_0^y a_J(x,t)dt\right)dx^I\\
+                 &= \sum_{J=(I,n+1)}\sum_{i=1}^n\left(\int_a^y\prt{a_J}{x^i}(x,y)dt\right) dx^i\wedge dx^I+(-1)^{k-1}\sum_{J=(I,n+1)}a_I(x,y)dx^I\wedge dy
+    \end{align*}
+    and
+    \begin{align*}
+        hd\omega &= h\left(\sum_{J=(I,n+1)}\sum_{i=1}^n \prt{a_J}{x^i}(x,y) dx^i\wedge dx^I\wedge dy\\
+                 &\agspace+\sum_{J,j_k\leq n}\prt{a_J}{x^i}(x,y)dx^i\wedge dx^J+(-1)^k\sum_{J,j_k\leq n+1}\prt{a_J}{y}(x,y) dx^J\wedge dy\right)\\
+                 &= \sum_{J=(I,n+1)}\sum_{i=1}^n\left(\int_a^y\prt{a_I}{x^i}(x,y)dt\right)dx^i\wedge dx^I+(-1)^k\sum_{J,j_k\leq n}(a_J(x,y)-a_J(x,a))dx^J
+    \end{align*}
+    On the other hand,
+    \begin{align*}
+        \pi^*\circ\iota^*-I = \sum_{J=(I,n+1)}a_I(x,a)dx^I-\sum_{J}a_J(x,y)dx^J
+    \end{align*}
+\end{proof}
 \end{document}
 
 

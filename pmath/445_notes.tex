@@ -1825,6 +1825,65 @@ Define $K_T=C_T^-$.
             \end{equation*}
     \end{enumerate}
 \end{proof}
+\begin{proposition}
+    Suppose $0\neq\theta\in\Hom_{\C[S_n]}(S^\lambda,M^\mu)$.
+    Then $\lambda\tranglerighteq \mu$.
+    If $\lambda=\mu$, then $\theta$ is multiplication by a scalar.
+\end{proposition}
+\begin{proof}
+    It suffices to find a $\lambda-$tabluea $T$ and a $\mu-$tableau $S$ such that $K_T[S]\neq 0$.
+    Observe that $M^\lambda=S^\lambda\oplus(S^\lambda)^\perp$ as vector spaces.
+    Moreover, for $x\in (S^\lambda)^\perp$, $T$ a $\lambda-$tableau, and $\pi\in S_n$,
+    \begin{equation*}
+        \langle \pi x,e_T\rangle=\langle \pi\pi^{-1}x,\pi^{-1}e_T\rangle=\langle x,e_{\pi^{-1}T}\rangle=0
+    \end{equation*}
+    so that $(S^\lambda)^\perp$ is a submodule.
+    We can extend $\theta$ to $\theta\in\Hom_{\C[S_n]}(M^\lambda,M^\mu)$ by setting $\theta((S^\lambda)^\perp)=0$.
+    Since $\theta\neq 0$, there exists a $\lambda-$tableau $T$ such that $\theta(e_T)\neq 0$.
+    Say $\theta(e_T)=\sum c_i[S_i]$ where each $S_i$ has shape $\mu$.
+    Now,
+    \begin{align*}
+        0\neq\theta(e_T)&=\theta(K_T[T])=K_T\theta([T])\\
+                        &= \sum c_i K_T[S_i]
+    \end{align*}
+    so there exists some $i$ such that $K_T[S_i]\neq 0$.
+    Thus $\lambda\trianglerighteq\mu$.
+
+    Now suppose $\lambda=\mu$.
+    Then
+    \begin{equation*}
+        \theta(e_T) = K_T\theta([T])=\sum c_iK_T[S_i]=\sum c_if_ie_T=\alpha e_T
+    \end{equation*}
+    where $\alpha=\sum c_if_j$.
+    Thus for $\pi\in S_n$, $\theta(e_{\pi T})=\theta(\pi e_T)=\pi\theta(e_T)=\pi\alpha e_T=\alpha e_{\pi T}$.
+\end{proof}
+\begin{theorem}
+    The specht modules are all the irreducible $\C[S_n]-$modules up to isomorphism.
+\end{theorem}
+\begin{proof}
+    It suffices to show that $S^\lambda\ncong S^\mu$ for $\mu\neq\lambda$.
+    Suppose $S^\lambda\cong S^\mu$.
+    The isomorphism between $S^\lambda$ and $S^\mu$ gives nonzero $\theta_1\in\Hom(S^\lambda,M^\mu)$ and $\theta_2\in\Hom(S^\mu,M^\lambda)$.
+    Thus $\lambda\trianglerighteq\mu$ and $\mu\trianglerighteq\lamda$, so $\lambda=\mu$.
+\end{proof}
+\begin{definition}
+    A young tableau is \textbf{standard} if its entries are increasing along rows and down columns.
+\end{definition}
+\begin{theorem}
+    A basis for $S^\lambda$ over $\C$ is $\{e_T:T\text{ standard $\lambda-$tableau}\}$.
+\end{theorem}
+\begin{definition}
+    Let $T$ be a Young diagram.
+    The \textbf{hook length} of the $i,j$ entry of $T$ is $h_{ij}$, which is the sum of all the blocks to the right and below $ij$ plus 1.
+\end{definition}
+\begin{theorem}[Hook-length Formula]
+    The number of standard $\lambda-$tableau is $\frac{n!}{\prod_{i,j}h_{ij}}$.
+\end{theorem}
+In particular, $\dim_{\C}S^\lambda=\frac{n!}{\prod_{i,j}h_{ij}}$.
+\begin{example}
+    Take $\lambda=(3,2)\vdash 5$.
+    Then $\dim S^\lambda=\frac{5!}{4\cdot 3\cdot 2}=5$.
+\end{example}
 
 Final Exam
 \begin{enumerate}[nl]

@@ -3357,6 +3357,68 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     \end{equation*}
     so that $(Kx_j)_{j=1}^\infty$ admits no Cauchy sequence, a contradiction.
 \end{proof}
+\begin{remark}
+    If $T\in\mathcal{B}(X)$, $\{\lambda_1,\ldots,\lambda_n\}\subseteq\sigma_p(T)$ distinct.
+    Then $\{\ker(\lambda_iI-T)\}_{i=1}^n$ is a linearly independent sequence of subspace.
+    This is true for $n=1$, so suppose it holds for $n-1$.
+    Let $x_j\in\ker(\lambda_iI-T)\setminus\{0\}$ for each $1\leq j\leq n$, and suppose $\alpha_1,\ldots,\alpha_n\in\C$ satisfy $0=\alpha_1x_1+\cdots+\alpha_nx_n$.
+    Suppose $\alpha_{j_0}\neq 0$.
+    Write $x_{j_0}=\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'x_j$ where $\alpha_j'=\alpha_j/\alpha_{j_0}$.
+    Then
+    \begin{equation*}
+        \sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'\lambda_{j_0}x_{j_0}=\lambda_{j_0}x_{j_0}=Tx_{j_0}=\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'\lambda_j x_j
+    \end{equation*}
+    so that $0\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'(\lambda_j-\lamdba_{j_0})x_j$, a contradiction.
+\end{remark}
+\begin{theorem}[Spectral Theorem for Compact Operators]
+    Let $X$ be an infinite dimensional $\C-$Banach space and $K\in\mathcal{K}(X)$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\lambda\in\C\setminus\{0\}$, then each ``generalized eigenspace'' $\ker[(\lambda I-K)^n]$ is finite dimensional.
+            Furthermore, there is $n_\lambda\in\N$ such that $\ker[(\lambda I-K)^n]=\ker[(\lambda I-K)^{n_\lambda}]$ for $n\geq n_\lambda$.
+        \item $\sigma(K)=\sigma_p(K)\cup\{0\}$, where $\sigma_p(K)=\{\lambda_1,\lambda_2,\ldots\}$ with $\lim_{n\to\infty}\lambda_n=0$ if infinite.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We have $\ker(\lambda I-K)\subseteq\ker[(\lambda I-k)^2]\subseteq\cdots$.
+            If $n_\lambda$ as above does not exist, let $n_1=1$ and $n_{k+1}=\min\{n:\ker[(\lambda I-K)^{n_k}]\}\subsetneq\ker[(\lambda I-K)^n]$, and set $Y_0=\{0\}$ and $Y_k=\ker[(\lambda I-K)^{n_k}]$.
+            Then $Y_0\subsetneq T_1\subsetneq\cdots$ and $(\lambda I-K)Y_k\subseteq Y_{k-1}$.
+            But the preceding lemma implies that $\lim_{n\to\infty}\lambda =0$, a contradiction.
+
+            Now suppose $\dim\ker[(\lambda I-K)^n]=\infty$ for some $n=n_\lambda$.
+            Then let $k\in\N$ be so $Y_k$ is infinite dimensional, while $Y_{k-1}$ is finite dimensional.
+            Thus we can find a linearly independent $\{x_j\}_{j=1}^\infty\subset Y_k\setminus Y_{k-1}$.
+            We let $V_0=Y_{k-1}$ and $V_n=\overline{\spn}\{V_0,x_1,\ldots,x_n\}$ for each $N\in\N$.
+            Then $V_0\subsetneq V_1\subsetneq\cdots$ and $(\lambda I-K)V_n\subseteq(\lambda I-K)Y_k\subseteq Y_{k-1}=V_0\subseteq V_{n-1}$ for $N\in\N$.
+            Again by the preceding lemma, we have our contradiction.
+        \item We first show that $\sigma_{ap}(K)\subseteq\sigma_p(K)\cup\{0\}$.
+            If $\lambda\in\sigma_{ap}(K)\setminus\{0\}$, then there is $(x_n)_{n=1}^\infty\subset S(X)$ such that $(\lambda I-K)x_n\fto{n\to\infty}0$.
+            Since $K$ is compact, passing to a subseuqnece if necessary, we may assume $y=\lim Kx_n$ exists.
+            Then
+            \begin{equation*}
+                \norm{\lambda x_n-y}\leq\norm{(\lambda I-K)x_n}+\norm{Kx_n-y}\fto{n\to\infty}0
+            \end{equation*}
+            where each $\norm{\lambda x_n}=|\lambda|\neq 0$ so $y\neq 0$.
+            Furthermore, $Ky=\lim_{n\to\infty}K(\lambda x_n)=\lambda\lim_{n\to\infty}Kx_n=\lambda y$, so $\lambda\in\sigma_p(K)$.
+
+            Now suppose that $\{\lambda_n\}_{n=1}^\infty\subseteq\partial\sigma(K)\setminus\{0\}\subseteq\sigma_{ap}(K)\setminus\{0\}\subseteq\sigma_p(K)$.
+            Let $Y_0=\{0\}$, $Y_n=\sum_{j=1}^n\ker(\lambda_JI-K)$.
+            By linear independence of eigenspaces, $Y_0\subsetneq Y_1\subsetneq\cdots$ and $(\lambda_nI-K)Y_n\subseteq Y_{n-1}$ for $n\in\N$.
+            Then the previous lemma shows that $\lim_{n\to\infty}\lambda_n=0$.
+            Hence for each $n\in\N$< we have that $\partial\sigma(K)\setminus\frac{1}{n}\mathbb{D}$ is finite, and hence $\partial\sigma(K)\subseteq\{0\}\cup\bigcup_{n=1}^\infty(\partial\sigma(K)\setminus\frac{1}{n}\mathbb{D})$ is countable.
+            Thus $\partial \sigma(K)$ is countable, so $\sigma(K)\setminus\{0\}$ is countable.
+            Moreover, note that $0\in\sigma(K)$, for if not, then $K\in\mathcal{G}(X)$ and $I=KK^{-1}\in\mathcal{K}(X)$, contradicting infinite dimensionality of $X$.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    We may have $\sigma(K)=\{0\}$, $\sigma_p(K)=\emptyset$.
+    Let $K:\ell_p\to\ell_p$ be given by $K(x_1,x_2,\ldots)=(0,x_1,\frac{1}{2}x_2,\frac{1}{3}x_3,\ldots)$.
+    It is easy to see that $K\in\mathcal{K}(\ell_p)$ with $\norm{K}=1$.
+    A straightforward induction shows $K^nx=(0,\ldots,0,\frac{1}{n!}x_1,\frac{1}{(n+1)!}x_2,\ldots)$ so $\norm{K^n}=\frac{1}{n!}$.
+    The spectral radius formula shows that $r(K)=\lim_{n\to\infty}\frac{1}{(n!)^{1/n}}=0$, so $\sigma(K)=\{0\}$.
+    However, as for the unilateral shift, $\ker K=\{0\}$ but $0\notin\sigma_p(K)$, so $\sigma_p(K)=\emptyset$.
+\end{example}
 
 
 \end{document}
