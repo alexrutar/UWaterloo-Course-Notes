@@ -1733,5 +1733,72 @@ We say that $M$ is \textbf{smooth} when it has such an atlas for which the trans
 are all \textbf{smooth} where for $A\subseteq\R^n$, we say $g:A\to\R^m$ is smooth when $g$ extends to a smooth map $g:U\to\R^m$ where $U$ is open with $A\subseteq U$.
 A \textbf{boundary point} of such a smoth manifold $M$ with boundary is a point $p\in M$ for which there is a chart $\phi$ which sends $p$ to $\partial\mathbb{H}^n$.
 
+\begin{theorem}[Stoke's]
+    Let $M$ be an oriented smooth $n-$dimensional manifold with boundary.
+    Let $\omega$ be a smooth $(n-1)-$form on $M$ with compact support.
+    Let $\partial M$ be given the induced orientation.
+    Then
+    \begin{equation*}
+        \int_Md\omega=\int_{\partial M}\omega
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    For each $p\in M$, choose a positively oriented chart on $M$ at $p$.
+    By restricting the domain of the chart, we obtain a chart on $M$ at $p$ whose range is $B(0,1)\subseteq\R^n$ or $B(0,1)\cap\mathbb{H}^n$ with $p$ mapped to $0$.
+    Use a diffeomorphism from $B(0,1)$ to $\R^n$ to obtain a chart whose ranse is either $\R^n$ or $\mathbb{H}^n$.
+    Choose finitely many charts $\phi_k:U_k\to\phi_k(U_k)$, $k\in K$, with $\phi_k(U_k)=\R^n$ or $\phi_k(U_k)=\mathbb{H}^n$ such that $\supp(\omega)\subseteq\bigcup_{k\in K}u_k$.
+    Let $\rho_k$, $k\in K$ be a partition of unity subordinate to $\{U_k:k\inn K\}$.
+    Say $(\phi_k^{-1})^*(\rho_k\omega)(x)=\sum_{i=1}^n a_i(x)dx^1\wedge\cdots\wedge\widehat{dx^i}\wedge\cdots\wedge dx^n$.
+    Then
+    \begin{equation*}
+        (\phi_k^{-1})^*(d\rho_k\omega)(x)=\sum_{i=1}^n(-1)^{i+1}\prt{a_i}{x^i}(x)dx^1\wedge\cdots\wedge dx^n
+    \end{equation*}
+    so that
+    \begin{align*}
+        \int (\phi_k^{-1})^*(d\rho_k\omega)=\sum_{i=1}^n(-1)^{i+1}\int_{\phi_k(U_k)}\prt{a_i}{x^i}(x)dx^1\ldots dx^n
+    \end{align*}
+    If $\phi_k(U_k)=\R^n$, then
+    \begin{equation*}
+        \int_{\phi_k(U_k)}\prt{a_i}{x^i}(x)dx^1\ldots dx^n=0
+    \end{equation*}
+    since $\int_{\R}\prt{a_i}{x^i}(x)dx^i=\left[a_i(x)\right]_{x^i=-\infty}^\infty=0$ since $a_i(x)$ has compact support.
+    If $k\in L=\{k\in K:\phi_k(U_k)=\mathbb{H}^n\}$, then $\int_{\phi_k(U_k)}\prt{a_i(x)}{x^i}dx^1\ldots dx^n=0$ for $i\neq n$ as above, and
+    \begin{align*}
+        (-1)^{n+1}\int_{\phi_k(U_k)}\prt{a_n}{x^n}dx^1\ldots dx^n &= (-1)^{n+1}\int_{\R^{n-1}}\left(\int_{x_n=0}^\infty\prt{a_n}{x^n}(x)dx^n\right)dx^1\ldots dx^{n-1}\\
+                                                                  &= (-1)^{n+1}\int_{\R^{n-1}}[a_n(x)]_{x^n=0}^\infty dx^1\ldots dx^n\\
+                                                                  &= (-1)^n\int_{\R^{n-1}}a_n(x^1,\ldots,x^{n-1},0)dx^1,\ldots,dx^{n-1}\\
+                                                                  &= (-1)^n\int_{\Phi_k(\overline{U}_k)}(\Phi_k^{-1})^*\rho_k\omega|_{\overline{U}_k}
+    \end{align*}
+    Thus
+    \begin{align*}
+        \int_Md\omega &= \sum_{k\in L}(-1)^n\int_{\Phi_k(\overline{U}_k)}(\Phi_k^{-1})^*(\rho_k\omega)|_{\overline{U}_k}=\int_{\partial M}\omega
+    \end{align*}
+    (see Lee for details).
+\end{proof}
+\section{DeRham Cohomology}
+For a smooth manifold $M$ with $\dim(M)=n$, we have maps
+\begin{equation*}
+    0\fto{d=0}\Omega^0(M)\fto{d}\Omega^1(M)\fto{d}\cdots\fto{d}\Omega^n(M)\fto{d=0}0
+\end{equation*}
+where we denote $d:\Omega^k(M)\to\Omege^{k+1}(M)$ as $d_k$.
+Since $d^2=0$, we always have $\im(d_{k-1})\subseteq\ker(d_k)$.
+We define the \textbf{$k^\text{th}$ cohomology} to be
+\begin{equation*}
+    H^k(M)=\quot{\ker d_k}{\im d_{k-1}}.
+\end{equation*}
+Recall that for a smooth map $f:N\to M$, we have $f^*\circ d=d\circ f^*$ (TODO: prove).
+It follows that $f^*$ induces a well-defined map $f^*:H^k(M)\to H^k(N)$.
+To see this, let $\alpha,\beta\in\Omega^k(M)$; if $\alpha\in\ker(d_k:\Omega^k(M)\to\Omega^{k+1}(M))$, then $d(f^*\alpha)=f^*(d\alpha)=f^*(0)=0$ so that $f^*\alpha\in\ker(d:\Omega^k(N)\to\Omega^{k+1}(N))$.
+Thus if $[\alpha]=[\beta]\in H^k(M)$, then $\beta-\alpha\in\im d$, say $\beta-\alpha=d\gamma$ where $\gamma\in\Omega^{k-1}(M)$, then $f^*\beta-f^*\alpha=f^*(\beta-\alpha)=f^*(d\gamma)=df^*\gamma$, so that $f^*\beta-f^*\alpha\in\im(d_{k-1}:\Omega^{k-1}\to\Omega^k(N))$ hence $[f^*\beta]=[f^*\alpha]$.
+
+Because for $f:N\to M$ and $g:N\to L$ we have $(g\circ f)^*=f^*\circg^*$ and $\id^*=\id$, it follows that when $f:N\to M$ is a diffeomorphism, $f^*:H^k(M)\to H^k(N)$ is an isomorphism.
+
+Moreover, for $\alpha\in\Omega^k(M)$ and $\beta\in\Omega^\ell(M)$
+\begin{equation*}
+    d(\alpha\wedge\beta)=d\alpha\wedge\beta+(-1)^k\alpha\wedge d\beta
+\end{equation*}
+the wedge product is well-defined on cohomology space $\Omega:H^k(M)\times H^\ell(M)\to H^{k+\ell}(M)$.
+We define $H(M)=\bigcup_{k=0}^n H^k(M)$ and this is a so-called \textbf{graded algebra}.
 \end{document}
+
 

@@ -1471,4 +1471,53 @@ Note that every separating set contains a cut.
 Thus, $D$ is a minimal cut if and only if $D$ is a minimal separating set.
 Every cut can be decomposed into a disjoint union of minimal cuts.
 But then every separating set contains a cut, which contains a minimal cut, which is a minimal separating set.
+\begin{definition}
+    Let $H\subseteq G$.
+    Then $H$ is \textbf{cut-faithful} if every finite minimal cut in $H$ is a cut in $G$.
+\end{definition}
+We get some properties of cut-faithful subgraphs:
+\begin{itemize}[nl]
+    \item minimal cuts in $H$ are also minimal cuts in $G$.
+    \item every finite cut in $H$ is a cut in $G$, since a union of edge disjoint cuts is a cut.
+        To see this, a cut has the local property that it has even intersection with every cycle.
+    \item If $H$ intersects a minimal finite cut $D$ in $G$, then $H$ contains the entire cut, essentially by definition.
+\end{itemize}
+
+\begin{theorem}[Laviolette]
+    Suppose $G=\bigcup_{i\in I}G_i$ (edge disjoint union) where each $G_i$ is countable, connected, and cut faithful.
+\end{theorem}
+\begin{proof}
+    We can assume that $G$ is 2-edge-connected.
+    If $G$ has bridges, take $H$ to be the set of all bridges, and then $H$ is cut-faithful and $G\setminus H$ is a disjoint union of 2-edge-connected components, so we may argue on each component separately.
+
+    By the theorem from last time, $G$ can be covered by cycles such that every edge is covered at most countable times.
+    Let $\{C_\alpha\}_{\alpha\in A}$ be the set of cycles.
+    Define a graph structure on $A$, where $\alpha,\beta$ are connected by an edge if $C_\alpha$ and $C_\beta$ share an edge.
+    Let $\{A_i:i\in I(1,1)\}$ be the components of $A$, and set $G_{i,1,1}=\bigcup_{\alpha\in A_i}C_\alpha$.
+    Here are some basic properties of the $G_{i,1,1}$:
+    \begin{itemize}[nl]
+        \item Each $G_{i,1,1}$ is $2-$edge-connected since it is a union of overlapping cycles.
+        \item $G_{i,1,1}$ and $G_{j,1,1}$ are edge disjoint for $i\neq j$.
+        \item Each $G_{i,1,1}$ is countable, since every vertex of $A_i$ must have countable degree: by construction, each edge is covered by at most countably many of the cycles $C_\alpha$, and each cycle has only finitely many cycles with overlapping edge.
+            Thus since $A_i$ is connected, $G_{i,1,1}$ is countable.
+    \end{itemize}
+    Consider the set of all finite minimal cuts in $G_{i,1,1}$, and for each $i$, let $D_{1,i,1},D_{2,i,1},D_{3,i,1},\ldots$ be the cuts contained in $G_{i,1,1}$.
+    Since each cut is finite, there are only countably many such $D_{k,i,1}$.
+
+    Consider the cut $D_{1,i,1}$ in $G_{i,1,1}$.
+    If this is not a minimal cut in $G$, then it is not a minimal separating set in $G$, and hence not a separating set in $G$.
+    Thus there is some path $p_i$ in $G$ not contained in $G_{i,1,1}$.
+    Place 2 vertices on each edge in $D_{1,i,1}$, contract the first vertices into some $v_1$, and the second vertices into $v_2$, and remove the edges between $v_1$ and $v_2$ except for 1 edge $e_i$; call this graph $G'_{i,1,1}$ and set $G'=\bigcup_{i\in I(1,1)}G'_{i,1,1}$.
+    This new graph is not bridgeless since there is a path in $G$ not contained in $G_{i,1,1}$.
+    Again, we may cover $G'$ by cycles $\{C_\alpha:\alpha\in A'\}$ using the previous proposition and define the graph structure on $A'$ as before.
+    Let $C_\beta$ be the cycle in $G'$ containing $e_i$.
+    Let $\{A'_i:i\in I(1,2)\}$ be the components of $A'$ and set $G_{i,1,2}=\bigcup_{\alpha\in A_i'}C_\alpha$.
+
+\end{proof}
+\begin{proposition}
+    A graph can be edge-decomposeed into cycles if and only if $G$ has no odd cut.
+\end{proposition}
+\begin{proof}
+    If $G$ is finite or countable, this problem is straightforward.
+\end{proof}
 \end{document}

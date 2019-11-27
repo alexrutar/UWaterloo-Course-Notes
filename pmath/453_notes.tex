@@ -3254,9 +3254,109 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
                 Kf(x)=\int_0^1k(x,y)f(y)dy
             \end{equation*}
             This defines a compact operator in $\mathcal{K}(C(I),C(I))$.
+
+            To see this, let
+            \begin{equation*}
+                \mathcal{A}=\spn\{(x,y)\mapsto\phi(x)\psi(y),\phi,\psi\in C(I)\}\subseteq C(I^2).
+            \end{equation*}
+            Then $\mathcal{A}$ is an algebra of functions, $1\in\mathcal{A}$, $\mathcal{A}$ is point separating, and if $H\in\mathcal{A}$, then $\overline{h}\in\mathcal{A}$.
+            Thus by Stone-Weierstrass, the uniform closure $\overline{\mathcal{A}}=C(I^2)$.
+            Hence, $k=\lim k_n$ where each $k_n(x,y)=\sum_{j=1}^{m_n}\phi_{n_j}(x)\psi_{n_j}(y)$.
+            Let
+            \begin{align*}
+                K_nf(x)&=\int_0^1 k_n(x,y)f(y)dy=\int_0^1\sum_{j=1}^{m_n}\phi_{n_j}(x)\psi_{n_j}(y)f(y)dy\\
+                       &= \sum_{j=1}^{m_n}\left[\int_0^1\psi_{n_j}(y)f(y)dy\right]\phi_{n_j}(x)
+            \end{align*}
+            so that
+            \begin{equation*}
+                K_nf=\sum_{j=1}^{m_n}\left[\int_0^1\psi_{n_j}f\right]\phi_{n_j}\in\spn\{\phi_{n_1},\ldots,\phi_{n_{m_n}}\}\subset C(I)
+            \end{equation*}
+            so $K$ has finite rank, and furthermore,
+            \begin{equation*}
+                |K_nf(x)|\leq\int_0^1|k_n(x,y)|\norm{f(y)}\leq\int_0^1\norm{k_n}_\infty\norm{f}_\infty=\norm{k_n}_\infty\norm{f}_\infty
+            \end{equation*}
+            so that $\norm{K_nf}_\infty\leq\norm{k_n}_\infty\norm{f}_\infty$, so $K_n$ is bounded.
+            Thus each $K_n\in\mathcal{F}(C(I))$.
+            Furthermore, for $f\in C(I)$,
+            \begin{equation*}
+                \norm{(K-K_n)f}_\infty\leq\norm{k-k_n}_\infty\norm{f}_\infty
+            \end{equation*}
+            so $\norm{K-K_n}\leq\norm{k-k_n}_\infty\fto{n\to\infty}0$ so $K\in\overline{\mathcal{F}(C(I))}\subseteq\mathcal{K}(C(I))$.
+
+            \textit{Exercise:} if $1\leq p<\infty$, then $K$, as above, defines an operator in $\mathcal{K}(L_p(I))$.
+            Notice that $\norm{Kf}_p\leq\norm{k}_\infty\norm{f}_p$, $J:C(I)\to L_p(I)$ ``identity'' is bounded.
     \end{enumerate}
 \end{example}
+\begin{theorem}
+    Let $X,Y$ be Banach spaces, $K\in\mathcal{B}(X,Y)$.
+    Then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $K\in\mathcal{K}(X,Y)$
+        \item $K^*|_{B(Y^*)}:B(Y^*)\to X^*)$ is $w^*-$norm continuous
+        \item $K^*\in\mathcal{K}(Y^*,X^*)$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \imp{i}{ii}
+    Let $f_0=w^*-\lim_{\nu\in N}f_\nu$ in $B(Y^*)$.
+    Given $\epsilon>0$, let $\{x_1,\ldots,x_n\}\subset B(X)$ such that $K(B(X))\subseteq\bigcup_{j=1}^n(Kx_j+\frac{\epsilon}{3}B(X))$.
+    Hence if $x\in B(X)$, there is $x_j$ such that $\norm{Kx-Kx_j}<\frac{\epsilon}{3}$.
+    Then for each $\nu\in N$, we have
+    \begin{align*}
+        |f_\nu(Kx)-f_0(Kx)| &\leq |f_\nu(Kx)-f_\nu(Kx_j)| + |f_\nu(x_j)-f_0(Kx_j)| + |f_0(Kx_j)-f_0(Kx)|\\
+                            &\leq \norm{f_\nu}\norm{Kx-Kx_j}+|f_\nu(Kx_j)-f_0(Kx_j)|+\norm{f_0}\norm{Kx_j-Kx}\\
+                            &< \frac{2\epsilon}{3}+|f_\nu(Kx_j)-f_0(Kx_0)|
+    \end{align*}
+    so
+    \begin{equation*}
+        \norm{K^*f_\nu-K^*f_0}=\sup_{x\in B(X)}|f_\nu(Kx)-f_0(Kx)|\leq\frac{2\epsilon}{3}+\max_{j=1,\ldots,n}|f_\nu(Kx_j)-f_0(Kx_j)|
+    \end{equation*}
+    and hence there is $\nu_0\in N$ so $\nu\geq\nu_0$ implies that $|f_\nu(Kx_j)-f_0(Kx_j)|<\epsilon/3$ for $j=1,\ldots,n$, so $\nu\geq \nu_0$ implies that $\norm{K^*f_\nu-K^*f_0}\leq\epsilon$.
 
+    \imp{ii}{iii}
+    We have that $B(Y^*)$ is $w^*-$compact, so $K^*(B(Y^*))$ is norm compact.
+
+    \imp{iii}{i}
+    By the proof above, $K^{**}$ is compact.
+    Hence $\widehat{K(B(X))}=K^{**}(B(\hat X))\subseteq K^{**}(B(X^{**}))$ is compact, and $\overline{K(B(X))}\cong\overline{\widehat{K(B(X))}}$ is compact.
+\end{proof}
+\begin{corollary}
+    If $X$ and $Y$ are reflexive, $K\in\mathcal{B}(X,Y)$, then the following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $K\in K(X,Y)$
+        \item $K(B(X))$ is compact
+        \item $K|_{B(X)}:B(X)\to Y$ is $w-$norm continuous.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    In a reflexive space, $w=w^*$ and $K=K^{**}$.
+\end{proof}
+\begin{remark}
+    Let $X,Y$ be reflexive, $K\in\mathcal{B}(X,Y)$.
+    Then $K$ is $w-$norm continuous if and only if $K\in\mathcal{F}(X,Y)$.
+\end{remark}
+
+\section{Spectral Theory for Compact Operators}
+\begin{lemma}
+    Let $K\in\mathcal{K}(X)$.
+    Suppose there are sequences
+    \begin{itemize}[nl]
+        \item of closed subspaces $Y_1\subsetneq Y_2\subsetneq\cdots$ of $X$
+        \item scalars $(\alpha_j)_{j=1}^\infty$ such that $(K-\alpha_jI)Y_j\subseteq Y_{j-1}$ for $j=1,2,3,\ldots$.
+    \end{itemize}
+    Then $\lim_{j\to\infty}\alpha_j=0$.
+\end{lemma}
+\begin{proof}
+    Suppose not, i.e. $\limsup_{j\to\infty}|\alpha_j|>0$.
+    Passing to a subsequence if necessary, we may assume $|\alpha_j|\geq\epsilon>0$ for all $j$.
+    By the Riesz lemma, find $x_j\in B(Y_j)$ so $\dist(x_j,Y_{j-1})>1/2$.
+    Then $y_j=(K-\alpha_jU)x_j\in Y_{j-1}$, implying that $Kx_j=y_j+\alpha_jx_j\in Y_j$.
+    If $i<j$, we have
+    \begin{equation*}
+        \norm{Kx_j-Kx_i}=\norm{y_j+\alpha_jx_j-Kx_i}=|\alpha_j|\norm{x_j+\frac{1}{\alpha_j}(y_j-Kx_i)}>\frac{|\alpha_j|}{2}\geq\frac{\epsilon}{2}
+    \end{equation*}
+    so that $(Kx_j)_{j=1}^\infty$ admits no Cauchy sequence, a contradiction.
+\end{proof}
 
 
 \end{document}

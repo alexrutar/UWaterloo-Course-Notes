@@ -1765,6 +1765,66 @@ Define $K_T=C_T^-$.
             Then $H^-[T]=x(\epsilon-bc)[T]=x([T]-[(bc)T])=0$ since $[(bc)T]=[T]$ because $b,c$ are in the same row.
     \end{enumerate}
 \end{proof}
+\begin{definition}
+    Let $\lambda=(\lambda_1,\ldots,\lambda_k)\vdash n$ and $\mu=(\mu_1,\ldots,\mu_m)\vdash n$, we say that $\lambda$ \textbf{dominates} $\mu$, or $\mu\trianglelefteq\lambda$, if for all $i\geq 1$, $\lambda_1+\cdots+\lambda_i\geq\mu_1+\cdots+\mu_i$, where $\lambda_i=0$ for $i>k$ and $\mu_i=0$ for $i>m$.
+\end{definition}
+\begin{lemma}
+    Let $T$ be a $\lambda-$tableau, $U$ and $\mu-$tableau, $\lambda,\mu\vdash n$.
+    If the elements of a row of $S$ are all in different columns of $T$, then $\lambda\trianglerighteq\mu$.
+\end{lemma}
+\begin{proof}
+    For every $i$, we can sort the entries of $S$ so that they occur in the first $i$ rows of $T$.
+    Then $\lambda_1+\cdots+\lambda_i$ is the number of entries of $T$ in the first $i$ rows, which is greater than or equal to the number of entries of $S$ in the first $i$ rows, which is $\mu_1+\cdots+\mu_i$.
+\end{proof}
+\begin{corollary}
+    Let $T$ be a $\lambda-$tableau, $U$ and $\mu-$tableau, $\lambda,\mu\vdash n$.
+    Suppose $K_T[S]\neq 0$.
+    \begin{enumerate}[nl]
+        \item $\lambda\trianglerighteq\mu$
+        \item If $\lambda=\mu$, then $K_T[S]=\pm e_T$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item Suppose $K_T[S]\neq 0$.
+            Suppose $b,c$ are entries in the same row of $S$.
+            For contradiction, suppose $b,c$ are in the same column fo $T$, i.e. $(bc)\in C_T$.
+            Then by (3) in the lemma, $K_T=C_T^-=x(\epsilon-(bc))$ for some $x\in\C[S_n]$.
+            Thus $K_T[S]=0$, a contradiction, so by the previous lemma, the result follows.
+        \item By the argument of the previous lemma, $[S]=\pi[T]$ where $\pi\in C_T$.
+            Thus $K_T[S]=K_T\pi[T]=\sgn(\pi) K_T=\pm e_T$.
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    Let $u\in M^\lambda$, $T$ a $\lambda-$tableau.
+    Then $K_Tu=fe_T$ for some $f\in\C$.
+\end{corollary}
+\begin{proof}
+    $u=\sum c_i[S_i]$ where $S_i$ are $\lambda-$tableau.
+    Then $K_Tu=\sum c_iK_T[S_i]$ and apply the previous lemma.
+\end{proof}
+\begin{theorem}
+    Let $u$ be a submodule of $M^\lambda$.
+    Then $S^\lambda\subseteq U$ or $U\subseteq (S^\lambda)^\perp$.
+    In particular, $S^\lambda$ is irreducible.
+\end{theorem}
+\begin{proof}
+    Let $U$ be a submodule of $M^\lambda$ and let $u\in U$.
+    Say $T$ is a $\lambda-$tableau.
+    Then $K_TU=fe_T$ for some $f\in\C$.
+    \begin{enumerate}[nl]
+        \item Suppose there exists $U\in U$ and $\lambda-$tableau $T$ such that $f\neq 0$.
+            Thus $e_T=f^{-1}K_Tu\in U$.
+            If $S$ is a $\lambda-$tableau, then $S=\pi T$, $\pi\in S_n$.
+            Moreover, $e_S=e_{\pi T}=\pi e_T\in U$ so $S^\lambda\subseteq U$.
+        \item Suppose $K_Tu=0$.
+            Let $u\in U$, $T$ a $\lambda-$tableau be arbitrary.
+            Then
+            \begin{equation*}
+                \langle u,e_T\rangle=\langle u,K_T[T]]=\langle K_Tu,[T]]=0
+            \end{equation*}
+    \end{enumerate}
+\end{proof}
 
 Final Exam
 \begin{enumerate}[nl]
