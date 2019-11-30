@@ -1501,23 +1501,65 @@ We get some properties of cut-faithful subgraphs:
         \item Each $G_{i,1,1}$ is countable, since every vertex of $A_i$ must have countable degree: by construction, each edge is covered by at most countably many of the cycles $C_\alpha$, and each cycle has only finitely many cycles with overlapping edge.
             Thus since $A_i$ is connected, $G_{i,1,1}$ is countable.
     \end{itemize}
-    Consider the set of all finite minimal cuts in $G_{i,1,1}$, and for each $i$, let $D_{1,i,1},D_{2,i,1},D_{3,i,1},\ldots$ be the cuts contained in $G_{i,1,1}$.
-    Since each cut is finite, there are only countably many such $D_{k,i,1}$.
 
-    Consider the cut $D_{1,i,1}$ in $G_{i,1,1}$.
-    If this is not a minimal cut in $G$, then it is not a minimal separating set in $G$, and hence not a separating set in $G$.
-    Thus there is some path $p_i$ in $G$ not contained in $G_{i,1,1}$.
-    Place 2 vertices on each edge in $D_{1,i,1}$, contract the first vertices into some $v_1$, and the second vertices into $v_2$, and remove the edges between $v_1$ and $v_2$ except for 1 edge $e_i$; call this graph $G'_{i,1,1}$ and set $G'=\bigcup_{i\in I(1,1)}G'_{i,1,1}$.
-    This new graph is not bridgeless since there is a path in $G$ not contained in $G_{i,1,1}$.
-    Again, we may cover $G'$ by cycles $\{C_\alpha:\alpha\in A'\}$ using the previous proposition and define the graph structure on $A'$ as before.
-    Let $C_\beta$ be the cycle in $G'$ containing $e_i$.
-    Let $\{A'_i:i\in I(1,2)\}$ be the components of $A'$ and set $G_{i,1,2}=\bigcup_{\alpha\in A_i'}C_\alpha$.
+    Now for each $G_{i,1,1}$, enumerate all the finite minimal cuts contained in $G_{i,1,1}$ as $\{D_{1,i,1},D_{2,i,1},\ldots\}$.
+    Then for each minimal cut $D_{k,i,1}$ in $G_{i,1,1}$ which is not a cut in $G$, join the edges on each side of the cut, and add a bridge between.
+    But since $D_{k,i,1}$ is not a cut, $G'$ is still 2-connected.
+    Now $\mathcal{C}$ be a collection of cycles covering $G'$ such that each edge is covered at least once and at most countably many times.
+    We can then return this to a collection of cycles in $C$ with the same property in $G$ since each $G_{i,1,1}$ is connected.
+    Now if there is some minimal cut $D_{k,i,1}$ in $G_{i,1,1}$ that is not a cut in $G$, there is some path $P$ contained in some cycle $C\in\mathcal{C}$ from the two sides of $D_{k,i,1}$ which is not contained entirely in $G_{i,1,1}$.
+    Then recursively add the graphs $G_{j,1,1}$ which contain the path $P$.
 
+    Thus get a collection $\{G_{i,2,1}:i\in I(2,1)\}$ such that each minimal cut $D_{1,i,1}$ is now extended to a cut in $G$.
+    Repeat this countably many times to get a collection of graphs $\{G_{i,1,2}:i\in I(1,2)\}$ for which each $D_{n,i,1}$ is no longer a violating cut for cut faithfulness.
+    But now repeat this countably many times to get some collection of graphs $\{G_i:i\in I\}$.
+    We must show that the $G_i$ are indeed cut faithful.
+
+    Take some minimal cut $E\subset G_i$: we must show that $E$ is a cut in $G$.
+    Write $G_i=A\cup B$, $A'$, $B'$ neighbours to $E$.
+    Take a tree $T_A$ connecting all the vertices $A'$ in $A$ and $T_B$ similarly.
+    Then there exists some $j\in I(1,m)$ so that $G_j$ contains the finitely many edges in $E,T_A,T_B$, so that $E$ must be a cut in $G$.
 \end{proof}
-\begin{proposition}
+\begin{proposition}[Nash-Williams]
     A graph can be edge-decomposeed into cycles if and only if $G$ has no odd cut.
 \end{proposition}
 \begin{proof}
     If $G$ is finite or countable, this problem is straightforward.
+    In the uncountable case, apply Laviolette.
+\end{proof}
+\begin{proposition}
+    If $G$ is $8k-$edge-connected, then there exists an orientation so that $G$ is $k-$arc-connected.
+\end{proposition}
+\begin{proof}
+    We did the countable case earlier: Laviolette's theorem extends this to the uncountable case.
+\end{proof}
+\begin{proposition}
+    Let $G$ be finite.
+    If $\chi(G)>k$, then there exists $G\supseteq H$ such that $\chi(H)>k$ and $\lambda(H)\geq k$ ($\lambda$ is edge connectivity).
+\end{proposition}
+\begin{proof}
+    Fix some minimal cut $E\subseteq G$ of size $k-1$.
+    We must show that one side of the cut has chromatic number greater than $k$.
+    Assume not, and $k-$color each side.
+    Create a bipartite graph $K_{k,k}$ labelled with colours, and an edge if there is an edge joining such colours.
+    Then if there is conflict, there are $p(k-p+1)\geq k$ edges in the complement $K_{k,k}$, so we may apply Hall's theorem.
+\end{proof}
+\begin{theorem}
+    Let $G$ be a graph with uncountable chromatic number.
+    Then there exists some $H\subseteq G$ such that $\lambda(H)=\infty$ and $\chi(H)$ uncountable.
+\end{theorem}
+\begin{proof}
+    % Set $G=G_1$, and $D_1$ a finite cut in $G$.
+    % Then $G_2=G_1-D_1$, and repeat countably many times.
+    % Do this by Zorn's lemma.
+    % We must show that some component has uncountable chromatic number.
+
+    We argue by transfinite induction.
+    Let $G_1=G$, and $G_{i+1}=G_i-D_i$, and $G_i=\bigcap_{j<i}G_j$ if $i$ is a limit ordinal.
+    We then write $G\to H$ by applying this cut deletion procedure.
+    Conversely, we may construct $H\to G$ by finite cut additions in the same way.
+    Let's first see that if $G\to H$, then $G\from H$
+    Note that if $G\from H$, it is not necessarily true that $G\to H$: one can construct the countable complete graph by cut additions, which has no finite cut.
+
 \end{proof}
 \end{document}

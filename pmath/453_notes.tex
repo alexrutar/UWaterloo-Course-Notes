@@ -246,6 +246,7 @@
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Pol}{Pol}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
 \newcommand{\idc}{\mathbf{1}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
@@ -1952,27 +1953,8 @@ Now, suppose $(X,\tau)$ is a topological space.
     \end{enumerate}
 \end{remark}
 \subsection{Roles of weak and weak* topologies in convexity}
-\begin{theorem}[$w^*-$Separation]
-    Let $X$ be a normed space, $A,B\subset X^*$ each be non-empty and convex, with $A\cap B=\emptyset$ and $B$ $w^*-$open.
-    Then there is $x\in X$ and $\alpha\in\R$ such that
-    \begin{equation*}
-        \Re f(x)\leq \alpha < \Re g(x)
-    \end{equation*}
-    for $f\in A$ and $g\in B$.
-\end{theorem}
-\begin{proof}
-    The separation theorem and the fact that $B$ is $\norm{\cdot}-$open (i.e. $w^*\subseteq\tau_{\norm{\cdot}}$) provides $F\in X^{**}$ and $\alpha\in\R$ such that $\Re F(f)\leq\alpha\Re F(g)$ for $f\in A$, $g\in B$.
-    Since $B\in w^*=\sigma(X^*,\hat X)$, if $f_0\in B$, then there are $x_1,\ldots,x_n$ in $X$ such that
-    \begin{equation*}
-        f_0\in U=\bigcap_{i=1}^n \hat x_i^{-1}(f_0(x_i)+\mathbb{D})\subseteq B
-    \end{equation*}
-    Let $Y=\bigcap_{i=1}^n\ker\hat{x_i}\subseteq X^*$.
-    Then for $i=1,\ldots,n$, $\hat x_i(f_0+Y)=\{f_0(x_i)\}\subset f_0(x_i)+\mathbb{D}$, so that $f_0+Y\subseteq U\subseteq B$.
-    Thus if $f\in Y$, then $\Re F(f_0+f)>\alpha$ and hence $\Re F(f)>\alpha-\Re F(f_0)$ which implies that $f\in\ker\Re F$, so $f\in\ker F$.
-    That is, $Y\subseteq\ker F$.
-    The next lemma shows that $F\in\spn\{\hat x_1,\ldots,\hat x_n\}\subseteq\hat X$, i.e. $F=\hat x$ for some $x\in X$.
-\end{proof}
-\begin{lemma}
+We begin with a useful technical lemma:
+\begin{lemma}\label{l:ws-ker}
     In an $\F-$vector space, if $f_0,f_1,\ldots,f_\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$, then $f\in\spn\{f_1,\ldots,f_n\}$.
 \end{lemma}
 \begin{proof}
@@ -1988,6 +1970,36 @@ Now, suppose $(X,\tau)$ is a topological space.
         f_0(x)=g_0(Tx)=g(Tx)=g(f_1(x),\ldots,f_n(x))=\sum_{j=1}^n\alpha_jf_j(x)
     \end{equation*}
     so that $f_0=\sum_{j=1}^n\alpha_jf_j$.
+\end{proof}
+We now show that the $w^*-$continuous functions are actually sufficient for the separation theorems:
+\begin{theorem}[$w^*-$Separation]
+    Let $X$ be a normed space, $A,B\subset X^*$ each be non-empty and convex, with $A\cap B=\emptyset$ and $B$ $w^*-$open.
+    Then there is $x\in X$ and $\alpha\in\R$ such that
+    \begin{equation*}
+        \Re f(x)\leq \alpha < \Re g(x)
+    \end{equation*}
+    for $f\in A$ and $g\in B$.
+\end{theorem}
+\begin{proof}
+    Since $w^*\subseteq\tau_{\norm{\cdot}}$, the norm separation theorem gives $F\in X^{**}$ and $\alpha\in\R$ such that $\Re F(f)\leq\alpha<\Re F(g)$ for $f\in A$, $g\in B$.
+    It suffices to show that $F=\hat{x}$ for some $x\in X$: assuming this, we have $\Re f(x)=\Re \hat{x}(f)\leq\alpha<\Re \hat{x}(g)=\Re g(x)$, which is the desired result.
+
+    Fix some $f_0\in B$, and by $w^*-$continuity get $x_1,\ldots,x_n$ in $X$ such that
+    % Since $B\in w^*=\sigma(X^*,\hat X)$, if $f_0\in B$, then there are $x_1,\ldots,x_n$ in $X$ such that
+    \begin{equation*}
+        f_0\in U=\bigcap_{i=1}^n \hat{x}_i^{-1}(V_i)\subseteq B
+    \end{equation*}
+    where each $V_i\subset\F$ is an open neighbourhood of $f_0(x_i)$.
+    Let $Y=\bigcap_{i=1}^n\ker\hat{x}_i\subseteq X^*$.
+    Then for each $i=1,\ldots,n$,
+    \begin{equation*}
+        \hat x_i(f_0+Y)=\{f_0(x_i)\}\subset V_i,
+    \end{equation*}
+    so that $f_0+Y\subseteq U\subseteq B$.
+    Thus if $f\in Y$ is arbitrary, then $f_0+f\in B$ so that $\Re F(f_0+f)>\alpha$, or equivalently $\Re F(f)>\alpha-\Re F(f_0)=:c$ where $c$ is a fixed quantity.
+    But $Y$ is a vector subspace, and hence closed under scalar multiplication; thus $\alpha\Re F(f)>c$ for any $\alpha\in\F$, forcing $F(f)=0$.
+    Thus $Y\subseteq\ker F$, and apply \cref{l:ws-ker} so that $F\in\spn\{\hat{x}_1,\ldots,\hat{x}_n\}\subseteq\hat X$.
+    Thus $F=\hat{x}$ for some $x\in X$.
 \end{proof}
 \begin{theorem}[$w^*-$Closed Convex Hull]
     If $S\subset X^*$, then
@@ -3419,6 +3431,128 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     The spectral radius formula shows that $r(K)=\lim_{n\to\infty}\frac{1}{(n!)^{1/n}}=0$, so $\sigma(K)=\{0\}$.
     However, as for the unilateral shift, $\ker K=\{0\}$ but $0\notin\sigma_p(K)$, so $\sigma_p(K)=\emptyset$.
 \end{example}
-
-
+Let $\mathcal{H}$ be a complex Hilbert space.
+Recall that $\mathcal{H}^*=\{f_y:y\in\mathcal{H}\}$ where $f_y(x)=\inr{x,y}$.
+If $T\in\mathcal{B}(X)$, implicitly define $T^*y$ as $f_{T^*y}=T^*f_y$.
+Note that $(\alpha T)^*=\overline{\alpha}T^*$ and $\inr{Tx,y}=f_y(Tx)=T^*f_y(x)=f_{T^*y}(x)=\inr{x,T^*y}$.
+\begin{definition}
+    Let $H\in\mathcal{B}(\mathcal{H})$.
+    Then $H$ is called \textbf{Hermitian} or \textbf{self-adjoint} if $H=H^*$.
+    Let $N\in\mathcal{B}(H)$ then $N$ is \textbf{normal} if $N^*N=NN^*$.
+\end{definition}
+Certainly Hermitian operators are normal.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item If $T\in\mathcal{B}(\mathcal{H})$, there are unique Hermitian operators $\Re T$, $\Im T$, such that $T=\Re T+\i\Im T$.
+        \item $T$ is normal if and only if $(\Re T)(\Im T)=(\Im T)(\Re T)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $\Re T=\frac{1}{2}(T+T^*)$ and $\Im T=\frac{1}{2i}(T-T^*)$.
+            If we had $T=H_1+iH_2$, $H_1$, $H_2$ each Hermitian, then
+            \begin{equation*}
+                H_1+iH_2=T=\Re T+i\Im T\Longrightarrow H_2-\Re T=i(\Im T-H_2):=S
+            \end{equation*}
+            where $S^*=S=-S^*$ so that $S^*=0$ and $S=0$.
+        \item We have
+            \begin{equation*}
+                TT^*=(\Re T+i\Im T)(\Re T-i\Im T)=(\Re T)^2+i(\Im T\Re T+\Re T\Im T)+(\Im T)^2
+            \end{equation*}
+            and
+            \begin{equation*}
+                T^*T=(\Re T-i\Im T)(\Re T+i\Im T)=(\Re T)^2-i(\Im T\Re T-\Re T\Im T)+(\Im T)^2
+            \end{equation*}
+            so that $TT^*=T^*T$ if and only if $2\Im T\Re T=2\Re T\Im T$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}[$C^*-$identity]
+    If $T\in\mathcal{B}(\mathcal{H})$, then $\norm{T^*T}=\norm{T}^2$.
+\end{proposition}
+\begin{proof}
+    We have
+    \begin{align*}
+        \norm{T}^2 &= \sup_{x\in\mathcal{B}(\mathcal{H})}\norm{Tx}^2 = \sup_{x\in\mathcal{B}(\mathcal{H})}\inr{Tx,Tx}\\
+                   &= \sup_{x\in\mathcal{B}(\mathcal{H})}\norm{T^*Tx,x} \leq\sup_{x\in\mathcal{B}(\mathcal{H})}\norm{T^*Tx}{\norm{x}}=\norm{T^*T}
+    \end{align*}
+    while $\norm{T^*T}\leq\norm{T^*}\norm{T}=\norm{T}^2$.
+\end{proof}
+\begin{proposition}
+    If $N\in\mathcal{B}(\mathcal{H})$ is normal, then $r(N)=\norm{N}$.
+\end{proposition}
+\begin{proof}
+    Suppose first that $H=H^*$ in $\mathcal{B}(\mathcal{H})$.
+    The $C^*-$ identity gives $\norm{H^2}=\norm{H^*H}=\norm{H}^2$ and hence inductively for $k\in\N$ $\norm{H^{2k}}=\norm{H}^{2k}$ since $H^k$ is Hermitian for any $k$.
+    Now since $N^*N=NN^*$, we see that $(N^*N)^n=(N^*)^nN^n$ for $n\in\N$.
+    Hence if $k\in\N$, we use the $C^*-$identity to see
+    \begin{equation*}
+        \norm{N}^{2^{k+1}}=\norm{N^*N}^{2k}=\norm{(N^*N)^{2k}}=\norm{(N^{2^k})^*N^{2^k}}=\norm{N^{2^k}}^2
+    \end{equation*}
+    and hence $\norm{N}^{2^k}=\norm{N^{2^k}}$.
+    Now, by the spectral radius formula, $r(N)=\lim_{n\to\infty}\norm{N^n}^{1/n}=\lim_{k\to\infty}\norm{N^{2^k}}^{1/2^k}=\norm{N}$.
+\end{proof}
+\begin{remark}
+    If $T\in\mathcal{B}(X)$, then $\sigma(T)=\sigma_{ap}(T)\cup\sigma_{com}(T)$.
+    Indeed, if $\lambda\in\sigma(T)$, then $\lambda I-T\notin\mathcal{G}(X)$, and hence at least one of the following holds:
+    \begin{itemize}[nl]
+        \item $\lambda I-T$ is not bounded below, i.e. $\lambda\in\sigma_{ap}(T)$
+        \item $im(\lambda I -T)$ is not dense, i.e. $\lambda\in\sigma_{com}(T)$.
+    \end{itemize}
+\end{remark}
+\begin{proposition}
+    If $H=H^*$ in $\mathcal{B}(\mathcal{H})$, then $\sigma(H)=\sigma_{ap}(H)\subseteq\R$.
+\end{proposition}
+\begin{proof}
+    If $\lambda\in\sigma_{ap}(H)$, then there is $(x_n)_{n=1}^\infty\subset S(\mathcal{H})$ such that $(\lambda I-H)x_n\to 9$.
+    Then
+    \begin{equation*}
+        \lambda-\inr{Hx_n,x_n}=\lambda\inr{x_n,x_n}-\inr{Hx_n,x_n}=\inr{(\lambda I-H)x_n,x_n}\to 0
+    \end{equation*}
+    and $\inr{Hx_n,x_n}=\overline{\inr{x_n,hx_n}}=\overline{\inr{Hx_n,x_n}}\in\R$ for each $n$, so $\lambda\in\R$.
+    Now, $\sigma_{com}(H)=\{\overline{\lambda}:\lambda\in\sigma_p(H^*)=\sigma_p(H)\}$, so as $\sigma_p(H)\subseteq\sigma_{ap}(H)\subseteq\R$, we see that $\sigma_{com}(H)\subseteq\sigma_p(H)\subseteq\sigma_{ap}(H)$ and use the remark above.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item $\inr{Hx,x}\in\R$ if $H=H^*$, $x\in\mathcal{H}$.
+            If we define $[\cdot,\cdot]:\mathcal{H}\times\mathcal{H}\to\C$ by $[x,y]=\inr{Hx,y}$, then $[\cdot,\cdot]$ is Hermitian by the Polarization identity.
+        \item If, further, $\inr{Hx,x}\geq 0$ for any $x\in\mathcal{H}$, then $\sigma(H)\subseteq[0,\infty)$.
+            We call such $H$ \textbf{positive}
+        \item If $T\in\mathcal{B}(\mathcal{H})$, then $\sigma(T^*T)\subseteq[0,\infty)$ as $T^*T$ is Hermitian, $\inr{T^*Tx,x}=\norm{Tx}^2\geq 0$.
+    \end{enumerate}
+\end{remark}
+\begin{theorem}[Functional Calculus for Bounded Hermitian Operators]
+    Let $H\in\mathcal{B}(\mathcal{H})$ be Hermitian.
+    Then there is a unique bounded operator $\Phi:C(\sigma(H))\to\mathcal{B}(\mathcal{H})$ satisfying
+    \begin{itemize}[nl]
+        \item $\Phi(1)=I$, $\Phi(\iota)=H$, where $\iota$ is the identity function on $\sigma(H)$
+        \item $\Phi(fg)=\Phi(f)\Phi(g)$ for $f,g$ in $C(\sigma(H))$.
+    \end{itemize}
+    Furthermore, $\Phi$
+    \begin{itemize}[nl]
+        \item $\Phi$ is an isometry
+        \item $\Phi(f)T=T\Phi(f)$ for any $f\in C(\sigma(H))$, provided that $HT=TH$.
+        \item $\Phi(\overline{f})=\Phi(f)^*$ for $f\in C(\sigma(H))$
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    Let $\Pol(\sigma(H))$ denote the polynomial functions restricted to $\sigma(H)$.
+    Then we have
+    \begin{enumerate}[nl,r]
+        \item $\sigma(p(H))=p(\sigma(H))$
+        \item $\norm{p(H)}=r(p(H))$ as $p(H)$ is normal.
+        \item $\norm{fg}_\infty\norm{f}_\infty\norm{g}_\infty$
+    \end{enumerate}
+    We let $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ by $\Phi_0(p)=p(H)$.
+    Then $\Phi_0$ is the unique linear operator such that $\Phi_0(1)=I$, $\Phi_0(\iota)=H$, and $\Phi_0(pq)=\Phi_0(p)\Phi_0(q)$ for $p,q\in\Pol(\sigma(H))$.
+    Moreover, (ii) shows that $\norm{p}_\infty=r(p(H))$ so that $r(p(H))=\norm{p(H)}$ so that $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ is an isometry.
+    Thus since $\sigma(H)$ is compact, by Stone-Weierstrass, $\overline{\Pol(\sigma(H))}^{\norm{\cdot}_\infty}=C(\sigma(H))$, where we are conjugacy closed since $\sigma(H)\subseteq\R$.
+    Hence $\Phi_0$ admits a unique extension $\Phi:C(\sigma(H))\to\mathcal{B}(\mathcal{H})$.
+    This is clearly isometric and satisfies the properties of $\Phi_0$.
+    If $f,g\in C(\sigma(H))$, say $f=\lim p_n$, $g=\lim q_n$, then $\norm{fg-p_nq_n}_\infty\to 0$, and hence
+    \begin{equation*}
+        \norm{\Phi(fg)-\Phi(f)\Phi(g)}\leq\norm{\Phi(fg)-\Phi_0(p_nq_n)}+\norm{\Phi_0(p_n)\Phi_0(q_n)-\Phi(f)\Phi(g)}\to 0
+    \end{equation*}
+    so $\Phi(fg)=\Phi(f)\Phi(g)$.
+    The other properties follow similarly.
+\end{proof}
 \end{document}

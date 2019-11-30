@@ -802,6 +802,21 @@ We thus have a bijection $\mathcal{D}\leftrightharpoons\mathcal{O}$ where if $\l
                               &= \prod_{j=1}^\infty\frac{(1+x^{4j}}{1-x^{2j-1}}=\Phi_{\mathcal{B}}(x)
     \end{align*}
 \end{example}
+\begin{example}
+    Let $m,n\in\Z$.
+    Count the  number of points $(a,b,c)\in\Z^3$ such that $a^2+2b^2+c^2=m$ and $a^2+a-2b+c^2=n$.
+    
+    For any $r\geq 0$, the set $\{(a,b,c)\in\R^3:a^2+2b^2+c^2=r\}$ is compact and contains only finitely many points with integer coordinates.
+    Call this number $f(m,n)$.
+    We have
+    \begin{align*}
+        \sum_{m=0}^\infty\sum_{n=-\infty}^\infty f(m,n)s^mt^n &= \sum_{(a,b,c)\in\Z^3}s^{a^2+2b^2+c^2}t^{a^2+a-2b+c^2}\\
+                                                              &= \left(\sum_{a\in\Z} s^{a^2}t^{a^2+a}\right)\left(\sum_{b\in\Z}s^{2b^2}t^{-2b}\right)\left(\sum_{c\in\Z}s^{c^2}t^{c^2}\right)\\
+                                                              &= \vartheta(st,t)\vartheta(s^2,t^{-2})\vartheta(st,1)\\
+                                                              &= \prod_{i=1}^\infty(\cdots)
+    \end{align*}
+    where $\vartheta(x,y)=\sum_{h=-\infty}^\infty x^{h^2}y^h$ is the Jacobi theta function, and we can get the product expression using JTPF.
+\end{example}
 \end{document}
 
 

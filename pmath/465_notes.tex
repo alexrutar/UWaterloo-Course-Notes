@@ -1856,6 +1856,74 @@ when $M$ has $m$ connected components.
         \pi^*\circ\iota^*-I = \sum_{J=(I,n+1)}a_I(x,a)dx^I-\sum_{J}a_J(x,y)dx^J
     \end{align*}
 \end{proof}
+Since $\R^n$ has one connected component, $H^0(\R^n)=\R$.
+To finish the proof, it suffices to calculate $H^k(\{0\})$, which is $0$ for all $k\geq 1$.
+Thus
+\begin{equation*}
+    H^k(\R^n) \cong 
+    \begin{cases}
+        \R &: k=0\\
+        0 &: k\geq 1
+    \end{cases}
+\end{equation*}
+\begin{theorem}
+    Let $M$ be a smooth manifold, let $I$ be an interval in $\R$ with $c\in I$, and define $\pi:M\times I\to M$ and $\iota:M\to M\times I$ by $\pi(p,t)=p$ and $\iota(p)=(p,c)$.
+    Then the maps $\pi^*:H^k(M)\to H^k(M\times I)$ and $\iota^*:H^k(M\times I)\to H^k(M)$ are inverses, so we have $H^k(M\times I)\cong H^k(M)$ (and inductively, $H^k(M\times\R^\ell)=H^k(M)$).
+\end{theorem}
+\begin{proof}
+    Imitate the proof of Poincaré's lemma.
+    The only difference is that $h$ must be defined locally: given $\alpha\in\Omega^k(M\times I)$, choose a chart $\phi:U\to\phi(U)$ and write $\alpha\in\Omega^k(M\times I)$.
+    Let $\psi=\phi\times\id$ (so $\psi(p,y)=(\phi(p),y)$), and say the restriction of $\alpha$ to $U\times I$ is given by
+    \begin{align*}
+        (\psi^{-1})^*(\alpha)(x,y) &= \sum_{J=(I,n+1)}a_J(x,y)dx^I\wedge dx^{n+1}+\sum_{J,j_k\leq n}a_J(x,y)dx^J
+    \end{align*}
+    and we define $h\alpha$ locally by
+    \begin{equation*}
+        (\psi^{-1})^*(h\alpha)(x,y) = \sum_{J=(J,n+1)}\left(\int_{t=c}^ya_J(x,y)dt\right)dx^I
+    \end{equation*}
+    As an exercise, verify that the definition of $h$ does not depend on the choice of chart $\phi$.
+\end{proof}
+\begin{definition}
+    Let $M$ and $N$ be smooth manifolds.
+    For smooth maps $f,g:M\to N$, a smooth \textbf{homotopy} from $f$ to $g$ is a smooth map $F:M\times[0,1]\to N$ such that $F(p,0)=f(p)$ and $F(p,1)=g(p)$.
+    We say that $f$ and $g$ are smoothly \textbf{homotopic} and write $f\sim g$ when there exists such a homotopy.
+    We say that $M$ and $N$ are smoothly \textbf{homotopic} and write $M\sim N$ when there exist smooth maps $f:M\to N$ and $g:N\to M$ such that $g\circ f\sim I_M$ and $f\circ g\sim I_N$.
+\end{definition}
+\begin{example}
+    When $E$ is a vector bundle over $M$, we have $E\sim M$.
+    Indeed, if $\pi:E\to M$ is the projection and $\iota:M\to E$ is the inclusion (taking the zero element of each $T_pM$), we have $\pi\circ\iota=I_M$, and we can show that $\iota\circ\pi\sim I_E$, by taking $F:E\times[0,1]\to E$ by $F(u_p,t)=t\cdot u_p$ where $u_p\in\pi^{-1}(p)$.
+\end{example}
+\begin{theorem}
+    When $f,g:M\to N$ with $f\sim g$, we have $f^*=g^*:H^k(N)\to H^k(M)$.
+\end{theorem}
+\begin{proof}
+    Indeed, if $F:M\times I\to N$ is a homotopy from $f$ to $g$ and we define $\iota_0:M\to M\times I$ and $\iota_1:M\to M\times I$ by $\iota_0(p)=(p,0)$ and $\iota_1(p)=(p,1)$, then (by the above theorem), $\iota_0^*$ and $\iota_1^*$ are both inverses of the projection $\pi^*$ where $\pi:M\times I\to M$ is given by $\pi(p,t)=p$, so we have $\iota_0^*=\iota_1^*:H^k(M\times I)\to H^k(M)$.
+    Note that $f=F\circ\iota_0$ and $g=F\circ\iota_1$, so $f^*=\iota_0^*F^*=\iota_1^*F^*=g^*$.
+\end{proof}
+\begin{theorem}[Meyer-Vietoris]
+    Let $M$ be a smooth $n-$dimensional manifold.
+    Let $U,V$ be open sets in $M$ with $M=U\cup V$.
+    Then there is a short exact sequence
+    \begin{equation*}
+        0\lto\Omega^k(M)\fto{f}\Omega^k(U)\oplus\Omega^k(V)\fto{g}\Omega^k(U\cap V)\lto 0
+    \end{equation*}
+    where $f(\omega)=(\omega|_U,\omega|_V)$ and $g(\sigma,\tau)=\sigma|_{U\cap V}-\tau|_{U\cap V}$, and the short exact sequence induces the long exact sequence
+    \begin{align*}
+        0\lto H^0(M)\fto{f} H^0(U)\oplus H^0(V)\fto{g}H^0(H\cap V)\fto{\partial}\cdots\fto{\partial}H^n(M)\fto{f}H^n(U)\oplus H^n(V)\fto{f}\lto H^n(U\cap V)\lto 0
+    \end{align*}
+    where $\partial:H^k(U\cap V)\to H^{k+1}(M)$ is defined, for $\alpha\in\Omega^k(U\cap V)$ with $d\alpha=0$, by
+    \begin{equation*}
+        \partial\alpha = 
+        \begin{cases}
+            d\rho_U\alpha=(d\rho_U)\wedge\alpha&\text{ on }U
+            d\rho_V\alpha=(d\rho_V)\wedge\alpha&\text{ on }V
+        \end{cases}
+    \end{equation*}
+    where $\{\rho_U,\rho_V\}$ is a partition of unity for the open cover $\{U,V\}$ on $M$.
+\end{theorem}
+\begin{proof}
+    See Lee.
+\end{proof}
 \end{document}
 
 
