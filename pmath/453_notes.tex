@@ -590,8 +590,9 @@ We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$
 \end{example}
 \section{Linear Functionals and Operators}
 Let $X,Y$ be vector spaces.
-We let $\mathcal{L}(X,Y)=\Set{S:X\to Y | S\text{ is linear}}$; this is itself a vector space with pointwise operations.
-Let $(X,\norm{\cdot})$ be a normed space.
+We let $\mathcal{L}(X,Y)$ denote the set of all linear maps from $X$ to $Y$, which is itself a vector space.
+
+Suppose moreover that $(X,\norm{\cdot})$ is a normed space.
 We denote
 \begin{align*}
     D(X) &= \{x\in X:\norm{x}<1\}\\
@@ -605,7 +606,7 @@ We denote
     \begin{enumerate}[nl,r]
         \item $S$ is continuous
         \item $S$ is continuous at some $x_0\in X$
-        \item $\norm{S}=\sup_{x\in D(X)}\norm{Sx}<\infty$.
+        \item $\norm{S}:=\sup_{x\in D(X)}\norm{Sx}<\infty$.
     \end{enumerate}
     Moreover, in this case, we have 
     \begin{align*}
@@ -656,53 +657,68 @@ We denote
 We now let $\mathcal{B}(X,Y)=\Set{S\in\mathcal{L}(X,Y) | S\text{ is bounded}}$.
 We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
 \begin{theorem}
-    If $X,Y$ are normed spaces, then $(\mathcal{B}(X,Y),\norm{\cdot})$ is a normed space.
-    Furthermore, if $Y$ is a Banach spaces, then so to is $(\mathcal{B}(X,Y),\norm{\cdot})$.
+    Let $X,Y,Z$ be normed spaces.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $(\mathcal{B}(X,Y),\norm{\cdot})$ is a normed space under the operator norm.
+        \item If $S\in\mathcal{B}(X,Y)$ and $T\in\mathcal{B}(Y,Z)$, then $T\circ S\in\mathcal{B}(X,Z)$ with $\norm{T\circ S}\leq\norm{T}\cdot\norm{S}$.
+        \item If $Y$ is a Banach space, then so is $(\mathcal{B}(X,Y),\norm{\cdot})$
+    \end{enumerate}
 \end{theorem}
 \begin{proof}
-    Define
-    \begin{equation*}
-        \Gamma:\mathcal{B}(X,Y)\to C_b^Y(B(X))
-    \end{equation*}
-    given by $\Gamma(S)=S|_{B(X)}$.
-    Then, by definition, $\Gamma$ is linear, with
-    \begin{equation*}
-        \norm{\Gamma(S)}_\infty=\sup_{x\in B(X)}\norm{Sx}=\norm{S}
-    \end{equation*}
-    Thus $\norm{\cdot}$ is a norm: if $S,T\in\mathcal{B}(X,Y)$, $\alpha\in\F$,
-    \begin{align*}
-        \norm{S+T}&=\norm{\Gamma(S+T)}_\infty=\norm{\Gamma(S)+\Gamma(T)}_\infty\leq \norm{\Gamma(S)}_\infty+\norm{\Gamma(T)}_\infty=\norm{S}+\norm{T}\\
-        \norm{\alpha S}&=\norm{\Gamma(\alpha S)}_\infty=|\alpha|\norm{\Gamma(S)}_\infty=|\alpha|\norm{S}.
-    \end{align*}
-    Furthermore, $\Gamma:\mathcal{B}(X,Y)\to C_b^Y(\mathcal{B}(X))$ is an isometry.
+    We have:
+    \begin{enumerate}[nl,r]
+        \item Define
+            \begin{equation*}
+                \Gamma:\mathcal{B}(X,Y)\to C_b^Y(B(X))
+            \end{equation*}
+            given by $\Gamma(S)=S|_{B(X)}$.
+            Then, by definition, $\Gamma$ is linear, with
+            \begin{equation*}
+                \norm{\Gamma(S)}_\infty=\sup_{x\in B(X)}\norm{Sx}=\norm{S}
+            \end{equation*}
+            Thus $\norm{\cdot}$ is a norm: if $S,T\in\mathcal{B}(X,Y)$, $\alpha\in\F$,
+            \begin{align*}
+                \norm{S+T}&=\norm{\Gamma(S+T)}_\infty=\norm{\Gamma(S)+\Gamma(T)}_\infty\leq \norm{\Gamma(S)}_\infty+\norm{\Gamma(T)}_\infty=\norm{S}+\norm{T}\\
+                \norm{\alpha S}&=\norm{\Gamma(\alpha S)}_\infty=|\alpha|\norm{\Gamma(S)}_\infty=|\alpha|\norm{S}.
+            \end{align*}
+            Furthermore, $\Gamma:\mathcal{B}(X,Y)\to C_b^Y(\mathcal{B}(X))$ is an isometry.
+        \item Certainly $T\circ S\in\mathcal{L}(X,Z)$, so it suffices to show the bound on the norm.
+            We have
+            \begin{align*}
+                \norm{T\circ S} &=\sup_{x\in X}\frac{\norm{T\circ S(x)}}{\norm{x}}=\sup_{\substack{x\in X\\S(x)\neq 0}}\frac{\norm{T\circ S(x)}}{\norm{S(x)}}\cdot\frac{\norm{S(x)}}{\norm{x}}\\
+                                &\leq\norm{T}\cdot\norm{S}
+            \end{align*}
+            as required.
 
-    Now suppose that $Y$ is a Banach space.
-    We will show that $\Gamma(\mathcal{B}(X,Y))$ is closed in $C_b^Y(B(X))$, and hence $B(X,Y)=\Gamma^{-1}(\Gamma(\mathcal{B}(X,Y)))$ is complete.
-    Let $(S_n)_{n=1}^\infty\subset\mathcal{B}(X,Y)$ be $\norm{\cdot}-$Cauchy.
-    Then $(\Gamma(S_n))_{n=1}^\infty$ is $\norm{\cdot}_\infty-$Cauchy in $C_b^Y(B(X))$, and hence there is $f\in C_b^Y(B(X))$ such that $\lim_{n\to\infty}\norm{\Gamma(S_n)-f}_\infty=0$.
-    Then we let $S:X\to Y$ be given by
-    \begin{equation*}
-        Sx=\begin{cases}
-            \norm{x}f\left(\frac{x}{\norm{x}}\right) & x\neq 0\\
-            0 & x=0
-        \end{cases}
-    \end{equation*}
-    If $x,x'\in X$ and $\alpha\in\F$ are all such that $x,x',x+\alpha x'\neq 0$, then
-    \begin{align*}
-        S(x+\alpha x') &= \norm{x+\alpha x'}f\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
-                       &= \norm{x+\alpha x'}\lim_{n\to\infty} S_n\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
-                       &= \lim_{n\to\infty}(S_nx+\alpha S_nx')=\lim_{n\to\infty}\left[\norm{x}S_n\left(\frac{1}{\norm{x}}x\right)+\alpha\norm{x'}S_n\left(\frac{1}{\norm{x}}x'\right)\right]\\
-                       &= \norm{x}f\left(\frac{x}{\norm{x}}\right)+\alpha\norm{x'}f\left(\frac{x'}{\norm{x}}\right)\\
-                       &= Sx+\alpha Sx'
-    \end{align*}
-    The above computation is easily performed if any of $x$, $x'$, $x+\alpha x'$ are 0.
-    Hence $S\in\mathcal{L}(X,Y)$.
-    We se that $S$ is continuous (say, at a point on $S(X)$), so $S\in\mathcal{B}(X,Y)$.
-    Finally, as $S|_{B(X)}=f=\lim_{n\to\infty}S_n|_{B(X)}$ (with respect to the uniform norm), we have
-    \begin{equation*}
-        \norm{S-S_n}=\sup_{x\in B(X)}\norm{(S-S_n)x}=\norm{f-\Gamma(S_n)}_\infty
-    \end{equation*}
-    goes to $0$ as $n$ goes to infinity.
+        \item Now suppose that $Y$ is a Banach space.
+            We will show that $\Gamma(\mathcal{B}(X,Y))$ is closed in $C_b^Y(B(X))$, and hence $B(X,Y)=\Gamma^{-1}(\Gamma(\mathcal{B}(X,Y)))$ is complete.
+            Let $(S_n)_{n=1}^\infty\subset\mathcal{B}(X,Y)$ be $\norm{\cdot}-$Cauchy.
+            Then $(\Gamma(S_n))_{n=1}^\infty$ is $\norm{\cdot}_\infty-$Cauchy in $C_b^Y(B(X))$, and hence there is $f\in C_b^Y(B(X))$ such that $\lim_{n\to\infty}\norm{\Gamma(S_n)-f}_\infty=0$.
+            Then we let $S:X\to Y$ be given by
+            \begin{equation*}
+                Sx=\begin{cases}
+                    \norm{x}f\left(\frac{x}{\norm{x}}\right) & x\neq 0\\
+                    0 & x=0
+                \end{cases}
+            \end{equation*}
+            If $x,x'\in X$ and $\alpha\in\F$ are all such that $x,x',x+\alpha x'\neq 0$, then
+            \begin{align*}
+                S(x+\alpha x') &= \norm{x+\alpha x'}f\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
+                               &= \norm{x+\alpha x'}\lim_{n\to\infty} S_n\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
+                               &= \lim_{n\to\infty}(S_nx+\alpha S_nx')=\lim_{n\to\infty}\left[\norm{x}S_n\left(\frac{1}{\norm{x}}x\right)+\alpha\norm{x'}S_n\left(\frac{1}{\norm{x}}x'\right)\right]\\
+                               &= \norm{x}f\left(\frac{x}{\norm{x}}\right)+\alpha\norm{x'}f\left(\frac{x'}{\norm{x}}\right)\\
+                               &= Sx+\alpha Sx'
+            \end{align*}
+            The above computation is easily performed if any of $x$, $x'$, $x+\alpha x'$ are 0.
+            Hence $S\in\mathcal{L}(X,Y)$.
+            We se that $S$ is continuous (say, at a point on $S(X)$), so $S\in\mathcal{B}(X,Y)$.
+            Finally, as $S|_{B(X)}=f=\lim_{n\to\infty}S_n|_{B(X)}$ (with respect to the uniform norm), we have
+            \begin{equation*}
+                \norm{S-S_n}=\sup_{x\in B(X)}\norm{(S-S_n)x}=\norm{f-\Gamma(S_n)}_\infty
+            \end{equation*}
+            goes to $0$ as $n$ goes to infinity.
+    \end{enumerate}
 \end{proof}
 \begin{definition}
     Given a vector space $X$, let $X'=\mathcal{L}(X,\F)$ denote the \textbf{algebraic dual}.
@@ -939,45 +955,41 @@ Trivially, any $\C-$vector siace is a $\R-$vector space.
         |f(x)|=|\Re f_{\C}(x)|\leq|f_{\C}(x)|\leq\norm{f_{\C}}\norm{x}\text{ so that }\norm{f}\leq\norm{f_{\C}}
     \end{equation*}
 \end{proof}
-\begin{corollary}
-    If $X$ is a normed space, $Y\subseteq X$ a subspace and $f\in Y^*$, then there exists $F\in X^*$ such that $F|_{Y}=f$ and $\norm{F}=\norm{f}$.
+\begin{corollary}[Hahn-Banach, Alternative Forms]\label{c:hahn-ext}
+    Let $X$ be a normed space.
+    \begin{enumerate}[nl,r]
+        \item If $Y\subseteq X$ a subspace and $f\in Y^*$, then there exists $F\in X^*$ such that $F|_{Y}=f$ and $\norm{F}=\norm{f}$.
+        \item If $x\in X$, then there is $f\in X^*$ such that $f(x)=\norm{x}$ and $\norm{f}=1$.
+    \end{enumerate}
 \end{corollary}
 \begin{proof}
-    Define $\rho:X\to\R$ be given by $p(x)=\norm{f}\cdot\norm{x}$, so $p$ is sublinear and $\Re f\leq p|_Y$.
-    Apply Hahn-banach to to this data and get $\tilde F\in X_{\R}^*$ such that $\tilde F|_Y=\Re f$ and $\tilde F\leq p$, and let $F=\tilde F_{\C}$.
+    We have:
+    \begin{enumerate}[nl,r]
+        \item Define $\rho:X\to\R$ be given by $p(x)=\norm{f}\cdot\norm{x}$, so $p$ is sublinear and $\Re f\leq p|_Y$.
+            Apply Hahn-banach to to this data and get $\tilde F\in X_{\R}^*$ such that $\tilde F|_Y=\Re f$ and $\tilde F\leq p$.
+            Set $F=\tilde F_{\C}$.
+        \item If $x=0$, this is trivial, so suppose not.
+            Let $f_0:\F x\to\F$ be given by $f_0(\alpha x)=\alpha\norm{x}$.
+            If $x\neq 0$, then
+            \begin{equation*}
+                \norm{f_0}=\sup_{\norm{\alpha x}\leq 1}|f_0(\alpha x)|=\sup_{\norm{\alpha x}\leq 1}|\alpha|\norm{x}=1
+            \end{equation*}
+            and apply (i).
 \end{proof}
-\begin{corollary}
-    If $X$ is a normed space, $x\in C$, then there is $f\in X^*$ such that
-    \begin{equation*}
-        \norm{x}=f(x)=|f(x)|\text{ and }\norm{f}=1
-    \end{equation*}
-\end{corollary}
-\begin{proof}
-    Let $f_0:\F x\to\F$ be given by $f_0(\alpha x)=\alpha\norm{x}$.
-    If $x\neq 0$, then
-    \begin{equation*}
-        \norm{f_0}=\sup_{\norm{\alpha x}\leq 1}|f_0(\alpha x)|=\sup_{\norm{\alpha x}\leq 1}|\alpha|\norm{x}=1
-    \end{equation*}
-    and apply the previous corollary.
-    If $x=0$, this is trivial.
-\end{proof}
+As a nice application of Hahn-Banach, we get the following embedding result.
+Let $X$ be a normed space and $X^{**}$ denote the bidual, and for $x\in X$, define $\hat{x}:X^*\to\F$ by $\hat{x}(f)=f(x)$.
 \begin{theorem}
-    Let $X$ be a normed space and $X^{**}$ denote the bidual.
-    For $x\in X$, define $\hat x:X^*\to\F$ by $\hat x(f)=f(x)$.
-    Then $\hat x\in X^{**}$ with $\norm{\hat x}=\norm{x}$, so that $x\mapsto\hat x:X\to X^{**}$ is a linear isometry.
+    The map $\phi:X\to X^{**}$ given by $\phi(x)=\hat{x}$ is a linear isometry.
 \end{theorem}
 \begin{proof}
-    Notice that $|\hat x(f)|=|f(x)\leq\norm{f}\norm{x}$ so $\norm{\hat x}\leq\norm{x}$.
-    The last corollary provides for $x\in X$ an $f_x\in S(X^*)$ with $|f_x(x)|=\norm{x}$.
-    Then $\norm{\hat x}\leq|\hat x(f_x)|=\norm{x}$.
-    Hence $\norm{\hat x}=\norm{x}$.
-    Clearly $x\mapsto\hat x$ is linear.
+    Linearity is immediate.
+    Notice that $|\hat x(f)|=|f(x)|\leq\norm{f}\norm{x}$ so $\norm{\hat{x}}\leq\norm{x}$.
+    Moreover, \cref{c:hahn-ext} provides for each $x\in X$ some $f_x\in S(X^*)$ with $|f_x(x)|=\norm{x}$, so that $\norm{\hat{x}}=\norm{x}$.
 \end{proof}
-\begin{remark}
-    Since $X^{**}$, being a dual space, is complete, we have that $\hat X=\{\hat x:x\in X\}$ satisfies that its closure $\overline{\hat X}\subseteq X^{**}$ is complete.
-    Hence $\overline{\hat X}$ is a Banach space containing a dense copy of $X$.
-    Often, we will simply write $\overline{\hat X}=\overline{X}$ and call it the \textbf{completion} of $X$.
-\end{remark}
+This method gives a nice way to define the completion of a normed space.
+Naturally, we may do this construction for any metric space, but it is nicer for Banach space.
+Since $X^{**}$ is a dual space, it is complete, so that $\hat X=\{\hat x:x\in X\}$ has $\overline{\hat X}\subseteq X^{**}$ is complete.
+But then $\overline{\hat{X}}$ is Banach space containing a dense isometric copy of $X$, and since the completion of a metric space is unique (up to surjective isometry), this is the completion of $X$, $\overline{X}$.
 \subsection{Geometric Hahn-Banach}
 If $A,B\subset X$ with $A\cap B=\emptyset$ (and other suitable assumptions), we will find a $\R-$hyperplane between $A$ and $B$.
 \begin{definition}
@@ -1955,7 +1967,8 @@ Now, suppose $(X,\tau)$ is a topological space.
 \subsection{Roles of weak and weak* topologies in convexity}
 We begin with a useful technical lemma:
 \begin{lemma}\label{l:ws-ker}
-    In an $\F-$vector space, if $f_0,f_1,\ldots,f_\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$, then $f\in\spn\{f_1,\ldots,f_n\}$.
+    Let $X$ be an $\F-$vector space and $f_0,f_1,\ldots,f_n\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$.
+    Then $f\in\spn\{f_1,\ldots,f_n\}$.
 \end{lemma}
 \begin{proof}
     Define $T:X\to\F^n$ by $Tx=(f_1(x),\ldots,f_n(x))$.
@@ -1971,7 +1984,7 @@ We begin with a useful technical lemma:
     \end{equation*}
     so that $f_0=\sum_{j=1}^n\alpha_jf_j$.
 \end{proof}
-We now show that the $w^*-$continuous functions are actually sufficient for the separation theorems:
+We now show that we have an analogue of norm separation with respect to the $w^*-$topology:
 \begin{theorem}[$w^*-$Separation]
     Let $X$ be a normed space, $A,B\subset X^*$ each be non-empty and convex, with $A\cap B=\emptyset$ and $B$ $w^*-$open.
     Then there is $x\in X$ and $\alpha\in\R$ such that
@@ -2817,44 +2830,52 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
 \end{remark}
 \section{Adjoint Operators}
 \begin{definition}
-    Let $X,Y$ be vector spaces over $\F$, and $T\in\mathcal{L}(X,Y)$.
-    Define the \textbf{adjoint} of $T$, $T^*:Y'\to X'$ by $T^*f=f\circ T$.
+    Let $X,Y$ be vector spaces over $\F$ and $T\in\mathcal{L}(X,Y)$.
+    We define the \textbf{adjoint} of $T$ to be the map $T^*\in\mathcal{L}(Y',X')$ given by $T^*f=f\circ T$.
 \end{definition}
-Notice that $T^*\in \mathcal{L}(Y',X')$.
+We can interpret the adjoint in terms of the natural bilinear pairing $\langle\cdot,\cdot\rangle:V\times V^*\to\F$ given by $\langle v,f\rangle=f(v)$.
+In particular, if $T:V\to W$ is linear map, then $T^*:W^*\to V^*$ satisfies
+\begin{equation*}
+    \langle Tv,g\rangle_{W} = g(Tv) = T^*g(v)= \langle v,T^*g\rangle_V.
+\end{equation*}
+We may also naturally identify $T^{**}|_{\hat{X}}:\hat{X}\to Y^{**}$ with $T$.
+Suppose $\hat{x}\in\hat{X}$ is arbitrary: then $T^{**}(\hat{x})=\hat{x}\circ T^*$, so if $f\in Y^*$, then
+\begin{equation*}
+    T^{**}(\hat{x})(f)=\hat{x}\circ T^*(f)=\hat{x}(f\circ T)=f(T(x)).
+\end{equation*}
+so that $T^{**}(\hat{x})=\widehat{T(x)}$.
+In particular, since $x\mapsto\hat{x}$ is an isometry,
+\begin{align*}
+    \norm{T^{**}|_{\hat{X}}} &= \sup_{\hat{x}\in B(\hat{X})}\norm{T^{**}\hat{x}} = \sup_{x\in B(X)}\norm{\widehat{T(x)}}\\
+                             &= \sup_{x\in B(X)}\norm{T(x)}= \norm{T}
+\end{align*}
+so that this identification is norm-preserving.
 \begin{proposition}
     Let $X,Y,Z$ be normed spaces, $T\in\mathcal{B}(X,Y)$ and $S\in\mathcal{B}(Y,Z)$.
     Then
     \begin{enumerate}[nl,r]
         \item $T^*\in\mathcal{B}(Y^*,X^*)$ with $\norm{T^*}=\norm{T}$
         \item $T\mapsto T^*:\mathcal{B}(X,Y)\to\mathcal{B}(Y^*,X^*)$ is linear
-        \item $T^{**}:=(T^*)^*$ satisfies $T^{**}\in\mathcal{B}(X^{**},Y^{**})$ and $T^{**}\hat x=\widehat{Tx}$.
         \item $(S\circ T)^*=T^*\circ S^*\in\mathcal{B}(Z^*,X^*)$.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    \begin{enumerate}[nl,r]
-        \item[(i),(iii)] If $f\in Y^*$, then
-            \begin{equation*}
-                \norm{T^*f}=\sup\{|T^*f(x)|:x\in B(X)\}\leq\sup\{\norm{f}\norm{Tx}:x\in B(X)\}\leq\norm{f}\norm{T}
-            \end{equation*}
-            so $\norm{T^*}\leq\norm{T}$.
-            If $x\in X$ and $f\in Y^*$, then
-            \begin{equation*}
-                T^{**}\hat{x}(f)=\hat{x}(T^*f)=T^*f(x)=f(Tx)=\widehat{Tx}(f)
-            \end{equation*}
-            so that $\norm{T}=\norm{T^{**}|_{\hat X}}\leq\norm{T^{**}}\leq\norm{T^*}$.
-        \item[(ii)] Immediate.
-        \item[(iv)] Immediate.
-    \end{enumerate}
+    We prove (i): (ii) and (iii) are easy and left as exercises.
+    If $f\in Y^*$, then
+    \begin{equation*}
+        \norm{T^*f}=\sup_{x\in B(X)}|T^*f(x)|\leq\norm{f}\cdot\sup_{x\in B(X)}\norm{Tx}=\norm{f}\cdot\norm{T}
+    \end{equation*}
+    so $\norm{T^*}\leq\norm{T}$.
+    Conversely, by the preceding remarks and applying the above result to $T^*$, we have $\norm{T}=\norm{T^{**}|_{\hat X}}\leq\norm{T^{**}}\leq\norm{T^*}$ so equality holds.
 \end{proof}
-\begin{remark}
-    If $H,K$ are Hilbert spaces and $T\in\mathcal{B}(H,K)$, then we define for $x\in K$, $T^*x$ by $f_{T^*x}=T^*f_x$.
-    Notice that (i) and (iv) hold in this setting.
-    However, (ii) is replaced by $T\mapsto T^*$ is conjugate linear.
-    Notice that $T^*$ satisfies $(Tx,y)=(x,T^*y)$ for $x,y\in H$.
-\end{remark}
+
+If $H,K$ are Hilbert spaces and $T\in\mathcal{B}(H,K)$, then we define for $x\in K$, $T^*x$ by $f_{T^*x}=T^*f_x$.
+Notice that (i) and (iv) hold in this setting.
+However, (ii) is replaced by $T\mapsto T^*$ is conjugate linear.
+Notice that $T^*$ satisfies $(Tx,y)=(x,T^*y)$ for $x,y\in H$.
+
 \begin{theorem}[Kernel-Annhilator]
-    If $X$ and $Y$ are Banach spaces, $T|in B(X,Y)$, then $\ker T=[\im(T^*)]_a$ and $\ker(T^*)=(\im T)^a$.
+    If $X$ and $Y$ are Banach spaces, $T\in B(X,Y)$, then $\ker T=[\im(T^*)]_a$ and $\ker(T^*)=(\im T)^a$.
 \end{theorem}
 \begin{proof}
     We have
