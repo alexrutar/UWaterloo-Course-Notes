@@ -2619,9 +2619,9 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     Let $n_1=\min\{n:x_n\neq 0\}$, and $n_{k+1}=\min\{n:x_n\notin\spn\{x_{n_1},\ldots,x_{n_k}\}\}$.
     Then $\{x_{n_1},x_{n_2},\ldots\}$ and normalize to get an orthonormal set $E=\{e_1,e_2,\ldots\}$ which satisfies $\overline{\spn E}=\overline{\spn}\{x_n\}_{n=1}^\infty=\mathcal{E}$.
 \end{proof}
-\begin{theorem}[Riesz Fischer]
+\begin{theorem}[Riesz-Fischer]
     Let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space.
-    Then $\mathcal{E}$ is a Hilbert space if and only if for any orthonrmal set $E$ and an $\alpha=(\alpha_e)_{e\in E}\in\ell_2(E)$, we have that $\sum_{e\in E}\alpha_ee\in\mathcal{E}$.
+    Then $\mathcal{E}$ is a Hilbert space if and only if for any orthonormal set $E$ and $\alpha=(\alpha_e)_{e\in E}\in\ell_2(E)$, we have that $\sum_{e\in E}\alpha_ee\in\mathcal{E}$.
 \end{theorem}
 \begin{proof}
     \impr
@@ -2855,24 +2855,30 @@ so that this identification is norm-preserving.
     Then
     \begin{enumerate}[nl,r]
         \item $T^*\in\mathcal{B}(Y^*,X^*)$ with $\norm{T^*}=\norm{T}$
-        \item $T\mapsto T^*:\mathcal{B}(X,Y)\to\mathcal{B}(Y^*,X^*)$ is linear
+        \item $T\mapsto T^*:\mathcal{B}(X,Y)\to\mathcal{B}(Y^*,X^*)$ is a continuous linear map
         \item $(S\circ T)^*=T^*\circ S^*\in\mathcal{B}(Z^*,X^*)$.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    We prove (i): (ii) and (iii) are easy and left as exercises.
-    If $f\in Y^*$, then
-    \begin{equation*}
-        \norm{T^*f}=\sup_{x\in B(X)}|T^*f(x)|\leq\norm{f}\cdot\sup_{x\in B(X)}\norm{Tx}=\norm{f}\cdot\norm{T}
-    \end{equation*}
-    so $\norm{T^*}\leq\norm{T}$.
-    Conversely, by the preceding remarks and applying the above result to $T^*$, we have $\norm{T}=\norm{T^{**}|_{\hat X}}\leq\norm{T^{**}}\leq\norm{T^*}$ so equality holds.
-\end{proof}
+    We prove (i) and (ii); (iii) is easy and left as an exercise.
+    \begin{enumerate}[nl,r]
+        \item If $f\in Y^*$, then
+            \begin{equation*}
+                \norm{T^*f}=\sup_{x\in B(X)}|T^*f(x)|\leq\norm{f}\cdot\sup_{x\in B(X)}\norm{Tx}=\norm{f}\cdot\norm{T}
+            \end{equation*}
+            so $\norm{T^*}\leq\norm{T}$.
+            Conversely, by the preceding remarks and applying the above result to $T^*$, we have $\norm{T}=\norm{T^{**}|_{\hat X}}\leq\norm{T^{**}}\leq\norm{T^*}$ so equality holds.
 
-If $H,K$ are Hilbert spaces and $T\in\mathcal{B}(H,K)$, then we define for $x\in K$, $T^*x$ by $f_{T^*x}=T^*f_x$.
-Notice that (i) and (iv) hold in this setting.
-However, (ii) is replaced by $T\mapsto T^*$ is conjugate linear.
-Notice that $T^*$ satisfies $(Tx,y)=(x,T^*y)$ for $x,y\in H$.
+        \item Suppose $T=\lim_{\nu\in N}T_\nu$; then
+            \begin{equation*}
+                \lim_{\nu\in N}\norm{T_\nu^*-T^*} = \lim_{\nu\in N}\norm{(T_\nu-T)^*}=\lim_{\nu\in N}\norm{T_\nu-T}=0
+            \end{equation*}
+            is sequentially continuous, and hence continuous.
+    \end{enumerate}
+\end{proof}
+If $H,K$ are Hilber spaces and $T\in\mathcal{B}(H,K)$, then for each $x\in K$, we define by Riesz-Frechet the element $T^*x$ by the rule $f_{T^*x}=T^*f_x$.
+Then properties (i) and (iii) still hold, but (ii) is replaced by the observation that $T\mapsto T^*$ is conjugate linear.
+Note that, by definition, $\inr{Tx,y}=\inr{x,T^*y}$ for $x,y\in H$ and $T^*$ is unique with this property.
 
 \begin{theorem}[Kernel-Annhilator]
     If $X$ and $Y$ are Banach spaces, $T\in B(X,Y)$, then $\ker T=[\im(T^*)]_a$ and $\ker(T^*)=(\im T)^a$.
@@ -2969,7 +2975,7 @@ Notive that if $S,T\in\mathcal{G}(X)$, then $(ST)^{-1}=T^{-1}S^{-1}$, so $\mathc
 Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\norm{ST}\leq\norm{S}\norm{T}$, so that $S\mapsto ST$ and $S\mapsto TS$ for some $T\in\mathcal{B}(X)$ are continuous.
 \begin{theorem}[Inversion]
     \begin{enumerate}[nl,r]
-        \item If $T\in D(X)$, then $\sum_{k=0}^\infty T_k$ converges in $\mathcal{B}(X)$, and $\sum_{k=0}^\infty T^k=(I-T)^{-1}$
+        \item If $T\in D(X)$, then $\sum_{k=0}^\infty T^k$ converges in $\mathcal{B}(X)$, and $\sum_{k=0}^\infty T^k=(I-T)^{-1}$.
         \item If $S,T\in\mathcal{B}(X)$ such that $S\in\mathcal{G}(X)$ and $\norm{T-S}<\frac{1}{\norm{S^{-1}}}$, then $T\in\mathcal{G}(X)$ with $T^{-1}=S^{-1}+\sum_{k=1}^\infty[S^{-1}(S-T)]^kS$.
     \end{enumerate}
     Thus, we find that $\mathcal{G}(X)$ is open in $\mathcal{B}(X)$ and $T\mapsto T^{-1}$ on $\mathcal{G}(X)$ is continuous.
@@ -3005,10 +3011,11 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
 \end{proof}
 \begin{definition}
     Suppose $\mathcal{B}$ is a $\C-$Banach space, $U\subseteq\C$ and $F:U\to\mathcal{B}$.
-    We say that $F$ is \textbf{holomorphic} if for any $z_0\in U$,
+    We say that $F$ is \textbf{holomorphic} if for any $z_0\in U$ the limit
     \begin{equation*}
         F'(z_0)=\lim_{z\to z_0}\frac{1}{z-z_0}[F(z)-F(z_0)]
     \end{equation*}
+    exists.
 \end{definition}
 \begin{remark}
     Just as in calculus, a holomorphic funtion is continuous on its domain.
@@ -3047,7 +3054,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     If $f:\C\to\C$ is holomorphic and bounded, then $f$ is constant.
 \end{theorem}
 \begin{proof}
-    Apply Cauchy integral formula.
+    Apply the Cauchy integral formula.
 \end{proof}
 \begin{theorem}[Liouville for Banach Spaces]
     If $F:\C\to\mathcal{B}$ is holomorphic and bounded, then $F$ is constant.
@@ -3576,4 +3583,95 @@ Certainly Hermitian operators are normal.
     so $\Phi(fg)=\Phi(f)\Phi(g)$.
     The other properties follow similarly.
 \end{proof}
+\begin{theorem}[Spectral Theorem for Compact Hermitian Operators]
+    Let $H=H^*$ in $\mathcal{K}(\mathcal{H})$ and enumerate $\sigma(H)\setminus\{0\}=\{\lambda_1,\lambda_2,\ldots\}\subseteq\R$.
+    Then there exists a sequence $\{P_1,P_2,\ldots\}$ of finite rank orthogonal projections such that
+    \begin{itemize}[nl]
+        \item $H=\sum_{n=1}^\infty\lambda_n P_n$ converging in norm
+        \item If $m\neq n$, $P_nP_m=0$ so $\im P_n\perp\im P_m$
+        \item For $T\in\mathcal{B}(\mathcal{H})$, $TH=HT$ if and only if $TP_n=P_nT$ for each $n$.
+        \item Each $\im P_n$ is finite dimensional.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    Since $\sigma(H)=\{\lambda_1,\lambda_2,\ldots\}\cup\{0\}$ with $\lim\lambda_n=0$.
+    Then for each $n$, let $\phi_n=\chi_{\{\lambda_n\}}$, and note that $\phi_n\in C(\sigma(H))$ and $\iota=\sum_{n=1}^\infty\lambda_n\phi_n$ where the infite sum converges uniformly.
+    Let $P_n=\phi_n(H)$, so that
+    \begin{equation}\label{e:iot}
+        H=\iota(H)=\sum_{n=1}^\infty\lambda_n\phi_n(H)=\sum_{n=1}^\infty \lambda_nP_n
+    \end{equation}
+    Also, if $n,m\geq 1$, $\phi_n\phi_m=\phi_n$ if and only if $n=m$, so $P_n^2=\phi_n^2(H)=P_n$, and $\norm{P_n}=\norm{\phi_n}_\infty=1$ so by A4 $P_n$ is an orthogonal projection.
+    If $n\neq m$, $P_nP_m=\phi_n(H)\phi_(m)H=0(H)=0$ so that $\im P_n\perp\im P_m$.
+
+    Suppose now that $HT=TH$.
+    Then $P_nT=\phi_n(H)T=T\phi_n(H)=TP_n$ for each $n$.
+    If $P_nT=TP_n$ for each $n$, then $T$ commutes with the infinite sum in \cref{e:iot} and hence with $H$.
+    
+    Finally, multiplicativity of the functional calculus to see that $P_n=\frac{1}{\lambda_n}P_nH$ so $P_n\in\mathcal{K}(\mathcal{H})$.
+    Moreover, $B(\im P_n)=P_n(B(\im P_n))\subseteq P_n(\mathcal{B}(\mathcal{H})$ is compact, and hence $\im P_n$ is finite dimensional.
+\end{proof}
+\begin{corollary}[Spetral Theorem for Compact Normal Operators]
+    If $K\in\mathcal{K}(\mathcal{H})$ with $K^*K=KK^*$, then given an enumeration $\{\mu_1,\mu_2,\ldots\}$ of $\sigma(K)\setminus\{0\}$ there is a sequence of finite rank orthogonal projections $\{P_1,P_2,\ldots\}$ such that $K=\sum_{n=1}^\infty\mu_n P_n$ and $P_nP_m=0$ if $N\neq m$.
+\end{corollary}
+\begin{proof}
+    Let $H_1=\Re K$, $H_2=\im K$, so $H_1H_2=H_2H_1$, each is compact Hermitian, and write
+    \begin{equation*}
+        H_j=\sum_{n=1}^\infty\lambda_{jn}P_{jn}
+    \end{equation*}
+    as above.
+    Notive that $P_{1n}P_{2n}=P_{2n}P_{1n}$ for $n,m$, so each is a norm 1 idempotent and hence an orthogonal projection.
+    Moreover, $\im P_{1n}P_{2m}\subseteq\im P_{1n}$ is finite dimensional.
+    Let $\{P_1,P_2,\ldots\}$ be an enumeration of $\{P_{1n}P_{2m}:m,n\in \N\cup\{0\}\times\N\cup\{0\}\}$ and set $P_{j}=P_{\ker H_j}$.
+    Then $\{\mu_1,\mu_2,\ldots\}$ is an associated enumeration of $\lambda_{1n}+i\lambda_{2m}$.
+\end{proof}
+\begin{definition}
+    Let $\mathcal{H}$ be a Hilbert space.
+    A \textbf{partial isometry} is a linear operator $U:\mathcal{H}\to\mathcal{H}$ such that $U|_{(\ker U)^\perp}$ is an isometry.
+    Hence $\norm{U}=1$, or $\norm{U}=0$ if $\ker U=\mathcal{H}$.
+\end{definition}
+\begin{theorem}[Polar Decomposition]
+    Let $T\in\mathcal{B}(\mathcal{H})$.
+    Then there is an operator $|T|$ such that $|T|^*=|T|$ and a partial isometry $U$ such that $T=U|T|$.
+\end{theorem}
+\begin{proof}
+    We have $T^*T$ is Hermitian with $\sigma(T^*T)\subseteq[0,\infty)$.
+    Thus we may define by the functional calculus $|T|=(T^*T)^{1/2}$ is a bounded operator.
+    Notive that $\sqrt{\cdot}:[0,\infty)\to[0,\infty)$ is $\R-$valued, so $|T|^*=|T|$.
+    Given $x\in\mathcal{H}$,
+    \begin{equation*}
+        \norm{|T|x}^2=\inr{|T|x,|T|x}=\inr{|T|^2x,x}=\inr{T^*Tx.x}=\inr{Tx,Tx}=\norm{Tx}^2.
+    \end{equation*}
+    Define $U_0:\im |T|\to\mathcal{H}$ by $U_0|T|x=Tx$.
+    If $|T|x=|T|x'$, then $x-x'\in\ker|T|=\ker T$, so $Tx=Tx'$ so $U_0$ is well-defined.
+    Similarly, $U_0$ is linear, and we computed above that $U_0$ is an isometry.
+    Let $U_1:\overline{\im T}\to\mathcal{H}$ be the unique continuous extension.
+    We note that $\overline{\im |T|}=(\ker T)^\perp$, and define $U=U_1P_{\overline{\im|T|}}$.
+    Then $T=U|T|$ by construction of $U_0$ and $\ker U=\ker T$.
+\end{proof}
+\begin{corollary}
+    Let $K\in\mathcal{K}(\mathcal{H})$.
+    Then there exists a sequence
+    \begin{itemize}[nl]
+        \item $s_1(K)>s_2(K)>\cdots$ with $\lim_{n\to\infty}s_n(K)=0$ if infinite
+        \item A sequence $\{P_1,P_2,\ldots\}$ of finite rank orthogonal projections with $P_nP_m=0$ if $n\neq m$
+        \item A partial isometry $U$ on $\mathcal{H}$ with $\ker U=\ker K$ such that $K=\sum_{n=1}^\infty s_1(K) U P_n$
+    \end{itemize}
+\end{corollary}
+\begin{proof}
+    We let $\{\lambda_1,\lambda_2,\ldots\}\subset(0,\infty)$ and $\{P_1,P_2,\ldots\}$ arise from the spectral theorem applied to $K^*K$, so $K^*K=\sum_{n=1}^\infty\lambda_n P_n$.
+    Then $|K|=(K^*K)^{1/2}=\sum_{n=1}^\infty\sqrt{\lambda_n}P_n$.
+    Let $s_n(K)=\sqrt{\lambda_n}$ and apply the polar decomposition.
+\end{proof}
+\begin{itemize}[nl]
+    \item Note that $\ker U=\ker(K^*K)\perp\im P_n$ so $UP_n$ is a partial isometry of finite rank.
+    \item $\im UP_n\perp\im UP_m$ for $n\neq m$.
+        To see this, f $x,y\in\mathcal{H}$, then by polarization,
+        \begin{align*}
+            \inr{UP_nx,UP_my} &= \frac{1}{4}\sum_{k=0}^3 i^3\inr{U(P_nx+i^kP_my),U(P_nx+i^kP_my)}\\
+                              &= \frac{1}{4}\sum_{k=0}^3 i \norm{U(P_n+iP_my)}=\frac{1}{4}\sum_{k=0}^3\norm{P_n+iP_my}^\\
+                              &= \inr{P_nx,P_my}=0
+        \end{align*}
+\end{itemize}
+For example, compute $U$, $|K|$ for $x\in\ell_2$ and $Kx=(0,x_1,\frac{1}{2}x_2,\frac{1}{3}x_3)$.
+
 \end{document}
