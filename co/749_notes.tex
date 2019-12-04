@@ -250,6 +250,7 @@
 % constants --------------------------------------------------------------------
 \newcommand{\subject}{Topics in Graph Theory}
 \newcommand{\semester}{Fall 2019}
+\newcommand{\from}{\ensuremath{\leftarrow}}
 
 
 % formatting -------------------------------------------------------------------
@@ -1544,22 +1545,48 @@ We get some properties of cut-faithful subgraphs:
     Create a bipartite graph $K_{k,k}$ labelled with colours, and an edge if there is an edge joining such colours.
     Then if there is conflict, there are $p(k-p+1)\geq k$ edges in the complement $K_{k,k}$, so we may apply Hall's theorem.
 \end{proof}
+Let $G_1=G$, and $G_{i+1}=G_i-D_i$, and $G_i=\bigcap_{j<i}G_j$ if $i$ is a limit ordinal.
+Thus we construct a generalized sequence of cut deletions $G_\omega$ for any ordinal $\omega$.
+We then write $G\to H$ by applying this cut deletion procedure.
+Conversely, we may construct $G\from H$ by finite cut additions in the same way.
+Here's a theorem we will not prove:
+\begin{theorem}
+    If $G\to H$, then $G\from H$.
+\end{theorem}
+Note that if $G\from H$, it is not necessarily true that $G\to H$: one can construct the countable complete graph by cut additions, which has no finite cut.
 \begin{theorem}
     Let $G$ be a graph with uncountable chromatic number.
     Then there exists some $H\subseteq G$ such that $\lambda(H)=\infty$ and $\chi(H)$ uncountable.
 \end{theorem}
 \begin{proof}
-    % Set $G=G_1$, and $D_1$ a finite cut in $G$.
-    % Then $G_2=G_1-D_1$, and repeat countably many times.
-    % Do this by Zorn's lemma.
-    % We must show that some component has uncountable chromatic number.
+    We argue by transfinite induction by applying finite cut deletion.
 
-    We argue by transfinite induction.
-    Let $G_1=G$, and $G_{i+1}=G_i-D_i$, and $G_i=\bigcap_{j<i}G_j$ if $i$ is a limit ordinal.
-    We then write $G\to H$ by applying this cut deletion procedure.
-    Conversely, we may construct $H\to G$ by finite cut additions in the same way.
-    Let's first see that if $G\to H$, then $G\from H$
-    Note that if $G\from H$, it is not necessarily true that $G\to H$: one can construct the countable complete graph by cut additions, which has no finite cut.
-
+    Suppose by cut deletion we end up with some collection of graph components.
+    We first show that one fo these has $\chi>\aleph_0$ and $\lambda\geq\lambda_0$.
+    Suppose for contradiction we can colour one of these components with colours in $\N$.
+    Let's show that by cut addition we can maintain the countable number.
+    Let $V(G)=\{v_i:i\in I\}$ where $I$ is well-ordered.
+    Enumerate the parts $H_i$, and focus on some $H_i$.
+    Fix some vertex $v$ in $B$, where $v$ has colour $c_i(v)$ and distinguished vertex $k_i$.
+    Then whenever we have parts $H_i,H_j$, we keep the colours in $i$ and permute the colours in $j$ if $k_i\leq k_j$.
+    Then define $c(v)=\lim c_i(v)$, where the limit exists since $k_i\leq k_j$ whenever $i>j$.
+\end{proof}
+We say a graph has colouring number $\Col(G)=\omega$ where $\omega$ is the smallest cardinality such that there exists a well-ordering on $V(G)$ so that all the edges from $v$ to some smaller vertex $w$ is strictly less than $\omega$.
+Suppose we combine components $A,B$ with $k(A)<k(B)$.
+Then we reorder the ordering so that $V(B)$ is appended to $V(G)$ under the ordering, and $V(A)$ is unchanged.
+This only happens finitely many times, so that this reordering is well-defined for each vertex.
+But then the colouring number is unchanged, so that $\Col(G)$ is preserved under finite cut deletion.
+\begin{theorem}[Hakimi]
+    If $G$ is a graph, then there exists an orientation on $G$ so that every vertex has outdegree strictly greater than $k$ if and only if there exists a subset $H\subseteq G$ such that $|E(H)|>k|V(H)|$.
+\end{theorem}
+This also holds for $k$ finite and $G$ infinite, where we require $H\subseteq G$ is finite.
+\begin{theorem}
+    For any orientation on $G$ there exists a vertex of out-degree $\aleph_0$ implie there is some $G\supseteq H$ uncountable and of infinite edge-connectivity.
+\end{theorem}
+\begin{proof}
+    Apply finite cut deletion to get a set of disconnected components.
+    Certainly each has infinite edge-connectivity: let's show that some component is uncountable.
+    Put orientations on each component, and then when we combine $A$ with $B$ with $k(A)<k(B)$, re-orient the edges from $A$ to $B$ to face $A$.
+    Then there are only finitely many re-orientations, contradicting the assumption.
 \end{proof}
 \end{document}
