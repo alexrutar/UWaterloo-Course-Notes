@@ -242,6 +242,7 @@
 % file-specific preamble -------------------------------------------------------
 % \usepackage{therefore}
 \newcommand{\TODO}[1]{[\textit{\textbf{TODO: #1}}]}
+\newcommand{\NOTE}[1]{[\textit{\textbf{NOTE: #1}}]}
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\conv}{conv}
@@ -258,6 +259,8 @@
 
 
 \newcommand{\lp}[1]{\ensuremath{\ell^{#1}}}
+\newcommand{\csn}{\ensuremath{\mathbf{c}}}
+\newcommand{\csz}{\ensuremath{\mathbf{c}_0}}
 \newcommand{\lpspace}[1]{\ensuremath{\ell^{#1}_{\F}}}
 \newcommand{\Lp}[1]{\ensuremath{L^{#1}_{\F}}}
 % \newcommand{\Lpm}{\ensuremath{L^{#1}_{\F}(X,\mathcal{M},\mu)}}
@@ -334,6 +337,45 @@
 
 % main document ----------------------------------------------------------------
 \chapter{Analysis in Metric Spaces}
+\chapter{Set Theory and Topology}
+\section{The Axiom of Choice}
+\begin{definition}
+    Let $S$ be a non-empty set.
+    A \textbf{partial ordering} is a binary relation $\leq$ on $S$ which satisfies for $s,t,u\in S$,
+    \begin{enumerate}[nl,r]
+        \item \textit{(reflexivity)} $s\leq s$
+        \item \textit{(transitivity)} $s\leq t$, $t\leq u$ implies $s\leq u$
+        \item \textit{(anti-symmetry)} $s\leq t$, $t\leq s$ implies $s=t$
+    \end{enumerate}
+    We call the pair $(S,\leq)$ a \textbf{partially ordered set}.
+    We say that $(S,\leq)$ is \textbf{totally ordered} if, given $s,t\in S$, at least one of $s\leq t$ or $t\leq s$ holds.
+    We say that $(S,\leq)$ is \textbf{well-ordered} if given any $\emptyset\neq S_0\subseteq S$, there is some $s_0\in S_0$ such that $s_0\leq s$ for $s\in S_0$.
+    A \textbf{chain} in a poset $(S,\leq)$ is any $\emptyset\neq C\subseteq S$ such that $(S,\leq|_C)$ is totally ordered.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $X\neq\emptyset$, $(\mathcal{P}(X),\subseteq)$ is a poset
+        \item $(\R,\leq)$ is a totally ordered set
+        \item $(\N,\leq)$, $(\omega=\N\cup\{\infty\},\leq)$, are well-ordered sets.
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}[nl,r]
+        \item \textit{(Axiom of Choice 1)}: For any $x\neq\emptyset$, there is a function $\gamma:\mathcal{P}(X)\setminus\{\emptyset\}\to X$ such that $\gamma(A)\in A$ for each $A\in\mathcal{P})X_\setminus\{\emptyset\}$.
+        \item \textit{(Axiom of Choice 2)}: Given any $\{A_\lambda\}_{\lambda\in\Lambda}$ where $A_\lambda\neq\emptyset$ for each $\lambda$,
+            \begin{equation*}
+                \prod_{\lambda\in\Lambda}A_\lambda = \left\{(a_\lambda)_{\lambda\in\Lambda}:a_\lambda\in A_\lambda\text{ for each }\lambda\right\}\neq \emptyset
+            \end{equation*}
+        \item \textit{(Zorn's Lemma)}: In a poset $(S,\leq)$, if each chain $C\subseteq S$ admits an upper bound in $S$, then $(S,\leq)$ admis a maximal element.
+        \item \textit{(Well-ordering principle)}: Any $S\neq\emptyset$ admits a well-ordering
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \TODO{Write up proof}
+\end{proof}
+\section{Cardinal Arithmetic}
+\TODO{Write up}
 \section{Topology}
 Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$.
 \begin{definition}
@@ -398,7 +440,72 @@ An easy application of definitions yields the following:
 \end{proof}
 \chapter{Basic Elements of Functional Analysis}
 \section{Banach Spaces}
-Throughout, we denote by $\F$ either the field $\R$ or the field $\C$.
+\subsection{Vector Spaces}
+\begin{definition}
+    Let $\mathfrak{k}$ be a field.
+    Then $X$ is a \textbf{vector space} if $X$ is a $\mathfrak{k}-$module.
+    If $Y\subset X$ is a $\mathfrak{k}-$vector space, we say that $Y$ is a \textbf{subspace} of $X$.
+\end{definition}
+Given a subset $S\subset X$, we write
+\begin{equation*}
+    \spn S=\{\alpha_1v_1+\cdots+\alpha_nv_n:\alpha\in\mathfrak{k},v_i\in S\}
+\end{equation*}
+to denote the smallest subspace of $X$ containing $S$.
+
+A basic property of vector spaces is that they have bases:
+\begin{definition}
+    Let $X$ be a vector space over $\mathfrak{k}$
+    A subset $S\subseteq X$ is called
+    \begin{itemize}[nl]
+        \item \textbf{linearly independent} if for any distinct $x_1,\ldots,x_n\in S$, the equation $0=\alpha_1x_1+\cdots+\alpha_nx_n=0$ where $\alpha_i\in \mathfrak{k}$ implies $\alpha_1=\cdots=\alpha_n=0$,
+        \item \textbf{spanning} if $\spn S=X$, and
+        \item a \textbf{Hamel basis} if it is both linearly independent and spanning
+    \end{itemize}
+\end{definition}
+As a basic consequence of Zorn's lemma, we have the following result:
+\begin{lemma}\label{l:ind}
+    Suppose $S\subset X$ is linearly independent.
+    Then there exists a Hamel basis $M$ containing $S$.
+    % Any linearly independent set $S$ Any vector space $X$ admits a Hamel basis; if $X,X'$ are distinct Hamel bases, then $|X|=|X'|$.
+\end{lemma}
+\begin{proof}
+    Let $\mathcal{L}=\{S\subset L\subseteq X:L\text{ is linearly independent}\}$.
+    Then $(\mathcal{L},\subseteq)$ is a poset.
+    If $\mathcal{C}\subseteq\mathcal{L}$ is a chain, it is easy to verify that $U=\bigcup_{L\in\mathcal{C}}L\in\mathcal{L}$ and is an upper bound for $\mathcal{C}$.
+    Thus by Zorn's lemma, $\mathcal{L}$ has some maximal element $L$; by maximality, $M$ is spanning for $X$.
+\end{proof}
+\begin{proposition}
+    Let $X$ be a vector space.
+    Then $X$ admits a Hamel basis $M$.
+    Moreover, if $M,M'$ are distinct Hamel bases, them $|M|=|M'|$.
+\end{proposition}
+\begin{proof}
+    Apply \cref{l:ind} to $\emptyset\subset X$ to get some Hamel basis $M=\{v_i:i\in I\}$.
+    For the second part, let $\{w_j:j\in J\}$ be any spanning set: it suffices to show that $|M|\leq|J|$.
+    If $J$ is finite, this is a standard exercise in (finite dimensional) linear algebra.
+
+    Now suppose $J$ is infinite and for any $j\in J$, write $w_j=\sum_{i\in A_j\subset I}\lambda_{i,j}v_i$ where $A_j\subset I$ is finite.
+    Thus we have an injection $\phi:\bigcup_{j\in J}\{j\}\times A_j\to M$.
+    But then since $J$ is infinite, $|J|=\left\lvert\bigcup_{j\in J}A_j\right\rvert\leq|M|$ as required.
+\end{proof}
+The previous proposition implies that the following notion is well-defined:
+\begin{definition}
+    The \textbf{dimension} of a vector space $X$ is the cardinality of any Hamel basis for $X$.
+\end{definition}
+An important feature of any category is to consider the set of maps between objects.
+\begin{definition}
+    Given vector spaces $X$ and $Y$ over $\mathfrak{k}$, let $\mathcal{L}(X,Y)$ denote the set of all linear maps from $X$ to $Y$.
+    In particular, when $Y=\mathfrak{k}$, we write $\mathcal{L}(X,\mathfrak{k})=X'$ and call this the \textbf{algebraic dual} of $X'$.
+\end{definition}
+Note that $\mathcal{L}(X,Y)$ also has a natural vector space structure given by $(\alpha S+T)(u)=\alpha S(u)+T(u)$.
+We will discuss such spaces in more details later.
+
+\subsection{Seminorms and Norms}
+The remainder of the chapter will focus particularly on vector spaces $\F$, to denote either the field $\R$ or the field $\C$.
+Note that if $X$ is a $\C-$vector space, then $X$ is naturally an $\R-$vector space by restriction of scalars, which we denote by $X_{\mathcal{R}}$.
+Moreover, if $X$ is an $\R-$vector space, we can apply extension by scalars to define a $\C-$vector space structure on $X$, called the \textbf{complexification} of $X$.
+
+We now focus on the essential additional structure we introduce in the study of normed vector spaces of Banach spaces:
 \begin{definition}
     Let $X$ be a vector space over $\F$.
     A \textbf{seminorm} is a functional $\norm{\cdot}:X\to\R$ such that it is
@@ -479,8 +586,11 @@ Let $\F^{\N}$ denote the set of all sequences in $\F$, and define
 \begin{equation*}
     \lp{1}=\Set{x=(x_j)_{j=1}^\infty\in\F^{\N} | \norm{x}_1=\sum_{j=1}^\infty|x_j|<\infty}.
 \end{equation*}
-It is easy to see that $(\ell_1,\norm{\cdot}_1)$ is a normed vector space.
-
+It is easy to see that $(\lp{1},\norm{\cdot}_1)$ is a normed vector space.
+Another common sequence space is the space
+\begin{equation*}
+    \lp{\infty}=\Set{x=(x_j)_{j=1}^\infty\in\F^{\N} | \norm{x}_\infty=\sup_{n\in\N}|x_n|<\infty}.
+\end{equation*}
 More generally, for $1<p<\infty$, we may define
 \begin{equation*}
     \lp{p}=\Set{x\in\F^{\N} |\norm{x}_p=\left(\sum_{j=1}^\infty|x_j|^p\right)^{1/p}<\infty}.
@@ -490,24 +600,32 @@ The interesting work is in proving that they are Banach spaces.
 
 Let $q=p/(p-1)$ so that $1/p+1/q=1$.
 Then $q$ is called the \textbf{conjugate index} to $p$.
-We have a number of standard inequalities on $\ell_p-$spaces, the proofs of which can be found in general in \TODO{eventually link measure theory result}.
+We have a number of standard inequalities on $\lp{p}-$spaces, the proofs of which can be found in general in \TODO{eventually link measure theory result}.
 \begin{proposition}[Inequalities in $\lp{p}-$spaces]
     Throughout, let $1<p,q<\infty$ be conjugate exponents.
     \begin{itemize}
-        \item \textit{Young's Inequality:} If $a,b\geq 0$ in $\R$, then $ab\leq \frac{a^p}{p}+\frac{b^q}{q}$, with equality if and only if $a^p=b^q$.
-        \item \textit{Hölder's Inequality:} If $x\in\lp{p}$ and $y\in\lp{q}$, then $xy=(x_iy_i)_{i=1}^\infty\in\ell_1$, with
+        \item \textbf{Young's Inequality:} If $a,b\geq 0$ in $\R$, then $ab\leq \frac{a^p}{p}+\frac{b^q}{q}$, with equality if and only if $a^p=b^q$.
+        \item \textbf{Hölder's Inequality:} If $x\in\lp{p}$ and $y\in\lp{q}$, then $xy=(x_iy_i)_{i=1}^\infty\in\lp{1}$, with
             \begin{equation*}
                 \sum_{i=1}^\infty \abs{x_iy_i}\leq\norm{x}_p\norm{y}_q.
             \end{equation*}
             Note that equality holds if and only if the following two conditions hold:
             \begin{enumerate}[nl,r]
                 \item $\sgn(x_iy_i)=\sgn(x_ky_k)$ for all $j,k\in\N$ where $x_iy_i\neq 0\neq x_ky_k$, and
-                \item $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\ell_1$.
+                \item $|x|^p=(|x_j|^p)_{j=1}^\infty$ and $|y|^q$ are linearly dependent in $\lp{1}$.
             \end{enumerate}
-        \item \textit{Minkowski's Inequality:} If $x,y\in\ell_p$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
+        \item \textbf{Minkowski's Inequality:} If $x,y\in\lp{p}$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
     \end{itemize}
 \end{proposition}
 In particular, Minkowski's Inequality \TODO{cite certain labels by name? and also link - would be nice}
+
+We will also encounter the sequence spaces
+\begin{align*}
+    \csn&=\{(x_n)_{n=1}^\infty:\lim_{n\to\infty}x_n\text{ exists}\}\\
+    \csz&=\{(x_n)_{n=1}^\infty:\lim_{n\to\infty}x_n=0\}
+\end{align*}
+where they are both equipped with $\norm{\cdot}_\infty$.
+They are closed subspaces of $\lp{\infty}$.
 
 \subsection{Bounded Continuous Functions into a Normed Space}
 Let $(Y,\norm{\cdot})$ be a normed space and $\tau=\tau_{\norm{\cdot}}$ the topology induced by $\norm{\cdot}$.
@@ -518,7 +636,7 @@ We define the space
 \end{equation*}
 With pointwise operations, we see that $C_b(X,Y)$ is a vector space.
 We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$, making $(C_b(X,Y),\norm{\cdot}_\infty)$ a normed vector space.
-\begin{theorem}
+\begin{theorem}\label{t:cban}
     If $(Y,\norm{\cdot})$ is a Banach space, then $(C_b(X,Y),\norm{\cdot}_\infty)$ is a Banach space.
 \end{theorem}
 \begin{proof}
@@ -565,13 +683,13 @@ We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$
             \begin{equation*}
                 \lp{\infty}(T) = \Set{x=(x_t)_{t\in T}\in\F^T | \norm{x}_\infty}<\infty
             \end{equation*}
-            With pointwise operations, $(\ell_\infty,\norm{\cdot}_\infty)$ is a normed space.
+            With pointwise operations, $(\lp{\infty},\norm{\cdot}_\infty)$ is a normed space.
             In fact, it is a Banach space, since
             \begin{align*}
-                f\mapsto (f(t))_{t\in T}:C_b(T,\mathcal{P}(T))\to\ell_\infty(T)
+                f\mapsto (f(t))_{t\in T}:C_b(T,\mathcal{P}(T))\to\lp{\infty}(T)
             \end{align*}
             is a surjective linear isometry, and the result follows.
-        \item Let $c=\Set{x\in\ell_\infty | \lim_{n\to\infty}x_n\text{ exists}}$.
+        \item Let $c=\Set{x\in\lp{\infty} | \lim_{n\to\infty}x_n\text{ exists}}$.
             Then $(c,\norm{\cdot}_\infty)$ is a Banach space.
             Consider the topological space given by $\omega=\N\cup\{\infty\}$, with topology
             \begin{equation*}
@@ -579,7 +697,7 @@ We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$
             \end{equation*}
             The map $f\mapsto(f(n))_{n=1}^\infty:C_b(\omega)\to c$ is a linear surjective isometry.
         \item Recall that $\mathcal{I}(\infty)$ is a closed, and hence complete, subspace of $c$.
-            We may define $c_0=\Set{x\in\F^{\N} | \lim_{n\to\infty}x_n=0}\subseteq c\subseteq\ell_\infty$.
+            We may define $c_0=\Set{x\in\F^{\N} | \lim_{n\to\infty}x_n=0}\subseteq c\subseteq\lp{\infty}$.
             In this case, $f\mapsto(f(n))_{n=1}^\infty:\mathcal{I}(\infty)\to c_0$ is a (linear) surjective isometry.
         \item Consider the Sorgenfry line $(\R,\sigma)$.
             One may verify that
@@ -588,21 +706,18 @@ We also define for $f\in C_b(X,Y)$, $\norm{f}_\infty=\sup\{\norm{f(x)}:x\in X\}$
             \end{equation*}
     \end{enumerate}
 \end{example}
-\section{Linear Functionals and Operators}
-Let $X,Y$ be vector spaces.
-We let $\mathcal{L}(X,Y)$ denote the set of all linear maps from $X$ to $Y$, which is itself a vector space.
-
-Suppose moreover that $(X,\norm{\cdot})$ is a normed space.
+\subsection{Linear Functionals and Operators}
+Suppose $(X,\norm{\cdot})$ is a normed space.
 We denote
 \begin{align*}
-    D(X) &= \{x\in X:\norm{x}<1\}\\
-    S(X) &= \{x\in X:\norm{x}=1\}\\
-    B(X) &= \{x\in X:\norm{x}\leq 1\}
+    D(X) &= \{x\in X:\norm{x}<1\},\\
+    S(X) &= \{x\in X:\norm{x}=1\},\\
+    B(X) &= \{x\in X:\norm{x}\leq 1\}.
 \end{align*}
-\textit{(Yes, this notation is confusion. No, I didn't choose it.)}
-
+In general, if $Z$ is any of the above sets, we may write $x_0+rZ=\{x_0+rx:x\in Z\}$ to denote an open (open ball, sphere, closed ball) about $x_0$ with radius $r$.
 \begin{proposition}
-    If $X,Y$ are normed spaces and $S\in\mathcal{L}(X,Y)$, then the following are equivalent:
+    If $X,Y$ are normed spaces and $S\in\mathcal{L}(X,Y)$.
+    Then the following are equivalent:
     \begin{enumerate}[nl,r]
         \item $S$ is continuous
         \item $S$ is continuous at some $x_0\in X$
@@ -610,8 +725,7 @@ We denote
     \end{enumerate}
     Moreover, in this case, we have 
     \begin{align*}
-        \norm{S}&=\min\{L>0:\norm{Sx}\leq L\norm{x}\text{ for }x\in X\}\\
-                &= \sup_{x\in S(X)}\norm{Sx}=\sup_{x\in B(X)}\norm{Sx}
+        \norm{S}&=\inf\{L>0:\norm{Sx}\leq L\norm{x}\text{ for }x\in X\}= \sup_{x\in S(X)}\norm{Sx}=\sup_{x\in B(X)}\norm{Sx}
     \end{align*}
 \end{proposition}
 \begin{proof}
@@ -619,44 +733,39 @@ We denote
     By definition.
 
     \imp{ii}{iii}
-    Note that
+    Since $Sx_0+D(Y)$ is a neighbourhood of $Sx_0$, get some $\delta>0$ so that
     \begin{equation*}
-        Sx_0+D(Y) = \{Sx_0+y:t\in D(Y)\} = \{y\in Y:\norm{Sx_0-y'}<1\}
+        S(x_0+\delta D(X))\subseteq Sx_0+D(Y)
     \end{equation*}
-    is a neighbourhood of $Sx_0$.
-    By the definition of metric continuity, there is $\delta>0$ such that
-    \begin{equation*}
-        x_0+\delta D(X) = \{x_0+\delta x:x\in D(x)\}=\{x'\in X:\norm{x_0-x'}<\delta\}
-    \end{equation*}
-    such that
-    \begin{equation*}
-        Sx_0+\delta S(D(X)) = S(x_0+\delta D(x)\subseteq Sx_0+D(Y)
-    \end{equation*}
-    which implies that $\delta S(D(X))\subseteq D(Y)$ and $S(D(X))\subseteq D(Y)/\delta$, in other words that $\norm{Sx}\leq 1/\delta$ for $x\in D(X)$.
+    % \begin{equation*}
+        % x_0+\delta D(X) = \{x_0+\delta x:x\in D(x)\}=\{x'\in X:\norm{x_0-x'}<\delta\}.
+    % \end{equation*}
+    % such that
+    % \begin{equation*}
+        % Sx_0+\delta S(D(X)) = S(x_0+\delta D(x)\subseteq Sx_0+D(Y)
+    % \end{equation*}
+    and thus $\delta S(D(X))\subseteq D(Y)$, or in other words that $\norm{Sx}\leq 1/\delta$ for $x\in D(X)$.
 
     \imp{iii}{i}
     If $x\in X$ and $\epsilon>0$, then
     \begin{equation*}
         \norm{Sx} = (\norm{x}+\epsilon)\norm{S\left(\frac{1}{\norm{x}+\epsilon}\norm{x}\right)}\leq(\norm{x}+\epsilon){\norm{S}}
     \end{equation*}
-    Then, letting $\epsilon\to 0^+$, we see that
-    \begin{equation*}
-        \norm{Sx}\leq\norm{x}\norm{S}=\norm{S}\norm{X}
-    \end{equation*}
-    If $x,x'\in X$, then $\norm{Sx-S'x}\leq\norm{S}\norm{x-x'}$ is $S$ is Lipschitz, hence continuous.
+    so that $\norm{Sx}\leq\norm{S}\norm{x}$.
+    Thus if $x,x'\in X$, then $\norm{Sx-S'x}\leq\norm{S}\norm{x-x'}$ so that $S$ is Lipschitz, hence continuous.
 
-    To complete the proof, the content of (iii) implies (i) tellus us that the Lipschitz constant $L(S)\leq\norm{S}$.
-    Furthermore, if $\norm{x}=1$, the preceding proof gives us that $\norm{S}_{S(X)}$.
-
-    Conversely,
+    To complete the proof, the content of (iii) implies (i) informs us that the Lipschitz constant $L(S)\leq\norm{S}$.
+    Furthermore, taking $\norm{x}=1$, the preceding proof gives us that $\sup_{x\in S(X)}\norm{Sx}\leq L(S)$.
+    Finally,
     \begin{equation*}
         \norm{S} = \sup_{x\in D(X)\setminus\{0\}}\norm{Sx}=\sup_{x\in D(X)\setminus\{0\}}\norm{x}\norm{S\left(\frac{1}{\norm{x}}x\right)}\leq\sup_{x\in S(X)}\norm{Sx}
     \end{equation*}
+    so that the three quantities are equal.
     The remaining equivalence is obvious.
 \end{proof}
 We now let $\mathcal{B}(X,Y)=\Set{S\in\mathcal{L}(X,Y) | S\text{ is bounded}}$.
 We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
-\begin{theorem}
+\begin{theorem}\label{t:onorm}
     Let $X,Y,Z$ be normed spaces.
     Then
     \begin{enumerate}[nl,r]
@@ -668,313 +777,221 @@ We will see that $\norm{\cdot}$, above, defines a norm on $B(X,Y)$.
 \begin{proof}
     We have:
     \begin{enumerate}[nl,r]
-        \item Define
-            \begin{equation*}
-                \Gamma:\mathcal{B}(X,Y)\to C_b^Y(B(X))
-            \end{equation*}
-            given by $\Gamma(S)=S|_{B(X)}$.
-            Then, by definition, $\Gamma$ is linear, with
-            \begin{equation*}
-                \norm{\Gamma(S)}_\infty=\sup_{x\in B(X)}\norm{Sx}=\norm{S}
-            \end{equation*}
-            Thus $\norm{\cdot}$ is a norm: if $S,T\in\mathcal{B}(X,Y)$, $\alpha\in\F$,
-            \begin{align*}
-                \norm{S+T}&=\norm{\Gamma(S+T)}_\infty=\norm{\Gamma(S)+\Gamma(T)}_\infty\leq \norm{\Gamma(S)}_\infty+\norm{\Gamma(T)}_\infty=\norm{S}+\norm{T}\\
-                \norm{\alpha S}&=\norm{\Gamma(\alpha S)}_\infty=|\alpha|\norm{\Gamma(S)}_\infty=|\alpha|\norm{S}.
-            \end{align*}
-            Furthermore, $\Gamma:\mathcal{B}(X,Y)\to C_b^Y(\mathcal{B}(X))$ is an isometry.
+        \item Define $\Gamma:\mathcal{B}(X,Y)\to C_b(B(X),Y)$ by $\Gamma(S)=S|_{B(X)}$.
+            By definition, $\Gamma$ is linear and $\norm{\Gamma(S)}_\infty=\sup_{x\in B(X)}\norm{Sx}=\norm{S}$ so that $\norm{\cdot}$ is a norm and $\Gamma:\mathcal{B}(X,Y)\to C_b(\mathcal{B}(X),Y)$ is an isometry.
         \item Certainly $T\circ S\in\mathcal{L}(X,Z)$, so it suffices to show the bound on the norm.
             We have
             \begin{align*}
-                \norm{T\circ S} &=\sup_{x\in X}\frac{\norm{T\circ S(x)}}{\norm{x}}=\sup_{\substack{x\in X\\S(x)\neq 0}}\frac{\norm{T\circ S(x)}}{\norm{S(x)}}\cdot\frac{\norm{S(x)}}{\norm{x}}\\
-                                &\leq\norm{T}\cdot\norm{S}
+                \norm{T\circ S} &=\sup_{x\in X}\frac{\norm{T\circ S(x)}}{\norm{x}}=\sup_{\substack{x\in X\\S(x)\neq 0}}\frac{\norm{T\circ S(x)}}{\norm{S(x)}}\cdot\frac{\norm{S(x)}}{\norm{x}}\leq\norm{T}\cdot\norm{S}
             \end{align*}
             as required.
 
         \item Now suppose that $Y$ is a Banach space.
-            We will show that $\Gamma(\mathcal{B}(X,Y))$ is closed in $C_b^Y(B(X))$, and hence $B(X,Y)=\Gamma^{-1}(\Gamma(\mathcal{B}(X,Y)))$ is complete.
-            Let $(S_n)_{n=1}^\infty\subset\mathcal{B}(X,Y)$ be $\norm{\cdot}-$Cauchy.
-            Then $(\Gamma(S_n))_{n=1}^\infty$ is $\norm{\cdot}_\infty-$Cauchy in $C_b^Y(B(X))$, and hence there is $f\in C_b^Y(B(X))$ such that $\lim_{n\to\infty}\norm{\Gamma(S_n)-f}_\infty=0$.
-            Then we let $S:X\to Y$ be given by
+            Since $\Gamma$ is an isometry, by \cref{t:cban}, it suffices to show that $\Gamma(\mathcal{B}(X,Y))$ is closed in the complete space $C_b(B(X),Y)$.
+            Let $(S_n)_{n=1}^\infty\subset\mathcal{B}(X,Y)$ be $\norm{\cdot}-$Cauchy so there is some $f\in C_b(B(X),Y)$ such that $\lim_{n\to\infty}\norm{\Gamma(S_n)-f}_\infty=0$.
+            Let $S:X\to Y$ be given by
             \begin{equation*}
                 Sx=\begin{cases}
                     \norm{x}f\left(\frac{x}{\norm{x}}\right) & x\neq 0\\
                     0 & x=0
                 \end{cases}
+                ;
             \end{equation*}
-            If $x,x'\in X$ and $\alpha\in\F$ are all such that $x,x',x+\alpha x'\neq 0$, then
+            in other words, the linear extension of $f$ to $X$; we will show $\lim_{n\to\infty}S_n=S$.
+            To see that this extension is indeed linear, let $x,x'\in X$ and $\alpha\in\F$ be such that $x,x',x+\alpha x'\neq 0$, then
             \begin{align*}
                 S(x+\alpha x') &= \norm{x+\alpha x'}f\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
                                &= \norm{x+\alpha x'}\lim_{n\to\infty} S_n\left(\frac{1}{x+\alpha x'}(x+\alpha x')\right)\\
                                &= \lim_{n\to\infty}(S_nx+\alpha S_nx')=\lim_{n\to\infty}\left[\norm{x}S_n\left(\frac{1}{\norm{x}}x\right)+\alpha\norm{x'}S_n\left(\frac{1}{\norm{x}}x'\right)\right]\\
                                &= \norm{x}f\left(\frac{x}{\norm{x}}\right)+\alpha\norm{x'}f\left(\frac{x'}{\norm{x}}\right)\\
-                               &= Sx+\alpha Sx'
+                               &= Sx+\alpha Sx'.
             \end{align*}
-            The above computation is easily performed if any of $x$, $x'$, $x+\alpha x'$ are 0.
-            Hence $S\in\mathcal{L}(X,Y)$.
-            We se that $S$ is continuous (say, at a point on $S(X)$), so $S\in\mathcal{B}(X,Y)$.
+            The above computation is easier if any of $x$, $x'$, $x+\alpha x'$ are 0.
+            It is immediate that $S$ is continuous (say, at any point on $S(X)$), so $S\in\mathcal{B}(X,Y)$.
             Finally, as $S|_{B(X)}=f=\lim_{n\to\infty}S_n|_{B(X)}$ (with respect to the uniform norm), we have
             \begin{equation*}
-                \norm{S-S_n}=\sup_{x\in B(X)}\norm{(S-S_n)x}=\norm{f-\Gamma(S_n)}_\infty
+                \norm{S-S_n}=\sup_{x\in B(X)}\norm{(S-S_n)x}=\norm{f-\Gamma(S_n)}_\infty\fto{n\to\infty}0
             \end{equation*}
-            goes to $0$ as $n$ goes to infinity.
+            as required.
     \end{enumerate}
 \end{proof}
+\subsection{Dual Spaces}
+A natural way to study an object is to study functions defined on an object:
 \begin{definition}
-    Given a vector space $X$, let $X'=\mathcal{L}(X,\F)$ denote the \textbf{algebraic dual}.
-    If further $X$ is a normed space, we let $X^*=\mathcal{B}(X,\F)$ denote the (continuous) dual.
+    If $X$ is a normed space, we let $X^*=\mathcal{B}(X,\F)$ denote the \textbf{(continuous) dual}.
 \end{definition}
+When unspecified, we will always mean the dual space to denote the continuous dual space.
+When $X$ is an infinite dimensional space, this distinction is important:
+\begin{proposition}
+    If $X$ is an infinite dimensional normed space, then there exists $f\in X'\setminus X^*$.
+\end{proposition}
+\begin{proof}
+    Let $\{e_n\}_{n=1}^\infty\subset X$ be linearly independent; normalizing each element, we may assume that $\norm{e_n}=1$ for each $n\in\N$.
+    Let $B$ be any Hamel basis containing $\{e_n\}_{n=1}^\infty$, and define $f:X=\spn B\to\F$ by $f(e_n)=n\cdot e_n$, and $f(e)=0$ for $e\in B\setminus\{e_n\}_{n=1}^\infty$ and extend by linearity.
+    Notice that $\norm{f}\geq|f(e_n)|=n$ for any $n\in\N$, so $f$ is unbounded.
+\end{proof}
+In the following lemma, we discuss consequences of extension and restriction by scalars on dual spaces.
+\begin{lemma}\label{l:dual-cpx}
+    Let $X$ be a $\C-$vector space.
+    \begin{enumerate}[nl,r]
+        \item If $f\in X'_{\R}$ into $\R$, then $f_{\C}$ given by $f_{\C}(x)=f(x)-if(ix)$ defines an element of $X'$.
+        \item If $g\in X'$, then $f=\Re g$ in $X'_{\R}$ satisfies $g=f_{\C}$.
+        \item If $X$ is a normed $\C-$vector space, then for $f\in X'_{\R}$, $f\in X^*_{\R}$ if and only if $f_{\C}\in X^*$.
+            Moreover, $\norm{f}=\norm{f_{\C}}$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    (i) and (ii) are straightforward and left as exercises; let's see (iii).
+    Let $x\in X$ be arbitrary and set $z=\sgn f_{\C}(x)$.
+    Then
+    \begin{align*}
+        |f_{\C}(x)|&=\overline{z}f_{\C}(x)=f_{\C}(\overline{z}x)=\Re f_{\C}(\overline{z}x)=f(\overline{z}x)=|f(\overline{z}x)|\\
+                   &\leq\norm{f}\norm{\overline{z}x}=\norm{f}\norm{x}
+    \end{align*}
+    so we see that $\norm{f_{\C}}\leq\norm{f}$.
+    Conversely, $|f(x)|=|\Re f_{\C}(x)|\leq|f_{\C}(x)|\leq\norm{f_{\C}}\norm{x}$ so that $\norm{f}\leq\norm{f_{\C}}$.
+\end{proof}
+Since $\F$ is complete, we have the following corollary of \cref{t:onorm}:
 \begin{corollary}
     If $X$ is a normed spaces, then $X^*$ is always a Banach space.
 \end{corollary}
-\begin{theorem}
-    Let for $x\in\ell_1$, $f_x:c_0\to\F$ be given by $f_x(y)=\sum_{j=1}^\infty x_jy_j$.
-    Then $f_x\in c_0^*$ with $\norm{f_x}=\norm{x}_1$.
-    Furthermore, every element of $c_0^*$ arises as above.
-\end{theorem}
+Here is an example computation of the dual space of a Banach space:
+\begin{proposition}
+    Let for $x\in\lp{1}$, $f_x:\csz\to\F$ be given by $f_x(y)=\sum_{j=1}^\infty x_jy_j$.
+    Then $x\mapsto f_x:\lp{1}\to \csz^*$ is a surjective isometry.
+    % Then $f_x\in c_0^*$ with $\norm{f_x}=\norm{x}_1$.
+    % Furthermore, every element of $c_0^*$ arises as above.
+\end{proposition}
 \begin{proof}
-    If $x\in\ell_1$ and $y\in c_0\subseteq\ell_\infty$, then
+    If $x\in\lp{1}$ and $y\in \csz\subseteq\lp{\infty}$, then
     \begin{equation*}
         \sum_{j=1}^\infty|x_jy_j|\leq\sum_{j=1}^\infty|x_j|\norm{y}_\infty=\norm{x}_1\norm{y}_\infty<\infty
     \end{equation*}
-    so $f_x(y)=\sum_{j=1}^\infty x_jy_j$ is well-defined.
-    It is obvious that $f_x$ is linear: $f_x(y+\alpha y')=f_x(y)+\alpha f(y')$ for $y,yl\in c_0$ and $\alpha\in\F$.
-    Also, $\norm{f_x}\leq\norm{x}_1$.
-    We let $y^{n}=(\overline{\sgn x},\ldots,\overline{\sgn x_n},0,0,\ldots)\in c_0$, with $\norm{y^n}=1$.
+    so $f_x(y)=\sum_{j=1}^\infty x_jy_j$ is well-defined and $\norm{f_x}\leq\norm{x}_1$.
+    It is obvious that $f_x$ is linear.
+    To show that the norms are equal, let $y^{n}=(\overline{\sgn x_1},\ldots,\overline{\sgn x_n},0,0,\ldots)\in \csz$ where $\norm{y^n}=1$.
     Then
-    \begin{equation*}
+    \begin{equation}\label{e:yn}
         \norm{f_x}\geq|f_x(y^n)|=\sum_{j=1}^n x_i\overline{\sgn x_i}=\sum_{j=1}^n|x_i|
-    \end{equation*}
-    so that $\norm{f_x}\geq\norm{x}_1$, and hence equality holds.
+    \end{equation}
+    so that $\norm{f_x}\geq\norm{x}_1$ and we have equality, so the map is a surjective linear isometry.
 
-    Now let $f\in c_0^*$, and write $e_n=(0,\ldots,0,1,0,0,\ldots)\in c_0$, and let $x_n=f(e_n)$.
-    Then, let $y\in c_0$ and $y^n=(y_1,\ldots,y_n,0,0,\ldots)$ and we have
-    \begin{equation*}
-        \norm{y-y^n}_\infty=\sup_{j\geq n+1}|y_j|
-    \end{equation*}
-    which goes to 0 as $n$ goes to infinity.
-    Then since $f$ is continuous, we have
+    Now let $f\in \csz^*$, $e_n=(0,\ldots,0,1,0,0,\ldots)\in \csz$, and let $x_n=f(e_n)$.
+    Suppose $y\in \csz$ is arbitrary and set $y^n=(y_1,\ldots,y_n,0,0,\ldots)$, so that $\lim_{n\to\infty}y_n=y$ uniformly.
+    Since $f$ is continuous, we have
     \begin{equation*}
         f(y)=\lim_{n\to\infty}f(y^n)=\lim_{n\to\infty}\sum_{j=1}^n y_jx_j=\sum_{j=1}^\infty x_jy_j=f_x(y)
     \end{equation*}
-    We use sequence $(y^n)_{n=1}^\infty$ as in $y^n\in c_0$, to see that
+    and moreover taking the sequence $(y_n)_{n=1}^\infty$ from \cref{e:yn} we have that
     \begin{equation*}
         \sum_{j=1}^n|x_i|=|f(y^n)|\leq\norm{f}<\infty
     \end{equation*}
-    so $x\in\ell_1$.
-    Thus $f=f_x$, as desired.
+    so $x\in\lp{1}$ and $f=f_x$, as required.
 \end{proof}
 \begin{corollary}
-    $\ell_1\cong c^*$ isometrically isomorphically.
+    $\lp{1}\cong \csn^*$ isometrically isomorphically.
 \end{corollary}
 \begin{proof}
-    For $y\in c$, let $L(y)=\lim_{n\to\infty}y_n$.
-    Given $y\in c$, let $y^n=(y_1,\ldots,y_n,L(y),L(y),\ldots)\in c$.
-    Notice that $\norm{y-y^n}_\infty\to 0$ similarly as above.
+    For $y\in \csn$, let $L(y)=\lim_{n\to\infty}y_n$ and $y^n=(y_1,\ldots,y_n,L(y),L(y),\ldots)\in c$.
+    As before, $\lim_{n\to\infty}y^n=y$ uniformly.
+    Let $f\in\csn^*$ be arbitrary so that $f|_{\csz}=f_x$ for some $x\in\lp{1}$.
 
-    We let $1=(1,1,\ldots)$, and $1_n=(0,\ldots,0,1,1,\ldots)$.
-    If $m<n$, then $1_n-1_m\in c_0$, so
+    Let $\mathbf{1}=(1,1,\ldots)$, and $\mathbf{1}_n=(0,\ldots,0,1,1,\ldots)$.
+    Note that $f(\mathbf{1}_n)_{n=1}^\infty$ is Cauchy in $\F$ for if $m<n$ is arbitrary, since $\mathbf{1}_m-\mathbf{1}_n\in\csz$,
     \begin{equation*}
-        |f(1_n)-f(1_m)| = |f_x(1_n-1_m)|\leq \sum_{j=m+1}^n|x_j|
+        |f(\mathbf{1}_n)-f(\mathbf{1}_m)| = |f(\mathbf{1}_n-\mathbf{1}_m)|\leq \sum_{j=m+1}^n|x_j|
     \end{equation*}
-    so that $(f(1_n))_{n=1}^\infty$ is Cauchy in $\F$.
-    Let $x_0=\lim_{n\to\infty}f(1_n)$.
-    Let $\tilde x=(x_0,x_1,\ldots)\in\ell_1$.
-    Then letting $x_j=f(e_j)$, we see that
+    which can be made arbitrarily small for sufficiently large $m$.
+
+    Thus we may set $x_0=\lim_{n\to\infty}f(1_n)$ and $\tilde x=(x_0,x_1,\ldots)\in\lp{1}$ where $x_j=f(e_j)$.
+    Then
     \begin{equation*}
         f(y)=\lim_{n\to\infty}f(y^n)=\sum_{j=1}^\infty x_jy_j+x_0L(y)
     \end{equation*}
-    Similarly as above, we may show that $\norm{f}=\norm{\tilde x}_1$.
-
-
+    so we may consider the map $x\mapsto f_x:\lp{1}\to\csn$ where $x=(x_n)_{n=0}^\infty$ given by $f_x(y)=\sum_{j=1}^\infty x_jy_j+x_0L(y)$.
+    Similarly to before, we may show that $\norm{f_x}=\norm{x}_1$.
 \end{proof}
-\begin{remark}
-    We write $c_0^*\cong\ell_1$ isometrically.
-\end{remark}
+Again appealing to \cref{t:cban}, we have:
 \begin{corollary}
     $(\ell_1,\norm{\cdot}_1)$ is complete.
 \end{corollary}
-\section{Axiom of Choice and the Hahn-Banach Theorem}
-\begin{definition}
-    Let $S$ be a non-empty set.
-    A \textbf{partial ordering} is a binary relation $\leq$ on $S$ which satisfies for $s,t,n\in S$,
-    \begin{enumerate}[nl,r]
-        \item \textit{(reflexivity)} $s\leq s$
-        \item \textit{(transitivity)} $s\leq t$, $t\leq u$ implies $s\leq u$
-        \item \textit{(anti-symmetry)} $s\leq t$, $t\leq s$ implies $s=t$
-    \end{enumerate}
-    We call the pair $(S,\leq)$ a \textbf{partially ordered set}.
-    We say that $(S,\leq)$ is \textbf{totally ordered} if, given $s,t\in S$, at least one of $s\leq t$ or $t\leq s$ holds.
-    We say that $(S,\leq)$ is \textbf{well-ordered} if given any $\emptyset\neq S_0\subseteq S$, there is some $s_0\in S_0$ such that $s_0\leq s$ for $s\in S_0$.
-    A \textbf{chain} in a poset $(S,\leq)$ is any $\emptyset\neq C\subseteq S$ such that $(S,\leq|_C)$ is totally ordered.
-\end{definition}
-\begin{example}
-    \begin{enumerate}[nl,r]
-        \item $X\neq\emptyset$, $(\mathcal{P}(X),\subseteq)$ is a poset
-        \item $(\R,\leq)$ is a totally ordered set
-        \item $(\N,\leq)$, $(\omega=\N\cup\{\infty\},\leq)$, are well-ordered sets.
-    \end{enumerate}
-\end{example}
-\begin{theorem}
-    The following are equivalent:
-    \begin{enumerate}[nl,r]
-        \item \textit{(Axiom of Choice 1)}: For any $x\neq\emptyset$, there is a function $\gamma:\mathcal{P}(X)\setminus\{\emptyset\}\to X$ such that $\gamma(A)\in A$ for each $A\in\mathcal{P})X_\setminus\{\emptyset\}$.
-        \item \textit{(Axiom of Choice 2)}: Given any $\{A_\lambda\}_{\lambda\in\Lambda}$ where $A_\lambda\neq\emptyset$ for each $\lambda$,
-            \begin{equation*}
-                \prod_{\lambda\in\Lambda}A_\lambda = \left\{(a_\lambda)_{\lambda\in\Lambda}:a_\lambda\in A_\lambda\text{ for each }\lambda\right\}\neq \emptyset
-            \end{equation*}
-        \item \textit{(Zorn's Lemma)}: In a poset $(S,\leq)$, if each chain $C\subseteq S$ admits an upper bound in $S$, then $(S,\leq)$ admis a maximal element.
-        \item \textit{(Well-ordering principle)}: Any $S\neq\emptyset$ admits a well-ordering
-    \end{enumerate}
-\end{theorem}
-\begin{proof}
-    Exercise.
-\end{proof}
-\begin{definition}
-    Let $X$ be a vector space (over $k$).
-    A subset $S\subseteq X$ is called
-    \begin{itemize}[nl]
-        \item \textbf{linearly independent} if for any distinct $x_1,\ldots,x_n\in S$, the equation $0=\alpha_1x_1+\cdots+\alpha_nx_n=0$ where $\alpha_i\in k$ implies $\alpha_1=\cdots=\alpha_n=0$.
-        \item \textbf{spanning} if each $x\in X$ admits $x_i\in S$ and $\alpha_i\in k$ such that $x=\alpha_1x_1+\cdots+\alpha_nx_n$.
-        \item \textbf{Hamel basis} if it is both linearly independent and spanning
-    \end{itemize}
-\end{definition}
-\begin{proposition}
-    Any vector space $X$ admits a Hamel basis.
-\end{proposition}
-\begin{proof}
-    Let $\mathcal{L}=\{L\subseteq X:L\text{ is linearly independent}\}$.
-    Then $(\mathcal{L},\subseteq)$ is a poset.
-    Verify that for any chain $\mathcal{C}\subseteq\mathcal{L}$, that $U=\bigcup_{L\in\mathcal{C}}L\in\mathcal{L}$ and is an upper bound for $\mathcal{C}$.
-    Apply Zorn to find a maximal element $M$ in $(\mathcal{L},\subseteq)$.
-    Verify that $M$ is spanning for $X$.
-\end{proof}
-\begin{corollary}
-    If $X$ is an infinite dimensional normed space, then there exists $f\in X'\setminus X^*$.
-\end{corollary}
-\begin{proof}
-    Our assumption provides $\{e_n\}_{n=1}^\infty$ which is linearly independent.
-    By normalizing each element, we may and will suppose that each $\norm{e_n}=1$.
-    Let
-    \begin{equation*}
-        \spn\{e_n\}_{n=1}^\infty=\Set{\sum_{j=1}^m\alpha_je_{n_j}:m\in\N,\alpha_i\in\F, n_1<\cdots<n_m}
-    \end{equation*}
-    and let $B$ be any linearly independent set containing $\{e_n\}_{n=1}^\infty$.
-    Define $f:X=\spn B\to\F$ be given for $x=\sum_{b\in B\setminus\{e_n\}_{n=1}^\infty}\alpha_b b+\sum_{j=1}^n\alpha_je_{n_j}$ by $f(x)=\sum_{j=1}^m\alpha_j n_j$.
-    The point is that $f(e_n)=n$ and $f(e)=0$ for any other $e\in B$.
-    Notice that
-    \begin{equation*}
-        \norm{f}=\sup_{x\in B(X)}|f(x)|\geq\sup_{n\in\N}|f(e_n)|=\sup_{n\in\N}n=\infty
-    \end{equation*}
-\end{proof}
+\section{Fundamental Results in Banach Space Theory}
+\subsection{The Hahn-Banach Theorem}
+The Hahn-Banach theorem is a fundamental constructive result in Banach space theory which implies that linear functionals exist in abundance.
 \begin{definition}
     Let $X$ be a $\R-$vector space.
-    A \textbf{sublinear functional} is any $\rho:X\to\R$ such that it satisies
+    A \textbf{sublinear functional} is any $\rho:X\to\R$ that satisfies
     \begin{itemize}[nl]
         \item \textit{(non-negative homogenity)} $\rho(tx)=t\rho(x)$ for $t\geq 0$, $x\in X$.
         \item \textit{(subadditivity)} $\rho(x+y)\leq\rho(x)+\rho(y)$ for $x,y\in X$.
     \end{itemize}
 \end{definition}
-
 \begin{theorem}[Hahn-Banach]
     Let $X$ be a $\R-$vector space, $\rho:X\to\R$ a sublinear functional, $Y\subseteq X$ a subspace and $f\in Y'$ such that $f\leq\rho|_Y$.
     Then there exists $F\in X'$ such that $F|_Y=f$ and $F\leq\rho$ on $X$.
 \end{theorem}
 \begin{proof}
-    We first do this for extensions by a single point $x\in X\setminus Y$.
-    We wish to find $c\in\R$ such that
-    \begin{equation*}
+    The technique for this proof is to first do it by extensions by a single point $x\in X\setminus Y$, then to appeal to Zorn's lemma to extend the result to $X$.
+    To extend the definition of $f$ along the subspace $\spn\{x\}\cup X$, it suffices find $c\in\R$ such that
+    \begin{equation}\label{e:ineq}
         f(y)+\alpha c\leq\rho(y+\alpha x)
-    \end{equation*}
+    \end{equation}
     for $y\in Y$ and $\alpha\in\R$.
-    In this case, we let $F:\spn Y\cup\{x\}\to\R$ be given by $F(y+\alpha x)=f(y)+\alpha c$, and we have that $F$ is linear and satisfies $F\leq\rho$ on $\spn Y\cup\{s\}$.
-    To do this, let $y_+,y_-$ in $Y$ and observe that $f(y_+)+f(y_-)=f(y_++y_-)\leq \rho(y_++y_-)\leq\rho(y_++x)+\rho(y_--x)$ so that $f(y_-)-\rho(y_--x)\leq\rho(y_++x)-f(y_+)$.
-    It thus follows that
+    Assuming we have such a $c$, we may set $F:\spn Y\cup\{x\}\to\R$ by $F(y+\alpha x)=f(y)+\alpha c$.
+    Then it is clear that $F$ is linear and satisfies $F\leq\rho$ on $\spn Y\cup\{x\}$.
+
+    To do this, let $y^+,y^-\in Y$ be arbitrary and observe that by subadditivity
     \begin{equation*}
-        \sup\{f(y)-\rho(y-x):y\in Y\}\leq\in\{\rho(y+x)-f(y):y\in Y\}
+        f(y^+)+f(y^-)=f(y^++y^-)\leq \rho(y^++y^-)\leq\rho(y^++x)+\rho(y^--x)
     \end{equation*}
-    so we may find $c\in\R$ for which
+    so that $f(y^-)-\rho(y^--x)\leq\rho(y^++x)-f(y^+)$.
+    Since $y^-,y^+$ were arbitrary, there is some $c\in\R$ such that
     \begin{equation*}
         \sup\{f(y)-\rho(y-x):y\in Y\}\leq c\leq\inf\{\rho(y+x)-f(y):y\in Y\}
     \end{equation*}
-    If $t>0$, then for $y\in Y$,
-    \begin{equation*}
-        c\leq\rho\left(\frac{1}{t}y+x\right)-f\left(\frac{1}{t}y\right)\Rightarrow tc\leq\rho(y+tx)-f(y)\Rightarrow f(y)+tc\leq\rho(y+tx)
-    \end{equation*}
-    and if $s>0$, then for $y\in Y$,
-    \begin{equation*}
-        f\left(\frac{1}{s}y\right)-\rho\left(\frac{1}{s}y-x\right)\leq c\Rightarrow sc\leq f(y)-\rho(y+sx)\Rightarrow f(y)-sc\leq\rho(y-sx)
-    \end{equation*}
-    Clearly, $f(y)+0\leq\rho(y+0x)$.
-    Hence, we have our desired inequality.
+    Now if $t>0$ is arbitrary, for $y\in Y$, since $c\leq\rho\left(\frac{1}{t}y+x\right)-f\left(\frac{1}{t}y\right)$, by non-negative homogeneity $tx\leq\rho(y+tx);f(y)$ so that $f(y)+tc\leq\rho(y+tx)$.
+    In the exact same way, if $s>0$, for $y\in Y$, we have $f(y)-sc\leq\rho(y-sx)$.
+    It is clear that $f(y)+0\leq\rho(y+0x)$.
+    Thus we have our desired inequality in \cref{e:ineq}
 
-    We now use Zorn's lemma to lift this result to the whole space.
-    Consider the set of ``$p$-extensions'' of $f$,
+    We now use Zorn's lemma to extend this result to the whole space.
+    Consider the set of $\rho$-extensions of $f$,
     \begin{equation*}
-        \mathcal{E} = \Set{(\mathcal{M},\psi) | Y\subseteq\mathcal{M}\subseteq X,\mathcal{M}\text{ is a subspace}, \psi\in\mathcal{M}',\psi|_Y=f,\psi\leq P|_{\mathcal{M}}}
+        \mathcal{E} = \bigl\{(\mathcal{M},\psi) : Y\subseteq\mathcal{M}\subseteq X,\mathcal{M}\text{ is a subspace}, \psi\in\mathcal{M}',\psi|_Y=f,\psi\leq \rho|_{\mathcal{M}}\bigr\}
     \end{equation*}
-    Define a partial order on $\mathcal{E}$ by
-    \begin{equation*}
-        (\mathcal{M},\psi)\leq(\mathcal{N},\phi)\text{ iff }\mathcal{M}\subseteq\mathcal{N},\phi|_{\mathcal{M}}=\psi
-    \end{equation*}
-    Suppose $\mathcal{C}\subseteq\mathcal{E}$ is a chain with respect to $\leq$.
-    We let
+    equipped with the partial order where $(\mathcal{M},\psi)\leq(\mathcal{N},\phi)$ if and only if $\mathcal{M}\subseteq\mathcal{N}$ and $\phi|_{\mathcal{M}}=\psi$.
+    Suppose $\mathcal{C}\subseteq\mathcal{E}$ is a chain with respect to $\leq$, and let
     \begin{itemize}[nl]
-        \item $\mathcal{U}=\bigcup_{(\mathcal{M},\varphi)}\mathcal{M}$ which is a subspace, since $\mathcal{C}$ is a chain.
-        \item and define $\phi:\mathcal{U}\to\R$ by $\phi(x)=\psi(x)$ whenever $x\in\mathcal{M}$, which is again well-defined since $C$ is a chain.
+        \item $\mathcal{U}=\bigcup_{(\mathcal{M},\varphi)}\mathcal{M}$, and
+        \item $\phi:\mathcal{U}\to\R$ by $\phi(x)=\psi(x)$ whenever $x\in\mathcal{M}$
     \end{itemize}
-    Furthermore, we see that $\phi\in U'$, since if $x,y\in\mathcal{U}$, get $x\in\mathcal{M}$, $y\in\mathcal{N}$ for some $(\mathcal{M},\psi)\leq(\mathcal{N},\psi')\in\mathcal{C}$.
-    Then $\phi(x+y)=\psi'(x+y)=\psi'(x)+\psi'(y)=\phi(x)+\phi(y)$, etc.
-    Likewise, $\psi\leq p|_{\mathcal{U}}$.
-    Thus by Zorn's lemma, $\mathcal{E}$ admits a maximal element $\mathcal{M},F$
-    Then $\mathcal{M}=X$, for if not, then we would find $x\in X\setminus\mathcal{M}$ and we apply step one to $\spn\mathcal{M}\cup\{x\}$ to get $F'$, a strictly larger element violating maximality.
+    where it is easily verified that $\mathcal{U}$ is a subspace and $\phi$ is well-defined since $\mathcal{C}$ is a chain.
+    Moreover, we that $\phi\in U'$, since if $x,y\in\mathcal{U}$, get $x\in\mathcal{M}$, $y\in\mathcal{N}$ for some $(\mathcal{M},\psi)\leq(\mathcal{N},\psi')\in\mathcal{C}$, so $\phi(\alpha x+y)=\psi'(\alpha x+y)=\alpha\psi'(x)+\psi'(y)=\alpha\phi(x)+\phi(y)$.
+    In the same way, we have $\psi\leq\rho|_{\mathcal{U}}$.
+    Thus $(\mathcal{U},\phi)\in\mathcal{E}$ and is indeed an upper bound for $\mathcal{C}$.
+
+    Thus by Zorn's lemma, $\mathcal{E}$ some maximal element $(\mathcal{M},F)$.
+    In particular, we must have $\mathcal{M}=X$, for if not, get $x\in X\setminus\mathcal{M}$ and apply the single point extension result to $\spn\mathcal{M}\cup\{x\}$ to get some strictly larger element $(\spn\{x\}\cup \mathcal{M},F')$, violating maximality.
 \end{proof}
-Trivially, any $\C-$vector siace is a $\R-$vector space.
-\begin{lemma}
-    Let $X$ be a $\C-$vector space.
-    \begin{enumerate}[nl,r]
-        \item If $f\in X'_{\R}$ into $\R$, then define $f_{\C}$ given by $f_{\C}(x)=f(x)-if(ix)$ defines an element of $X'=X'_{\C}$.
-        \item If $g\in X'$, then $f=\Re g$ in $X'_{\R}$ satisfies $g=f_{\C}$.
-        \item If $X$ is a normed $\C-$vector space, then for $f\in X'_{\R}$,
-            \begin{equation*}
-                f\in X^*_{\R}\text{ if and only if}f_{\C}\in X^*=X^*_{\C}\text{ with }\norm{f}=\norm{f_{\C}}
-            \end{equation*}
-    \end{enumerate}
-\end{lemma}
-\begin{proof}
-    (i) and (ii) are straightforward exercises; let's see (iii).
-    We let fr $x\in X$, $z=\sgn f_{\C}(x)$.
-    Then
-    \begin{align*}
-        \R\ni|f_{\C}(x)|&=\overline{z}f_{\C}(x)=f_{\C}(\overline{z}x)=\Re f_{\C}(\overline{z}x)=f(\overline{z}x)=|f(\overline{z}x)|\\
-                        &\leq\norm{f}\norm{\overline{z}x}=\norm{f}|\overline{z}|\norm{x}=\norm{f}\norm{x}
-    \end{align*}
-    so we see that $\norm{f_{\C}}\leq\norm{f}$.
-    Conversely,
-    \begin{equation*}
-        |f(x)|=|\Re f_{\C}(x)|\leq|f_{\C}(x)|\leq\norm{f_{\C}}\norm{x}\text{ so that }\norm{f}\leq\norm{f_{\C}}
-    \end{equation*}
-\end{proof}
-\begin{corollary}[Hahn-Banach, Alternative Forms]\label{c:hahn-ext}
+To put Hahn-Banach into a more useful form and define it for any normed vector space over $\R$ or $\C$, we have the following result:
+\begin{theorem}[Continuous Hahn-Banach]\label{c:hahn-ext}
     Let $X$ be a normed space.
     \begin{enumerate}[nl,r]
         \item If $Y\subseteq X$ a subspace and $f\in Y^*$, then there exists $F\in X^*$ such that $F|_{Y}=f$ and $\norm{F}=\norm{f}$.
         \item If $x\in X$, then there is $f\in X^*$ such that $f(x)=\norm{x}$ and $\norm{f}=1$.
     \end{enumerate}
-\end{corollary}
+\end{theorem}
 \begin{proof}
+    We appeal to \cref{l:dual-cpx}.
     We have:
     \begin{enumerate}[nl,r]
-        \item Define $\rho:X\to\R$ be given by $p(x)=\norm{f}\cdot\norm{x}$, so $p$ is sublinear and $\Re f\leq p|_Y$.
-            Apply Hahn-banach to to this data and get $\tilde F\in X_{\R}^*$ such that $\tilde F|_Y=\Re f$ and $\tilde F\leq p$.
-            Set $F=\tilde F_{\C}$.
+        \item Define $\rho:X\to\R$ be given by $\rho(x)=\norm{f}\cdot\norm{x}$, so $\rho$ is sublinear and $\Re f\leq \rho|_Y$.
+            Apply Hahn-Banach and get $\tilde F\in X_{\R}^*$ such that $\tilde F|_Y=\Re f$ and $\tilde F\leq p$.
+            By \cref{l:dual-cpx}, $F=\tilde F_{\C}$ satisfies the required properties.
         \item If $x=0$, this is trivial, so suppose not.
-            Let $f_0:\F x\to\F$ be given by $f_0(\alpha x)=\alpha\norm{x}$.
-            If $x\neq 0$, then
-            \begin{equation*}
-                \norm{f_0}=\sup_{\norm{\alpha x}\leq 1}|f_0(\alpha x)|=\sup_{\norm{\alpha x}\leq 1}|\alpha|\norm{x}=1
-            \end{equation*}
-            and apply (i).
+            Let $f_0:\spn\{x\}\to\F$ be given by $f_0(\alpha x)=\alpha\norm{x}$.
+            If $x\neq 0$, we have immediately that $\norm{f_0}=1$; apply (i) above.
+    \end{enumerate}
 \end{proof}
 As a nice application of Hahn-Banach, we get the following embedding result.
 Let $X$ be a normed space and $X^{**}$ denote the bidual, and for $x\in X$, define $\hat{x}:X^*\to\F$ by $\hat{x}(f)=f(x)$.
@@ -990,8 +1007,9 @@ This method gives a nice way to define the completion of a normed space.
 Naturally, we may do this construction for any metric space, but it is nicer for Banach space.
 Since $X^{**}$ is a dual space, it is complete, so that $\hat X=\{\hat x:x\in X\}$ has $\overline{\hat X}\subseteq X^{**}$ is complete.
 But then $\overline{\hat{X}}$ is Banach space containing a dense isometric copy of $X$, and since the completion of a metric space is unique (up to surjective isometry), this is the completion of $X$, $\overline{X}$.
-\subsection{Geometric Hahn-Banach}
-If $A,B\subset X$ with $A\cap B=\emptyset$ (and other suitable assumptions), we will find a $\R-$hyperplane between $A$ and $B$.
+\subsection{Hyperplane Separation}
+An important application of Hahn-Banach is the Hyperplane Separation Theorem, also known as the Geometric Hahn-Banach Theorem.
+If $A,B\subset X$ with $A\cap B=\emptyset$ along with some other suitable assumptions, we will find a $\R-$hyperplane between $A$ and $B$.
 \begin{definition}
     In a vector space, a \textbf{hyperplane} is any set of the form $x_0+\ker f$ with $x_0\in X$ and $f\in X'$.
     Then a \textbf{$\R-$hyperplane} is any set of the form $x_0+\ker\Re f$.
@@ -1006,7 +1024,8 @@ If $A,B\subset X$ with $A\cap B=\emptyset$ (and other suitable assumptions), we 
 \end{proposition}
 \begin{proof}
     To see (i), $\ker f=f^{-1}(\{0\})$ is a closed set since $f$ is continuous.
-    Furthermore, if $Y\subsetneq X$ is a proper closed subspace, then it is nowhere dense.
+    Since $f$ is not the zero map, $\ker f$ is a proper closed subspace.
+    In general, if $Y\subsetneq X$ is a proper closed subspace, then it is nowhere dense.
     If not, then there would exist $y_0\in T$ and $\delta>0$ such that $y_0+\delta D(X)\subseteq Y$.
     But then $D(X)\subseteq\frac{1}{\delta}(Y-y_0)=Y$, so $X=\spn D(X)\subseteq Y$, a contradiction.
 
@@ -3672,6 +3691,6 @@ Certainly Hermitian operators are normal.
                               &= \inr{P_nx,P_my}=0
         \end{align*}
 \end{itemize}
-For example, compute $U$, $|K|$ for $x\in\ell_2$ and $Kx=(0,x_1,\frac{1}{2}x_2,\frac{1}{3}x_3)$.
+For example, compute $U$, $|K|$ for $x\in\ell_2$ and $Kx=(0,x_1,\frac{1}{2}x_2,\frac{1}{3}x_3,\ldots)$.
 
 \end{document}
