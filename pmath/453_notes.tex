@@ -248,10 +248,10 @@
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
 \DeclareMathOperator{\Pol}{Pol}
-\newcommand{\cwx}{\ensuremath{\overline{\operatorname{co}}^{w^*}\,}}
+\newcommand{\cwx}{\ensuremath{\overline{\operatorname{conv}}^{w^*}\,}}
 \newcommand{\idc}{\mathbf{1}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
-\newcommand{\cw}{\ensuremath{\overline{\operatorname{co}}\,}}
+\newcommand{\cw}{\ensuremath{\overline{\operatorname{conv}}\,}}
 
 % Tons of notation:
 % \newcommand{\Lip}[1]{\ensuremath{\operatorname{Lip}_{\F}(#1)}}
@@ -337,6 +337,22 @@
 
 % main document ----------------------------------------------------------------
 \chapter{Analysis in Metric Spaces}
+\begin{theorem}[Baire Category I]
+    If $(X,d)$ is a complete metric space and $\{U_n\}_{n=1}^\infty$ is a countable collection of dense, open subsets, then $\bigcap_{n=1}^\infty U_n$ is dense in $X$.
+\end{theorem}
+\begin{definition}
+    Let $(X,d)$ be a metric space.
+    A subset $F\subset X$ is \textbf{nowhere dense} if $X\setminus F$ is dense in $X$; equivalently, $\overline{F}$ contains no non-trivlal open subsets.
+    We say that a subset $M\subseteq X$ is \textbf{meagre} (1st category) if $M=\bigcup_{n=1}^\infty F_n$ and each $F_n$ is nowehere dense; and a set is \textbf{non-meagre} (2nd category) otherwise.
+\end{definition}
+\begin{theorem}[Baire Category II]
+    Let $(X,d)$ be a complete metric space.
+    Then a non-empty open $U\subseteq X$ is non-meagre.
+\end{theorem}
+\begin{proof}
+    Suppose not, so $U=\bigcup_{n=1}^\infty F_n\subseteq\bigcup_{n=1}^\infty\overline{F}_n$, each $F_n$ (hence $\overline{F_n}$) nowhere dense.
+    Then each $V_n=X\setminus\overline{F_n}$ is open and dense, and hence by BCT I, $G=\bigcap_{n=1}^\infty V_n$ is dense in $X$, and hence $U\cap G\neq\emptyset$, violating assumption
+\end{proof}
 \chapter{Set Theory and Topology}
 \section{The Axiom of Choice}
 \begin{definition}
@@ -365,10 +381,10 @@
         \item \textit{(Axiom of Choice 1)}: For any $x\neq\emptyset$, there is a function $\gamma:\mathcal{P}(X)\setminus\{\emptyset\}\to X$ such that $\gamma(A)\in A$ for each $A\in\mathcal{P})X_\setminus\{\emptyset\}$.
         \item \textit{(Axiom of Choice 2)}: Given any $\{A_\lambda\}_{\lambda\in\Lambda}$ where $A_\lambda\neq\emptyset$ for each $\lambda$,
             \begin{equation*}
-                \prod_{\lambda\in\Lambda}A_\lambda = \left\{(a_\lambda)_{\lambda\in\Lambda}:a_\lambda\in A_\lambda\text{ for each }\lambda\right\}\neq \emptyset
+                \prod_{\lambda\in\Lambda}A_\lambda = \left\{(a_\lambda)_{\lambda\in\Lambda}:a_\lambda\in A_\lambda\text{ for each }\lambda\right\}\neq \emptyset.
             \end{equation*}
-        \item \textit{(Zorn's Lemma)}: In a poset $(S,\leq)$, if each chain $C\subseteq S$ admits an upper bound in $S$, then $(S,\leq)$ admis a maximal element.
-        \item \textit{(Well-ordering principle)}: Any $S\neq\emptyset$ admits a well-ordering
+        \item \textit{(Zorn's Lemma)}: In a partially ordered set $(S,\leq)$, if each chain $C\subseteq S$ admits an upper bound in $S$, then $(S,\leq)$ admits a maximal element.
+        \item \textit{(Well-ordering principle)}: Any $S\neq\emptyset$ admits a well-ordering.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -377,6 +393,7 @@
 \section{Cardinal Arithmetic}
 \TODO{Write up}
 \section{Topology}
+\subsection{Basic Definitions and Examples}
 Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$.
 \begin{definition}
     A \textbf{topology} on a set $X$ is a set $\tau$ of subsets of $X$ such that
@@ -399,24 +416,27 @@ Let $X$ denote a non-empty set, and $\mathcal{P}(X)$ denote the power set of $X$
             We say that $\sigma$ is \textbf{finer} than $\tau_{\abs{\cdot}}$.
         \item \textit{Relative or subset topology}: let $(X,\tau)$ be a topological space and $\emptyset\neq A\subseteq X$.
             Then we can define a topology $\tau|_A=\{U\cap A:U\in\tau\}$.
+        \item \textit{Metric topology:} A metric space $(X,d)$ is naturally a topological space, where the topology is given by
+            \begin{equation*}
+                \tau_d = \Set{U\subseteq X |\text{ for each }x_0\in U\text{, there is }\delta=\delta(x_0)\text{ s.t. }\\B_\delta(x_0)\subseteq U}.
+            \end{equation*}
+            Given two metrics $d,\rho$ on $X$, we say that $d\sim\rho$ are \textbf{equivalent} if and only if there are $c,C>0$ such that
+            \begin{equation*}
+                cd(x,y)\leq\rho(x,y)\leq Cd(x,y)\text{ for any }x,y\in X
+            \end{equation*}
+            Note that $d\sim\rho$ implies that $\tau_d=\tau_\rho$, but the reverse implication is not true: for example, the metrics on $\R$ given by $d(x,y)$ and $\rho(x,y)=\frac{|x-y|}{1+|x-y|}$ are not equivalent.
+
+            Let $(X,d)$, $(Y,\rho)$ be metric spaces.
+            A map $f:X\to Y$ is an \textbf{isometry} if for any $x,y\in X$, $d(x,y)=\rho(f(x),f(y))$.
+            By non-degeneracy, $f$ is automatically injective.
+            In particular, when $(X,d)$ is complete, then $(f(X),\rho|_{f(X)})$ is a complete metric space.
     \end{enumerate}
 \end{example}
-\subsection{Metric Topology}
-A metric space $(X,d)$ is naturally a topological space, where the topology is given by
-\begin{equation*}
-    \tau_d = \Set{U\subseteq X |\text{ for each }x_0\in U\text{, there is }\delta=\delta(x_0)\text{ s.t. }\\B_\delta(x_0)\subseteq U}.
-\end{equation*}
-Given two metrics $d,\rho$ on $X$, we say that $d\sim\rho$ are \textbf{equivalent} if and only if there are $c,C>0$ such that
-\begin{equation*}
-    cd(x,y)\leq\rho(x,y)\leq Cd(x,y)\text{ for any }x,y\in X
-\end{equation*}
-Note that $d\sim\rho$ implies that $\tau_d=\tau_\rho$, but the reverse implication is not true.
-An example of this are the metrics on $X=\R$ given by $d(x,y)$ and $\rho(x,y)=\frac{|x-y|}{1+|x-y|}$.
-Then $d\not\sim\rho$ but $\tau_d=\tau_\rho$.
-Let $(X,d)$, $(Y,\rho)$ be metric spaces.
-A map $f:X\to Y$ is an \textbf{isometry} if for any $x,y\in X$, $d(x,y)=\rho(f(x),f(y))$.
-By non-degeneracy, $f$ is automatically injective.
-In particular, when $(X,d)$ is complete, then $(f(X),\rho|_{f(X)})$ is a complete metric space.
+\begin{definition}
+    A set $F\subseteq X$ is \textbf{closed} if $X\setminus F\in\tau$.
+    If $S\subseteq X$, then the \textbf{closure} of $S$ is $\overline{S}=\cap\{F\subseteq X:S\subseteq F,X\setminus F\in\tau\}$.
+\end{definition}
+Note that $\overline{S}=\{x\in X:\text{for any }U\in\tau\text{ with }x\in U,U\cap S\neq\emptyset\}$.
 \begin{definition}
     Let $(X,\tau)$ and $(Y,\sigma)$ be topological spaces, and $f:X\to Y$.
     We say that $f$ is \mbf{$(\tau-\sigma-)$continuous at $x_0$} in $X$ if for any $V\in\sigma$ such that $f(x_0)\in V$, then there exists $U\in\tau$ such that $x_0\in U$ and $f(U)\subseteq V$.
@@ -438,6 +458,365 @@ An easy application of definitions yields the following:
     If $(f_n)_{n=1}^\infty\subseteq\mathcal{I}(x_0)$ and $f=\lim_{n\to\infty}f_n$ with respect to $\norm{\cdot}_\infty$ in $C_b(X)$, then $f(x_0)=\lim_{n\to\infty}f_n(x_0)=0$.
     Thus $f\in\mathcal{I}(x_0)$, and closed subsets of complete spaces are themselves complete.
 \end{proof}
+An important class of topologies which are particularly tractable are the Hausdorff spaces:
+\begin{definition}
+    A topological space $(X,\tau)$ is \textbf{Hausdorff} if given $x\neq y$ in $X$, there are $U_x,V_y\in\tau$ such that $x\in U_x$ and $y\in V_y$ and $U_x\cap U_y=\emptyset$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item A metric space is Hausdorff.
+        \item $X$ a normed space, $w=\sigma(X,X^*)$ is Hausdorff (by Hahn-Banach and A2Q1).
+        \item If $X$ is a normed space, then $w^*=\sigma(X^*,\hat X)$ on $X^*$ is Hausdorff.
+        \item $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$ with $\pi$ the product topology.
+            Then $(X,\pi)$ is Hausdorff if and only if all $(X_\alpha,\tau_\alpha)$ are Hausdorff.
+            (Straightfoward exercise).
+    \end{enumerate}
+\end{example}
+\subsection{Compactness}
+Let $(X,\tau)$ be a topological space.
+\begin{definition}
+    A subset $K\subseteq X$ is called \textbf{compact} if for any collection $\{U_\alpha\}_{\alpha\in A}\subseteq\tau$ with $\bigcup_{\alpha\in A}U_\alpha\supseteq K$, there exists some finite $U_1,\ldots,U_n$ covering $K$.
+    If $X$ itself is $\tau-$compact, we call $(X,\tau)$ a compact space.
+\end{definition}
+A basic application of the definitions yields the following:
+\begin{proposition}
+    Let $(X,\tau)$ be a compact space.
+    \begin{enumerate}[nl,r]
+        \item If $K\subseteq X$ is closed, then $K$ is compact.
+        \item If $(Y,\sigma)$ is a topological space and $f:X\to Y$ is continuous, then $f(X)$ is compact.
+    \end{enumerate}
+\end{proposition}
+Interestingly, if the $\tau$ is a Hausdorff topology, we also have a converse for (i), which is again left as an interesting exercise:
+\begin{proposition}
+    Let $(X,\tau)$ be a Hausdorff space, $K\subseteq X$ $\tau-$compact.
+    Then $K$ is $\tau-$closed.
+\end{proposition}
+This yields the following nice result for compact subsets of Hausdorff spaces.
+\begin{proposition}
+    Let $(X,\tau)$ be a compact space.
+    \begin{enumerate}[nl,r]
+        \item If $(Y,\sigma)$ is a Hausdorff space and $\phi:X\to Y$ is continuous and bijective, then $\phi^{-1}:Y\to X$ is continuous.
+        \item If $\tau'\subseteq\tau$ is a Hausdorff topology on $X$, so $\tau'=\tau$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $F\subset X$ is closed, it is compact, so that $(\phi^{-1})^{-1}\phi(F)\subset Y$ is compact, and hence closed.
+        \item $\id:X\to X$ is continuous, so if $U\in\tau'$, then $\id^{-1}(U)=U\in\tau$, so $\id$ is continuous.
+            Hence by (1) $\id^{-1}$ is continuous so $\tau\subseteq\tau'$.
+    \end{enumerate}
+\end{proof}
+Here we give an alternative way to characterize compactness in a topological space:
+\begin{definition}
+    A family $\mathcal{F}\subseteq\mathcal{P}(X)$ has the \textbf{finite intersection property} if for any $F_1,\ldots,F_n\in\mathcal{F}$, $\bigcap_{l=1}^n F_k\neq\emptyset$.
+\end{definition}
+\begin{proposition}
+    Let $(X,\tau)$ be a topological space.
+    Then $(X,\tau)$ is compact if and only if any $\mathcal{F}\subseteq\mathcal{P}(X)$ with the finite intersection property has $\bigcap_{F\in\mathcal{F}}\overline{F}\neq\emptyset$.
+\end{proposition}
+\begin{proof}
+    Suppose $X$ is compact and $\mathcal{F}\subset\mathcal{P}(X)$ has the finite intersection property but with $\bigcap_{F\in\mathcal{F}}\overline{F}$, then $\{X\setminus\overline{F}\}_{F\in\mathcal{F}}$ is an open cover of $X$ with no finite subcover.
+
+    Conversely, if $\mathcal{O}\subseteq\tau$ is an open cover of $X$, then $\mathcal{F}=\{X\setminus U\}_{U\in\mathcal{O}}$ satisfies $\bigcap_{F\in\mathcal{F}}=\emptyset$, so there is $F_1,\ldots,F_n\in\mathcal{F}$ with $\bigcap_{k=1}^n F_k=\emptyset$.
+    Then $\{X\setminus F_i\}_{i=1}^k$ is a finite subcover.
+\end{proof}
+\subsection{Bases and Initial Topologies}
+\begin{definition}
+    Let $(X,\tau)$ be a topological space.
+    A \textbf{base} for $\tau$ is any family $\beta\subseteq\tau$ such that for any $U\in\tau$ and $x\in U$, there is $B\in\beta$ such that $x\in B\subseteq U$.
+    A \textbf{subbase} for $\tau$ is any family $\alpha\subseteq\tau$ such that $\{\bigcap_{k=1}^n U_k:n\in\N,U_1,\ldots,U_n\in\alpha\}$ is a base for $\tau$.
+\end{definition}
+Note that if $\emptyset\neq X$ and $\beta\subseteq\mathcal{P}(X)$ for which $\bigcup_{B\in \beta}B=X$ and $\beta$ is closed under finite intersections, then
+\begin{equation*}
+    \tau_\beta=\left\{\bigcup_{i\in I}B_i:\{B_i\}_{i\in I}\subset \beta\right\}
+\end{equation*}
+defines a topology.
+\begin{definition}
+    Let $X\neq\emptyset$.
+    Suppose we are given
+    \begin{itemize}[nl]
+        \item a family $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ of topological spaces, and
+        \item for each $\alpha\in A$, a function $f_\alpha:X\to X_\alpha$
+    \end{itemize}
+    Then the \textbf{initial topology} on $X$ given this data is denoted
+    \begin{equation*}
+        \sigma=\sigma(X,(f_\alpha)_{\alpha\in A})=\sigma(X,(f_\alpha,\tau_\alpha)_{\alpha\in A})
+    \end{equation*}
+    and is the topology with base
+    \begin{equation*}
+        \beta=\left\{\bigcap_{k=1}^n f_{\alpha_k}^{-1}(U_{\alpha_k}),n\in\N,\alpha_1,\ldots,\alpha_n\in A,\text{ each }U_{\alpha_k}\in\tau_{\alpha_k}\right\}
+    \end{equation*}
+\end{definition}
+In particular, $\{f_\alpha^{-1}(U_\alpha):U_\alpha\in\tau_\alpha,\alpha\in A\}$ is a subbase for $\sigma$.
+\begin{remark}
+    The topology is chosen so that each $f_\alpha:X\to X_\alpha$ is $\sigma-\tau_\alpha-$continuous.
+    Furthermore, if $\tau\subseteq\mathcal{P}(X)$ is any topology for which every $f_\alpha$ is $\sigma-\tau_\alpha-$continuous, then $\sigma\subseteq\tau$.
+    We say that $\sigma$ is the \textbf{coarsest} topology so that all the $f_\alpha$ are continuous.
+\end{remark}
+A number of common topologies can be defined using this notation:
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item \textit{Metric topology:} If $(X,d)$ is a metric space, for each $x\in X$, let $d_x$ be given by $d_x(x')=d(x,x')$.
+            Then $\sigma(X,(d_x)_{x\in X})=\tau_d$.
+        \item \textit{Relative topology:} If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
+            Then $\tau|_X=\sigma(X,\{i\})$.
+        \item \textit{Product topology:} Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of topological spaces.
+            Let $X=\prod_{\alpha\in A}X_\alpha$.
+            Let for $\alpha\in A$, $p_\alpha:X\to X_\alpha$ denote the projection map onto the component $\alpha$.
+            Then the product topology $\pi=\sigma(X,\{p_\alpha\}_{\alpha\in A})$.
+            Hence, $V\in\mathcal{P}(X)$, then $V\in\pi$ if and only if for any $x\in V$, there is $\alpha_1,\ldots,\alpha_n\in A$ and $U_{\alpha_k}\in\tau_{\alpha_k}$ such that $x_{\alpha_k}=p_{\alpha_k(x)}\in U_{\alpha_k}$ and $x\in \bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_j})\subseteq V$.
+
+            Note that if $X=\prod_{n=1}^\infty X_n$, each $(X_n,\tau_n)$ is a topological space, then the basic open sets look like $U_1\times U_2\times\cdots\times U_m\times X_{m+1}\times X_{m+2}\times\cdots$.
+    \end{enumerate}
+\end{example}
+\subsection{Ultrafilters and Tychonoff's Theorem}
+\begin{definition}
+    Let $X$ be a non-empty set.
+    An \textbf{ultrafilter} is a family $\mathcal{U}\subset\mathcal{P}(X)$ such that
+    \begin{itemize}[nl]
+        \item $\mathcal{U}$ has the finite intersection property
+        \item If $A\in\mathcal{P}(X)$, then either $A\in\mathcal{U}$ or $X\setminus A\in\mathcal{U}$.
+    \end{itemize}
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item \textit{Principal / trivial ultrafilter:} If $x_0\in X$, let $U_{x_0}=\{U\subseteq X:x_0\in U\}$.
+    \end{enumerate}
+\end{example}
+\begin{lemma}[Ultrafilter]
+    If $\mathcal{F}\subseteq\mathcal{P}(X)$ is any set with the finite intersection property, then there is an ultrafilter $\mathcal{U}$ with $\mathcal{F}\subset\mathcal{U}$.
+\end{lemma}
+\begin{proof}
+    Let $\Phi=\{\mathcal{G}\subseteq\mathcal{P}(X):\mathcal{F}\subseteq\mathcal{G},\mathcal{G}\text{ has f.i.p.}\}$.
+    Then $\Phi$ is partially ordered by inclusion.
+    If $\Gamma\subseteq\Phi$ is a chain, then $\mathcal{G}_\Phi=\bigcup_{\mathcal{G}\in\Gamma}\mathcal{G}$ contains $\mathcal{F}$ and has the finite intersection property.
+    Hence $\Phi$ admits a maximal element $\mathcal{U}$.
+    Let $A\in\mathcal{P}(X)\setminus\mathcal{U}$.
+    Then $U\cup\{A\}\supsetneq\mathcal{U}$, so $\mathcal{U}\cup\{A\}$ fails the finite intersection property.
+    Hence get $U_1,\ldots,U_n$ so $A\cap\bigcap_{k=1}^n U_k=\emptyset$.
+    Now if $V_1,\ldots,V_m\in\mathcal{U}$, then $\bigcap_{j=1}^n V_j\cap\bigcap_{k=1}^n U_j\subseteq\bigcap_{k=1}^n U_k\subseteq X\setminus A$, so $(X\setminus A)\cap\bigcap_{j=1}^m V_j$.
+    Thus $\mathcal{U}\cup\{X\setminus A\}$ has finite intersection property, so $X\setminus A\in\mathcal{U}$ by maximality.
+\end{proof}
+\begin{corollary}
+    If $U\subseteq\mathcal{P}(X)$ is an ultrafilter, then
+    \begin{enumerate}[nl,r]
+        \item If $A\in\mathcal{P}(X)$, $A\in\mathcal{U}$ if and only if $A\cap U\neq\emptyset$ for each $U\in\mathcal{U}$
+        \item If $A,B\in\mathcal{P}(X)$, then $A\cup B\in\mathcal{U}$ implies at least one of $A$ or $B$ is in $\mathcal{U}$
+        \item If $A\in\mathcal{U}$ and $A\subseteq V$ implies $V\in\mathcal{U}$
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    The forward implication of (i) follows since $\mathcal{U}$ has finite intersection.
+    Conversely, $X\setminus A\notin\mathcal{U}$, so $A\in\mathcal{U}$.
+    (ii) and (iii) follow consequently.
+\end{proof}
+\begin{corollary}
+    If $X$ is an infinite set, it admits a non-principle ultrafilter.
+\end{corollary}
+\begin{proof}
+    Let $\mathcal{F}=\{F\in\mathcal{P}(X):X\setminus F\text{ is finite}\}$.
+    Then $\mathcal{F}$ has the finite intersection property.
+    Apply the lemma.
+\end{proof}
+\begin{proposition}
+    There are at least $\mathfrak{c}$ many ultrafilters in $\mathcal{P}(\N)$.
+\end{proposition}
+\begin{proof}
+    We let $\mathcal{F}\subset\mathcal{P}(\N)$ be a collection of infinite sets such that $E\neq F$ in $\mathcal{F}$ implies $|E\cap F|<\infty$, and $|\mathcal{F}|=\mathfrak{c}$.
+    For each $F\in\mathcal{F}$, we let $\mathcal{F}_F=\mathcal{F}_0\cup\{F\}$, which has the finite intersection property.
+    Moreover, if $E\in\mathcal{F}\setminus\{F\}$, then $\mathcal{F}_F\cup\{E\}$ would fail f.i.p.
+    Hence, for $F\in\mathcal{F}$, let $\mathcal{U}_F$ be any ultrafilter containing $\mathcal{F}_F$, giving $\mathfrak{c}$ many ultrafilters.
+\end{proof}
+\begin{remark}
+    It can be shown (with a lot more work) that $\N$ admits $2^\mathfrak{c}$ ultrafilters.
+\end{remark}
+Let $\mathcal{U}\subset\mathcal{P}(\N)$ be a non-principal ultrafilter.
+Define $\delta_{\mathcal{U}}:\mathcal{P}(\N)\to\{0,1\}\subset\R$ by $\delta_{\mathcal{U}}(A)=1$ if $A\in\mathcal{U}$, and $0$ if $X\setminus A\in\mathcal{U}$.
+Since $\N\in\mathcal{U}$, we see that $\delta_{\mathcal{U}}(\emptyset)=0$.
+If $\emptyset\neq A,B\in\mathcal{P}(\N)$ with $A\cap B=\emptyset$, then if $A\cup B\in\mathcal{U}$, then exactly one of $A$ or $B$ is in $\mathcal{U}$.
+Thus $\delta_U(A\cup B)=\delta_U(A)+\delta_U(B)$.
+If $E_1,\ldots,E_n\subseteq\N$ with $E_j\cap E_k=\emptyset$ for $j\neq k$, then $\sum_{k=1}^n|\delta_{\mathcal{U}}(E_k)|\leq 1$ so $\norm{\delta_{\mathcal{U}}}_{\text{var}}\leq 1$.
+Since $\delta_{\mathcal{U}}(\N)=1$, we have $\norm{\delta_{\mathcal{U}}}_{\text{var}}=1$.
+Let $L_{\mathcal{U}}\in\ell_\infty^*$ be the linear functional associated to $\delta_{\mathcal{U}}$.
+We then have (with some verification possibly needed)
+\begin{enumerate}[nl,r]
+    \item $L_{\mathcal{U}}(1)=1$, $\norm{L_{\mathcal{U}}}=1$
+    \item $L_{\mathcal{U}}|_{\mathbf{c_0}}=0$, so if $x\in\ell_\infty^{\R}$, then $\liminf_{n\to\infty}x_n\leq L_{\mathcal{U}}\leq\limsup_{n\to\infty}x_n$
+    \item Exactly one of $2\N$ and $2\N-1$ is in $\mathcal{U}$, so $L(\chi_{2\N})\neq L_{\mathcal{U}}(\chi_{2\N-1})$, so $L_{\mathcal{U}}$ is not translation invariant.
+    \item Let $S\in\mathcal{B}(\ell_\infty)$ be given by $Sx=\left(\frac{x_1+\cdots+x_n}{n}\right)_{n=1}^\infty$.
+        Then $L_{\mathcal{U}}\circ S$ is a Banach limit.
+\end{enumerate}
+\begin{definition}
+    If $(X,\tau)$ is a topological space, $\mathcal{U}$ an ultrafilter on $X$, we say that $x_0\in X$ is a $(\tau-)$limit point for $\mathcal{U}$ if for each $U\in\tau$ with $x_0\in U$, we have $U\in\mathcal{U}$.
+\end{definition}
+\begin{proposition}
+    Let $(X,\tau)$ be a topological space.
+    Then $(X,\tau)$ is compact if and only if any ultrafilter on $X$ admits a $\tau-$limit point.
+\end{proposition}
+\begin{proof}
+    Let us begin with an observation: if $x\in X$ and $\mathcal{U}$ is an ultrafilter on $X$, then
+    \begin{align*}
+        x\in\bigcap_{V\in\mathcal{U}}\overline{V} &\Leftrightarrow\text{for any }U\in\tau\text{ with }x\in U, U\cap V\neq\emptyset\text{ for each }V\in \mathcal{U}\\
+                                                   &\Leftrightarrow x\text{ is a $\tau-$limit point of }\mathcal{U}
+    \end{align*}
+    
+    If $(X,\tau)$ is compact, then $\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
+    If $\mathcal{F}\subseteq\mathcal{P}(X)$ has the finite intersection property, then there exists an ultrafilter $\mathcal{U}\supseteq\mathcal{F}$, so $\bigcap_{F\in\mathcal{F}}\overline{F}\supseteq\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
+
+\end{proof}
+\begin{theorem}[Tychonoff]
+    Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of compact spaces, and $X=\prod_{\alpha \in A}X_\alpha$ with the product topology $\pi$.
+    Then $(X,\pi)$ is compact.
+\end{theorem}
+\begin{proof}
+    Let $\mathcal{U}$ be an ultrafilter on $X$; we will show that it admits a $\pi-$limit point.
+    Fix $\alpha\in A$ and let $\mathcal{U}_\alpha=\{p_\alpha(V):V\in\mathcal{U}\}$, where $p_\alpha$ is the coordinate projection onto $\alpha$.
+    If $\emptyset\neq S_\alpha\subseteq X_\alpha$, then $S_\alpha=p_\alpha^{-1}(p_\alpha^{-1}(S_\alpha))$, so $S_\alpha\in\mathcal{U}_\alpha$ if and only if $p^{-1}(S_\alpha)\in\mathcal{U}$, and since $p^{-1}$ commutes with complementation, $\mathcal{U}_\alpha$ is an ultrafilter.
+    The last proposition provides a $\tau_\alpha-$limit point $x_\alpha$ for $\mathcal{U}_\alpha$.
+    Now let $x=(x_\alpha)_{\alpha\in A}$, where $x_\alpha$ is found as above.
+    If $W\in\pi$ with $x\in W$, then there are $\alpha_1,\ldots,\alpha_n$ in $A$, $U_{\alpha_i}\in\tau_{\alpha_i}$ with $x\in\bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_k})\subseteq W$.
+    Since each $x_{\alpha_k}$ is a $\tau_{\alpha_k}-$limit point of $\mathcal{U}_{\alpha_k}$, we see that each $U_{\alpha_k}\in\mathcal{U}_{\alpha_k}$, so $p_{\alpha_k}^{-1}(U_{\alpha_k})\in\mathcal{U}$.
+    Thus we see that $W\in\mathcal{U}$, so $x$ is a $\pi-$limit point of $\mathcal{U}$.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[r]
+        \item Tychonoff's theorem implies the axiom of choice.
+            Given $\{X_\alpha\}_{\alpha\in A}$ be a family of non-empty sets.
+            Find $y$ which is not a member of any $X_\alpha$, and let $Y_\alpha=X_\alpha\cup\{y\}$ and $\tau_\alpha=\{\emptyset,\{y\},X_\alpha,Y_\alpha\}$, and $(Y_\alpha.\tau_\alpha)$ is compact.
+            The constant element $y$ is an element of $Y$, so by Tychonoff, $(Y,\pi)$ is compact.
+            Given $\alpha_1,\ldots,\alpha_n\in A$, then $\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
+            Since $\prod_{k=1}^n X_{\alpha_k}\neq 0$, we see that $Y\subsetneq\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
+            Hence by compactness, $Y\not\subseteq\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})$.
+            Hence $\prod_{x\in A}X_\alpha=Y\setminus\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})\neq 0$.
+        \item If we are given $(X_\alpha,\tau_\alpha)_{\alpha\in A}$ a family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$, we can define the \textbf{box topology}, i.e. the topology with base $\left\{\prod_{\alpha\in A}U_\alpha:U_\alpha\in\tau_\alpha\setminus\{\emptyset\}\text{ for each }\alpha\right\}$
+            Of course, $\pi\subseteq\tau$, and the inclusion is proper on infinite products.
+    \end{enumerate}
+\end{remark}
+\section{Nets}
+\begin{definition}
+    A pair $(N,\leq)$ is a \textbf{preorder} on $N$ if
+    \begin{itemize}[nl]
+        \item $v\leq v$ for $v\in N$
+        \item $v_1\leq v_2$ and $v_2\leq v_3$ implies $v_1\leq v_3$.
+    \end{itemize}
+    This pair is \textbf{cofinal} if for any $v_1,v_2\in N$, there is $v_3\in N$ so $v_1\leq v_3$ and $v_2\leq v_3$.
+    Then $(N,\leq)$ is a \textbf{directed set} if $\leq$ is a cofinal preorder.
+    Given a non-empty set $X$, a \textbf{net} is a function $x:N\to X$.
+\end{definition}
+\begin{definition}
+    If $(x_0)_{v\in N}$ is a net in $X$, $A\subseteq X$, we say that $(x_0)_{n\in\N}$ is
+    \begin{itemize}[nl]
+        \item \textbf{eventually} in $A$ if there is $v_A\in N$ so $x_v\in A$ whenever $v\geq v_A$
+        \item \textbf{frequently} in $A$ if for any $v\in N$, there is $v'\in N$ with $v'\geq g$ so $x_{v'}\in A$.
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    Now, let $(M,\leq)$ be anther directed set
+    A map $\phi:M\to N$ is \textbf{eventually cofinal} if for any $v\in N$, there is $\mu_v\in N$ s $\phi(u)\geq v$ whenever $\mu\geq \mu_0$.
+    Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(x_{\phi(\mu)})_{\mu\in M}$ a \textbf{subnet}.
+\end{definition}
+\begin{definition}
+    We call $\phi:M\to N$ a \textbf{directed map} if
+    \begin{enumerate}[nl,r]
+        \item $\mu\leq \mu'$ in $M$ implies $\phi(\mu)\leq\phi(\mu')$ in $N$
+        \item For any $v\in N$, there is $\mu\in M$ s $v\leq\phi(\mu)$.
+    \end{enumerate}
+\end{definition}
+Directed maps are always cofinal.
+Different sources use directed maps over eventually cofinal maps.
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $(\N,\leq)$ is directed, and subsequences are special types of subnets.
+        \item $(\R,\leq)$ is directed
+        \item (\textit{Riemann sums}) Let $a<b$ in $\R$.
+            We let
+            \begin{equation*}
+                N=\{(P,P^*):P=\{a=t_0<t_1<\cdots<t_n=b\},P^*=\{t_1^*,\ldots,t_n^*\},t_k^*\in[t_{k-1},t_k]\}
+            \end{equation*}
+            and say $(P,P^*)\leq (Q,Q^*)$ if $P\subseteq Q$.
+            One can verify that this is a net (the Riemann sum net).
+        \item (\textit{Nets from filtering families}).
+            We say that $\mathcal{F}\subset\mathcal{P}(X)\setminus\{\emptyset\}$ is a \textbf{filtering family} if for each $F_1,F_2\in\mathcal{F}$, there is $F_3\in\mathcal{F}$ such that $F_3\subseteq F_1\cap F_2$.
+            For example, an ultrafilter is a filtering family.
+            Let
+            \begin{equation*}
+                N_{\mathcal{F}}=\{(x,F):x\in F,F\in\mathcal{F}\}
+            \end{equation*}
+            equipped with the pre-order $(x,F)\leq(x',F')$ if and only if $F\supseteq F'$.
+            Since $\mathcal{F}$ is a filtering family, $(N_{\mathcal{F}},\leq)$ is directed.
+            Let $x_{(x,F)}=x$, so $(x)_{(x,F)\in N_{\mathcal{F}}}$ is the net built from $\mathcal{F}$.
+            Note that if $F\in\mathcal{F}$, then $(x)_{(x,F)\in\mathcal{F}}$ is eventually in $F$.
+
+            An \textbf{ultranet} $(x_v)_{v\in N}\subset X$ is a net for which any $A\in\mathcal{P}(X)$, $(x_v)_{v\in N}$ is either eventually in $A$ or eventually in $X\setminus A$.
+            If $\mathcal{F}$ is an ultrafilter, then $(x)_{(x,F)\in N_{\mathcal{F}}}$ is an \textbf{ultranet}.
+    \end{enumerate}
+\end{example}
+\subsection{Nets and Topology}
+Now, suppose $(X,\tau)$ is a topological space.
+\begin{definition}
+    We say that $x_0\in X$ is
+    \begin{itemize}[nl]
+        \item Some $x_0\in X$ is a \textbf{limit point} if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is eventually in $U$.
+            That is, there is $\nu_U$ such that $x_\nu\in U$ whenever $\nu\geq\nu_U$.
+            We write $x_0=\lim_{v\in N}x_v$, the $\tau-$limit of $(x_v)_{v\in N}$.
+            Note that this is an abuse of notation, since limit points need not be unique (when $(X,\tau)$ is not Hausdorff).
+        \item Some $x_0\in X$ is a \textbf{cluster point} of $(x_v)_{v\in N}$ if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is frequently in $U$.
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    If $(x_v)_{v\in N}$ is a net in $(X,\tau)$ and $x_0\in X$, then $x_0$ is a cluster point for $(x_v)_{v\in N}$ if and only if $x_0$ is a $\tau-$limit point of $x_{v_\mu}$ for some subnet $(x_{v_\mu})_{\mu\in M}$ of $(x_v)_{v\in N}$.
+\end{proposition}
+\begin{proof}
+    \impr
+    Suppose $x_0$ is a cluster point for $(x_\nu)_{\nu\in N}$.
+    Then for each $v\in N$ and $U\in\tau$ containing $x_0$, define
+    \begin{equation*}
+        F_{\nu,U}=\{\nu'\in N:\nu'\geq \nu,x_{\nu'}\in U\}
+    \end{equation*}
+    which is non-empty since $x_0$ is a cluster point.
+    Then set
+    \begin{equation*}
+        \mathcal{F}=\{F_{\nu,U}:\nu\in N,U\in\tau,x_0\in U\}\subset\mathcal{P}(N)
+    \end{equation*}
+    Let's see that $\mathcal{F}$ is filtering: suppose $F_{\nu,U}$ and $F_{\nu',U'}$ are in $\mathcal{F}$.
+    Get $\mu\geq\nu$ and $\mu\geq\nu'$ by definition of a net and set $V=U\cap U'$, which is open and contains $x_0$.
+    Then since $x_0$ is a cluster point, get some $\mu'\geq \mu$ such that $x_{\mu'}\in V$, so $F_{\mu',V}\subseteq F_{\nu,U}\cap F_{\nu',U'}$
+    We then let $M=N_{\mathcal{F}}$ be the net construction from the filtering family and set $v_{(\nu,F)}=V$.
+
+    Now set $N_{\mathcal{F}}=\{(\nu,F):\nu\in F,F\in\mathcal{F}\}$ with the standard preorder and $\nu_{(\nu,F)}=\nu$.
+    Then the map $(\nu,F)\mapsto\nu$ from $N_{\mathcal{F}}\to N$ is eventually cofinal: if $\nu_0\in N$ is arbitrary, take any $F_0=F_{\nu_0,U}\in\mathcal{F}$.
+    Then $F_0=\{\nu\in N:\nu\geq\nu_0,x_\nu\in U\}$, so if $F_{\mu,V}\in\mathcal{F}$ with $F_{\mu,V}\subseteq$
+    We let $M=N_{\mathcal{F}}$ as in (iv) above, and $v_{v,\mathcal{F}}=v$.
+    Check that $(x_v)_{(v,F)\in N_{\mathcal{F}}}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$.
+    [Check: $(v,F)\mapsto v:N_{\mathcal{F}}\to N$ is cofinal, but is not evidently directed]
+    
+    $(\Leftarrow)$ If for some subnet $(x_{v_\mu})_{\mu\in M}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$, then $(x_v)_{v\in N}$ is frequently in $U$ for such $U$ by definition of a subnet.
+\end{proof}
+\begin{proposition}
+    If $(Y,\sigma)$ is another topological space, then $f:X\to Y$ is continuous if and only if for any $x_0\in X$ and net $(x_v)_{v\in N}$ with having $x_0$ as a limit, $f(x_0)=\lim_{v\in N}f(x_v)$.
+\end{proposition}
+\begin{proof}
+    If $V\in\sigma$ with $f(x_0)\in V$, then $f^{-1}(V)\in\tau$ with $x_0\in f^{-1}(V)$.
+    Since $(x_v)_{v\in N}$ is eventually in $f^{-1}(V)$, so $(f(x_v))_{v\in N}$ is eventually in $V$.
+
+    Conversely, let $\tau_{x_0}=\{U\in\tau:x_0\in U\}$, which is filtering on $X$.
+    Let $N_{\tau_{x_0}}=\{(x,U):x\in U,U\in\tau_{x_0}\}$ be directed by $(x,U)\leq(x',U')$ if and only if $U\supseteq U'$ as in (iv) above.
+    Then $x_0=\lim_{(x,U)\in N_{\tau_{x_0}}}x$.
+    Now, let $V\in\sigma$ with $f(x_0)$.
+    The assumptions on $f$ tell us there is $v-V\in N_{\tau_{x_0}}$ such that for $v\geq v_V$, we have $f(x_0)\in V$
+    We have $v_V=(x,U)$ for some $U\in\tau_{x_0}$ and $x\in U$, so for any $x'\in U$, $(x',U)\geq(x,U)$ and $f(x')=f(x_{x',U})\in V$, so that $x_0\in U=\bigcup_{x'\in U}\{x'\}\subseteq f^{-1}(V)$, so $f$ is continuous at $x_0$.
+    But $x_0\in X$ was arbitrary.
+\end{proof}
+\begin{remark}
+    We get the following consequences of this result:
+    \begin{enumerate}[nl,r]
+        \item Given topologies $\tau,\tau'$ on $X$, $\tau'\subseteq\tau$ if and only if $\tau'-\lim_{v\in N}x_v=x_0$ whenever $\tau-\lim_{v\in N}x_v=x_0$ for any $x_0\in X$.
+        \item (limits in product topology) $\{(x_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be topological space and $X=\prod_{\alpha\in A}X_\alpha$ equipped with the product topology $\pi$.
+            If $(x^{(v)})_{v\in N}$ is a net in $X$ and $x^{(0)}\in X$, then $\pi-\lim_{v\in N}x^{(v)}=x^{(0)}$ if and only if for every $\alpha\in A$, $\tau_\alpha-\lim_{v\in N}x_\alpha^{(v)}=x_\alpha^{(0)}$.
+            Recall that $\pi$ is the coarsest topology making each $\mu_\alpha$ continuous.
+        \item If $X$ is a normed space and $(f_v)_{v\in N}\subset X^*$, $f_0\in X^*$, then $w^*-\lim_{v\in N}f_v=f_0$ if and only if $\lim_{v\in N}f_v(x)=f_0(x)$ for each $x\in X$.
+    \end{enumerate}
+\end{remark}
 \chapter{Basic Elements of Functional Analysis}
 \section{Banach Spaces}
 \subsection{Vector Spaces}
@@ -982,7 +1361,6 @@ To put Hahn-Banach into a more useful form and define it for any normed vector s
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    We appeal to \cref{l:dual-cpx}.
     We have:
     \begin{enumerate}[nl,r]
         \item Define $\rho:X\to\R$ be given by $\rho(x)=\norm{f}\cdot\norm{x}$, so $\rho$ is sublinear and $\Re f\leq \rho|_Y$.
@@ -1007,14 +1385,14 @@ This method gives a nice way to define the completion of a normed space.
 Naturally, we may do this construction for any metric space, but it is nicer for Banach space.
 Since $X^{**}$ is a dual space, it is complete, so that $\hat X=\{\hat x:x\in X\}$ has $\overline{\hat X}\subseteq X^{**}$ is complete.
 But then $\overline{\hat{X}}$ is Banach space containing a dense isometric copy of $X$, and since the completion of a metric space is unique (up to surjective isometry), this is the completion of $X$, $\overline{X}$.
-\subsection{Hyperplane Separation}
-An important application of Hahn-Banach is the Hyperplane Separation Theorem, also known as the Geometric Hahn-Banach Theorem.
+\subsection{Hyperplane Separation Theorem}
+An important application of Hahn-Banach is the Hyperplane Separation Theorem.
 If $A,B\subset X$ with $A\cap B=\emptyset$ along with some other suitable assumptions, we will find a $\R-$hyperplane between $A$ and $B$.
 \begin{definition}
     In a vector space, a \textbf{hyperplane} is any set of the form $x_0+\ker f$ with $x_0\in X$ and $f\in X'$.
     Then a \textbf{$\R-$hyperplane} is any set of the form $x_0+\ker\Re f$.
 \end{definition}
-\begin{proposition}
+\begin{proposition}\label{p:fker}
     Let $X$ be a normed space.
     \begin{enumerate}[nl,r]
         \item If $f\in X^*\setminus\{0\}$, then $\ker f$ is closed and nowhere dense.
@@ -1023,80 +1401,78 @@ If $A,B\subset X$ with $A\cap B=\emptyset$ along with some other suitable assump
     Thus a hyperplane in $X$ is either closed and nowhere dense, or it is dense.
 \end{proposition}
 \begin{proof}
-    To see (i), $\ker f=f^{-1}(\{0\})$ is a closed set since $f$ is continuous.
-    Since $f$ is not the zero map, $\ker f$ is a proper closed subspace.
-    In general, if $Y\subsetneq X$ is a proper closed subspace, then it is nowhere dense.
-    If not, then there would exist $y_0\in T$ and $\delta>0$ such that $y_0+\delta D(X)\subseteq Y$.
-    But then $D(X)\subseteq\frac{1}{\delta}(Y-y_0)=Y$, so $X=\spn D(X)\subseteq Y$, a contradiction.
+    \begin{enumerate}[nl,r]
+        \item To see (i), $\ker f=f^{-1}(\{0\})$ is a closed set since $f$ is continuous.
+            Since $f$ is not the zero map, $\ker f$ is a proper closed subspace.
+            In general, if $Y\subsetneq X$ is a proper closed subspace, then it is nowhere dense.
+            To see this, since $Y$ is closed, if $Y$ is dense at $y_0$, get $\delta>0$ such that $y_0+\delta D(X)\subseteq Y$.
+            Then $D(X)\subseteq\frac{1}{\delta}(Y-y_0)=Y$, so $X=\spn D(X)\subseteq Y$.
 
-    To see (ii), suppose that $\ker f$ is not dense in $X$.
-    Then there would be $x_0\in X$ and $\delta>0$ such that $(x_0+\delta D(X))\cap \ker f=\emptyset$, so
-    \begin{equation}\label{e:idx}
-        0\notin f(x_0+\delta D(X))=f(x_0)+\delta f(D(X))\Longrightarrow \frac{1}{\delta}f(x_0)\notin -f(D(X))=f(D(X))
-    \end{equation}
-    But then $\norm{f}\leq\frac{1}{\delta}f(x_0)$, for if $\norm{f}>\frac{1}{\delta}f(x_0)$, there would be $x\in D(X)$ such that $|f(x)|>\frac{1}{\delta}|f(x_0)|$.
-    Thus
-    \begin{equation*}
-        \left\lvert\frac{f(x_0)}{\delta f(x)}\right\rvert<1\Longrightarrow \frac{f(x_0)}{\delta f(x)}=\frac{1}{\delta}f(x)
-    \end{equation*}
-    contradicting the statement in \cref{e:idx}.
+        \item Suppose that $\ker f$ is not dense in $X$.
+            Then there would be $x_0\in X$ and $\delta>0$ such that $(x_0+\delta D(X))\cap \ker f=\emptyset$, so $0\notin f(x_0)+\delta f(D(X))$ and
+            \begin{equation}\label{e:idx}
+                \frac{1}{\delta}f(x_0)\notin -f(D(X))=f(D(X)).
+            \end{equation}
+           Then $\norm{f}\leq\frac{1}{\delta}f(x_0)$: to see this, suppose $\norm{f}>\frac{1}{\delta}f(x_0)$ and get $x\in D(X)$ such that $|f(x)|>\frac{1}{\delta}|f(x_0)|$.
+           But then $\left\lvert\frac{1}{\delta}f(x_0)\right\rvert<c$ where $c\in f(D(X))$...\TODO{Fix??}
+    \end{enumerate}
 \end{proof}
 \begin{definition}
     Let $\emptyset\neq A\subseteq X$.
     We say that $A$ is
     \begin{itemize}[nl]
         \item \textbf{convex} if for $a,b\in A$ and $0<\lambda<1$, $(1-\lambda)a+\lambda b\in A$.
-        \item \textbf{absorbing} at $a_0\in A$ if for any $x\in X$, there is $\epsilon(a_0,x)>0$ such that $a_0+tx\in A$ for $0\leq t<\epsilon$.
+        \item \textbf{absorbing} at $a_0\in A$ if for any $x\in X$, there is $\epsilon=\epsilon(a_0,x)>0$ such that $a_0+tx\in A$ for $0\leq t<\epsilon$.
     \end{itemize}
 \end{definition}
 For example, if $X$ is a normed space, then any open set is absorbing around any of its points.
-\begin{lemma}[Minkowski Functional]
+\begin{lemma}[Minkowski Functional]\label{l:mink-f}
     Let $A\subset X$ be a convex set containing 0 and absorbing at 0.
-    Define $p:X\to\R$ by $p(x)=\inf\{t>0:x\in tA\}$.
-    Then $p$ is a sublinear functional.
-    Moreover, we have that
+    Then the map $\rho:X\to\R$ given by $\rho(x)=\inf\{t>0:x\in tA\}$ is a sublinear functional such that
     \begin{enumerate}[nl,r]
-        \item $\{x\in X:p(x)<1\}\subseteq A\subseteq\{x\in X:p(x)\leq 1\}$; and
-        \item if $X$ is normed and $A$ is a neighbourhood of $0$, then there is $N>0$ such that $p(x)\leq N\norm{x}$ for $x\in X$.
+        \item $\{x\in X:\rho(x)<1\}\subseteq A\subseteq\{x\in X:\rho(x)\leq 1\}$ and
+        \item if $X$ is normed and $A$ is a neighbourhood of $0$, then there is $N>0$ such that $\rho(x)\leq N\norm{x}$ for $x\in X$.
     \end{enumerate}
 \end{lemma}
 \begin{proof}
-    First note, for any $x\in X$, if $A$ is absorbing at $0$, there is $s>0$ such that $sx\in A$, so $x\in \frac{1}{s} A$ and hence $0\leq p(x)<\infty$.
-
-    Let's see non-negative homogeneity.
-    Clearly $p(0)=0$.
-    If $s>0$ and $x\in X$, then
-    \begin{equation*}
-        p(sx)=\inf\{t>0:sx\in tA\}=\inf\left\{t>0:x\in\frac{t}{s}A\right\}=s\cdot\inf\left\{\frac{t}{s}>0:x\in\frac{t}{s}\right\}=sp(x)
-    \end{equation*}
-    We also have subadditivity.
-    First, note that if $s,t>0$ and $a,b\in A$, then
-    \begin{equation*}
-        sa+tb=(s+t)\left(\frac{s}{s+t}a+\frac{s}{s+t}b\right)\in(s+t)A\Longrightarrow sA+tA\subseteq(s+t)A
-    \end{equation*}
-    by convexity, and also $(s+t)A=\{(s+t)a:a\in A\}\subseteq\{sa+tb:a,b\in A\}=sA+tA$.
-    Thus $sA+tA=(s+t)A$.
-    Now for $x,y\in X$, we have
-    \begin{align*}
-        p(x)+p(y) &= \inf\{s>0:x\in sA\}+\inf\{t>0:y\in tA\}\\
-                  &= \inf\{s+t:s>0,t>0,x\in sA,y\in tA\}\\
-                  &\geq\inf\{s+t:s>0,t>0,x+y\in sA+tA=(s+t)A\}\\
-                  &= \inf\{r>0:x+y\in rA\}=p(x+y)
-    \end{align*}
-    so that $p$ is a sublinear functional.
-    Then
-    \begin{enumerate}[nl,r]
-        \item If $p(x)<1$, then there is $0<t<1$ so $x\in tA$; i.e. $\frac{1}{t}x\in A$ and $x=(1-t)=+t\frac{1}{t}x\in A$.
-            The second inclusion is obvious.
-        \item The assumptions provide $\delta>0$ so $\delta D(X)\subseteq A$.
-            Then for $x\in X$ and $\epsilon>0$,
+    Note that $\rho$ is well-defined since $A$ is absorbing at $0$.
+    We verify that $\rho$ is a sublinear functional:
+    \begin{itemize}[nl]
+        \item \textit{(non-negative homogeneity):}
+            Clearly $\rho(0)=0$.
+            If $s>0$ and $x\in X$, then
             \begin{equation*}
-                x\in(\norm{x}+\epsilon)D(X)=\frac{\norm{x}+\epsilon}{\delta}\delta D(X)\subseteq\frac{\norm{x}+\epsilon}{\delta}A
+                \rho(sx)=\inf\{t>0:sx\in tA\}=s\cdot\inf\left\{\frac{t}{s}>0:x\in\frac{t}{s}A\right\}=s\rho(x).
             \end{equation*}
-            so $p(x)\leq\frac{\norm{x}+\epsilon}{\delta}$ so $p(x)\leq\frac{1}{\delta}\norm{x}$; the result follows with $N=1/\delta$.
+        \item \textit{(subadditivity):}
+            If $s,t>0$ and $a,b\in A$, then by convexity
+            \begin{equation*}
+                sa+tb=(s+t)\left(\frac{s}{s+t}a+\frac{t}{s+t}b\right)\in(s+t)A
+            \end{equation*}
+            so that $sA+tA\subseteq(s+t)A$.
+            Clearly $(s+t)A\subseteq sA+tA$ so that $sA+tA=(s+t)A$.
+
+            Now for $x,y\in X$, we have
+            \begin{align*}
+                \rho(x)+\rho(y) &= \inf\{s>0:x\in sA\}+\inf\{t>0:y\in tA\}\\
+                                &= \inf\{s+t:s>0,t>0,x\in sA,y\in tA\}\\
+                                &\geq\inf\{s+t:s>0,t>0,x+y\in sA+tA=(s+t)A\}\\
+                                &= \inf\{r>0:x+y\in rA\}=\rho(x+y).
+            \end{align*}
+    \end{itemize}
+    Now we see that it satisfies the required properties:
+    \begin{enumerate}[nl,r]
+        \item If $\rho(x)<1$, then there is $0<t<1$ so $\frac{1}{t}x\in A$ and since $0\in A$ and $A$ is convex $x=(1-t)\cdot0+t\cdot\frac{1}{t}x\in A$.
+            The second inclusion is obvious.
+        \item Get $\delta>0$ so $\delta D(X)\subseteq A$.
+            Then for $x\in X$ and any $\epsilon>0$,
+            \begin{equation*}
+                x\in(\norm{x}+\epsilon)D(X)\subseteq\frac{\norm{x}+\epsilon}{\delta}A
+            \end{equation*}
+            so $\rho(x)\leq\frac{\norm{x}+\epsilon}{\delta}$; since $\epsilon>0$ was arbitrary, $\rho(x)\leq\frac{1}{\delta}\norm{x}$ so the result follows with $N=1/\delta$.
     \end{enumerate}
 \end{proof}
-\begin{theorem}[Hyperplane Separation]
+\begin{theorem}[Hyperplane Separation]\label{t:hyp-sep}
     Let $X$ be an $\F-$vector space, $A,B\subset X$ be convex with $A\cap B=\emptyset$ and $A$ absorbing at some $a_0$.
     Then there are $f\in X'$ and $\alpha\in\R$ such that
     \begin{equation*}
@@ -1105,90 +1481,83 @@ For example, if $X$ is a normed space, then any open set is absorbing around any
     for $a\in A$ and $b\in B$.
     Moreover, if $X$ is normed, then
     \begin{itemize}[nl]
-        \item If $A$ is a neighbourhood of $a_0$, we have $f\in X^*$; and
-        \item if $A$ is absorbing around each of its points (for example if $A$ is open), then we have $\Re f(a)>\alpha\geq\Re f(b)$.
+        \item if $A$ is a neighbourhood of $a_0$, $f\in X^*$
+        \item if $A$ is absorbing around each of its points, $\Re f(a)>\alpha\geq\Re f(b)$.
     \end{itemize}
 \end{theorem}
 \begin{proof}
-    We first re-centre at $0$.
-    Let $A-B=\{a-b:a\in A,b\in B\}$.
-    Then it is easy to verify that
-    \begin{enumerate}[nl,r]
+    We first recenter at $0$.
+    It is easy to verify that
+    \begin{itemize}[nl]
         \item $A-B$ is absorbing at any $a_0-b$, $b\in B$
         \item $A-B$ is convex
-        \item if $X$ is normed and $A$ a neighbourhood of $a_0$, then $A-B$ is a neighbourhood of each $a_0-b$, $b\in B$; and if $A$ is absorbing around any of its points (resp. open), then $A_B$ is absorbing around any of its points (resp. open).
-    \end{enumerate}
-    Let $x_0=a_0-b_0$ for some $b_0\in V$, and set $C=x_0-(A-B)$, so we have $0=x_0-x_0\in C$.
-    Then by the above points, $C$ is absorbing at 0, convex, and if $X$ is normed and $A$ a neighbourhood of $a_0$, then $C$ is a neighbourhood of $0$; and if $A$ is absorbing at any of its points (resp. $A$ is open), then $C$ is absorbing at each of its points (resp. open).
+        \item if $X$ is normed and $A$ a neighbourhood of $a_0$, then $A-B$ is a neighbourhood of each $a_0-b$, $b\in B$; and
+        \item if $A$ is absorbing around any of its points, then $A-B$ is absorbing around any of its points.
+    \end{itemize}
+    Let $x_0=a_0-b_0$ for some $b_0\in B$ and set $C=x_0-(A-B)$; note that $0=x_0-x_0\in C$.
+    Then by the above points, $C$ is absorbing at 0, convex, and if $X$ is normed and $A$ a neighbourhood of $a_0$, then $C$ is a neighbourhood of $0$; and if $A$ is absorbing at any of its points, then $C$ is absorbing at each of its points.
 
-    Let $p$ be the Minkowski functional of $C$.
+    Let $\rho$ be the Minkowski functional of $C$.
     Notice that since $A\cap B=\emptyset$, $0\notin A-B$ so $x_0\notin C$.
-    Thus by (i) of the lemma, $p(x_0)>1$.
+    Thus by (i) of \cref{l:mink-f}, $\rho(x_0)>1$.
 
     Let us find $f$ and $\alpha$.
-    Let $f_0:\R x_0\to\R$, by $f_0(sx)=sp(x_0)$.
-    Hence $f_0$ is linear and $f_0\leq p|_{Rx_0}$, so by Hahn-Banach, get $f\in X_{\R}'$ such that $f\leq p$ on $X$.
-    If $a\in A$ and $b\in B$, then $x_0-(a-b)\in C$, so by (i) of the lemma, since $p(x_0)\geq 1$, we have $f(x_0-(a-b))\leq p(x_0-(a-b))\leq 1$.
-    Thus $f(x_0)+f(b)\leq 1+f(a)$ so in fact $f(b)\leq f(a)$.
+    Let $f_0:\spn_{\R}\{x_0\}\to\R$, by $f_0(sx)=s\rho(x_0)$.
+    Then $f_0$ is linear and $f_0\leq \rho|_{\spn_{\R}\{x_0\}}$, so by Hahn-Banach, get $f\in X_{\R}'$ such that $f\leq \rho$ on $X$.
+    If $a\in A$ and $b\in B$, then $x_0-(a-b)\in C$ so that
+    \begin{equation*}
+        f(x_0-(a-b))\leq \rho(x_0-(a-b))\leq 1
+    \end{equation*}
+    again by (i) of \cref{l:mink-f}.
+    Thus $f(x_0)+f(b)\leq 1+f(a)$ and since $f(x_0)=\rho(x_0)$, we have $f(b)\leq f(a)$.
     Thus there exists some $\alpha\in\R$ such that
     \begin{equation*}
         \sup\{f(b):b\in B\}\leq\alpha\leq\inf\{f(a):a\in A\}
     \end{equation*}
-    If $\F=\R$, we are done; otherwise, we shall replace $f$ by $f_{\C}$
+    If $\F=\R$, we are done; otherwise, replace $f$ by $f_{\C}$ and the result follows.
 
     For the remainder of the proof, we suppose $X$ is a normed space, and $A$ is a neighbourhood of $a_0$.
-    Then part (ii) of the lemma provides $N>0$ so that $p(x)\leq N\norm{x}$.
-    Then for $x\in X$, $f(x)\leq p(x)\leq N\norm{x}$ and $-f(x)=p(-x)\leq N\norm{-x}=N\norm{x}$ so $|f(x)|\leq N\norm{x}$, in other words that $\norm{f}\leq N$ and $f\in X^*$.
+    Then (ii) of \cref{l:mink-f} provides $N>0$ so that $\rho(x)\leq N\norm{x}$.
+    Then for $x\in X$, $f(x)\leq \rho(x)\leq N\norm{x}$ and $-f(x)=\rho(-x)\leq N\norm{-x}=N\norm{x}$ so $|f(x)|\leq N\norm{x}$ and $f\in X^*$.
+
     If $A$ is absorbing around any of its points, then $f(a)>\alpha$ for any $a\in A$.
     Indeed, suppose $f(a)=\alpha$.
     Then there would be $t>0$ so $a+t(-x_0)\in A$.
-    But then $\alpha\leq f(a-tx_0)=f(a)-tf(x_0)<\alpha$, a contradiction.
+    But then $\alpha\leq f(a-tx_0)=f(a)-tf(x_0)<\alpha$ since $f(x_0)=\rho(x_0)>0$, a contradiction.
 \end{proof}
 \begin{definition}
     If $\emptyset\neq S\subset X$, then its \textbf{convex hull} is given by
     \begin{equation*}
-        \conv(S) = \{\sum_{i=1}^n\lambda_jx_j:n\in\N,x_1,\ldots,x_n\in S\text{ and }\lambda_1,\ldots,\lambda_n\geq 0\text{ with }\sum_{j=1}^n\lambda_j=1\}
+        \conv(S) = \left\{\sum_{i=1}^n\lambda_jx_j:n\in\N,x_j\in S,\lambda_j\geq 0,\sum_{j=1}^n\lambda_j=1\right\}
     \end{equation*}
-    One can verify that $\conv(S)$ is in fact convex, and is the smallest convex set containing $S$, i.e.
-    \begin{equation*}
-        \conv(S)=\bigcap\{C:S\subseteq C\subseteq X,C\text{ convex}\}
-    \end{equation*}
-    If $X$ is normed, we let $\overline{\conv}(S)$ denote the \textbf{closed convex hull}, i.e. the closure of the convex hull.
 \end{definition}
+One can verify that $\conv(S)$ is in fact convex, and is the smallest convex set containing $S$, in other words that
+\begin{equation*}
+    \conv(S)=\bigcap_{\substack{S\subseteq C\subseteq X\\C\text{ convex}\right}}C
+\end{equation*}
+If $X$ is normed, we let $\co(S)$ denote the \textbf{closed convex hull}, i.e. the closure of the convex hull.
 \begin{definition}
     A \textbf{half-space} of $X$ is any set of the form $H=\{x\in X:\Re f(x)\leq \alpha\}$ for some $f\in X'$, $\alpha\in\R$.
 \end{definition}
-If $X$ is normed, then the last proposition shows $H$ is closed if and only if $f$ is bounded.
-\begin{theorem}
-    If $X$ is a normed vector space and $\emptyset\neq S\subset X$, then $\overline{\conv}(S)=\cap\{H:S\subseteq H\subset X, H\text{ a closed half space}\}$.
-\end{theorem}
+If $X$ is normed, then \cref{p:fker} shows that $H$ is closed if and only if $f$ is bounded.
+We now have the following consequence of \cref{t:hyp-sep}:
+\begin{corollary}\label{c:cvxh}
+    If $X$ is a normed vector space and $\emptyset\neq S\subset X$, then
+    \begin{equation*}
+        \overline{\conv}(S)=\bigcap_{\substack{S\subseteq H\subset X\\H\text{ closed half space}}}H.
+    \end{equation*}
+\end{corollary}
 \begin{proof}
-    It is immediate that $\overline{\conv}(S)\subseteq\cap\{H:S\subseteq H\subset X,H\text{ a closed half-space}\}$.
-    Thus suppose $x_0\notin \overline{\conv}(S)$.
+    The forward inclusion is trivial, so we assume $x_0\notin \overline{\conv}(S)$.
     Then there is $\delta>0$ such that $(x_0+\delta D(X))\cap\overline{\conv}(S)=\emptyset$.
-    Since $x_0+\delta D(X)$ is open and convex, hyperplace separation gives provides $f\in X^*$ and $\alpha\in\R$ so $\Re f(a)>\alpha\geq\Re f(b)$ for $a\in x_0+\delta D(X)$ and $b\in\overline{\conv}(S)$.
+    Since $x_0+\delta D(X)$ is open and convex, \cref{t:hyp-sep} gives provides $f\in X^*$ and $\alpha\in\R$ so $\Re f(a)>\alpha\geq\Re f(b)$ for $a\in x_0+\delta D(X)$ and $b\in\overline{\conv}(S)$.
     Then $S\subset H=\{y\in X:\Re f(x)\leq\alpha\}$ but $x_0\notin H$.
 \end{proof}
-\section{Some Applications of Baire Category Theorem}
-\begin{theorem}[Baire Category I]
-    If $(X,d)$ is a complete metric space and $\{U_n\}_{n=1}^\infty$ is a countable collection of dense, open subsets, then $\bigcap_{n=1}^\infty U_n$ is dense in $X$.
-\end{theorem}
-\begin{definition}
-    Let $(X,d)$ be a metric space.
-    A subset $F\subset X$ is \textbf{nowhere dense} if $X\setminus F$ is dense in $X$; equivalently, $\overline{F}$ contains no non-trivlal open subsets.
-    We say that a subset $M\subseteq X$ is \textbf{meagre} (1st category) if $M=\bigcup_{n=1}^\infty F_n$ and each $F_n$ is nowehere dense; and a set is \textbf{non-meagre} (2nd category) otherwise.
-\end{definition}
-\begin{theorem}[Baire Category II]
-    Let $(X,d)$ be a complete metric space.
-    Then a non-empty open $U\subseteq X$ is non-meagre.
-\end{theorem}
-\begin{proof}
-    Suppose not, so $U=\bigcup_{n=1}^\infty F_n\subseteq\bigcup_{n=1}^\infty\overline{F}_n$, each $F_n$ (hence $\overline{F_n}$) nowhere dense.
-    Then each $V_n=X\setminus\overline{F_n}$ is open and dense, and hence by BCT I, $G=\bigcap_{n=1}^\infty V_n$ is dense in $X$, and hence $U\cap G\neq\emptyset$, violating assumption
-\end{proof}
+\subsection{Banach-Steinhaus}
+We now prove a straightforward but important corollary of the Baire Category Theorem:
 \begin{theorem}[Banach-Steinhaus]
-    Let $X,Y$ be normed spaces, $U\subseteq X$ be non-meagre, and $\mathcal{F}\subset\mathcal{B}(X,Y)$ be such that for each $x\in U$, $\sup\{\norm{Tx}:T\in\mathcal{F}\}<\infty$ (pointwise bounded).
-    Then $\mathcal{F}$ is uniformly bounded, i.e. $\sup\{\norm{T}:T\in\mathcal{F}\}<\infty$.
+    Let $X,Y$ be normed spaces, $U\subseteq X$ be non-meagre, and $\mathcal{F}\subset\mathcal{B}(X,Y)$ be such that for each $x\in U$, $\sup\{\norm{Tx}:T\in\mathcal{F}\}<\infty$.
+    Then $\sup\{\norm{T}:T\in\mathcal{F}\}<\infty$.
 \end{theorem}
 \begin{proof}
     Let for each $n\in\N$
@@ -1207,6 +1576,7 @@ If $X$ is normed, then the last proposition shows $H$ is closed if and only if $
     \end{equation*}
     where the bound is independent of $T$.
 \end{proof}
+\subsection{Open Mapping and Closed Graph}
 \begin{theorem}[Open Mapping]
     Let $X,Y$ be Banach spaces, and $T\in B(X,Y)$ surjective.
     Then $T$ is an open map; i.e. $T(U)$ is open in $Y$ whenver $U$ is open in $X$.
@@ -1269,7 +1639,7 @@ We now proceed with the proof of the open mapping theorem.
     and $\frac{\epsilon}{n}y\in\overline{T(D(X))}$, i.e. $\frac{\epsilon}{n} D(Y)\subseteq\overline{T(D(X))}$.
     Thus applying the main lemma, $\frac{\epsilon}{n}D(Y)\subseteq T(D(X))$.
 \end{proof}
-\begin{theorem}[Inverse Mapping]
+\begin{theorem}[Inverse Mapping]\label{t:imp}
     If $X,Y$ are Banach spaces and $T\in \mathcal{B}(X,Y)$ is invertible, $T^{-1}\in\mathcal{B}(Y,X)$
 \end{theorem}
 \begin{proof}
@@ -1284,29 +1654,27 @@ In this case, we write $X\oplus_1 Y$.
     Then $T\in\mathcal{B}(X,Y)$ if and only if $\Gamma(T)=\{(x,Tx):x\in X\}$ is closed in $X\oplus_1Y$.
 \end{theorem}
 \begin{proof}
-    Let $T\in\mathcal{B}(X,Y)$.
-    If $(x_n)\to x$ in $X$, then $Tx_n\to Tx$ in $Y$.
-    Thus if $(x,y)\in\overline{\Gamma(T)}$, then $(x,y)=\lim(x_n,Tx_n)$ where $(x_n,Tx_n)\in\Gamma(T)$.
-    But then
-    \begin{equation*}
-        \norm{y-Tx}\leq \norm{y-Tx_n}+\norm{Tx_n-Tx}\leq\norm{x-x_n}+\norm{y-Tx_n}+\norm{Tx_n-tx}=\norm{(x-y)-(x_n,Tx_n)}_1
-    \end{equation*}
-    so in fact $y=Tx$ so $(x,y)=(x,Tx)$.
+    Let $T\in\mathcal{B}(X,Y)$ and suppose $(x,y)=\lim_{n\to\infty}(x_n,Tx_n)$ with $(x_n,Tx_n)\in\Gamma(T)$.
+    Then
+    \begin{align*}
+        \norm{y-Tx}&\leq \norm{y-Tx_n}+\norm{Tx_n-Tx}\leq\norm{y-Tx_n}+\norm{T}\norm{x_n-x}\\
+                   &\leq\max{\norm{T},1}\cdot\norm{(x,y)-(x_n,Tx_n)}_1
+    \end{align*}
+    so that $y=Tx$ and $(x,y)=(x,Tx)\in\Gamma(T)$.
 
     Conversely, if $\Gamma(T)$ is closed in $X\oplus_1 Y$, then $\Gamma(T)$ is a Banach space.
-    Define $S:\Gamma(T)\to X$ by $S(x,Tx)=x$.
-    Notice that $S$ is linear, and
+    Define $\pi:\Gamma(T)\to X$ by $\pi(x,Tx)=x$ (projection onto the first coordinate).
+    Notice that $\pi$ is linear, and
     \begin{equation*}
-        \norm{S(x,Tx)}=\norm{x}\leq\norm{(x,Tx)}_1
+        \norm{\pi(x,Tx)}=\norm{x}\leq\norm{(x,Tx)}_1
     \end{equation*}
-    so $\norm{S}\leq 1$, so $S$ is bounded.
-    It is also clear that $S$ is bijective, with $S^{-1}:X\to\Gamma(T)$ given by $S^{-1}(x)=(x,Tx)$.
-    Thus the inverse mapping theorem gives that $S^{-1}$ is also bounded.
+    so $\norm{\pi}\leq 1$ and $\pi$ is bounded.
+    Moreover, $\pi$ is a bijection where $\pi^{-1}:X\to\Gamma(T)$ is given by $\pi^{-1}(x)=(x,Tx)$, so by \cref{t:imp} $\pi^{-1}$ is bounded.
     Hence for any $x\in X$,
     \begin{equation*}
-        \norm{Tx}\leq\norm{(x,Tx)}_1=\norm{S^{-1}x}\leq\norm{x}\norm{S^{-1}}
+        \norm{Tx}\leq\norm{(x,Tx)}_1=\norm{\pi^{-1}x}\leq\norm{x}\norm{\pi^{-1}}
     \end{equation*}
-    so that $T$ is in fact bounded.
+    so that $T$ is bounded.
 \end{proof}
 \begin{theorem}[Closed graph test]
     Given normed spaces and $T\in\mathcal{L}(X,Y)$, we have that $\Gamma(T)$ is closed in $X\oplus_1 Y$ if and only if whenever $x_n\to 0$ for which we may assume that $Tx_n$ converges in $Y$, say $y=\lim Tx_n$, then $y=0$ too.
@@ -1374,12 +1742,14 @@ In this case, we write $X\oplus_1 Y$.
         Hence $J(D(X))\subseteq D(X_0)$, and we apply $D$ to see $D(X)\subseteq D(D(X_0))$, in other words, that $D$ is open.
         As an exercise, show that $C_b(0,1)=X$ is not separable, while $X_0$ is separable.
 \end{enumerate}
+\section{Geometry and Topology of Banach Spaces}
+\subsection{Bounded Complementation}
 Let $X\subsetneq Y$ be $\F-$vector spaces.
 We can always find a subspace $Z\subset Y$ so $X+Z=Y$ and $X\cap Z=\{0\}$.
 Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and take $Z=\spn B'$.
 \begin{theorem}
     Let $Y$ be a Banach space and $X\subsetneq Y$ a closed subspace.
-    Then $X$ admis a closed complement $Z$ if and only if there is some $P\in\mathcal{B}(Y)$ such that $P\circ P=P$ and $\im P=P(Y)=X$.
+    Then $X$ admits a closed complement $Z$ if and only if there is some $P\in\mathcal{B}(Y)$ such that $P\circ P=P$ and $\im P=P(Y)=X$.
 \end{theorem}
 \begin{remark}
     We say that $X\subsetneq Y$ is \textbf{boundedly complemented} if either of the above conditions hold.
@@ -1434,6 +1804,7 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     Since each $y_F\neq 0$ for $F\in\mathcal{F}$, we see that $\mathcal{F}=\bigcup_{n=1}^\infty\bigcup_{k=1}^\infty$, which contradicts that $|\mathcal{F}|=\mathfrak{c}$.
     Hence such a $P$ must not exist.
 \end{proof}
+\subsection{Characterization of Finite Dimensionality}
 \begin{theorem}
     If $X$ is a finite dimensional vector space over $\F$, then any two norms are equivalent.
 \end{theorem}
@@ -1500,264 +1871,54 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     Closedness of $Y$ thus follows from the last corollary.
     Alternatively, $Y=\ker(I-P)$.
 \end{proof}
-\section{On Compactness of the Unit Ball}
-\begin{lemma}
+\subsection{On Compactness of the Unit Ball}
+\begin{lemma}\label{l:ndist}
     Let $X$ be a normed space and $Y\subsetneq X$ a closed subspace.
-    Then given $\epsilon\in(0,1)$ there is $x_0\in D(X)\subseteq B(X)$ such that $d(x_0,Y)>1-\epsilon$.
+    Then for any $0<\epsilon<1$ there is some $x_0\in D(X)$ such that $\dist(x_0,Y)>1-\epsilon$.
 \end{lemma}
 \begin{proof}
-    Let $x\in X\setminus Y$ and let $f:Y+\F x\to\F$ be given by $f(y+\alpha x)=\alpha$, $y\in Y$, $\alpha\in \F$.
-    Then $f$ is linear and $\ker f=Y$ is closed, $Y\subsetneq Y+\F x$, so $f$ is bounded.
-    Let $F\in X^*$ be any Hahn-Banach extension of $f$ with $\norm{F}=\norm{f}$.
+    Let $x\in X\setminus Y$ and $f:\spn(\{x\}\cup Y)\to\F$ be given by $f(y+\alpha x)=\alpha$ where $y\in Y$ and $\alpha\in \F$.
+    In particular, since $\ker f=Y$ is a closed proper subspace of $\spn(\{x\}\cup Y)$, by \cref{p:fker}, $f$ is bounded.
+    Thus apply Hahn-Banach to get $F\in X^*$ with $\norm{F}=\norm{f}$.
 
-    Now, we find $x_0\in D(X)$ such that $|F(x_0)|>(1-\epsilon)\norm{F}$.
-    Since $Y\subseteq\ker F$, we have for $y\in Y$ that $\norm{F}\norm{x_0-y}\geq|f(x_0-y)|=|F(x_0)|>(1-\epsilon)\norm{F}$, so $\norm{x_0-y}>1-\epsilon$.
-    Hence $d(x_0,Y)=\inf_{y\in Y}\norm{x_0-y}\geq 1-\epsilon$.
+    Now, let $x_0\in D(X)$ be so that $|F(x_0)|>(1-\epsilon_\norm{F}$.
+    Since $Y\subseteq\ker F$, for $y\in Y$,
+    \begin{equation*}
+        \norm{F}\norm{x_0-y}\geq|F(x_0-y)|=|F(x_0)|>(1-\epsilon)\norm{F}
+    \end{equation*}
+    so $\norm{x_0-y}>1-\epsilon$.
+    But $y\in Y$ was arbitrary, so $\dist(x_0,Y)=\inf_{y\in Y}\norm{x_0-y}\geq 1-\epsilon$, as required.
 \end{proof}
 \begin{theorem}
     Let $X$ be a normed space.
     Then $B(X)$ is compact if and only if $X$ is finite dimensional.
 \end{theorem}
 \begin{proof}
-    The reverse implication is standard.
-    Thus suppose $X$ is not finite dimensional.
+    To prove the interesting direction, suppose $X$ is not finite dimensional.
     Let $\epsilon\in(0,1)$ and let $x_1\in B(X)\setminus\{0\}$.
-    Inductively,
-    \begin{itemize}[nl]
-        \item Find $x_2\in B(X)$ such that $\dist(x_2,\F x_1)\geq 1-\epsilon$
-        \item Find $x_3\in B(X)$ such that $\dist(x_3,\spn\{x_1,x_2\})\geq 1-\epsilon$
-        \item Find $x_{n+1}\in B(X)$ such that $\dist(x_{n+1},\spn\{x_1,\ldots,x_n\})\geq 1-\epsilon$
-    \end{itemize}
-    Hence we have $\{x_n\}_{n=1}^\infty\subset B(X)$ such that for $m<n$,
-    \begin{equation*}
-        \norm{x_n-x_m}\geq d(x_n,\spn\{x_1,\ldots,x_{n-1}\})\geq 1-\epsilon
-    \end{equation*}
-    so the sequence admis no converging subsequence and $B(X)$ is not compact.
+    Inductively, for each $n\in\N$, given $\{x_1,\ldots,x_n\}$, by \cref{l:ndist} get $x_{n+1}\in B(X)$ so that $\dist(x_{n+1},\spn\{x_1,\ldots,x_n\})\geq 1-\epsilon$.
+    But then by construction for $i\neq j$ $d(x_i,x_j)>1-\epsilon$ so $B(X)$ is not totally bounded, and hence not compact.
 \end{proof}
-\section{More Topology}
-\begin{definition}
-    Let $(X,\tau)$ be a topological space.
-    A \textbf{base} for $\tau$ is any family $\beta\subseteq\tau$ such that for any $U\in\tau$ and $x\in U$, there is $B\in\beta$ such that $x\in B\subseteq U$.
-    A \textbf{subbase} for $\tau$ is any family $\alpha\subseteq\tau$ such that $\{\bigcap_{k=1}^n U_k:n\in\N,U_1,\ldots,U_n\in\alpha\}$ is a base for $\tau$.
-\end{definition}
-Note that if $\emptyset\neq X$ and $\beta\subseteq\mathcal{P}(X)$ for which $\bigcup_{B\in \beta}B=X$ and $\beta$ is closed under finite intersections, then
+\subsection{Weak and Weak* Topologies}
+Let $X$ be a vector space and $Z\subseteq X'$ a subspace.
+Then $\sigma(X,Z)$ is the coarsest topology allowing each $f\in Z$ to be continuous, $f:X\to\F$.
+The basic open sets are given as follows: let $x_0\in X$, $\epsilon>0$, and $D=D(\F)$, and we consider for $f\in Z$
 \begin{equation*}
-    \tau_\beta=\{\bigcup_{i\in I}B_i:\{B_i\}_{i\in I}\subset B,I\text{ any index set with }|I|\leq|\beta|\}
+    f^{-1}(f(x_0)+\epsilon D)=\underbrace{\{x\in X:|f(x)-f(x_0)|<\epsilon\}}_{\text{"affine hypertube"}}=\{x\in X:|\frac{1}{\epsilon}f(x)-\frac{1}{\epsilon}f(x_0)|<1\}
 \end{equation*}
-is a topology.
-\begin{definition}
-    Let $X\neq\emptyset$.
-    Suppose we are given
-    \begin{itemize}[nl]
-        \item a family $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ of topological spaces, and
-        \item for each $\alpha\in A$, a function $f_\alpha:X\to X_\alpha$
-    \end{itemize}
-    Then the \textbf{initial topology} on $X$ given this data is denoted
-    \begin{equation*}
-        \sigma=\sigma(X,(f_\alpha)_{\alpha\in A})=\sigma(X,(f_\alpha,\tau_\alpha)_{\alpha\in A})
-    \end{equation*}
-    and is the topology with base
-    \begin{equation*}
-        \bigcap_{k=1}^n f_{\alpha_k}^{-1}(U_{\alpha_k}),n\in\N,\alpha_1,\ldots,\alpha_n\in A,\text{ each }U_{\alpha_k}\in\tau_{\alpha_k}
-    \end{equation*}
-\end{definition}
-In particular, $\{f_\alpha^{-1}(U_\alpha):U_\alpha\in\tau_\alpha,\alpha\in A\}$ is a subbase for $\sigma$.
-\begin{remark}
-    The topology is chosen so that each $f_\alpha:X\to X_\alpha$ is $\sigma-\tau_\alpha-$continuous.
-    Furthermore, if $\tau\subseteq\mathcal{P}(X)$ is any topology for which every $f_\alpha$ is $\sigma-\tau_\alpha-$continuous, then $\sigma\subseteq\tau$.
-    We say that $\sigma$ is the \textbf{coarsest} topology so that all the $f_\alpha$ are continuous.
-\end{remark}
-\begin{example}
-    \begin{enumerate}[nl,r]
-        \item \textit{Metric topology:} If $(X,d)$ is a metric space, for each $x\in X$, let $d_x$ be given by $d_x(x')=d(x,x')$.
-            Then $\sigma(X,(d_x)_{x\in X})=\tau_d$.
-        \item \textit{Relative topology:} If $(Y,\tau)-$topological space, $\emptyset\neq X\subseteq Y$, and $i:X\to Y$ is the inclusion map.
-            Then $\tau|_X=\sigma(X,\{i\})$.
-        \item \textit{Product topology:} Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of topological spaces.
-            Let $X=\prod_{\alpha\in A}X_\alpha$.
-            Let for $\alpha\in A$, $p_\alpha:X\to X_\alpha$ denote the projection map onto the component $\alpha$.
-            Then the product topology $\pi=\sigma(X,\{p_\alpha\}_{\alpha\in A})$.
-            Hence, $V\in\mathcal{P}(X)$, then $V\in\pi$ if and only if for any $x\in V$, there is $\alpha_1,\ldots,\alpha_n\in A$ and $U_{\alpha_k}\in\tau_{\alpha_k}$ such that $x_{\alpha_k}=p_{\alpha_k(x)}\in U_{\alpha_k}$ and $x\in \bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_j})\subseteq V$.
+so that
+\begin{equation*}
+    \left\{\bigcap_{k=1}^n\{x\in X:|f_k(x)-f_k(x_0)|<1\}:f_1,\ldots,f_n\in Z,n\in\N\right\}
+\end{equation*}
+is a base for $\sigma(X,Z)$.
 
-            Note that if $X=\prod_{n=1}^\infty X_n$, each $(X_n,\tau_n)$ is a topological space, then the basic open sets look like $U_1\times U_2\times\cdots\times U_m\times X_{m+1}\times X_{m+2}\times\cdots$.
-        \item \textit{Linear topology:} Let $X$ be a vector space and $Z\subseteq X'$ a subspace.
-            Then $\sigma(X,Z)$ is the coarsest topology allowing each $f\in Z$ to be continuous, $f:X\to\F$.
-            The basic open sets are given as follows: let $x_0\in X$, $\epsilon>0$, and $D=D(\F)$, and we consider for $f\in Z$
-            \begin{equation*}
-                f^{-1}(f(x_0)+\epsilon D)=\underbrace{\{x\in X:|f(x)-f(x_0)|<\epsilon\}}_{\text{"affine hypertube"}}=\{x\in X:|\frac{1}{\epsilon}f(x)-\frac{1}{\epsilon}f(x_0)|<1\}
-            \end{equation*}
-            so that
-            \begin{equation*}
-                \left\{\bigcap_{k=1}^n\{x\in X:|f_k(x)-f_k(x_0)|<1\}:f_1,\ldots,f_n\in Z,n\in\N\right\}
-            \end{equation*}
-            is a base for $\sigma(X,Z)$.
-        \item Now let $X$ be a normed space.
-            Then the \textbf{weak topology} on $X$ is $\omega=\sigma(X,X^*)$.
-            Certainly $\omega\subseteq\tau_{\norm{\cdot}}$.
-            Similarly, the \textbf{weak*-topology} on $X^*$ is $\omega^*=\sigma(X^*,\hat X)$ (recall for $x\in X$, $\hat x(f)=f(x)$).
-            Since $\hat X\subseteq X^{**}$, we have $\omega^*\subseteq\omega=\sigma(X^*,X^{**})\subseteq\tau_{\norm{\cdot}}$.
-    \end{enumerate}
-\end{example}
-Let $(X,\tau)$ be a topological space.
-\begin{definition}
-    A subset $K\subseteq X$ is called \textbf{compact} if for any collection $\{U_\alpha\}_{\alpha\in A}\subseteq\tau$ with $\bigcup_{\alpha\in A}U_\alpha\supseteq K$, there exists some finite $U_1,\ldots,U_n$ covering $K$.
-    If $X$ itself is $\tau-$compact, we call $(X,\tau)$ a compact space.
-\end{definition}
-\begin{definition}
-    A set $F\subseteq X$ is \textbf{closed} if $X\setminus F\in\tau$.
-    If $S\subseteq X$, then the \textbf{closure} of $S$ is $\overline{S}=\cap\{F\subseteq X:S\subseteq F,X\setminus F\in\tau\}$.
-\end{definition}
-Note that $\overline{S}=\{x\in X:\text{for any }U\in\tau\text{ with }x\in U,U\cap S\neq\emptyset\}$.
-\begin{definition}
-    A family $\mathcal{F}\subseteq\mathcal{P}(X)$ has the \textbf{finite intersection property} if for any $F_1,\ldots,F_n\in\mathcal{F}$, $\bigcap_{l=1}^n F_k\neq\emptyset$.
-\end{definition}
-\begin{proposition}
-    Let $(X,\tau)$ be a topological space.
-    Then $(X,\tau)$ is compact if and only if any $\mathcal{F}\subseteq\mathcal{P}(X)$ with the finite intersection property has $\bigcap_{F\in\mathcal{F}}\overline{F}\neq\emptyset$.
-\end{proposition}
-\begin{proof}
-    Suppose $X$ is compact and $\mathcal{F}\subset\mathcal{P}(X)$ has the finite intersection property but with $\bigcap_{F\in\mathcal{F}}\overline{F}$, then $\{X\setminus\overline{F}\}_{F\in\mathcal{F}}$ is an open cover of $X$ with no finite subcover.
+In partiular, if $X$ is a normed space, then the \textbf{weak topology} on $X$ is $\omega=\sigma(X,X^*)$.
+Certainly $\omega\subseteq\tau_{\norm{\cdot}}$.
+Similarly, the \textbf{weak*-topology} on $X^*$ is $\omega^*=\sigma(X^*,\hat X)$ (recall for $x\in X$, $\hat x(f)=f(x)$).
+Since $\hat X\subseteq X^{**}$, we have $\omega^*\subseteq\omega=\sigma(X^*,X^{**})\subseteq\tau_{\norm{\cdot}}$.
 
-    Conversely, if $\mathcal{O}\subseteq\tau$ is an open cover of $X$, then $\mathcal{F}=\{X\setminus U\}_{U\in\mathcal{O}}$ satisfies $\bigcap_{F\in\mathcal{F}}=\emptyset$, so there is $F_1,\ldots,F_n\in\mathcal{F}$ with $\bigcap_{k=1}^n F_k=\emptyset$.
-    Then $\{X\setminus F_i\}_{i=1}^k$ is a finite subcover.
-\end{proof}
-\begin{definition}
-    Let $X$ be a non-empty set.
-    An \textbf{ultrafilter} is a family $\mathcal{U}\subset\mathcal{P}(X)$ such that
-    \begin{itemize}[nl]
-        \item $\mathcal{U}$ has the finite intersection property
-        \item If $A\in\mathcal{P}(X)$, then either $A\in\mathcal{U}$ or $X\setminus A\in\mathcal{U}$.
-    \end{itemize}
-\end{definition}
-\begin{example}
-    \begin{enumerate}[nl,r]
-        \item \textit{Principal / trivial ultrafilter:} If $x_0\in X$, let $U_{x_0}=\{U\subseteq X:x_0\in U\}$.
-    \end{enumerate}
-\end{example}
-\begin{lemma}[Ultrafilter]
-    If $\mathcal{F}\subseteq\mathcal{P}(X)$ is any set with the finite intersection property, then there is an ultrafilter $\mathcal{U}$ with $\mathcal{F}\subset\mathcal{U}$.
-\end{lemma}
-\begin{proof}
-    Let $\Phi=\{\mathcal{G}\subseteq\mathcal{P}(X):\mathcal{F}\subseteq\mathcal{G},\mathcal{G}\text{ has f.i.p.}\}$.
-    Then $\Phi$ is partially ordered by inclusion.
-    If $\Gamma\subseteq\Phi$ is a chain, then $\mathcal{G}_\Phi=\bigcup_{\mathcal{G}\in\Gamma}\mathcal{G}$ contains $\mathcal{F}$ and has the finite intersection property.
-    Hence $\Phi$ admits a maximal element $\mathcal{U}$.
-    Let $A\in\mathcal{P}(X)\setminus\mathcal{U}$.
-    Then $U\cup\{A\}\supsetneq\mathcal{U}$, so $\mathcal{U}\cup\{A\}$ fails the finite intersection property.
-    Hence get $U_1,\ldots,U_n$ so $A\cap\bigcap_{k=1}^n U_k=\emptyset$.
-    Now if $V_1,\ldots,V_m\in\mathcal{U}$, then $\bigcap_{j=1}^n V_j\cap\bigcap_{k=1}^n U_j\subseteq\bigcap_{k=1}^n U_k\subseteq X\setminus A$, so $(X\setminus A)\cap\bigcap_{j=1}^m V_j$.
-    Thus $\mathcal{U}\cup\{X\setminus A\}$ has finite intersection property, so $X\setminus A\in\mathcal{U}$ by maximality.
-\end{proof}
-\begin{corollary}
-    If $U\subseteq\mathcal{P}(X)$ is an ultrafilter, then
-    \begin{enumerate}[nl,r]
-        \item If $A\in\mathcal{P}(X)$, $A\in\mathcal{U}$ if and only if $A\cap U\neq\emptyset$ for each $U\in\mathcal{U}$
-        \item If $A,B\in\mathcal{P}(X)$, then $A\cup B\in\mathcal{U}$ implies at least one of $A$ or $B$ is in $\mathcal{U}$
-        \item If $A\in\mathcal{U}$ and $A\subseteq V$ implies $V\in\mathcal{U}$
-    \end{enumerate}
-\end{corollary}
-\begin{proof}
-    The forward implication of (i) follows since $\mathcal{U}$ has finite intersection.
-    Conversely, $X\setminus A\notin\mathcal{U}$, so $A\in\mathcal{U}$.
-    (ii) and (iii) follow consequently.
-\end{proof}
-\begin{corollary}
-    If $X$ is an infinite set, it admits a non-principle ultrafilter.
-\end{corollary}
-\begin{proof}
-    Let $\mathcal{F}=\{F\in\mathcal{P}(X):X\setminus F\text{ is finite}\}$.
-    Then $\mathcal{F}$ has the finite intersection property.
-    Apply the lemma.
-\end{proof}
-\begin{proposition}
-    There are at least $\mathfrak{c}$ many ultrafilters in $\mathcal{P}(\N)$.
-\end{proposition}
-\begin{proof}
-    We let $\mathcal{F}\subset\mathcal{P}(\N)$ be a collection of infinite sets such that $E\neq F$ in $\mathcal{F}$ implies $|E\cap F|<\infty$, and $|\mathcal{F}|=\mathfrak{c}$.
-    For each $F\in\mathcal{F}$, we let $\mathcal{F}_F=\mathcal{F}_0\cup\{F\}$, which has the finite intersection property.
-    Moreover, if $E\in\mathcal{F}\setminus\{F\}$, then $\mathcal{F}_F\cup\{E\}$ would fail f.i.p.
-    Hence, for $F\in\mathcal{F}$, let $\mathcal{U}_F$ be any ultrafilter containing $\mathcal{F}_F$, giving $\mathfrak{c}$ many ultrafilters.
-\end{proof}
-\begin{remark}
-    It can be shown (with a lot more work) that $\N$ admits $2^\mathfrak{c}$ ultrafilters.
-\end{remark}
-Let $\mathcal{U}\subset\mathcal{P}(\N)$ be a non-principal ultrafilter.
-Define $\delta_{\mathcal{U}}:\mathcal{P}(\N)\to\{0,1\}\subset\R$ by $\delta_{\mathcal{U}}(A)=1$ if $A\in\mathcal{U}$, and $0$ if $X\setminus A\in\mathcal{U}$.
-Since $\N\in\mathcal{U}$, we see that $\delta_{\mathcal{U}}(\emptyset)=0$.
-If $\emptyset\neq A,B\in\mathcal{P}(\N)$ with $A\cap B=\emptyset$, then if $A\cup B\in\mathcal{U}$, then exactly one of $A$ or $B$ is in $\mathcal{U}$.
-Thus $\delta_U(A\cup B)=\delta_U(A)+\delta_U(B)$.
-If $E_1,\ldots,E_n\subseteq\N$ with $E_j\cap E_k=\emptyset$ for $j\neq k$, then $\sum_{k=1}^n|\delta_{\mathcal{U}}(E_k)|\leq 1$ so $\norm{\delta_{\mathcal{U}}}_{\text{var}}\leq 1$.
-Since $\delta_{\mathcal{U}}(\N)=1$, we have $\norm{\delta_{\mathcal{U}}}_{\text{var}}=1$.
-Let $L_{\mathcal{U}}\in\ell_\infty^*$ be the linear functional associated to $\delta_{\mathcal{U}}$.
-We then have (with some verification possibly needed)
-\begin{enumerate}[nl,r]
-    \item $L_{\mathcal{U}}(1)=1$, $\norm{L_{\mathcal{U}}}=1$
-    \item $L_{\mathcal{U}}|_{\mathbf{c_0}}=0$, so if $x\in\ell_\infty^{\R}$, then $\liminf_{n\to\infty}x_n\leq L_{\mathcal{U}}\leq\limsup_{n\to\infty}x_n$
-    \item Exactly one of $2\N$ and $2\N-1$ is in $\mathcal{U}$, so $L(\chi_{2\N})\neq L_{\mathcal{U}}(\chi_{2\N-1})$, so $L_{\mathcal{U}}$ is not translation invariant.
-    \item Let $S\in\mathcal{B}(\ell_\infty)$ be given by $Sx=\left(\frac{x_1+\cdots+x_n}{n}\right)_{n=1}^\infty$.
-        Then $L_{\mathcal{U}}\circ S$ is a Banach limit.
-\end{enumerate}
-\begin{definition}
-    If $(X,\tau)$ is a topological space, $\mathcal{U}$ an ultrafilter on $X$, we say that $x_0\in X$ is a $(\tau-)$limit point for $\mathcal{U}$ if for each $U\in\tau$ with $x_0\in U$, we have $U\in\mathcal{U}$.
-\end{definition}
-\begin{proposition}
-    Let $(X,\tau)$ be a topological space.
-    Then $(X,\tau)$ is compact if and only if any ultrafilter on $X$ admits a $\tau-$limit point.
-\end{proposition}
-\begin{proof}
-    Let us begin with an observation: if $x\in X$ and $\mathcal{U}$ is an ultrafilter on $X$, then
-    \begin{align*}
-        x\in\bigcap_{V\in\mathcal{U}}\overline{V} &\Leftrightarrow\text{for any }U\in\tau\text{ with }x\in U, U\cap V\neq\emptyset\text{ for each }V\in \mathcal{U}\\
-                                                   &\Leftrightarrow x\text{ is a $\tau-$limit point of }\mathcal{U}
-    \end{align*}
-    
-    If $(X,\tau)$ is compact, then $\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
-    If $\mathcal{F}\subseteq\mathcal{P}(X)$ has the finite intersection property, then there exists an ultrafilter $\mathcal{U}\supseteq\mathcal{F}$, so $\bigcap_{F\in\mathcal{F}}\overline{F}\supseteq\bigcap_{V\in\mathcal{U}}\overline{V}\neq\emptyset$.
-
-\end{proof}
-\begin{theorem}[Tychonoff]
-    Let $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be a family of compact spaces, and $X=\prod_{\alpha \in A}X_\alpha$ with the product topology $\pi$.
-    Then $(X,\pi)$ is compact.
-\end{theorem}
-\begin{proof}
-    Let $\mathcal{U}$ be an ultrafilter on $X$; we will show that it admits a $\pi-$limit point.
-    Fix $\alpha\in A$ and let $\mathcal{U}_\alpha=\{p_\alpha(V):V\in\mathcal{U}\}$, where $p_\alpha$ is the coordinate projection onto $\alpha$.
-    If $\emptyset\neq S_\alpha\subseteq X_\alpha$, then $S_\alpha=p_\alpha^{-1}(p_\alpha^{-1}(S_\alpha))$, so $S_\alpha\in\mathcal{U}_\alpha$ if and only if $p^{-1}(S_\alpha)\in\mathcal{U}$, and since $p^{-1}$ commutes with complementation, $\mathcal{U}_\alpha$ is an ultrafilter.
-    The last proposition provides a $\tau_\alpha-$limit point $x_\alpha$ for $\mathcal{U}_\alpha$.
-    Now let $x=(x_\alpha)_{\alpha\in A}$, where $x_\alpha$ is found as above.
-    If $W\in\pi$ with $x\in W$, then there are $\alpha_1,\ldots,\alpha_n$ in $A$, $U_{\alpha_i}\in\tau_{\alpha_i}$ with $x\in\bigcap_{k=1}^n p_{\alpha_k}^{-1}(U_{\alpha_k})\subseteq W$.
-    Since each $x_{\alpha_k}$ is a $\tau_{\alpha_k}-$limit point of $\mathcal{U}_{\alpha_k}$, we see that each $U_{\alpha_k}\in\mathcal{U}_{\alpha_k}$, so $p_{\alpha_k}^{-1}(U_{\alpha_k})\in\mathcal{U}$.
-    Thus we see that $W\in\mathcal{U}$, so $x$ is a $\pi-$limit point of $\mathcal{U}$.
-\end{proof}
-\begin{remark}
-    \begin{enumerate}[r]
-        \item Tychonoff's theorem implies the axiom of choice.
-            Given $\{X_\alpha\}_{\alpha\in A}$ be a family of non-empty sets.
-            Find $y$ which is not a member of any $X_\alpha$, and let $Y_\alpha=X_\alpha\cup\{y\}$ and $\tau_\alpha=\{\emptyset,\{y\},X_\alpha,Y_\alpha\}$, and $(Y_\alpha.\tau_\alpha)$ is compact.
-            The constant element $y$ is an element of $Y$, so by Tychonoff, $(Y,\pi)$ is compact.
-            Given $\alpha_1,\ldots,\alpha_n\in A$, then $\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
-            Since $\prod_{k=1}^n X_{\alpha_k}\neq 0$, we see that $Y\subsetneq\bigcup_{k=1}^np_{\alpha_k}^{-1}(\{y\})$.
-            Hence by compactness, $Y\not\subseteq\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})$.
-            Hence $\prod_{x\in A}X_\alpha=Y\setminus\bigcup_{\alpha\in A}p_\alpha^{-1}(\{y\})\neq 0$.
-        \item If we are given $(X_\alpha,\tau_\alpha)_{\alpha\in A}$ a family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$, we can define the \textbf{box topology}, i.e. the topology with base $\left\{\prod_{\alpha\in A}U_\alpha:U_\alpha\in\tau_\alpha\setminus\{\emptyset\}\text{ for each }\alpha\right\}$
-            Of course, $\pi\subseteq\tau$, and the inclusion is proper on infinite products.
-    \end{enumerate}
-\end{remark}
-\begin{proposition}
-    Let $(X,\tau)$ be a compact space.
-    \begin{enumerate}[nl,r]
-        \item If $K\subseteq X$ is closed, then $K$ is compact.
-        \item If $(Y,\sigma)$ is a topological space and $f:X\to Y$ is continuous, then $f(X)$ is compact.
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    Immediate.
-\end{proof}
-\begin{remark}
-    If $X$ is a normed space, $w^*=\sigma(X^*,\hat X)$, if $x\in X$, $\hat x\in X^{**}$, $\hat x(f)=f(x)$, $\hat X=\{\hat x:x\in X\}$.
-    If $A,B$ are non-empty sets, $A^B\cong \{f:B\to A\}$.
-\end{remark}
-\begin{theorem}[Alaoglu]
+Here we have a key feature of the $w^*-$topology on a normed space, which follows as a consequence to Tychonoff's Theorem:
+\begin{theorem}[Alaoglu]\label{t:ala}
     Let $X$ be a normed space.
     Then $B(X^*)$ is $w^*=\sigma(X^*,\hat X)-$compact
 \end{theorem}
@@ -1789,47 +1950,16 @@ We then have (with some verification possibly needed)
     Thus $B(X^*)$ is the continuous image of a compact set and hence compact.
 \end{proof}
 \begin{remark}
+    If $X$ is a normed space, $w^*=\sigma(X^*,\hat X)$, if $x\in X$, $\hat x\in X^{**}$, $\hat x(f)=f(x)$, $\hat X=\{\hat x:x\in X\}$.
+    If $A,B$ are non-empty sets, $A^B\cong \{f:B\to A\}$.
+\end{remark}
+\begin{remark}
     If $r>0$, then we may replace $B(X^*)$ with $rB(X^*)$ in the proof above, with trivial modifications.
     Thus any ball is $w^*-$compact.
     Hence bounded $w^*-$closed sets in $X^*$ are automatically $w^*-$compact.
 \end{remark}
-\begin{definition}
-    A topological space $(X,\tau)$ is Hausdorff if given $x\neq y$ in $X$, there are $U_x,V_y\in\tau$ such that $x\in U_x$ and $y\in V_y$ and $U_x\cap U_y=\emptyset$.
-\end{definition}
-\begin{example}
-    \begin{enumerate}[nl,r]
-        \item A metric space is Hausdorff.
-        \item $X$ a normed space, $w=\sigma(X,X^*)$ is Hausdorff (by Hahn-Banach and A2Q1).
-        \item If $X$ is a normed space, then $w^*=\sigma(X^*,\hat X)$ on $X^*$ is Hausdorff.
-        \item $\{(X_\alpha,\tau_\alpha)\}_{\alpha\in A}$ family of topological spaces, $X=\prod_{\alpha\in A}X_\alpha$ with $\pi$ the product topology.
-            Then $(X,\pi)$ is Hausdorff if and only if all $(X_\alpha,\tau_\alpha)$ are Hausdorff.
-            (Straightfoward exercise).
-    \end{enumerate}
-\end{example}
-\begin{proposition}
-    Let $(X,\tau)$ be a Hausdorff space, $K\subseteq X$ $\tau-$compact.
-    Then $K$ is $\tau-$closed.
-\end{proposition}
-\begin{proof}
-    Straightforward exercise.
-\end{proof}
-\begin{proposition}
-    Let $(X,\tau)$ be a compact space.
-    \begin{enumerate}[nl,r]
-        \item If $(Y,\sigma)$ is a Hausdorff space and $\phi:X\to Y$ is continuous and bijective, then $\phi^{-1}:Y\to X$ is continuous.
-        \item If $\tau'\subseteq\tau$ is a Hausdorff topology on $X$, so $\tau'=\tau$.
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    \begin{enumerate}[nl,r]
-        \item If $F\subseteq X$ is $\tau-$closed, then it is $\tau-$compact.
-            Hence $(\phi^{-1})^{-1}(F)=\phi(F)$ is $\sigma-$closed, so by A1Q1, $\phi^{-1}$ is continuous.
-        \item $\id:X\to X$ is continuous, so if $U\in\tau'$, then $\id^{-1}(U)=U\in\tau$, so $\id$ is continuous.
-            Hence by (1) $\id^{-1}$ is continuous so $\tau\subseteq\tau'$.
-    \end{enumerate}
-\end{proof}
 \begin{theorem}[Metrization]
-    If $X$ is a separable normed space, then $B(X^*)$ is $w^*-$metrizable, i.e. there exists a metric $\rho$ on $B(X^*)$ such that $w^*|_{B(X^*)}=\tau_\rho$.
+    If $X$ is a separable normed space, then $B(X^*)$ is $w^*-$metrizable.
 \end{theorem}
 \begin{proof}
     Let $\{x_n\}_{n=1}^\infty\subset B(X)$ be any set which is separating for $X^*$, i.e. if $f\in X^*\setminus\{0\}$, then $f(x_n)\neq 0$ for some $n$ (for example, take any dense subset of $D(X)\setminus\{0\}$).
@@ -1846,10 +1976,10 @@ We then have (with some verification possibly needed)
     \end{itemize}
     Then if $f\in V$,
     \begin{align*}
-        g(f,f_0) &= \sum_{k=1}^n\frac{|f(x_k)-f_0(x_k)|}{2^k}+\sum_{k=n+1}^\infty\frac{|f(x_k)-f_0(x_k)|}{2^k}<\epsilon
+        \rho(f,f_0) &= \sum_{k=1}^n\frac{|f(x_k)-f_0(x_k)|}{2^k}+\sum_{k=n+1}^\infty\frac{|f(x_k)-f_0(x_k)|}{2^k}<\epsilon
     \end{align*}
-    so $f_0\in V\subset B^\circ_{\rho,\epsilon}(f_0)$.
-    Since $f_0$ is arbitrary, we have $\tau_\rho\subseteq w^*|_{B(X^*)}$, but since $w^*$ is compact and $\tau_\rho$ is Hausdorff, these must be equal.
+    so that $V$ is contained in a metric neighbourhood of $f_0$.
+    Since $f_0$ is arbitrary, we have $\tau_\rho\subseteq w^*|_{B(X^*)}$, but since $B(X^*)$ is $w^*-$compac and $\tau_\rho$ is Hausdorff, these must be equal.
 \end{proof}
 \begin{enumerate}[nl,r]
     \item Note that different separating families from $B(X)$ may produce different metrics, but always the same topology.
@@ -1858,153 +1988,26 @@ We then have (with some verification possibly needed)
     \item $X^*=\bigcup_{=1}^\infty nB(X^*)$, so each $nB(X^*)$ is metrizable and compact, and thus $w^*-$separable.
         Thus if $X$ is separable, then $X^*$ is itself separable.
 \end{enumerate}
-\section{Nets}
-\begin{definition}
-    A pair $(N,\leq)$ is a \textbf{preorder} on $N$ if
-    \begin{itemize}[nl]
-        \item $v\leq v$ for $v\in N$
-        \item $v_1\leq v_2$ and $v_2\leq v_3$ implies $v_1\leq v_3$.
-    \end{itemize}
-    This pair is \textbf{cofinal} if for any $v_1,v_2\in N$, there is $v_3\in N$ so $v_1\leq v_3$ and $v_2\leq v_3$.
-    Then $(N,\leq)$ is a \textbf{directed set} if $\leq$ is a cofinal preorder.
-    Given a non-empty set $X$, a \textbf{net} is a function $x:N\to X$.
-\end{definition}
-\begin{definition}
-    If $(x_0)_{v\in N}$ is a net in $X$, $A\subseteq X$, we say that $(x_0)_{n\in\N}$ is
-    \begin{itemize}[nl]
-        \item \textbf{eventually} in $A$ if there is $v_A\in N$ so $x_v\in A$ whenever $v\geq v_A$
-        \item \textbf{frequently} in $A$ if for any $v\in N$, there is $v'\in N$ with $v'\geq g$ so $x_{v'}\in A$.
-    \end{itemize}
-\end{definition}
-\begin{definition}
-    Now, let $(M,\leq)$ be anther directed set
-    A map $\phi:M\to N$ is \textbf{eventually cofinal} if for any $v\in N$, there is $\mu_v\in N$ s $\phi(u)\geq v$ whenever $\mu\geq \mu_0$.
-    Given a net $(x_v)_{v\in N}$ and an eventually cofinal $\phi:M\to N$, we call $(x_{\phi(\mu)})_{\mu\in M}$ a \textbf{subnet}.
-\end{definition}
-\begin{definition}
-    We call $\phi:M\to N$ a \textbf{directed map} if
-    \begin{enumerate}[nl,r]
-        \item $\mu\leq \mu'$ in $M$ implies $\phi(\mu)\leq\phi(\mu')$ in $N$
-        \item For any $v\in N$, there is $\mu\in M$ s $v\leq\phi(\mu)$.
-    \end{enumerate}
-\end{definition}
-Directed maps are always cofinal.
-Different sources use directed maps over eventually cofinal maps.
-\begin{example}
-    \begin{enumerate}[nl,r]
-        \item $(\N,\leq)$ is directed, and subsequences are special types of subnets.
-        \item $(\R,\leq)$ is directed
-        \item (\textit{Riemann sums}) Let $a<b$ in $\R$.
-            We let
-            \begin{equation*}
-                N=\{(P,P^*):P=\{a=t_0<t_1<\cdots<t_n=b\},P^*=\{t_1^*,\ldots,t_n^*\},t_k^*\in[t_{k-1},t_k]\}
-            \end{equation*}
-            and say $(P,P^*)\leq (Q,Q^*)$ if $P\subseteq Q$.
-            One can verify that this is a net (the Riemann sum net).
-        \item (\textit{Nets from filtering families}).
-            We say that $\mathcal{F}\subset\mathcal{P}(X)\setminus\{\emptyset\}$ is a \textbf{filtering family} if for each $F_1,F_2\in\mathcal{F}$, there is $F_3\in\mathcal{F}$ such that $F_3\subseteq F_1\cap F_2$.
-            For example, an ultrafilter is a filtering family.
-            Let
-            \begin{equation*}
-                N_{\mathcal{F}}=\{(x,F):x\in F,F\in\mathcal{F}\}
-            \end{equation*}
-            equipped with the pre-order $(x,F)\leq(x',F')$ if and only if $F\supseteq F'$.
-            Since $\mathcal{F}$ is a filtering family, $(N_{\mathcal{F}},\leq)$ is directed.
-            Let $x_{(x,F)}=x$, so $(x)_{(x,F)\in N_{\mathcal{F}}}$ is the net built from $\mathcal{F}$.
-            Note that if $F\in\mathcal{F}$, then $(x)_{(x,F)\in\mathcal{F}}$ is eventually in $F$.
 
-            An \textbf{ultranet} $(x_v)_{v\in N}\subset X$ is a net for which any $A\in\mathcal{P}(X)$, $(x_v)_{v\in N}$ is either eventually in $A$ or eventually in $X\setminus A$.
-            If $\mathcal{F}$ is an ultrafilter, then $(x)_{(x,F)\in N_{\mathcal{F}}}$ is an \textbf{ultranet}.
-    \end{enumerate}
-\end{example}
-\subsection{Nets and Topology}
-Now, suppose $(X,\tau)$ is a topological space.
-\begin{definition}
-    We say that $x_0\in X$ is
-    \begin{itemize}[nl]
-        \item Some $x_0\in X$ is a \textbf{limit point} if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is eventually in $U$.
-            That is, there is $\nu_U$ such that $x_\nu\in U$ whenever $\nu\geq\nu_U$.
-            We write $x_0=\lim_{v\in N}x_v$, the $\tau-$limit of $(x_v)_{v\in N}$.
-            Note that this is an abuse of notation, since limit points need not be unique (when $(X,\tau)$ is not Hausdorff).
-        \item Some $x_0\in X$ is a \textbf{cluster point} of $(x_v)_{v\in N}$ if for any $U\in\tau$ with $x_0\in U$, $(x_v)_{v\in N}$ is frequently in $U$.
-    \end{itemize}
-\end{definition}
-\begin{proposition}
-    If $(x_v)_{v\in N}$ is a net in $(X,\tau)$ and $x_0\in X$, then $x_0$ is a cluster point for $(x_v)_{v\in N}$ if and only if $x_0$ is a $\tau-$limit point of $x_{v_\mu}$ for some subnet $(x_{v_\mu})_{\mu\in M}$ of $(x_v)_{v\in N}$.
-\end{proposition}
-\begin{proof}
-    \impr
-    Suppose $x_0$ is a cluster point for $(x_\nu)_{\nu\in N}$.
-    Then for each $v\in N$ and $U\in\tau$ containing $x_0$, define
-    \begin{equation*}
-        F_{\nu,U}=\{\nu'\in N:\nu'\geq \nu,x_{\nu'}\in U\}
-    \end{equation*}
-    which is non-empty since $x_0$ is a cluster point.
-    Then set
-    \begin{equation*}
-        \mathcal{F}=\{F_{\nu,U}:\nu\in N,U\in\tau,x_0\in U\}\subset\mathcal{P}(N)
-    \end{equation*}
-    Let's see that $\mathcal{F}$ is filtering: suppose $F_{\nu,U}$ and $F_{\nu',U'}$ are in $\mathcal{F}$.
-    Get $\mu\geq\nu$ and $\mu\geq\nu'$ by definition of a net and set $V=U\cap U'$, which is open and contains $x_0$.
-    Then since $x_0$ is a cluster point, get some $\mu'\geq \mu$ such that $x_{\mu'}\in V$, so $F_{\mu',V}\subseteq F_{\nu,U}\cap F_{\nu',U'}$
-    We then let $M=N_{\mathcal{F}}$ be the net construction from the filtering family and set $v_{(\nu,F)}=V$.
-
-    Now set $N_{\mathcal{F}}=\{(\nu,F):\nu\in F,F\in\mathcal{F}\}$ with the standard preorder and $\nu_{(\nu,F)}=\nu$.
-    Then the map $(\nu,F)\mapsto\nu$ from $N_{\mathcal{F}}\to N$ is eventually cofinal: if $\nu_0\in N$ is arbitrary, take any $F_0=F_{\nu_0,U}\in\mathcal{F}$.
-    Then $F_0=\{\nu\in N:\nu\geq\nu_0,x_\nu\in U\}$, so if $F_{\mu,V}\in\mathcal{F}$ with $F_{\mu,V}\subseteq$
-    We let $M=N_{\mathcal{F}}$ as in (iv) above, and $v_{v,\mathcal{F}}=v$.
-    Check that $(x_v)_{(v,F)\in N_{\mathcal{F}}}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$.
-    [Check: $(v,F)\mapsto v:N_{\mathcal{F}}\to N$ is cofinal, but is not evidently directed]
-    
-    $(\Leftarrow)$ If for some subnet $(x_{v_\mu})_{\mu\in M}$ is eventually in $U$ for any $U\in\tau$ with $x_0\in U$, then $(x_v)_{v\in N}$ is frequently in $U$ for such $U$ by definition of a subnet.
-\end{proof}
-\begin{proposition}
-    If $(Y,\sigma)$ is another topological space, then $f:X\to Y$ is continuous if and only if for any $x_0\in X$ and net $(x_v)_{v\in N}$ with having $x_0$ as a limit, $f(x_0)=\lim_{v\in N}f(x_v)$.
-\end{proposition}
-\begin{proof}
-    If $V\in\sigma$ with $f(x_0)\in V$, then $f^{-1}(V)\in\tau$ with $x_0\in f^{-1}(V)$.
-    Since $(x_v)_{v\in N}$ is eventually in $f^{-1}(V)$, so $(f(x_v))_{v\in N}$ is eventually in $V$.
-
-    Conversely, let $\tau_{x_0}=\{U\in\tau:x_0\in U\}$, which is filtering on $X$.
-    Let $N_{\tau_{x_0}}=\{(x,U):x\in U,U\in\tau_{x_0}\}$ be directed by $(x,U)\leq(x',U')$ if and only if $U\supseteq U'$ as in (iv) above.
-    Then $x_0=\lim_{(x,U)\in N_{\tau_{x_0}}}x$.
-    Now, let $V\in\sigma$ with $f(x_0)$.
-    The assumptions on $f$ tell us there is $v-V\in N_{\tau_{x_0}}$ such that for $v\geq v_V$, we have $f(x_0)\in V$
-    We have $v_V=(x,U)$ for some $U\in\tau_{x_0}$ and $x\in U$, so for any $x'\in U$, $(x',U)\geq(x,U)$ and $f(x')=f(x_{x',U})\in V$, so that $x_0\in U=\bigcup_{x'\in U}\{x'\}\subseteq f^{-1}(V)$, so $f$ is continuous at $x_0$.
-    But $x_0\in X$ was arbitrary.
-\end{proof}
-\begin{remark}
-    We get the following consequences of this result:
-    \begin{enumerate}[nl,r]
-        \item Given topologies $\tau,\tau'$ on $X$, $\tau'\subseteq\tau$ if and only if $\tau'-\lim_{v\in N}x_v=x_0$ whenever $\tau-\lim_{v\in N}x_v=x_0$ for any $x_0\in X$.
-        \item (limits in product topology) $\{(x_\alpha,\tau_\alpha)\}_{\alpha\in A}$ be topological space and $X=\prod_{\alpha\in A}X_\alpha$ equipped with the product topology $\pi$.
-            If $(x^{(v)})_{v\in N}$ is a net in $X$ and $x^{(0)}\in X$, then $\pi-\lim_{v\in N}x^{(v)}=x^{(0)}$ if and only if for every $\alpha\in A$, $\tau_\alpha-\lim_{v\in N}x_\alpha^{(v)}=x_\alpha^{(0)}$.
-            Recall that $\pi$ is the coarsest topology making each $\mu_\alpha$ continuous.
-        \item If $X$ is a normed space and $(f_v)_{v\in N}\subset X^*$, $f_0\in X^*$, then $w^*-\lim_{v\in N}f_v=f_0$ if and only if $\lim_{v\in N}f_v(x)=f_0(x)$ for each $x\in X$.
-    \end{enumerate}
-\end{remark}
-\subsection{Roles of weak and weak* topologies in convexity}
+\subsection{Weak and Weak* Topologies in Convexity}
 We begin with a useful technical lemma:
 \begin{lemma}\label{l:ws-ker}
     Let $X$ be an $\F-$vector space and $f_0,f_1,\ldots,f_n\in X'$ with $\ker f_0\supseteq\bigcap_{i=1}^n\ker f_i$.
     Then $f\in\spn\{f_1,\ldots,f_n\}$.
 \end{lemma}
 \begin{proof}
-    Define $T:X\to\F^n$ by $Tx=(f_1(x),\ldots,f_n(x))$.
-    Then $\ker T=\bigcap_{i=1}^n\ker f_i$.
-    Let $\mathcal{R}=\im T\subseteq\F$ and $g_0\in\mathcal{R}'$ by $g_0(Tx)=f_0(x)$.
-    Then $g_0$ is well-defined: if $Tx=Ty$, then $x-y\in\ker T\subseteq\ker f_0$, so $f_0(x-y)=0$ so $f_0(x)=f_0(y)$.
-    Also $g_0$ is linear.
-    Let $g\in(\F^n)'$ such that $g|_{\mathcal{R}}=g_0$.
-    Hence there are $\alpha_1,\ldots,\alpha_n\in\F$ such that $g(y_1,\ldots,y_n)=\sum_{j=1}^n\alpha_jy_j$.
+    Define $T:X\to\F^n$ by $Tx=(f_1(x),\ldots,f_n(x))$ so $\ker T=\bigcap_{i=1}^n\ker f_i$.
+    Let $R=\im T\subseteq\F^n$ and $g_0\in R'$ by $g_0(Tx)=f_0(x)$.
+    Certainly $g_0$ is linear, and $g_0$ is well-defined since $\ker T\subseteq\ker f_0$.
+    Let $g\in(\F^n)'$ such that $g|_{R}=g_0$; get $\alpha_i\in\F$ so that $g(y_1,\ldots,y_n)=\sum_{j=1}^n\alpha_jy_j$.
     Hence for $x\in X$,
     \begin{equation*}
         f_0(x)=g_0(Tx)=g(Tx)=g(f_1(x),\ldots,f_n(x))=\sum_{j=1}^n\alpha_jf_j(x)
     \end{equation*}
-    so that $f_0=\sum_{j=1}^n\alpha_jf_j$.
+    so that $f_0=\sum_{j=1}^n\alpha_jf_j\in\spn\{f_1,\ldots,f_n\}$.
 \end{proof}
 We now show that we have an analogue of norm separation with respect to the $w^*-$topology:
-\begin{theorem}[$w^*-$Separation]
+\begin{theorem}[$w^*-$Separation]\label{t:ws-sep}
     Let $X$ be a normed space, $A,B\subset X^*$ each be non-empty and convex, with $A\cap B=\emptyset$ and $B$ $w^*-$open.
     Then there is $x\in X$ and $\alpha\in\R$ such that
     \begin{equation*}
@@ -2033,43 +2036,52 @@ We now show that we have an analogue of norm separation with respect to the $w^*
     Thus $Y\subseteq\ker F$, and apply \cref{l:ws-ker} so that $F\in\spn\{\hat{x}_1,\ldots,\hat{x}_n\}\subseteq\hat X$.
     Thus $F=\hat{x}$ for some $x\in X$.
 \end{proof}
-\begin{theorem}[$w^*-$Closed Convex Hull]
-    If $S\subset X^*$, then
+A set of the form $H=\{f\in X^*:\Re f(x)\leq\alpha\}$ for some fixed $x\in X$ and $\alpha\in\R$ is called a real $w^*-$halfspace.
+Note that any such space is $w^*-$closed and convex.
+\begin{theorem}[$w^*-$Closed Convex Hull]\label{c:wscvxh}
+    If $S\subset X^*$ and $\mathcal{H}$ is the set of real $w^*-$halfspaces in $X$, then
     \begin{equation*}
-        \cwx S=\cap\{\{f\in X^*:\Re f(x)\leq \alpha\}\supseteq S:x\in X,\alpha\in\R\}
+        \cwx S=\bigcap_{\substack{H\in\mathcal{H}\\H\supseteq S}}H.
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    The set on the right is $w^*-$closed and convex being the intersection of such.
-    Conversely, if $f\in X^*\setminus\cwx S$, which is open, then there is a basic $w^*-$open neighbourhood
+    Firstly, $\bigcap_{H\in\mathcal{H},H\supseteq S}H$ is $w^*-$closed and convex since it is the intersection of such spaces.
+    Conversely, if $f\in X^*\setminus\cwx S$, then there is a basic $w^*-$open neighbourhood
     \begin{equation*}
-        B=\bigcap_{j=1}^n\hat x_j^{-1}(f(x_j)+\mathbb{D})\subseteq X^*\setminus\cwx S
+        B=\bigcap_{j=1}^n\hat x_j^{-1}(V_j)\subseteq X^*\setminus\cwx S
     \end{equation*}
     so that $B\cap\cwx S=\emptyset$.
-    Also, $B$ is convex.
+    Then since $B$ is convex, apply \cref{t:ws-sep} to get a half space not containing $B$.
 \end{proof}
-\begin{remark}
-    If $X$ is a normed spacee, a closed half space $H=\{x\in X:\Re f(x)\leq\alpha\}$ for some $f$ in $X^*$, $\alpha\in\R$.
-    Hence, $H$ is weakly closed $(\Re f)^{-1}([\alpha,\infty))=f^{-1}(\{z\in\C:\Re z\geq\alpha\})$ is $w-$closed.
-    Thus if $S\subset X$, we have $\cw S\in w=\sigma(X,X^*)\subseteq\tau_{\norm{\cdot}}$, so $\cw S$ is automatically weakly closed.
-    Hence if $C\subseteq X$ is convex, then $C$ is norm closed if and only if $C$ is $w-$closed.
-\end{remark}
+The case for weak-closed spaces is easier, and follows from our earlier results on the norm-closed convex hull.
+\begin{corollary}\label{c:wcvxh}
+    If $C\subset X$ is convex, then $C$ is norm closed if and only if $C$ is $w-$closed.
+\end{corollary}
+\begin{proof}
+    If $C$ is $w-$closed then it is automatically norm-closed.
+
+    Conversely, suppose we are given a normed space $X$ and closed half space $H=\{x\in X:\Re f(x)\leq\alpha\}$ for some $f$ in $X^*$, $\alpha\in\R$.
+    Then
+    \begin{equation*}
+        H=(\Re f)^{-1}([\alpha,\infty))=f^{-1}(\{z\in\C:\Re z\geq\alpha\})
+    \end{equation*}
+    is $w-$closed as well.
+    Since $C$ is convex and norm-closed, by \cref{c:cvxh}, $C$ is the intersection of such half spaces, which are $w-$closed, so that $C$ is $w-$closed.
+\end{proof}
 \begin{definition}
     Let $X$ be a normed space.
-    If $E\subseteq X$ (non-empty), the \textbf{polar} of $E$ is given by
+    If $E\subseteq X$, the \textbf{polar} of $E$ is given by
     \begin{align*}
-        E^\circ&=\{f\in X^*:\Re f(x)\leq 1\text{ for all $x$ in }E\}\subseteq X^*\\
-               &= \bigcap_{x\in E}\{f\in X^*:\Re\hat x(f)\leq 1\}
+        E^\circ &= \bigcap_{x\in E}\{f\in X^*:\Re f(x)\leq 1\}.
     \end{align*}
-    so $E^\circ$ is convex and $w^*-$closed in $X^*$, and $0\in E^\circ$.
-
-    If $F\subseteq X^*$ (non-empty), let the \textbf{pre-polar} of $F$ be given by
+    Conversely, if $F\subseteq X^*$, the \textbf{pre-polar} of $F$ is given by
     \begin{equation*}
-        F_\circ=\{x\in X:\Re f(x)\leq 1\text{ for all $f$ in }F\}
+        F_\circ=\bigcap_{f\in F}\{x\in X:\Re f(x)\leq 1\}.
     \end{equation*}
-    so, like above, $F_0$ is convex, $(w-)$closed, and $0\in F_0$.
 \end{definition}
-\begin{theorem}[Bipolar]
+Note that $E^\circ$ is convex, $w^*$-closed, and contains $0$.
+Similarly, $F_0$ is convex, $w-$closed, and contains $0$.
+\begin{theorem}[Bi-polar]\label{t:bip}
     \begin{enumerate}[nl,r]
         \item If $\emptyset\neq E\subseteq X$, then $(E^\circ)_\circ=\cw(E\cup\{0\})$.
         \item If $\emptyset\neq F\subseteq X^*$, then $(F_\circ)^\circ=\cwx(F\cup\{0\})$.
@@ -2077,52 +2089,65 @@ We now show that we have an analogue of norm separation with respect to the $w^*
 \end{theorem}
 \begin{proof}
     \begin{enumerate}[nl,r]
-        \item Note that $E\cup\{0\}\subseteq (E^\circ)_\circ$, so $\cw(E\cup\{0\})\subseteq(E^\circ)_\circ$.
-            If $x_0\in X\setminus\cw(E\cup\{0\})$, then the separation theorem provides $f\in X^*$, $\alpha\in \R$ so $\Re f(x_0)>\alpha\geq\Re f(x)$ for $x\in E\cup\{0\}$.
-            Notice that $\alpha\geq \Re f(0)=0$, and we let $\beta=\frac{1}{2}[\Re f(x_0)+\alpha]>0$, so $\Re f(x_0)>\beta\geq\Re f(x)$ for $x\in E\cup\{0\}$, $\beta>0$.
-            Let $g=\frac{1}{\beta}f$ and we see that $g\in E^\circ$ and as $\Re g(x_0)>1$, $x_0\notin (E^\circ)_\circ$.
-        \item Similar, use $w^*-$separation.
+        \item Since $E\cup\{0\}\subseteq (E^\circ)_\circ$, by \cref{c:wcvxh}, $\cw(E\cup\{0\})\subseteq(E^\circ)_\circ$.
+            Conversely, if $x_0\in X\setminus\cw(E\cup\{0\})$, then \cref{c:cvxh} provides some $f\in X^*$ and $\alpha\in \R$ so that $\Re f(x_0)>\alpha\geq\Re f(x)$ for $x\in E\cup\{0\}$.
+            Notice that $\Re f(x_0)>\alpha\geq \Re f(0)=0$, so we may set
+            \begin{equation*}
+                \beta:=\frac{1}{2}(\Re f(x_0)+\alpha)
+            \end{equation*}
+            with $\beta>0$.
+            Then $\Re f(x_0)>\beta\geq\Re f(x)$ for any $x\in E\cup\{0\}$.
+            Let $g=\frac{1}{\beta}f$ so that for any $x\in E$, $\Re g(x)=\frac{1}{\beta}\Re f(x)\leq 1$ and $g\in E^\circ$, but $\Re g(x_0)>1$ so $x_0\notin (E^\circ)_\circ$.
+        \item The proof is similar to above; use \cref{c:wscvxh}.
     \end{enumerate}
 \end{proof}
-\begin{remark}
-    Let $Y\subseteq X$ be a subspace.
-    If $f\in Y^0$, then $\Re f(y)\leq 1$ for $y\in Y$ implies that $f(y)=0$ for all $y\in Y$.
-    We write $Y^a=Y^0$, and $Y^a=\{f\in X^*:f|_Y=0\}$ is called the \textbf{annhilator} of $Y$.
-    Likewise, if $Z\subseteq X^*$ is a subspace, then $Z_a=Z_0$ where $Z_a=\{x\in X:f(x)=0\text{ for each }f\in Z\}$ is called the \textbf{pre-annhilator}.
-    Notice that $Y^a$ and $Z_a$ are subspaces.
-\end{remark}
+Suppose $Y\subseteq X$ is a subspace.
+If $f\in Y^0$ such that $\Re f(y)\leq 1$ for $y\in Y$, then $f(y)=0$ for all $y\in Y$.
+In particular, we define $Y^a=\{f\in X^*:f|_Y=0\}$ to be the \textbf{annhilator} of $Y$, where $Y^a=Y^0$.
+Likewise, if $Z\subseteq X^*$ is a subspace, then we define $Z_a=\{x\in X:f(x)=0\text{ for each }f\in Z\}$ to be the \textbf{pre-annhilator}, where $Z_a=Z_0$.
+Notice that $Y^a$ and $Z_a$ are subspaces.
+
+Since subspaces are closed and contain 0, we immediately have the following:
 \begin{corollary}
     \begin{enumerate}[nl,r]
-        \item If $Y\subseteq $ is a subspace, then $(X^a)_a=\overline{X}$.
+        \item If $Y\subseteq X$ is a subspace, then $(X^a)_a=\overline{X}$.
         \item If $Z\subseteq X^*$ is a subspace, then $(Z_a)^a=\overline{Z}^{w^*}$.
     \end{enumerate}
 \end{corollary}
-\begin{lemma}
-    If $X$ is a normed space, then $B(X)^0=B(X^*)$ and $B(X^*)_0=B(X)$.
+In the context of \cref{c:wcvxh}, if $S\subset X^*$ is norm-closed, it may not be $w^*-$closed.
+\TODO{example??}
+However, this relationship does hold in the special case when $S=B(X^*)$; and in fact, as a consequence of the Bi-polar theorem, we have a bit more:
+\begin{lemma}\label{l:bxn}
+    If $X$ is a normed space, then $B(X)^\circ=B(X^*)$ and $B(X^*)_\circ=B(X)$.
 \end{lemma}
 \begin{proof}
-    If $f\in B(X^0)$, then $\Re f(x)\leq 1$ for $x\in B(X)$.
-    Thus for $x\in B(X)$, $|f(x)|=\overline{\sgn f(x)}f(x)=f(\overline{\sgn f(x)}x)\leq 1$, so $\norm{f}\leq 1$ and $f\in B(X^*)$.
-    Conversely, if $f\in B(X^*)$, $x\in B(X)$, then $\Re f(x)\leq|f(x)|\leq 1$ so $f\in B(X)^\circ$.
-    Then use the Bipolar theorem.
-\end{proof}
-\begin{theorem}[Goldstine]
-    If $X$ is a normed space, then $\overline{B(\hat X)}^{w^*}=B(X^{**})$.
-    Note that $w^*=\sigma(X^{**},\hat{X^*})$.
-\end{theorem}
-\begin{proof}
-    The Bipolar theorem provides $\overline{B(\hat X)}^{w^*}=\cwx B(\hat x)=(B(\hat X)_\circ)^\circ$.
-    But, in $X^*$,
-    \begin{align*}
-        B(X)^\circ &= \{f\in X^*:\Re f(x)\leq 1\text{ for $x$ in }B(X)\}\\
-                   &= \{f\in \hat{X^*}:\Re \hat x(f)\leq 1\text{ for $x$ in }B(X)\}\\
-                   &= B(\hat X)_\circ
-    \end{align*}
-    Hence we have, using the lemma,
+    If $f\in B(X)^\circ$, then $\Re f(x)\leq 1$ for any $x\in B(X)$.
+    Thus for $x\in B(X)$,
     \begin{equation*}
-        \overline{B(\hat X)}^{w^*}=(B(\hat X)_\circ)^\circ=(B(X)^\circ)^\circ=B(X^*)^\circ=B(X^{**})
+        |f(x)|=\overline{\sgn f(x)}f(x)=f(\overline{\sgn f(x)}x)\leq 1,
+    \end{equation*}
+    so $\norm{f}\leq 1$ and $f\in B(X^*)$.
+    Conversely, if $f\in B(X^*)$ and $x\in B(X)$, then $\Re f(x)\leq|f(x)|\leq 1$ so $f\in B(X)^\circ$.
+
+    For the second equality, by \cref{t:bip},
+    \begin{equation*}
+        B(X^*)_\circ=(B(X)^\circ)_\circ=\cw{B(X)}=B(X).
     \end{equation*}
 \end{proof}
+\begin{theorem}[Goldstine]\label{t:gold}
+    If $X$ is a normed space, then $B(\hat X)$ is weak*-dense in $B(X^{**})$.
+\end{theorem}
+\begin{proof}
+    Note that, by definition, $B(X)^\circ=B(\hat X)_\circ$.
+    Thus by \cref{t:bip} and \cref{l:bxn}, we have
+    \begin{align*}
+        \overline{B(\hat X)}^{w^*}&=\cwx B(\hat X)=(B(\hat X)_\circ)^\circ= (B(X)^\circ)^\circ = B(X^*)^\circ= B(X^{**})
+    \end{align*}
+    as required.
+\end{proof}
+\begin{remark}
+    As an exercise, one can show that the conclusion of the theorem is not true for the norm topology by considering $\csz$ with bidual $\ell^\infty$.
+\end{remark}
 \begin{example}
     \begin{enumerate}[nl,r]
         \item Recall that $c_0^*\cong\ell_1$ and $\ell_1^*\cong\ell_\infty$, wheren $c_0\subseteq\ell_\infty$.
@@ -2152,7 +2177,12 @@ Then $(x_\nu)_{\nu\in N_{\mathcal{F}}}=(x)_{(x,U)\in N_{\mathcal{F}}}$ works.
 \begin{definition}
     A normed space $X$ is \textbf{reflexive} if $\hat X=X^{**}$.
 \end{definition}
-Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, so a reflexive space is always complete.
+Notice that $X^{**}=(X^*)^*$ is complete, and the bijection $\iota$ given by $\iota(x)=\hat x$ is an isometry, so a reflexive space is always complete.
+Moreover,
+\begin{align*}
+    U = \bigcap_{i=1}^n f_i^{-1}(V_i) &\iff \iota(U)=\bigcap_{i=1}^n\hat{f_i}^{-1}(V_i)
+\end{align*}
+where $\hat{f_i}\in \widehat{X^*}\subseteq X^{***}$ is given by $\hat{f_i}(\hat{x})=f_i(x)$, so that $\iota$ is a $w-w^*|_{\hat{X}}-$homeomorphism.
 \begin{theorem}
     Let $X$ be a Banach space.
     The following are equivalent:
@@ -2164,33 +2194,22 @@ Notice that $X^{**}=(X^*)^*$ is complete, and $x\mapsto\hat x$ is an isometry, s
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    The map $\iota:x\mapsto\hat x$ is a $w-w^*|_{\hat X}-$homeomorphism.
-    Recall $w^*=\sigma(X^{**},\hat X^*)$, and $w^*|_{\hat X}=\sigma(\hat X,(\hat X)^*|_{\hat X})$ and we have for $x_0\in X$, net $(x_\nu)_{\nu\in N}$ in $X$,
-    \begin{align*}
-        w-\lim_{\nu\in N}x_\nu = x_0 &\iff \lim_{\nu\in N}f(x_\nu)=f(x_0)\forall f\in X^*\\
-                                     &\iff \lim_{\nu\in N}\hat x_\nu(f)=\hat x_0(f)\forall f\in X^*\\
-                                     &\iff \lim_{\nu\in N}\hat f(\hat x_\nu)=\hat f(\hat x_0)
-    \end{align*}
-    and having the same convergent nets means that the topologies are the same.
-
     \imp{i}{ii}
     By assumption, $\widehat{B(X)}=B(\hat X)=B(X^{**})$.
-    Since $B(X^{**})$ is $w^*-$compact, and hence $\iota^{-1}(B(X^{**}))=B(X)$ is $w-$compact
+    Since $B(X^{**})$ is $w^*-$compact by \cref{t:ala}, $\iota^{-1}(B(X^{**}))=B(X)$ is $w-$compact.
 
     \imp{ii}{i}
-    If $B(X)$ is $w-$compact, then since $x\mapsto\hat x:X\to X^{**}$ is continuous, we see that $B(\hat X)=\widehat{B(X)}$ is $w^*-$compact.
+    If $B(X)$ is $w-$compact, by continuity of $\iota$, $B(\hat{X})$ is $w^*-$compact (and therefore $w^*-$closed), so by \cref{t:gold}, $B(\hat{X})=B(X^{**})$ and $\hat{X}=X^{**}$ so $X$ is reflexive.
 
     \imp{i}{iii}
-    We have $\hat X=X^{**}$ so on $X^*$, we have $w=\sigma(X^*,X^{**})=\sigma(X^*,\hat X)=w^*$.
+    We have $w=\sigma(X^*,X^{**})=\sigma(X^*,\hat X)=w^*$.
 
     \imp{iii}{iv}
-    $B(X^*)$ is compact, hence $w-$compct, so by $(ii)$ implies $(i)$ applied to $X^*$, we have that $X^*$ is reflexive.
+    Since $B(X^*)$ is $w^*-$compact, it is $w-$compact and by the same proof as (ii) implies (i) applied to $X^*$, we have that $X^*$ is reflexive.
 
     \imp{iv}{i}
-    We assume $\widehat{X^*}=X^{***}$.
-    Thus on $X^{***}$, we have $w=\sigma(X^{**},X^{***})=\sigma(X^{**},\widehat{X^*})=w^*$.
-    Now $B(\hat X)=B(X^{**})\cap\hat X$ is norm-closed and convex, hence $w-$closed, by Closed Convex Hull theorem.
-    Thus from above, $B(\hat X)$ is $w^*-$closed, so $B(\hat X)=\overline{B(\hat X)}^{w^*}=B(X^{**})$ by Goldstine, so $\hat X=X^{**}$.
+    Since $B(\hat X)\subset X^{**}$ is norm-closed, by \cref{c:wcvxh}, $B(\hat X)$ is $w-$closed, where $w=\sigma(X^{**},X^{***})=\sigma(X^{**},\widehat{X^*})=w^*$, so $B(\hat X)$ is $w^*-$closed.
+    Thus by \cref{t:gold}, $B(X^{**})=B(\hat X)$, as required.
 \end{proof}
 \begin{corollary}
     \begin{enumerate}[nl,r]
@@ -2573,7 +2592,8 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     Then the following are equivalent:
     \begin{enumerate}[nl,r]
         \item $\overline{\spn}E=\mathcal{E}$
-        \item for $x\in\mathcal{E}$= $x=\sum_{e\in E}\inr{x,e}e=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e$, where $\mathcal{F}=\{F\subseteq E:|f|<\infty\}$, directed by inclusion (Bessel's identity)
+        \item for $x\in\mathcal{E}$, $x=\sum_{e\in E}\inr{x,e}e=\lim_{F\in\mathcal{F}}\sum_{e\in F}\inr{x,e}e$, where $\mathcal{F}=\{F\subseteq E:|f|<\infty\}$, directed by inclusion (Bessel's identity)
+        \item $\norm{x}^2=\sum_{e\in E}|\inr{x,e}|^2$
         \item For $x,y\in\mathcal{E}$, $\inr{x,y}=\sum_{e\in E}\inr{x,e}\inr{e,y}$ (Parseval's identity).
     \end{enumerate}
 \end{theorem}
@@ -2847,7 +2867,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
             \end{itemize}
     \end{enumerate}
 \end{remark}
-\section{Adjoint Operators}
+\subsection{Adjoint Operators}
 \begin{definition}
     Let $X,Y$ be vector spaces over $\F$ and $T\in\mathcal{L}(X,Y)$.
     We define the \textbf{adjoint} of $T$ to be the map $T^*\in\mathcal{L}(Y',X')$ given by $T^*f=f\circ T$.
@@ -2967,7 +2987,7 @@ Note that, by definition, $\inr{Tx,y}=\inr{x,T^*y}$ for $x,y\in H$ and $T^*$ is 
     Notice that $\ker T=\{0\}$ and $\overline{\im T}=\ell_p$.
     However, $T$ is not bounded below.
 \end{example}
-\section{Spectral Theory for Bounded operators}
+\subsection{Spectral Theory for Bounded operators}
 Let $X$ be a $\C-$Banach space, and $\mathcal{B}(X)=\mathcal{B}(X,X)$.
 \begin{definition}
     If $T\in\mathcal{V}(X)$, we define the \textbf{resolvent} of $T$ by $\rho(T)=\{\lambda\in\C:\lambda I-T\text{ is invertible}\}$.
@@ -3252,7 +3272,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     \end{equation*}
     This applies for any $|z_0|>r(T)$, so the result follows.
 \end{proof}
-\section{Compact Operators}
+\subsection{Compact Operators}
 \begin{definition}
     Let $X,Y$ be Banach spaces over $\F$.
     A linear opeartor $K:X\to Y$ is called \textbf{compact} if $\overline{K(B(X))}$ is compact in $Y$.
@@ -3395,7 +3415,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     Then $K$ is $w-$norm continuous if and only if $K\in\mathcal{F}(X,Y)$.
 \end{remark}
 
-\section{Spectral Theory for Compact Operators}
+\subsection{Spectral Theory for Compact Operators}
 \begin{lemma}
     Let $K\in\mathcal{K}(X)$.
     Suppose there are sequences
