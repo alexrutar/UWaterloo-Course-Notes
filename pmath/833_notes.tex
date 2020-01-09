@@ -467,9 +467,80 @@ In particular, $\quot{G}{\overline{\{e\}}}$ is Hausdorff.
         \item If $((\R,+),\tau_{\norm{\cdot}})$ is locally compact.
         \item If $\{G_i\}_{i\in I}$ is a family of locally compact groups, then $\prod_{i\in I}G_i$ is a locally compact group if and only if all but finitely many $(G_i,\tau_i)$ are compact.
         \item $((\R^n,+),\tau_{\norm{\cdot}})$ is a locally compact group
-        \item Suppose $\{F_i\}_{i\in I}$ is an infinite family of finite groups (with discrete topologies).
-            then $G=\prod_{i\in I}F_i$ is a compact group.
+        \item Suppose $\{F_i\}_{i\in I}$ is an infinite family of finite groups (with discrete topologies), then $G=\prod_{i\in I}F_i$ is a compact group.
+            If $F\subset I$ is finite, then $N_F=\{(x_i)_{i\in I}\in G:x_i=e\text{ for }i\in F\}$ is open and a normal subgroup.
+            $\{N_F:F\subset I\text{ finite}\}$ is a base for the topology at $e$.
     \end{enumerate}
+\end{example}
+\begin{example}[$p-$adic numbers]
+    Let $p$ be a prime in $\N$.
+    We will establish product structures and topologies on
+    \begin{align*}
+        \mathbb{O}_p&=\left\{\sum_{k=0}^\infty a_kp^k:a_k\in\{0,1,\ldots,p-1\}\right\}\cong\{0,1,\ldots,p-1\}^{\N}\\
+        \mathbb{Q}_p&=\left\{\sum_{k=N}^\infty a_kp^k:N\in\Z, a_k\in\{0,1,\ldots,p-1\}\right\}
+    \end{align*}
+    are topological rings and a topological field respectively.
+    Let $R_p=\prod_{n=0}^\infty\quot{\Z}{p^{n+1}\Z}$ which is a ring under pointwise operations.
+    \begin{lemma}
+        The map $\rho:R_p\times R_p\to[0,1]$ given by
+        \begin{align*}
+            \rho(x,y)&=\sum_{n\in\N_0}\frac{\rho_n(x_n,y_n)}{p^n} & &\rho_n(x_n,y_n)=\begin{cases}1 &:x_n=y_n\\ 0 &:x_n\neq y_n\end{cases}
+        \end{align*}
+        is a metric on $R_p$ which satisfies
+        \begin{itemize}[nl]
+            \item \defname{additively invariant}
+                $\rho(x+z,y+z)=\rho(x,y)$ for $x,y,z\in R_p$
+            \item $\tau_\rho$ is the product topology
+        \end{itemize}
+    \end{lemma}
+    \begin{proof}
+        Additive invariance is routine.
+        Notice that if $\frac{1}{p^m}\geq\epsilon>\frac{1}{p^{m+1}}$, then the open $\epsilon-$ball around a point $x$ is $\{x_0\}\times\cdots\{x_m\}\times\prod_{n=m+1}^\infty\quot{\Z}{p^{n+1}\Z}$ is product-open.
+        Conversely, any product-open set is a finite union of such $\epsilon-$balls.
+    \end{proof}
+    \begin{corollary}
+        The function $\norm{x}_p=\rho(x,0)$ in $R_p$ satisfies
+        \begin{itemize}[nl]
+            \item $\norm{x}_p=0$ if and only if $x=0$
+            \item $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$
+            \item $\norm{xy}_p\leq\norm{x}_p\norm{y}_p$
+            \item $\norm{-x}_p=\norm{x}_p$
+        \end{itemize}
+        Hence $(R_p,\tau_\rho)$ is a compact topological ring.
+    \end{corollary}
+    \begin{proof}
+        The properties follow directly using additive invariance.
+        To see that $R_p$ is a topological ring, if $(x_\alpha),(y_\alpha)$ have $x=\lim x_\alpha$ and $y=\lim y_\alpha$, then, for example,
+        \begin{align*}
+            \norm{xy-x_\alpha y_\alpha}_p&\leq\norm{xy-x_\alpha y}_p+\norm{x_\alpha y-x_\alpha y_\alpha}_p\\
+                                         &\leq\norm{x-x_\alpha}_p+\norm{y-y_\alpha}_p
+        \end{align*}
+        as $\norm{y}_p$, $\norm{x_\alpha}_p\leq 1$.
+    \end{proof}
+    We now view $\mathbb{O}_p$ as a closed subring of $R_p$.
+    Define $\alpha:\mathcal{O}_p\to R_p$ be given on $a=\sum_{k=0}^\infty a_kp^k$ by
+    \begin{equation*}
+        \alpha(a) = \left(\sum_{k=0}^n a_kp^k+p^{n+1}\Z\right)_{n=0}^\infty.
+    \end{equation*}
+    This map is an injection with range $\alpha(\mathcal{O}_p)=\{(x_n)_{n=0}^\infty\in R_p:x_n=\pi_n(x_{n+1})\text{ for all }n\}$ where $\pi_n:\quot{\Z}{p^{n+2}\Z}\to\quot{\Z}{p^{n+1}\Z}$ is the canonical quotient map.
+    In fact, this is called an inductive limit with respect to the maps $\pi_n$.
+    Hence it is routine to show that
+    \begin{itemize}[nl]
+        \item $\alpha(\mathbb{O}_p)$ is a subring of $R_p$, and
+        \item $\alpha(\mathbb{O}_p)$ is closed in $R_p$ (just check net limits in product topology)
+    \end{itemize}
+    If $a,b\in\mathbb{O}_p$, define $a+b=\alpha^{-1}(\alpha(a)+\alpha(b))$.
+    \begin{remark}
+        \begin{enumerate}[nl,r]
+            \item $1+\sum_{k=1}^\infty 0\cdot p^k$ is the multiplicative identity in $\mathbb{O}_p$.
+                Then $-1=\sum_{k=0}^\infty(p-1)p^k$.
+            \item If $n\in\N$, we can uniquely write $n=\sum_{k=0}^{m(n)} a_kp^k$ with $a_k\in\{0,\ldots,p-1\}$.
+                Then $n\cdot 1=\sum_{k=0}^{m(n)}a_kp^k\in\mathbb{O}_p$.
+                In particular, $n\mapsto n\cdot 1:\N\to\mathbb{O}_p$ is an additive semigroup homomorphism with dense ring.
+                Hence $n\mapsto n\cdot 1:\Z\to \mathbb{Q}_p$ has dense range.
+                We call $\mathbb{O}_p$ the \defn{$p-$adic integers}.
+        \end{enumerate}
+    \end{remark}
 \end{example}
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}
