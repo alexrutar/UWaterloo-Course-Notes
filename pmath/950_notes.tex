@@ -1,0 +1,549 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.13)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{braket}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{r}{label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+% Set hyperref
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\newcommand\myshade{85}
+\colorlet{mylinkcolor}{violet}
+\colorlet{mycitecolor}{orange!50!yellow}
+\colorlet{myurlcolor}{green!50!blue}
+
+\hypersetup{
+  linkcolor  = mylinkcolor!\myshade!black,
+  citecolor  = mycitecolor!\myshade!black,
+  urlcolor   = myurlcolor!\myshade!black,
+  colorlinks = true,
+}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Longrightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Longleftarrow$)\hspace{0.2cm}}}
+
+% align macros
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Big and small Disjoint union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{theorem}{#2Thm. #1#3}
+\Crefformat{lemma}{#2Lem. #1#3}
+\Crefformat{proposition}{#2Prop. #1#3}
+\Crefformat{corollary}{#2Cor. #1#3}
+\crefformat{theorem}{#2Theorem #1#3}
+\crefformat{lemma}{#2Lemma #1#3}
+\crefformat{proposition}{#2Proposition #1#3}
+\crefformat{corollary}{#2Corollary #1#3}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\newcommand{\defname}[1]{{\textit{(#1)}:}}
+\newcommand{\exname}[1]{{\textit{#1}:}}
+\newcommand{\defn}[1]{{\boldmath\bfseries #1}}
+% \usepackage{therefore}
+\newcommand{\TODO}[1]{[\textit{\textbf{TODO: #1}}]}
+\newcommand{\NOTE}[1]{[\textit{\textbf{NOTE: #1}}]}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Pol}{Pol}
+\newcommand{\bdim}{\ensuremath{\dim_B}}
+\newcommand{\ubdim}{\ensuremath{\overline{\dim}_B}}
+\newcommand{\lbdim}{\ensuremath{\underline{\dim}_B}}
+\newcommand{\cwx}{\ensuremath{\overline{\operatorname{conv}}^{w^*}\,}}
+\newcommand{\idc}{\mathbf{1}}
+\newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
+\newcommand{\cw}{\ensuremath{\overline{\operatorname{conv}}\,}}
+
+% Tons of notation:
+% \newcommand{\Lip}[1]{\ensuremath{\operatorname{Lip}_{\F}(#1)}}
+\newcommand{\Lipspace}{\ensuremath{\operatorname{Lip}_{\F}(X,d)}}
+
+
+\newcommand{\lp}[1]{\ensuremath{\ell^{#1}}}
+\newcommand{\csn}{\ensuremath{\mathbf{c}}}
+\newcommand{\csz}{\ensuremath{\mathbf{c}_0}}
+\newcommand{\lpspace}[1]{\ensuremath{\ell^{#1}_{\F}}}
+\newcommand{\Lp}[1]{\ensuremath{L^{#1}_{\F}}}
+% \newcommand{\Lpm}{\ensuremath{L^{#1}_{\F}(X,\mathcal{M},\mu)}}
+\DeclareMathOperator{\Lip}{Lip}
+\newcommand{\lbr}[1]{\ensuremath{\left[#1\right]}}
+\newcommand{\inr}[1]{\ensuremath{\left(#1\right)}}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Fractal Geometry}
+\newcommand{\semester}{Winter 2020}
+
+
+% formatting -------------------------------------------------------------------
+% Fonts
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Adjust numbering
+\numberwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+\maxtocdepth{subsection} % table of contents up to section
+
+% Section / Subsection headers
+\setsecnumdepth{subsection} % numbering up to and including "subsection"
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Chapter Headers
+\chapterstyle{verville}
+
+% Page Headers / Footers
+\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+\setfootins{0.5cm}{0.5cm}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Topics in Fractal Geometry}
+\section{Dimension Theory}
+\subsection{The Cantor Set}
+Define maps $f_i:\R\to\R$ for $i=1,2$ given by $f_1(x)=x/3$ and $f_2(x)=x/3+2/3$.
+Let $C_0=[0,1]$; given some $C_k$, define $C_{k+1}=f_1(C_k)\cup f_2(C_k)$; since the $f_i$ are linear, $C_k$ is compact.
+We thus define $C_{1/3}=\bigcap_{n=0}^\infty C_n$, the classical \defn{Cantor set}.
+
+If $x\in C_{1/3}$, then $x$ is an accumulation point: given $\epsilon>0$, get $N$ so that $3^{-N}<\epsilon$ then and thus some endpoint of $C_N$ disjoint from $x$ is within distance $\epsilon$ of $x$.
+Thus $C_{1/3}$ is a perfect set and therefore uncountable.
+Another way to see that the Cantor set is uncountable is to note that $C_{1/3}$ is homeomorphic to $\{0,1\}^{\N}$ with the product topology (via ternary expansions).
+Moreover, since $\lambda(C_{1/3})\leq\lambda(C_n)=\frac{2^n}{3^n}$ for any $n\in\N$ we see that $\lambda(C_{1/3})=0$.
+
+More generally, we may define $C_r$ where $r\in(0,1/2)$ by the above process with the functions $f_1(x)=rx$ and $f_2(x)=rx+1-r$.
+Again, $C_r\cong\{0,1\}^{\N}$ topologically and $\lambda(C_r)=0$; but already, we see that our classical analytic perspectives (topological, Lebesgue-measure-theoretic, cardinality) are insufficient to distinguish the $C_r$ for distinct $r$.
+\subsection{Box Dimensions}
+\begin{definition}
+    Let $E\subseteq\R^n$ be a bounded Borel set, and for each $\delta>0$, let $N_\delta(E)$ be the least number of closed balls of diameter $\delta$.
+    We then define the \defn{upper box dimension} of $E$
+    \begin{equation*}
+        \ubdim E=\limsup_{\delta\to 0}\frac{\log N_\delta(E)}{|\log\delta|}
+    \end{equation*}
+    and similarly $\lbdim E$ (the \defn{lower box dimension}) with a $\liminf$ in place of $\limsup$.
+    If $\lbdim E=\ubdim E$, then we define the \defn{box dimension} to be this shared quantity.
+\end{definition}
+If $I$ is any interval, it is easy to see that $\bdim I=1$.
+\TODO{include proof of invariance on choice of ball}
+Note that if $N_\delta(E)\sim\delta^{-s}$, then $\bdim E=S$.
+\begin{example}
+    Let's show that the box dimension of $C_{1/3}$ exists, and compute it.
+    Given some $\delta>0$, let $n$ be so that $3^{-n}\leq\delta<3^{-(n-1)}$.
+    Certainly we can cover $C_{1/3}$ by Cantor intervals of level $n$, so that $N_\delta(C_{1/3})\leq 2^n$.
+    Moreover, the endpoints of Cantor inverals of level $n-1$ are distance at least $3^{-(n-1)}>\delta$ apart.
+    Thus $N_\delta(C_{1/3})$ is at least the number of endpoints of level $n-1$, i.e. $N_\delta(C_{1/3})\geq 2^n$.
+    Thus $N_\delta(C_{1/3})=2^n$, so that
+    \begin{equation*}
+        \frac{\log 2}{\log 3}=\frac{\log 2^n}{\log 3^n}\leq\frac{\log N_\delta(C_{1/3})}{|\log\delta|}\leq\frac{\log 2^n}{\log 3^{n-1}}=\frac{n}{n-1}\cdot\frac{\log 2}{\log 3}
+    \end{equation*}
+    and, as $\delta\to 0$, $n\to\infty$ so that the $\dimb C_{1/3}=\frac{\log 2}{\log 3}$.
+
+    More generally, using the same technique, we may compute $\dimb C_r=\frac{\log 2}{\log 1/r}$.
+\end{example}
+However, the box dimension has poor properties: for example, we may verify $\bdim\{0,1,1/2,1/3,\ldots\}=\frac{1}{2}$.
+But this is very concerning from a measure theoretic perspective, since this is a countable set with larger ``dimension'' than some uncountable sets (e.g. $C_r$ for small $r$).
+\subsection{Constructing Measures in Metric Spaces}
+Let $X$ be a metric space.
+\begin{definition}
+    Given $A,B\subseteq X$, say $d(A,B)=\inf\{d(a,b):a\in A,b\in B\}$.
+    Say $A,B$ have \defn{positive separation} if $d(A,B)>0$.
+\end{definition}
+If $A,B$ are compact and disjoint, then they have positive separation.
+We say that an outer measure $\mu^*$ is a \defn{metric outer measure} if $\mu^*(A\cup B)=\mu^*(A)+\mu^*(B)$ when $A,B$ have positive separation.
+\begin{example}
+    The Lebesgue outer measure is a metric outer measure.
+    \TODO{prove}
+\end{example}
+\begin{theorem}
+    $\mu^*$ is a metric outer measure if and only if every Borel set is $\mu^*-$measurable (in the sense of Caratheodory).
+\end{theorem}
+\begin{proof}
+    \TODO{prove this (homework), and find a proof of the converse? (may not be true)}
+\end{proof}
+Suppose $\mathcal{A}\subseteq\mathcal{B}$ are both covers of $X$ containing $\emptyset$ and $\mathcal{C}:\mathcal{B}\to[0,\infty]$ with $\mathcal{C}(\emptyset)$.
+Let $\mu^*_{\mathcal{A}}$ and $\mu^*_{\mathcal{B}}$ be the corresponding extensions of $\mathcal{C}$ and $\mathcal{C}|_{\mathcal{A}}$.
+Then by definition, $\mu^*_{\mathcal{B}}(E)\leq\mu^*_{\mathcal{A}}(E)$ for all $E\in\ps(X)$.
+
+Let $X$ be a metric space, $\mathcal{A}$ cover $X$ containing $\emptyset$.
+Suppose for each $x\in X$ and $\delta>0$, there exists $A\in\mathcal{A}$ such that $x\in A$ and $\diam A\leq\delta$.
+Let $\mathcal{C}:\mathcal{A}\to[0,\infty]$ with $\mathcal{C}(\emptyset)=0$.
+Set $\mathcal{A}_\epsilon=\{A\in\mathcal{A}:\diam(A)\leq\epsilon\}$, and define $\mu^*_\epsilon$ by extending $\mathcal{C}|_{\mathcal{A}_\epsilon}$.
+In particular, as $\epsilon$ decreases, $\mu^*_\epsilon$ increases, and define
+\begin{equation*}
+    \mu^*(E)=\sup_\epsilon\mu_\epsilon^*(E)=\lim_{\epsilon\to 0}\mu_\epsilon^*(E)
+\end{equation*}
+\begin{theorem}\label{t:metout}
+    As defined above, $\mu^*$ is a metric outer measure.
+\end{theorem}
+\begin{proof}
+    \TODO{prove this, homework}
+\end{proof}
+\begin{example}
+    The Lebesgue measure arises this way; in fact, the $\mu_\epsilon^*$ are all the same outer measure.
+\end{example}
+\subsection{Hausdorff Measure and Dimension}
+For the remainder of this chapter, if $X$ is a metric space and $U\subseteq X$, we denote $|U|=\diam(U)$.
+\begin{definition}
+    A \defn{$\delta-$cover} of a set $F\subseteq X$ is any countable collection $\{U_n\}_{n=1}^\infty$ such that $\bigcup_{n=1}^\infty U_n\supseteq F$ and $|U_n|\leq\delta$.
+\end{definition}
+Let $\mathcal{A}=\ps(X)$, and $\mathcal{A}_\delta=\{A\subseteq X:|A|\leq\delta\}$.
+For $\delta\geq 0$, put $\mathcal{C}_s(A)=|A|^s$.
+Then for $s\geq 0$, $\delta>0$, and $E\subseteq $, we define
+\begin{align*}
+    H_\delta^s(E)&=\inf\left\{\sum_{n=1}^\infty|U_n|^s:\{U_n\}\text{ is a $\delta-$cover of }E\right\}\\
+                 &= \inf\left\{\sum_{n=1}^\infty\mathcal{C}_s(U_n):\bigcup_{n=1}^\infty U_n\supseteq E,U_n\in\mathcal{A}_\delta\right\}
+\end{align*}
+This is the outer measure as constructed in \cref{prop:def-outer} with covering family $A_\delta$ and function $\mathcal{C}_s$.
+In particular, as $\delta\to 0$, $H_\delta^s$ increases; in particular, by \cref{t:metout}, $H^s(E)=\sup_\delta H_\delta^s(E)$ is a metric outer measure.
+Then apply Caratheodory (\cref{thm:carat}) to get the $s-$dimensional Hausdorff measure, which is a complete Borel measure.
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item $H^0$ is the counting measure on any metric space.
+        \item Take $X=\R$ and $s=1$.
+            Then $H^1$ is the Lebesgue measure (on Borel sets).
+            To see this, we have
+            \begin{align*}
+                \lambda(E) &= \inf\left\{\sum_{n=1}^\infty |I_n|:\bigcup_{n=1}^\infty I_n\supseteq E, |I_n|\leq\delta\right\}\\
+                           &\geq H^1_\delta(E)
+            \end{align*}
+            for any $\delta>0$; and conversely, take any $\delta-$cover of $E$, say $\{U_n\}_{n=1}^\infty$ and set $I_n=\overline{\conv U_n}$ so $|I_n|=|U_n|\leq\delta$.
+            Thus $\sum_{n=1}^\infty|U_n|=\sum_{n=1}^\infty|I_n|\geq\lambda(E)$ for any such cover, so $\lambda(E)=H_\delta^1(E)$ for any $\delta>0$.
+            Thus $\lambda(E)=H^1(E)$ for any Borel set $E$.
+        \item More generally, if $X=\R^n$ and $s=n$, then $\lambda=\pi_n\cdot H^n$ where $\pi_n$ is the $n-$dimensional volume of the ball of diameter 1.
+            \TODO{this is annoying exercise}
+    \end{enumerate}
+\end{example}
+Suppose $s<t$.
+Then $H^s(E)\geq H^t(E)$.
+
+\chapter{Stochastic Calculus}
+\begin{definition}
+    Given a measure space $(\Omega,\mathcal{F},\pr)$, a measurable function $f:\Omega\to\R$ is called a \defn{random variable}.
+\end{definition}
+\begin{definition}
+    A \defn{stochastic process} $X=\{X_t\}_{t\in T}$ is a collection of random variables defined on some probability space $(\Omega,\mathcal{F},\pr)$.
+\end{definition}
+Typically $t\in\Z^+$ or $t\in\R^+$ (including 0); $t$ is a discrete or continuous time parameter.
+Given some $\omega\in\Omega$ the map $t\mapsto X_t(\omega)$ is called a \defn{realization} or \defn{path} of this process.
+We will regard $\{X_t\}_{t\geq 0}$ as a random element in some path space, equipped with a proper $\sigma-$algebra and probability.
+
+Consider $X_t(\omega)$ as a function $X:[0,\infty)\times\Omega\to \R$ equipped with the product $\sigma-$algebra.
+
+\begin{definition}
+    The \defn{distribution} of a stochastic process is the collection of all its finite-dimensional distributions.
+\end{definition}
+Two processes $X$ and $Y$ can be ``the same'' in different senses:
+\begin{definition}
+    Two process $X=\{X_t\}_{t\geq 0}$ and $Y=\{Y_t\}_{t\geq 0}$ are called \defn{distinguishable} if almost all their sample paths agree; in other words, $\pr(X_t=Y_t,0\leq t<\infty)=1$.
+    We say that $Y$ is a \defn{modification} of $X$ if for each $t\geq 0$ we have $\pr(X_t=Y_t)=1$.
+    Finally, $X$ and $Y$ are said to have the \defn{same distribution} if all the finite dimensional distributions agree.
+    In other words, if for all $n\in\N$ and $0\leq t_1<t_2<\cdots<t_n<\infty$, we have $(X_{t_1},\ldots,X_{t_n})\overset{d}{=}(Y_{t_1},\ldots,Y_{t_n})$.
+\end{definition}
+\begin{example}
+    Let $X$ be a continuous stochastic process and $N$ a Poisson point process on $[0,\infty)$.
+    Then define
+    \begin{equation*}
+        Y_t :=
+        \begin{cases}
+            X_t &: t\notin N\\
+            X_t+1 &:t\in N
+        \end{cases}
+    \end{equation*}
+    Thus $\pr(X_t=Y_t)=1$ for all $t$, so $X$ is a modification of $Y$.
+    However, $\pr(X_t=Y_t,t\geq 0)=0$, so that $X$ and $Y$ are not indistinguishable.
+\end{example}
+A filtration formalizes the idea of ``information acquired over time''.
+\begin{definition}
+    Let $(\Omega,\mathcal{F},\pr)$ be a probability space.
+    A \defn{filtration} is a non-decreasing family $\{\mathcal{F}_t\}_{t\geq 0}$ of sub-$\sigma$-algebras of $\mathcal{F}$ so that $\mathcal{F}_s\subseteq\mathcal{F}_t\subseteq\mathcal{F}$ for $0\leq s<t<\infty$.
+    We write $F_\infty=\sigma(\bigcup_{t\geq 0}\mathcal{F}_t)$.
+\end{definition}
+Let $\{X_t\}_{t\geq 0}$ be a stochastic process.
+The filtration generated by $\{X_t\}_{t\geq 0}$ is $\{\sigma(X_s:0\leq s\leq t)\}_{t\geq 0}$, in other words $\mathcal{F}_t$ is the smallest $\sigma-$algbra which makes $X_s$ measurable for all $s\in[0,t]$.
+\begin{definition}
+    A stochastic process $\{X_t\}_{t\geq 0}$ is called \defn{adapted} to a filtration $\{\mathcal{F}_t\}_{t\geq 0}$ if $X_t$ is $\mathcal{F}_t-$measurable for every $t\geq 0$.
+\end{definition}
+The filtration generated by $\{X_t\}_{t\geq 0}$ is the smallest filtration which makes $(X_t)_{t\geq 0}$ adapted.
+
+A filtration $\{\mathcal{F}_t\}_{t\geq 0}$ is said to satisfy the ``usual condition'' if
+\begin{enumerate}[nl]
+    \item It is right-continuous: $\lim_{s\to t^+}:=\bigcap_{s>t}\mathcal{F}_s=\mathcal{F}_t$
+    \item $\mathcal{F}_0$ contains all the $\pr-$null events in $\mathcal{F}$.
+\end{enumerate}
+\section{Martingale Theory}
+Consider a filtered space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in S})$ where $S=\N$ or $S=\R^+$.
+\begin{definition}
+    A \defn{random time} $T$ is called a stopping time if $\{T\leq t\}\in\mathcal{F}_t$ (``we know it happens when it happens'').
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Constants are trivial stopping times.
+        \item Last hit a constant before $N$ is not a stopping time
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    If $S,T$ are stopping times, $T\vee S$, $T\wedge S$, $T+S$ are stopping times.
+\end{proposition}
+\begin{proof}
+    That $T\wedge S$ and $T\vee S$ are stopping times are trivial.
+    For $T+S$, $\{T+S>t\}=\{T=0,S>t\}\cup\{0<T\leq t,T+S>t\}\cup\{T>t\}$.
+    It suffices to prove that
+    \begin{equation*}
+        \{0<T\leq t<T+S>t\}=\bigcup_{\substack{r\in\Q^+\\0<r<t}}\{r<T\leq t,S>t-r\}.
+    \end{equation*}
+    If there exists $r$ with $r<T\leq t$, then $S>t=r$ and $S+T>r+(t-r)=t$, so $\supseteq$ holds.
+    Conversely, if $0<T\leq t$ and $T+S\geq t$< then there exists $r\in\Q$ such that $r<T$ and $r+S>t$.
+    Hence $r<T\leq t$ and $S>t-r$.
+\end{proof}
+\begin{definition}
+    The $\sigma-$algebra generated by a stopping time $T$ is the collection of all the events $A$ for which $A\cap\{T\leq t\}\in\mathcal{F}_t$ for every $t\geq 0$.
+    This is the ``information you collect until the stopping time''.
+\end{definition}
+Exercise: show that the collection given in the definition above is actually a $\sigma-$algebra.
+
+We write $X_{T\wedge t}$ is a random variable evaluated at time $T\wedge t$ (or $T$); in other words, $(X_{T\wedge t})(\omega)=X_{T\wedge t}(\omega)$.
+Then $\{T_{T\wedge t}\}_{t\geq 0}$, or $X^T$, is a stochastic process stopped at time $t$.
+\end{document}

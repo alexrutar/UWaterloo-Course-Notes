@@ -1,0 +1,477 @@
+% header -----------------------------------------------------------------------
+% Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
+% version (1.13)
+
+
+% doctype ----------------------------------------------------------------------
+\documentclass[11pt, a4paper]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+% packages ---------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{braket}
+
+% Set enimitem
+\usepackage{enumitem}
+\SetEnumitemKey{nl}{nolistsep}
+\SetEnumitemKey{r}{label=(\roman*)}
+
+% Set tikz
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{intersections,positioning,cd}
+\usetikzlibrary{arrows,arrows.meta}
+\tikzcdset{arrow style=tikz,diagrams={>=stealth}}
+
+% Set hyperref
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\newcommand\myshade{85}
+\colorlet{mylinkcolor}{violet}
+\colorlet{mycitecolor}{orange!50!yellow}
+\colorlet{myurlcolor}{green!50!blue}
+
+\hypersetup{
+  linkcolor  = mylinkcolor!\myshade!black,
+  citecolor  = mycitecolor!\myshade!black,
+  urlcolor   = myurlcolor!\myshade!black,
+  colorlinks = true,
+}
+
+
+% macros -----------------------------------------------------------------------
+\DeclareMathOperator{\N}{{\mathbb{N}}}
+\DeclareMathOperator{\Q}{{\mathbb{Q}}}
+\DeclareMathOperator{\Z}{{\mathbb{Z}}}
+\DeclareMathOperator{\R}{{\mathbb{R}}}
+\DeclareMathOperator{\C}{{\mathbb{C}}}
+\DeclareMathOperator{\F}{{\mathbb{F}}}
+
+% Boldface includes math
+\newcommand{\mbf}[1]{{\boldmath\bfseries #1}}
+
+% proof implications
+\newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\impr}{{($\Longrightarrow$)\hspace{0.2cm}}}
+\newcommand{\impl}{{($\Longleftarrow$)\hspace{0.2cm}}}
+
+% align macros
+\newcommand{\agspace}{\ensuremath{\phantom{--}}}
+\newcommand{\agvdots}{\ensuremath{\hspace{0.16cm}\vdots}}
+
+% convenient brackets
+\newcommand{\brac}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}}
+
+% arrows
+\newcommand{\lto}[0]{\ensuremath{\longrightarrow}}
+\newcommand{\fto}[1]{\ensuremath{\xrightarrow{\scriptstyle{#1}}}}
+\newcommand{\hto}[0]{\ensuremath{\hookrightarrow}}
+\newcommand{\mapsfrom}[0]{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+ 
+% Divides, Not Divides
+\renewcommand{\div}{\bigm|}
+\newcommand{\ndiv}{%
+    \mathrel{\mkern.5mu % small adjustment
+        % superimpose \nmid to \big|
+        \ooalign{\hidewidth$\big|$\hidewidth\cr$/$\cr}%
+    }%
+}
+
+% Convenient overline
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}
+
+% Big \cdot
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% Big and small Disjoint union
+\makeatletter
+\providecommand*{\cupdot}{%
+  \mathbin{%
+    \mathpalette\@cupdot{}%
+  }%
+}
+\newcommand*{\@cupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\cup$\cr
+    \sbox0{$#1\cup$}%
+    \dimen@=\ht0 %
+    \sbox0{$\m@th#1\cdot$}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+
+\providecommand*{\bigcupdot}{%
+  \mathop{%
+    \vphantom{\bigcup}%
+    \mathpalette\@bigcupdot{}%
+  }%
+}
+\newcommand*{\@bigcupdot}[2]{%
+  \ooalign{%
+    $\m@th#1\bigcup$\cr
+    \sbox0{$#1\bigcup$}%
+    \dimen@=\ht0 %
+    \advance\dimen@ by -\dp0 %
+    \sbox0{\scalebox{2}{$\m@th#1\cdot$}}%
+    \advance\dimen@ by -\ht0 %
+    \dimen@=.5\dimen@
+    \hidewidth\raise\dimen@\box0\hidewidth
+  }%
+}
+\makeatother
+
+
+% macros (theorem) -------------------------------------------------------------
+\usepackage[thmmarks,amsmath,hyperref]{ntheorem}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% Numbered Statements
+\theoremstyle{change}
+\theoremindent\parindent
+\theorembodyfont{\itshape}
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{theorem}{Theorem.}[section]
+\newtheorem{lemma}[theorem]{Lemma.}
+\newtheorem{corollary}[theorem]{Corollary.}
+\newtheorem{proposition}[theorem]{Proposition.}
+
+% Claim environment
+\theoremstyle{plain}
+\theorempreskip{0.2cm}
+\theorempostskip{0.2cm}
+\theoremheaderfont{\scshape}
+\newtheorem{claim}{Claim}
+\renewcommand\theclaim{\Roman{claim}}
+\AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+
+% Un-numbered Statements
+\theorempreskip{0.1cm}
+\theorempostskip{0.1cm}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\theoremheaderfont{\bfseries\itshape}
+\newtheorem{definition}{Definition.}
+\theoremheaderfont{\itshape}
+\newtheorem{example}{Example.}
+\newtheorem{remark}{Remark.}
+
+% Proof / solution environments
+\theoremseparator{}
+\theoremheaderfont{\hspace*{\parindent}\scshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\theorempostskip{0.4cm}
+\newtheorem{proof}{Proof}
+\theoremsymbol{}
+\newtheorem{nmproof}{Proof}
+
+% Format references
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{theorem}{#2Thm. #1#3}
+\Crefformat{lemma}{#2Lem. #1#3}
+\Crefformat{proposition}{#2Prop. #1#3}
+\Crefformat{corollary}{#2Cor. #1#3}
+\crefformat{theorem}{#2Theorem #1#3}
+\crefformat{lemma}{#2Lemma #1#3}
+\crefformat{proposition}{#2Proposition #1#3}
+\crefformat{corollary}{#2Corollary #1#3}
+
+
+% macros (algebra) -------------------------------------------------------------
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Tor}{Tor}
+
+% Lagrange symbol
+\newcommand{\lgs}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+% Quotient (larger in display mode)
+\newcommand{\quot}[2]{\mathchoice{\left.\raisebox{0.14em}{$#1$}\middle/\raisebox{-0.14em}{$#2$}\right.}
+                                 {\left.\raisebox{0.08em}{$#1$}\middle/\raisebox{-0.08em}{$#2$}\right.}
+                                 {\left.\raisebox{0.03em}{$#1$}\middle/\raisebox{-0.03em}{$#2$}\right.}
+                                 {\left.\raisebox{0em}{$#1$}\middle/\raisebox{0em}{$#2$}\right.}}
+
+
+% macros (analysis) ------------------------------------------------------------
+\DeclareMathOperator{\M}{{\mathcal{M}}}
+\DeclareMathOperator{\B}{{\mathcal{B}}}
+\DeclareMathOperator{\ps}{{\mathcal{P}}}
+\DeclareMathOperator{\pr}{{\mathbb{P}}}
+\DeclareMathOperator{\E}{{\mathbb{E}}}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+
+\renewcommand{\Re}{\ensuremath{\operatorname{Re}}}
+\renewcommand{\Im}{\ensuremath{\operatorname{Im}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+
+% file-specific preamble -------------------------------------------------------
+\newcommand{\defname}[1]{{\textit{(#1)}:}}
+\newcommand{\exname}[1]{{\textit{#1}:}}
+\newcommand{\defn}[1]{{\boldmath\bfseries #1}}
+% \usepackage{therefore}
+\newcommand{\TODO}[1]{[\textit{\textbf{TODO: #1}}]}
+\newcommand{\NOTE}[1]{[\textit{\textbf{NOTE: #1}}]}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Pol}{Pol}
+\newcommand{\cwx}{\ensuremath{\overline{\operatorname{conv}}^{w^*}\,}}
+\newcommand{\idc}{\mathbf{1}}
+\newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
+\newcommand{\cw}{\ensuremath{\overline{\operatorname{conv}}\,}}
+
+% Tons of notation:
+% \newcommand{\Lip}[1]{\ensuremath{\operatorname{Lip}_{\F}(#1)}}
+\newcommand{\Lipspace}{\ensuremath{\operatorname{Lip}_{\F}(X,d)}}
+
+
+\newcommand{\lp}[1]{\ensuremath{\ell^{#1}}}
+\newcommand{\csn}{\ensuremath{\mathbf{c}}}
+\newcommand{\csz}{\ensuremath{\mathbf{c}_0}}
+\newcommand{\lpspace}[1]{\ensuremath{\ell^{#1}_{\F}}}
+\newcommand{\Lp}[1]{\ensuremath{L^{#1}_{\F}}}
+% \newcommand{\Lpm}{\ensuremath{L^{#1}_{\F}(X,\mathcal{M},\mu)}}
+\DeclareMathOperator{\Lip}{Lip}
+\newcommand{\lbr}[1]{\ensuremath{\left[#1\right]}}
+\newcommand{\inr}[1]{\ensuremath{\left(#1\right)}}
+
+
+% constants --------------------------------------------------------------------
+\newcommand{\subject}{Harmonic Analysis}
+\newcommand{\semester}{Winter 2020}
+
+
+% formatting -------------------------------------------------------------------
+% Fonts
+\usepackage{kpfonts}
+\usepackage{dsfont}
+
+% Adjust numbering
+\numberwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithout{section}{chapter}
+\counterwithin*{chapter}{part}
+
+% Footnote
+\setfootins{0.5cm}{0.5cm} % footer space above
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}} % footnote symbol
+
+% Table of Contents
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand*{\cftchaptername}{Chapter } % Place 'Chapter' before roman
+\setlength\cftchapternumwidth{4em} % Add space before chapter name
+\cftpagenumbersoff{chapter} % Turn off page numbers for chapter
+\maxtocdepth{subsection} % table of contents up to section
+
+% Section / Subsection headers
+\setsecnumdepth{subsection} % numbering up to and including "subsection"
+\newcommand*{\shortcenter}[1]{%
+    \sethangfrom{\noindent ##1}%
+    \Large\boldmath\scshape\bfseries
+    \centering
+\parbox{5in}{\centering #1}\par}
+\setsecheadstyle{\shortcenter}
+\setsubsecheadstyle{\large\scshape\boldmath\bfseries\raggedright}
+
+% Chapter Headers
+\chapterstyle{verville}
+
+% Page Headers / Footers
+\copypagestyle{myruled}{ruled} % Draw formatting from existing 'ruled' style
+\makeoddhead{myruled}{}{}{\scshape\subject}
+\makeevenfoot{myruled}{}{\thepage}{}
+\makeoddfoot{myruled}{}{\thepage}{}
+\pagestyle{myruled}
+\setfootins{0.5cm}{0.5cm}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Titlepage
+\title{\subject}
+\author{Alex Rutar\thanks{\itshape arutar@uwaterloo.ca}\\ University of Waterloo}
+\date{\semester\thanks{Last updated: \today}}
+
+\begin{document}
+\pagenumbering{gobble}
+\hypersetup{pageanchor=false}
+\maketitle
+\newpage
+\frontmatter
+\hypersetup{pageanchor=true}
+\tableofcontents*
+\newpage
+\mainmatter
+
+
+% main document ----------------------------------------------------------------
+\chapter{Harmonic Analysis}
+\section{Locally Compact Groups}
+\begin{definition}
+    Let $G$ be a group.
+    A topology $\tau$ on $G$ is a \defn{group topology} provided that
+    \begin{itemize}[nl]
+        \item $x\mapsto x^{-1}:G\to G$ is continuous, and
+        \item $(x,y)\mapsto xy:G\times G\to G$ is continuous.
+    \end{itemize}
+    We call $(G,\tau)$ a \defn{topological group} where we omit $\tau$ when it is clear from context.
+\end{definition}
+Equivalently, we may assert that $(x,y)\mapsto xy^{-1}$ is $\tau\times\tau-\tau-$continuous.
+Write $L_g(x)=gx$ and $R_g(x)=xg$ to denote the left and right multiplication maps; then it is easy to see that $L_g$ and $R_g$ are homeomorphisms.
+Similarly, $x\mapsto x^{-1}$ is a homeomorphism.
+\begin{definition}
+    We say that a subset $A\subset G$ is \defn{symmetric} if $A^{-1}=A$.
+\end{definition}
+We have the following basic properties:
+\begin{proposition}\label{p:tgrp}
+    Let $(G,\tau)$ be a topological group.
+    \begin{enumerate}[nl,r]
+        \item If $\emptyset\neq A\subseteq G$ and $U$ is open, then $AU=\{ay:a\in A,y\in U\}$ and likewise $UA$ are open.
+        \item Given $U\in\tau$ and $x\in U$, then there is a symmetric $V\in\tau$ with $e\in V$ such that $VxV\subseteq U$.
+            In particular, if $e\in U$, then we can find symmetric $V$ so that $V^2\subseteq U$.
+        \item If $H$ is a subgroup of $G$, then $\overline{H}$ is also a subgroup.
+        \item An open subgroup is automatically closed.
+        \item If $K,L\subseteq G$ are compact, then $KL$ is compact.
+        \item If $K$ is compact and $C$ is closed in $G$, then $KC$ is closed.
+    \end{enumerate}
+\end{proposition}
+In $(\R,+)$, then $\Z+\sqrt{2}\Z$ is not closed, so it is necessary to assume compactness in (vi).
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item $AU=\bigcup_{a\in A}L_a(U)$ is a union of open sets.
+        \item Consider the continuous map $(y,z)\mapsto yxz$.
+            Since $exe=x\in U$, there is a $\tau\times\tau-$neighbourhood of $(e,e)$ which maps into $U$ have a basic neighbourhood $V_1\times V_2$.
+            Let $V=V_1\cap V_2$.
+            Moreover, we may replace $V$ by $V^{-1}\cap V$. to attain symmetry.
+        \item Let $x,y\in\ol{H}$, $U\in\tau$ with $xy\in U$.
+            Then (ii) provides $V$ with $VxyV\subseteq U$.
+            But $Vx\cap H\neq\emptyset$ and $\neq yV\cap H$ so there are $_1\in Vx\cap H$, $h_2\in yV\cap H$, and $h_1h_2\in VxyV\subseteq U$.
+            Thus $U\cap H\neq\emptyset$.
+            Thus $xy\in\ol{H}$.
+
+            To use nets for inverses, if $x\in\ol{H}$, then $x=\lim_\alpha x_\alpha$ where $(x_\alpha)_{\alpha\in A}\subset H$ is a net.
+            Then $x^{-1}=\lim_\alpha x_\alpha^{-1}\in\ol{H}$ as each $x_\alpha^{-1}\in H$.
+        \item If $H$ is an open subgroup, then $H=G\setminus\bigcup_{x\in G\setminus H}xH$ is closed.
+        \item $K\times L$ is compact, and hence so is its image under multiplication.
+        \item If $x\in\ol{KC}$, then $x=\lim_\alpha k_\alpha x_\alpha$ where $k_\alpha\in H$ and $x_\alpha\in C$.
+            Since $K$ is compact, we may assume (passing to a subnet if necessary) $k=\lim_\alpha k_\alpha$ exists in $K$.
+            Then
+            \begin{equation*}
+                k^{-1}x=\lim_\alpha k_\alpha^{-1}\cdot\lim_\alpha k_\alpha x_\alpha=\lim_\alpha k_\alpha^{-1}k_\alpha x_\alpha=\lim x_\alpha\in C
+            \end{equation*}
+            so $x=kk^{-1}x\in KC$.
+    \end{enumerate}
+\end{proof}
+\subsection{Homogenous Spaces}
+Let $(G,\tau)$ be a topological group, $H$ a subgroup of $G$, and $\quot{G}{H}=\{xH;x\in G\}$.
+Let $\pi:G\to \quot{G}{H}$ be given by $\pi(x)=xH$ be the projection map.
+The \defn{quotient topology} on $\quot{G}{H}$ is $\tau_{\quot{G}{H}}=\{W\in \quot{G}{H}:\pi^{-1}(W)\in\tau\}$.
+Notice that if $U\in\tau\setminus\{\emptyset\}$, then $UH=\pi^{-1}(\pi(U))$ is open, so $\pi:G\to \quot{G}{H}$ is an open map.
+\begin{proposition}
+    Let $(G,\tau)$, $H$ be as above.
+    \begin{enumerate}[nl,r]
+        \item The map $(x,yH)\mapsto xyH:G\times\quot{G}{H}\to\quot{G}{H}$ is $\tau\times\tau_{\quot{G}{H}}-\tau_{\quot{G}{H}}$ continuous and open.
+        \item If $H$ is normal, then $(\quot{G}{H},\tau_{\quot{G}{H}})$ is a topological group.
+        \item If $H$ is closed, then $\tau_{\quot{G}{H}}$ is Hausdorff.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $x,y\in G$, $W\in\tau_{\quot{G}{H}}$ satisfy $xyH=\pi(xy)\in W$.
+            Then $xy\in\pi^{-1}(W)$ and by \cref{p:tgrp} we have $V\in\tau$ with $e\in V$ such that $VxyV\subseteq \pi^{-1}(W)$.
+            But then $(x,\pi(y))\in Vx\times\pi(yV)\in \tau\times\tau_{\quot{G}{H}}$ and the latter set maps into $\pi(VxyV)\subseteq W$.
+
+            Also, if $U\in\tau\times\tau_{\quot{G}{H}}$, then $U=\bigcup_{(x,yH)\in U}V_x\times W_{yH}$ and
+            \begin{equation*}
+                \pi(U)=\bigcup_{(x,yH)\in U}\pi(V_x\pi^{-1}(W_{yH}))
+            \end{equation*}
+            since $\pi$ is open.
+        \item Recall that $(xH)(yH)=xyH$ is our multiplication operation on $\quot{G}{H}$ and $\pi$ is a group homomorphism.
+            Then the following diagram commutes:
+        % \begin{tikzcd}
+            % M'\arrow[r,"f"]\arrow[rd,swap,"u"] & M\arrow[r,"g"]\arrow[d,"\alpha"] & M''\\
+            % & M'\oplus M'' \arrow[ru,swap,"u"]
+        % \end{tikzcd}
+            % \begin{center}
+                % \begin{tikzcd}
+                    % G\times\quot{G}{H}\arrow[rd,"(x,yH)\mapsto xyH"]\arrow[d,"\pi\times\id"]\\
+                    % \quot{G}{H}\times\quot{G}{H}\arrow[r,"(xH,yH)\mapsto xyH"] & \quot{G}{H}
+                % \end{tikzcd}
+            % \end{center}
+            We have that $\pi\times\id$ is open and $(x,yH)\mapsto xyH$ is open from (i), so the multiplication from $\quot{G}{H}\times\quot{G}{H}\to\quot{G}{H}$ must be open and continuous.
+        \item If $x,y\in G$ with $\pi(x)\neq\pi(y)$, then $e\notin xHy^{-1}$.
+            Now $xHy^{-1}=L_x(R_{y^{-1}}(H))$ so $xHy^{-1}$ is closed.
+            Hence by the last proposition, there is a symmetric open $V$ with $e\in V$ so $V^2\subseteq G\setminus(xHy^{-1})$.
+            But then $e\notin (VxH)(VyH)^{-1}=VxHy^{-1}V$: if we had $e=vxhy^{-1}u$ with $v,u\in V$ and $h\in H$, then $v^{-1}u^{-1}=xhy^{-1}\in V^2\cap(xHy^{-1})=\emptyset$, a contradiction.
+            Hence $VxH\cap VyH=\emptyset$ so $\pi(Vx)$, $\pi(Vy)$ is a pair of separating neighbourhoods of $\pi(x)$, $\pi(y)$.
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    $G$ is Hausdorff if and only if there exists $x\in G$ so that $\{x\}$ is closed.
+\end{corollary}
+\begin{proof}
+    In a Hausdorff space, points are closed.
+    Conversely, if $\{x\}$ is closed, $\{e\}=L_{x^{-1}}(\{x\})$ is closed and a normal subgroup.
+    Then $G\cong\quot{G}{\{e\}}$ is Hausdorff.
+\end{proof}
+If $(G,\tau)$ is not Hausdorff, then $\{e\}\subsetneq\overline\{e\}$ is the smallest closed subgrup in $G$.
+Thus $\overline{\{e\}}\subseteq\bigcap_{x\in G}x\overline{\{e\}}x^{-1}\subseteq\overline{\{x\}}$ so $\overline{\{e\}}$ is normal.
+In particular, $\quot{G}{\overline{\{e\}}}$ is Hausdorff.
+\begin{definition}
+    A \defn{locally compact group} is a Hausdorff topological group $(G,\tau)$ which is locally compact.
+\end{definition}
+\begin{enumerate}[nl,r]
+    \item If there is any $U\in\tau\setminus\{\emptyset\}$ such that $\overline{U}$ is compact, then for any $x\in U$, we have $e\in x^{-1}U\subseteq L_{x^{-1}}(\overline{U})$ so $\overline{x^{-1}U}$ is compact.
+        If $V\in\tau$ with $e\in V$ and $\overline{V}$ compact, then for any $x\in H$, $x\in xV$ and $\overline{xV}\subseteq L_x(\overline{V})$ and $\overline{xV}$ is compact.
+        In particular, $(G,\tau)$ is locally compact if and only if there is some $U\in\tau\setminus\{\emptyset\}$ with $\overline{U}$ compact.
+    \item If $(G,\tau)$ is locally cmpact and $N$ is a closed normal subgroup, then $(\quot{G}{N},\tau_{\quot{G}{N}})$ is locally compact.
+        Indeed, $U\in\tau\setminus\{e\}$ with $\overline{U}$ compact, then $\overline{\pi(U)}\subseteq\pi(\overline{U})$ is compact.
+\end{enumerate}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $G$ is any group and $\tau$ is the discrete topology, then $(G,\tau_d)$ is locally compact.
+        \item If $((\R,+),\tau_{\norm{\cdot}})$ is locally compact.
+        \item If $\{G_i\}_{i\in I}$ is a family of locally compact groups, then $\prod_{i\in I}G_i$ is a locally compact group if and only if all but finitely many $(G_i,\tau_i)$ are compact.
+        \item $((\R^n,+),\tau_{\norm{\cdot}})$ is a locally compact group
+        \item Suppose $\{F_i\}_{i\in I}$ is an infinite family of finite groups (with discrete topologies).
+            then $G=\prod_{i\in I}F_i$ is a compact group.
+    \end{enumerate}
+\end{example}
+\section{Abelian Locally Compact Groups}
+\section{Compact Groups}
+\section{Introduction to Amenability Theory}
+\end{document}

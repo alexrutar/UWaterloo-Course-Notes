@@ -265,13 +265,13 @@
 \newcommand{\Lp}[1]{\ensuremath{L^{#1}_{\F}}}
 % \newcommand{\Lpm}{\ensuremath{L^{#1}_{\F}(X,\mathcal{M},\mu)}}
 \DeclareMathOperator{\Lip}{Lip}
+\newcommand{\lbr}[1]{\ensuremath{\left[#1\right]}}
+\newcommand{\inr}[1]{\ensuremath{\left(#1\right)}}
 
 
 % constants --------------------------------------------------------------------
 \newcommand{\subject}{Functional Analysis}
 \newcommand{\semester}{Fall 2019}
-\newcommand{\lbr}[1]{\ensuremath{\left[#1\right]}}
-\newcommand{\inr}[1]{\ensuremath{\left(#1\right)}}
 
 
 % formatting -------------------------------------------------------------------
@@ -996,7 +996,7 @@ We have a number of standard inequalities on $\lp{p}-$spaces, the proofs of whic
         \item \textbf{Minkowski's Inequality:} If $x,y\in\lp{p}$, then $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$ with equality exactly when one of $x$ or $y$ is a non-negative scalar combination of the other.
     \end{itemize}
 \end{proposition}
-In particular, Minkowski's Inequality \TODO{cite certain labels by name? and also link - would be nice}
+In particular, Minkowski's Inequality \TODO{ref certain labels by name? and also link - would be nice}
 
 We will also encounter the sequence spaces
 \begin{align*}
@@ -1533,9 +1533,9 @@ For example, if $X$ is a normed space, then any open set is absorbing around any
 \end{definition}
 One can verify that $\conv(S)$ is in fact convex, and is the smallest convex set containing $S$, in other words that
 \begin{equation*}
-    \conv(S)=\bigcap_{\substack{S\subseteq C\subseteq X\\C\text{ convex}\right}}C
+    \conv(S)=\bigcap_{\substack{S\subseteq C\subseteq X\\C\text{ convex}}}C
 \end{equation*}
-If $X$ is normed, we let $\co(S)$ denote the \textbf{closed convex hull}, i.e. the closure of the convex hull.
+If $X$ is normed, we let $\overline{\conv}(S)$ denote the \textbf{closed convex hull}, i.e. the closure of the convex hull.
 \begin{definition}
     A \textbf{half-space} of $X$ is any set of the form $H=\{x\in X:\Re f(x)\leq \alpha\}$ for some $f\in X'$, $\alpha\in\R$.
 \end{definition}
@@ -1881,7 +1881,7 @@ Indeed, let $B$ be a basis for $X$, and $B'=B\cup B'$ is a basis for $Y$, and ta
     In particular, since $\ker f=Y$ is a closed proper subspace of $\spn(\{x\}\cup Y)$, by \cref{p:fker}, $f$ is bounded.
     Thus apply Hahn-Banach to get $F\in X^*$ with $\norm{F}=\norm{f}$.
 
-    Now, let $x_0\in D(X)$ be so that $|F(x_0)|>(1-\epsilon_\norm{F}$.
+    Now, let $x_0\in D(X)$ be so that $|F(x_0)|>(1-\epsilon)\norm{F}$.
     Since $Y\subseteq\ker F$, for $y\in Y$,
     \begin{equation*}
         \norm{F}\norm{x_0-y}\geq|F(x_0-y)|=|F(x_0)|>(1-\epsilon)\norm{F}
@@ -1979,7 +1979,7 @@ Here we have a key feature of the $w^*-$topology on a normed space, which follow
         \rho(f,f_0) &= \sum_{k=1}^n\frac{|f(x_k)-f_0(x_k)|}{2^k}+\sum_{k=n+1}^\infty\frac{|f(x_k)-f_0(x_k)|}{2^k}<\epsilon
     \end{align*}
     so that $V$ is contained in a metric neighbourhood of $f_0$.
-    Since $f_0$ is arbitrary, we have $\tau_\rho\subseteq w^*|_{B(X^*)}$, but since $B(X^*)$ is $w^*-$compac and $\tau_\rho$ is Hausdorff, these must be equal.
+    Since $f_0$ is arbitrary, we have $\tau_\rho\subseteq w^*|_{B(X^*)}$, but since $B(X^*)$ is $w^*-$compact and $\tau_\rho$ is Hausdorff, these must be equal.
 \end{proof}
 \begin{enumerate}[nl,r]
     \item Note that different separating families from $B(X)$ may produce different metrics, but always the same topology.
@@ -2409,59 +2409,63 @@ Let $PA(\N)=\{\mu\in\FA(\N):\norm{\mu}_{\text{var}}\leq 1,\mu(\N)=1\}$ so, as ab
     A form $\lbr{\cdot,\cdot}:X\to\F$ is called \textbf{Hermitian} if for $x,x',y$ in $X$, $\alpha\in\F$, we have
     \begin{enumerate}[nl,r]
         \item $\lbr{x+\alpha x',y}=\lbr{x,y}+\alpha\lbr{x',y}$
-        \item $\overline{\lbr{y,x}}=\lbr{x,y}$
+        \item $\overline{\lbr{y,x}}=\lbr{x,y}$,
     \end{enumerate}
-    and furthermore \textbf{positive} if
-    \begin{enumerate}[resume]
-        \item $\lbr{x,x}\geq 0$ for all $x\in X$
+    \textbf{positive} if in addition
+    \begin{enumerate}[nl,r]
+        \item[(iii)]$\lbr{x,x}\geq 0$ for all $x\in X$
     \end{enumerate}
     and \textbf{non-degenerate} if
-    \begin{enumerate}[resume]
-        \item $\lbr{x,y}=0$ for all $y\in X$ implies $x=0$.
+    \begin{enumerate}[nl,r]
+        \item[(iii')] $\lbr{x,y}=0$ for all $y\in X$ implies $x=0$.
     \end{enumerate}
 \end{definition}
+Note that positive Hermitian forms naturally induce a seminorm by $\rho(x)=\lbr{x,x}^{1/2}$.
+In particular, if this form is also non-degenerate, then $\rho$ is a norm.
+We summarize this result, along with some additional properties, in the following proposition:
 \begin{proposition}
-    Let $[\cdot,\cdot]$ be a positive Hermitian form.
-    Let $p(x)=\lbr{x,x}^{1/2}$, so $p:X\to[0,\infty)$.
+    Let $\lbr{\cdot,\cdot}$ be a positive Hermitian form and $\rho(x)=\lbr{x,x}^{1/2}\in[0,\infty)$.
     Then for $x,y\in X$ and $\alpha\in\F$, we have
     \begin{enumerate}[nl,r]
-        \item $p(\alpha x)=|\alpha|p(x)$
-        \item $\lbr{x,y}|\leq p(x)p(y)$
-        \item $p(x+y)\leq p(x)+p(y)$
+        \item $\rho(\alpha x)=|\alpha|\rho(x)$
+        \item $|\lbr{x,y}|\leq \rho(x)\rho(y)$
+        \item $\rho(x+y)\leq \rho(x)+\rho(y)$
         \item $\lbr{\cdot,\cdot}$ is non-degenerate if and only if $\lbr{x,x}>0$ for $x\in X\setminus\{0\}$.
     \end{enumerate}
-    Furthermore, in this case, we have
+    Furthermore, in the non-degenerate case,
     \begin{itemize}[nl]
-        \item Equality in (ii) if and only if $x,y$ are linearly dependent
-        \item $\lbr{x,y}=p(x)p(y)$ if and only if there is $s\geq 0$ such that $x=sy$ or $y=sx$ if and only if equality holds in $(iii)$.
+        \item Equality in (ii) occurs if and only if $x,y$ are linearly dependent
+        \item $\lbr{x,y}=\rho(x)\rho(y)$ if and only if there is $s\geq 0$ such that $x=sy$ or $y=sx$ if and only if equality holds in $(iii)$.
     \end{itemize}
 \end{proposition}
 \begin{proof}
     \begin{enumerate}[nl,r]
-        \item $p(\alpha x)=(\alpha\overline{\alpha}\lbr{x,x})^{1,2}=|\alpha|p(x)$
+        \item $\rho(\alpha x)=(\alpha\overline{\alpha}\lbr{x,x})^{1,2}=|\alpha|\rho(x)$
         \item If $\alpha\in F$, then
             \begin{align*}
                 0\leq \lbr{x-\alpha y,x-\alpha y}&=\lbr{x,x}-\overline{\alpha}\lbr{x,y}-\overline{\overline{\alpha}\lbr{x,y}}+|\alpha|^2\lbr{y,y}\\
-                                                 &= p(x)^2-2\Re\overline{\alpha}\lbr{x,y}+|\alpha|p(y)^2
+                                                 &= \rho(x)^2-2\Re\overline{\alpha}\lbr{x,y}+|\alpha|\rho(y)^2
             \end{align*}
             Set $\alpha=\sgn\lbr{x,y}$ so that $\overline{\alpha}\lbr{x,y}=|\lbr{x,y}|$ so
             \begin{equation*}
-                |\lbr{x,y}|\leq\frac{1}{2}\left(p(x)^2+p(y)^2\right)
+                |\lbr{x,y}|\leq\frac{1}{2}\left(\rho(x)^2+\rho(y)^2\right)
             \end{equation*}
             Then if $t>0$, by (i),
             \begin{equation*}
-                |\lbr{x,y}|=|\lbr{tx,\frac{1}{t}y}\leq\frac{1}{2}(t^2p(x)^2+\frac{1}{t^2}p(y)^2)
+                |\lbr{x,y}|=\left\lvert\lbr{tx,\frac{1}{t}y}\right\rvert\leq\frac{1}{2}(t^2p(x)^2+\frac{1}{t^2}p(y)^2).
             \end{equation*}
-            If $p(x)=0$, we let $t\to\infty$ so that $\lbr{x,y}=0$; if $p(y)=0$, we let $t\to 0^+$ and again that $\lbr{x,y}=0$.
-            If $\lbr{x,y}\neq 0$, set $t=p(y)/p(x)$ and we are done.
-        \item
+            If $\rho(x)=0$, we let $t\to\infty$ so that $\lbr{x,y}=0$; if $\rho(y)=0$, we let $t\to 0^+$ and again that $\lbr{x,y}=0$.
+            If $\lbr{x,y}\neq 0$, set $t=\rho(y)/\rho(x)$ and we are done.
+        \item By direct computation, we have
             \begin{align*}
                 p(x+y)^2&=\lbr{x+y,x+y}=p(x)^2+2\Re[x,y]+p(y)^2\\
                         &\leq p(x)^2+2|\lbr{x,y}|+p(y)^2\\
                         &\leq p(x)^2+2p(x)p(y)+p(y)^2=(p(x)+p(y))^2
             \end{align*}
-        \item We see, by (iii), if $p(x)^2=\lbr{x,x}=0$, then $\lbr{x,y}=0$ for all $y$.
+        \item By (ii), if $\rho(x)^2=\lbr{x,x}=0$, then $\lbr{x,y}=0$ for all $y$.
             Hence $\lbr{\cdot,\cdot}$ is non-degenerate if and only if $\lbr{x,x}>0$ for $x\in X\setminus\{0\}$.
+
+            \TODO{Flesh this out}
             If $x,y$ are linearly dependant, then equality holds in (ii) by direct computation.
             If $x,y$ are not linearly dependent, then the choice of $\alpha=\sgn\lbr{x,y}$ in (ii) gives strict inequality.
             The condition $\lbr{x,y}=p(x)p(y)$ requires non-negativity of $\lbr{x,y}$, showing one is a $R_{\geq 0}$ multiple of the other.
@@ -2588,7 +2592,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
     \end{enumerate}
 \end{remark}
 \begin{theorem}[Orthonormal Basis]
-\item let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space, $E\subset\mathcal{E}$ an orthonormal set.
+    Let $(\mathcal{E},\inr{\cdot,\cdot})$ be a Euclidean space, $E\subset\mathcal{E}$ an orthonormal set.
     Then the following are equivalent:
     \begin{enumerate}[nl,r]
         \item $\overline{\spn}E=\mathcal{E}$
@@ -2815,7 +2819,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
 \begin{proof}
     \begin{enumerate}[nl,r]
         \item We have $\mathcal{M}\subseteq\mathcal{M}^{\perp\perp}$ and $\mathcal{M}$ is complete and thus admis an orthogonal projection $P_{\mathcal{M}}H\to H$ with $\im P_{\mathcal{M}}=\mathcal{M}$ and $\im(I-P_{\mathcal{M}})=M^\perp$.
-            Now if $x\in\mathcal{M}^{\perp\perp}$, $P_{\mathcal{M}}x\in\mathcal{M}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^{\perp\per}+\mathcal{M}=\mathcal{M}^{\perp\perp}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^\perp$.
+            Now if $x\in\mathcal{M}^{\perp\perp}$, $P_{\mathcal{M}}x\in\mathcal{M}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^{\perp\perp}+\mathcal{M}=\mathcal{M}^{\perp\perp}$ so that $x-P_{\mathcal{M}}x\in\mathcal{M}^\perp$.
             Thus
             \begin{equation*}
                 x-P_{\mathcal{M}}x\in\mathcal{M}^{\perp\perp}\cap\mathcal{M}^\perp=\{0\}
@@ -2830,7 +2834,7 @@ Note that if $\F=\C$, $\inr{x,y}=\frac{1}{4}\sum_{k=0}^3 i^k\norm{x+i^ky}^2$ def
 \end{theorem}
 \begin{proof}
     If $f=0$, let $x_0=0$.
-    If $f\neq 0$, $\ker f\subsetneq H$ so $(\ker f)^{\perp\perp}=\ler f$, so $(\ker f)^\perp\neq\{0\}$.
+    If $f\neq 0$, $\ker f\subsetneq H$ so $(\ker f)^{\perp\perp}=\ker f$, so $(\ker f)^\perp\neq\{0\}$.
     If $x_1,x_2\in(\ker f)^\perp$, then $f(x_2)x_1-f(x_1)x_2\in(\ker f)^\perp\cap\ker f=\{0\}$, so that $\dim(\ker f)^\perp=1$ and $(\ker f)^\perp=\F x_1$.
     But then $f_{x_1}=\inr{\cdot,x_1}$ has $\ker f_{x_1}=(\F x_1)^\perp=(\ker f)^{\perp\perp}=\ker f$, so there is $\alpha\in\F$ so $f=\alpha f_{x_1}=f_{\overline{\alpha}x_1}$.
     Set $x_0=\overline{\alpha}x_1$.
@@ -2998,10 +3002,9 @@ Let $X$ be a $\C-$Banach space, and $\mathcal{B}(X)=\mathcal{B}(X,X)$.
     \begin{enumerate}[nl,r]
         \item If $X$ is finite dimensional, then $\sigma(T)=\sigma_p(T)$.
         \item Let $1\leq p<\infty$ and define $S:\ell_p\to\ell_p$ by $S(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$.
-            Notive that $S$ is linear and $\norm{Sx}_p=\norm{x}_p$, so $\norm{S}=1$.
-            Also, $\ker S=\{0\}$.
-            Suppose $\lambda\in\sigma_p$, so there is $x\in\ker(\lambda I-S)\setminus\{0\}$.
-            We let $k=\min\{n\in\N:x_n\neq 0\}$, we see $0=(S_x)_k=\lambda_{x_k}$, but $\ket S=\{0\}$, so $0\notin\sigma_p(T)$, but hence no $\lambda$ as above exists, so $\sigma_p(X)=\emptyset$.
+            Notice that $S$ is linear and $\norm{Sx}_p=\norm{x}_p$, so $\norm{S}=1$; as well, $\ker S=\{0\}$ so that $0\notin\sigma_p(S)$.
+            Suppose for contradiction $0\neq\lambda\in\sigma_p(S)$, so get some $0\neq x$ so that $Sx=\lambda x$.
+            Let $k$ be such that $x_k\neq 0$; but then $0=(S^kx)_k=\lambda^kx_k\neq 0$, a contradiction, so that $\sigma_p(S)=\emptyset$.
     \end{enumerate}
 \end{example}
 For any $T\in\mathcal{B}(X)$, is $\sigma(T)\neq\emptyset$?
@@ -3046,7 +3049,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     \begin{equation*}
         \norm{T^{-1}-S^{-1}}\leq\sum_{k=1}^\infty\norm{[S^{-1}(T-S)]^kS}\leq\sum_{k=1}^\infty\norm{S^{-1}}^k\norm{T-S}^k\norm{S^{-1}}=\frac{\norm{S^{-1}}^2\norm{T-S}}{1-\norm{S^{-1}}\norm{T-S}}
     \end{equation*}
-    so that $\lim_{T\so S}\norm{T^{-1}-S^{-1}}=0$.
+    so that $\lim_{T\to S}\norm{T^{-1}-S^{-1}}=0$.
 \end{proof}
 \begin{definition}
     Suppose $\mathcal{B}$ is a $\C-$Banach space, $U\subseteq\C$ and $F:U\to\mathcal{B}$.
@@ -3085,7 +3088,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
         \item If $|z|>\norm{T}$, then $\norm{\frac{1}{z}T}<1$ so $zI-T=z(I-\frac{1}{z}T)\in\mathcal{G}(X)$, so $\sigma(T)\subseteq\norm{T}\overline{\mathbb{D}}$.
             Furthermore, for $|z|>\norm{T}$, we have
             \begin{equation*}
-                R(z)=(zI-T)^{-1}=\fra{1}{z}(I-\frac{1}{z}T)^{-1}=\frac{1}{z}\sum_{k=0}^\infty\frac{1}{z^k}T^k
+                R(z)=(zI-T)^{-1}=\frac{1}{z}(I-\frac{1}{z}T)^{-1}=\frac{1}{z}\sum_{k=0}^\infty\frac{1}{z^k}T^k
             \end{equation*}
     \end{enumerate}
 \end{proof}
@@ -3150,7 +3153,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
 \begin{remark}
     \begin{enumerate}[nl,r]
         \item $\sigma_p(T)\subseteq\sigma_{ap}(T)$.
-        \item We have $[\ran(\lambda I-T)]^a=\ker(\lambda I-T^*)$ by kernel-annhilator so $\overline{\im}(\lambda I-T)=\ker(\lambda I-T^*)$ by annhilator-preannhilator, so that $\sigma_{com}(T)=\sigma_p(T^*)$.
+        \item We have $[\im(\lambda I-T)]^a=\ker(\lambda I-T^*)$ by kernel-annhilator so $\overline{\im}(\lambda I-T)=\ker(\lambda I-T^*)$ by annhilator-preannhilator, so that $\sigma_{com}(T)=\sigma_p(T^*)$.
     \end{enumerate}
 \end{remark}
 \begin{lemma}
@@ -3309,7 +3312,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
             Then for $x\in B(X)$, find $x_j$ so $K_{n_0}x\in K_{n_0}x_j+\frac{\epsilon}{3}B(X)$ and hence
             \begin{align*}
                 \norm{Kx-Kx_j}&\leq\norm{Kx-K_{n_0}x}+\norm{K_{n_0}x-K_{n_0}x_j}+\norm{K_{n_0}x_j-Kx_j}\\
-                              &\leq \norm{K-K_0}\norm{x}+\frac{\epsilon}{3}+\norm{K-K_{n_0}}\norm{x_j}<\epslion
+                              &\leq \norm{K-K_0}\norm{x}+\frac{\epsilon}{3}+\norm{K-K_{n_0}}\norm{x_j}<\epsilon
             \end{align*}
             and we see that $K(B(X))\subseteq\bigcup_{j=1}^m(Kx+\epsilon B(Y))$, and hence is totally bounded.
         \item We have
@@ -3447,7 +3450,7 @@ Note that $\mathcal{B}(X)$ is compelte, and if $S,T\in\mathcal{B}(X)$, then $\no
     \begin{equation*}
         \sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'\lambda_{j_0}x_{j_0}=\lambda_{j_0}x_{j_0}=Tx_{j_0}=\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'\lambda_j x_j
     \end{equation*}
-    so that $0\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'(\lambda_j-\lamdba_{j_0})x_j$, a contradiction.
+    so that $0\sum_{\substack{j=1\\j\neq j_0}}^n\alpha_j'(\lambda_j-\lambda_{j_0})x_j$, a contradiction.
 \end{remark}
 \begin{theorem}[Spectral Theorem for Compact Operators]
     Let $X$ be an infinite dimensional $\C-$Banach space and $K\in\mathcal{K}(X)$.
@@ -3510,7 +3513,7 @@ Note that $(\alpha T)^*=\overline{\alpha}T^*$ and $\inr{Tx,y}=f_y(Tx)=T^*f_y(x)=
 Certainly Hermitian operators are normal.
 \begin{proposition}
     \begin{enumerate}[nl,r]
-        \item If $T\in\mathcal{B}(\mathcal{H})$, there are unique Hermitian operators $\Re T$, $\Im T$, such that $T=\Re T+\i\Im T$.
+        \item If $T\in\mathcal{B}(\mathcal{H})$, there are unique Hermitian operators $\Re T$, $\Im T$, such that $T=\Re T+i\Im T$.
         \item $T$ is normal if and only if $(\Re T)(\Im T)=(\Im T)(\Re T)$.
     \end{enumerate}
 \end{proposition}
@@ -3539,8 +3542,8 @@ Certainly Hermitian operators are normal.
 \begin{proof}
     We have
     \begin{align*}
-        \norm{T}^2 &= \sup_{x\in\mathcal{B}(\mathcal{H})}\norm{Tx}^2 = \sup_{x\in\mathcal{B}(\mathcal{H})}\inr{Tx,Tx}\\
-                   &= \sup_{x\in\mathcal{B}(\mathcal{H})}\norm{T^*Tx,x} \leq\sup_{x\in\mathcal{B}(\mathcal{H})}\norm{T^*Tx}{\norm{x}}=\norm{T^*T}
+        \norm{T}^2 &= \sup_{x\in B(\mathcal{H})}\norm{Tx}^2 = \sup_{x\in B(\mathcal{H})}\inr{Tx,Tx}\\
+                   &= \sup_{x\in B(\mathcal{H})}\inr{T^*Tx,x} \leq\sup_{x\in B(\mathcal{H})}\norm{T^*Tx}=\norm{T^*T}
     \end{align*}
     while $\norm{T^*T}\leq\norm{T^*}\norm{T}=\norm{T}^2$.
 \end{proof}
@@ -3551,12 +3554,15 @@ Certainly Hermitian operators are normal.
     Suppose first that $H=H^*$ in $\mathcal{B}(\mathcal{H})$.
     The $C^*-$ identity gives $\norm{H^2}=\norm{H^*H}=\norm{H}^2$ and hence inductively for $k\in\N$ $\norm{H^{2k}}=\norm{H}^{2k}$ since $H^k$ is Hermitian for any $k$.
     Now since $N^*N=NN^*$, we see that $(N^*N)^n=(N^*)^nN^n$ for $n\in\N$.
-    Hence if $k\in\N$, we use the $C^*-$identity to see
+    Hence if $k\in\N$, we use the $C^*-$identity and the fact that $N^*N$ is Hermitian to get
     \begin{equation*}
-        \norm{N}^{2^{k+1}}=\norm{N^*N}^{2k}=\norm{(N^*N)^{2k}}=\norm{(N^{2^k})^*N^{2^k}}=\norm{N^{2^k}}^2
+        \norm{N}^{2^{k+1}}=\norm{N^*N}^{2^k}=\norm{(N^*N)^{2^k}}=\norm{(N^{2^k})^*N^{2^k}}=\norm{N^{2^k}}^2
     \end{equation*}
-    and hence $\norm{N}^{2^k}=\norm{N^{2^k}}$.
-    Now, by the spectral radius formula, $r(N)=\lim_{n\to\infty}\norm{N^n}^{1/n}=\lim_{k\to\infty}\norm{N^{2^k}}^{1/2^k}=\norm{N}$.
+    and hence inductively $\norm{N}^{2^k}=\norm{N^{2^k}}$.
+    Now, by the spectral radius formula,
+    \begin{equation*}
+        r(N)=\lim_{n\to\infty}\norm{N^n}^{1/n}=\lim_{k\to\infty}\norm{N^{2^k}}^{1/2^k}=\norm{N}.
+    \end{equation*}
 \end{proof}
 \begin{remark}
     If $T\in\mathcal{B}(X)$, then $\sigma(T)=\sigma_{ap}(T)\cup\sigma_{com}(T)$.
@@ -3570,13 +3576,13 @@ Certainly Hermitian operators are normal.
     If $H=H^*$ in $\mathcal{B}(\mathcal{H})$, then $\sigma(H)=\sigma_{ap}(H)\subseteq\R$.
 \end{proposition}
 \begin{proof}
-    If $\lambda\in\sigma_{ap}(H)$, then there is $(x_n)_{n=1}^\infty\subset S(\mathcal{H})$ such that $(\lambda I-H)x_n\to 9$.
+    If $\lambda\in\sigma_{ap}(H)$, then there is $(x_n)_{n=1}^\infty\subset S(\mathcal{H})$ such that $(\lambda I-H)x_n\to 0$.
     Then
     \begin{equation*}
         \lambda-\inr{Hx_n,x_n}=\lambda\inr{x_n,x_n}-\inr{Hx_n,x_n}=\inr{(\lambda I-H)x_n,x_n}\to 0
     \end{equation*}
-    and $\inr{Hx_n,x_n}=\overline{\inr{x_n,hx_n}}=\overline{\inr{Hx_n,x_n}}\in\R$ for each $n$, so $\lambda\in\R$.
-    Now, $\sigma_{com}(H)=\{\overline{\lambda}:\lambda\in\sigma_p(H^*)=\sigma_p(H)\}$, so as $\sigma_p(H)\subseteq\sigma_{ap}(H)\subseteq\R$, we see that $\sigma_{com}(H)\subseteq\sigma_p(H)\subseteq\sigma_{ap}(H)$ and use the remark above.
+    where $\inr{Hx_n,x_n}=\overline{\inr{x_n,hx_n}}=\overline{\inr{Hx_n,x_n}}\in\R$ for each $n$, so $\lambda\in\R$.
+    Now $\sigma_{com}(H)=\sigma_p(H^*)=\sigma_p(H)\subseteq\sigma_{ap}(H)$, so that $\sigma(H)=\sigma_{ap}(H)\cup\sigma_{\com}(H)=\sigma_{ap}(H)$ as required.
 \end{proof}
 \begin{remark}
     \begin{enumerate}[nl,r]
@@ -3587,14 +3593,14 @@ Certainly Hermitian operators are normal.
         \item If $T\in\mathcal{B}(\mathcal{H})$, then $\sigma(T^*T)\subseteq[0,\infty)$ as $T^*T$ is Hermitian, $\inr{T^*Tx,x}=\norm{Tx}^2\geq 0$.
     \end{enumerate}
 \end{remark}
-\begin{theorem}[Functional Calculus for Bounded Hermitian Operators]
+\begin{theorem}[Continuous Functional Calculus for Bounded Hermitian Operators]
     Let $H\in\mathcal{B}(\mathcal{H})$ be Hermitian.
     Then there is a unique bounded operator $\Phi:C(\sigma(H))\to\mathcal{B}(\mathcal{H})$ satisfying
     \begin{itemize}[nl]
         \item $\Phi(1)=I$, $\Phi(\iota)=H$, where $\iota$ is the identity function on $\sigma(H)$
         \item $\Phi(fg)=\Phi(f)\Phi(g)$ for $f,g$ in $C(\sigma(H))$.
     \end{itemize}
-    Furthermore, $\Phi$
+    Furthermore,
     \begin{itemize}[nl]
         \item $\Phi$ is an isometry
         \item $\Phi(f)T=T\Phi(f)$ for any $f\in C(\sigma(H))$, provided that $HT=TH$.
@@ -3602,25 +3608,30 @@ Certainly Hermitian operators are normal.
     \end{itemize}
 \end{theorem}
 \begin{proof}
-    Let $\Pol(\sigma(H))$ denote the polynomial functions restricted to $\sigma(H)$.
+    Let $\Pol(\sigma(H))$ denote the set of polynomial functions restricted to $\sigma(H)$.
     Then we have
     \begin{enumerate}[nl,r]
-        \item $\sigma(p(H))=p(\sigma(H))$
-        \item $\norm{p(H)}=r(p(H))$ as $p(H)$ is normal.
-        \item $\norm{fg}_\infty\norm{f}_\infty\norm{g}_\infty$
+        \item $\sigma(p(H))=p(\sigma(H))$ by the Spectral Mapping Theorem
+        \item $\norm{p(H)}=r(p(H))$ since $p(H)$ is normal.
     \end{enumerate}
-    We let $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ by $\Phi_0(p)=p(H)$.
+    Let $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ by $\Phi_0(p)=p(H)$.
     Then $\Phi_0$ is the unique linear operator such that $\Phi_0(1)=I$, $\Phi_0(\iota)=H$, and $\Phi_0(pq)=\Phi_0(p)\Phi_0(q)$ for $p,q\in\Pol(\sigma(H))$.
-    Moreover, (ii) shows that $\norm{p}_\infty=r(p(H))$ so that $r(p(H))=\norm{p(H)}$ so that $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ is an isometry.
-    Thus since $\sigma(H)$ is compact, by Stone-Weierstrass, $\overline{\Pol(\sigma(H))}^{\norm{\cdot}_\infty}=C(\sigma(H))$, where we are conjugacy closed since $\sigma(H)\subseteq\R$.
-    Hence $\Phi_0$ admits a unique extension $\Phi:C(\sigma(H))\to\mathcal{B}(\mathcal{H})$.
-    This is clearly isometric and satisfies the properties of $\Phi_0$.
+    Moreover, by (i) and (ii),
+    \begin{equation*}
+        \norm{p}_\infty=r(p(H))=\norm{p(H)}
+    \end{equation*}
+    and $\Phi_0:\Pol(\sigma(H))\to\mathcal{B}(\mathcal{H})$ is an isometry.
+
+    Now, since $\sigma(H)$ is compact and $\sigma(H)\subseteq\R$, $\sigma(H)$ is conjugacy closed so by Stone-Weierstrass $\overline{\Pol(\sigma(H))}=C(\sigma(H))$, so $\Phi_0$ admits a unique extension $\Phi:C(\sigma(H))\to\mathcal{B}(\mathcal{H})$.
+    \TODO{Explain exact statement of Stone-Weierstrass}
+    Certainly $\Phi$ is an isometry; let's verify the non-trivial required properties.
+
     If $f,g\in C(\sigma(H))$, say $f=\lim p_n$, $g=\lim q_n$, then $\norm{fg-p_nq_n}_\infty\to 0$, and hence
     \begin{equation*}
-        \norm{\Phi(fg)-\Phi(f)\Phi(g)}\leq\norm{\Phi(fg)-\Phi_0(p_nq_n)}+\norm{\Phi_0(p_n)\Phi_0(q_n)-\Phi(f)\Phi(g)}\to 0
+        \norm{\Phi(fg)-\Phi(f)\Phi(g)}\leq\norm{\Phi(fg)-\Phi_0(p_nq_n)}+\norm{\Phi_0(p_n)\Phi_0(q_n)-\Phi(f)\Phi(g)}
     \end{equation*}
-    so $\Phi(fg)=\Phi(f)\Phi(g)$.
-    The other properties follow similarly.
+    which converges to $0$, so $\Phi(fg)=\Phi(f)\Phi(g)$.
+    The remaining properties follow identically.
 \end{proof}
 \begin{theorem}[Spectral Theorem for Compact Hermitian Operators]
     Let $H=H^*$ in $\mathcal{K}(\mathcal{H})$ and enumerate $\sigma(H)\setminus\{0\}=\{\lambda_1,\lambda_2,\ldots\}\subseteq\R$.
@@ -3633,9 +3644,8 @@ Certainly Hermitian operators are normal.
     \end{itemize}
 \end{theorem}
 \begin{proof}
-    Since $\sigma(H)=\{\lambda_1,\lambda_2,\ldots\}\cup\{0\}$ with $\lim\lambda_n=0$.
-    Then for each $n$, let $\phi_n=\chi_{\{\lambda_n\}}$, and note that $\phi_n\in C(\sigma(H))$ and $\iota=\sum_{n=1}^\infty\lambda_n\phi_n$ where the infite sum converges uniformly.
-    Let $P_n=\phi_n(H)$, so that
+    We have $\sigma(H)=\{\lambda_1,\lambda_2,\ldots\}\cup\{0\}$ with $\lim_{n\to\infty}\lambda_n=0$, so for each $n\in\N$, we may define $\phi_n=\chi_{\{\lambda_n\}}\in C(\sigma(H))$ and $\iota=\sum_{n=1}^\infty\lambda_n\phi_n$, where the infinite sum converges uniformly.
+    By the continuous functional calculus, let $P_n=\phi_n(H)$, so that
     \begin{equation}\label{e:iot}
         H=\iota(H)=\sum_{n=1}^\infty\lambda_n\phi_n(H)=\sum_{n=1}^\infty \lambda_nP_n
     \end{equation}
@@ -3707,7 +3717,7 @@ Certainly Hermitian operators are normal.
         To see this, f $x,y\in\mathcal{H}$, then by polarization,
         \begin{align*}
             \inr{UP_nx,UP_my} &= \frac{1}{4}\sum_{k=0}^3 i^3\inr{U(P_nx+i^kP_my),U(P_nx+i^kP_my)}\\
-                              &= \frac{1}{4}\sum_{k=0}^3 i \norm{U(P_n+iP_my)}=\frac{1}{4}\sum_{k=0}^3\norm{P_n+iP_my}^\\
+                              &= \frac{1}{4}\sum_{k=0}^3 i \norm{U(P_n+iP_my)}=\frac{1}{4}\sum_{k=0}^3\norm{P_n+iP_my}\\
                               &= \inr{P_nx,P_my}=0
         \end{align*}
 \end{itemize}
