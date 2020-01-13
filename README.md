@@ -11,5 +11,8 @@ The newer PDFs have embedded hyperlinks (which don't work on GitHub), so you can
 - [**PMATH 451**](pmath/451_notes.pdf), Measure Theory: Winter 2019 -  Nico Spronk
 - [**PMATH 453**](pmath/453_notes.pdf), Functional Analysis: Fall 2019 - Nico Spronk
 - [**PMATH 445**](pmath/445_notes.pdf), Representation Theory: Fall 2019 - Blake Madill
-- [**PMATH 446**](pmath/446_notes.pdf), Commutative Algebra: Winter 2019 -  Rahim Moosa
-- [**CO 749**](co/749_notes.pdf), Topics in Graph Theory: Winter 2019 -  Carsten Thomassen
+- [**PMATH 446**](pmath/446_notes.pdf), Commutative Algebra: Winter 2019 - Rahim Moosa
+- [**PMATH 833**](pmath/446_notes.pdf), Harmonic Analysis: Winter 2020 - Nico Spronk
+- [**PMATH 950**](pmath/950_notes.pdf), Fractal Geometry: Winter 2020 - Kathryn Hare
+- [**CO 749**](co/749_notes.pdf), Topics in Graph Theory: Fall 2019 - Carsten Thomassen
+- [**STAT 902**](stat/902_notes.pdf), Martingales and Stochastic Calculus: Winter 2020 - Yi Shen
