@@ -344,48 +344,21 @@
 % main document ----------------------------------------------------------------
 \chapter{Topics in Fractal Geometry}
 \section{Dimension Theory}
-\subsection{The Cantor Set}
-Define maps $f_i:\R\to\R$ for $i=1,2$ given by $f_1(x)=x/3$ and $f_2(x)=x/3+2/3$.
-Let $C_0=[0,1]$; given some $C_k$, define $C_{k+1}=f_1(C_k)\cup f_2(C_k)$; since the $f_i$ are linear, $C_k$ is compact.
-We thus define $C_{1/3}=\bigcap_{n=0}^\infty C_n$, the classical \defn{Cantor set}.
+% \TODO{Move this somewhere else}
+% \subsection{Prelude: Cantor Sets and Box Dimensions}
+% Define maps $f_i:\R\to\R$ for $i=1,2$ given by $f_1(x)=x/3$ and $f_2(x)=x/3+2/3$.
+% Let $C_0=[0,1]$; given some $C_k$, define $C_{k+1}=f_1(C_k)\cup f_2(C_k)$; since the $f_i$ are linear, $C_k$ is compact.
+% We thus define $C_{1/3}=\bigcap_{n=0}^\infty C_n$, the classical \defn{Cantor set}.
 
-If $x\in C_{1/3}$, then $x$ is an accumulation point: given $\epsilon>0$, get $N$ so that $3^{-N}<\epsilon$ then and thus some endpoint of $C_N$ disjoint from $x$ is within distance $\epsilon$ of $x$.
-Thus $C_{1/3}$ is a perfect set and therefore uncountable.
-Another way to see that the Cantor set is uncountable is to note that $C_{1/3}$ is homeomorphic to $\{0,1\}^{\N}$ with the product topology (via ternary expansions).
-Moreover, since $\lambda(C_{1/3})\leq\lambda(C_n)=\frac{2^n}{3^n}$ for any $n\in\N$ we see that $\lambda(C_{1/3})=0$.
+% If $x\in C_{1/3}$, then $x$ is an accumulation point: given $\epsilon>0$, get $N$ so that $3^{-N}<\epsilon$ then and thus some endpoint of $C_N$ disjoint from $x$ is within distance $\epsilon$ of $x$.
+% Thus $C_{1/3}$ is a perfect set and therefore uncountable.
+% Another way to see that the Cantor set is uncountable is to note that $C_{1/3}$ is homeomorphic to $\{0,1\}^{\N}$ with the product topology (via ternary expansions).
+% Moreover, since $\lambda(C_{1/3})\leq\lambda(C_n)=\frac{2^n}{3^n}$ for any $n\in\N$ we see that $\lambda(C_{1/3})=0$.
 
-More generally, we may define $C_r$ where $r\in(0,1/2)$ by the above process with the functions $f_1(x)=rx$ and $f_2(x)=rx+1-r$.
-Again, $C_r\cong\{0,1\}^{\N}$ topologically and $\lambda(C_r)=0$; but already, we see that our classical analytic perspectives (topological, Lebesgue-measure-theoretic, cardinality) are insufficient to distinguish the $C_r$ for distinct $r$.
-\subsection{Box Dimensions}
-\begin{definition}
-    Let $E\subseteq\R^n$ be a bounded Borel set, and for each $\delta>0$, let $N_\delta(E)$ be the least number of closed balls of diameter $\delta$.
-    We then define the \defn{upper box dimension} of $E$
-    \begin{equation*}
-        \ubdim E=\limsup_{\delta\to 0}\frac{\log N_\delta(E)}{|\log\delta|}
-    \end{equation*}
-    and similarly $\lbdim E$ (the \defn{lower box dimension}) with a $\liminf$ in place of $\limsup$.
-    If $\lbdim E=\ubdim E$, then we define the \defn{box dimension} to be this shared quantity.
-\end{definition}
-If $I$ is any interval, it is easy to see that $\bdim I=1$.
-\TODO{include proof of invariance on choice of ball}
-Note that if $N_\delta(E)\sim\delta^{-s}$, then $\bdim E=S$.
-\begin{example}
-    Let's show that the box dimension of $C_{1/3}$ exists, and compute it.
-    Given some $\delta>0$, let $n$ be so that $3^{-n}\leq\delta<3^{-(n-1)}$.
-    Certainly we can cover $C_{1/3}$ by Cantor intervals of level $n$, so that $N_\delta(C_{1/3})\leq 2^n$.
-    Moreover, the endpoints of Cantor inverals of level $n-1$ are distance at least $3^{-(n-1)}>\delta$ apart.
-    Thus $N_\delta(C_{1/3})$ is at least the number of endpoints of level $n-1$, i.e. $N_\delta(C_{1/3})\geq 2^n$.
-    Thus $N_\delta(C_{1/3})=2^n$, so that
-    \begin{equation*}
-        \frac{\log 2}{\log 3}=\frac{\log 2^n}{\log 3^n}\leq\frac{\log N_\delta(C_{1/3})}{|\log\delta|}\leq\frac{\log 2^n}{\log 3^{n-1}}=\frac{n}{n-1}\cdot\frac{\log 2}{\log 3}
-    \end{equation*}
-    and, as $\delta\to 0$, $n\to\infty$ so that the $\dimb C_{1/3}=\frac{\log 2}{\log 3}$.
-
-    More generally, using the same technique, we may compute $\dimb C_r=\frac{\log 2}{\log 1/r}$.
-\end{example}
-However, the box dimension has poor properties: for example, we may verify $\bdim\{0,1,1/2,1/3,\ldots\}=\frac{1}{2}$.
-But this is very concerning from a measure theoretic perspective, since this is a countable set with larger ``dimension'' than some uncountable sets (e.g. $C_r$ for small $r$).
+% More generally, we may define $C_r$ where $r\in(0,1/2)$ by the above process with the functions $f_1(x)=rx$ and $f_2(x)=rx+1-r$.
+% Again, $C_r\cong\{0,1\}^{\N}$ topologically and $\lambda(C_r)=0$; but already, we see that our classical analytic perspectives (topological, Lebesgue-measure-theoretic, cardinality) are insufficient to distinguish the $C_r$ for distinct $r$.
 \subsection{Constructing Measures in Metric Spaces}
+\TODO{fill in proofs and transfer to measure section}
 Let $X$ be a metric space.
 \begin{definition}
     Given $A,B\subseteq X$, say $d(A,B)=\inf\{d(a,b):a\in A,b\in B\}$.
@@ -453,10 +426,201 @@ Then apply Caratheodory (\cref{thm:carat}) to get the $s-$dimensional Hausdorff 
             Thus $\sum_{n=1}^\infty|U_n|=\sum_{n=1}^\infty|I_n|\geq\lambda(E)$ for any such cover, so $\lambda(E)=H_\delta^1(E)$ for any $\delta>0$.
             Thus $\lambda(E)=H^1(E)$ for any Borel set $E$.
         \item More generally, if $X=\R^n$ and $s=n$, then $\lambda=\pi_n\cdot H^n$ where $\pi_n$ is the $n-$dimensional volume of the ball of diameter 1.
-            \TODO{this is annoying exercise}
+
+            We will verify that $H^n\leq m$ where $m$ is $n-$dimensional Lebesgue measure on $\R^n$; the general result is harder and left as an exercise.
+            To see this, we have
+            \begin{align*}
+                m(E)&=\inf\left\{\sum_{i=1}^\infty\vol(C_i):C_i\text{ cube},\bigcup_{i=1}^\infty C_i\supseteq E,\text{sides }\leq\frac{1}{\sqrt{n}}\delta\right\}\\
+                    &=\inf\left\{\sum_{i=1}^\infty\left(\frac{1}{\sqrt{n}}\right)^n|C_i|^n:\{C_i\}-\delta\text{-cover of cubes of }E\right\}\\
+                    &\geq c_n\inf\left\{\sum_{i=1}^\infty|c_i|^n:\text{all $\delta-$covers of }E=c_nH_\delta^n(E)\right\}
+            \end{align*}
+            where $c_n=(1/\sqrt{n})^n\leq 1$.
+        \item If $s<t$, then $H^s(E)\geq H^t(E)$.
     \end{enumerate}
 \end{example}
 Suppose $s<t$.
-Then $H^s(E)\geq H^t(E)$.
+Clearly $H^s(E)\geq H^t(E)$, but we can in fact make stronger statements.
+Suppose we have some $U_i$ where $|U_i|\leq\delta$, and
+\begin{equation*}
+    \sum_{i=1}^\infty|U_i|^t=\sum_{i=1}^\infty|U_i|^s|U_i|^{t-s}\leq\delta^{t-s}\sum_{i=1}^\infty|U_i|^s
+\end{equation*}
+so that
+\begin{equation*}
+    H_\delta^t(E)\leq\delta^{t-s}\inf\left\{\sum_{i=1}^\infty|U_i|^s:\{U_i\}_{i=1}^\infty\text{ $\delta-$cover of }E\right\}=\delta^{t-s}H_\delta^s(E).
+\end{equation*}
+In particular, as $\delta\to 0$, $H_\delta^t(E)\to H^t(E)$ and $H_\delta^s(E)\to H^s(E)$ and $\delta^{t-s}\to 0$ since $s<t$.
+Thus if $H^s(E)\neq\infty$, then $H^t(E)=0$ for all $t>s$.
+Similarly, if $H^t(E)>0$, then $H^s(E)=\infty$ for all $s<t$.
+As a result, there exists some unique number $S_0:=\dim_H(E)\geq 0$ such that for all $s<S_0$, $H^s(E)=\infty$, and for all $t>S_0$, $H^t(E)=0$.
+We call this value the \defn{Hausdorff dimension} of $E$.
+Note that $H^{S_0}(E)\in[0,\infty]$ and all choices are possible.
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Since $1=m([0,1])=H^1([0,1])$, $\dim_H[0,1]=1$
+        \item $\dim_H\R=1$ but $m(\R)=H^1(\R)=\infty$.
+        \item It is possible to have $S_0=1$ but $m(E)=0$.
+        \item There is a Cantor-like set with Hausdorff-dimension 0.
+        \item If $E$ is countable and $s>0$, $H^s_\delta(E)\leq\sum_{x\in E}|\{x\}|^s=0$.
+            In particular, there exist compact countable sets, and in this case, $\dim_H C=0$ while $H^0(C)=\infty$.
+    \end{enumerate}
+\end{example}
+Here are some basic properties of Hausdorff dimension.
+\begin{proposition}[Properties of Hausdorff Dimension]
+    \begin{enumerate}[nl,r]
+        \item If $A\subseteq B$, then $\dim_HA\leq\dim_HB$.
+        \item If $F\subseteq\R^n$, then $\dim_H F\leq n$.
+        \item If $U\subset\R^n$ is open, then $\dim_H U=n$.
+        \item If $F=\bigcup_{i=1}^\infty F_i$, then $\dim_H(F)=\sup_{i\in\N}\dim_H F_i$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $H^s(B)=0$, then $H^s(A)=0$ by monotonicity of measures so $\dim_H A\leq\dim_H B$.
+        \item First consider the unit cube $I^n\subset\R^n$.
+            Then
+            \begin{equation*}
+                H^s_{\sqrt{n}\delta}(I^n)\leq\left(\frac{2}{\delta}\right)^n(\sqrt{n}\delta)^s=2^n\sqrt{n}^n\delta^{s-n}
+            \end{equation*}
+            so if $s>n$, then $\delta^{s-n}\to 0$ as $\delta\to 0$.
+            Thus for all $s>n$, $H^s(I^n)=\lim_{\delta\to 0}H^s_{\sqrt{n}\delta}(I^n)=0$ so that $\dim_H(I^n)\leq n$.
+            Moreover, $\R^n$ is the countable union of unit cubes, so that $H^s(\R^n)=0$ and $\dim_H(\R^n)\leq n$.
+            Then appeal to (i).
+        \item Cubes have positive Hausdorff $n-$measure.
+        \item If $s>\sup\{\dim_H F_i\}$, then $H^s(F_i)=0$ for all $i$ and by subadditivity $H^s(F)=0$.
+            Thus $s\geq\dim_H F$.
+            By monotonicity, $\dim_H F\geq\dim_H F_j$ for all $j$.
+    \end{enumerate}
+\end{proof}
+Suppose $X=\R^n$, $E\subseteq\R^n$, $\lambda>0$.
+Set $\lambda E=\{\lambda e:e\in E\}$: then $H^s(\lambda E)=\lambda^s H^s(E)$ since there is a bijection between $\delta-$covers and $\lambda\delta-$covers.
 
+\begin{definition}
+    Let $X,Y$ be metric spaces.
+    A function $f:X\to Y$ is called \defn{Lipschitz} if there exists $C$ such that $d(f(x),f(y))\leq Cd(x,y)$.
+\end{definition}
+Certainly if $f$ is Lipschitz, then $f$ is uniformly continuous.
+Functions $f:\R\to\R$ with bounded derivative are Lipschitz by the mean value theorem.
+\begin{definition}
+    A function $f:X\to Y$ is \defn{Hölder continuous} with exponent $\alpha$ if there exists $c$ such that $d(f(x),f(y))\leq c d(x,y)^\alpha$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item If $\alpha=1$, then $f$ is Lipschitz, and if $\alpha=0$, then $f$ is bounded.
+        \item If $f:\R^n\to\R^n$ and $\alpha>0$, then $f$ is constant (by considering derivatives).
+            Thus the most interesting cases occur for $0<\alpha\leq 1$.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    If $f:X\to Y$ is Hölder continuous with exponent $\alpha$.
+    Then $H^{s/\alpha}(f(E))\leq cH^s(E)$ for some constant $c$.
+\end{proposition}
+\begin{proof}
+    If $\{U_i\}$ are a $\delta$-cover of $E$, then $\{f(U_i)\}$ cover $f(E)$.
+    Then $\diam f(U_i)=\sup\{d(f(x),f(y)):x,y\in U_i\}\leq c\sup\{d(x,y)^\alpha:x,y\in U_i\}=C\cdot(\diam U_i)^\alpha$.
+    Thus if $\{U_i\}$ is a $\delta-$cover of $E$, then $\{f(U_i)\}$ is a $c\delta^\alpha-$cover of $f(E)$.
+    Passing through the definition, we get $H^{s/\alpha}\leq c^{s/\alpha}H^s(E)$.
+\end{proof}
+We then have the easy corollaries
+\begin{corollary}
+    $\dim_H f(X)\leq\frac{1}{\alpha}\dim_H X$.
+\end{corollary}
+\begin{corollary}
+    If $f$ is an isometry, then $H^s(f(X))=H^s(X)$.
+\end{corollary}
+\begin{corollary}
+    If $f:X\to Y$ are bi-Lipschitz, then $\dim_H X=\dim_H Y$.
+\end{corollary}
+\begin{example}
+    Let $C$ denote the Cantor set.
+    Let's show that $\frac{1}{2}\leq H^s(C)\leq 1$ for $s=\frac{\log 2}{\log 3}$.
+    In particular, this implies that $\dim_H C=\frac{\log 2}{\log 3}$.
+
+    Let $\delta=3^{-n}$ and cover $C$ with a $\delta-$covering with generation $n$ Cantor intervals.
+    Then $H_\delta^s(C)\leq \sum_{I\in C_n}|I|^s=2^n3^{-ns}=1$ by choice of $s$.
+    Thus $\lim_{\delta\to 0}H_\delta^s(C)=\lim_{n\to\infty}H^s_{3^{-n}}(C)\leq 1$.
+
+    For the lower bound, take any $\delta-$cover $\{U_i\}$ of $C$.
+    Without loss of generality, we may assume that the $U_i$ are open intervals.
+    Since $C$ is compact, get some finite subcover $U_1,\ldots,U_N$.
+    For each $i$, get $k_i\in\N$ so that $3^{-(k_i+1)}\leq|U_i|<3^{-k_i}$; set $k=\max\{k_1,\ldots,k_N\}$.
+    Since $U_i$ intersects at most $1$ interval in $C_{k_i}$, $U_i$ intersects at most $2^{k-k_i}$ intervals of $C_k$.
+    Thus $2^k\leq\sum_{i=1}^N 2^{k-k_i}$ where $2^{k-k_i}=2^k3^{-sk_i}=2^k3^{-s(k_i+1)}\leq 2^k|U_i|^s3^s$.
+    Thus
+    \begin{equation*}
+        2^k\leq\sum_{i=1}^N2^k|U_i|^s3^s
+    \end{equation*}
+    so $\frac{1}{2}=3^{-s}\leq \sum_{i=1}^N|U_i|^s\leq \sum_{i=1}^\infty|U_i|^s$ so $H^s_\delta(C)\geq\frac{1}{2}$ so $H^s(C)\geq\frac{1}{2}$.
+\end{example}
+\begin{proposition}
+    Let $(X,d)$ be a metric space.
+    If $\dim_H X<1$, then $X$ is totally disconnected.
+\end{proposition}
+\begin{proof}
+    Let $x\in X$ and define $f:X\to[0,\infty)$ by $f(z)=d(z,x)$.
+    Then $f$ is Lipschitz with constant 1 so $\dim_Hf(X)\leq\dim_H X<1$ so $m(f(X))=0$.
+    Then if $y\neq x$, $d(y,x)=f(y)>0$ while $f(x)=0$.
+    In particular, $(0,f(y))\not\subset f(X)$ so there exists $0<r<f(y)$ such that $r\notin f(X)$.
+    Then $U_1=\{z\in X:f(z)<r\}$ and $U_2=\{z\in X:f(z)>r\}$ are disconnecting sets for $X$ separating $x$ and $y$.
+
+\end{proof}
+\subsection{Box Dimensions}
+\begin{definition}
+    Let $E\subseteq\R^n$ be a bounded Borel set, and for each $\delta>0$, let $N_\delta(E)$ be the least number of closed balls of diameter $\delta$.
+    We then define the \defn{upper box dimension} of $E$
+    \begin{equation*}
+        \ubdim E=\limsup_{\delta\to 0}\frac{\log N_\delta(E)}{|\log\delta|}
+    \end{equation*}
+    and similarly $\lbdim E$ (the \defn{lower box dimension}) with a $\liminf$ in place of $\limsup$.
+    If $\lbdim E=\ubdim E$, then we define the \defn{box dimension} to be this shared quantity.
+\end{definition}
+If $I$ is any interval, it is easy to see that $\bdim I=1$.
+Note that if $N_\delta(E)\sim\delta^{-s}$, then $\bdim E=S$.
+\begin{example}
+    Let's show that the box dimension of $C_{1/3}$ exists, and compute it.
+    Given some $\delta>0$, let $n$ be so that $3^{-n}\leq\delta<3^{-(n-1)}$.
+    Certainly we can cover $C_{1/3}$ by Cantor intervals of level $n$, so that $N_\delta(C_{1/3})\leq 2^n$.
+    Moreover, the endpoints of Cantor inverals of level $n-1$ are distance at least $3^{-(n-1)}>\delta$ apart.
+    Thus $N_\delta(C_{1/3})$ is at least the number of endpoints of level $n-1$, i.e. $N_\delta(C_{1/3})\geq 2^n$.
+    Thus $N_\delta(C_{1/3})=2^n$, so that
+    \begin{equation*}
+        \frac{\log 2}{\log 3}=\frac{\log 2^n}{\log 3^n}\leq\frac{\log N_\delta(C_{1/3})}{|\log\delta|}\leq\frac{\log 2^n}{\log 3^{n-1}}=\frac{n}{n-1}\cdot\frac{\log 2}{\log 3}
+    \end{equation*}
+    and, as $\delta\to 0$, $n\to\infty$ so that the $\dimb C_{1/3}=\frac{\log 2}{\log 3}$.
+
+    More generally, using the same technique, we may compute $\dimb C_r=\frac{\log 2}{\log 1/r}$.
+\end{example}
+However, the box dimension has poor properties: for example, we may verify $\bdim\{0,1,1/2,1/3,\ldots\}=\frac{1}{2}$.
+But this is very concerning from a measure theoretic perspective, since this is a countable set with larger ``dimension'' than some uncountable sets (e.g. $C_r$ for small $r$).
+\begin{theorem}
+    The value of the various box dimensions are equal for all following definitions of $N_\delta(E)$:
+    \begin{enumerate}[nl]
+        \item least number of open balls of radius $\delta$ that cover $E$
+        \item least number of cubes of side length $\delta$
+        \item the number of $\delta-$mesh cubes that intersect $E$: $[m_1\delta,(m_1+1)\delta]\times\cdots\times[m_n\delta,(m_n+1)\delta]$ for $(m_1,\ldots,m_n)\in\Z^n$.
+        \item the largest number of disjoint closed balls of radius $\delta$ with centers in $E$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Throughout, from the logarithms in the definition, it suffices to bound $N_\delta^{(i)}(E)$ with respect to $N_\delta(E)$ up to some constant factor either with respect to $\delta$ or with respect to $N_\delta$.
+    \begin{enumerate}[nl]
+        \item Exercise.
+        \item Exercise.
+        \item In general, the diameter of a $\delta-$cube in $\R^n$ is $\sqrt{n}\delta$.
+            Let $N_\delta^{(3)}(E)$ denote the number of $\delta-$mesh cubes intersecting $E$.
+            Then the cubes which intersect $E$ cover $E$ and these have diameter $\sqrt{n}\delta$, so $N_{\sqrt{n}\delta}(E)\leq N_\delta^{(3)}(E)$.
+
+            Conversely, any set with diameter at most $\delta$ is contained in at most $3^n$ $\delta-$mesh cubes.
+            Thus $N_\delta^{(3)}(E)\leq 3^nN_\delta(E)$.
+        \item Let $N_\delta^{(4)}$ denote the largest number of disjoint balls of radius $\delta$ centred in $E$.
+            Say $B_1,\ldots,B_{N_\delta^{(4)}(F)}$ are such balls.
+            If $x\in F$, then $d(x,B_i)\leq\delta$ for some $i$, else $B(x,\delta)$ would be disjoint from all $B_i$, contradicting maximality.
+            Thus the balls $B^1_1,\ldots,B^1_{N_\delta^{(4)}(E)}$ cover $E$ and have diameter $4\delta$, so $N_{4\delta}(E)\leq N_\delta^{(4)}(E)$.
+
+            Conversely, let $U_1,\ldots,U_{N_\delta(E)}$ be any collection of sets of diameter at most $\delta$ that cover $E$.
+            Let $B_1,\ldots,B_m$ be any disjoint balls with radius $\delta$ and centres $x_i\in E$.
+            Since the $U_j$ cover $E$, each $x_i\in U_{j(i)}$ for some $j(i)$ so $U_{j(i)}\subseteq B_i$ and $U_{j(i)}\cap B_k=\emptyset$ for $k\neq i$.
+            Thus $N_\delta(E)\geq N_\delta^{(4)}(E)$.
+    \end{enumerate}
+\end{proof}
+\end{definition}
 \end{document}

@@ -156,6 +156,9 @@
 \newtheorem{claim}{Claim}
 \renewcommand\theclaim{\Roman{claim}}
 \AtBeginEnvironment{theorem}{\setcounter{claim}{0}}
+\newtheorem{ppart}{Part}
+\renewcommand\theppart{\Roman{ppart}}
+\AtBeginEnvironment{theorem}{\setcounter{ppart}{0}}
 
 % Un-numbered Statements
 \theorempreskip{0.1cm}
@@ -203,6 +206,7 @@
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
@@ -470,78 +474,358 @@ In particular, $\quot{G}{\overline{\{e\}}}$ is Hausdorff.
         \item Suppose $\{F_i\}_{i\in I}$ is an infinite family of finite groups (with discrete topologies), then $G=\prod_{i\in I}F_i$ is a compact group.
             If $F\subset I$ is finite, then $N_F=\{(x_i)_{i\in I}\in G:x_i=e\text{ for }i\in F\}$ is open and a normal subgroup.
             $\{N_F:F\subset I\text{ finite}\}$ is a base for the topology at $e$.
+        \item Let $(\mathfrak{k},\tau)$ be a locally compact field..
+            Then $\det^{-1}(\mathfrak{k}\setminus\{0\})=\GL_n(\mathfrak{k})\subseteq M_n(\mathfrak{k})\cong\mathfrak{k}^{n^2}$ is an open subset and multiplicative subgroup, and hence locally compact.
+            Notice that multiplication is governed by linear equations, and hence continuous, while inversion is continuous thanks to Cramer's rule.
+
+            Here are some common closed subgroups:
+            \begin{align*}
+                \det^{-1}(\{1\})&=\SL_n(\mathfrak{k})\\
+                O_n(\mathfrak{k})=\{x\in\GL_n(\mathfrak{k}):x^{-1}=X^T\}
+            \end{align*}
+            As a special case, consider $U_n=\{x\in\GL_n(\C):x^*=x^{-1}\}$ is governed by continuous equations, and thus closed in $M_n(\C)$.
+            Furthermore, $U_n$ is bounded in $M_n(\C)$, and hence compact.
     \end{enumerate}
 \end{example}
-\begin{example}[$p-$adic numbers]
-    Let $p$ be a prime in $\N$.
-    We will establish product structures and topologies on
+\subsection{\texorpdfstring{$p$}{p}-adic Numbers}
+Let $p$ be a prime in $\N$.
+We will establish product structures and topologies on
+\begin{align*}
+    \mathbb{O}_p&=\left\{\sum_{k=0}^\infty a_kp^k:a_k\in\{0,1,\ldots,p-1\}\right\}\cong\{0,1,\ldots,p-1\}^{\N}\\
+    \mathbb{Q}_p&=\left\{\sum_{k=N}^\infty a_kp^k:N\in\Z, a_k\in\{0,1,\ldots,p-1\}\right\}
+\end{align*}
+are topological rings and a topological field respectively.
+Let $R_p=\prod_{n=0}^\infty\quot{\Z}{p^{n+1}\Z}$ which is a ring under pointwise operations.
+\begin{lemma}
+    The map $\rho:R_p\times R_p\to[0,1]$ given by
     \begin{align*}
-        \mathbb{O}_p&=\left\{\sum_{k=0}^\infty a_kp^k:a_k\in\{0,1,\ldots,p-1\}\right\}\cong\{0,1,\ldots,p-1\}^{\N}\\
-        \mathbb{Q}_p&=\left\{\sum_{k=N}^\infty a_kp^k:N\in\Z, a_k\in\{0,1,\ldots,p-1\}\right\}
+        \rho(x,y)&=\sum_{n\in\N_0}\frac{\rho_n(x_n,y_n)}{p^n} & &\rho_n(x_n,y_n)=\begin{cases}1 &:x_n=y_n\\ 0 &:x_n\neq y_n\end{cases}
     \end{align*}
-    are topological rings and a topological field respectively.
-    Let $R_p=\prod_{n=0}^\infty\quot{\Z}{p^{n+1}\Z}$ which is a ring under pointwise operations.
-    \begin{lemma}
-        The map $\rho:R_p\times R_p\to[0,1]$ given by
-        \begin{align*}
-            \rho(x,y)&=\sum_{n\in\N_0}\frac{\rho_n(x_n,y_n)}{p^n} & &\rho_n(x_n,y_n)=\begin{cases}1 &:x_n=y_n\\ 0 &:x_n\neq y_n\end{cases}
-        \end{align*}
-        is a metric on $R_p$ which satisfies
-        \begin{itemize}[nl]
-            \item \defname{additively invariant}
-                $\rho(x+z,y+z)=\rho(x,y)$ for $x,y,z\in R_p$
-            \item $\tau_\rho$ is the product topology
-        \end{itemize}
-    \end{lemma}
-    \begin{proof}
-        Additive invariance is routine.
-        Notice that if $\frac{1}{p^m}\geq\epsilon>\frac{1}{p^{m+1}}$, then the open $\epsilon-$ball around a point $x$ is $\{x_0\}\times\cdots\{x_m\}\times\prod_{n=m+1}^\infty\quot{\Z}{p^{n+1}\Z}$ is product-open.
-        Conversely, any product-open set is a finite union of such $\epsilon-$balls.
-    \end{proof}
-    \begin{corollary}
-        The function $\norm{x}_p=\rho(x,0)$ in $R_p$ satisfies
-        \begin{itemize}[nl]
-            \item $\norm{x}_p=0$ if and only if $x=0$
-            \item $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$
-            \item $\norm{xy}_p\leq\norm{x}_p\norm{y}_p$
-            \item $\norm{-x}_p=\norm{x}_p$
-        \end{itemize}
-        Hence $(R_p,\tau_\rho)$ is a compact topological ring.
-    \end{corollary}
-    \begin{proof}
-        The properties follow directly using additive invariance.
-        To see that $R_p$ is a topological ring, if $(x_\alpha),(y_\alpha)$ have $x=\lim x_\alpha$ and $y=\lim y_\alpha$, then, for example,
-        \begin{align*}
-            \norm{xy-x_\alpha y_\alpha}_p&\leq\norm{xy-x_\alpha y}_p+\norm{x_\alpha y-x_\alpha y_\alpha}_p\\
-                                         &\leq\norm{x-x_\alpha}_p+\norm{y-y_\alpha}_p
-        \end{align*}
-        as $\norm{y}_p$, $\norm{x_\alpha}_p\leq 1$.
-    \end{proof}
-    We now view $\mathbb{O}_p$ as a closed subring of $R_p$.
-    Define $\alpha:\mathcal{O}_p\to R_p$ be given on $a=\sum_{k=0}^\infty a_kp^k$ by
-    \begin{equation*}
-        \alpha(a) = \left(\sum_{k=0}^n a_kp^k+p^{n+1}\Z\right)_{n=0}^\infty.
-    \end{equation*}
-    This map is an injection with range $\alpha(\mathcal{O}_p)=\{(x_n)_{n=0}^\infty\in R_p:x_n=\pi_n(x_{n+1})\text{ for all }n\}$ where $\pi_n:\quot{\Z}{p^{n+2}\Z}\to\quot{\Z}{p^{n+1}\Z}$ is the canonical quotient map.
-    In fact, this is called an inductive limit with respect to the maps $\pi_n$.
-    Hence it is routine to show that
+    is a metric on $R_p$ which satisfies
     \begin{itemize}[nl]
-        \item $\alpha(\mathbb{O}_p)$ is a subring of $R_p$, and
-        \item $\alpha(\mathbb{O}_p)$ is closed in $R_p$ (just check net limits in product topology)
+        \item \defname{additively invariant}
+            $\rho(x+z,y+z)=\rho(x,y)$ for $x,y,z\in R_p$
+        \item $\tau_\rho$ is the product topology
     \end{itemize}
-    If $a,b\in\mathbb{O}_p$, define $a+b=\alpha^{-1}(\alpha(a)+\alpha(b))$.
-    \begin{remark}
-        \begin{enumerate}[nl,r]
-            \item $1+\sum_{k=1}^\infty 0\cdot p^k$ is the multiplicative identity in $\mathbb{O}_p$.
-                Then $-1=\sum_{k=0}^\infty(p-1)p^k$.
-            \item If $n\in\N$, we can uniquely write $n=\sum_{k=0}^{m(n)} a_kp^k$ with $a_k\in\{0,\ldots,p-1\}$.
-                Then $n\cdot 1=\sum_{k=0}^{m(n)}a_kp^k\in\mathbb{O}_p$.
-                In particular, $n\mapsto n\cdot 1:\N\to\mathbb{O}_p$ is an additive semigroup homomorphism with dense ring.
-                Hence $n\mapsto n\cdot 1:\Z\to \mathbb{Q}_p$ has dense range.
-                We call $\mathbb{O}_p$ the \defn{$p-$adic integers}.
-        \end{enumerate}
-    \end{remark}
-\end{example}
+\end{lemma}
+\begin{proof}
+    Additive invariance is routine.
+    Notice that if $\frac{1}{p^m}\geq\epsilon>\frac{1}{p^{m+1}}$, then the open $\epsilon-$ball around a point $x$ is $\{x_0\}\times\cdots\{x_m\}\times\prod_{n=m+1}^\infty\quot{\Z}{p^{n+1}\Z}$ is product-open.
+    Conversely, any product-open set is a finite union of such $\epsilon-$balls.
+\end{proof}
+\begin{corollary}
+    The function $\norm{x}_p=\rho(x,0)$ in $R_p$ satisfies
+    \begin{itemize}[nl]
+        \item $\norm{x}_p=0$ if and only if $x=0$
+        \item $\norm{x+y}_p\leq\norm{x}_p+\norm{y}_p$
+        \item $\norm{xy}_p\leq\norm{x}_p\norm{y}_p$
+        \item $\norm{-x}_p=\norm{x}_p$
+    \end{itemize}
+    Hence $(R_p,\tau_\rho)$ is a compact topological ring.
+\end{corollary}
+\begin{proof}
+    The properties follow directly using additive invariance.
+    To see that $R_p$ is a topological ring, if $(x_\alpha),(y_\alpha)$ have $x=\lim x_\alpha$ and $y=\lim y_\alpha$, then, for example,
+    \begin{align*}
+        \norm{xy-x_\alpha y_\alpha}_p&\leq\norm{xy-x_\alpha y}_p+\norm{x_\alpha y-x_\alpha y_\alpha}_p\\
+                                     &\leq\norm{x-x_\alpha}_p+\norm{y-y_\alpha}_p
+    \end{align*}
+    as $\norm{y}_p$, $\norm{x_\alpha}_p\leq 1$.
+\end{proof}
+We now view $\mathbb{O}_p$ as a closed subring of $R_p$.
+Define $\alpha:\mathcal{O}_p\to R_p$ be given on $a=\sum_{k=0}^\infty a_kp^k$ by
+\begin{equation*}
+    \alpha(a) = \left(\sum_{k=0}^n a_kp^k+p^{n+1}\Z\right)_{n=0}^\infty.
+\end{equation*}
+This map is an injection with range $\alpha(\mathcal{O}_p)=\{(x_n)_{n=0}^\infty\in R_p:x_n=\pi_n(x_{n+1})\text{ for all }n\}$ where $\pi_n:\quot{\Z}{p^{n+2}\Z}\to\quot{\Z}{p^{n+1}\Z}$ is the canonical quotient map.
+In fact, this is called an inductive limit with respect to the maps $\pi_n$.
+Hence it is routine to show that
+\begin{itemize}[nl]
+    \item $\alpha(\mathbb{O}_p)$ is a subring of $R_p$, and
+    \item $\alpha(\mathbb{O}_p)$ is closed in $R_p$ (just check net limits in product topology)
+\end{itemize}
+If $a,b\in\mathbb{O}_p$, define $a+b=\alpha^{-1}(\alpha(a)+\alpha(b))$.
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item $1+\sum_{k=1}^\infty 0\cdot p^k$ is the multiplicative identity in $\mathbb{O}_p$.
+            Then $-1=\sum_{k=0}^\infty(p-1)p^k$.
+        \item If $n\in\N$, we can uniquely write $n=\sum_{k=0}^{m(n)} a_kp^k$ with $a_k\in\{0,\ldots,p-1\}$.
+            Then $n\cdot 1=\sum_{k=0}^{m(n)}a_kp^k\in\mathbb{O}_p$.
+            In particular, $n\mapsto n\cdot 1:\N\to\mathbb{O}_p$ is an additive semigroup homomorphism with dense ring.
+            Hence $n\mapsto n\cdot 1:\Z\to \mathbb{Q}_p$ has dense range.
+            We call $\mathbb{O}_p$ the \defn{$p-$adic integers}.
+    \end{enumerate}
+\end{remark}
+
+Let $a=\sum_{k=0}^\infty a_kp^k$ in $\mathbb{O}_p$.
+Let
+\begin{align*}
+    \nu_p(a) &= \min\{k\in\N_0:a_k\neq 0\},\min\emptyset=-\infty\\
+    |a|_p=p^{-\nu_p(a)},p^{-\infty}=0
+\end{align*}
+and notice that $|a|_p=\norm{\alpha(a)}_p$.
+However, $|a|_p$ has even nicer properties:
+\begin{enumerate}[nl,r]
+    \item $|a|_p=0$ if and only if $a=0$
+    \item $\nu_p(ab)=\nu_p(a)+\nu_p(b)$.
+        Thus $|ab|_p=|a|_p|b|_p$
+    \item $\nu_p(a+b)\geq\min\{\nu_p(a),\nu_p(b)\}$.
+        Thus $|a+b|_p\leq\max\{|a|_p,|b|_p\}\leq|a|_p+|b|_p$
+\end{enumerate}
+Notice that (i) and (ii) imply that $\mathbb{O}_p$ is an integral domain.
+\begin{proposition}
+    The multiplicative unit group of $\mathbb{O}_p$ is $\mathbb{O}_p\setminus p\mathbb{O}_p=\{a\in\mathbb{O}_p:|a|_p=1\}$.
+    Hence $\mathbb{O}_p^\times$ is open and a topological group.
+\end{proposition}
+\begin{proof}
+    The second equality is trivial.
+    If $a\in\mathbb{O}_p^\times$, then $|a|_p$, $|a^{-1}|_p\leq 1$ and $1=|1|_p=|aa^{-1}|_p=|a|_p|a^{=1}|_p$, so $|a|_p=1$.
+    If $|a|_p=1$, let
+    \begin{equation*}
+        x=\alpha(a)=\left(\sum_{k=0}^n a_kp^k+p^{n+1}\Z\right)_{n=0}^\infty\in R_p.
+    \end{equation*}
+    Then $x_n\in(\Z/p^{n+1}\Z)^\times$ since $p\nmid\sum_{k=0}^n a_kp^k$ in $\Z$.
+    Hence there is $y_n\in(\Z/p^{n+1}\Z)^\times$ so $x_ny_n=1+p^{n+1}\Z$ and thus
+    \begin{equation*}
+        1+p^n\Z=\pi_N(1+p^{n+2}\Z)=\pi_n(x_{n+1}y_{n+1})=\pi(x_{n+1})\pi(y_{n+1})=x_n\pi_n(y_{n+1})
+    \end{equation*}
+    so that $\pi_n(y_{n+1})=y_n$.
+    Thus if $y\in\alpha(\mathbb{O}_p)$, i.e. $y=\alpha(b)$ with $ab=\alpha^{-1}(\alpha(a)\alpha(b))=\alpha^{-1}((1+p^{n+1}\Z)_{n=0}^\infty)=1$ and $a\in\mathbb{O}_p^\times$.
+
+    Since $p\mathbb{O}_p$ is closed, we see that $\mathbb{O}_p^\times$ is open in $\mathbb{O}_p$.
+    Continuity of multiplication follows (ii).
+    Finally, if $a,b\in\mathbb{O}_p$,
+    \begin{equation*}
+        |a^{-1}-b^{-1}|_p=|a|_p|a^{-1}-b^{-1}|_p|b|_p=|b-a|_p
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    Each ideal in $\mathbb{O}_p$ is of the form $p^k\mathbb{O}_p$ for $k\in\N_0$.
+\end{corollary}
+\begin{proof}
+    If $I$ is an ideal in $\mathbb{O}_p$, then let $k(I)=\min\{k\in\N_0:\nu_p(a)=k\text{ for some }a\in I\}$.
+    Then there is $a\in I$ with $\nu_p(a)=k(I)$, so $p^{-k(I)}\in a\mathbb{O}_p^\times\subseteq a\mathbb{O}_p\subseteq I$.
+    Thus $p^{-k(I)}\mathbb{O}_p\subseteq I$.
+    Clearly $I\subseteq p^{-k(I)}\mathbb{O}_p$ as well.
+\end{proof}
+We now extend the valuation and norm to $\Q_p$.
+If $a=\sum_{k\in\Z}a_kp^k\in\Q_p$, let $\nu_p(a)=\min\{k\in\Z:a_k\neq 0\}$ and $|a|_p=p^{-\nu_p(a)}$.
+Then for $a\in\Q_p\setminus\{0\}$ admits (formal) factorization
+\begin{equation*}
+    a=\sum_{k=\nu_p(a)}^\infty a_kp^k=p^{\nu_p(a)}\sum_{k=\nu_p(a)}^\infty a_kp^{k-\nu_p(a)}=p^{\nu_p(a)}\underbrace{\sum_{k=0}^\infty a_{k+\nu_p(a)}p^k}_{:=a'\in\mathbb{O}_p^\times}
+\end{equation*}
+Thus, if $a,b\in\Q_p\setminus\{0\}$, we define multiplication and addition by $ab=p^{\nu_p(a)+\nu_p(b)}a'b'$ and $a^{-1}=p^{-\nu_p(a)}(a')^{-1}$.
+Furthermore, assuming $\nu_p(a)\leq\nu_p(b)$, we define addition by
+\begin{equation*}
+    a+b=p^{\nu_p(a)}(a'+p^{\nu_p(b)-\nu_p(a)}b')
+\end{equation*}
+and $0+a=a$, $0a=0$.
+Notice that $|ab|_p=|a|_p|b|_p$, $|1/a|_p=1/|a|_p$ and if $\nu_p(a)\leq \nu_p(b)$, $|a+b|_p=p^{-\nu_p(a)}|a'+p^{\nu_p(b)-\nu_p(a)}b'|_p\leq|a|_p$ so, generally, $|a+b|_p\leq\max\{|a|_p,|b|_p\}$.
+Also, if $|a|_p=0$, then $|a|=0$.
+Thus $(\Q_p,|\cdot|_p)$ is a ``normed field'', and hence a topological field.
+
+Note that
+\begin{equation*}
+    \mathbb{O}_p=\{a\in\Q_p:|a|_p\leq 1\}=\{a\in\Q_p:|a|_p<p\}
+\end{equation*}
+is a compact open neighbourhood of $0$, so $\Q_p$ is locally compact.
+Moreover, each $p^k\Q_p=\{a\in\Q_p:|a|_p<p^{k-1}\}$ is a closed and open ball about $0$.
+\subsection{Haar Integral and Haar Measure}
+Let $G$ be a locally compact group.
+Define for $f:G\to\C$, $x\in G$, $f\cdot x=f\circ L_x$, and $x\cdot f=f\circ R_x$.
+Notice that $(f,x)\mapsto f\cdot x$, as an adjoint action, is a right (group) action of $G$ on functions.
+Likewise, $(x,f)\mapsto x\cdot f$ is a left action.
+\begin{proposition}
+    Given $f\in C_c(G)$, then
+    \begin{equation*}
+        \lim_{x\to e}\norm{f\cdot x-f}_\infty=0=\lim_{x\to e}\norm{x\cdot f-f}_\infty.
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    Let $\epsilon>0$, $W=W^{-1}$ a relatively compact neighbourhood of $e$, and let $K=\overline{W}\supp f$.
+    Given $y\in V$, $x\mapsto|f(xy)-f(y)$ is continuous, so there is a neighbourhood $U_y$ of $e$ so $|f(xy)-f(y)|<\epsilon$ whenever $x\in U_y$.
+    Then find $V_y^{-1}=V_y$ of $e$ so $V_y^2\subseteq U_y$.
+    Then $K\subseteq\bigcup_{y\in K}V_yy$ so by compactness get some finite subcover $\bigcup_{j=1}^n V_{y_j}y_j\supseteq K$.
+    Let $V=\left(\bigcap_{j=1}^n V_{y_j}\right)\cap W$, so $V^{-1}=V$.
+
+    If $x\in V$, then for $y\in K$ we have $y\in V_{y_j}y_j$ for some $j$, i.e. $yy_j^{-1}\in V_{y_j}$, and hence
+    \begin{equation*}
+        xy=xyy_j^{-1}y_j\in VV_{y_j}y_j\subseteq V_{y_j}^2y_j\subseteq U_{y_j}y_j
+    \end{equation*}
+    so that
+    \begin{equation*}
+        |f(xy)-f(y)|\leq|f(xy)-f(y_j)|+|f(y_j)-f(y)|<2\epsilon.
+    \end{equation*}
+
+    If $y\notin K$, then $Wy\cap\supp(f)=\emptyset$, so for $x\in V\subseteq W$, we have $f(xy)=0=f(y)$.
+    Thus if $x\in V$, then $\norm{f\cdot x-f}_\infty<\epsilon$.
+\end{proof}
+\begin{theorem}[Existence of Haar Integral]
+    There exists a linear functional $I:C_c(G)\to\C$ satisfying
+    \begin{itemize}[nl]
+        \item \defname{positivity} $I(f)>0$ if $f\in C_c^+(G)=\{g\in C_c(G)\setminus\{0\}:g\geq 0\}$.
+        \item \defname{left invariance} $I(f\cdot x)=I(f)$ for $f\in C_c(G)$, $x\in G$.
+    \end{itemize}
+\end{theorem}
+Let for $f,\phi\in C_c^+(G)$
+\begin{equation*}
+    (f:\phi)=\inf\left\{\sum_{j=1}^n c_j:\text{there are }x_1,\ldots,x_n\in G,c_i>0,n\in\N \text{ s.t. }f\leq\sum_{j=1}^n c_j\phi\cdot x_j
+\end{equation*}
+Notive that $0<\frac{\norm{f}_\infty}{\norm{\phi}_\infty}\leq(f:\phi)$.
+Also, if $U=\{x\in G:\phi(x)>\frac{1}{2}\norm{\phi}_\infty\}$, then $\supp f$ is covered by finitely many $x^{-1}U$, $x\in G$, and thus $(f:\phi)<\infty$.
+\begin{claim}
+    For $f,g$ in $C_c^+(G)$, we have
+    \begin{enumerate}[nl,r]
+        \item $(f\cdot x:\phi)=(f:\phi)$ for $x$ in $G$
+        \item $(cf:\phi)=c(f:\phi)=(f:\frac{1}{c}\phi)$ for $c>0$
+        \item $(f+g,\phi)\leq (f:\phi)+(g:\phi)$.
+        \item $(f:\phi)\leq (f:g)(g:\phi)$
+    \end{enumerate}
+\end{claim}
+\begin{nmproof}
+    Note that (i) and (ii) are straightforward.
+    To see (iii) and (iv), consider
+    \begin{align*}
+        f&\leq\sum_{j=1}^n c_j\phi\cdot x_j & g&\leq\sum_{j=n+1}^Nc_j\phi\cdot x & f&\leq\sum_{k=1}^m b_kg\cdot y_k
+    \end{align*}
+    so that $f+g\leq\sum_{j=1}^Nc_j\phi\cdot x_k$ and $(f+g:\phi)\leq\sum_{j=1}^n c_j+\sum_{j=n+1}^N c_j$, giving (iii).
+    To get (iv), note $f\leq\sum_{k=1}^m b_k\sum_{j=n+1}^N c_j\phi\cdot(x_jy_k)$ so $(f:\phi)\leq\sum_{k=1}^m b_k\sum_{j=k+1}^Nc_j$, giving (iv).
+\end{nmproof}
+We wish to ``homogonize'' the effect of $\phi$.
+Fix $\psi_0\in C_c^+(G)$ and let $I_\phi(f)=\frac{(f:\phi)}{(\psi_0:\phi)}$.
+Then $I_\phi:C_c^+(G)\to\R_{\geq 0}$ is
+\begin{enumerate}[nl]
+    \item[(i')] left translation invariant
+    \item[(ii')] $\R_{\geq 0}-$homogenous
+    \item[(iii')] subadditive.
+\end{enumerate}
+by using the claim above directly.
+Thus by (iv), $(\psi_0:\phi)\leq(\psi_0:f)(f:\phi)$ and $(f:\phi)\leq(f:\psi_0)(\psi_0:\phi)$, giving
+\begin{enumerate}[nl]
+    \item[iv'] $0<\frac{1}{(\psi_0:f)}\leq I_\phi(f)\leq (f:\psi_0)$.
+\end{enumerate}
+\begin{claim}\label{cl:1a}
+    If $f,g\in C_c^+(G)$, $\epsilon>0$, there is a neighbourhood $V$ of $e$ such that
+    \begin{equation*}
+        I_\phi(f)+I_\phi(g)<I_\phi(f+g)+\epsilon
+    \end{equation*}
+    whenever $\phi\in C_c^+(G)$ with $\supp(\phi)\subseteq V$.
+\end{claim}
+\begin{nmproof}
+    Let $k\in C_c^+(G)$ be so $k|_{\supp(f+g)}=1$ and let $\delta>0$.
+    Take $h=f+g+\delta k$ and $f'=\frac{f}{h}$, $g'=\frac{g}{h}\in C_c^+(G)$.
+    Uniform continuity of $f',g'$ provides a neighbourhood $v$ of $e$ such that $|f'(x)-f'(y)|<\delta$, $|g'(x)-g'(y)|<\delta$ if $y^{-1}x\in V$.
+    If $\phi\in C_c^+(G)$, $\supp(\phi)\subseteq V$, and $x_1,\ldots,x_n$ in $G$, $c_1,\ldots,c_n>0$ satisfy
+    \begin{equation*}
+        h\leq\sum_{j=1}^n c_j\phi_j\cdot x_j^{-1}
+    \end{equation*}
+    then for $x$ in $G$
+    \begin{align*}
+        f(x) = f'(x)h(x) &\leq\sum_{j=1}^n f'(x)c_j\phi(x_j^{-1}x)\\
+                         &\leq\sum_{j=1}^n[f'(x_j)+\delta]c_j\phi(x_j^{-1}x)
+    \end{align*}
+    by properties of $f',g'$ proven above and $\supp(\phi)\subseteq C$.
+    Likewise,
+    \begin{equation*}
+        g\leq\sum_{j=1}^n[g'(x_j)+\delta]c_j\phi\cdot x_j^{-1}.
+    \end{equation*}
+    Now $f'+g'=(f+g)/h=\frac{f+g}{f+g+\delta k}\leq 1$ so
+    \begin{align*}
+        (f:\phi)+(g:\phi)&\leq\sum_{j=1}^n[f'(x_j)+\delta]c_j+\sum_{j=1}^n[g'(x_j)+\delta]c_j\\
+                         &\leq\sum_{j=1}^n[1+2\delta]c_j
+    \end{align*}
+    and $(f:\phi)+(g:\phi)\leq (1+2\delta)(h:\phi)$.
+    Divide by $(\psi_0:\phi)$ and (iii') and (iv') above to get
+    \begin{equation*}
+        I_\phi(f)+I_\phi(g)\leq(1+2\delta)I_\phi(h)\leq(1+2\delta)[I_\phi(f+h)+\delta I_\phi(k)]
+    \end{equation*}
+    Thus with sufficiently small $\delta$, $I_\phi(f)+I_\phi(g)<I_\phi(f+g)+\epsilon$.
+\end{nmproof}
+We are now in position to complete the proof.
+\begin{claim}\label{cl:i2}
+    Construction of the functional $I$.
+\end{claim}
+\begin{proof}
+    Inequality (iv') tells us that
+    \begin{equation*}
+        x_\phi=(I_\phi(f))_{f\in C_c^+(G)}\in\prod_{f\in C_c^+(G)}[\frac{1}{(\psi_0:f)},(f:\psi_0)]=X
+    \end{equation*}
+    which, by Tychonoff, is compact.
+    For $\phi,\phi'$ in $\Phi=\{\psi\in C_c^+(G):\psi(e)=1\}$, $\phi\leq\phi'$ if $\phi\geq\phi'$ pointwise, which is a preorder.
+    Notice that $\phi\phi'\leq\phi\wedge\phi'$ (pointwise minimum), so that $(\Phi,\leq)$ is directed.
+    Hence $(x_\phi)_{\phi\in\Phi}$ admits a converging subnet $x=\lim_{\mu\in M}x_{\phi_\mu}$ in $X$.
+
+    Write $x=(I(f))_{f\in C_c^+(G)}$, so $I(f)=\lim_{\mu\in M}I_{\phi_\mu}(f)$ for each $f\in C_c^+(G)$.
+    Then it follows that from (i'), (ii'), and (iii') that for $f,g$ in $C_c^+(G)$, we have
+    \begin{align*}
+        I(F\cdot x)&=I(f) & I(cf)&=cI(f) & I(f+g) &\leq I(f)+I(g)
+    \end{align*}
+    for $x\in G$, $c>0$.
+    Moreover, by cofinality, if $V$ is a neighbourhood of $e$, then $\supp(\phi_\mu)\subseteq V$ for $\mu$ sufficiently large in $M$.
+    Hence given $\epsilon>0$, by \cref{cl:1a}, $I_{\phi_\mu}(f)+I_{\phi_\mu}(g)<I_{\phi_\mu}(f+g)+\epsilon$ for $\mu$ sufficiently large in $M$.
+    Since $\epsilon>0$ as arbitrary, we have $I(f)+I(g)\leq I(f+g)$.
+
+    Let $I(0)=0$.
+    If $f\in C_c^{\R}(G)$ and $f=f_1-f_2=g_1-g_2$ with $f_1,f_2,g_1,g_2\geq 0$, then $h=f_1+g_2=g_1+f_2$ satisfies that $I(h)=I(f_1)+I(g_2)=I(g_1)+I(f_2)$ and hence we may define $I(f)=I(f_1)-I(f_2)$, which do not depend on the choice of $f_1,f_2$.
+    One may check that $I:C_c^{\R}(G)\to\R$ is $\R-$linear.
+    Finally, if $f\in C_c(G)$, let $I(f)=I(\Re f)+iI(\Im f)$.
+    It is left as an exercise to verify that $I:C_c(G)\to\C$ is $\C-$linear.
+
+    Finally, the fact that $I(f\cdot x)=I(f)$ for $f\in C_c(G)$ and $x\in G$ follows for $f$ in $C_c^+(G)$ as above.
+    If $f\in C_c^+(G)$, then (iv') tellus us that $I(f)\geq\frac{1}{(\psi_0:f)}>0$.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item In \cref{cl:i2}, $I_\phi(\psi_0)=1$ so $I(\psi_0)=1$.
+        \item If $G$ is discrete, then $\psi_0=1_{\{e\}}=\min\Phi$.
+            Then $I_{\psi_0}(f)=\frac{(f:\psi_0)}{(\psi_0:\psi_0)}=\sum_{x\in G}f(x)$ for $f\in C_c^+(G)$.
+        \item If $G=\R$, let $\psi_0$ be the linear function which is $0$ on $(-\infty,-1/2-\delta)\cup(1/2+\delta,\infty)$, $1$ on $(-1/2+\delta,1/2-\delta)$, and continuied linearly on the remainder.
+            Notice that $(\psi_0,\phi_n)\approx n$, so $\frac{(f:\phi_n)}{(\psi_0:\phi_n)}$ is approximately the Riemann-Darboux upper sum.
+        \item Examine $\mathbb{O}_p$, $\psi_0=1_{\mathbb{O}_0}$, $\psi_n=1_{p^n\mathbb{O}_p}$.
+    \end{enumerate}
+\end{remark}
+\begin{theorem}[Harr Measure]
+    Let $\mathcal{B}(G)$ denote the Borel $\sigma-$algebra on $G$.
+    Then there is a Radon measure $m:\mathcal{B}(G)\to[0,\infty]$ such that
+    \begin{itemize}[nl]
+        \item $m$ is left invariant: $m(xE)=m(E)$ for $x\in G$, $E\in\mathcal{B}(G)$
+        \item $m(U)>0$ for $U\in\tau\setminus\{\emptyset\}$.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    The Riesz Representation Theorem provides a measure $m:\mathcal{B}(G)\to[0,\infty]$ for which
+    \begin{equation*}
+        \int_G f \d{m}=I(f)
+    \end{equation*}
+    for $f\in C_c(G)$.
+    Notice that
+    \begin{equation*}
+        \int_G f\cdot x\d{m}=I(f\cdot x)=\int_G f
+    \end{equation*}
+    for any $x\in G$, $f\in C_c(G)$.
+    Thus if $U\in\tau$, $\supp f\subseteq U$ if and only if $\supp(f\cdot x)\subseteq x^{-1}U$ for $x\in G$ and $f\in C_c(G)$.
+    Thus
+    \begin{align*}
+        m(U) &= \sup\{I(f):f\in C_c(G),0\leq f\leq 1\text{ and }\supp(f)\subseteq U\}\\
+             &= \sup\{I(f\cdot x):f\in C_c(G),0\leq f\leq 1\text{ and }\supp(f)\subseteq U\}\\
+             &= \sup\{I(g):g\in C_c(G),0\leq g\leq 1,\supp(g)\subseteq x^{-1}U\\
+             &= m(x^{-1}U).
+    \end{align*}
+    Therefore, for any $E\in\mathcal{B}(G)$, we have
+    \begin{align*}
+        m(E)&=\inf\{m(U):E\in U,U\in\tau\}\\
+            &=\inf\{m(xU):E\subseteq U,U\in\tau\}\\
+            &=\inf\{m(xU):xE\subseteq xU,U\in\tau\}=m(xE).
+    \end{align*}
+    Finally, if $U\in\tau\setminus\{\emptyset\}$, there is $f\in C_c^+(G)$ with $0\leq f\leq 1$ and $\supp(f)\subseteq U$, so $m(U)\geq I(f)>0$.
+\end{proof}
+\begin{remark}
+    If $E\in\mathcal{G}(G)$, $m(E)<\infty$, then $m(E)=\sup\{m(K):K\subseteq E,K\text{ compact}\}$.
+    Inner regularity need not hold on infinite measure sets: taking $G=\R_d\times\R$, then $\R_d\times\{0\}$ is closed, and thus Borel.
+    However, $m(E)=\infty$ while $m(K)=0$ for each compact $K\subset E$.
+\end{remark}
+
+
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}

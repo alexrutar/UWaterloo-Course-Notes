@@ -277,7 +277,7 @@
 
 
 % constants --------------------------------------------------------------------
-\newcommand{\subject}{Fractal Geometry}
+\newcommand{\subject}{Martingales and Stochastic Calculus}
 \newcommand{\semester}{Winter 2020}
 
 
@@ -431,5 +431,232 @@ Exercise: show that the collection given in the definition above is actually a $
 We write $X_{T\wedge t}$ is a random variable evaluated at time $T\wedge t$ (or $T$); in other words, $(X_{T\wedge t})(\omega)=X_{T\wedge t}(\omega)$.
 Then $\{T_{T\wedge t}\}_{t\geq 0}$, or $X^T$, is a stochastic process stopped at time $t$.
 \begin{definition}
+    Consider a filtered probability space $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$.
+    A $\{\mathcal{F}_t\}_{t\in T}-$adaped proces $\{X_t\}_{t\in T}$ is said to be a \defn{submartingale} if
+    \begin{enumerate}[nl,r]
+        \item For all $t\in T$, $X_t\in L^1(\Omega,\mathcal{F},\ps)$
+        \item For all $s<t$ where $s,t\in T$,
+            \begin{equation*}
+                \E(X_t | \mathcal{F}_s)\geq X_s\qquad \ps\text{ a.s.}
+            \end{equation*}
+    \end{enumerate}
+    and it is a \defn{supermartingale} with the inequality in (ii) reversed.
+    Then $\{X_t\}_{t\in T}$ is a \defn{martingale} if it is both a submartingale and supermartingale.
 \end{definition}
+Clearly if $0\leq s<t$, then $\E(X_0)\leq \E(X_s)\leq \E(X_t)$ in the submartingale case, and other appropriate statements in the other case.
+One of the goals of martingale theory is to extend these results with respect to stopping times, rather than with respect to fixed time.
+
+Let $X=\{X_n\}_{n=0}^\infty$ be a discrete time process, and fix levels $a<b$.
+The number $U_N[a,b]$ of \defn{upcrossings} of $[a,b]$ by $X$ by time $N$ is the largest $k\in\Z^+$ such that there exists times $a\leq s_1<t_1<s_2<t_2<\cdots<s_k<t_k\leq N$ such that for all $i$, $s_i\leq a$ and $t_i\geq b$.
+\begin{definition}
+    A process $X=\{X_n\}_{n=0}^\infty$ is called \defn{previsible} if $X_n\in\mathcal{F}_{n-1}$ for all $n\geq 1$.
+\end{definition}
+Let $C=\{C_n\}_{n=1}^\infty$ be a previsible process.
+Then the martingale transform of $X$ by $C$, denoted by $C\cdot X$, is defined as $(C\cdot X)_n=\sum_{k=1}^n C_k(X_k-X_{k-1})$ for $n>0$ and $(C\cdot X)_0=0$.
+\begin{proposition}
+    \begin{enumerate}[nl]
+        \item Let $C$ be a bounded, non-negative previsible process and $X$ a (super)matingale.
+            Then $C\cdot X$ is a (super)martingale which is null at 0.
+        \item Let $C$ be a bounded, previsible process and $X$ a martingale.
+            Then $C\cdot X$ is a martingale which is null at 0.
+        \item If $C$ is an $L^2$ previsible process (resp. non-negative) and $X$ an $L^2$ martingale (resp. supermartingale), then $C\cdot X$ is a martingale (resp. supermartingale).
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item We have
+            \begin{align*}
+                \E[(C\cdot X)_n-(C\cdot X)_{n-1}|\mathcal{F}_{n-1}] &= \E[C_n(X_n-X_{n-1})|\mathcal{F}_{n-1}]\\
+                                                                    &= C_n\cdot \E[X_n-X_{n-1}|\mathcal{F}_{n-1}]\\
+                                                                    &\leq 0
+            \end{align*}
+            where the second line follows since $C$ is previsible.
+            Since $C$ is bounded, $C\cdot X$ is integrable.
+        \item Consider $C+k$ where $k$ is a constant and $k\geq|C_n(w)|$ for all $n$ and $w$.
+        \item Similar, but the integrability is now guaranteed by Hölder's inequality.
+    \end{enumerate}
+\end{proof}
+We now have the following result:
+\begin{proposition}[Doob's Upcrossing Inequality]
+    Let $X$ be a supermartingale.
+    Then $(b-a)\E(U_N[a,b])\leq\E((X_N-a)^-)$.
+\end{proposition}
+\begin{proof}
+    Define a process $\{C_n\}_{n=1}^\infty$ by
+    \begin{align*}
+        C_1&:=\chi_{\{X_0<a\}}\\
+        C_k&:=\chi_{\{C_{n-1}=1\}}\chi_{\{X_{n-1}\leq b\}}+\chi_{\{C_{n-1}=0\}}\chi_{\{X_{n-1}<a\}}.
+    \end{align*}
+    Let $Y=C\cdot X$, i.e. $Y_n=\sum_{k=1}^n C_k(X_k-X_{k-1})$ almost surely.
+    Note that each finished upcrossing increases the value of $Y$ by at least $b-a$, we have
+    \begin{equation*}
+        Y_N\geq(b-a)U_N[a,b]-(X_n-a)^-
+    \end{equation*}
+    where $(X_N-a)^-$ is the upper bound for the ``loss'' due to the last unfinished upcrossing.
+    Since $C$ is non-negative, bounded, and previsible, $Y$ is a supermartingale.
+    Moreover, $\E(Y_1)\leq 0$, so $\E(Y_N)\leq\E(Y_1)\leq 0$.
+    Thus
+    \begin{equation*}
+        (b-a)\E U_[a,b]\leq\E[(X_n-a)^i]
+    \end{equation*}
+    as required.
+\end{proof}
+\begin{theorem}
+    Suppose $\{X_t\}_{t\in T}$ is a martingale with $\E(X_t^2)\leq B<\infty$ for any $t\in T$ and $B$ not depending on $t$.
+    Then $X_t$ converge in $L^2$ to a limit $X_\infty$.
+\end{theorem}
+\begin{proof}
+    Note that we have the result for both discrete and continuous time martingales.
+    By discretization, it is clear that it suffices to rove the result for discrete case.
+
+    We have the following orthogonality between the increments of a martingale $\{X_n\}_{n=0}^\infty$: if $n_1<n_2\leq n_2<n_4$, then
+    \begin{equation*}
+        \E[(X_{n_2}-X_{n_1})(X_{n_4}-X_{n_3})]=0.
+    \end{equation*}
+    This result follows by conditioning on $\mathcal{F}_{n_3}$ and applying the law of total expectation.
+
+    Now the proof proceeds.
+    Set $Y_n:=X_n-X_{n-1}$, so
+    \begin{equation*}
+        \norm{X_n}_2^2=\E(X_n^2)=\sum_{i=1}^n\norm{Y_i}_2^2
+    \end{equation*}
+    and $\sum_{i=0}^n\norm{Y_n}_2^2\leq B$ for all $n$, so that $\sum_{i=0}^\infty\norm{Y_n}_2^2\leq B$.
+    Thus $\{X_n\}_{n=0}^\infty$ is Cauchy in $L^2(\Omega,\mathcal{F},\pr)$.
+\end{proof}
+\begin{theorem}[Optimal Sampling for Bounded Stopping Times in Discrete Times]
+    Let $\{X_n\}_{n=0}^\infty$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ supermartingale and $S,T$ be $\{\mathcal{F}_n\}-$stopping times such that $0\leq S\leq T\leq N$ for some constant $N<\infty$.
+    Then $X_T$ is integrable and $\E(X_T|\mathcal{F}_s)\leq X_s$ almost surely.
+\end{theorem}
+\begin{proof}
+    Notice that
+    \begin{equation*}
+        |X_T|\leq|X_0|+|X_1|+\cdots+|X_N|
+    \end{equation*}
+    so that $\E(|X_T|)<\infty$.
+    To prove that $\E(X_t|\mathcal{F}_s)\leq X_s$ a.s., it suffices to prove that $\E(X_T;A):=\int_A X_Td\ps\leq\int_A X_s d\ps=:\E(X_s;A)$ for all $A\in\mathcal{F}_s$.
+    Assuming this, then
+    \begin{equation*}
+        \E(\E(X_T|\mathcal{F}_s)-X_s;A)\leq 0
+    \end{equation*}
+    for all $A\in\mathcal{F}_s$, so we may take $A=A_0:=\{\E(X_T|\mathcal{F}_s)-X_s>0\}$, so that $\pr(A_0)=0$.
+
+    Let's prove the required statement.
+    First note that
+    \begin{equation*}
+        \sum_{n=1}^N \chi_{\{S<n\leq T\}}(X_n-X_{n-1})=X_T-X_S
+    \end{equation*}
+    and taking expectation over $A$ on both sides
+    \begin{align*}
+        \E(X_T-X_S;A) &= \sum_{n=1}^N\E(\chi_{\{S<n\leq T\}}(X_n-X_{n-1});A)\\
+                      &= \sum_{n=1}^N\E(X_n-X_{n-1};A\cap\{S<n\leq T\})
+    \end{align*}
+    But $A\cap\{S<n\leq T\}=A\cap\{S\leq n-1\}\cap\{n-1<T\}\in\mathcal{F}_{n-1}$.
+    Thus
+    \begin{equation*}
+        \E(X_n-X_{n-1}; A\cap\{S<n\leq T\})=\E(\E(X_n-X_{n-1}|\mathcal{F}_{n-1});A\cap\{S<n\leq T\})\leq 0
+    \end{equation*}
+    so the required statement holds.
+\end{proof}
+\begin{definition}
+    Let $\{X_n\}_{n=0}^\infty$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ a supermartingale.
+    We say that $\{X_n\}_{n=0}^\infty$ is \defn{closed} by a random variable $X_\infty$ if $X_\infty$ is $\mathcal{F}_\infty-$measurable and $X_n\geq\E(X_\infty|\mathcal{F}_n)$ almost surely for all $n=0,1,\ldots$.
+\end{definition}
+Similar statements hold with $X_n\leq\E(X_\infty|\mathcal{F}_n)$ for a submartingale, or equality with a martingale.
+\begin{proposition}
+    Suppose that $\{X_n\}_{n=0}^\infty$ is a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ a non-negative supermartingale, and $X_\infty=0$.
+    If $S,T:\Omega\to\overline{\Z^+}$ are $\{\mathcal{F}_n\}-$stopping times, $S\leq T$, then
+    \begin{enumerate}[nl]
+        \item $\E(X_T)<\infty$
+        \item $\E(X_T|\mathcal{F}_s)\leq X_s$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item Note that $X_T\leq\liminf_{n\to\infty}X_{T\wedge n}$ where $T\wedge n$ and $0$ are two bounded stopping times.
+            Thus $\E(X_{T\wedge n})\leq\E(X_0)$ for all $n=0,1,\ldots$.
+            Thus by Fatou's lemma
+            \begin{align*}
+                \E(X_T)&\leq\E(\liminf_{n\to\infty} X_{T\wedge n})\leq\liminf_{n\to\infty}\E(X_{T\wedge n})\\
+                       &\leq\E(X_0)<\infty.
+            \end{align*}
+        \item Let $A\in\mathcal{F}_s$.
+            For $n=0,1,\ldots,$,
+            \begin{align*}
+                \E(X_T;A\cap\{T\leq n\}) &= \E(X_{T\wedge n};A\cap\{T\leq n\})\\
+                                         &\leq \E(X_{T\wedge n};A\cap\{S\leq n\})\\
+                                         &\leq \E(X_{S\wedge n}; A\cap\{S\leq n\})
+            \end{align*}
+            Note that $S\wedge n$ and $T\wedge n$ are two bounded stopping times with $S\wedge n\leq T\wedge n$.
+            Also, $A\cap\{S\leq n\}\in\mathcal{F}_{S\wedge n}$.
+            Then apply the optimal sampling theorem for bounded stopping times.
+            By the monotone convergence theorem,
+            \begin{equation*}
+                \lim_{n\to\infty}\E(X_T;A\cap\{T\leq n\})
+            \end{equation*}
+            and similarly for $S$.
+            Thus
+            \begin{equation*}
+                \E(X_T;A\cap\{T<\infty\})\leq\E(X_S:A\cap\{S<\infty\})
+            \end{equation*}
+            so that
+            \begin{equation*}
+                \E(X_T;A\cap\{T=\infty\})=\E(X_S:A\cap\{S=\infty\})=0
+            \end{equation*}
+            and $\E(X_T;A)\leq\E(X_S;A)$.
+            Since this holds for all $A\in\mathcal{F}_s$, $\E(X_T:\mathcal{F}_s)\leq X_s$.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}
+    Let $\{M_n\}_{n=0}^\infty$ be a martingale closed by $M_\infty$.
+    Let $T:\Omega\to\overline{\Z^+}$ be a stopping time.
+    Then $M_T=\E(M_\infty|\mathcal{F}_T)$.
+\end{lemma}
+\begin{proof}
+    First assume $M_\infty\geq 0$.
+    For any $A\in\mathcal{F}_T$,
+    \begin{align*}
+        E(M_T;A)&=\sum_{n=0}^\infty\E(M_n;A\cap\{T=n\})\\
+                &=\sum_{n=0}^\infty\E(M_\infty,A\cap\{T=n\})\\
+                &= \E(M_\infty;A).
+    \end{align*}
+    For the general case, decompose $M_\infty$ into positive and negative parts.
+\end{proof}
+\begin{theorem}[Optimal Sampling for Closed Supermartingales in Discrete Time]
+    Let $\{X_n\}_{n=0}^\infty$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ supermartingale closed by $X_\infty$.
+    Let $S,T:\Omega\to\overline{\Z^+}$ be two $\{\mathcal{F}_n\}_{n=0}^\infty$ stopping times with $S\leq T$.
+    Then
+    \begin{enumerate}[nl]
+        \item $\E(|X_T|)<\infty$
+        \item $\E(X_T|\mathcal{F}_s)\leq X_s$ almost surely
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl]
+        \item Define $M_n=\E(X_\infty|\mathcal{F}_n)$ and $A_n=X_n-M_n$ for $n=0,1,\ldots,\infty$.
+            Since $\{X_n\}_{n=0}^\infty$ is a supermartingale closed by $X_\infty$, $A_n\geq 0$, $A_\infty=0$, and for $m\leq n$,
+            \begin{align*}
+                \E(A_n|\mathcal{F}_m)&=\E(X_n-\E(X_\infty|\mathcal{F}_n)|\mathcal{F}_m)\\
+                                     &\leq X_m-\E(X_\infty|\mathcal{F}_m)\\
+                                     &= A_m
+            \end{align*}
+            Thus $\{A_n\}_{n=0}^\infty$ is a non-negative supermartingale with $A_\infty=0$.
+
+            One can prove that $\{M_n\}_{n=0}^\infty$ is a uniformly integrable martingale, i.e. $\lim_{c\to\infty}\sup_{n\in\N}\E(|X_n|;|X_n|>c)=0$.
+
+            By the previous proposition, $\E(A_T)<\infty$.
+            On the other hand, $\E(|M_T|)<\infty$ by definition of the $\{M_n\}$.
+            Thus $\E(|X_T|)<\infty$.
+        \item Apply the previous lemma so $\E(M_T|\mathcal{F}_s)=\E(\E(M_\infty|\mathcal{F}_T)\mathcal{F}_S)=\E(M_\infty|\mathcal{F}_s)=M_s$ by the optimal sampling theorem for closed martingales.
+            Meanwhile, as $\{A_n\}_{n=0}^\infty$ is a non-negative supermartingale with $A_\infty=0$, $\E(A_T|\mathcal{F}_s)\leq A_s$ almost surely.
+            Thus $\E(X_T|\mathcal{F}_s)\leq X_s$ almost surely.
+    \end{enumerate}
+\end{proof}
+To prepare for the optimal sampling theorem for closed supermartingales in continuous time, we introduce one more discrete time notion:
+\begin{definition}
+    A \defn{negatively indexed supermartingale} $\{X_n\}_{n=0,-1,\ldots}$ and $\{\mathcal{F}_n\}_{n=0,-1,\ldots}$ where $\mathcal{F}_m\subseteq\mathcal{F}_n$ for $m\leq n$.
+    Then $X_n\in L^1(\Omega,\mathcal{F},\pr)$, $\{X_n\}$ is adapted and $\E(X_n|\mathcal{F}_m)\leq X_m$.
+\end{definition}
+\begin{theorem}
+    Let $\{X_n\}_{n=0,-1,\ldots}$ be a negatively indexed supermartingale such that $\sup_{-\infty<n\leq 0}\E(X_n)<\infty$.
+    Then $\{X_n\}_{n=0,-1,\ldots}$ is uniformly integrable.
+\end{theorem}
 \end{document}
