@@ -344,27 +344,67 @@
 
 % main document ----------------------------------------------------------------
 \chapter{Stochastic Calculus}
+\section{Measure Theory for Probability}
 \begin{definition}
-    Given a measure space $(\Omega,\mathcal{F},\pr)$, a measurable function $f:\Omega\to\R$ is called a \defn{random variable}.
+    Given a measure space $(\Omega,\mathcal{F},\pr)$, a measurable function $X:\Omega\to\R$ is called a \defn{random variable}.
+    If $X$ is a random variable, then we define the \defn{distribution} of $X$ to be the measure Borel measure $\mu$ on $\R$ given by $\mu(E)=\pr(X^{-1}(E))$.
 \end{definition}
+\subsection{Conditional Expectation}
+\begin{theorem}[Kolmogorov]
+    Suppose $X\in L^1(\Omega,\mathcal{F},\pr)$ and $\mathcal{G}\subset\mathcal{F}$ is a sub-$\sigma$-algebra.
+    Then there exists some $Z\in L^1(\Omega,\mathcal{G},\pr)$ such that for each $A\in\mathcal{G}$
+    \begin{equation*}
+        \int_A Xd\pr=\int_A Zd\pr.
+    \end{equation*}
+    Moreover, if $\tilde Z\in L^1(\Omega,\mathcal{G},\pr)$ satisfies the above constraint, then $\pr\{x\in\Omega:\tilde Z(x)=Z(x)\}=1$.
+\end{theorem}
 \begin{definition}
-    A \defn{stochastic process} $X=\{X_t\}_{t\in T}$ is a collection of random variables defined on some probability space $(\Omega,\mathcal{F},\pr)$.
+    In the context of the above theorem, we write $Z=\E[X|\mathcal{G}]$ and call $\E[X|\mathcal{G}]$ a \defn{conditional expectation} with respect to $\mathcal{G}$.
+    Certainly $\E[X|\mathcal{G}]$ nee not be pointwise unique.
 \end{definition}
-Typically $t\in\Z^+$ or $t\in\R^+$ (including 0); $t$ is a discrete or continuous time parameter.
-Given some $\omega\in\Omega$ the map $t\mapsto X_t(\omega)$ is called a \defn{realization} or \defn{path} of this process.
-We will regard $\{X_t\}_{t\geq 0}$ as a random element in some path space, equipped with a proper $\sigma-$algebra and probability.
+\begin{theorem}[Properties of Conditional Expectation]
+    Suppose $X,Y$ are random variables on $(\Omega,\mathcal{F},\pr)$ with $X\in L^1(\Omega,\mathcal{F},\pr)$.
+    Let $\mathcal{G}\subset\mathcal{F}$ be a sub-$\sigma$-algebra.
+    Then
+    \begin{enumerate}[nl]
+        \item $\E[X|\mathcal{G}]\geq 0$ a.s. whenever $X\geq 0$ a.s.
+        \item For $\alpha,\beta\in\R$ and $Y\in L^1(\Omega,\mathcal{F},\pr)$, $\E[\alpha X+\beta Y|\mathcal{G}]=\alpha\E[X|\mathcal{G}]+\beta\E[Y|\mathcal{G}]$ a.s.
+        \item If $XY\in L^1(\Omega,\mathcal{F},\pr)$ and $Y$ is $\mathcal{G}-$measurable, then $\E[XY|\mathcal{G}]=Y\E[X|\mathcal{G}]$
+        \item If $\mathcal{H}\subset\mathcal{G}$ is a $\sigma$-algebra, then $\E[\E[X|\mathcal{G}]|\mathcal{H}]=\E[X|\mathcal{H}]$ a.s.
+        \item $\E[\E[X|\mathcal{G}]]=\E[X]$
+        \item If $\mathcal{H}$ is a $\sigma$-algebra which is independent of the $\sigma-$algebra $\sigma\{\sigma\{X\},\mathcal{G}\}$, then $\E[X|\sigma\{\mathcal{G},\mathcal{H}\}]=\E[X|\mathcal{G}]$.
+            In particular, $\E[X|\mathcal{G}]=\E[X]$ a.s. whenever $\sigma\{X\}$ and $\mathcal{H}$ are independent.
+    \end{enumerate}
+\end{theorem}
+\subsection{Stochastic Processes}
+\begin{definition}
+    A \defn{stochastic process} $X=\{X_t\}_{t\in \mathcal{T}}$ is a collection of random variables defined on some probability space $(\Omega,\mathcal{F},\pr)$.
+\end{definition}
+Typically, we assume that $\mathcal{T}=\Z_{\geq 0}$ or $\mathcal{T}=\R_{\geq 0}$ and equip $\mathcal{T}$ with the order topology
+Intuitively, we expect $t$ to be a discrete or continuous time parameter.
+Given some $\omega\in\Omega$, the map $t\mapsto X_t(\omega)$ is called a \defn{realization} or \defn{path} of this process.
+One of the goals of this section is to treat $\{X_t\}_{t\geq 0}$ as a random element in some path space, equipped with a proper $\sigma-$algebra and probability.
 
-Consider $X_t(\omega)$ as a function $X:[0,\infty)\times\Omega\to \R$ equipped with the product $\sigma-$algebra.
-
 \begin{definition}
-    The \defn{distribution} of a stochastic process is the collection of all its finite-dimensional distributions.
+    We say that a stochastic process is \defn{$L^p$} if $X_t$ is $L^p$ for each $t\in\mathcal{T}$.
+    Then we say that a stochastic process is \defn{uniformly $L^p$} if there exists some $B\in\R$ so that $\int_\Omega|X_t|^pd\pr\leq B$ for each $t\in\mathcal{T}$.
 \end{definition}
-Two processes $X$ and $Y$ can be ``the same'' in different senses:
+Consider $X_t(\omega)$ as a function $X:\mathcal{T}\times\Omega\to \R$ equipped with the product $\sigma-$algebra.
 \begin{definition}
-    Two process $X=\{X_t\}_{t\geq 0}$ and $Y=\{Y_t\}_{t\geq 0}$ are called \defn{distinguishable} if almost all their sample paths agree; in other words, $\pr(X_t=Y_t,0\leq t<\infty)=1$.
-    We say that $Y$ is a \defn{modification} of $X$ if for each $t\geq 0$ we have $\pr(X_t=Y_t)=1$.
-    Finally, $X$ and $Y$ are said to have the \defn{same distribution} if all the finite dimensional distributions agree.
-    In other words, if for all $n\in\N$ and $0\leq t_1<t_2<\cdots<t_n<\infty$, we have $(X_{t_1},\ldots,X_{t_n})\overset{d}{=}(Y_{t_1},\ldots,Y_{t_n})$.
+    The \defn{distribution} of a stochastic process is the collection of all its finite-dimensional distributions, i.e. the collection of all the distributions of $\{X_{t_1},\ldots,X_{t_k}\}$ for and $k\in\N$ and $t_i\in \mathcal{T}$.
+\end{definition}
+There are a number of ways to say that two processes $X$ and $Y$ are equivalent, which we organize in decreasing order of strength.
+\begin{definition}
+    Let $X=\{X_t\}_{t\in \mathcal{T}}$ and $Y=\{Y_t\}_{t\in \mathcal{T}}$ be stochastic processes.
+    \begin{itemize}[nl]
+        \item We say that $X$ and $Y$ are called \defn{indistinguishable} if almost all their sample paths agree; in other words,
+            \begin{equation*}
+                \pr(\omega\in\Omega:X_t(\omega)=Y_t(\omega)\text{ for all }t\in \mathcal{T})=1.
+            \end{equation*}
+        \item We say that $Y$ is a \defn{modification} of $X$ if for each $t\in \mathcal{T}$ we have $\pr(\omega\in\Omega:X_t(\omega)=Y_t(\omega))=1$.
+        \item Finally, $X$ and $Y$ are said to have the \defn{same distribution} if all the finite dimensional distributions agree.
+            In other words, if for all $n\in\N$ and $t_1<\cdots<t_n$, with $t_i\in \mathcal{T}$, we have $(X_{t_1},\ldots,X_{t_n})\overset{d}{=}(Y_{t_1},\ldots,Y_{t_n})$.
+    \end{itemize}
 \end{definition}
 \begin{example}
     Let $X$ be a continuous stochastic process and $N$ a Poisson point process on $[0,\infty)$.
@@ -382,126 +422,176 @@ Two processes $X$ and $Y$ can be ``the same'' in different senses:
 A filtration formalizes the idea of ``information acquired over time''.
 \begin{definition}
     Let $(\Omega,\mathcal{F},\pr)$ be a probability space.
-    A \defn{filtration} is a non-decreasing family $\{\mathcal{F}_t\}_{t\geq 0}$ of sub-$\sigma$-algebras of $\mathcal{F}$ so that $\mathcal{F}_s\subseteq\mathcal{F}_t\subseteq\mathcal{F}$ for $0\leq s<t<\infty$.
-    We write $F_\infty=\sigma(\bigcup_{t\geq 0}\mathcal{F}_t)$.
+    A \defn{filtration} is a non-decreasing family $\{\mathcal{F}_t\}_{t\in \mathcal{T}}$ of sub-$\sigma$-algebras of $\mathcal{F}$ so that $\mathcal{F}_s\subseteq\mathcal{F}_t\subseteq\mathcal{F}$ for any $s<t$ in $\mathcal{T}$.
+    We write $F_\infty=\sigma(\bigcup_{t\in \mathcal{T}}\mathcal{F}_t)$.
 \end{definition}
-Let $\{X_t\}_{t\geq 0}$ be a stochastic process.
-The filtration generated by $\{X_t\}_{t\geq 0}$ is $\{\sigma(X_s:0\leq s\leq t)\}_{t\geq 0}$, in other words $\mathcal{F}_t$ is the smallest $\sigma-$algbra which makes $X_s$ measurable for all $s\in[0,t]$.
+Let $\{X_t\}_{t\in \mathcal{T}}$ be a stochastic process.
 \begin{definition}
-    A stochastic process $\{X_t\}_{t\geq 0}$ is called \defn{adapted} to a filtration $\{\mathcal{F}_t\}_{t\geq 0}$ if $X_t$ is $\mathcal{F}_t-$measurable for every $t\geq 0$.
+    The \defn{filtration generated by $\{X_t\}_{t\in \mathcal{T}}$} is $\{\sigma(\{X_s:s\leq t\})\}_{t\in \mathcal{T}}$.
+    In other words $\mathcal{F}_t$ is the smallest $\sigma$-algebra which makes $X_s$ measurable for all $s\leq t$ in $\mathcal{T}$.
+    A stochastic process $\{X_t\}_{t\in \mathcal{T}}$ is called \defn{adapted} to a filtration $\{\mathcal{F}_t\}_{t\in \mathcal{T}}$ if $X_t$ is $\mathcal{F}_t$-measurable for every $t\in \mathcal{T}$.
 \end{definition}
-The filtration generated by $\{X_t\}_{t\geq 0}$ is the smallest filtration which makes $(X_t)_{t\geq 0}$ adapted.
-
-A filtration $\{\mathcal{F}_t\}_{t\geq 0}$ is said to satisfy the ``usual condition'' if
-\begin{enumerate}[nl]
-    \item It is right-continuous: $\lim_{s\to t^+}:=\bigcap_{s>t}\mathcal{F}_s=\mathcal{F}_t$
-    \item $\mathcal{F}_0$ contains all the $\pr-$null events in $\mathcal{F}$.
-\end{enumerate}
+Clearly, the filtration generated by $\{X_t\}_{t\in \mathcal{T}}$ is the smallest filtration which makes $(X_t)_{t\in \mathcal{T}}$ adapted.
+\begin{definition}
+    A filtration $\{\mathcal{F}_t\}_{t\in \mathcal{T}}$ is said to satisfy the ``usual condition'' if
+    \begin{enumerate}[nl,r]
+        \item it is right-continuous: $\lim_{s\to t^+}:=\bigcap_{s>t}\mathcal{F}_s=\mathcal{F}_t$, and
+        \item $\mathcal{F}_0$ contains all the $\pr-$null events in $\mathcal{F}$.
+    \end{enumerate}
+\end{definition}
 \section{Martingale Theory}
-Consider a filtered space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in S})$ where $S=\N$ or $S=\R^+$.
+\subsection{Stopping Times}
+Consider a filtered space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in \mathcal{T}},\pr)$, i.e. a probability space equipped with a filtration.
 \begin{definition}
-    A \defn{random time} $T$ is called a stopping time if $\{T\leq t\}\in\mathcal{F}_t$ (``we know it happens when it happens'').
+    A random time $N:\Omega\to \mathcal{T}$ is called a \defn{stopping time} if $N^{-1}([0,t])\in\mathcal{F}_t$ for each $t\in \mathcal{T}$.
 \end{definition}
+The philosophy here is that we know that a stopping time happens when it happens.
 \begin{example}
     \begin{enumerate}[nl,r]
         \item Constants are trivial stopping times.
-        \item Last hit a constant before $N$ is not a stopping time
+        \item Last hit a constant before some fixed bound is not a stopping time
     \end{enumerate}
 \end{example}
 \begin{proposition}
-    If $S,T$ are stopping times, $T\vee S$, $T\wedge S$, $T+S$ are stopping times.
+    If $T,S$ are stopping times, $\min\{T,S\}$, $\max\{T,S\}$, and $T+S$ are stopping times.
 \end{proposition}
 \begin{proof}
-    That $T\wedge S$ and $T\vee S$ are stopping times are trivial.
-    For $T+S$, $\{T+S>t\}=\{T=0,S>t\}\cup\{0<T\leq t,T+S>t\}\cup\{T>t\}$.
-    It suffices to prove that
-    \begin{equation*}
-        \{0<T\leq t<T+S>t\}=\bigcup_{\substack{r\in\Q^+\\0<r<t}}\{r<T\leq t,S>t-r\}.
-    \end{equation*}
-    If there exists $r$ with $r<T\leq t$, then $S>t=r$ and $S+T>r+(t-r)=t$, so $\supseteq$ holds.
-    Conversely, if $0<T\leq t$ and $T+S\geq t$< then there exists $r\in\Q$ such that $r<T$ and $r+S>t$.
-    Hence $r<T\leq t$ and $S>t-r$.
+    \begin{itemize}[nl]
+        \item We have $\min\{T,S\}^{-1}([0,t])=T^{-1}([0,t])\cap S^{-1}([0,t])\in\mathcal{F}_t$.
+        \item Similarly, we have $\max\{T,S\}^{-1}([0,t])=T^{-1}([0,t])\cup S^{-1}([0,t])\in\mathcal{F}_t$.
+        \item For $T+S$, we have that
+            \begin{align*}
+                (T+S)^{-1}((t,\infty))&=\bigl(T^{-1}(\{0\})\cap S^{-1}((t,\infty))\bigr)\cup S^{-1}((t,\infty))\\
+                                      &\agspace \cup\bigl(T^{-1}((0,t])\cap (T+S)^{-1}((t,\infty))\bigr)
+            \end{align*}
+            where $T^{-1}(\{0\})\cap S^{-1}((t,\infty))\in\mathcal{F}_t$ and $S^{-1}((t,\infty))\in\mathcal{F}_t$.
+            To finish the proof, since $T$ has a countable dense subset $Q$, we have
+            \begin{equation*}
+                T^{-1}((0,t])\cap (T+S)^{-1}((t,\infty))=\bigcup_{r\in Q\cap(0,t)}S^{-1}((r,t])\cap T^{-1}((t-r,\infty))
+            \end{equation*}
+            where the expressions in the union are certainly $\mathcal{F}_t$-measurable.
+    \end{itemize}
 \end{proof}
 \begin{definition}
-    The $\sigma-$algebra generated by a stopping time $T$ is the collection of all the events $A$ for which $A\cap\{T\leq t\}\in\mathcal{F}_t$ for every $t\geq 0$.
-    This is the ``information you collect until the stopping time''.
+    The \defn{$\sigma-$algebra generated by a stopping time $T$} is the set of all events $A$ for which $A\cap T^{-1}([0,t])\in\mathcal{F}_t$ for every $t\in \mathcal{T}$.
 \end{definition}
-Exercise: show that the collection given in the definition above is actually a $\sigma-$algebra.
+Intuitively, this is the information you collect until the stopping time.
+Note that this $\sigma$-algebra is not the same as the $\sigma$-algebra generated by the random variable $T$.
+It is left as an exercise to the reader to verify that the above collection is indeed a $\sigma$-algebra.
 
 We write $X_{T\wedge t}$ is a random variable evaluated at time $T\wedge t$ (or $T$); in other words, $(X_{T\wedge t})(\omega)=X_{T\wedge t}(\omega)$.
-Then $\{T_{T\wedge t}\}_{t\geq 0}$, or $X^T$, is a stochastic process stopped at time $t$.
+Then $\{X_{T\wedge t}\}_{t\in\mathcal{T}}$, or $X^T$, is a stochastic process stopped at time $t$.
+\subsection{Doob's Upcrossing Inequality}
 \begin{definition}
-    Consider a filtered probability space $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$.
-    A $\{\mathcal{F}_t\}_{t\in T}-$adaped proces $\{X_t\}_{t\in T}$ is said to be a \defn{submartingale} if
+    Consider a filtered probability space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in\mathcal{T}},\pr)$.
+    A $\{\mathcal{F}_t\}_{t\in \mathcal{T}}-$adapted proces $\{X_t\}_{t\in \mathcal{T}}$ is said to be a \defn{submartingale} if
     \begin{enumerate}[nl,r]
-        \item For all $t\in T$, $X_t\in L^1(\Omega,\mathcal{F},\ps)$
-        \item For all $s<t$ where $s,t\in T$,
+        \item for all $t\in \mathcal{T}$, $X_t\in L^1(\Omega,\mathcal{F},\ps)$, and
+        \item for all $s<t$ where $s,t\in \mathcal{T}$,
             \begin{equation*}
-                \E(X_t | \mathcal{F}_s)\geq X_s\qquad \ps\text{ a.s.}
+                \E(X_t | \mathcal{F}_s)\geq X_s
             \end{equation*}
+            almost surely.
     \end{enumerate}
-    and it is a \defn{supermartingale} with the inequality in (ii) reversed.
-    Then $\{X_t\}_{t\in T}$ is a \defn{martingale} if it is both a submartingale and supermartingale.
+    and is said to be a \defn{supermartingale} if condition (ii) above is replaced with
+    \begin{enumerate}[nl,r]
+        \item[(ii')] for all $s<t$ where $s,t\in \mathcal{T}$,
+            \begin{equation*}
+                \E(X_t | \mathcal{F}_s)\leq X_s
+            \end{equation*}
+            almost surely.
+    \end{enumerate}
+    Then $\{X_t\}_{t\in \mathcal{T}}$ is a \defn{martingale} if it is both a submartingale and supermartingale.
 \end{definition}
-Clearly if $0\leq s<t$, then $\E(X_0)\leq \E(X_s)\leq \E(X_t)$ in the submartingale case, and other appropriate statements in the other case.
-One of the goals of martingale theory is to extend these results with respect to stopping times, rather than with respect to fixed time.
+If $X$ is a submartingale and $0\leq s<t$ are fixed times, then $\E(X_0)\leq \E(X_s)\leq \E(X_t)$.
+Similar statements hold in the (super)martingale cases as well.
+One of the goals of martingale theory is to extend these results with respect to stopping times, rather than with respect to fixed times.
 
-Let $X=\{X_n\}_{n=0}^\infty$ be a discrete time process, and fix levels $a<b$.
-The number $U_N[a,b]$ of \defn{upcrossings} of $[a,b]$ by $X$ by time $N$ is the largest $k\in\Z^+$ such that there exists times $a\leq s_1<t_1<s_2<t_2<\cdots<s_k<t_k\leq N$ such that for all $i$, $s_i\leq a$ and $t_i\geq b$.
 \begin{definition}
-    A process $X=\{X_n\}_{n=0}^\infty$ is called \defn{previsible} if $X_n\in\mathcal{F}_{n-1}$ for all $n\geq 1$.
+    Let $X=\{X_n\}_{n\in\Z^+}$ be a discrete time process and fix levels $a<b$ with $a,b\in\R$.
+    Then the \defn{number of upcrossings} of $[a,b]$ by $X$ before time $N$ with respect to the event $\omega\in\Omega$, denoted by $U_N^X([a,b],\omega)$, is the maximal $k\in\Z^+$ such that there exists times $0\leq s_1<t_1<s_2<t_2<\cdots<s_k<t_k\leq N$ such that for all $i$, $X_{s_i}(\omega)\leq a$ and $X_{t_i}(\omega)\geq b$.
 \end{definition}
-Let $C=\{C_n\}_{n=1}^\infty$ be a previsible process.
-Then the martingale transform of $X$ by $C$, denoted by $C\cdot X$, is defined as $(C\cdot X)_n=\sum_{k=1}^n C_k(X_k-X_{k-1})$ for $n>0$ and $(C\cdot X)_0=0$.
-\begin{proposition}
-    \begin{enumerate}[nl]
-        \item Let $C$ be a bounded, non-negative previsible process and $X$ a (super)matingale.
-            Then $C\cdot X$ is a (super)martingale which is null at 0.
-        \item Let $C$ be a bounded, previsible process and $X$ a martingale.
+Note that $U_N^X([a,b]):\Omega\to\Z^+$ given by $\omega\mapsto U_N^X([a,b],\omega)$ is a random variable.
+\begin{definition}
+    A process $C=\{C_n\}_{n\in\Z^+}$ is called \defn{previsible} if $C_n$ is $\mathcal{F}_{n-1}-$measurable for all $n\geq 1$.
+    Suppose in addition that $\{X_n\}_{n\in\Z^+}$ is a discrete time process.
+    Then the \defn{martingale transform} of $X$ by $C$, denoted by $C\cdot X$, is defined by
+    \begin{equation*}
+        (C\cdot X)_n=
+        \begin{cases}
+            \sum_{k=1}^n C_k(X_k-X_{k-1}) &: n>0\\
+            0 &: n=0
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{lemma}\label{l:previs}
+    Suppose $C$ is a bounded or $L^2$ previsible process.
+    Then
+    \begin{enumerate}[nl,r]
+        \item Let $C$ be non-negative and $X$ a supermartingale.
+            Then $C\cdot X$ is a supermartingale which is null at 0.
+        \item Let $X$ be a martingale.
             Then $C\cdot X$ is a martingale which is null at 0.
-        \item If $C$ is an $L^2$ previsible process (resp. non-negative) and $X$ an $L^2$ martingale (resp. supermartingale), then $C\cdot X$ is a martingale (resp. supermartingale).
-\end{proposition}
+    \end{enumerate}
+\end{lemma}
 \begin{proof}
-    \begin{enumerate}[nl]
-        \item We have
+    We first treat the case where $C$ is bounded.
+    \begin{enumerate}[nl,r]
+        \item We have by properties of conditional expectation and non-negativity of $C$
             \begin{align*}
                 \E[(C\cdot X)_n-(C\cdot X)_{n-1}|\mathcal{F}_{n-1}] &= \E[C_n(X_n-X_{n-1})|\mathcal{F}_{n-1}]\\
                                                                     &= C_n\cdot \E[X_n-X_{n-1}|\mathcal{F}_{n-1}]\\
                                                                     &\leq 0
             \end{align*}
             where the second line follows since $C$ is previsible.
-            Since $C$ is bounded, $C\cdot X$ is integrable.
+            Integrability follows immediately since $C$ is bounded and $X_n$ is $L^1$ for each $n\in\Z^+$.
         \item Consider $C+k$ where $k$ is a constant and $k\geq|C_n(w)|$ for all $n$ and $w$.
         \item Similar, but the integrability is now guaranteed by Hölder's inequality.
     \end{enumerate}
+    % When $C$ is $L^2$, by Hölder's inequality, we have integrability of $C\cdot X$ given by
+    % \begin{equation*}
+    % \end{equation*}
 \end{proof}
 We now have the following result:
 \begin{proposition}[Doob's Upcrossing Inequality]
-    Let $X$ be a supermartingale.
-    Then $(b-a)\E(U_N[a,b])\leq\E((X_N-a)^-)$.
+    \begin{enumerate}[nl,r]
+        \item Let $X$ be a supermartingale.
+            Then
+            \begin{equation*}
+                (b-a)\cdot\E[U_N^X([a,b])]\leq\E[(X_N-a)^-].
+            \end{equation*}
+        \item Let $X$ be a submartingale.
+            Then
+            \begin{equation*}
+                (b-a)\cdot\E[U_N^X([a,b])]\leq\E[(X_N-a)^+].
+            \end{equation*}
 \end{proposition}
 \begin{proof}
-    Define a process $\{C_n\}_{n=1}^\infty$ by
+    We prove (i); the proof of (ii) is analgous.
+    Define a process $\{C_n\}_{n\in\Z^+}$ by
     \begin{align*}
-        C_1&:=\chi_{\{X_0<a\}}\\
-        C_k&:=\chi_{\{C_{n-1}=1\}}\chi_{\{X_{n-1}\leq b\}}+\chi_{\{C_{n-1}=0\}}\chi_{\{X_{n-1}<a\}}.
+        C_0&:= 0\\
+        C_1&:=\chi_{X_0^{-1}((-\infty,a))}\\
+        C_n&:=\chi_{C_{n-1}^{-1}(\{1\})}\cdot\chi_{X_{n-1}^{-1}((-\infty,b])}+\chi_{C_{n-1}^{-1}(\{0\})}\cdot\chi_{X_{n-1}^{-1}((-\infty,a))}.
     \end{align*}
-    Let $Y=C\cdot X$, i.e. $Y_n=\sum_{k=1}^n C_k(X_k-X_{k-1})$ almost surely.
-    Note that each finished upcrossing increases the value of $Y$ by at least $b-a$, we have
+    Certainly $C$ is non-negative and bounded; previsibility follows since $C_n$ is a characteristic function depending only on preimages of $X_k$ for $k<n$.
+    Thus set $Y=C\cdot X$, i.e. $Y_n=\sum_{k=1}^n C_k\cdot(X_k-X_{k-1})$ almost surely; by \cref{l:previs}, $Y$ is a supermartingale.
+
+    Since each finished upcrossing increases the value of $Y$ by at least $b-a$, we have for any $\omega\in\Omega$
     \begin{equation*}
-        Y_N\geq(b-a)U_N[a,b]-(X_n-a)^-
+        Y_N(\omega)\geq(b-a)U_N^X([a,b],\omega)-(X_n-a)^-(\omega)
     \end{equation*}
-    where $(X_N-a)^-$ is the upper bound for the ``loss'' due to the last unfinished upcrossing.
-    Since $C$ is non-negative, bounded, and previsible, $Y$ is a supermartingale.
-    Moreover, $\E(Y_1)\leq 0$, so $\E(Y_N)\leq\E(Y_1)\leq 0$.
+    where $(X_N-a)^-(\omega)$ is the upper bound for the ``loss'' due to the last unfinished upcrossing.
+    Since $\E(Y_1)\leq 0$, we have $\E(Y_N)\leq\E(Y_1)\leq 0$.
     Thus
     \begin{equation*}
-        (b-a)\E U_[a,b]\leq\E[(X_n-a)^i]
+        (b-a)\cdot\E[U_N^X([a,b])]\leq\E[(X_n-a)^-]
     \end{equation*}
     as required.
 \end{proof}
+\subsection{Optimal Sampling Theorems}
 \begin{theorem}
-    Suppose $\{X_t\}_{t\in T}$ is a martingale with $\E(X_t^2)\leq B<\infty$ for any $t\in T$ and $B$ not depending on $t$.
+    Suppose $\{X_t\}_{t\in\mathcal{T}}$ is uniformly $L^2$.
     Then $X_t$ converge in $L^2$ to a limit $X_\infty$.
 \end{theorem}
 \begin{proof}
@@ -652,11 +742,94 @@ Similar statements hold with $X_n\leq\E(X_\infty|\mathcal{F}_n)$ for a submartin
 \end{proof}
 To prepare for the optimal sampling theorem for closed supermartingales in continuous time, we introduce one more discrete time notion:
 \begin{definition}
-    A \defn{negatively indexed supermartingale} $\{X_n\}_{n=0,-1,\ldots}$ and $\{\mathcal{F}_n\}_{n=0,-1,\ldots}$ where $\mathcal{F}_m\subseteq\mathcal{F}_n$ for $m\leq n$.
+    Denote by $\Z^-=\{z\in\Z:z\leq 0\}$.
+    A \defn{negatively indexed supermartingale} $\{X_n\}_{n\in\Z^-}$ and $\{\mathcal{F}_n\}_{n\in\Z^-}$ where $\mathcal{F}_m\subseteq\mathcal{F}_n$ for $m\leq n$.
     Then $X_n\in L^1(\Omega,\mathcal{F},\pr)$, $\{X_n\}$ is adapted and $\E(X_n|\mathcal{F}_m)\leq X_m$.
 \end{definition}
 \begin{theorem}
-    Let $\{X_n\}_{n=0,-1,\ldots}$ be a negatively indexed supermartingale such that $\sup_{-\infty<n\leq 0}\E(X_n)<\infty$.
-    Then $\{X_n\}_{n=0,-1,\ldots}$ is uniformly integrable.
+    Let $\{X_n\}_{n\in\Z^-}$ be a negatively indexed supermartingale such that $\sup_{n\in\Z^-}\E(X_n)<\infty$.
+    Then $\{X_n\}_{n\in\Z^-}$ is uniformly $L^1$.
 \end{theorem}
+\begin{proof}
+    Fix $a=\sup_{n\in\Z^-}\E(X_n)$.
+    For any $\epsilon>0$, get $N(\epsilon)\in\Z^-$ such that $\E(X_{N(\epsilon)})>a-\epsilon$ for $N\leq N(\epsilon)$.
+    Since $X$ is a supermartingale, $0\leq\E(X_n)-\E(X_{N(\epsilon)})\leq\epsilon$ for all $n\leq N(\epsilon)$.
+    For $c>0$, note that
+    \begin{equation*}
+        |x|\chi_{|X|>c}=-x\chi_{X<-c}-X\chi_{X\leq x}+x.
+    \end{equation*}
+    Since $\{X_n\}$ is a supermartingale, for $n\leq N(\epsilon)$, $\E(X_{N(\epsilon)}|\mathcal{F}_n)\leq X_n$ and $\{X_n<-c\}\in\mathcal{F}_n$.
+    Thus $\E(X_n;X_n<-c)\geq\E(X_{N(\epsilon)};X_n<-c)$.
+    Similarly, $\E(X_n;X_n\leq c)\geq\E(X_{N(\epsilon)};X_n\leq c)$.
+    Moreover, $\E(X_n)\leq\E(X_{N(\epsilon)})+\epsilon$, so $\E(|X_n|;X_n\leq c)\leq\E(X_{N(\epsilon)};X_n\leq c)+\epsilon$ for all $N\leq N(\epsilon)$.
+    For this $N(\epsilon)$, there exists $\delta(\epsilon)>0$ such that $\E(X_{N(\epsilon)};A)<\epsilon$ for all $A\in\mathcal{F}$ and $\pr(A)<\delta(\epsilon)$.
+
+    Since $X$ is a supermartingale, $\{-2X_n^-\}_{n\in\Z^-}$ is also a supermartingale.
+    To see this, define $f(x)=2\min\{x,0\}$, so $f$ is increasing and concave.
+    But then for $M\leq n$, by Jensen's inequality,
+    \begin{align*}
+        \E(f(X_n)|\mathcal{F}_m) &\leq f(\E(X_n|\mathcal{F}_m))\leq f(X_m)
+    \end{align*}
+    and $-2X_n^-=f(X_n)$ is thus a supermartingale, so $\E(-2X_n^-)\geq\E(-2X_0^-)$.
+    We also have $\E(X_n)\leq a$ where $a$ is defined as above.
+    Thus since $|X_n|=X_n+2X_n^-$, we have
+    \begin{equation*}
+        \E(|X_n|)\leq a-\E(-2X_0^-)=a+2\E(X_0^-)<\infty.
+    \end{equation*}
+
+    Now, choose $c$ so that $c\cdot\delta(\epsilon)>a+2\E(X_0^-)\geq\E(|X_n|)$.
+    Then by Markov's ineuality, $\pr(|X_n|>c)\leq\delta(\epsilon)$.
+    Thus $\E(|X_{N(\epsilon)}|;|X_n|>c)<\epsilon$ for $n\in\Z^-$ so that $\E(|X_m|;|X_n|>c)<2\epsilon$ for all $n<N(\epsilon)$.
+    But there are only finitely many terms with $n>N(\epsilon)$, so we are done.
+\end{proof}
+\begin{theorem}[Optimal Sampling Theorem for Closed Supermartingales]
+    Let $\{X_t\}_{t\in\R^+}$ be an $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in\R^+},\pr)$ supermartingale which is right continuous and closed.
+    Let $S,T:\Omega\to\overline{\R^+}$ be two stopping times with $S\leq T$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\E(|X_T|)<\infty$
+        \item $\E(X_T|\mathcal{F}_s)\leq X_s$ a.s.
+    \end{enumerate}
+\end{theorem}
+\begin{definition}
+    Define random times $T_n:=2^{-n}(\lfloor 2^nT\rfloor+1)$.
+    Then the $T_n$ are decreasing stopping times with $T=\lim T_n$ pointwise from above.
+    For each $n$, $\{X_{m2^{-n}}\}_{n\in\Z^+}$ is a discrete-time closed supermartngale.
+    Thus $\E(X_{T_n-1}|\mathcal{F}_{T_n})\leq X_{T_n}$ a.s. (optimal sampling theorem for closed supermartingale in discrete time).
+    Set $Y_n=X_{T_n-1}$, so $\{Y_n\}_{n=-1,-2,\ldots}$ is a negatively indexed supermartingale and $\E(Y_n)=\E(X_{T-n-1})\leq\E(X_0)<\infty$.
+    Thus by the previous result, $\{X_{T_n}\}_{n\in\Z^+}$ is uniformly $L^1$.
+    Since $T_n\to T$ from above and $X_{T_n}\to X_T$ a.s., uniform integrability gives that $X_{T_n}\to X_T$ in $L^1$.
+    Thus $\E(|X_T|)=\lim_{n\to\infty}\E(|X_{T_n}|)<\infty$.
+    Similarly, define $S_n=2^{-n}(\lfloor 2^nS\rfloor+1)$.
+    Both $S_n$ and $T_n$ can be regarded as discrete-time stopping times.
+    Thus by the discrete optimal sampling theorem, $\E(X_{T_n}|\mathcal{F}_{S_n})\leq X_{S_n}$ a.s.
+
+    Now for $A\in\mathcal{F}_S\subseteq\mathcal{F}_{S_n}$, $\E(X_{T_n};A)\leq\E(X_{S_n};A)$ so
+    \begin{equation*}
+        |\E(X_{T_n};A)-\E(X_T;A)|\;eq\E(|X_{T_n}-X_T|)\fto{n\to\infty} c
+    \end{equation*}
+    Also, $|\E(X_{S_n};A)-\E(X_S;A)|\to 0$.
+    Therefore, as $n$ goes to infinity,
+    \begin{equation*}
+        \E(X_T;A)\leq\E(X_S;A)
+    \end{equation*}
+    for all $A\in\mathcal{F}_S$ so $\E(X_T|\mathcal{F}_S)\leq X_s$.
+\end{definition}
+\begin{corollary}
+    Let $\{X_t\}_{t\in\R^+}$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in\R^+}$ martingale which is right continuous and closed.
+    If $S,T:\Omega\to\overline{\R^+}$ are two stopping times with $S\leq T$, then $X_T$ is integrable and $|E(X_T|\mathcal{F}_S)=X_S$.
+\end{corollary}
+\begin{corollary}
+    Same results hold for bounded $S,T$ and general right continuous martingale.
+\end{corollary}
+\begin{corollary}
+    A right continuous adapted process $X$ is a martingale if and only if for every bounded stopping time $T$, $X_T$ is $L^1$ and $\E(X_T)=\E(X_0)$.
+\end{corollary}
+\begin{proof}
+    The forward direction is contained in the above theorem.
+    Conversely, for any $s<t$ and $A\in\mathcal{F}_s$, define $T=t\chi_{A^c}+s\chi_{A}$ which is a stopping time (exercise).
+    Then $\E(X_0)=\E(X_T)=\E(X_t;A^c)+\E(X_s;A)$.
+    On the other hand, $\E(X_0)=\E(X_t)=\E(X_t;A^c)+\E(X_t;A)$ so $\E(X_s;A)=\E(X_t;A)$.
+    But $A\in\mathcal{F}_s$ is arbitrary, so $\E(X_t|\mathcal{F}_s)=\E(X_s)$.
+\end{proof}
 \end{document}
