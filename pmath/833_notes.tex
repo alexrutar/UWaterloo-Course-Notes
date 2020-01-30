@@ -257,7 +257,7 @@
 \DeclareMathOperator{\dist}{dist}
 \DeclareMathOperator{\Pol}{Pol}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{conv}}^{w^*}\,}}
-\newcommand{\idc}{\mathbf{1}}
+\newcommand{\idc}[1]{\ensuremath{\mathbf{1}_{#1}}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
 \newcommand{\cw}{\ensuremath{\overline{\operatorname{conv}}\,}}
 
@@ -971,7 +971,351 @@ We are now in position to complete the proof.
             Then $m(G)\geq nm(V)$ for any $n\in\N$, so $m(G)=\infty$.
     \end{enumerate}
 \end{example}
+\subsection{The Space \texorpdfname{$L^1(G)$}{L1G}}
+Let $G$ be a locally compact group equipped with Haar measure $m$.
+Then
+\begin{equation*}
+    L^1(G)=\{f:G\to\C:f\text{ measurable},\norm{f}_1=\int_G|f|dm<\infty\}/\sim_{m\quad a.e.}
+\end{equation*}
+This is a Banach space.
+Recall that by definition of the Lebesgue integral
+\begin{equation*}
+    S^1(G)=\spn\{\chi_E:E\in\mathcal{B}(G),m(E)<\infty\}/\sim_{m\quad a.e.}
+\end{equation*}
+If $0<m(E)<\infty$, then, given $\epsilon>0$, there are compact $K\subseteq E$ and open $U\supseteq E$.
+Hence Urysohn's lemma provides $f\in C_c^+(G)$ such that $f|_L=1$, $\supp(f)\subseteq U$, and $0\leq f\leq 1$.
+Hence $\norm{f-1_E}_1<\epsilon$.
+Note that if $f,g\in C_c(G)$, then $f=g$ $m$ a.e. if and only if $f=h$.
+Thus $C_c(G)\subseteq L^1(G)$ is dense.
+\subsection{The Modular Function}
+If $x\in G$, define $m_x:\mathcal{B}(G)\to[0,\infty]$ by $m_x(E)=m(Ex)$.
+Recall $Ex=R_{x^{-1}}^{-1}(E)\in\mathcal{B}(G)$.
+Then
+\begin{itemize}[nl]
+    \item $m_x$ is left invariant
+    \item $m_x(U)=m(Ux)>0$ if $U$ is non-empty and open
+    \item $m_x(K)=m(Kx)<\infty$ if $K$ is compact.
+\end{itemize}
+Hence by uniqueness of Har measure, $m_x=\Delta(x)m$ for some $\Delta(x)\in(0,\infty)$.
+Notice if $E\in\mathcal{B}(G)$ and $0<m(E)<\infty$ and $x,y\in G$, then
+\begin{equation*}
+    \Delta(xy)m(E)=m(Exy)=\Delta(y)m(Ex)=\Delta(x)\Delta(y)(E)
+\end{equation*}
+so $\Delta:G\to(0,\infty)\subset\R^\times$ is a homomorphism.
 
+Recall that $x\cdot f(y)=f(yx)$.
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item For $f\in L^1(G)$, $x\in G$, we have $x\cdot f\in L^1(G)$, and
+            \begin{equation*}
+                \int_G fdm=\Delta(x)\int_G x\cdot fdm
+            \end{equation*}
+        \item $\Delta:G\to(0,\infty)$ is continuous.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $E\in\mathcal{B}(G)$ with $m(E)<\infty$.
+            Then
+            \begin{equation*}
+                \Delta(x)\int_G \idc{E}\d{m}=\Delta(x)m(E)=m(Ex)=\int_G \idc{E_x}\d{m}=\int_G x^{-1}\cdot \idc{E}\d{m}
+            \end{equation*}
+            and replacing $x$ by $x^{-1}$, we have
+            \begin{equation*}
+                \int_G\idc{E}\d{m}=\Delta(x)\int_Gx\cdot \idc{E}\d{m}.
+            \end{equation*}
+            If $f\in L^1_+(G)$, so there is $(\phi_n)_{n=1}^\infty\subset S^1_+(G)$ such that $\phi_n\leq\phi_{n+1}$ and $(\phi_n)_{n=1}^\infty\to f$ $m$-a.e.
+            Then by monotone convergence,
+            \begin{equation*}
+                \Delta(x)\int_Gx\cdot f\d{m}=\lim_{n\to\infty}\Delta(x)\int_G x\cdot\phi_n\d{m}=\lim_{n\to\infty}\int_G\phi_n\d{m}=\int_G f\d{m}.
+            \end{equation*}
+            Since $L^1(G)=\spn L^1_+(G)$, we are done.
+        \item Let $f\in C_c^+(G)$, $\epsilon>0$, and $V=V^{-1}$ be a relatively compact neighbourhood of $e$ so $\norm{x\cdot f-f}_\infty<\epsilon$ for $\in V$.
+            Then for $x\in V$,
+            \begin{align*}
+                |\Delta(x)-1|&=\frac{|\Delta(x)\int_Gf\d{m}-\int_Gf\d{m}|}{\int_G f\d{m}}\\
+                             &\leq\frac{1}{\int_G f\d{m}}\int_G|x^{-1}\cdot f-f|\d{m}<\epsilon\frac{m(\supp(f)V}{\int_Gf\d{m}}
+            \end{align*}
+            Notice we can arrange for $V$ to be decreasing as $\epsilon\to 0$, so this gives continuity of $\Delta$ at $e$.
+            Now if $x,y\in G$,
+            \begin{equation*}
+                |\Delta(x,y)-\Delta(y)|=|\Delta(x)-1|\Delta(y)
+            \end{equation*}
+            which shows that $\Delta$ is continuous at $y$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item The integral $f\mapsto\int_G f(x)\frac{1}{\Delta(x)}\d{x}$ on $C_c(G)$ is right invariant.
+        \item For $f\in L^1(G)$,
+            \begin{equation*}
+                \int_G f(x^{-1})\frac{1}{\Delta(x)}\d{x}=\int_G f(x)\d{x}
+            \end{equation*}
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $y\in G$ and $f\in C_c(G)$, then
+            \begin{align*}
+                \int_G y\cdot f(x)\frac{1}{\Delta(x)}\d{x}&=\int_G f(xy)\frac{1}{\Delta(x)}\d{x}=\int_G f(xy)\frac{1}{\Delta(xy)}\Delta(y)\d{x}\\
+                                                          &= \int_G f(x)\frac{1}{\Delta(x)}\d{x}
+            \end{align*}
+        \item If $f\in C_c^+(G)$, then for any $y\in G$,
+            \begin{align*}
+                \int_G f\cdot y(x^{-1})\frac{1}{\Delta(x)}\d{x} &= \int_G f((xy^{-1})^{-1})\frac{1}{\Delta(x)}\d{x}\\
+                                                                &= \int_G f(x^{-1})\frac{1}{\Delta(x)}\d{x}
+            \end{align*}
+            by the proof above.
+            Hence by uniqueness of left Haar integral, there is $c>0$ so that
+            \begin{equation*}
+                \int_G f(x^{-1})\frac{1}{\Delta(x)}\d{x}=c\int_G f(x)\d{x}
+            \end{equation*}
+            for $f\in C_c(G)$.
+            Notice, by continuity of $f\mapsto\int_G f\d{m}$ on $L^1(G)$, this holds for $f\in L^1(G)$.
+
+            Now, if $c\neq 1$, there is a relatively compact neighbourhood $U=U^{-1}$ of $e$ such that $|\Delta(x)-1|<\frac{1}{2}|c-1|$ for $x\in U$.
+            Then we have
+            \begin{align*}
+                0 &= \left\lvert\int_G\idc{U}(x^{-1})\frac{1}{\Delta(x)}\d{x}-c\int_G\idc{U}(x)\d{x}\right\rvert\\
+                  &= \left\lvert\int_U\left(\frac{1}{\Delta(x)}-c\right)\d{x}\right\rvert\\
+                  &= \left\lvert\int_U\left(\frac{1}{\Delta(x)}-1+1-c\right)\d{x}\right\rvert\\
+                  &\geq m(U)\left\lvert|1-c|-\frac{1}{2}|c-1|\right\rvert=\frac{m(U)}{2}|1-c|>0
+            \end{align*}
+            which is a contradiction.
+    \end{enumerate}
+\end{proof}
+For $f\in L^1(G)$, $x\in G$, we let
+\begin{align*}
+    x*f(y)&=f(x^{-1}y)\\
+    f*x(y)&=f(yx^{-1})\frac{1}{\Delta(x)}\\
+    f^*(x)&=\overline{f(x^{-1})}\frac{1}{\Delta(x)}
+\end{align*}
+Notice that $\norm{f}_1=\norm{x*f}_1=\norm{f*x}_1=\norm{f^*}_1$.
+Moreover,
+\begin{itemize}[nl]
+    \item $x'*(x*f)=(x'x)*f$ and $(f*x)*x'=f*(xx')$
+    \item $f^{**}=f$.
+    \item $(x*f)^*=f^**x^{-1}$.
+        Indeed, for $m$-a.e. $y$, we have
+        \begin{align*}
+            (x*f)^*(y) &= \overline{[x*f](y^{-1})}\frac{1}{\Delta(y)}\\
+                       &= \overline{f(x^{-1}y^{-1})}\frac{\Delta(y)}\\
+                       &= \overline{f((yx)^{-1})}\frac{1}{\Delta(yx)}\frac{1}{\Delta(x^{-1})}\\
+                       &= f^**x^{-1}(y)
+        \end{align*}
+\end{itemize}
+\begin{proposition}
+    For $f\in L^1(G)$, $\lim_{x\to e}\norm{x*f-f}_1=0=\lim_{x\to e}\norm{f*x-f}_1$.
+\end{proposition}
+\begin{proof}
+    First, consider $g\in C_c(G)$ and $\epsilon>0$, and let $V=V^{-1}$ be a relatively compact neighbourhood of $e$ so $\norm{g\cdot x-g}_\infty<\epsilon$ for $x\in V$.
+    Then
+    \begin{equation*}
+        \norm{x*g-g}_1=\int_G|g\cdot x^{-1}\d{m}\leq\norm{g\cdot x^{-1}-g}_\infty m(V\supp(g))<\epsilon m(V\supp(g))
+    \end{equation*}
+    so $\lim_{x\to e}\norm{x*g-g}_1=0$.
+    If $f\in L^1(G)$, $\epsilon>0$, find $g\in C_c(G)$ such that $\norm{f-g}_1<\epsilon$.
+    Then
+    \begin{align*}
+        \norm{x*f-f}_1 &\leq \norm{x*f-x*g}_1+\norm{x*g-g}_1+\norm{g-f}_1\\
+                       &<2\epsilon+\norm{x*g-g}_1
+    \end{align*}
+    where $\norm{x*g-g}_1\to 0$ as $x\to e$.
+    Since $\epsilon>0$ was arbitrary, we are done.
+
+    Now, for $f,x$ as above,
+    \begin{equation*}
+        \norm{f_x-f}_1=\norm{(f*x-f)^*}_1=\norm{x^{-1}*f^*-f^*}_1
+    \end{equation*}
+    where $x^{-1}\to e$ as $x\to e$.
+\end{proof}
+\begin{theorem}[Weil Integral Formula]
+    Let $N$ be a closed normal subgroup of $G$.
+    \begin{enumerate}[nl,r]
+        \item If $f\in C_c(G)$, then $x\mapsto\int_Nf(xn)dn:G\to\C$ is constant on cosets and hence defines a function $T_nf:\quot{G}{N}\to\C$.
+            Furthermore, $T_N(C_c^*(G))\subseteq C_c^+(\quot{G}{N})$ and the operator $T_N:C_c(G)\to C_c(\quot{G}{N})$ is linear and covariant:
+            \begin{equation*}
+                (T_Nf)\cdot(yN)=T_N(f\cdot y)
+            \end{equation*}
+            for $f\in C_c(G)$ and $y\in G$.
+        \item The functional on $C_c(G)$ given by $f\mapsto\int_{\quot{G}{N}}T_nf(xN)\d{x}N$ is hence a Haar integral on $G$, so we may write
+            \begin{equation*}
+                \int_{\quot{G}{N}}\int_Nf(xn)\d{n}\d{xN}=\int_G f(x)\d{x}
+            \end{equation*}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    (ii) is a direct consequence of (i); let's see the proof of (i).
+
+    The $N$-invariance of the first function is evident.
+    Let $f\in C_c(G)$.
+    We inspect the continuity of $T_Nf$ at $x$ in $G$.
+    Given $\epsilon>0$, let $V=V^{-1}$ be a real compact neighbourhood of $e$, so $\norm{f\cdot y-f}_\infty<\epsilon$ for $y\in V$.
+    Let $g\in C_c^+(G)$ satisfy that $0\leq g\leq 1$ and $g|_{Vx^{-1}\supp(f)}=1$.
+    For $y\in V$, $yN=q_N(y)\in q_N(V)$ so
+    \begin{align*}
+        |T_Nf(yxN)-T_Nf(xN)| &\leq\int_N|f(yx)-f(xn)|g(n)\d{n}\\
+                             &<\epsilon m_N(\supp(g)\cap N)
+    \end{align*}
+    Notice as $\epsilon\to 0$, we may shrink $V$ and hence $\supp(g)$.
+    Hence $T_Nf$ is continuous at $xN$.
+    Now, $\supp(T_Nf)\subseteq q_N(\supp f)$ so $T_Nf\in C_c(\quot{G}{N})$.
+
+    If $g\in C_c^+(G)$, $x\in G$ is such that $f(x)>0$, let $U$ be a neigbourhood of $e$, $f(xy)>\frac{1}{2}f(x)$ for $y\in U$.
+    Then
+    \begin{equation*}
+        T_Nf(xN)=\int_N f(xn)\d{n}\geq\frac{1}{2}f(x)m_N(U\cap N)>0
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    If $N$ is closed and normal in $G$, Then $\Delta_G|_N=\Delta_N$.
+\end{corollary}
+\begin{proof}
+    Let $n'\in N$ and $f\in C_c^+(G)$.
+    Then
+    \begin{align*}
+        \int_G n'\cdot f(x)\d{x} &=\int_{\quot{G}{N}}\int_Nf(xnn')\d{n}\d{xN}\\
+                                 &= \int_{\quot{G}{N}}\frac{1}{\Delta_N(n')}\int_Nf(xn)\d{n}\d{xN}=\frac{1}{\Delta_N(n')}\int_Gf(x)\d{x}
+    \end{align*}
+    so that $\Delta_G(n')=\Delta_N(n')$.
+\end{proof}
+\begin{definition}
+    We say that $G$ is \defn{unimodular} if $\Delta=1$ on $G$.
+\end{definition}
+\begin{proposition}
+    $G$ is unimodular in any of the following cases:
+    \begin{enumerate}[nl,r]
+        \item $G$ is abelian, discrete, or compact
+        \item $G$ is perfect: $G=\overline{[G,G]}$
+        \item $\quot{G}{Z(G)}$ is unimodular.
+        \item There is a closed, unimodular normal subgroup $N$ such that $\quot{G}{N}$ is compact.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item This is (nearly) obvious for $G$ abelian or discrete.
+            If $G$ is compact, then $\log\circ\Delta:G\to(\R,+)$ is a continuous homomorphism whose range is a compact subgroup.
+        \item Any commutator $[x,y]\in xyx^{-1}y^{-1}\in\ker\Delta$.
+        \item Let $Z=Z(G)$.
+            If $y\in G$ and $f\in C_c(G)$, we have by Weyl's integral formula
+            \begin{align*}
+                \int_G y\cdot f(x)dx &= \int_{\quot{G}{Z}}\int_Z f(xz)\d{z}\d{xZ}\\
+                                     &= \int_{\quot{G}{Z}}\int_Zf(xyz)\d{z}\d{xZ}\\
+                                     &= \int_{\quot{G}{Z}}T_Zf(xyZ)\d{xZ}\\
+                                     &= \int_{\quot{G}{Z}}T_Zf(xZyZ)dxZ\\
+                                     &= \int_{\quot{G}{Z}}T_Zf(xZ)dxZ=\int_Gf(x)dx
+            \end{align*}
+        \item We have $\Delta_G|_N=\Delta_N=1$ by assumption, i.e. $N\in\ker\Delta_G$, so $\Delta_G$ induces a homomorphism $\overlin{\Delta}:\quot{G}{N}\to(0,\infty)$ where $\Delta_G=\overline{\Delta}\circ\pi_N$.
+            Verify that $\overline{\Delta}$ is continuous, so $\log\circ\overline{\Delta}:\quot{G}{N}\to\R^+$ is a continuous homomorphism, whose range is a closed subgroup.
+            It follows that $\Delta_G=1$ on $G$.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    Here are some examples of unimodular groups.
+    \begin{enumerate}[r]
+        \item Let $\mathfrak{k}$ be a locally compact field with $|\mathfrak{k}|>3$.
+            Then $\SL_n(\mathfrak{k})$ is perfect.
+
+            Let $\{E_{ij}\}_{i,j=1}^n$ be a matrix unit for $M_n(\mathfrak{k})$, so $E_{ij}E_{k\ell}=\delta_{jk}E_{il}$.
+
+            If $\lambda\in\mathfrak{k}$, $i,j,k$ distinct (i.e. $n\geq 3$), then
+            \begin{equation*}
+                [e+\lambda E_{ik},e+E_{kj}]=(e+\lambda E_{ik})(e+E_{kj})(e-\lambda E_{ik})(e-E_{kj})=e+\lambda E_{ij}.
+            \end{equation*}
+            If $n=2$, then
+            \begin{equation*}
+                \left[\begin{pmatrix}\alpha&0\\0&\alpha^{-1}\end{pmatrix},\begin{pmatrix}1&\beta\\0&1\end{pmatrix}\right]=e+\lambda E_{12}
+            \end{equation*}
+            where $\lambda=(1-\alpha^2)\beta$.
+
+            If $S=\langle e+\lambda E_{ij}:\lambda\in\mathfrak{k},i\neq j\rangle$.
+            Using only elemnentary operations induced by multiplying by elements of $S$ on the left, and element $a$ of $\SL_n(\mathfrak{k})$ satisfies
+            (see pic)
+
+            By an evident induction, we see that there are $s_1,s_2\in S$ so $s_1sas_2=e$.
+            Thus $a=s^{-1}s_1^{-1}s_2^{-1}\in S$.
+        \item Let $\mathfrak{k}=\R$ or $\C$.
+            Consider $G=\GL_n(\mathfrak{k})$.
+            Notice that $Z=Z(G)=\mathfrak{k}^\times e$.
+            From (i), $\SL_n(\mathfrak{k})$ is perfect.
+
+            Let $H=Z\cdot\SL_n(\mathfrak{k})$, which is closed (check!) and $\quot{H}{Z}\cong\quot{\SL_n(\mathfrak{k})}{Z\cap\SL_n(\mathfrak{k})}$ is perfect, being the quotient of a perfect group, hence unimodular.
+            
+            If $\mathfrak{k}=\C$ or $\mathfrak{k}=\R$ and $n$ is odd, $H=G$.
+            Else if $\mathfrak{k}=\R$ and $n$ is even, then $H=\GL_n(\R)_e=\det^{-1}((0,\infty))$ (connnected component of $e$) and $G=\GL_n(\R)_e\cupdot(-e)\GL_n(\R)_e$, so $\quot{G}{H}\cong\{-1,1\}$ is compact.
+        \item $E(n)=\R^n \rtimes \SO(n)$.
+            Since $N=\R^n\rtimes\{e\}$ is closed, normal, and abelian, and $\quot{G}{N}=\SO(n)$ is compact.
+        \item Consider
+            \begin{equation*}
+                \mathbb{H}=\left\{\begin{pmatrix}1&x&z\\0&1&y\\0&0&1\end{pmatrix}:x,y,z\in\R\right\}
+            \end{equation*}
+            then
+            \begin{equation*}
+                Z(\mathbb{H})=\left\{\begin{pmatrix}1&0&z\\0&1&0\\0&0&1\end{pmatrix}:z\in\R\right\}
+            \end{equation*}
+            has $\quot{\mathbb{H}}{Z}\cong\R^2$.
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    In A1, a ``Braconnier'' modular function $\delta:\Aut(G)\to(0,\infty)$ is defined.
+    \begin{enumerate}[nl,r]
+        \item If $\gamma:G\to\Aut(G)$ has $\gamma(x)(y)=xyx^{-1}$, so $\gamma$ is a homomorphism.
+            Then $\delta(\gamma(x))=\frac{1}{\Delta(x)}$.
+        \item If $G$ is compact and $\alpha\in\Aut(G)$, then $\alpha(G)=G$ so $1=m(G)=m(\alpha(G))$ and $\delta(\alpha)=1$.
+        \item If $G$ is discrete and $\alpha\in\Aut(G)$, then for any non-empty finite $F\subseteq G$, we have $|F|=|\alpha(F)|$, and it follows that $\delta(\alpha)=1$.
+        \item If $G$ is unimodular and $H$ an open subgroup of $G$, then $H$ is unimodular
+            However, there is some subtlety here:
+            \begin{equation*}
+                H=\left\{\begin{pmatrix}a&b\\0&a^{-1}\end{pmatrix}:a,b\in\R,a>0\right\}
+            \end{equation*}
+            is closed in $\SL_2(\R)$ and $H\cong\R\rtimes(0,\infty)$ is not unimodular.
+            Moreover,
+            \begin{equation*}
+                N=\left\{\begin{pmatrix}1&b\\0&1\end{pmatrix}:b\in\R,a>0\right\}
+            \end{equation*}
+            is open, normal and abelian in $G=\left\{\begin{pmatrix}2^n &r\\0&1\end{pmatrix}n\in\Z,r\in\R\right\}$ and $G$ is closed in $\GL_2(\R)$.
+    \end{enumerate}
+\end{remark}
+\subsection{The Convolution Algebra of Measures}
+Let $G$ be a locally compact group.
+Let
+\begin{align*}
+    M(G) &= \{\mu:\mathcal{B}(G)\to\C:\mu\text{ Radon measure}\}=\spn M_+(G)\\
+    M_+(G) &= \{\mu:\mathcal{B}(G)\to[0,\infty)|\mu\text{ Radon}]
+\end{align*}
+If $\mu\in M_+(G)$ with $\mu(G)<\infty$ so $\mu$ is finite.
+
+Recall the Hahn-Jordan Decomposition: each $\mu$ in $M(G)$ admits a decomposition $\mu=\sum_{k=0}^3 i^k\mu_k$ where each $\mu_i\in M_+(G)$, $\mu_0\perp\mu_2$, and $\mu_1\perp\mu_3$.
+Any measures satisfying this decomposition are unique.
+\begin{definition}
+    If $\mu\in M(G)$, we define the $|\mu|:\mathcal{B}(G)\to[0,\infty)$ by
+    \begin{equation*}
+        |\mu|(E)=\sup\left\{\sum_{k=1}^\infty|\mu(E_k)|:E=\bigcupdot_{k=1}^\infty E_k,E_k\in\mathcal{B}(G)\right\}
+    \end{equation*}
+    and $|\mu|=M_+(G)$.
+    If $\mu=\sum_{k=0}^3i^k\mu_k$ as in Hahn-Jordan, then $|\mu_0-\mu_2|=\mu_0+\mu_2$ and $|\mu_1-\mu_3|=\mu_1+\mu_3$.
+    Furthermore,
+    \begin{equation*}
+        |\mu|\leq|\mu_0-\mu_2|+|\mu_1-\mu_3|\text{ and }|\mu_0-\mu_2||\mu_1-\mu_3|\leq|\mu|
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Riesz-Markov Duality]
+    Let $C_0(G)=\overline{C_c(G)}\subseteq C_b(G)$ with the uniform topology.
+    Then $C_0(G)^*\cong M(G)$ through the map $\mu\mapsto \langle\mu,\cdot\rangle$ where $\langle \mu,f\rangle=\int_G f\d{\mu}$.
+    Moreover, $\norm{\langle\mu,\cdot\rangle}_{\text{op}}=|\mu|(G)$.
+\end{theorem}
+\begin{remark}
+    Let $\mathcal{B}^\infty(G)=\{f:G\to\C:f\text{ bounded and Borel measurable}\}$, which is a Banach space under the uniform norm.
+    Note that $\mathcal{B}^\infty(G)=\overline{\spn}\{1_E:E\in\mathcal{B}(G)\}$.
+    We have
+    \begin{equation*}
+        \left\lvert\int_G f\d{\mu}\right\rvert\leq\int_G|f|d|\mu|\leq\norm{f}_\infty\norm{\mu}_1
+    \end{equation*}
+\end{remark}
+If $\mu\in M(G)$ and $\epsilon>0$, then inner regularity provides compact $K\subseteq G$ such that $|\mu|(K)>|\mu(G)-\epsilon$.
+Hence $|\mu|(G\setminus K)<\epsilon$.
+Then $\norm{\mu-\mu_k}_1=\norm{\mu_{G\setminus K}}_1=|\mu|(G\setminus K)<\epsilon$.
+    
 
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}

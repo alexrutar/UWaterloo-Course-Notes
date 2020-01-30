@@ -565,6 +565,7 @@ We now have the following result:
             \begin{equation*}
                 (b-a)\cdot\E[U_N^X([a,b])]\leq\E[(X_N-a)^+].
             \end{equation*}
+    \end{enumerate}
 \end{proposition}
 \begin{proof}
     We prove (i); the proof of (ii) is analgous.
@@ -791,7 +792,7 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
         \item $\E(X_T|\mathcal{F}_s)\leq X_s$ a.s.
     \end{enumerate}
 \end{theorem}
-\begin{definition}
+\begin{proof}
     Define random times $T_n:=2^{-n}(\lfloor 2^nT\rfloor+1)$.
     Then the $T_n$ are decreasing stopping times with $T=\lim T_n$ pointwise from above.
     For each $n$, $\{X_{m2^{-n}}\}_{n\in\Z^+}$ is a discrete-time closed supermartngale.
@@ -814,7 +815,7 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
         \E(X_T;A)\leq\E(X_S;A)
     \end{equation*}
     for all $A\in\mathcal{F}_S$ so $\E(X_T|\mathcal{F}_S)\leq X_s$.
-\end{definition}
+\end{proof}
 \begin{corollary}
     Let $\{X_t\}_{t\in\R^+}$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in\R^+}$ martingale which is right continuous and closed.
     If $S,T:\Omega\to\overline{\R^+}$ are two stopping times with $S\leq T$, then $X_T$ is integrable and $|E(X_T|\mathcal{F}_S)=X_S$.
@@ -832,4 +833,367 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
     On the other hand, $\E(X_0)=\E(X_t)=\E(X_t;A^c)+\E(X_t;A)$ so $\E(X_s;A)=\E(X_t;A)$.
     But $A\in\mathcal{F}_s$ is arbitrary, so $\E(X_t|\mathcal{F}_s)=\E(X_s)$.
 \end{proof}
+\begin{corollary}
+    Suppose $\{X_t\}_{t\in\mathcal{T}}$ is a martingale and $T$ is a stopping time.
+    Then the stopped process $X^T$ where $X^T_t=X_{t\wedge T}$ for each $t\in\mathcal{T}$ is also a martingale.
+\end{corollary}
+\begin{proof}
+    The process $X^T$ is clearly adapted.
+    For any bounded stopping time $S$, $S\min T$ is also a bounded stopping time.
+    Then
+    \begin{equation*}
+        \E(X_s^T)=\E(X_{S\wedge T})=\E(X_0)=\E(X_0^T)
+    \end{equation*}
+    so $X^T$ is a martingale by the previous corollary.
+\end{proof}
+\subsection{Martingale Convergence}
+\begin{theorem}
+    Let $\{X_t\}_{t\in\mathcal{T}}$ be a supermartingale.
+    If $\sup_t\E(X_t^-)<\infty$, then $\lim_{t\to\infty}X_t$ exists almost surely.
+\end{theorem}
+\begin{proof}
+    Suppose $\lim_{t\to\infty}X_t$ does not exist a.s.
+    Then there exist levels $a$ and $b$ such that $X$ upcrosses $[a,b]$ infinitely many times with positive probability.
+    In other words, $\pr(\lim_{N\to\infty}U_N([a,b])=\infty)>0$, so $\E[U_N([a,b])]\to\infty$ as $N\to\infty$.
+    However,
+    \begin{equation*}
+        \E(U_N[a,b])\leq\frac{1}{b-a}\sup_t\E[(X_t-a)^-]\leq\frac{1}{b-1}\sup_t(\E(X_t^-)+|a|)<\infty.
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    A positive supermartingale converges a.s.
+\end{corollary}
+\begin{theorem}
+    Let $\{X_t\}_{t\in\mathcal{T}}$ be a martingale.
+    The following conditions are equivalent:
+    \begin{enumerate}[nl,r]
+        \item $\lim_{t\to\infty}X_t$ converges in $L^1$
+        \item There is a random variable $X_\infty$ in $L^1$ such that $X_t=\E(X_\infty|\mathcal{F}_t)$, i.e. $X$ is closed by $X_\infty$
+        \item $X$ is uniformly $L^1$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    First note that the upcrossing number $U_n^X([a,b],\omega)$ can be defined analgously for a continuous time process.
+    Moreover, the upcrossing inequality sill holds in the continuous time case (right continuity + discretization).
+
+    \imp{ii}{iii}
+    Discussed earlier (find proof)
+
+    \imp{iii}{i}
+    Exercise: U.I. implies $\sup_t\E(X_t^-)<\infty$.
+    Thus by the supermartingale convergence theorem, $\lim_{t\to\infty}X_t$ exists a.s.
+    Then U.I. converges to $X_\infty$ in $L^1$.
+
+    \imp{i}{ii}
+    $X+t-\E(X_{t+h}|\mathcal{F}_t)$ and take limit as $H\to\infty$ (??)
+\end{proof}
+\begin{corollary}
+    Let $\{X_t\}_{t\in\mathcal{T}}$ be a U.I. martingale.
+    If $S,T:\Omega\to\overline{T}$ are two stopping times with $S\leq T$.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\E(|X_T|)<\infty$
+        \item $\E(X_T|\mathcal{F}_s)=X_s$
+    \end{enumerate}
+\end{corollary}
+\begin{corollary}
+    Let $\{X_t\}_{t\in\mathcal{T}}$ be a martingale and let $T$ be a stopping time such that $|X_{t\wedge T}|\leq 0$ for all $t\in\mathcal{T}$.
+    Then $\E(X_T)=\E(X_0)$ where $X_T=\lim_{t\to\infty}X_{t\wedge T}$.
+\end{corollary}
+\begin{proof}
+    The stopped process $X^T$ is a bounded martingale and hence U.I.
+    Thus $X_T=\lim_{t\to\infty}X_{t\wedge T}$ exists a.s. and $X_t^T\to X_T$ in $L^1$.
+    Thus $\E(X^T_t)=\E(X_0)$ implies $E(X_T)=\E(X_0)$.
+\end{proof}
+\section{Brownian Motion}
+\begin{definition}
+    An adapted process $B=\{B_t\}_{t\geq 0}$ is called a (standard, one-dimensional) \defn{Brownian motion} if
+    \begin{enumerate}[nl]
+        \item $B_0=0$ a.s.
+        \item $B$ has continuous sample paths
+        \item $B_t-B_s\perp\mathcal{F}_s$ (define independent), $B_t-B_s\sim \mathcal{N}(0,t-s)$.
+    \end{enumerate}
+    Equivalently:
+    \begin{enumerate}[nl]
+        \item[1'] $\{B_t\}_{t\geq 0}$ is a Gaussian process
+        \item[2'] $B$ has continuous paths
+        \item[3'] $\E(B_t)=0$, $\E(B_sB_t)=s\wedge t$ for $s,t\geq 0$.
+    \end{enumerate}
+\end{definition}
+\imp{3}{1'}
+immediate
+
+\imp{1+3}{3'}
+$\E(B_t)=0$ for $t\geq 0$.
+Assume $s\leq t$.
+Then $\E(B_sB_t)=\E(B_s^2)+\E(B_s(B_t-B_s))$, where $\E(B_s(B_t-B_s))=0$ by condition on $\mathcal{F}_s$, and $\E(B_s^2)\sim N(0,s)$.
+
+\imp{3'}{1}
+$\E(B_0^2)=0$ so $B_0=0$ a.s.
+
+\imp{1'+3'}{3}
+(3') determines the variance-covariance structure for a Gaussian process, which coincides with the distribution given by (3).
+\begin{theorem}[Levy's Characterization]
+    Let $X$ be a $\mathcal{F}_t$-adapted continuousprocess vanishing at 0.
+    Then $X$ is an $\mathcal{F}_t$-Brownian motion if and only if both $X$ and $X_t^2-t$ are martinales.
+\end{theorem}
+\begin{proof}
+    ``only if'': Clearly $X$ is a martingale.
+    Then $X_t^2-t$ is a martingale since
+    \begin{align*}
+        \E(X_t^2-t|\mathcal{F}_s)&=\E[((X_t-X_s)+X_s)^2|\mathcal{F}_s]-t\\
+                                 &=\E[(X_t-X_s)^2|\mathcal{F}_s]+X_s^2-t\\
+                                 &=t-s+X_s^2=X+s^2-s.
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Brownian motion is a strong Markov process.
+    Let $T$ be a stopping time; then $B_T^*:=\{B_{T+t}-B_t\}_{t\geq 0}$ is a Brownian motion, independent of $\mathcal{F}_T$.
+\end{proposition}
+\begin{proof}
+    Discretization and discussing all the possible values of $T$.
+\end{proof}
+Scaling property of BM: $\{B_{at}\}_{t\geq 0}=\{a^{1/2}B_t\}_{t\geq 0}$ in distribution.
+\begin{theorem}
+    Let $B=\{B_t\}_{t\geq 0}$ be a Brownian motion.
+    Then the process $X_0=0$ and $X_t=tB(1/t)$ is also a Brownian motion.
+\end{theorem}
+TODO: check.
+\begin{corollary}
+    $\pr(\inf\{t>0:B(t)=0\}=0)=1$, i.e. 0 is almost surely an accumulation point of zeros of $\{B_t\}_{t\geq 0}$.
+\end{corollary}
+\begin{proposition}[Reflection Principle]
+    Let $a>0$, $\tau_a:=\inf\{t:B(t)=a\}$, and $M_t:=\sup_{s\in[0,t]}B_s$.
+    Then $\pr(M_t\geq a)=\pr(\tau_a\leq t)=2\pr(B_t\geq a)$.
+\end{proposition}
+\begin{proof}
+    We have
+    \begin{align*}
+        \pr(\tau_a\leq t) &= \pr(\tau_a\leq t,B_t\geq a)+\pr(\tau_a\leq t, B_t<a)\\
+                          &= \pr(\tau_a\leq t,B_t-B_{\tau_a}\geq 0)\\
+                          &= \E(\pr(B^*_{t-\tau_a}\geq 0|\tau_a);\tau_a\leq t)
+    \end{align*}
+    Similarly,
+    \begin{equation*}
+        \pr(\tau_a\leq t,B_t<a) = \E(\pr(B^*_{t-\tau_a}<0|\tau_a);\tau_a\leq t)
+    \end{equation*}
+    and by symmetry
+    \begin{equation*}
+        \pr(B^*_{t-\tau_a}\geq 0|\tau_a)=\pr(B^*_{t-\tau_a}<0|\tau_a)=\frac{1}{2}
+    \end{equation*}
+    so that
+    \begin{equation*}
+        \pr(\tau_a\leq t,B_t\geq a)=\pr(\tau_a\leq t,B_t<a)
+    \end{equation*}
+\end{proof}
+\begin{theorem}
+    Almost surely the path of a Brownian motion is of unbounded variation on any compact interval.
+\end{theorem}
+\begin{proof}
+    Let $\{\pi_n\}_{n=1}^\infty$ be an increasing sequence of partitions of $[a,b]$ with part size converging uniformly to 0.
+    Consider
+    \begin{equation*}
+        \sum_{t_i\in\pi_n}(B_{t_{i+1}}-B_{t_i})^2-(b-a)=\sum_{t_i\in\pi_n}\underbrace{[(B_{t_{i+1}}-B_{t_i})^2-(t_{i+1}-t_i)]}_{\text{ind. rvs mean 0}}.
+    \end{equation*}
+    Moreover, note that
+    \begin{equation*}
+        \frac{(B_{t_{i+1}})^2}{t_{i+1}-t_i}\sim Z^2
+    \end{equation*}
+    where $Z\sim N(0,1)$.
+    Thus
+    \begin{align*}
+        \E\left[\left(\sum_{t_i\in\pi_n}[(B_{t_{i+1}}-B_{t_i})^2-(t_{i+1}-t_i)]\right)^2\right] &= \sum_{t_i\in\pi_n}\E\left[\left((B_{t_{i+1}}-B_{t_i})^2-(t_{i+1}-t_i)^2\right)\right]\\
+                                                                                                &= \sum_{t_i\in\pi_n}(t_{i+1}-t_i)^2\E((Z^2-1)^2)\\
+                                                                                                &\leq\E((Z^2-1)^2)\sup_{t_i\in\pi_n}|t_{i+1}-t_i|\cdot(b-a)
+    \end{align*}
+    which converges to $0$ as $n\to\infty$.
+    Thus $\sum_{t_i\in\pi_n}(B_{t_{i+1}}-B_{t_i})^2\to b-a$ in $L^2$.
+    Thus there exists a subsequence $(\pi_{n_k})_{k=1}^\infty$ such that $\sum_{t_i\in\pi_n}(B_{t_i+1}-B_{t_i})^2\to b-a$ almost surely.
+    On the other hand,
+    \begin{align*}
+        \sum_{t_i\in\pi_{n_k}}(B_{t_i+1}-B_{t_i})^2 &\leq\sup_{t_i\in\pi_{n_k}}|B_{t_{i+1}}-B_{t_i}|\cdot\sum_{t_i\in\pi_{m_n}}|B_{t_{i+1}}-B_{t_i}|\\
+                                                    &\leq\sup_{t_i\in\pi_{n_k}}|B_{t_{i+1}}-B_{t_i}|\cdot TV_{[a,b]}(B)
+    \end{align*}
+    Since each path $B$ is uniformly continuous on $[a,b]$, since the part size of $\pi_{n_k}\to 0$, $\sup_{t_i\in\pi_{n_k}}|B_{t_{i+1}}-B_{t_i}|\to 0$.
+    Then as $n\to\infty$ on both sides,
+    \begin{equation*}
+        b-a\leq 0\cdot TV_{[a,b]}(B)
+    \end{equation*}
+    so that $TV_{[a,b]}(B)=\infty$.
+\end{proof}
+\section{Stochastic Integration}
+Our goal is to define $\int fdB=\int f(t,w)dB_t(w)$.
+Since $B$ does not have bounded variation, we cannot define this integral as a pathwise Lebesgue-Stieltjes integral.
+Let $I=[a,b]$ and define $V=V_I$ be the class of processes $f:[0,\infty)\times\Omega\to\R$ such that
+\begin{enumerate}[nl,r]
+    \item $f$ is $\mathcal{B}\times\mathcal{F}$-measurable
+    \item $f$ is $\mathcal{F}_t$-adapted.
+    \item $\E(\int_a^Bf^2(t,\omega)dt)<\infty$, i.e. $f\in L^2([a,b]\times\Omega)$.
+\end{enumerate}
+A process $\phi\in V$ is called \defn{elementary} if $\phi$ has the form
+\begin{equation*}
+    \phi=\sum_j A_j\chi_{[t_j,t_{j+1})}(t)
+\end{equation*}
+where each $A_j$ is a $\mathcal{F}_{t_j}$-measurable random variable for all $j$, and $\{t_j\}$ forms a partition of $I$.
+We then define
+\begin{equation*}
+    \int_I\phi dB=\sum_J A_j(B_{t_{j+1}}-B_{t_j}).
+\end{equation*}
+Next, we extend this definition to any process in $V$ by approaching the process using elementtary process.
+\begin{lemma}
+    Let $g\in V$ be bounded and continuous.
+    Then there exists $\{g_n\}_{n=1}^\infty$, $g_n\in V$ elementary, such that $g_n\to g$ in $L^2$.
+\end{lemma}
+\begin{proof}
+    Fix a partition $\pi_n=\{t_j\}$, we define
+    \begin{equation*}
+        \phi_n=\sum g(t_j)\idc{[t_k,t_{j+1})}.
+    \end{equation*}
+    Since $g$ is $\mathcal{B}\otimes\mathcal{F}$-measurable and $\mathcal{F}_t$-adapted, so is $\phi_n$.
+    Moreover, since $g$ is bounded, $\phi_n$ is also bounded, so $\phi_n\in V$ and $\phi_n$ is an elementary function.
+    But $\int_a^b(g-\phi_n)^2dt\to 0$ pointwise, so that $g\to\phi_n$ in $L^2$ by the dominated convergence theorem.
+\end{proof}
+\begin{lemma}
+    Let $h\in V$ be a bounded process.
+    Then there exists $\{g_n\}\subseteq V$, $g_n$ bounded and continuous, such that $g_n\to h$ in $L^2$.
+\end{lemma}
+\begin{proof}
+    We define mollifiers
+    \begin{align*}
+        \rho(t)&=
+        \begin{cases}
+            c\cdot\exp\left(\frac{-1}{1-t^2}\right) &:|t|<1\\
+            0 &:\text{otherwise}
+        \end{cases}\\
+        \rho_\epsilon(t)&=\frac{1}{\epsilon}\rho(\epsilon^{-1}t)
+    \end{align*}
+    Define $h(t)=0$ for $t<a$ and let
+    \begin{align*}
+        g_\epsilon(t)&=g_\epsilon * h(t)\\
+                     &= \frac{1}{\epsilon}\int_{t-2\epsilon}^t\rho\left(\frac{t-s-\epsilon}{\epsilon}\right)h(s)\d{s}\\
+                     &= \frac{1}{\epsilon}\int_{-\epsilon}^{\epsilon}\rho\left(\frac{z}{\epsilon}\right)h(t-z-\epsilon)\d{z}\\
+                     &= \int_{-\epsilon}^{\epsilon}\rho_\epsilon(z)h(t-z-\epsilon)\d{z}
+    \end{align*}
+    We first see that $g_\epsilon$ is adapted.
+    By Cauchy-Schwarz, we have
+    \begin{align*}
+        \int_a^b g_\epsilon^2(t)\d{t} &\leq \int_a^b\left(\int_{-\epsilon}^\epsilon\rho_\epsilon(z)\d{z}\cdot\int_{-\epsilon}^\epsilon\rho_\epsilon(z)h^2(t-z-\epsilon)\d{z}\right)\d{t}\\
+                                      &\leq \int_{-\epsilon}^\epsilon\rho_\epsilon(z)\left(\int_{a-1}^b h^2(t)\d{t}\right)\d{z}\\
+                                      &= \int_a^b h^2(t)\d{t}
+    \end{align*}
+    and taking expectations, we have that $g_\epsilon\in L^2$.
+
+    It is clear that $g_\epsilon$ is bounded and continuous for any $\epsilon$.
+
+    Next, we show convegence.
+    Fix some $\omega\in\Omega$.
+    Get $(u_n)_{n=1}^\infty$ such that $u_n(t)=0$ and $u_n(t)\to h_n(t,\omega)$ in $L^2$.
+    Since $u_n$ is uniformly continuous, $\rho_\epsilon*u_n\to u_n$ uniformly on $[a,b]$.
+    Thus
+    \begin{align*}
+        \norm{\rho_\epsilon*h(\cdot,\omega)-h(\cdot,\omega)}_2 &\leq\norm{\rho_\epsilon*h(\cdot,\omega)-\rho_\epsilon*u_n(\cdot)}_2\\
+                                                               &\agspace+\norm{\rho_\epsilon*u_n-u_n}_2+\norm{u_n-h(\cdot,\omega)}_2\\
+                                                               &\leq 2\norm{u_n-h(\cdot,\omega)}_2+\norm{\rho_\epsilon*u_n-u_n}_2
+    \end{align*}
+    which both converge to $0$ as $n\to\infty$.
+    Since $g_\epsilon=\rho_\epsilon*h$ and $h$ are uniformly bounded (by the bound of $h$), dominated convergence applies and we have $\E(\int_a^b(h-g_n)^2\d{t})\to 0$ as $n\to\infty$.
+\end{proof}
+\begin{lemma}
+    Let $f\in V$.
+    Then there exists a sequence $\{h_n\}\subset V$ such that $h_n$ is bounded for all $n$ and $\E(\int_a^b|f-h_n|^2\d{t})\to 0$ as $n\to\infty$.
+\end{lemma}
+\begin{proof}
+    Take
+    \begin{equation*}
+        h_n =
+        \begin{cases}
+            -n &: f<-n\\
+            f &: |f|\leq n\\
+             &: f>n
+        \end{cases}
+    \end{equation*}
+    and the result follows by the dominated convergence theorem.
+\end{proof}
+Combing the proceding lemmas, we have:
+
+For any process $f\in V$, there exists elementary processes $\phi_n\in V$ such that $\E(\int_a^b|f-\phi_n|^2\d{t})\to 0$ as $n\to\infty$.
+We want to define $\int_a^b f\d{B}$ as the limit of $\int_a^b\phi_n\d{B}$.
+To this end, we still need the existence and uniqueness of the limit.
+\begin{lemma}[Itô's Isometry for Elementary Processes]
+    Let $\phi$ be elementary.
+    Then $\E[(\int_a^b\phi(t)\d{b_t})^2]=\E(\int_a^b\phi^2(t)\d{t})$.
+\end{lemma}
+\begin{proof}
+    Define $\Delta B_j=B_{j+1}-B_j$.
+    Then
+    \begin{equation*}
+        \E(A_iA_j\Delta B_i\Delta B_j) =
+        \begin{cases}
+            \E(A_j^2)\cdot(t_{j+1}-t_j) &: i=j\\
+            0 &: i\neq j
+        \end{cases}
+    \end{equation*}
+    Thus
+    \begin{align*}
+        \E[(\int_a^b\phi\d{B})^2] &= \E[(\sum_j A_j\Delta B_j)^2] =\sum_{i,j}\E(A_iA_j\Delta B_i\Delta B_j)\\
+                                  &= \sum_j\E(A_j^2)(t_{j+1}-t_j)\\
+                                  &= \E\int_a^b\phi(t)^2\d{t}
+    \end{align*}
+\end{proof}
+By Lemma 4, since $\phi_n$ is a Cauchy sequence in $L^2(\pr\times\lambda|_{[a,b]})$, $\int_a^b\phi_n(t)\d{B_t}$ is a Cauchy sequence in $L^2(\pr)$.
+Hence the limit exists.
+Moreover, if $\E(\int_a^b|f-\phi_n|^2\d{t})\to 0$ and $\E(\int_a^b|f-\phi_n'|^2\d{t})\to 0$, then $\E[(\int_a^b\phi_n(t)\d{B_t})-\int_a^b\phi_n'(t)\d{B_t})^2]\to 0$.
+The limit is unique, i.e. does not depend on the choice of $\phi_n$.
+Thus we can define, for general $f\in V$,
+\begin{equation*}
+    \int_a^b f_t\d{B_t} := \lim_{n\to\infty}\int_a^b\phi_n(t)\d{B_t}
+\end{equation*}
+where $\{\phi_n\}$ is a sequence is an elementary process satisfying
+\begin{equation*}
+    \E(\int_a^b|f-\phi_n|^2\d{t})\to 0
+\end{equation*}
+in $L^2$.
+\begin{corollary}[Itô's Isometry]
+    Let $f\in V$, then
+    \begin{equation*}
+        \E[(\int_a^b f\d{B})^2]=\E(\int_a^b f^2\d{t})
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    This works for elementary processes; pass to the limit and use dominated convergence.
+\end{proof}
+\subsection{Properties of the Stochastic Integral}
+The stochastic integral is linear.:
+\begin{equation*}
+    \int_a^b(cf+g)\d{B_t} = c\int_a^b f\d{B_t}+\int_a^b g\d{B_t}
+\end{equation*}
+In particular,
+\begin{equation*}
+    \int_a^b f\d{B_t}=\int_a^df\d{B_t}+\int_d^bf\d{B_t}
+\end{equation*}
+for any $a<d<b$.
+\begin{proposition}
+    Let $\{M_n\}_{n=0}^N$ be a submartingale.
+    Then for any $\lambda>0$
+    \begin{equation*}
+        \lambda\pr(\sup_n M_n\geq\lambda)\leq\E(|M_n|\chi_{\{\sup_n M_n\geq\lambda\}})
+    \end{equation*}
+\end{proposition}
+\begin{theorem}[Doob's Martingale Inequality]
+    Let $M_t$ be a continuous martingale.
+    Then for $p\geq 1$, $T\geq 0$, and $\lambda>0$,
+    \begin{equation*}
+        \pr(\sup_{0\leq t\leq T}|M_t|\geq\lambda)\leq\frac{1}{\lambda^p}\E(|M_T|^P).
+    \end{equation*}
+    We first prove some related results in discrete time.
+\end{theorem}
+\begin{theorem}
+    Let $f\in V(0,T)$ for all $T\in\R^+$.
+    Then $M_t=\int_0^tf\d{B}$ has a continuous version, which is a $\mathcal{F}_t$-martingale.
+    Moreover,
+    \begin{equation*}
+        \pr\left(\sup_{0\leq t\leq T}|M_t|\geq\lambda\right)\leq\frac{1}{\lambda^2}\E(\int_0^Tf^2\d{s})
+    \end{equation*}
+    for $\lambda,T>0$.
+\end{theorem}
 \end{document}
