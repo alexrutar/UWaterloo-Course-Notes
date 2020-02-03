@@ -971,7 +971,7 @@ We are now in position to complete the proof.
             Then $m(G)\geq nm(V)$ for any $n\in\N$, so $m(G)=\infty$.
     \end{enumerate}
 \end{example}
-\subsection{The Space \texorpdfname{$L^1(G)$}{L1G}}
+\subsection{The Space \texorpdfstring{$L^1(G)$}{L1G}}
 Let $G$ be a locally compact group equipped with Haar measure $m$.
 Then
 \begin{equation*}
@@ -1315,7 +1315,169 @@ Any measures satisfying this decomposition are unique.
 If $\mu\in M(G)$ and $\epsilon>0$, then inner regularity provides compact $K\subseteq G$ such that $|\mu|(K)>|\mu(G)-\epsilon$.
 Hence $|\mu|(G\setminus K)<\epsilon$.
 Then $\norm{\mu-\mu_k}_1=\norm{\mu_{G\setminus K}}_1=|\mu|(G\setminus K)<\epsilon$.
-    
+\begin{lemma}[Continuous Fubini]
+    Let $X,Y$ be locally compact spaces, $\mu\in M(X)$, $\nu\in M(Y)$.
+    Then there is a measure $\mu\times\nu\in M(X\times Y)$ such that
+    \begin{equation*}
+        \int_{X\times Y}f\d{(\mu\times\nu)}+\int_Y\int_X f\d{\mu}\d{\nu}=\int_X\int_Yf\d{\nu}\d{\mu}
+    \end{equation*}
+    for any $f\in C_b(X)$.
+\end{lemma}
+\begin{proof}
+    Let $\mathcal{A}=\spn\{\phi\times\psi:\phi\in C_0(X),\psi\in C_0(Y)\}$ where $\phi\times\psi(x,y)=\phi(x)\psi(y)$.
+    Then $\overline{\mathcal{A}}=C_0(X\times Y)$ in the uniform topology.
+    We define for $f\in\mathcal{A}$
+    \begin{equation*}
+        J(f) = \int_X\int_Y f\d{\nu}\d{\mu}\int_Y\int_X f\d{\mu}\d{\nu}
+    \end{equation*}
+    so that $J$ is linear on $\mathcal{A}$ and
+    \begin{equation*}
+        |J(F)|\leq\norm{f}_\infty|\mu|(X)|\nu|(Y)
+    \end{equation*}
+    so $J$ is bounded.
+    Thus $J$ is uniformly continuous and hence extens uniquely to $C_0(X\times Y)$ as a bounded linear functional with $\norm{J}\leq\norm{\mu}_1\norm{\nu}_1$.
+    By Riesz-Markov, there is $\mu\times \nu\in M(X\times Y)$ such that $J(f)=\int_{X\times Y}f\d{(\mu\times\nu)}$.
+    Uniform limits are pointwise limits, so LDCT tells us that we have Fubini for $f\in C_0(X\times Y)$.
+
+    By inner regularity, find $(K_n)_{n=1}^\infty$ and $(L_n)_{n=1}^\infty$ so that $\lim_{n\to\infty}\norm{\mu-\mu_{K_n}}_1=0=\lim_{n\to\infty}\norm{\nu-\nu_{L_n}}_1$.
+    For each $n$, let $f_n\in C_c(X\times Y)$ be such that $f|_{K_n\times L_n}=f_n|_{K_n\times L_n}$ (Urysohn).
+    We also notice that $(\mu\times\nu)_{K_n\times L_n}=\mu_{K_n}\times\nu_{L_n}$.
+    Then check that $\lim_{n\to\infty}\norm{(\mu\times\nu)_{K_n\times L_n}-\mu\times\nu}_1=0$.
+    Then for $f\in C_b(X\times Y)$,
+    \begin{align*}
+        \int_{X\times Y}f\d{(\mu\times\nu)} &= \lim_{n\to\infty}\int_{X\times Y}f\d{(\mu\times\nu)_{K_n\times L_n}}\\
+                                            &= \lim_{n\to\infty}\int_{X\times Y}f_n\d{(\mu\times\nu)_{K_n\times L_n}}\\
+                                            &= \lim_{n\to\infty}\int_X\int_Y f_n\d{\nu_{L_n}}\d{\mu_{K_n}}\\
+                                            &= \lim_{n\to\infty}\int_X\int_Y f\d{\nu_{L_m}}\d{\mu_{K_n}}=\int_X\int_Y f\d{\nu}\d{\mu}
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Given $\mu,\nu$ in $M(G)$, there is a unique measure $\mu*\nu$ in $M(G)$ such that
+    \begin{equation*}
+        \int_G f\d{\mu*\nu}=\int_G\int_Gf(xy)\d{\mu(x)}\d{\mu(y)}
+    \end{equation*}
+    for $f\in C_0(G)$.
+    The map $(\mu,\nu)\mapsto \mu*\nu$ is bilinear, associative, and satisfies $\norm{\mu*\nu}_1\leq\norm{\mu}_1\norm{\nu}_1$.
+    Hence $(M(G),*)$ is a Banach algebra.
+\end{theorem}
+\begin{claim}
+    Given $\mu\in M(G)$ and $f\in C_0(G)$, define $f\cdot\mu,\mu\cdot f:G\to\C$ by
+    \begin{align*}
+        f\cdot\mu(x) &=\langle \mu,x\cdot f\rangle=\int_G f(yx)\d{\mu(y)}\\
+        \mu\cdot f(x)=\langle\mu,f\cdot x\rangle=\int_Gf(xy)\d{\mu(y)}
+    \end{align*}
+    Notice that $\mu\cdot f(e)=f\cdot\mu(e)$.
+    Then $f\cdot\mu$, $\mu\cdot f$ in $C_0(G)$.
+\end{claim}
+\begin{nmproof}
+    Indeed, let us check continuity of $\mu\cdot f$.
+    Let $\epsilon>0$ and $V$ be a neighbourhood of $e$ such that $|f(x)-f(x')|<\epsilon$ for $x'x^{-1}\in V$ (uniform continuity, $\overline{C_c(G)}=C_0(G)$, uniform limit of uniformly cts is uniformly cts).
+    Then
+    \begin{equation*}
+        |\mu\cdot f(x)-\mu\cdot f(x')|\leq\int_G|f(xy)-f(x'y)|\d{|\mu|(y)}\leq\epslon|\mu|(G)
+    \end{equation*}
+    is uniformly continuous, hence continuous.
+    Notice that $|\mu\cdot f(x)|\leq\int_G|f(xy)|\d{|\mu|(Y)}\leq\norm{f}_\infty\norm{\mu}_1$.
+    Now, given $\epsilon>0$, let $K\subseteq G$ be compact so $\norm{\mu-\mu_K}_1<\epsilon$ and $f'\in C_c(G)$ be so $\norm{f-f'}_\infty<\epsilon$.
+    Then
+    \begin{align*}
+        \norm{\mu\cdot f-\mu_K\cdot f'}_\infty&\leq\norm{\mu\cdot f-\mu_k\cdot f}_\infty+\norm{\mu_K\cdot f-\mu_K\cdot f'}_\infty\\
+                                              &\leq\norm{\mu-\mu_K}_1\norm{f}_\infty+\norm{\mu_K}_1\norm{f-f'}_\infty\\
+                                              &< (\norm{\mu}_1+\norm{f}_\infty)\epsilon
+    \end{align*}
+    and $\supp(\mu_K\cdot f')\subseteq\supp(f')K^{-1}$, so $\u_k\cdot f\in C_c(G)$.
+    Thus $\mu\cdot f\in C_0(G)$.
+    Similarly, $f\cdot\mu\in C_0(G)$.
+    It is evident that $(\mu,f)\mapsto\mu\cdot f$ and $(f,\mu)\mapsto f\cdot\mu$ are bilinear.
+\end{nmproof}
+
+\begin{claim}
+    If $\mu,\nu\in M(G)$, then $\mu\cdot(f\cdot\nu)=(\mu\cdot f)\cdot\nu$ and $\langle\mu,f\cdot\mu\rangle=\langle\nu,\mu\cdot f\rangle$.
+\end{claim}
+\begin{nmproof}
+    Use Fubini for continuous functions: for $x$ in $G$,
+    \begin{align*}
+        \mu\cdot(f\cdot\nu)(x) &= \int_G(f\cdot\nu)(xy)\d{\mu(y)}= \int_G\int_Gf(zxy)\d{\nu(z)}\d{\mu(y)}\\
+                               &= \int_G\int_G f(zxy)\d{\mu(y)}\d{\nu(z)}\\
+                               &= \int_G(\mu\cdot f)(zx)\d{\nu(z)}=(\mu\cdot f)\cdot\nu(x)
+    \end{align*}
+\end{nmproof}
+\begin{claim}
+    For $\mu,\nu$ in $M(G)$, define for $f$ in $C_0(G)$
+    \begin{equation*}
+        \langle\mu*\nu,f\rangle=\langle\mu,\nu\cdot f\rangle=\langle\nu,f\cdot\mu\rangle
+    \end{equation*}
+    Then $\mu*\nu$ is unique and satisfies the required properties.
+\end{claim}
+\begin{proof}
+    Uniqueness follows by Riesz-Markov (...?)
+
+    Moreover, $(\mu,\nu)\mapsto\mu*\nu$ is evidently bilinear and
+    \begin{equation*}
+        |\langle\mu*\nu,f\rangle|=|\langle\mu,\nu\cdot f\rangle|\leq\norm{\mu}_1\norm{\nu\cdot f}_\infty\leq\norm{\mu}_1\norm{\nu}_1\norm{f}_\infty.
+    \end{equation*}
+    This shows that
+    \begin{itemize}[nl]
+        \item $f\mapsto\langle\mu\times\nu,f\rangle$ is bounded, and hence $\mu*\nu$ is an element of $M(G)$ (by Riesz-Markov)
+        \item $\norm{\mu*\nu}_1\leq\norm{\mu}_1\norm{\nu}_1$
+    \end{itemize}
+    It remains to see associativity.
+    If $\rho\in M(G)$, then for $f\in C_0(G)$,
+    \begin{align*}
+        \langle\mu*(\nu*\rho)\rangle&=\langle\nu*\rho,f\cdot\mu\rangle=\langle\nu,\rho\cdot(f\cdot\mu)\rangle\\
+                                    &=\langle\mu*\nu,\rho\cdot f\rangle
+    \end{align*}
+\end{proof}
+\begin{remark}
+    \begin{enumerate}[nl,r]
+        \item If $\mu\in M(G)$, let $R_\mu,L_\mu:C_0(G)\to C_0(G)$ be given by $L_\mu f=\mu\cdot f$, $R_\mu f=f\cdot\mu$.
+            Then for $\nu\in M(G)$, $\mu*\nu=R_\mu^*(\nu)=L_\nu^*(\mu)$ which shows $\nu\mapsto\mu*\nu$ or $\nu\mapsto\nu*\mu$ are each $w^*-w^*$-continuous.
+            Note that $(\mu,\nu)\mapsto \mu*\nu$ may not be $w^*-w^*$-continuous.
+        \item Let for $x$ in $G$ $\delta_x(E)$ be the point mass measure at $x$.
+            Then $\langle\delta_x,f\rangle=f(x)$ for $f\in C_0(G)$.
+            Then $\delta_x*\delta_y=\delta_{xy}$.
+        \item If $\mu,\nu\in M_+(G)$, then $\mu*\nu\in M_+(G)$.
+    \end{enumerate}
+\end{remark}
+\subsection{Atomic-Continuous and Lebesgue Decompositions}
+Let $\mu\in M(G)$ and set
+\begin{equation*}
+    A(\mu) = \{x\in G:|\mu|(\{x\})>0\}=\bigcup_{n=1}\infty\left\{x\in G:|\mu(\{x\})>\frac{1}{n}\right\}
+\end{equation*}
+so $A(\mu)$ is countable.
+For any $x\in G$, $|\mu|(\{x\})=|\mu(\{x\})|$ by definition of $|\mu|$ and hence
+\begin{equation*}
+    \sum_{x\in A(\mu)}|\mu(\{x\})|=\sum_{x\in A(\mu)}|\mu|(\{x\})=|\mu|(A(\mu))<\infty.
+\end{equation*}
+We then define the \defn{atomic} or \defn{discrete} part of $\mu$ by
+\begin{equation*}
+    \mu_d=\sum_{x\in A(\mu)}\mu(\{x\})\delta_x\in M(G)
+\end{equation*}
+and the \defn{continuous part} by
+\begin{equation*}
+    \mu_c=\mu-\mu_dd
+\end{equation*}
+Then $\mu_c\perp\mu_d$ so
+\begin{equation*}
+    \norm{\mu}_1=|\mu|(G)=|\mu_c|(G)+|\mu_d|(G)=\norm{\mu_c}_1+\norm{\mu_d}_1
+\end{equation*}
+The set $M_d(G)=\overline{\spn}\{\delta_x:x\in G\}$ is a subspace of $M(G)$, and $M_d(G)\cong\ell^1(G)$ isometrically.
+Thus $M_c(G)=\im P_c$ is a closed subspace.
+
+If $G$ is discrete, then $|\mu_c|(G)=0$ so $M(G)=M_d(G)\cong\ell^1(G)$.
+
+If $G$ is not discrete, then $\{e\}$ is a closed, non-open subgroup, so for $x\in G$, $m(\{x\})=0$ where $m$ is the Haar measure.
+Hence the measures absolutely continuous with respect to $m$ satisfy $M_d(G)\subseteq M_c(G)$.
+We can employ the Lebesgue decomposition to write $\mu_c=\mu_a+\mu_{cs}$ where $\mu_a\ll m$ and $\mu_a\perp \mu_{cs}$.
+Moreover, the Radon-Nikodym derivative has $\frac{\d{\mu}}{\d{m}}\in L^1(G)$.
+To conclude,
+\begin{align*}
+    M(G) &= M_c(G)\oplus_1 M_d(G)\\
+         &= M_a(G)\oplus_1 M_{cs}(G)\oplus_1 M_d(G)\\
+         &\cong L^1(G)\oplus_1 M_{cs}(G)\oplus_1 \ell^1(G)
+\end{align*}
+Certainly $\ell^1(G)$ is a subalgebra.
+We will show that the remaining components are also subalgebras.
 
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}
