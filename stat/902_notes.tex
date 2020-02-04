@@ -1176,24 +1176,135 @@ for any $a<d<b$.
     Let $\{M_n\}_{n=0}^N$ be a submartingale.
     Then for any $\lambda>0$
     \begin{equation*}
-        \lambda\pr(\sup_n M_n\geq\lambda)\leq\E(|M_n|\chi_{\{\sup_n M_n\geq\lambda\}})
+        \lambda\pr(\sup_n M_n\geq\lambda)\leq\E(|M_N|\chi_{\{\sup_n M_n\geq\lambda\}})
     \end{equation*}
 \end{proposition}
+\begin{proof}
+    Set $T:=\in\{n:M_n\geq\lambda\}$ if such an $n$ exists, and $N$ otherwise.
+    Since $T$ is a bounded stopping time, so is $N$.
+    By the optimal sampling theorem,
+    \begin{align*}
+        \E(M_N)&\geq\E(M_T)\\
+               &= \E(M_T\idc{\sup_n M_n\geq\lambda})+\E(M_T\idc{\sup_n M_n<\lambda})\\
+               &\geq \lambda\cdot\pr(\sup_n M_n\geq\lambda)+\E(M_N\idc{\sup_n M_n<\lambda})
+    \end{align*}
+    so that
+    \begin{align*}
+        \lambda\pr(\sup_n M_n\geq\lambda) &\leq\E(M_n\idc{\sup_n M_n\geq\lambda})\\
+                                          &\leq\E(|M_N|\idc{\sup_n M_n\geq\lambda})
+    \end{align*}
+    as required.
+\end{proof}
+\begin{corollary}
+    Let $M=\{M_n\}_{n=0}^N$ be a martingale or a positive supermartingale.
+    Then for any $P\geq 1$ and $\lambda>0$,
+    \begin{equation*}
+        \lambda^=\pr(\sup_N|M_n|\geq\lambda)\leq\E(|M_N|^p)
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    By Jensen's inequality, $|M_n|^p$ is a submartingale.
+    Apply the above proposition to $|M_n|^p$ and $\lambda^p$ so that
+    \begin{align*}
+        \lambda^p\pr(\sup_n|M_n|^p\geq\lambda^p)\leq\E(|M_N|^p\idc{\sup_n|M_n|^p\geq\lambda^p})\leq\E(|M_N|^p)
+    \end{align*}
+\end{proof}
 \begin{theorem}[Doob's Martingale Inequality]
     Let $M_t$ be a continuous martingale.
     Then for $p\geq 1$, $T\geq 0$, and $\lambda>0$,
     \begin{equation*}
-        \pr(\sup_{0\leq t\leq T}|M_t|\geq\lambda)\leq\frac{1}{\lambda^p}\E(|M_T|^P).
+        \pr(\sup_{0\leq t\leq T}|M_t|\geq\lambda)\leq\frac{1}{\lambda^p}\E(|M_T|^p).
     \end{equation*}
-    We first prove some related results in discrete time.
 \end{theorem}
+\begin{proof}
+    Let $D$ be a dense coutable subset of $[0,T]$ and $D_n$ an increasing sequence of finite subsets of $D$ such that $\bigcup_{n=1}^\infty D_n=D$.
+    On each $D_n$, we can apply the discrete time result
+    \begin{equation*}
+        \lambda^p\pr(\sup_{t\in D_n}|M_t|\geq\lambda)\leq\E(|M_{D_n^*}|^p)
+    \end{equation*}
+    for $p\geq 1$, where $D_n^*=\max(D_n)$.
+    Then as $n\to\infty$, for any $\epsilon>0$,
+    \begin{align*}
+        \pr(\sup_{t\in D}|M_t|\geq\lambda)&\leq\pr(\sup_{t\in D}|M_t|)>\lambda-\epsilon\\
+                                          &=\lim_{n\to\infty}\pr(\sup_{t\in D_n}|M_t|>\lambda-\epsilon)\\
+                                          &\leq\liminf_{n\to\infty}\pr(\sup_{t\in D_n}|M_t|\geq\lambda-\epsilon)\\
+                                          &= \liminf_{n\to\infty}\frac{1}{(\lambda-\epsilon)^p}\E(|M_{D_n^*}|^p).
+    \end{align*}
+    Then as $\epsilon\to 0$,
+    \begin{align*}
+        \pr(\sup_{t\in D}|M_t|\geq\lambda) &\leq\lambda^{-p}\liminf_{n\to\infty}\E(|M_{D_n^*}|^p)\\
+                                           &\leq\lambda^{-p}\E(|M_T|^p).
+    \end{align*}
+\end{proof}
 \begin{theorem}
     Let $f\in V(0,T)$ for all $T\in\R^+$.
-    Then $M_t=\int_0^tf\d{B}$ has a continuous version, which is a $\mathcal{F}_t$-martingale.
+    Then $M_t=\int_0^tf_s\d{B_s}$ has a continuous version, which is a $\mathcal{F}_t$-martingale.
     Moreover,
     \begin{equation*}
         \pr\left(\sup_{0\leq t\leq T}|M_t|\geq\lambda\right)\leq\frac{1}{\lambda^2}\E(\int_0^Tf^2\d{s})
     \end{equation*}
     for $\lambda,T>0$.
 \end{theorem}
+\begin{proof}
+    Let $\{\phi_n\}$ be a sequence of elementary processes such that $\E(\int_0^t(f-\phi_n)^2\d{t})\to 0$ as $n\to\infty$.
+    Define processes
+    \begin{equation*}
+        I_n(t)=\int_0^t\phi_n(s)\d{B_s}.
+    \end{equation*}
+    Since $\phi_n=\sum_j A_j^{(n)}\idx{[t_j,t_{j+1})}(t)$, we have
+    \begin{equation*}
+        I_n(t)=\sum_{j\leq k-1}A_j^{(n)}(B_{t_{j+1}}-B_{t_j})+A_k^{(n)}(B_t-B_{t_k})
+    \end{equation*}
+    for $t\in[t_k,t_{k+1}]$.
+    It is easy to check that $I_n$ is a continuous martingale for any $n$.
+    Thus $I_n-I_m$ is also a continuous martingale for any $m,n$.
+    By Doob's martingale inequality and Itô's isometry
+    \begin{align*}
+        \pr(\sup_{0\leq t\leq T}|I_n(t)-I_m(t)|>\epsilon) &\leq\frac{1}{\epsilon^2}\E(|I_n(T)-I_m(T)|^2)\\
+                                                          &= \frac{1}{\epsilon^2}\E(\int_0^T(\phi_n-\phi_m)^2\d{s})
+    \end{align*}
+    which converges to $0$ as $m,n\to\infty$.
+    Thus there exists a subsequence $(n_k)_{k=1}^\infty$ such that
+    \begin{equation*}
+        \pr(\sup_{0\leq t\leq T}|I_{n_{k+1}}-I_{n_k}|>2^{-k})<2^{-k}.
+    \end{equation*}
+    Thus by Borel-Cantelli,
+    \begin{equation*}
+        \pr(\sup_{0\leq t\leq T}|I_{n_{k+1}}(t)-I_{n_k}(t)|>2^{-k}\text{ infinitely often})=0.
+    \end{equation*}
+    Therefore, almost surely, there exists $k_1=k_1(\omega)$ such that
+    \begin{equation*}
+        \sup_{0\leq t\leq T}|I_{n_{k+1}}(t)-I_{n_k}(t)|\leq 2^{-k}
+    \end{equation*}
+    for all $k\geq k_1$.
+    Thus $I_{n_k}(t)$ converges uniformly for $t\in[0,T]$ to some $I(t)$.
+    Then $I(t)$ is continuous.
+    On the other hand, $I_{n_k}(t)\to M(t)$ in $L^2(\pr)$ for any $t$, hence $M(t)=I(t)$ almost surely for any $t\in[0,T]$.
+    Thus $I(t)$ is a continuous version of $M(t)$.
+
+    Next, we always mean this continuous version when writing $M(t)$.
+    $M(t)$ is certainly adapted (since it is the $L^2$ limit of $I_n(t)$).
+    Moreover, for $t\geq 0$, since $I_n(t)\to M(t)$ in $L^2$, we also have
+    \begin{equation*}
+        \E(I_n(t)|\mathcal{G})\to \E(M(t)|\mathcal{G})
+    \end{equation*}
+    for any sub-$\sigma$-algebra $\mathcal{G}$ of $\mathcal{F}$.
+    Thus
+    \begin{align*}
+        \E(M(t)|\mathcal{F}_s)&= \lim_{n\to\infty}\E(I_n(t)|\mathcal{F}_s)=\lim_{n\to\infty}I_n(s)\\
+                              &= M(s)
+    \end{align*}
+    so that $M(t)$ is a $(\mathcal{F}_t)_{t\in \mathcal{I}}$-martingale.
+    Then by Doob's martingale inequality,
+    \begin{align*}
+        \pr(\sup_{0\leq t\leq T}|M_t|\geq\lambda)\leq\frac{1}{\lambda^2}\E(M_T^2)=\frac{1}{\lambda^2}\E(\int_0^Tf^2(s)\d{s})
+    \end{align*}
+\end{proof}
+\subsection{Extensions of Itô's Integral}
+Stochastic integral with stopping time
+\begin{lemma}
+    Let $f\in V(0,T)$ and $T$ a stopping time.
+    Set $m(t)=\int_0^Tf_s\d{B_s}$.
+    Then $M(T)=\int_0^Tf(s)\d{B_s}=\int_0^Tf(s)\idx{s<T}\d{B_s}$.
+\end{lemma}
 \end{document}

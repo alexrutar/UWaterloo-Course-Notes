@@ -978,9 +978,77 @@ If $L$ is a line segment, then for all values of $\theta$ (except for 2), then t
             \begin{align*}
                 \int_0^{2\pi}|\hat{\mu_\theta}(z)|^2\d{\theta} &= \int_0^\pi|\hat{\mu_\theta}(z)|^2+|\hat{\mu_{\theta+\pi}}(z)|^2\d{\theta}\\
                                                                &= 2\int_0^\pi\int_f\int_F\cos(z(x-y).\theta)\d{\mu(x)}\d{\mu(y)}\d{\theta}\\
-                                                               &= 2\int_0^\pi\int_f\int_F\cos\bigl(z\norm{x-y}\cos(\theta-(x-y))\bigr)\d{\mu(x)}\d{\mu(y)}\d{\theta}
+                                                               &= 2\int_0^\pi\int_f\int_F\cos\bigl(z\norm{x-y}\cos(\theta-(x-y))\bigr)\d{\mu(x)}\d{\mu(y)}\d{\theta}\\
+                                                               &= \int_F\int_F\left(\int_0^{2\pi}\cos\bigl(z\norm{x-y}\cos(\theta)\bigr)\d{\theta}\right)\d{\mu(x)}\d{\mu(y)}\\
+                                                               &= 2\pi\int_F\int_F J_0(z\norm{x-y})\d{\mu(x)}\d{\mu(y)}.
             \end{align*}
+            We now have (concealing some technicalities in verifying the application of Fubini)
+            \begin{align*}
+                \int_0^{2\pi}\int_{-\infty}^\infty|\hat{\mu_\theta}(z)|^2\d{z}\d{\theta}<\infty &= \int_{-\infty}^\infty\int_0^{2\pi}|\hat{\mu_\theta}(z)|^2\d{z}\d{\theta}<\infty\\
+                                                                                                &= 2\pi\int_{-\infty}^\infty\int_{F}\int_FJ_0(z\norm{x-y})\d{\mu(x)}\d{\mu(y)}\\
+                                                                                                &= 2\pi\int_F\int_F\left(\int_{-\infty}^\infty J_0(z\norm{x-y})\d{z}\right)\d{\mu(x)}\d{\mu(y)}\\
+                                                                                                &= 2\pi\int_F\int_F\left(\int_{-\infty}^\infty J_0(w)\d{w}\right)\frac{\d{\mu(x)}\d{\mu(y)}}{\norm{x-y}}<\infty
+            \end{align*}
+            by the integral of the Bessel function and the fact that $I_1(\mu)<\infty$.
     \end{enumerate}
 \end{proof}
 Bessel function: $J_0(\mu)=\frac{1}{2\pi}\int_0^{2\pi}\cos(u\cos\theta)\d{\theta}$.
+\section{Iterated Function Systems}
+Let $X$ be a complete metric space and $F_1,\ldots,F_m$ a family of contractions from $X$ to $X$ (i.e. functions with $0<r_i<1$ with $d(F_i(x),F_i(y))\leq r_id(x,y)$).
+Then there exists $E\subseteq X$ with $E$ compact such that $E=\bigcup_{i=1}^n F_i(E)$.
+
+Let $\mathcal{K}(X)$ denote the set of non-empty compact subsets of $X$.
+For $A\subseteq X$, let $A_r=\{y\in X:d(a,y)<r\text{ for some }a\in A\}$.
+We then define the \defn{Hausdorff metric} on $\mathcal{K}(X)$ as follows:
+\begin{equation*}
+    D(A,B)=\inf\{r>0:A\subseteq B_r,B\subseteq A_r\}
+\end{equation*}
+\begin{proposition}
+    $D$, as defined above, is in fact a metric and when $X$ is complete, $\mathcal{K}(X)$ is also complete.
+\end{proposition}
+\begin{proof}
+    We verify the properties for $D$ to be a metric:
+    \begin{enumerate}[nl,r]
+        \item Suppose $D(A,B)=0$.
+            Then get a sequence $a_n$ in $A$ converging to any $b\in B$, i.e. $b\in\overline{A}=A$ and $B\subseteq A$.
+            Similarly, $B\subseteq A$.
+        \item $D(A,B)=D(B,A)$ is clear
+        \item Fix $A,B,C\in\mathcal{K}(X)$, $d_1=D(A,C)$, $d_2=D(C,B)$.
+            Fix $\epsilon>0$ and let $a\in A$ be arbitrary.
+            Get $c\in C$ so that $D(a,c)<d_1+\epsilon/2$.
+            Then get $b\in B$ so that $D(c,b)<d_2+\epsilon/2$.
+            Thus $d(a,b)<d_1+d_2+\epsilon$ so $A\subseteq B_{d_1+d_2+\epsilon}$ for all $\epsilon>0$.
+            Similarly, $B\subseteq A_{d_1+d_2+\epsilon}$.
+            Thus $D(A,B)\leq d_1+d_2$.
+    \end{enumerate}
+    Completeness is left as an exercise.
+\end{proof}
+\begin{theorem}
+    Let $\{F_1,\ldots,F_m\}$ be an IFS on $X$.
+    Then there exists a unique compact set $E\subseteq X$ such that $E=\bigcup_{i=1}^m F_i(E)$.
+\end{theorem}
+\begin{proof}
+    Define $F:\mathcal{K}(X)\to\mathcal{K}(X)$ by $F(A)=\bigcup_{i=1}^m F_i(A)$.
+    Let $r=\max\{r_1,\ldots,r_m\}<1$.
+    We will show that $D(F(A),F(B))\leq r D(A,B)$.
+    Set $d=D(A,B)$;  it suffices to show that $F_i(A)\subseteq(F_i(B))_{r(d+\epsilon)}$ for any $\epsilon>0$.
+    Indeed, take $a\in A$, so there exists $b\in B$ so that $d(a,b)\leq d+\epsilon$.
+    Then $d(F_i(a),F_i(b))\leq r(d+\epsilon)$.
+
+    Then $F$ is a contraction map on $\mathcal{K}(X)$, so that $F^{(k)}(A)\to E$ for some unique $E$.
+\end{proof}
+If $F_i(A)\subseteq A$, then $E=\bigcap_{k=0}^\infty F^{(k)}(A)$.
+\begin{lemma}
+    If $(A_k)_{k=1}^\infty\subset\mathcal{K}(X)$ with $A_1\supseteq A_2\supseteq\cdots$, then $A_k\to\bigcap_{i=1}^\infty A_i$.
+\end{lemma}
+\begin{proof}
+    Let $A_0=\bigcap_{k=1}^\infty A_k$.
+    We want to prove that $D(A_{k_1},A_0)\to 0$.
+    Certainly $A_0\subseteq A_k$.
+    Conversely, we must check that for any $r>0$, there exists $n_r$ such that $A_k\subseteq (A_0)_r$.
+    Note that $(A_0)_r$ is an open set.
+    Then $\{(A_0)_r,A_n^c:n\in\N\}$ is an open cover for $A_1$.
+    Hence there exists a finite subcover $(A_0)_r,A_{n_1}^c,\ldots,A_{n_N}^c$.
+    Thus for any $k>\max\{n_1,\ldots,n_N\}$, $A_k\subseteq (A_0)_r$, as required.
+\end{proof}
 \end{document}

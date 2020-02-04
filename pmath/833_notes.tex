@@ -255,7 +255,9 @@
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
+\newcommand{\mae}{\ensuremath{\,\operatorname{a.e.}}}
 \DeclareMathOperator{\Pol}{Pol}
+\DeclareMathOperator{\SO}{SO}
 \newcommand{\cwx}{\ensuremath{\overline{\operatorname{conv}}^{w^*}\,}}
 \newcommand{\idc}[1]{\ensuremath{\mathbf{1}_{#1}}}
 \newcommand{\FA}{\ensuremath{\operatorname{F}\!\operatorname{A}}}
@@ -637,29 +639,28 @@ Define for $f:G\to\C$, $x\in G$, $f\cdot x=f\circ L_x$, and $x\cdot f=f\circ R_x
 Notice that $(f,x)\mapsto f\cdot x$, as an adjoint action, is a right (group) action of $G$ on functions.
 Likewise, $(x,f)\mapsto x\cdot f$ is a left action.
 \begin{proposition}
-    Given $f\in C_c(G)$, then
-    \begin{equation*}
-        \lim_{x\to e}\norm{f\cdot x-f}_\infty=0=\lim_{x\to e}\norm{x\cdot f-f}_\infty.
-    \end{equation*}
+    If $f\in C_c(G)$, then $\lim_{x\to e}\norm{f\cdot x-f}_\infty=0=\lim_{x\to e}\norm{x\cdot f-f}_\infty$.
 \end{proposition}
 \begin{proof}
-    Let $\epsilon>0$, $W=W^{-1}$ a relatively compact neighbourhood of $e$, and let $K=\overline{W}\supp f$.
-    Given $y\in V$, $x\mapsto|f(xy)-f(y)$ is continuous, so there is a neighbourhood $U_y$ of $e$ so $|f(xy)-f(y)|<\epsilon$ whenever $x\in U_y$.
-    Then find $V_y^{-1}=V_y$ of $e$ so $V_y^2\subseteq U_y$.
-    Then $K\subseteq\bigcup_{y\in K}V_yy$ so by compactness get some finite subcover $\bigcup_{j=1}^n V_{y_j}y_j\supseteq K$.
-    Let $V=\left(\bigcap_{j=1}^n V_{y_j}\right)\cap W$, so $V^{-1}=V$.
+    Let $\epsilon>0$, $W$ a symmetric relatively compact neighbourhood of $e$, and let $K=\overline{W}\supp f$.
+    Given $y\in K$, $x\mapsto|f(xy)-f(y)|$ is continuous, so there is a neighbourhood $U_y$ of $e$ so $|f(xy)-f(y)|<\epsilon/2$ whenever $x\in U_y$.
+    Let $V_y$ be a symmetric neighbourhood of $e$ so that $V_y^2\subseteq U_y$.
+    Then $K\subseteq\bigcup_{y\in K}V_yy$ so by compactness get some finite subcover indexed by $\{y_1,\ldots,y_n\}$.
+    Set $V=\left(\bigcap_{j=1}^n V_{y_j}\right)\cap W$ and note that $V$ is a symmetric relatively compact neighbourhood of $e$.
 
     If $x\in V$, then for $y\in K$ we have $y\in V_{y_j}y_j$ for some $j$, i.e. $yy_j^{-1}\in V_{y_j}$, and hence
     \begin{equation*}
-        xy=xyy_j^{-1}y_j\in VV_{y_j}y_j\subseteq V_{y_j}^2y_j\subseteq U_{y_j}y_j
+        xy=xyy_j^{-1}y_j\in VV_{y_j}y_j\subseteq V_{y_j}^2y_j\subseteq U_{y_j}y_j.
     \end{equation*}
-    so that
+    Note that $xy=x'y_j$ for some $x'\in U_{y_j}$.
+    Similarly, since $y_jy^{-1}\in U_{y_j}$, we $y_j=x''y$ for some $x''\in U_{y_j}$.
+    Thus by definition of $U_{y_j}$, we have
     \begin{equation*}
-        |f(xy)-f(y)|\leq|f(xy)-f(y_j)|+|f(y_j)-f(y)|<2\epsilon.
+        |f(xy)-f(y)|\leq|f(x'y_j)-f(y_j)|+|f(x''y)-f(y)|<\epsilon.
     \end{equation*}
 
-    If $y\notin K$, then $Wy\cap\supp(f)=\emptyset$, so for $x\in V\subseteq W$, we have $f(xy)=0=f(y)$.
-    Thus if $x\in V$, then $\norm{f\cdot x-f}_\infty<\epsilon$.
+    Otherwise, if $y\notin K$, then $Wy\cap\supp(f)=\emptyset$: by contrapositive, if $x\in\supp(f)\cap Wy$, then $yx^{-1}\in W$ so $y\in\overline{W}\supp f=K$.
+    Thus for $x\in V\subseteq W$, we have $f(xy)=0=f(y)$, and the desired result follows.
 \end{proof}
 \begin{theorem}[Existence of Haar Integral]
     There exists a linear functional $I:C_c(G)\to\C$ satisfying
@@ -670,7 +671,7 @@ Likewise, $(x,f)\mapsto x\cdot f$ is a left action.
 \end{theorem}
 Let for $f,\phi\in C_c^+(G)$
 \begin{equation*}
-    (f:\phi)=\inf\left\{\sum_{j=1}^n c_j:\text{there are }x_1,\ldots,x_n\in G,c_i>0,n\in\N \text{ s.t. }f\leq\sum_{j=1}^n c_j\phi\cdot x_j
+    (f:\phi)=\inf\left\{\sum_{j=1}^n c_j:\text{there are }x_1,\ldots,x_n\in G,c_i>0,n\in\N \text{ s.t. }f\leq\sum_{j=1}^n c_j\phi\cdot x_j\right\}
 \end{equation*}
 Notive that $0<\frac{\norm{f}_\infty}{\norm{\phi}_\infty}\leq(f:\phi)$.
 Also, if $U=\{x\in G:\phi(x)>\frac{1}{2}\norm{\phi}_\infty\}$, then $\supp f$ is covered by finitely many $x^{-1}U$, $x\in G$, and thus $(f:\phi)<\infty$.
@@ -940,7 +941,7 @@ We are now in position to complete the proof.
                     Indeed, for $x\in K$, find open $U_x$ with $e\in U_x$, so $U_xx\subseteq U$.
                     Find open $V_x$, $e\in V_x$, so $V_x^2\subseteq U_x$, then $K\subseteq\bigcup_{j=1}^n V_{x_j}x_j$ where $x_1,\ldots,x_j\in K$.
                     Let $V=\bigcap_{j=1}^n V_{x_k}$.
-                    If $x\in K$, $x\in V_{x_j}x_j$ for soe $j$ so $Vx\subsete VV_{x_j}x_j\subseteq V_{x_j}^2x_j\subseteq U_{x_j}x_j\subseteq U$, i.e. $VK=\bigcup_{x\in K}V_x\subseteq U$.
+                    If $x\in K$, $x\in V_{x_j}x_j$ for soe $j$ so $Vx\subseteq VV_{x_j}x_j\subseteq V_{x_j}^2x_j\subseteq U_{x_j}x_j\subseteq U$, i.e. $VK=\bigcup_{x\in K}V_x\subseteq U$.
                 \item Suppose we had compact $K\subseteq H$ such that $m(K)>0$.
                     We may find open $U$ so $K\subseteq U$ and $m(U)<2m(K)$ (by outer regularity).
                     Take $V$ as above.
@@ -971,7 +972,6 @@ We are now in position to complete the proof.
             Then $m(G)\geq nm(V)$ for any $n\in\N$, so $m(G)=\infty$.
     \end{enumerate}
 \end{example}
-\subsection{The Space \texorpdfstring{$L^1(G)$}{L1G}}
 Let $G$ be a locally compact group equipped with Haar measure $m$.
 Then
 \begin{equation*}
@@ -989,28 +989,27 @@ Note that if $f,g\in C_c(G)$, then $f=g$ $m$ a.e. if and only if $f=h$.
 Thus $C_c(G)\subseteq L^1(G)$ is dense.
 \subsection{The Modular Function}
 If $x\in G$, define $m_x:\mathcal{B}(G)\to[0,\infty]$ by $m_x(E)=m(Ex)$.
-Recall $Ex=R_{x^{-1}}^{-1}(E)\in\mathcal{B}(G)$.
-Then
+Then since $R_x$ is a homeomorphism, one may verify that
 \begin{itemize}[nl]
-    \item $m_x$ is left invariant
-    \item $m_x(U)=m(Ux)>0$ if $U$ is non-empty and open
+    \item $m_x$ is left invariant,
+    \item $m_x(U)=m(Ux)>0$ if $U$ is non-empty and open, and
     \item $m_x(K)=m(Kx)<\infty$ if $K$ is compact.
 \end{itemize}
-Hence by uniqueness of Har measure, $m_x=\Delta(x)m$ for some $\Delta(x)\in(0,\infty)$.
-Notice if $E\in\mathcal{B}(G)$ and $0<m(E)<\infty$ and $x,y\in G$, then
+Hence by uniqueness of Haar measure there exists some function $\Delta:G\to\R^\times$ such that $m_x=\Delta(x)m$.
+In fact, $\Delta$ is a group homomorphism.
+To see this, if $E\in\mathcal{B}(G)$ with $0<m(E)<\infty$ and $x,y\in G$, then
 \begin{equation*}
-    \Delta(xy)m(E)=m(Exy)=\Delta(y)m(Ex)=\Delta(x)\Delta(y)(E)
+    \Delta(xy)m(E)=m(Exy)=\Delta(y)m(Ex)=\Delta(x)\Delta(y)(E).
 \end{equation*}
-so $\Delta:G\to(0,\infty)\subset\R^\times$ is a homomorphism.
-
-Recall that $x\cdot f(y)=f(yx)$.
+Denote by $x\cdot f$ the function $x\cdot f(y)=f(yx)$.
+We then have the following result:
 \begin{proposition}
     \begin{enumerate}[nl,r]
-        \item For $f\in L^1(G)$, $x\in G$, we have $x\cdot f\in L^1(G)$, and
+        \item For any $f\in L^1(G)$ and $x\in G$, $x\cdot f\in L^1(G)$ with
             \begin{equation*}
-                \int_G fdm=\Delta(x)\int_G x\cdot fdm
+                \int_G f\d{m}=\Delta(x)\int_G x\cdot f\d{m}.
             \end{equation*}
-        \item $\Delta:G\to(0,\infty)$ is continuous.
+        \item $\Delta$ is a continuous function.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
@@ -1018,28 +1017,26 @@ Recall that $x\cdot f(y)=f(yx)$.
         \item Let $E\in\mathcal{B}(G)$ with $m(E)<\infty$.
             Then
             \begin{equation*}
-                \Delta(x)\int_G \idc{E}\d{m}=\Delta(x)m(E)=m(Ex)=\int_G \idc{E_x}\d{m}=\int_G x^{-1}\cdot \idc{E}\d{m}
+                \Delta(x)\int \idc{E}\d{m}=\Delta(x)m(E)=m(Ex)=\int \idc{Ex}\d{m}=\int_G x^{-1}\cdot \idc{E}\d{m}
             \end{equation*}
-            and replacing $x$ by $x^{-1}$, we have
+            since $\idc{Ex}=x^{-1}\cdot\idc{E}$.
+            Thus replacing $x$ by $x^{-1}$, we have
             \begin{equation*}
-                \int_G\idc{E}\d{m}=\Delta(x)\int_Gx\cdot \idc{E}\d{m}.
+                \int\idc{E}\d{m}=\Delta(x)\int x\cdot \idc{E}\d{m}
             \end{equation*}
-            If $f\in L^1_+(G)$, so there is $(\phi_n)_{n=1}^\infty\subset S^1_+(G)$ such that $\phi_n\leq\phi_{n+1}$ and $(\phi_n)_{n=1}^\infty\to f$ $m$-a.e.
-            Then by monotone convergence,
-            \begin{equation*}
-                \Delta(x)\int_Gx\cdot f\d{m}=\lim_{n\to\infty}\Delta(x)\int_G x\cdot\phi_n\d{m}=\lim_{n\to\infty}\int_G\phi_n\d{m}=\int_G f\d{m}.
-            \end{equation*}
-            Since $L^1(G)=\spn L^1_+(G)$, we are done.
-        \item Let $f\in C_c^+(G)$, $\epsilon>0$, and $V=V^{-1}$ be a relatively compact neighbourhood of $e$ so $\norm{x\cdot f-f}_\infty<\epsilon$ for $\in V$.
-            Then for $x\in V$,
+            so that the desired result holds for characteristic functions.
+            Then by density of simple functions in $L^1$ and applying dominated convergence, the result holds for any $f\in L^1$.
+        \item Let $f\in C_c^+(G)$, $\epsilon>0$, and $V=V^{-1}$ be a relatively compact neighbourhood of $e$ so $\norm{x\cdot f-f}_\infty<\epsilon$ for any $x\in V$.
+            Then for $x\in V$, applying (i) above,
             \begin{align*}
-                |\Delta(x)-1|&=\frac{|\Delta(x)\int_Gf\d{m}-\int_Gf\d{m}|}{\int_G f\d{m}}\\
-                             &\leq\frac{1}{\int_G f\d{m}}\int_G|x^{-1}\cdot f-f|\d{m}<\epsilon\frac{m(\supp(f)V}{\int_Gf\d{m}}
+                |\Delta(x)-1|&=\frac{|\Delta(x)\int f\d{m}-\int_Gf\d{m}|}{\int f\d{m}}\\
+                             &\leq\frac{1}{\int f\d{m}}\int|x^{-1}\cdot f-f|\d{m}<\epsilon\frac{m(\supp(f)V)}{\int f\d{m}}.
             \end{align*}
-            Notice we can arrange for $V$ to be decreasing as $\epsilon\to 0$, so this gives continuity of $\Delta$ at $e$.
-            Now if $x,y\in G$,
+            where $\supp(x^{-1}\cdot f-f)\subseteq\supp(f)V$ and $\supp(f)V$ has compact closure so that $m(\supp(f)V)<\infty$.
+            Moreover, as $\epsilon\to 0$, we may arrange for $V$ to be decreasing, yielding continuity of $\Delta$ at $e$.
+            Now if $x,y\in G$ are arbitrary, we have
             \begin{equation*}
-                |\Delta(x,y)-\Delta(y)|=|\Delta(x)-1|\Delta(y)
+                |\Delta(xy)-\Delta(y)|=|\Delta(x)-1|\Delta(y)
             \end{equation*}
             which shows that $\Delta$ is continuous at $y$.
     \end{enumerate}
@@ -1099,7 +1096,7 @@ Moreover,
         Indeed, for $m$-a.e. $y$, we have
         \begin{align*}
             (x*f)^*(y) &= \overline{[x*f](y^{-1})}\frac{1}{\Delta(y)}\\
-                       &= \overline{f(x^{-1}y^{-1})}\frac{\Delta(y)}\\
+                       &= \overline{f(x^{-1}y^{-1})}\frac{1}{\Delta(y)}\\
                        &= \overline{f((yx)^{-1})}\frac{1}{\Delta(yx)}\frac{1}{\Delta(x^{-1})}\\
                        &= f^**x^{-1}(y)
         \end{align*}
@@ -1205,7 +1202,7 @@ Moreover,
                                      &= \int_{\quot{G}{Z}}T_Zf(xZyZ)dxZ\\
                                      &= \int_{\quot{G}{Z}}T_Zf(xZ)dxZ=\int_Gf(x)dx
             \end{align*}
-        \item We have $\Delta_G|_N=\Delta_N=1$ by assumption, i.e. $N\in\ker\Delta_G$, so $\Delta_G$ induces a homomorphism $\overlin{\Delta}:\quot{G}{N}\to(0,\infty)$ where $\Delta_G=\overline{\Delta}\circ\pi_N$.
+        \item We have $\Delta_G|_N=\Delta_N=1$ by assumption, i.e. $N\in\ker\Delta_G$, so $\Delta_G$ induces a homomorphism $\overline{\Delta}:\quot{G}{N}\to(0,\infty)$ where $\Delta_G=\overline{\Delta}\circ\pi_N$.
             Verify that $\overline{\Delta}$ is continuous, so $\log\circ\overline{\Delta}:\quot{G}{N}\to\R^+$ is a continuous homomorphism, whose range is a closed subgroup.
             It follows that $\Delta_G=1$ on $G$.
     \end{enumerate}
@@ -1374,7 +1371,7 @@ Then $\norm{\mu-\mu_k}_1=\norm{\mu_{G\setminus K}}_1=|\mu|(G\setminus K)<\epsilo
     Let $\epsilon>0$ and $V$ be a neighbourhood of $e$ such that $|f(x)-f(x')|<\epsilon$ for $x'x^{-1}\in V$ (uniform continuity, $\overline{C_c(G)}=C_0(G)$, uniform limit of uniformly cts is uniformly cts).
     Then
     \begin{equation*}
-        |\mu\cdot f(x)-\mu\cdot f(x')|\leq\int_G|f(xy)-f(x'y)|\d{|\mu|(y)}\leq\epslon|\mu|(G)
+        |\mu\cdot f(x)-\mu\cdot f(x')|\leq\int_G|f(xy)-f(x'y)|\d{|\mu|(y)}\leq\epsilon|\mu|(G)
     \end{equation*}
     is uniformly continuous, hence continuous.
     Notice that $|\mu\cdot f(x)|\leq\int_G|f(xy)|\d{|\mu|(Y)}\leq\norm{f}_\infty\norm{\mu}_1$.
@@ -1385,7 +1382,7 @@ Then $\norm{\mu-\mu_k}_1=\norm{\mu_{G\setminus K}}_1=|\mu|(G\setminus K)<\epsilo
                                               &\leq\norm{\mu-\mu_K}_1\norm{f}_\infty+\norm{\mu_K}_1\norm{f-f'}_\infty\\
                                               &< (\norm{\mu}_1+\norm{f}_\infty)\epsilon
     \end{align*}
-    and $\supp(\mu_K\cdot f')\subseteq\supp(f')K^{-1}$, so $\u_k\cdot f\in C_c(G)$.
+    and $\supp(\mu_K\cdot f')\subseteq\supp(f')K^{-1}$, so $u_k\cdot f\in C_c(G)$.
     Thus $\mu\cdot f\in C_0(G)$.
     Similarly, $f\cdot\mu\in C_0(G)$.
     It is evident that $(\mu,f)\mapsto\mu\cdot f$ and $(f,\mu)\mapsto f\cdot\mu$ are bilinear.
@@ -1478,7 +1475,6 @@ To conclude,
 \end{align*}
 Certainly $\ell^1(G)$ is a subalgebra.
 We will show that the remaining components are also subalgebras.
-
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}
