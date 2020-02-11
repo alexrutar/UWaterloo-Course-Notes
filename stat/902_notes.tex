@@ -241,6 +241,7 @@
 
 
 % file-specific preamble -------------------------------------------------------
+\newcommand{\prt}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
 \newcommand{\defname}[1]{{\textit{(#1)}:}}
 \newcommand{\exname}[1]{{\textit{#1}:}}
 \newcommand{\defn}[1]{{\boldmath\bfseries #1}}
@@ -345,6 +346,20 @@
 % main document ----------------------------------------------------------------
 \chapter{Stochastic Calculus}
 \section{Measure Theory for Probability}
+
+% \TODO{transfer stuff from Folland}
+% \TODO{change of variables formulas}
+% \TODO{law of unconscious statistician (see bottom of wiki page ``from measure theory'', mention $\R$ case as corollary)}
+% \TODO{general philosophy: stats is about ``image properties'', not about domain properties - equivalence up to distribution, etc.}
+% \TODO{however, independece lives in domains ... correlated processes, etc.}
+% \TODO{explain how correlation is an attempt to quantify independence in a domain-invariant way...constructing correlated processes (cholesky product, copulas?)}
+% \TODO{joint distribution captures dependency relationship (TODO - find)}
+% \TODO{independence intuitively lives in product spaces - can this be made formal? is the only reasonable way to construct independent random variables for them to live in some sort of product space? most ``reasonable'' things are just constructed (coin toss space, etc.)}
+% \TODO{construct brownian motion - is the construction``distributionally unique''? In what sense to make this precise?}
+% \TODO{discuss Levy process}
+% \TODO{Moment generating function}
+% \TODO{normal variables - all the properties (moment generating, etc)}
+% \TODO{move discussion of infinite coin toss space?}
 \begin{definition}
     Given a measure space $(\Omega,\mathcal{F},\pr)$, a measurable function $X:\Omega\to\R$ is called a \defn{random variable}.
     If $X$ is a random variable, then we define the \defn{distribution} of $X$ to be the measure Borel measure $\mu$ on $\R$ given by $\mu(E)=\pr(X^{-1}(E))$.
@@ -590,7 +605,7 @@ We now have the following result:
     \end{equation*}
     as required.
 \end{proof}
-\subsection{Optimal Sampling Theorems}
+\subsection{Optional Sampling Theorems}
 \begin{theorem}
     Suppose $\{X_t\}_{t\in\mathcal{T}}$ is uniformly $L^2$.
     Then $X_t$ converge in $L^2$ to a limit $X_\infty$.
@@ -613,7 +628,7 @@ We now have the following result:
     and $\sum_{i=0}^n\norm{Y_n}_2^2\leq B$ for all $n$, so that $\sum_{i=0}^\infty\norm{Y_n}_2^2\leq B$.
     Thus $\{X_n\}_{n=0}^\infty$ is Cauchy in $L^2(\Omega,\mathcal{F},\pr)$.
 \end{proof}
-\begin{theorem}[Optimal Sampling for Bounded Stopping Times in Discrete Times]
+\begin{theorem}[Optional Sampling for Bounded Stopping Times in Discrete Times]
     Let $\{X_n\}_{n=0}^\infty$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ supermartingale and $S,T$ be $\{\mathcal{F}_n\}-$stopping times such that $0\leq S\leq T\leq N$ for some constant $N<\infty$.
     Then $X_T$ is integrable and $\E(X_T|\mathcal{F}_s)\leq X_s$ almost surely.
 \end{theorem}
@@ -678,7 +693,7 @@ Similar statements hold with $X_n\leq\E(X_\infty|\mathcal{F}_n)$ for a submartin
             \end{align*}
             Note that $S\wedge n$ and $T\wedge n$ are two bounded stopping times with $S\wedge n\leq T\wedge n$.
             Also, $A\cap\{S\leq n\}\in\mathcal{F}_{S\wedge n}$.
-            Then apply the optimal sampling theorem for bounded stopping times.
+            Then apply the optional sampling theorem for bounded stopping times.
             By the monotone convergence theorem,
             \begin{equation*}
                 \lim_{n\to\infty}\E(X_T;A\cap\{T\leq n\})
@@ -711,7 +726,7 @@ Similar statements hold with $X_n\leq\E(X_\infty|\mathcal{F}_n)$ for a submartin
     \end{align*}
     For the general case, decompose $M_\infty$ into positive and negative parts.
 \end{proof}
-\begin{theorem}[Optimal Sampling for Closed Supermartingales in Discrete Time]
+\begin{theorem}[Optional Sampling for Closed Supermartingales in Discrete Time]
     Let $\{X_n\}_{n=0}^\infty$ be a $(\Omega,\mathcal{F},\{\mathcal{F}_n\}_{n=0}^\infty,\pr)$ supermartingale closed by $X_\infty$.
     Let $S,T:\Omega\to\overline{\Z^+}$ be two $\{\mathcal{F}_n\}_{n=0}^\infty$ stopping times with $S\leq T$.
     Then
@@ -736,12 +751,12 @@ Similar statements hold with $X_n\leq\E(X_\infty|\mathcal{F}_n)$ for a submartin
             By the previous proposition, $\E(A_T)<\infty$.
             On the other hand, $\E(|M_T|)<\infty$ by definition of the $\{M_n\}$.
             Thus $\E(|X_T|)<\infty$.
-        \item Apply the previous lemma so $\E(M_T|\mathcal{F}_s)=\E(\E(M_\infty|\mathcal{F}_T)\mathcal{F}_S)=\E(M_\infty|\mathcal{F}_s)=M_s$ by the optimal sampling theorem for closed martingales.
+        \item Apply the previous lemma so $\E(M_T|\mathcal{F}_s)=\E(\E(M_\infty|\mathcal{F}_T)\mathcal{F}_S)=\E(M_\infty|\mathcal{F}_s)=M_s$ by the optional sampling theorem for closed martingales.
             Meanwhile, as $\{A_n\}_{n=0}^\infty$ is a non-negative supermartingale with $A_\infty=0$, $\E(A_T|\mathcal{F}_s)\leq A_s$ almost surely.
             Thus $\E(X_T|\mathcal{F}_s)\leq X_s$ almost surely.
     \end{enumerate}
 \end{proof}
-To prepare for the optimal sampling theorem for closed supermartingales in continuous time, we introduce one more discrete time notion:
+To prepare for the optional sampling theorem for closed supermartingales in continuous time, we introduce one more discrete time notion:
 \begin{definition}
     Denote by $\Z^-=\{z\in\Z:z\leq 0\}$.
     A \defn{negatively indexed supermartingale} $\{X_n\}_{n\in\Z^-}$ and $\{\mathcal{F}_n\}_{n\in\Z^-}$ where $\mathcal{F}_m\subseteq\mathcal{F}_n$ for $m\leq n$.
@@ -783,7 +798,7 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
     Thus $\E(|X_{N(\epsilon)}|;|X_n|>c)<\epsilon$ for $n\in\Z^-$ so that $\E(|X_m|;|X_n|>c)<2\epsilon$ for all $n<N(\epsilon)$.
     But there are only finitely many terms with $n>N(\epsilon)$, so we are done.
 \end{proof}
-\begin{theorem}[Optimal Sampling Theorem for Closed Supermartingales]
+\begin{theorem}[Optional Sampling Theorem for Closed Supermartingales]
     Let $\{X_t\}_{t\in\R^+}$ be an $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in\R^+},\pr)$ supermartingale which is right continuous and closed.
     Let $S,T:\Omega\to\overline{\R^+}$ be two stopping times with $S\leq T$.
     Then
@@ -796,14 +811,14 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
     Define random times $T_n:=2^{-n}(\lfloor 2^nT\rfloor+1)$.
     Then the $T_n$ are decreasing stopping times with $T=\lim T_n$ pointwise from above.
     For each $n$, $\{X_{m2^{-n}}\}_{n\in\Z^+}$ is a discrete-time closed supermartngale.
-    Thus $\E(X_{T_n-1}|\mathcal{F}_{T_n})\leq X_{T_n}$ a.s. (optimal sampling theorem for closed supermartingale in discrete time).
+    Thus $\E(X_{T_n-1}|\mathcal{F}_{T_n})\leq X_{T_n}$ a.s. (optional sampling theorem for closed supermartingale in discrete time).
     Set $Y_n=X_{T_n-1}$, so $\{Y_n\}_{n=-1,-2,\ldots}$ is a negatively indexed supermartingale and $\E(Y_n)=\E(X_{T-n-1})\leq\E(X_0)<\infty$.
     Thus by the previous result, $\{X_{T_n}\}_{n\in\Z^+}$ is uniformly $L^1$.
     Since $T_n\to T$ from above and $X_{T_n}\to X_T$ a.s., uniform integrability gives that $X_{T_n}\to X_T$ in $L^1$.
     Thus $\E(|X_T|)=\lim_{n\to\infty}\E(|X_{T_n}|)<\infty$.
     Similarly, define $S_n=2^{-n}(\lfloor 2^nS\rfloor+1)$.
     Both $S_n$ and $T_n$ can be regarded as discrete-time stopping times.
-    Thus by the discrete optimal sampling theorem, $\E(X_{T_n}|\mathcal{F}_{S_n})\leq X_{S_n}$ a.s.
+    Thus by the discrete optional sampling theorem, $\E(X_{T_n}|\mathcal{F}_{S_n})\leq X_{S_n}$ a.s.
 
     Now for $A\in\mathcal{F}_S\subseteq\mathcal{F}_{S_n}$, $\E(X_{T_n};A)\leq\E(X_{S_n};A)$ so
     \begin{equation*}
@@ -905,7 +920,7 @@ To prepare for the optimal sampling theorem for closed supermartingales in conti
     Thus $X_T=\lim_{t\to\infty}X_{t\wedge T}$ exists a.s. and $X_t^T\to X_T$ in $L^1$.
     Thus $\E(X^T_t)=\E(X_0)$ implies $E(X_T)=\E(X_0)$.
 \end{proof}
-\section{Brownian Motion}
+\subsection{Brownian Motion}
 \begin{definition}
     An adapted process $B=\{B_t\}_{t\geq 0}$ is called a (standard, one-dimensional) \defn{Brownian motion} if
     \begin{enumerate}[nl]
@@ -1182,7 +1197,7 @@ for any $a<d<b$.
 \begin{proof}
     Set $T:=\in\{n:M_n\geq\lambda\}$ if such an $n$ exists, and $N$ otherwise.
     Since $T$ is a bounded stopping time, so is $N$.
-    By the optimal sampling theorem,
+    By the optional sampling theorem,
     \begin{align*}
         \E(M_N)&\geq\E(M_T)\\
                &= \E(M_T\idc{\sup_n M_n\geq\lambda})+\E(M_T\idc{\sup_n M_n<\lambda})\\
@@ -1251,7 +1266,7 @@ for any $a<d<b$.
     \begin{equation*}
         I_n(t)=\int_0^t\phi_n(s)\d{B_s}.
     \end{equation*}
-    Since $\phi_n=\sum_j A_j^{(n)}\idx{[t_j,t_{j+1})}(t)$, we have
+    Since $\phi_n=\sum_j A_j^{(n)}\idc{[t_j,t_{j+1})}(t)$, we have
     \begin{equation*}
         I_n(t)=\sum_{j\leq k-1}A_j^{(n)}(B_{t_{j+1}}-B_{t_j})+A_k^{(n)}(B_t-B_{t_k})
     \end{equation*}
@@ -1305,6 +1320,249 @@ Stochastic integral with stopping time
 \begin{lemma}
     Let $f\in V(0,T)$ and $T$ a stopping time.
     Set $m(t)=\int_0^Tf_s\d{B_s}$.
-    Then $M(T)=\int_0^Tf(s)\d{B_s}=\int_0^Tf(s)\idx{s<T}\d{B_s}$.
+    Then $M(T)=\int_0^Tf(s)\d{B_s}=\int_0^Tf(s)\idc{s<T}\d{B_s}$.
 \end{lemma}
+\begin{proof}
+    The proof clearly holds when $f$ is an elementary process and $\tau$ is simple.
+    For general $f$ and $\tau$, let $f_n$ be an elementary process such that
+    \begin{equation*}
+        \E(\int_0^T(f_n-f)^2\d{t})\to 0
+    \end{equation*}
+    as $n\to\infty$, and $\tau_n$ be simple stopping times such that $\tau_n\to\tau^+$ everywhere as $n\to\infty$.
+    We have
+    \begin{equation}\label{e:m1}
+        \int_0^{\tau_n}f_n(t)\d{B_t}=\int_0^T f_n(t)\idc{t<\tau_n}\d{B_t}.
+    \end{equation}
+    Since $\idc{t<\tau_n}\to\idc{t<\tau}$ for any $\omega$ and $t\neq\tau$.
+    Pathwisely, by the dominated convergence theorem,
+    \begin{equation*}
+        \int_0^T|\idc{t<\tau_n}-\idc{t<\tau}|^2f^2(t)\d{t}\to 0
+    \end{equation*}
+    almost surely as $n\to\infty$.
+    We also have
+    \begin{align*}
+        \E\bigl(\int_0^T\idc{t<\tau_n}|f(t)-f_n(t)|^2\d{t}\bigr) &\leq \E\bigl(\int_0^T|f(t)-f_n(t)|^2\d{t})\to 0
+    \end{align*}
+    as $n\to\infty$.
+    Thus
+    \begin{align*}
+        \bigl[\E\bigl(\int_0^T(f_n(t)\idc{t<\tau_n}-f(t)\idc{t<\tau})^2\d{t}\bigr)\bigr]^{1/2} &= \norm{f_n(t)\idc{t<\tau_n}-f(t)\idc{t<\tau}}_{L^2(\pr\times\lambda)}\\
+                                                                                               &\leq \norm{f_n(t)\idc{t<\tau_n}-f(t)\idc{t<\tau_n}}+\norm{f(t)\idc{t<\tau_n}-f(t)\idc{t<\tau}}\to 0
+    \end{align*}
+    so that
+    \begin{equation}\label{e:m2}
+        \int_0^Tf_n(t)\idc{t<\tau_n}\d{B_t}\to\int_0^Tf(t)\idc{t<\tau}\d{B_t}
+    \end{equation}
+    in $L^2$.
+    On the other hand, similarly as in the proof of the previous result,
+    \begin{equation*}
+        \sup_{0\leq t\leq T}|\int_0^tf_n(s)\d{B_s}-\int_0^tf(s)\d{B_s}|\to 0
+    \end{equation*}
+    in probability, so Doob's martingale inequality implies that
+    \begin{equation*}
+        \int_0^{\tau_n}|f_n(s)-f(s)|\d{B_s}\to 0
+    \end{equation*}
+    in probability.
+    Thus
+    \begin{equation*}
+        \int_0^{\tau_n}f_n(s)\d{B_s}-\int_0^{\tau_n}f(s)\d{B_s}\to 0
+    \end{equation*}
+    as $n\to\infty$ in probability.
+    By continuity of the stochastic integral, we also have
+    \begin{equation*}
+        \int_0^{\tau_n}f(s)\d{B_s}-\int_0^\tau f(s)\d{B_s}\to 0
+    \end{equation*}
+    almost surely as $n\to\infty$.
+    Thus
+    \begin{equation}\label{e:m3}
+        \int_0^{\tau_n}f_n(s)\d{B_s}\to\int_0^\tau f(s)\d{B_s}.
+    \end{equation}
+    Combining \cref{e:m1}, \cref{e:m2}, and \cref{e:m3} completes the proof.
+\end{proof}
+\subsection{Multidimensional Itô's Integral}
+\subsection{Variant's on Itô's Integral}
+\begin{itemize}
+    \item Multidimensional Integration
+        Let $B=(B^1,\ldots,B^n)$ be a $n$-dimensional Brownian motion.
+        Define $V_{\mathcal{H}}^{m\times n}(a,b)$ to be the set of $m\times n$ matrices of processes $V=(V_{ij}(t,\omega))$ such that each $V_{ij}$ satisfies
+        \begin{itemize}[nl]
+            \item $V_{ij}$ is $\mathcal{B}\otimes\mathcal{H}$-measurable
+            \item $V_{ij}$ is $\mathcal{H}_T$-adapted
+            \item $\E(\int_a^bV_{ij}^2(t)\d{t})<\infty$.
+        \end{itemize}
+        Then for $v\in V_{\mathcal{H}}^{m\times n}(a,b)$, define
+        \begin{equation*}
+            \int_a^b v\d{B}=\int_a^b\begin{pmatrix}v_{11} &\cdots & v_{1n}\\\vdots&&\vdots\\v_{m1}&\cdots&v_{mn}\end{pmatrix}\cdot\begin{pmatrix}dB^1\\\vdots\\db^n\end{pmatrix}.
+        \end{equation*}
+        That is, $\int_a^b v\d{B}$ is a $m\times 1$ vector, and its $i$th component is given by $\sum_{j=1}^k\int_a^b v_{ij}\d{B^j}$.
+
+    \item Weaken the integrability condition $\E(\int_a^bf^2(t)\d{t})<\infty$.
+        We can weaken this condition to $\pr(\int_a^bf^2(t)\d{t}<\infty)=1$ in two ways.
+        \begin{enumerate}[nl]
+            \item Return to the construction of Itô's integral.
+                Replace convergence in $L^2$ by convergence in probability when the former no longer goes through
+            \item Define $\tau_n:=\inf\{t:\int_a^t f^2(s,w)\d{s}\geq n\}\wedge b$.
+                Then $\tau_n$ is an increasing sequence of stopping times and $\tau_n\to\ b$ almost surely.
+                Define $f_n=f\idc{t<\tau_n}$ and defne $\int_a^b f\d{B}$ as $\lim_{n\to\infty}\int_a^b f_n\d{B}$.
+                The limit exists since $\tau_n\to b$ almost surely, and $\int_a^tf_m\d{B}$ and $\int_a^tf_n\d{B}$ agree on $\{t\leq\tau_n\}$ for $m>n$.
+                (Exercise: see ``stochastic integral with stopping time'')
+
+                Let $W_{\mathcal{H}}(a,b)$ be the class of pricesses satisfying the measurability condition, the adaptedness condition, and $\pr(\int_a^bf^2(t)\d{t}<\infty)=1$.
+                In the matrix case, we write $W^{m\times n}_{\mathcal{H}}(a,b)$.
+        \end{enumerate}
+\end{itemize}
+\begin{remark}
+    We have constructed $\int f\d{B}$ for $f\in W_{\mathcal{H}}(a,b)$.
+    Most of the properties of stochastic integrals with $f\in V$ still hold.
+    The only main exception is that $M_t=\int_0^tf(s)\d{B_s}$ is no longer necessarily a martingale since the proof requires convergence in $L^2$.
+    However, as we have seen, by stopping, we know there exists an increasing sequence of stopping times $\{\tau_n\}\to\infty$ almost surely, and $M^{\tau_n}=\{M_{\tau_n\wedge t}\}_{t\geq 0}$ is a martingale for each $n$.
+\end{remark}
+\begin{definition}
+    Let $\{X_t\}_{t\geq 0}$ be a stochastic processes.
+    If there exists an increasing sequence of stopping times $\{\tau_n\}$ of $\{\mathcal{F}_t\}_{t\ge 0}$ such that $\tau_n\to\infty$ almost surely and $X^{\tau_n}=\{X_{t\wedge\tau_n}\}_{t\geq 0}$ is a martingale for each $n$, then $\{X_t\}_{t\geq 0}$ is called a \defn{local martingale}.
+\end{definition}
+\subsection{Itô processes and Itô's formula for Brownian motion}
+\begin{definition}
+    Let $\{B_t\}_{t\geq 0}$ be a Brownian motion on $(\Omega,\mathcal{F},\pr)$.
+    A Itô processes is a process $\{X_t\}_{t\geq 0}$ on $(\Omega,\mathcal{F},\pr)$ of the form
+    \begin{equation*}
+        X_t=X_0+\int_0^tu(s,\omega)\d{s}+\int_0^t v(s,\omega)\d{B_s}
+    \end{equation*}
+    where $v\in W_{\mathcal{H}}=\bigcap_{T>0}W_{\mathcal{H}}(0,T)$, $u$ is $\mathcal{H}_t$-adapted, and
+    \begin{equation*}
+        \int_0^T|u(s,\omega)|\d{s}<\infty
+    \end{equation*}
+    for all $t>0$ almost surely.
+    We write $dX_t=udt=vdB_t$ to denote the ``dynamics of $X$''; this is notation for the expression above.
+    Define the stochastic integral with respect to $X$:
+    \begin{equation*}
+        \int_0^tf(s)\d{X_s}=\int_0^tf(s)u(s)\d{s}+\int_0^t f(s)v(s)\d{B_s}
+    \end{equation*}
+    whenever all the integrals are well-defined.
+\end{definition}
+Recall that we write
+\begin{equation*}
+    dX_t=\underbrace{u\d{t}}_{\text{drift term}}+\underbrace{v\d{B_t}}_{\text{diffusion term}}
+\end{equation*}
+to denote the process
+\begin{equation*}
+    X_t=X_0+\int_0^tu(s,\omega)\d{s}+\int_0^tv(s,\omega)\d{B_s}.
+\end{equation*}
+We then define $\int_0^tf(s,\omega)\d{X_s}=\int_0^tf(s)u(s)\d{s}+\int_0^tf(s)v(s)\d{B_s}$ whenever all the integrals are well-defined.
+\begin{theorem}[1-dimensional Itô's Formula]
+    Let $X$ be an Itô process given by $\d{X_t}=u\d{t}+v\d{B_t}$.
+    Let $g(t,x)\in C^{1,2}([0,\infty)\times\R)$, i.e. $C^1$ in $t$ and $C^2$ in $x$.
+    Then $Y=\{Y_t=g(t,X_t)\}_{t\geq 0}$ is an Itô process and
+    \begin{equation*}
+        Y_t = Y_0+\int_0^t\frac{\partial g}{\partial x}(s,X_s)v_s\d{B_s}+\int_0^t\left(\frac{\partial g}{\partial t}(s,X_s)+\frac{\partial^2 g}{\partial x^2}(s,X_s)u_s^2\frac{\partial g}{\partial x}(s,X_s)v_s^2\right)\d{s}.
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Later ...
+\end{proof}
+\begin{remark}
+    In differential notation, we have
+    \begin{align*}
+        dY_t&=\prt{g}{x}(t,X_t)v_t\d{B_t}+\left(\prt{g}{t}(t,X_t)+\prt{g}{x}(t,X_t)u_t+\frac{1}{2}\frac{\partial^2 g}{\partial x^2}(t,X_t)v_t^2\right)\d{t}\\
+            &= \prt{g}{t}(t,X_t)\d{t} + \prt{g}{x}(t,X_t)\d{X_t}+\frac{1}{2}\frac{\partial^2 g}{\partial x^2}(t,X_t)(\d{X_t})^2
+    \end{align*}
+    where $(dX_t)^2$ is calculated according to
+    \begin{align*}
+        (\d{t})^2&=\d{t}\d{B_t}=\d{B_t}\d{t}=0\\
+        (\d{B_t})^2&=\d{t}
+    \end{align*}
+\end{remark}
+Say $Y_t=g(B_t)$ where $g\in C^2$.
+Then $\d{Y_t}=g'(B_t)\d{B_t}+\frac{1}{2}g''(B_t)\d{t}$.
+\begin{example}
+    We will construct Geometric Brownian Motion.
+    Let $r$ and $\sigma$ be constants, and let
+    \begin{equation*}
+        X_t=X_0\exp((r-\sigma^2/2)t+\sigma B_t).
+    \end{equation*}
+    Apply Itô's formula to get
+    \begin{align*}
+        \d{\bigl(\frac{X_t}{X_0}\bigr)} &= \sigma\exp(...)\d{B_t}+\left(r-\frac{1}{2}\sigma^2\right)\exp( ... )\d{t} + \frac{1}{2}\sigma^2\exp( ... )\d{t}\\
+                                        &= \sigma\exp( ... )\d{B_t}+r\exp( ... )\d{t}
+    \end{align*}
+    so that
+    \begin{align*}
+        \frac{X_t}{X_0}=1+\int_0^t\sigma\exp( ...)\d{B_s} + \int_0^t r\exp( ... )\d{s}
+    \end{align*}
+    and
+    \begin{align*}
+        X_t=X_0+\int_0^t\sigma X_0\exp( ...)\d{B_s} + \int_0^t r X_0\exp( ... )\d{s}
+    \end{align*}
+    which, in differential notation, is
+    \begin{equation*}
+        \d{X_T}=\sigma X_t\d{B_t}+rX_t\d{t}
+    \end{equation*}
+\end{example}
+\begin{theorem}[Integration by Parts]
+    Let $X,Y$ be Itô proceses with
+    \begin{align*}
+        \d{X_t}&=u_1\d{t}+v_1\d{B_t}, & \d{Y_t}&=u_2\d{t}+v_2\d{B_t}.
+    \end{align*}
+    Then
+    \begin{align*}
+        \d{(XY)_t}&=X_t\d{Y_t}+Y_t\d{X_t}+\d{X_t}\d{Y_t}\\
+                  &= X_t\d{Y_t}+Y_t\d{X_t}+v_1v_2\d{t}.
+    \end{align*}
+    In other words,
+    \begin{align*}
+        \int_0^tX_s\d{Y_s} &= X_tY_t-X_0Y_0-\int_0^tY_s\d{X_s}-\underbrace{\int_0^tv_1v_2\d{t}}_{=\int_0^t\d{X_s}\cdot\d{Y_s}}.
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    By Itô's formula, we have
+    \begin{align*}
+        \d{(X+Y)^2_t} &= 2(X+Y)_t\d{(X+Y)_t}+(v_1+v_2)^2\d{t}\\
+                      &= 2X_t\d{X_t}+2Y_t\d{Y_t}+2X_t\d{Y_t}+2Y_t\d{X_t}+(v_1+v_2)^2\d{t}
+    \end{align*}
+    and similarly
+    \begin{align*}
+        \d{(X-Y)^2_t} &= 2X_t\d{X_t}+2Y_t\d{Y_t}-2X_t\d{Y_t}-2Y_t\d{X_t}+(v_1-v_2)^2\d{t}
+    \end{align*}
+    so that
+    \begin{align*}
+        \d{(XY)_t} &= \frac{1}{4}(\d{(X+Y)_t^2}-\d{(X-Y)_t^2})\\
+                   &= X_t\d{Y_t}+Y_t\d{X_t}+v_1v_2\d{t}
+    \end{align*}
+\end{proof}
+End of Midterm.
+\section{Continuous Semimartingales}
+Recall that for Brownian motion, we have $\sum_{t_i\in\pi_n}(B_{t_{i+1}}-B_{t_i})^2\to b-a$ in $L^2$ if $\pi_n$ is a partition of $[a,b]$ and the mesh goes to $0$.
+In particular, take $a=0$ and $t$, then $\sum_{t_i\in\pi_n}(B_{t_{i+1}-t_i})^2\to 0$.
+Meanwhile, we also know that $B_t^2-t$ is a martingale.
+This is not a coincidense: intuitively, $(\d{B})^2=\d{t}$ so that
+\begin{equation*}
+    \sum_{t_i}(B_{t_i+1}-B_{t_i})^2=\int_0^t(\d{B_s})^2\d{t}=t
+\end{equation*}
+In addition, $\d{(B_t^2)}=2B_t\d{B_t}+(\d{B_t})^2$ so $B_t^2-t$ has no $\d{t}$ and is a local martingale (in fact, a martingale).
+
+We can extend this to any continuous, $L^2$-bounded martingale.
+\begin{theorem}
+    Let $M$ be a $L^2$-bounded continuous martingale, $M_0=0$ a.s.
+    Then there exists a unique continuous increasing process $[M]$ vanishing at 0 such that $M^2-[M]$ is a uniformly integrable martingale.
+\end{theorem}
+\begin{proof}
+    First, we further assume that the martingale $M$ is bounded.
+    Let $\Delta=\{0=t_0<t_1<\cdots\}$ of $\R^+$ such that the nmber of parts in $[0,t]\cap\Delta$ is finite for any $t$.
+    For a process $X$, define
+    \begin{equation*}
+        T_t^\Delta(x) := \sum_{i=0}^{k-1}(X_{t_i+1}-X_{t_i})^2+(X_t-X_{t_k})^2
+    \end{equation*}
+    for $r_n\leq t<t_{k+1}$.
+    We are going to show that the quadratic variation processes is indeed the limit of $T_t^\Delta(x)$ as the mesh of $\Delta$ goes to $0$.
+    \begin{enumerate}[nl]
+        \item Show that the limit of $T_t^\Delta(M)$ exists as mesh $\Delta$ goes to 0.
+            Note that
+            \begin{align*}
+                \E(T_t^\Delta(M)-T_s^\Delta(M)|\mathcal{F}_s) &= \E[(M_t-M_{t_j})^2+(M_{t_j}-M_{t_{j-1}})^2+\cdots+(M_{t_{i+1}}-M_{t_i})^2]-(M_s-M_{t_i})^2|\mathcal{F}_s]\\
+                                                              &=\E((M_t-M_{t_j})^2+\cdots+(M_{t_{i+1}}-M_s)^2|\mathcal{F}_s)=\E(M_t^2-M_s^2|\mathcal{F}_s)
+            \end{align*}
+            and this is independent of $\Delta$.
+            This also implies that $M_t^2-M_t^\Delta(M)$ is a continuous martingale.
+    \end{enumerate}
+\end{proof}
 \end{document}

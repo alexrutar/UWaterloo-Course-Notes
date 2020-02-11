@@ -59,6 +59,7 @@
 % proof implications
 \newcommand{\imp}[2]{($#1\Rightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impe}[2]{($#1\Leftrightarrow#2$)\hspace{0.2cm}}
+\newcommand{\bij}[2]{($#1\leftrightarrow#2$)\hspace{0.2cm}}
 \newcommand{\impr}{{($\Longrightarrow$)\hspace{0.2cm}}}
 \newcommand{\impl}{{($\Longleftarrow$)\hspace{0.2cm}}}
 
@@ -1475,6 +1476,541 @@ To conclude,
 \end{align*}
 Certainly $\ell^1(G)$ is a subalgebra.
 We will show that the remaining components are also subalgebras.
+\begin{remark}
+    Given $\mu,\nu\in M(G)$, we formed a \defn{Radon product} $\mu\times\nu$ which satisfies
+    \begin{equation*}
+        \int_G\int_G f(x,y)\d{\mu(x)}\d{\mu(y)}=\int_{G\times G}f\d{(\mu\times\nu)}=\int_G\int_Gf(x,y)\d{\nu(y)}\d{\mu(x)}
+    \end{equation*}
+    for $f\in C_0(G)$.
+    This extends to $f\in C_b(G\times G)$.
+    Similarly,
+    \begin{align*}
+        \int_G f\d{(\mu*\nu)}&=\int_G\int_Gf(xy)\d{\mu(x)}\d{\nu(y)}=\int_G\int_G f(xy)\d{\nu(y)}\d{\mu(x)}\\
+                             &=\int_{G\times G}f\circ p\d{(\mu\times\nu)}
+    \end{align*}
+    where $p:G\times G\to G$ is the product.
+
+    If $E\in\mathcal{B}(G)$, then $\pi^{-1}(E)\in\mathcal{B}(G\times G)$.
+    Indeed, since $p$ is continuous, $p^{-1}(U)\in\tau_G\times\tau_G\subseteq\mathcal{B}(G\times G)$ for $U$ open, so the result follows.
+\end{remark}
+\begin{theorem}
+    If $\mu,\nu\in M(G)$, $E\in\mathcal{B}(G)$, then
+    \begin{equation*}
+        \mu*\nu(E)=(\mu\times\nu)\circ p^{-1}(E)
+    \end{equation*}
+    for $E\in\mathcal{B}(G)$.
+\end{theorem}
+\begin{proof}
+    First note that
+    \begin{equation*}
+        (\mu\times\nu)(p^{-1}(E))=\int_{G\times G}\idc{\pi^{-1}(E)}\d{(\mu\times\nu)}=\int_{G\times G}\idc{E}\circ p\d{(\mu\times\nu)}.
+    \end{equation*}
+    Now given Jordan decomposition $\mu=\sum_{k=0}^3 i^k\mu_k$ and $\nu=\sum_{j=0}^3 i^j\nu_j$, we have
+    \begin{equation*}
+        \mu*\nu=\sum_{k,j=0}^3i^{k+j}\mu_k*\nu_k
+    \end{equation*}
+    so it suffices to show the result for $\mu,\nu\in M_+(G)$.
+
+    First let $K\subseteq G$ be compact and $\epsilon>0$.
+    Find open $U$ so $K\subseteq U$ and $\mu*\nu(U\setminus K)<\epsilon$, and by Urysohn find $f\in C_c(G,[0,1])$ such that $f|_K=1$ and $\supp(f)\subseteq U$.
+    Then
+    \begin{align*}
+        (\mu\times\nu)(p^{-1}(K)) &= \int_{G\times G}\idc{K}\circ p\d{(\mu\times\nu)}\\
+                                  &\leq\int_{G\times G}f\circ p\d{(\mu\times\nu)}=\int_G f\d{(\mu\times\nu)}\\
+                                  &\leq \int_G\idc{U}\d{(\mu\times\nu)}=\mu*\nu(U)<\mu*\nu(K)+\epsilon
+    \end{align*}
+    so that $(\mu\times\nu)\circ p^{-1}(K)\leq\mu *\mu(K)$.
+
+    Now let $N$ be $\mu\times\nu$-null.
+    If $K\subseteq p^{-1}(N)$ is compact, then
+    \begin{align*}
+        (\mu\times\nu)(K) &\leq(\mu\times\nu)(p^{-1}(p(K)))\\
+                          &\leq \mu*\nu(\pi(K))\leq\mu*\nu(N))=0
+    \end{align*}
+    so that $(\mu\times\nu)(\pi^{-1}(N))=\sup\{\mu\times\nu(K):K\subseteq N,K\text{ compact}\}=0$.
+
+    Now let $U\subseteq G$.
+    For each $n\in\N$, find compact $K_n\subseteq U$ so $\mu*\nu(U)<\mu*\nu(K_n)+1/n$ and find $f_n\in C_c(G,[0,1])$ such that $f_n|_{K_n}=1$, $\supp(f_n)\subseteq U$, and $g_n=\max\{f_1,\ldots,f_n\}$.
+    Set $F=\bigcup_{n=1}^\infty K_n$ so $\mu\times\nu(U\setminus F)=0$.
+    Thus $g_n\to\idc{U}$ as $n\to\infty$ on $G\setminus(U\setminus F)$ and hence, by above, $g_n\circ p\to\idc{U}\circ p=\idc{p^{-1}(U)}$ $\mu\times\nu-\mae$.
+    Hence by monotone convergence,
+    \begin{align*}
+        (\mu\times\nu)(p^{-1}(U))&=\int_{G\times G}\idc{U}\circ p\d{(\mu\times\nu)}=\lim_{n\to\infty}\int_{G\times G}g_n\circ p\d{(\mu\times\nu)}=\lim_{n\to\infty}\int_G g_n\d{(\mu*\nu)}\\
+                                 &= \int_G\idc{U}\d{(\mu*\nu)}=\mu*\nu(U)
+    \end{align*}
+
+    Finally, let $E\in\mathcal{B}(G)$ be any Borel set.
+    Find open $U_n\supseteq E$ such that $\mu*\nu(U_n)<\mu*\nu(E)+1/n$.
+    Let $V_n=\bigcap_{k=1}^n U_k$, so $\idc{V_n}\to\idc{E}$ (non-increasing) on $G\setminus\left(\bigcap_{n=1}^\infty U_n\setminus E\right)$, i.e. $\mu*\nu-\mae$.
+    Hence, again by above, $\idc{V_n}\circ p\to\idc{E}\circ p$ $\mu\times\nu-\mae$.
+    Thus by LDCT (since our measures are finite),
+    \begin{align*}
+        \mu\times\nu(\pi^{-1}(E))&=\int_{G\times G}\idc{E}\circ\pi\d{(\mu\times\nu)} = \lim_{n\to\infty}\int_{G\times G}\idc{V_n}\circ p\d{(\mu\times\nu)}\\
+                                 &= \lim_{n\to\infty}\int_G\idc{V_n}\d{(\mu*\nu)} = \int_G\idc{E}\d{(\mu*\nu)}=\mu*\nu(E)
+    \end{align*}
+\end{proof}
+\begin{remark}
+    If $U,g_n$ are as in the above proof, then
+    \begin{align*}
+        \mu*\nu(U)&=\int_G\idc{U}\d{(\mu*\nu)}=\lim_{n\to\infty}\int_G g_n\d{(\mu*\nu)}\\
+                  &= \lim_{n\to\infty}\int_G\int_G g_n(xy)\d{\mu(x)}\d{\nu(y)}\\
+                  &\leq \int_G\int_G \idc{U}(xy)\d{\mu(x)}\d{\nu(y)}
+    \end{align*}
+    Then for $E\in\mathcal{B}(G)$,
+    \begin{equation*}
+        \mu*\nu(E)\leq\int_G\int_G\idc{E}(xy)\d{\mu(x)}\d{\nu(y)}=\int_G\mu(Ey^{-1})\d{\mu(y)}.
+    \end{equation*}
+\end{remark}
+\begin{corollary}
+    Let $\mu,\nu\in M_+(G)$.
+    If $N\in\mathcal{B}(G)$ has that $Ny^{-1}$ is $\nu$-null for $y\in G$, then $N$ is $\mu\times\nu$-null.
+\end{corollary}
+\begin{proof}
+    Use the remark above.
+\end{proof}
+\begin{theorem}
+    Each of $M_a(G)$ and $M_c(G)$ is a (two-sided) ideal in $M(G)$.
+\end{theorem}
+\begin{proof}
+    If $N\in\mathcal{B}(G)$ is
+    \begin{itemize}[nl]
+        \item $m$-null, then so are $Ny^{-1}$, $x^{-1}N$ for $y,x\in G$.
+        \item a singleyon, $N=\{z\}$, then $\{z\}y^{-1}=\{zy^{-1}$ and $x^{-1}\{z\}=\{x^{-1}z\}$
+    \end{itemize}
+    Thus if $\nu\in M_a(G)$ or $\nu\in M_c(G)$, then the same is true of $\mu*\nu$ and $\nu*\mu$ for $\mu\in M(G)$.
+\end{proof}
+\begin{remark}
+    If $\nu\in M+a(G)$, then if $f=\frac{\d{\nu}}{\d{m}}$ satisfies $\int_G h\d{\nu}=\int_G hf\d{m}$ for $h\in C_0(G)$.
+    What can we learn about $\frac{\d{(\mu*\nu)}}{\d{m}}$, $\frac{\d{(\nu*\mu)}}{\d{m}}$?
+\end{remark}
+\begin{theorem}
+    Let $X$ be a locally compact space, $\mathcal{L}$ a Banach space, and let
+    \begin{equation*}
+        C_b(X,\mathcal{L}) =\left\{F:X\to\mathcal{L}:F\text{ continuous},\norm{F}_\infty=\sup_{x\in X}\norm{F(x)}<\infty\right\}.
+    \end{equation*}
+    Then there is a bilinear map
+    \begin{equation*}
+        (F,\mu)\mapsto\int_X f\d{\mu}:(C_b(X,\mathcal{L}),M(X))\to\mathcal{L}
+    \end{equation*}
+    such that
+    \begin{itemize}[nl]
+        \item $\norm{\int_X f\d{\mu}}\leq\norm{F}_\infty\norm{\mu}_1$ and
+        \item $T\left(\int_X F\d{\mu}\right)=\int_X T\circ F\d{\mu}$ for $T\in\mathcal{B}(\mathcal{L},\mathcal{L}')$.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    Let
+    \begin{equation*}
+        \mathcal{S}=\mathcal{S}(X,\mathcal{L})=\spn\{\idc{E}\xi:E\in\mathcal{B}(X),\xi\in\mathcal{L}\}.
+    \end{equation*}
+    If $\Phi\in\mathcal{L}$, then it admits a standard form $\Phi=\sum_{j=1}^n \idc{E_j}\xi_j$ where for $i\neq j$, $E_i\cap E_j=\emptyset$ and $\xi_i\neq\xi_j$.
+    Note that $\norm{\Phi}_\infty=\sup_{x\in X}\norm{\Phi(x)}=\max_{j=1,\ldots,n}\norm{\xi_i}$.
+    Then for $\Phi$ in standard form,
+    \begin{equation*}
+        (\Phi,\mu)\mapsto\int_X\Phi\d{\mu}:=\sum_{j=1}^n\mu(E_j)\xi_j
+    \end{equation*}
+    from $\mathcal{S}\times M(X\to\mathcal{L}$ is bilinear and
+    \begin{equation*}
+        \norm{\int_X\Phi\d{\mu}}\leq \sum_{j=1}^n |\mu(E_j)|\norm{\xi_j}\leq\norm{\mu}_1\norm{\Phi}_\infty.
+    \end{equation*}
+    Now let $\mathcal{S}^\infty$ denote the uniform closure of $\mathcal{S}$ and the bilinear pairing extends isometrically.
+
+    Now assume $X$ is compact.
+    Then for $F\in C(X,\mathcal{L})$, $F(X)$ is totally bounded in $\mathcal{L}$ so for $\epsilon>0$, $F(X)\subseteq\bigcup_{j=1}^n B(\xi_j,\epsilon)$.
+    Let $E_1=F^{-1}(\mathcal{B}(\xi,\epsilon))$, $E_{i+1}=F^{1}(B(\xi_k,\epsilon))\setminus\bigcup_{j=1}^{k-1}F^{-1}(B(\xi_j,\epsilon))$.
+    Then $\phi_\epsilon=\sum_{j=1}^n\idc{E_j}\xi_j$ satisfies $\norm{\Phi_\epsilon-F}_\infty<\epsilon$.
+    Thus $C(X,\mathcal{L})\subseteq S^\infty(X,\mathcal{L})$.
+    Thus we may define $\int_X F\d{\mu}$ for $\mu\in M(X)$ and $F\in C(X,\mathcal{L})$.
+
+    Finally, let $\mu\in M(X)$ and let $(K_n)_{n=1}^\infty$ be a sequence of compact sets such that $|\mu|(X\setminus K_n)<1/n$, so $\norm{\mu-\mu_{K_n}}_1\to 0$ as $\to\infty$.
+    Then let
+    \begin{equation*}
+        \xi_n=\int_{K_n}F\d{\mu}=\int_KF\d{\mu_{K_n}}
+    \end{equation*}
+    for any $K\supseteq K_n$.
+    Then $\{\xi_n\}_{n=1}^\infty$ is Cauchy since $\norm{\xi_n-\xi_m}=\norm{\int_K F\d{(\mu_{K_n}-\mu_{K_m})}}\leq\norm{F}_\infty\norm{\mu_{K_n}-\mu_{K_m}}$.
+    Let $\int_X F\d{\mu}=\lim_{n\to\infty}\xi_n$, which is independent of the choice of $K_n$.
+
+    Now if $T\in\mathcal{B}(\mathcal{L},\mathcal{L}')$, first apply $T$ to $\Phi$ in $S(X,\mathcal{L})$, and then by approimations to $\Psi$ in $S^\infty(X,\mathcal{L})$, and then extend using the construction above.
+\end{proof}
+\begin{theorem}
+    Let $G$ be a locally compact group, $\mathcal{L}$ a Banach space, and suppose there is an action
+    \begin{equation*}
+        (x,\xi)\mapsto x\cdot\xi:G\times\mathcal{L}\to\mathcal{L}
+    \end{equation*}
+    such that
+    \begin{itemize}[nl]
+        \item $x\mapsto x\cdot\xi$ is continuous for each $\xi$
+        \item $\xi\mapsto x\cdot\xi$ is linear for each $x$
+        \item there is $C>0$ such that $\norm{x\cdot\xi}\leq C\norm{\xi_1}$ for $x\in G$, $\xi\in\mathcal{L}$.
+    \end{itemize}
+    Then there is a bilinear map $(\mu,\xi)\mapsto\mu\cdot\xi:M(G)\times\mathcal{L}\to\mathcal{L}$ such that $\norm{\mu\cdot\xi}\leq C\norm{\mu}_1\norm{\xi}$ and $(\mu*\nu)\cdot\xi=\mu\cdot(\nu\cdot\xi)$ for $\mu,\nu\in M_G$ and $\xi\in\mathcal{L}$.
+\end{theorem}
+\begin{proof}
+    We let
+    \begin{equation*}
+        \mu\cdot\xi=\int_G x\circ\xi\d{\mu(x)}.
+    \end{equation*}
+    The bilinear and boundedness is clear.
+    To check associaticity, let $w\in\mathcal{L}^*$ and check that $w\bigl((\mu*\nu)\cdot\xi\bigr)=w(\mu\cdot(\nu\cdot\xi))$ by Fubini for continuous integrands.
+\end{proof}
+\begin{definition}
+    A \defn{Banach $G$-module} is an action $G\times X\to X$ which is
+    \begin{itemize}[nl]
+        \item linear in $X$
+        \item multiplicative and continuous in $G$
+        \item uniformly bounded in $G$:$ \norm{x\cdot\xi}\leq C\norm{\xi}$.
+    \end{itemize}
+    In addition, we say that the $G$-module is \defn{non-degenerate} of $e\cdot\xi=\xi$.
+\end{definition}
+In this context, the prior theorem essentially states that a Banach $G$-module is a Banach $M(G)$-module.
+\begin{remark}
+    A \defn{representation} of $G$ on a Banach space $X$ is a homomorphism $\pi:G\to\mathcal{B}(X)$ ($\mathcal{B}(X)$ is the set of bounded linear operators on $X$) such that $\pi(e)=I$.
+    We typically also assume
+    \begin{itemize}[nl]
+        \item \defn{boundedness}: $\sup_{x\in G}\norm{\pi(x)}\leq C<\infty$
+        \item \defn{strong operator continuity}: $x\mapsto\pi(x)\xi$ is continuous for any $\xi\in X$.
+    \end{itemize}
+\end{remark}
+\begin{corollary}
+    If $\pi:G\to\mathcal{B}(X)$ is a (bounded, SOT) representation of $G$, then $\pi$ induces a bounded homomorphism $\pi_M:M(G)\to\mathcal{B}(X)$ such that $\pi_M(\mu)\xi=\int_G\pi(x)\xi\d{\mu(x)}$ with $\pi_M(\delta_x)=\pi(x)$.
+\end{corollary}
+\begin{example}
+    Recall that if $f\in L^1(G)$ and $x\in G$, we have actions $G\times L^1(G)\to L^1(G)$ by $(x,f)\mapsto x*f$, where $x*f(y)=f(x^{-1}y)$; and similarly $f*x(y)=f(yx^{-1})/\Delta(x)$.
+    These make $L^1(G)$ both a left and right isometric $G$-module.
+    Hence the last theorem provides us with a Banach $M(G)$-module structure
+    \begin{align*}
+        \mu*f&=\int_Gx*f\d{\mu(x)}\\
+        f*\mu&=\int_Gf*x\d{\mu(x)}
+    \end{align*}
+\end{example}
+\begin{lemma}
+    \begin{itemize}[nl]
+        \item $L^1\cap C_0(G)$ with norm $\norm{\cdot}_1+\norm{\cdot}_\infty$ is a Banach space, dense in $L^1(G)$, and which is a left Banach $G$-module (in $L^1(G)$).
+        \item The space
+            \begin{equation*}
+                L^1\cap C^\delta(G)=\{f\in C(G):\norm{f}_1<\infty,\norm{f/\Delta}_\infty<\infty\}
+            \end{equation*}
+            is a Banach space with $\norm{\cdot}_1+\norm{\cdot/\Delta}_\infty$, which is dense in $L^1(G)$ and a right Banach $G$-module.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    TODO.
+\end{proof}
+\begin{theorem}
+    Let $\nu\in M_a(G)$ with $f=\frac{\d{\nu}}{\d{m}}\in L^1(G)$.
+    \begin{enumerate}[nl,r]
+        \item For $\mu\in M(G)$, $\frac{\d{(\mu*\nu)}}{\d{m}}=\mu*f$ and $\frac{\d{(\nu*\mu)}}{\d{m}}=f*\mu$
+        \item If, further, $\mu\in M_a(G)$ with $g=\frac{\d{\mu}}{\d{m}}$, then $\frac{\d{(\mu*\nu)}}{\d{m}}=g*f$ where
+            \begin{equation*}
+                g*f=\int_Gg(x)x*fd{x}=\int_Gf(x)g*x\d{x}
+            \end{equation*}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Note that $C_c(G)\subseteq(L^1\cap C_0(G))\cap(L^1\cap C^\Delta(G))$.
+    Let $(f_n)_{n=1}^\infty\subset C_c(G)$ such that $\lim_{n\to\infty}\norm{f-f_n}_1=0$, and then for $g\in C_c(G)$
+    \begin{align*}
+        \int_G h\d(\nu*\mu)&=\int_G\int_G h(xy)f(x)\d{x}\d{\mu(y)}\\
+                           &= \int_G\int_G h(x)f(xy^{-1})\frac{1}{\Delta(y)}\d{x}\d{\mu(y)}\\
+                           &= \lim_{n\to\infty}\int_G\int_Gh(x)f_n(xy^{-1})\frac{1}{\Delta(y)}\d{x}\d{\mu(y)}\\
+                           &= \lim_{n\to\infty}\int_G h(x)\int_Gf_n(xy^{-1})\frac{1}{\Delta(y)}\d{\mu(y)}\d{x}\\
+                           &= \lim_{n\to\infty}\int_G h(x)f_n*\mu(x)\d{x} &7 f_n\in C_c(G)\subseteq L^1\cap C^\delta(G)\\
+                           &= \int_G h(x)f*\mu(x)\d{x} && \norm{f_n*\mu-f*\mu}_1\leq\norm{f_n-f}_1\norm{\mu}_1
+    \end{align*}
+    so $\frac{\d{(\nu*\mu)}}{\d{m}}=f*\mu$.
+    The left case is similar, and (ii) is similar.
+\end{proof}
+Note that we may write for $m$-a.e. $x$,
+\begin{equation*}
+    f*g(x)=\int_Gf(y)g(y^{-1}x)\d{y}=\int_Gf(xy^{-1})g(y)\frac{1}{\Delta(y)}\d{y}
+\end{equation*}
+\begin{remark}
+    In the finite group setting, representations of $G$ are in correspondence with submodules of $\C[G]$.
+    A natural question to ask is: when does $M(G)$ replace $\C[G]$?
+
+    If $Q=M(G)/M_c(G)\cong \ell^1(G)$, then
+    \begin{equation*}
+        x\cdot(\mu+M_c(G))=\delta_x*\mu+M_c(G)
+    \end{equation*}
+    so for $\alpha\in\ell^1(G)$,
+    \begin{equation*}
+        x\cdot\left(\sum_{y\in G}\alpha(y)\delta_y\right)=\sum_{y\in G}\alpha(y)\delta_{xy}=\sum_{y\in G}\alpha(x^{-1}y)\delta_y.
+    \end{equation*}
+    This is a bounded homomorphism of $G$ into $\mathcal{B}(\ell^1(G))\cong\mathcal{B}(Q)$ which is not strong operator continuous if $G$ is not discrete.
+\end{remark}
+A summability kernel in $L^1(G)$ is a net $(f_\alpha)$ introduced in A2.
+We will show that
+\begin{itemize}[nl]
+    \item contractive summability kernals alwats exist: $\norm{f_\alpha}_1\leq 1$.
+    \item If $(f_\alpha)$ is a summability kernel, then $\lim_\alpha f_\alpha*f=f=\lim_\alpha f*f_\alpha$ in $L^1$-norm, for $f$ in $L^1(G)$.
+\end{itemize}
+\begin{definition}
+    Let $X$ be a Banach space.
+    Then it is a \defn{Banach $L^1(G)$-module} if there is a bilinear action $(f,\xi)\mapsto f\cdot\xi:L^1(G)\times X\to X$ such that for $f,g\in L^1(G)$, $\xi\in X$,
+    \begin{itemize}[nl]
+        \item $f\cdot(g\cdot\xi)=(f*g)\cdot\xi$
+        \item $\norm{f\cdot\xi}\leq c\norm{f}_1\norm{\xi}$ for some $c>0$.
+    \end{itemize}
+    Further, this is \defn{non-denenerate} if $X_0=\spn\{f\cdot\xi:f\in L^1(G)<\xi\in X\}$ is dense in $X$.
+\end{definition}
+\begin{theorem}
+    If $X$ is a non-degenerate Banach $L^1(G)$-module, then it is a Banach $G$-module with
+    \begin{equation*}
+        \int_Gf(x)x\cdot\xi\d{x}=f\cdot\xi
+    \end{equation*}
+    for $f\in L^1(G)$ and $\xi\in X$.
+\end{theorem}
+\begin{proof}
+    Let $(f_\alpha)$ be a contractive summability kernel in $L^1(G)$.
+    We define for $x$ in $G$, $\xi_0=\sum_{j=1}^nf_j\cdot\xi_j$ in $X_0$,
+    \begin{equation*}
+        x\cdot\xi_0=\sum_{j=1}^n(x*f_j)\cdot\xi_j.
+    \end{equation*}
+    Notice that if $0=\sum_{j=1}^n f_j\cdot\xi_h$, then bilinearity of $X$ as an $L^1(G)$-module provides
+    \begin{equation*}
+        0=(x*f_\alpha)\cdot 0 =\sum_{j=1}^n(x*f_\alpha*f_j)\cdot\xi_j\to\sum_{j=1}^n(x*f_j)\cdot \xi_j.
+    \end{equation*}
+    Thus this map is well-defined.
+
+    If $\xi_0=\sum_{j=1}^nf_j\cdot\xi_j\in X_0$ and $x\in G$, then
+    \begin{align*}
+        \norm{x\cdot\xi_0}&=\norm{\lim_\alpha\sum_{j=1}^n(x*f_\alpha*f_j)\cdot\xi_j}\\
+                          &= \lim_\alpha\norm{(x*f_\alpha)\cdot\xi_0}\\
+                          &\leq\lim_\alpha C\norm{x*f_\alpha}_1\norm{\xi_0}=C\norm{\xi_0}
+    \end{align*}
+    Hence, define $\pi_0(x)\in\mathcal{L}(X_0)$, $\pi_0(x)\xi_0=x\cdot\xi_0$ for $x\in G$, $\xi_0\in X_0$ satisfies that $\{\pi_0(x):x\in G\}$ is a group of operators bounded by $C$< and hence $\pi_0(x)$ extends uniquely to a linear bounded operator $\pi(x)$ on $X$.
+    Thus $\{\pi(x):x\in G\}$ is a group in $\mathcal{B}(X)$, bounded by $C$.
+    For $x\in G$ and $\xi\in X$, define $x\cdot\xi=\pi(x)\xi$.
+
+    We wish to see strong operator continuity.
+    Let $\epsilon>0$.
+    If $\xi\in X$, there is $\xi_0=\sum_{j=1}^n f_j\cdot\xi_j\in X_0$ with $\norm{\xi-\xi_0}<\epsilon$.
+    Then
+    \begin{align*}
+        \limsup_\alpha\norm{f_\alpha\cdot\xi-\xi}&\leq\limsup_{\alpha}\left[\underbrace{\norm{f_\alpha\cdot\xi-f_\alpha\cdot \xi_0}}_{\leq\norm{f_\alpha}_1\norm{\xi-\xi_0}}+\norm{f_\alpha\cdot\xi_0-\xi_0}+\norm{\xi_0-\xi}\right]\\
+                                                 &\leq(C+1)\epsilon
+    \end{align*}
+    so that $\lim_\alpha f_\alpha*\xi=\xi$.
+    Now let $\alpha$ be so $\norm{f_\alpha\cdot\xi-\xi}<\epsilon$ and, for $x_0\in G$,
+    \begin{align*}
+        \limsup_{x\to x_0}\norm{x\cdot\xi-x_0\cdot\xi}&\leq\limsup_{x\to x_0}\left[\underbrace{\norm{x\cdot\xi-(x*f_\alpha)}}_{\leq C\norm{\xi-f_\alpha\cdot\xi}}+\underbrace{\norm{(x*f_\alpha)\cdot\xi-(x_0*f_\alpha)\cdot\xi}}_{\leq C\norm{x*f_\alpha-x_0*f_\alpha}\norm{\xi}}+\underbrace{\norm{(x_0*f)\cdot\xi-x_0\cdot\xi}}_{\leq C\norm{f_\alpha\cdot\xi-\xi}}\right]\\
+                                                      &\leq 2C\epsilon
+    \end{align*}
+\end{proof}
+\subsection{Unitary Representations}
+Let $\mathcal{H}$ be a hilbert space, and $\mathcal{U}(\mathcal{H})=\{U\in\mathcal{B}(H):U^*U=UU^*=I\}$ denote the unitary group.
+This is a topological group with respect to the operator norms.
+On $\mathcal{B}(\mathcal{H})$, we define two coarser topologies:
+\begin{itemize}[nl]
+    \item \defname{strong operator}
+        The initial topology
+        \begin{equation*}
+            \tau_{\mathrm{so}}=\sigma\left(\mathcal{B}(\mathcal{H}),\{T\mapsto T\xi:\mathcal{B}(\mathcal{H})\to (\mathcal{H},\tau_{\norm{\cdot}}\}_{\xi\in\mathcal{H}}\right).
+        \end{equation*}
+    \item \defname{weak operator}
+        The initial topology
+        \begin{align*}
+            \tau_{\mathrm{wo}} &= \sigma\left(\mathcal{B}(\mathcal{H}),\{T\mapsto\langle T\xi,\eta\rangle\}_{\xi,\eta\in\mathcal{H}}:\mathcal{B}(\mathcal{H})\to\C\right)\\
+                               &= \sigma\left(\mathcal{B}(\mathcal{H}),\{T\mapsto T\xi:\mathcal{B}(\mathcal{H})\to(\mathcal{H},w)\}_{\xi\in\mathcal{H}}\right)
+        \end{align*}
+\end{itemize}
+Notice that $\tau_{\mathrm{wo}}\subseteq\tau_{\mathrm{so}}$ on $\mathcal{B}(\mathcal{H})$.
+That is, strong operator convergence implies weak operator convergence (in nets).
+\begin{example}
+    Let $B(\mathcal{B}(\mathcal{H}))=\{T\in\mathcal{B}(\mathcal{H}):\norm{T}\leq 1\}$, which is a semigroup in $\mathcal{B}(\mathcal{H})$.
+    Then set
+    \begin{itemize}[nl]
+        \item\defname{unilateral shift}
+            $S\in\mathcal{B}(\ell^2(\N))$, $S\delta_n=\delta_{n+1}$, so $S^*\delta_n=\delta_{n-1}$ if $n>1$, and $S^*\delta_0=0$ of $n=1$.
+        \item\defname{bilateral shift}
+            $U\in\mathcal{B}(\ell^2(\Z))$, $U\delta_n=\delta_{n+1}$ so $U^*\delta_n=\delta_{n-1}$
+    \end{itemize}
+    We now have
+    \begin{enumerate}[nl,a]
+        \item $\tau_{\mathrm{wo}}\subsetneq\tau_{\mathrm{so}}$ on $B(\mathcal{B}(\mathcal{H}))$, if $\dim\mathcal{H}=\infty$, since $S^n\to 0$ in $\tau_{\mathrm{wo}}$, while $S^n$ does not converge to anything in the strong operator topology.
+        \item $T\mapsto T^*:\mathcal{B}(\mathcal{H})\to\mathcal{B}(\mathcal{H})$ is wo-wo continuous, but not so-so continuous if $\dim\mathcal{H}=\infty$.
+            For example, $(S^n)^*=(S^*)^n\to 0$ but $S^n$ des not converge to $0$
+        \item If $T_0\in\mathcal{B}(\mathcal{H})$, $T\mapsto TT_0$, $T\mapsto T_0T:\mathcal{B}(\mathcal{H})\to\mathcal{B}(\mathcal{H})$ are each wo-wo continuous.
+            However, if $\dim\mathcal{H}=\infty$, then $(T,T')\mapsto TT'$ is not $\tau_{\mathrm{wo}}-\tau_{\mathrm{wo}}-\tau_{\mathrm{wo}}$ continuous.
+            Note that $U^n,(U^*)^n\to 0$ as $n\to\infty$, but $U^nU^{*n}=I$.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item $(S,T)\mapsto ST:B(\mathcal{B}(\mathcal{H})\times B(\mathcal{B}(\mathcal{H})\to B(\mathcal{B}(\mathcal{H}))$ is $\tau_{\mathrm{so}}\times\tau_{\mathrm{so}}-\tau_{\mathrm{so}}$-continuous.
+        \item $\tau_{\mathrm{so}}|_{\mathcal{U}(\mathcal{H})}=\tau_{\mathrm{wo}}|_{\mathcal{U}(\mathcal{H})}$
+    \end{enumerate}
+    Hence $(\mathcal{U}(\mathcal{H}),\tau_{\mathrm{wo}})=(\mathcal{U}(\mathcal{H}),\tau_{\mathrm{so}})$ is a topological group.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $T_\alpha \to T$ and $S_\alpha\to T$ strong operator in $B(\mathcal{B}(\mathcal{H})$.
+            Then for $\xi\in\mathcal{H}$,
+            \begin{align*}
+                0\leq \norm{S_\alpha T_\alpha\xi-ST\xi}\leq\underbrace{\norm{S_\alpha T_\alpha\xi-S_\alpha T\xi}}_{\norm{T_\alpha\xi -T\xi}}+\norm{S_\alpha T\xi-ST\xi}\to 0
+            \end{align*}
+        \item Let $U_\alpha\to U$ in $\mathcal{U}(\mathcal{H})$.
+            Then for $\xi\in\mathcal{H}$,
+            \begin{align*}
+                \norm{U_\alpha\xi-U\xi}^2 &= \langle U_\alpha\xi-U\xi,U_\alpha\xi-U\xi\rangle\\
+                                          &= 2\norm{\xi}&2-2\Re\langle U_\alpha\xi,U\xi\rangle\\
+                                          &\to 2\norm{\xi}^2-2\Re\langle U\xi,U\xi\rangle=0
+            \end{align*}
+            so that $U_\alpha\to U$ strong operator in $\mathcal{U}(\mathcal{H})$.
+    \end{enumerate}
+    We thus have that $(U,V)\mapsto UV:\mathcal{U}(\mathcal{H})\times\mathcal{U}(\mathcal{H})\to\mathcal{U}(\mathcal{H})$ is strong operator continuous, and hence weak operator continuous by (ii).
+    In (b) above, we remarked that $U\mapsto U^{-1}=U^*$ is wo-wo continuous.
+\end{proof}
+\begin{remark}
+    If $\dim\mathcal{H}=\infty$, then $(\mathcal{U}(\mathcal{H}),\tau_{\mathrm{wo}})$ is not locally compact.
+\end{remark}
+\begin{proposition}
+    $\mathcal{U}(\mathcal{H})$ is the largest subgroup in $B(\mathcal{B}(\mathcal{H}))$.
+\end{proposition}
+\begin{proof}
+    If $U,U^{-1}\in B(\mathcal{B}(\mathcal{H}))$, then for $\xi\in\mathcal{H}$,
+    \begin{equation*}
+        \norm{\xi}=\norm{U^*U\xi}\leq\norm{U\xi}\leq\norm{\xi}
+    \end{equation*}
+    so that $\norm{U\xi}=\norm{\xo}$.
+    Hence $\langle\xi,\xi\rangle=\norm{\xi}^*=\norm{U\xi}^*2=\langle U^*U\xi,\xi\rangle$.
+    Now for $\xi,\eta\in\mathcal{H}$, the polarization identity gives
+    \begin{align*}
+        4\langle\xi,\eta\rangle &= \sum_{k=0}^3i^k\langle\xi+i^k\eta,\xi+i^k\eta\rangle\\
+                                &= \sum_{k=0}^3 i^k\langle U^*U(\xi+i^k\eta),\xi+i^k\eta\rangle\\
+                                &= 4\langle U^*U\xi,\eta\rangle
+    \end{align*}
+    so $U^*U=I$.
+    Then $U^*=U^*UU^{-1}=U^{-1}$.
+\end{proof}
+\begin{definition}
+    Let $G$ be a locally compact group.
+    A \defn{unitary representation} is a homomorphism $\pi:G\to\mathcal{U}(\mathcal{H})$ which is $\tau_G$-wo continuous.
+\end{definition}
+\begin{example}
+    Consider $\lambda:G\to\mathcal{U}(L^2(G))$ given by $\lambda(x)f(y)=f(x^{-1}y)$ $m$-a.e., $f\in L^2(G)$.
+
+    If $G$ is not a discrete group, then $\lambda:G\to(\mathcal{U}(\mathcal{H}),\tau_{\norm{\cdot}})$ is not continuous.
+    However, $\lambda:G\to(\mathcal{U}(\mathcal{H}),\tau_{\mathrm{so}})$ is continuous (proof just like for translation on $L^1(G)$).
+\end{example}
+\begin{theorem}
+    There is a bijective correspondence between any two of
+    \begin{enumerate}[nl,r]
+        \item unitary representations of $G$
+        \item contractive representations of $G$ on Hilbert spaces
+        \item non-degenerate bounded $*$-homomorphisms from $L^1(G)$ to $\mathcal{B}(\mathcal{H})$ where $\mathcal{H}$ is a Hilbert space
+        \item non-degenerate bounded contractive homomorphisms from $L^1(G)$ to $\mathcal{B}(\mathcal{H})$, where $\mathcal{H}$ is Hilbert.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \bij{i}{ii}
+    Last proposition
+
+    \bij{ii}{iv}
+    Coincidence of Banach $G$-modules with Banach $L^1(G)$-modules, ($C=1$), $\pi:G\to B(\mathcal{B}(\mathcal{H}))$ is a continuous homomorphism with $\pi(e)=I$, then $\pi_1(f)\xi=\int_G f(x)\pi(x)\xi\d{x}$.
+
+    If $\sigma:L^1(G)\to\mathcal{B}(\mathcal{H})$ homomorphism, $\norm{\sigma}\leq 1$, then define $\pi(x)=\lim_\alpha\sigma(x*f_\alpha)$ (weak operator) where $(f_\alpha)$ is a contractive summability kernel in $L^1(G)$ (A2Q1).
+
+    \bij{i}{iii}
+    Let $\pi:G\to\mathcal{U}(\mathcal{H})$ be a unitary representation.
+    Then for $f\in L^1(G)$, $\xi,\eta\in\mathcal{H}$,
+    \begin{align*}
+        \langle\pi_1(f)^*\xi,\eta\rangle &= \langle\xi,\pi_1(f)\eta\rangle\\
+                                         &= \int_G\langle\xi,\pi(x)\eta\rangle\overline{f(x)}\d{x}\\
+                                         &= \int_G\langle\pi(x^{-1})\xi,\eta\rangle\overline{f(x)}\d{x}\\
+                                         &= \int_G\langle\pi(x)\xi,\eta\rangle\overline{f(x^{-1})}\frac{1}{\Delta(x)}\d{x}=\langle\pi_1(f^*)\xi,\eta\rangle
+    \end{align*}
+    so $\pi_1(f)^*=\pi_1(f^*_$.
+
+    Conversely, if $\sigma:L^1(G)\to\mathcal{B}(\mathcal{H})$ is a bounded $*$-homomorphism, then with $\pi$ as before, we have for $x$ in $G$
+    \begin{align*}
+        \pi(x)^*=\mathrm{wo}-\lim_{\alpha}\sigma(x*f_\alpha)^{-1}=\mathrm{wo}-\lim_\alpha(f_\alpha^**x^{-1})=\pi(x^{-1})
+    \end{align*}
+    (check last step!).
+\end{proof}
+\begin{definition}
+    Let $G$ be a group.
+    A function $u:G\to\C$ is \defn{of positive type} (or positive definite) if for any $x_1,\ldots,x_n\in G$, $[u(x_i^{-1}x_j)]$ is a positive semidefinite matrix.
+    If $G$ is a locally compact group, let $\mathcal{B}^+(G)=\{u:G\to\C:u\text{ continuous positive type}\}$.
+\end{definition}
+\begin{theorem}[Gelfand-Naimark]
+    Let $G$ be a locally compact group.
+    Then $u\in B^+(G)$ if and only if there is a unitary representation $\pi:G\to\mathcal{U}(\mathcal{H})$ and $\xi\in\mathcal{H}$ such that $u(x)=\langle \pi(x)\xi,\xi\rangle$.
+\end{theorem}
+\begin{proof}
+    We will use that $G$ is a topological group, not necessarily locally compact.
+
+    \impl
+    If $u=\langle\pi(\cdot)\xi,\xi\rangle$, then for $x_i$ in $G$ and $\lambda_i$ in $\C$, we have
+    \begin{align*}
+        \sum_{i=1}^n\sum_{j=1}^n\overline{\lambda_j}\lambda_iu(x_i^{-1}x_j)=\langle\sum_{j=1}^n\lambda_i\pi(x_j)\xi,\sum_{i=1}^n\lambda_i\pi(x_i)\xi\rangle\geq 0
+    \end{align*}
+
+    \impr
+    Let $\C[G]=\left\{\sum_{i=1}^n\alpha_xx,\alpha_x\in\C,x\in G,\alpha_x\neq 0\text{ for finitely many }x\}$ denote the free $\C$-vector space over $G$.
+    Define $\Lambda:G\to \mathcal{L}(\C[G])$ by
+    \begin{equation*}
+        \Lambda(x)\sum_{y\in G}\alpha_yy=\sum_{y\in G}\alpha_y(xy)=\sum_{y\in G}\alpha_{x^{-1}y}y.
+    \end{equation*}
+    Then $\Lambda(xx')=\Lambda(x)\Lambda(x')$ for $x,x'$ in $G$, and $\Lambda(e)=I$.
+
+    On $\C[G]\times\C[G]$, define
+    \begin{equation*}
+        \left[\sum_{x\in G}\alpha_xx,\sum_{y\in G}\beta_yy\right]_y = \sum_{x\in G}\sum_{y\in G}\alpha_x\overline{\beta_y}u(y^{-1}x).
+    \end{equation*}
+    Notice that $[\cdot,\cdot]_u$ is positie and Hermitian, since for $x,y$ in $G$,
+    \begin{equation*}
+        \begin{pmatrix}
+            u(e) & u(y^{-1}x)\\
+            u(x^{-1} y) & u(e)
+        \end{pmatrix}
+    \end{equation*}
+    is positive semidefinite, hence Hermitian, so $u(x^{-1}y)=u(y^{-1}x)$.
+    Hence $[\cdot,\cdot]_u$ has Cauchy schwarz inequality $|[\alpha,\beta]_u|\leq[\alpha,\alpha]_u^{1/2}[\beta,\beta]_u^{1/2}$.
+    Hence $\mathcal{K}_u=\{\alpha\in\C[G]:[\alpha,\alpha]_n=0\}$ is a subspace of $\C[G]$.
+
+    Note that for $x\in G$, $\alpha,\beta\in\C[G]$,
+    \begin{equation*}
+        [\Lambda(x)\alpha,\Lambda(x)\beta]_u = \sum_{y\in G}\sum_{z\in G}\alpha_y\overline{\beta_z}u((xz)^{-1}xy)=[\alpha,\beta]_y.
+    \end{equation*}
+    In particular, $\Lambda(x)\mathcal{K}_u\subseteq\mathcal{K}_u$ for each $x\in G$.
+    Hence we may define $\pi_0:G\to\mathcal{K}(\mathcal{H}_0)$ where $\mathcal{H}_0=\quot{\C[G]}{\mathcal{K}_u}$ and $\pi_0(x)(\alpha+\mathcal{K}_u)=\Lambda(x)\alpha+\mathcal{K}_u$ is well-defined.
+    Furthermore, $\pi_0(xx')=\pi_0(x)\pi_0(x')$ for $x,x'\in G$, and $\pi_0(e)=I$.
+    Define on $\mathcal{H}_0\times\mathcal{H}_0$
+    \begin{equation*}
+        \langle\alpha+\mathcal{K}_u,\beta+\mathcal{K}_u\rangle_u=[\alpha,\beta]_u
+    \end{equation*}
+    which is an inner product on $\mathcal{H}_0$.
+    We note from above that each $\pi_0(x)$ is unitary on $\mathcal{H}_0$: $\pi_0(x^{-1})=\pi_0(x)$ and
+    \begin{align*}
+        \langle \pi_0(x)(\alpha+\mathcal{K}_u),\pi_0(x)(\beta+\mathcal{K}_u)\rangle_u = [\Lambda(x)\alpha,\Lambda(x)\beta]_u = [\alpha,\beta]_u =\langle\alpha+\mathcal{K}_u,\beta+\mathcal{K}_u\rangle
+    \end{align*}
+    We let $\mathcal{H}=\overline{\mathcal{H}_0}$ be the completion with respect to $\norm{\xi}=\langle\xi,\xi\rangle_u^{1/2}$, so $\mathcal{H}$ is a Hilbert space.
+    Each element of the group of operators $\{\pi_0(x):x\in G\}$ extends to a unitary on $\mathcal{H}$, so we get a group of unitaries $\{\pi(x):x\in G\}$.
+    Notive that for $x\in G$,
+    \begin{equation*}
+        \langle\pi(x)(e+\mathcal{K}_u),e+\mathcal{K}_u\rangle=[x,e]_u=u(x)
+    \end{equation*}
+    so we let $\xi=e+\mathcal{K}_u$.
+    Notice then, that
+    \begin{equation*}
+        |u(x)|=|\langle\pi(x)\xi,\xi\rangle|\leq\norm{\pi(x)\xi}\norm{\xi}\leq\norm{\xi}^2=u(e)
+    \end{equation*}
+    so $u$ is bounded.
+    If $\alpha,\beta\in\C[G]$,
+    \begin{equation*}
+        \langle\pi(x)(\alpha+\mathcal{K}_u),\beta+\mathcal{K}_u\rangle=\sum_{y\in G}\sum_{z\in G}\alpha_y\overline{\beta_z}u(z^{-1}xy)
+    \end{equation*}
+    so $x\mapsto\langle\pi(x)(\alpha+\mathcal{K}_u),\beta+\mathcal{K}_u\rangle$ is continuous.
+    
+    If $\xi,\eta\in\mathcal{H}$, $\epsilon>0$, find $\alpha,\beta\in\C[G]$ so $\norm{(\alpha+\mathcal{K}_u)-\xi}\leq\epsilon$ and $\norm{(\beta+\mathcal{K}_u)-\eta}<\epsilon$ and then
+    \begin{align*}
+        |\langle\pi(x)\xi,\eta\rangle - \langle\pi(x)(\alpha+\mathcal{K}_u),\beta+\mathcal{K}_u\rangle| &\leq |\langle\pi(x)(\xi-(\alpha+\mathcal{K}_u)),\eta\rangle|+|\langle\pi(x)(\alpha+\mathcal{K}_u),\eta-(\beta+\mathcal{K}_u)\rangle|\\
+                                                                                                        &\leq \epsilon\norm{\eta}+(\norm{\xi}+\epsilon)\epsilon
+    \end{align*}
+    so by taking limits of bounded continuous functions, we see that $\pi:G\to(\mathcal{U})\mathcal{H},\tau_{\mathrm{wo}})$ is continuous.
+\end{proof}
 \section{Abelian Locally Compact Groups}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}

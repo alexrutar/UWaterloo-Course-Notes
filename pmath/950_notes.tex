@@ -994,6 +994,7 @@ If $L$ is a line segment, then for all values of $\theta$ (except for 2), then t
 \end{proof}
 Bessel function: $J_0(\mu)=\frac{1}{2\pi}\int_0^{2\pi}\cos(u\cos\theta)\d{\theta}$.
 \section{Iterated Function Systems}
+\subsection{Invariant Sets and Measures}
 Let $X$ be a complete metric space and $F_1,\ldots,F_m$ a family of contractions from $X$ to $X$ (i.e. functions with $0<r_i<1$ with $d(F_i(x),F_i(y))\leq r_id(x,y)$).
 Then there exists $E\subseteq X$ with $E$ compact such that $E=\bigcup_{i=1}^n F_i(E)$.
 
@@ -1051,4 +1052,167 @@ If $F_i(A)\subseteq A$, then $E=\bigcap_{k=0}^\infty F^{(k)}(A)$.
     Hence there exists a finite subcover $(A_0)_r,A_{n_1}^c,\ldots,A_{n_N}^c$.
     Thus for any $k>\max\{n_1,\ldots,n_N\}$, $A_k\subseteq (A_0)_r$, as required.
 \end{proof}
+\begin{theorem}
+    Let $X\subseteq\R^n$ be compact and let $\{F_i\}_{i=1}^m$ be an IFS on $X$ with attractor $E$.
+    Assume we are given probabilities $\{p_i\}_{i=1}^m$ such that $\sum_{i=1}^mp_i=1$.
+    Then there exists a unique Borel probability measure $\mu$ such that
+    \begin{equation*}
+        \mu(A)=\sum_{i=1}^m p_i\mu(F_i^{-1}(A))
+    \end{equation*}
+    for all Borel sets $A$.
+    Moreover,
+    \begin{enumerate}[nl,r]
+        \item $\int g\d{\mu}=\sum_{i=1}^m p_i\int g(F_i(x))\d{\mu(x)}$
+        \item $\supp(\mu)=E$
+        \item If the IFS satisfies the strong separation condition, then $\mu(E_\sigma)=p_\sigma$.
+    \end{enumerate}
+\end{theorem}
+\begin{remark}
+    In the case of an IFS of similarities, $\mu$ is called a \defn{self-similar measure}.
+\end{remark}
+\begin{proof}
+    Let $M_1(X)$ denote the set of all Borel probability measures on $X$.
+    Define a metric on $M(X)$ by
+    \begin{equation*}
+        d(\mu,\nu)=\sup\left\{\left|\int g\d{\mu}-\int g\d{\nu}\right|:|g(x)-g(y)|\leq\norm{x-y}\right\}.
+    \end{equation*}
+    Step 1: verify that this in fact a metric which makes $M(X)$ a complete metric space.
+    \TODO{Falconer Techniques Proposition 1.9}
+
+    Step 2: Define $H:M(X)\to M(X)$ where $H(\nu)=H_\nu$ is the measure that satisfies
+    \begin{equation*}
+        H_\nu(A)=\sum_{i=1}^m p_i\nu(F_i^{-1}(A))
+    \end{equation*}
+    for all $A$ Borel.
+    Verify that $H_\nu$ is a Borel probability measure.
+    We have
+    \begin{align*}
+        H_\nu(A) &= \int\idc{A}\d{H_\nu} = \sum_{i=1}^m p_i\int\idc{F_i^{-1}(A)}\d{\nu}\\
+                 &= \sum_{i=1}^m p_i\int\idc{A}(F_i(x))\d{\nu(x)}
+    \end{align*}
+    and extending by density of simple functions in $L^1$, we have
+    \begin{equation*}
+        \int g\d{H_\nu}=\sum_{i=1}^m p_i\int g(F_i(x))\d{\nu(x)}
+    \end{equation*}
+
+    Step 3: Check that $H_\nu$ is a contraction.
+    We have
+    \begin{align*}
+        d(H_\mu,H_\nu) &= \sup\left\{\left|\int_g\d{H_\mu}-\int_G\d{H_\nu}\right|:\Lip(g)\leq 1\right\}\\
+                       &= \sup_{\Lip(g)\leq 1}\left|\sum_{i=1}^m\left(\int g(F_i(x))\d{\mu(x)}-\int g(F_i(x))\d{\nu(x)}\right)\right|\\
+                       &\leq \sup_{\Lip(g)\leq 1}\left|\sum_{i=1}^m p_ir_i\left|\int r_i^{-1}g(F_i(x))\d{(\mu-\nu)(x)}\right|
+    \end{align*}
+    where $r_i$ is the contraction factor of $F_i$.
+    Moreover, notice that
+    \begin{align*}
+        \left|r_i^{-1}g(F_i(x))-r_i^{-1}g(F_i(y))\right| &\leq r_i^{-1}\norm{F_i(x)-F_i(y)}\\
+                                                         &\leq \norm{x-y}
+    \end{align*}
+    so that $r_i^{-1}g\circ F_i$ is Lipschitz with constant at most 1.
+    Thus
+    \begin{align*}
+        d(\mu,\nu)\geq\left|\int r_i^{-1}g\circ F_i\d{(\mu-\nu)(x)}\right|
+    \end{align*}
+    so that
+    \begin{align*}
+        d(H_\mu,H_\nu)\leq \sum_{i=1}^m p_ir_i d(\mu,\nu)\leq\max\{r_i:i=1,\ldots,m\}d(\mu,\nu)
+    \end{align*}
+    and thus $H$ is in fact a contraction map.
+
+    Step 4: By the Banach contraction mapping principle, there exists a unique fixed point $\mu\in M_1(X)$.
+    But then
+    \begin{equation*}
+        \mu(A) = H(\mu)(A)=\sum_{i=1}^m p_i\mu(F_i^{-1}(A))
+    \end{equation*}
+    for any Borel $A$.
+
+    It remains to show the properties.
+    \begin{enumerate}[nl,r]
+        \item Set $S=\supp(\mu)$.
+            Then $1=\mu(S)=\sum_{i=1}^m p_i\mu(F_i^{-1}(S))$ which forces $\mu(F_i^{-1}(S))=1$.
+            Thus $F_i^{-1}(S)\supseteq S$ since they are of full measure, so $S\supseteq F_i(S)$.
+            If $\mu(A)>0$, then $\sum_{i=1}^m p_i\mu(F_i^{-1}(A))>0$, so there exists $i$ such that $F_i^{-1}(A)\cap S\neq\emptyset$.
+            Thus $A\cap F_i(S)\neq\emptyset$.
+            But $S\setminus\left(\bigcup_{i=1}^m F_i(S)\right)\cap F_j(S)=\emptyset$ for all $j$, so that $\mu(S\setminus\bigcup_{i=1}^m F_i(S))=0$ and thus $\mu(S)=1$.
+            Thus $S=\bigcup_{i=1}^m F_i(S)$ so that $S=E$.
+        \item Assume the SSC.
+            Then
+            \begin{align*}
+                \mu(E_\sigma) &=\sum_{i=1}^mp_i\mu(F_i^{-1}(E_\sigma))\\
+                              &\geq p_{\sigma_1}\mu(E_{\sigma_2\ldots \sigma_k})\\
+                              &= p_{\sigma_1}\left(\sum_{i=1}^m p_i\mu(F_i^{-1}(E_{\sigma_2\ldots\sigma_k}))\\
+                              &\geq\cdots\geq p_\sigma
+            \end{align*}
+            On the other hand, since $E=\bigcup_{\sigma\in\Sigma^k}E_\sigma$ disjointly,
+            \begin{align*}
+                1 &= \mu(E) = \sum_{\sigma\in\Sigma^k}\mu(E_\sigma)\\
+                  &\geq\sum_{\sigma\in\Sigma^k}p_\sigma = \left(\sum_{i=1}^m p_i\right)^k=1
+            \end{align*}
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    If the attractor $E$ of an IFS $\{F_1,\ldots,F_m\}$ has the property that the sets $F_i(E)$ are disjoint, we say $E$ satisfies the \defn{strong separation condition}.
+    We say that the IFS satisfies the \defn{open set condition} if there exists a non-empty bounded open $V$ such that $\bigcupdot_{i=1}^m F_i(U)\subseteq U$.
+\end{definition}
+The strong separation condition implies the open set condition by taking, say, $U=\{x:d(x,E)<\epsilon\}$ where $\epsilon=\frac{1}{2}\min_{i\neq j}(d(F_i(E),F_j(E)))>0$.
+\subsection{Dimensional Properties of the Attractor}
+\begin{theorem}
+    Let $F$ be the attractor of the IFS $\{F_i\}_{i=1}^m$ with contraction factors $\{r_1,\ldots,r_m\}$.
+    If the IFS satisfies the SSC, then $\dim_HE=s$ where $\sum_{i=1}^m r_i^s=1$.
+    Moreover, $0<H^s(E)<\infty$.
+\end{theorem}
+\begin{proof}
+    Write $A_\sigma=F_\sigma(A)$ for each $\sigma\in\Sigma^*=\{1,\ldots,m\}^*$.
+    Fix $\delta>0$ and pick $k$ such that $r^k|E|<\delta$.
+    Then the sets $\{E_\sigma:\sigma\in\Sigma^k\}$ is a $\delta$-cover of $E$.
+    Then
+    \begin{align*}
+        H_\delta^s(E)&\leq\sum_{\sigma\in\Sigma^k}|E_\sigma|^s = \left(\sum_{\sigma\in\Sigma^k}r_\sigma^s\right)|E|^s\\
+                     &= \left(\sum_{i=1}^m r_j^s\right)^k|E|^s=|E|^s
+    \end{align*}
+    so that $H^s(E)\leq|E|^s<\infty$.
+
+    To get a lower bound, intending to use the mass distribution principle, we will construct a measure $\mu$ on $E$ such that $\mu(U)\leq c|U|^s$ for all open $E$.
+    Define a measure $\mu$ on $E$ by the rule $\mu(E_\sigma)=r_\sigma^s$.
+    Using the subdivision method, one may verify that this is in fact a measure.
+    But then $E_\sigma=\bigcup_{j=1}^m E_{\sigma j}$, so
+    \begin{align*}
+        \sum_j\mu(E_{\sigma j})=\sum_j(r_{\sigma j})^s=r_\sigma^s\sum_j r_j^s=r_\sigma^s=\mu(E_\sigma).
+    \end{align*}
+    Now consider $B(x,r)$ where $x\in E$.
+    Let $r<d=\min_{i\neq j}d(F_i(E),F_j(E))>0$, and get $k\in\N$ such that $r_\sigma\cdot d\leq r<r_{\sigma^-}d$ for $\sigma\in\Sigma^k$.
+    Suppose $\sigma\neq\sigma'$ with $\sigma,\sigma'\in\Sigma^k$, and let $j$ be maximal such that $\sigma|j=\sigma'|j$.
+    Then
+    \begin{equation*}
+        d(F_{\sigma|j}\circ F_{\sigma'_{j+1}}(E),F_{\sigma|j}\circ F_{\sigma_{j+1}}(E))=r_{\sigma|j}\cdot d\geq r_{\sigma|k-1}\cdot d>r
+    \end{equation*}
+    so that $d(E_{\sigma'},E_\sigma)>r$.
+    If $y\in B(x,r)\cap E$, then $y\in E_\sigma$ so $B(x,r)\cap E\subseteq E_\sigma$.
+    Thus $\mu(B(x,r)\cap E)\leq\mu(E_\sigma)=r_\sigma^s\leq\frac{r^s}{d^s}=c(\diam B(x,r))^s$.
+
+    But given any $U$ such that $U\cap E\neq\emptyset$, we may take $U\subset B(x,|U|)$ for any choice of $x\in E\cap U$.
+\end{proof}
+\begin{theorem}
+    Suppose $E$ is a compact, non-empty subset of $X$ and let $a,r_0>0$ .
+    Suppose for all closed balls $B$ with centre in $E$ and radius $r<r_0$, there exists a contraction map $g:E\to E\cap B$ such that $d(g(x),g(y))\geq ar\cdot d(x,y)$ for all $x,y\in E$.
+    Then if $s=\dim_HE$, then $H^s(E)\leq 4^sa^{-s}<\infty$ and $\underline{\dim}_B(E)=\overline{\dim}_B(E)=s$.
+\end{theorem}
+\begin{example}
+    Let $E$ denote the Cantor set under the IFS $\{S_1,S_2\}$, and let $B$ be the Cantor interval $C_\sigma$.
+    Then $\diam(B)=r_\sigma$, and $g:E\to E\cap B$ is the map $S_\sigma$.
+    Then $d(g(x),g(y))=r_\sigma d(x,y)$.
+\end{example}
+\begin{proof}
+    Let $N_r(E)$ denote the maximum number of disjoint closed balls of radius $r$ with centers in $E$.
+    Assume for contradiction there exists $r<\min\{a^{-1},r_0\}$ with $N_r(E)>a^{-s}r^{-s}$.
+
+    Get some $r>s$ such that $N_r(E)>a^{-t}r^{-t}$, so we may get $m$ disjoint closed balls $B_1,\ldots, B_m$ with centres in $E$ of radius $r$, and each of them gives rise to a map $g_i:E\to E\cap B_i$ such that $d(g_i(x),g_i(y))\geq ard(x,y)$ for all $x,y$ in $E$.
+    Set $d_0=\min_{i\neq j}d(B_i\cap E,B_j\cap E)>0$.
+    But then
+    \begin{align*}
+        d(g_{i_1}\circ\cdots\circ g_{i_k}(x),g_{j_1}\circ\cdots\circ g_{j_k}(y)) &\geq (ar)^{q-1} d(g_{i_q}\circ\cdots g_{i_k}(x),g_{j_q}\circ g_{j_k}(y))\\
+                                                                                 &\geq (ar)^{q-1}d_0\geq(ar)^kd_0>0
+    \end{align*}
+\end{proof}
+
 \end{document}
