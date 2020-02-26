@@ -1586,16 +1586,16 @@ We will show that the remaining components are also subalgebras.
 \begin{theorem}
     Let $X$ be a locally compact space, $\mathcal{L}$ a Banach space, and let
     \begin{equation*}
-        C_b(X,\mathcal{L}) =\left\{F:X\to\mathcal{L}:F\text{ continuous},\norm{F}_\infty=\sup_{x\in X}\norm{F(x)}<\infty\right\}.
+        C_b(X,\mathcal{L}) =\left\{f:X\to\mathcal{L}:F\text{ continuous},\norm{f}_\infty=\sup_{x\in X}\norm{f(x)}<\infty\right\}.
     \end{equation*}
     Then there is a bilinear map
     \begin{equation*}
-        (F,\mu)\mapsto\int_X f\d{\mu}:(C_b(X,\mathcal{L}),M(X))\to\mathcal{L}
+        (f,\mu)\mapsto\int_X f\d{\mu}:C_b(X,\mathcal{L})\times M(X)\to\mathcal{L}
     \end{equation*}
     such that
     \begin{itemize}[nl]
-        \item $\norm{\int_X f\d{\mu}}\leq\norm{F}_\infty\norm{\mu}_1$ and
-        \item $T\left(\int_X F\d{\mu}\right)=\int_X T\circ F\d{\mu}$ for $T\in\mathcal{B}(\mathcal{L},\mathcal{L}')$.
+        \item $\norm{\int_X f\d{\mu}}\leq\norm{f}_\infty\norm{\mu}_1$ and
+        \item $T\left(\int_X f\d{\mu}\right)=\int_X T\circ f\d{\mu}$ for $T\in\mathcal{B}(\mathcal{L},\mathcal{L}')$.
     \end{itemize}
 \end{theorem}
 \begin{proof}
@@ -2011,7 +2011,349 @@ That is, strong operator convergence implies weak operator convergence (in nets)
     \end{align*}
     so by taking limits of bounded continuous functions, we see that $\pi:G\to(\mathcal{U})\mathcal{H},\tau_{\mathrm{wo}})$ is continuous.
 \end{proof}
+\begin{proposition}
+    Let $\pi:G\to\mathcal{U}(H)$ be a unitary representation and $K\subseteq H$ a closed subspace.
+    Let $P=P_K$ denote the orthogonal projection onto $K$.
+    Then $\pi(G)K\subseteq K$ ($K$ is $\pi$-invariant) if and only if $P\pi(x)=\pi(x)\circ P$ for any $x\in G$.
+\end{proposition}
+\begin{proof}
+    We have
+\end{proof}
+\begin{definition}
+    We say that a unitary representation $\pi$ is \defn{irreducible} if it admits no closed invariant subspaces.
+\end{definition}
+\begin{lemma}
+    Let $\pi:G\to\mathcal{U}(H)$ be a unitary representation.
+    Then $\pi$ is irreducible if and only if
+    \begin{equation*}
+        \pi(G)'=\{T\in\mathcal{B}():T\pi(x)=\pi(x) T\text{ for all }x\in G\}=\C U.
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    \impr
+    Let $K$ be $\pi$-invariant, $\{0\}\subsetneq K\subsetneq K$.
+    Then $P_K\in\pi(G)'\setminus \C I$.
+
+    \impl
+    Let $T\in\pi(G)'$.
+    Then for $x$ in $G$,
+    \begin{equation*}
+        T^*\pi(x) = (\pi(x^{-1}T)^*=(T\pi(x^{-1}))^*=\pi(x)T^*
+    \end{equation*}
+    so that $T^*\in\pi(G)'$.
+    Thus if $T\in\pi(G)'\setminus \C I$, at least one of $\Re T=\frac{1}{2}(T+T^*)$ or $\im T=\frac{1}{2i}(T-T^*)$ is not in $\C I$.
+    Thus there is $S=S^*\in\pi(G)'\setminus\C I$.
+    Since normal operators with singleton spectrum are always always multiples of the identity, we must have $|\sigma(H)|\geq 2$.
+
+    Let $U$ be a non-empty non-dense open set in $\sigma(S)$ and find $f\in C(\sigma(S))$ such that $f|_U=0$.
+    If $g\in C(\sigma(S))$ is non-zero with $\supp(g)\subseteq U$, then$f(H)g(H)=fg(H)=0$, so $\im g(H)\subseteq\ker f(H)\neq\{0\}$.
+    THen $\ker f(H)$ is $\pi$-invariant: if $x\in G$ ahd $\xi\in\ker f(H)$ is arbitrary, then $f(H)\pi(x)\xi=\pi(x)f(H)\xi=0$ so $\pi(x)\xi\in\ker f(H)$.
+
+    % Recall that there is an isometry $\Phi:C(\sigma(S))\to\mathcal{B}(H)$ such that there is a linear isometry $\Phi:C(\sigma(S))\to\mathcal{B}(H)$ such that
+\end{proof}
+\begin{corollary}
+    If $G$ is abelian, then every irreducible unitary representation is one-dimensional.
+\end{corollary}
+\begin{proof}
+    If $\pi$ is an irreducible representation, then $\pi(G)\subseteq\pi(G)'=\C I$.
+    Hence for $x\in G$, there is $\sigma(x)\in\C$ such that $\pi(x)=\sigma(x) I$.
+    Notice that for also $y\in G$,
+    \begin{equation*}
+        \sigma(xy)I=\pi(xy)I=\pi(x)\pi(y)I=\sigma(x)\sigma(y)I
+    \end{equation*}
+    and
+    \begin{equation*}
+        \overline{\sigma(x)}=(\sigma(x)I)^*=\pi(x)^*=\pi(x^{-1})=\sigma(x^{-1})I
+    \end{equation*}
+    so $\sigma(x)\in\pi$.
+\end{proof}
+\section{Gelfand Theory}
+\begin{definition}
+    We say that $\mathcal{A}$ is a \defn{commutative Banach algebra} if $\mathcal{A}$ is a Banach space with a commuting associative product such that $\norm{ab}\leq\norm{a}\norm{b}$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item Let $X$ be a locally compact Hausdorff space, $\mathcal{A}=C_0(X)$.
+            This is unital if and only if $X$ is compact.
+        \item Consider $L^1(G)$ where $G$ is an abelian locally compact group.
+            This is unital if and only if $G$ is discrete.
+            The reverse is clear; forwardly, if $f$ acts as a unit, i.e. $f*g=g$ for all $g\in L^1(G)$, let $(f_\alpha)_\alpha$ be a summability kernel so $f=\lim_\alpha f*f_\alpha=\lim_\alpha f_\alpha$.
+            Thus if $h\in C_0(G)$, then
+            \begin{equation*}
+                \int_G hf\d{m}=\lim_\alpha\int_G hf_\alpha\d{m}=h(e)=\int_G h\delta_e
+            \end{equation*}
+            and hence $m_f=\delta_e$.
+            Thus $M_a(G)\cap M_d(G)\neq\emptyset$, so $G$ is discrete.
+        \item Let $S$ be an abelian semigroup, and define a convolution product on $\ell^1(S)$ by
+            \begin{equation*}
+                \left(\sum_{s\in S}\alpha(s)\delta_s\right)*\left(\sum_{t\in S}\beta(t)\delta_t\right)=\sum_{u\in G}\left(\sum_{\substack{(s,t)\in S\times S\\st=u}}\alpha(s)\beta(t)\right)\delta_u.
+            \end{equation*}
+            If $S$ is unital, then $\ell^1(S)$ is unital.
+            Otherwise, consider $S=\{s_1,\ldots,s_n\}$ by $s_is_j=s_i$ if $i\neq j$, and 0 otherwise.
+            Then the unit has norm $n$ (?)
+        \item If $G$ is an abelian locally compact group, $M(G)$ is a commutative Banach algebra.
+        \item Let $\mathbb{D}=\{z\in\C:|z|<1\}$ and let $\mathcal{A}(\mathcal{D})=\{f\in C(\overline{\mathbb{D}}):f\text{ holomorphic}\}$ (\TODO{related to semigroup algebra $\ell^1(\{0\}\cup\N)$ from analytic functions}.)
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    The \defn{(Gelfand) spectrum} of a commutative Banach algebra $\mathcal{A}$ is $\hat\mathcal{A}=\{\chi:\mathcal{A}\to\C:\chi\text{ linear and multiplicative}\}\setminus\{0\}$.
+    We refer to $\chi$ as \defn{characters}.
+\end{definition}
+\begin{proposition}
+    Let $\mathcal{A}$ be a unital commutative Banach algebra.
+    Then for $\chi\in\hat{\mathcal{A}}$,
+    \begin{enumerate}[nl,r]
+        \item $\chi(1_{\mathcal{A}})=1$
+        \item If $a\in\mathcal{A}^\times$, then $\chi(a)\neq 0$
+        \item $|\chi(a)|\leq\norm{a}$, i.e. $\chi\in\mathcal{A}^*$, $\norm{\chi}\leq 1$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item There is $a$ so that $\chi(a)\neq 0$, so $\chi(1_{\mathcal{A}})\chi(a)=\chi(a)$ so $\chi(1_{\mathcal{A}})=1$.
+        \item $\chi(a)\chi(a^{-1})=1$
+        \item If $\lambda\in\C$, then $|\lambda|>\norm{a}$ for some $a\in \mathcal{A}$, then $\norm{\frac{1}{\lambda}a}<1$ so
+            \begin{equation*}
+                (\lambda 1_{\mathcal{A}}-1)^{-1}=[\lambda(1_{\mathcal{A}}-\frac{1}{\lambda}a)]^{-1}=\frac{1}{\lambda}\sum_{n=0}^\infty\frac{1}{\lambda^n}a^n.
+            \end{equation*}
+            Thus $\lambda-\chi(a)=\chi(\lambda 1_{\mathcal{A}}-a)\neq 0$.
+            But $\chi(\chi(a)1_{\mathcal{A}}-a)=0$ so we cannot have $|\chi(a)|\geq\norm{a}$.
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    If $\mathcal{A}$ is unital, then $\hat{\mathcal{A}}$ is $w^*$-compact in $\mathcal{A}$.
+\end{corollary}
+\begin{proof}
+    Since $\hat{\mathcal{A}}\subseteq B(\mathcal{A}^\times)$, it suffices to show that $\hat{\mathcal{A}}$ is $w^*$-closed.
+
+    If $\chi\in\overline{\hat{A}}^{w^*}$, say $\chi=\lim_\alpha\chi_\alpha$ for $\chi_\alpha\in\hat{\mathcal{A}}$.
+    Then for $a,b\in\mathcal{A}$,
+    \begin{align*}
+        \chi(ab) &= \lim_\alpha\chi_\alpha(ab)=\lim_\alpha\chi_\alpha(a)\chi_\alpha(b)=\chi(a)\chi(b)\\
+        \chi(1_{\mathcal{A}}) &= \lim_\alpha\xhi_\alpha(1_{\mathcal{A}})=1
+    \end{align*}
+    so $\chi\neq 0$.
+\end{proof}
+\begin{lemma}
+    Let $\mathcal{A}$ be a unital commutative Banach algebra, and $\mathcal{I}\subsetneq\mathcal{A}$ an ideal.
+    Then
+    \begin{enumerate}[nl,r]
+        \item$\mathcal{I}\cap\mathcal{A}^\times=\emptyset$,
+        \item $\overline{\mathcal{I}}\subsetneq\mathcal{A}$ is an ideal, and
+        \item $\mathcal{I}$ is contained in a proper maximal ideal $M$
+        \item if $\mathcal{I}$ is maximal, it is closed.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Standard.
+        \item If $\norm{b}<1$ in $\mathcal{A}$, then $1_{\mathcal{A}}-b\in\mathcal{A}^\times$ with $\left(1_{\mathcal{A}-b}^{-1}\right)=\sum_{n=0}^\infty b^n$.
+            Thus $\mathcal{\mathcal{I}}\cap\left(1_{\mathcal{A}}+B^0(\mathcal{A})\right)=\emptyset$.
+            Thus $\overline{I}\cap(1_{\mathcal{A}}+B^0(\mathcal{A}))=\emptyset$ too.
+            If $a\in\overline{\mathcal{I}}$, then $a=\lim_{n\to\infty}a_n$ with each $a_n\in\mathcal{I}$.
+            If $b\in\mathcal{A}$, then $ba=\lim_{n\to\infty}ba_n$ with each $ba_n\in\mathcal{I}$.
+        \item Standard.
+        \item $\mathcal{I}\subseteq\overline{\mathcal{I}}\subsetneq\mathcal{A}$
+    \end{enumerate}
+\end{proof}
+\begin{theorem}
+    If $\mathcal{A}$ is a unital Banach algebra, then the ``spectrum'' $\sigma(a)=\{\lambda\in \C:\lambda 1_{\mathcal{A}}-a\in \mathcal{A}\setminus\mathcal{A}^\times\}$ is a non-empty compact subset of $\C$.
+\end{theorem}
+\begin{proof}
+    Just like for $\mathcal{B}(X)$.
+\end{proof}
+\begin{theorem}[Mazur]
+    If $\mathcal{A}^\times=\mathcal{A}\setminus\{0\}$, then $\mathcal{A}\cong\C$.
+\end{theorem}
+\begin{proof}
+    If there were $a\in\mathcal{A}\setminus \C1_{\mathcal{A}}$, then $\lambda 1_{\mathcal{A}}-a\neq 0$ for all $\lambda\in\C$, so $\lambda 1_{\mathcal{A}}-a\in\mathcal{A}^*$.
+    This contradicts the last theorem.
+\end{proof}
+\begin{theorem}[Maximal Ideals]
+    Let $\mathcal{A}$ be a unital commutative Banach algebra.
+    Then $\{\ker\chi:\chi\in\hat{\mathcal{A}}\}$ is the collection of distinct maximal ideals.
+\end{theorem}
+\begin{proof}
+    Each $\quot{\mathcal{A}}{\ker\chi}\cong\chi(\mathcal{A})=\C$, so $\ker\chi$ is maximal.
+    If $\ker\chi=\ker\chi'$, then $\chi(a)1_{\mathcal{A}}-a\in\ker\chi=\ker\chi'$ so $0\chi'(\chi(a)1_{\mathcal{A}}-a)=\chi(a)-\chi'(a)$ for $a\in\mathcal{A}$.
+
+    Conversely, if $\mathcal{M}$ is a maximal idea in $\mathcal{A}$, then $\quot{\mathcal{A}}{\mathcal{M}}$ is a field.
+    By Mazur's theorem, $\quot{\mathcal{A}}{\mathcal{M}}\cong\C$, so the projection map is a character.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nl,r]
+        \item $\mathcal{A}\setminus\mathcal{A}^\times=\bigcup_{\chi\in\hat{\mathcal{A}}}\ker\chi$
+        \item $\sup_{\chi\in\hat{\mathcal{A}}}|\chi(a)|=\lim_{n\to\infty}\norm{a^n}^{1/n}$
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We already saw $\mathcal{A}^\times\subseteq\mathcal{A}\setminus\bigcup_{\chi\in\hat{\mathcal{A}}}\ker\chi$.
+            If $a\in\mathcal{A}\setminus\mathcal{A}^\times$, then $a\mathcal{A}$ is a proper ideal contained in a maximal ideal $\ker\chi$.
+        \item If $a\in\mathcal{A}$ and $\lambda\in\C$, then $\lambda\in\sigma(a)$ if and only if $\lambda=\chi(a)$.
+            Then apply the spectral radius formula.
+    \end{enumerate}
+\end{proof}
 \section{Abelian Locally Compact Groups}
+Let $G$ be an abelian locally compact group.
+Then $M(G)$ and $L^1(G)$ are commutative.
+Let
+\begin{equation*}
+    \widehat{G} = \{\sigma:G\to\mathbb{T}|\sigma\text{ continuous group homomorphism}\}
+\end{equation*}
+Then Schur's lemma tells us that $\widehat{G}$ is the set of all irreducible unitary representations of $G$, as $U(\C)=\mathbb{T}$.
+\begin{theorem}
+    Let $G$ be an abelian locally compact group.
+    \begin{enumerate}[nl,r]
+        \item $\widehat{L^1(G)}\cong\widehat{G}$, where each element of $\widehat{L^1(G)}$ is given by $f\mapsto\langle f,\sigma\rangle=\int_G f\sigma\d{m}$.
+        \item $\widehat{G}\cup\{0\}$ is $w^*$-compact in $L^\infty(G)\cong L^1(G)^*$, and thus $\widehat{G}$ is locally compact
+        \item $(\widehat{G},w^*)$ is a locally compact group under pointwise operations ($\sigma^{-1}=\overline{\sigma}$).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item If $\sigma\in\widehat{G}$, so $\sigma:G\to\pi = U(\C)$, then $\chi=\sigma_1:L^1(G)\to\mathcal{B}(\C)\cong\C$ is a non-degenerate, and hence non-zero multiplicative functional, i.e. in $\widehat{L^1(G)}$.
+            Also, if $\sigma\neq\tau$, then $\sigma_1\neq\tau_1$, since there exists $f$ such that $\int_G f\sigma\neq\int_G f\tau$.
+            
+            Now, let $\chi\in\widehat{L^1(G)}$.
+            If $G$ is discrete, then $L^1(G)\cong\ell^1(G)$ is unital, and hence we have $\norm{\chi}\leq 1$.
+            If $G$ is not discrete, we let $\mathcal{A}=L^1(G)\oplus \C\delta_e\subset M(G)$.
+            Then define $\tilde\chi:\mathcal{A}\to\C$ by $\tilde\chi(f+\alpha\delta_e)=\chi(f)+\alpha$.
+            It is straightforward that $\tilde\chi\in\widehat{\mathcal{A}}$, so $\norm{\chi}\leq\norm{\tilde\chi}\leq 1$ from a proposition last class.
+            Thus $\chi:L^1(G)\to\mathcal{B}(\C)\cong\C$ is a contractive representation, and hence self-adjoint, and hence there is $\sigma:G\to U(\C)\cong\pi$ such that $\chi=\sigma_1$.
+        \item It suffices to show that $\widehat{G}\cup\{0\}$ is $w^*$-closed in $L^\infty(G)$.
+            Let $\sigma$ be an element of the $w^*$-closure of $\widehat{G}$, so $\sigma=w^*-\lim_\alpha\sigma_\alpha$ for each $\sigma_\alpha\in\widehat{G}$.
+            Then for $f,g\in L^1(G)$,
+            \begin{equation*}
+                \langle f*g,\sigma\rangle=\lim_\alpha\langle f*g,\sigma_\alpha\rangle=\lim_\alpha\langle f,\sigma_\alpha\rangle\langle g,\sigma_\alpha\rangle=\langle f,\sigma\rangle\langle g,\sigma\rangle
+            \end{equation*}
+            so $\sigma_1\in\widehat{L^1(G)}\cup\{0\}$, i.e. $\sigma\in\widehat{G}\cup\{0\}$.
+
+            Since the $w^*$-topology is Hausdorff, there is a neighbourhood $U$ of $X$ and $V$ of $)$ so that $U\cap V\neq\emptyset$.
+            Hence $0\in\overline{U}^{w^*}$, so $U$ is a relatively compact neighbourhood of $X$ by the spectral radius formula.
+        \item Let $\pi_m:L^\infty(G)\to\mathcal{B}(L^2(G))$ be given by $\pi_m(\phi)f=\phi f$.
+            Then for $f,g\in L^2(G)$, then $f\overline{g}\in L^1(G)$ by Cauchy-Schwarz and
+            \begin{equation*}
+                \langle \pi_m(\phi)f,g\rangle=\int_G\phi f\overline{g}\d{m}=\langle\phi,f\overline{g}\rangle.
+            \end{equation*}
+            On the other hand, if $f\in L^1(G)$, $f=\sgn f|f|^{1/2}|f|^{1/2}$ with
+            \begin{equation*}
+                \langle\phi,f\rangle=\int_G\phi f\d{m}=\langle\pi_m(\phi)\sgn f|f|^{1/2},|f|^{1/2}\rangle.
+            \end{equation*}
+            Hence $\phi_\alpha\to \phi$ $w^*$ in $L^\infty(G)$ if and only if $\pi_m(\phi_\alpha)\to\pi_m(\phi)$ in the weak operator topology, i.e. $\pi_m$ is a $w^*-w.o.$ homeomorphism.
+
+            Then $\pi_m(\widehat{G})\subseteq\mathcal{U}(L^2(G))$ so $\widehat{G}$ embeds homeomorphically into a topological group, and is thus a topological group.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    \begin{enumerate}[nl,r]
+        \item If $G$ is discrete, then $\widehat{G}$ is compact.
+        \item If $G$ is compact, then $\widehat{G}$ is discrete.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item We saw that $L^1(G)\cong \ell^1(G)$ is unital with $\widehat{G}\cong\widehat{\ell^1(G)}$.
+        \item If $\sigma\in\widehat{G}\setminus\{1\}$, we normalize $m(G)=1$.
+            Given $y\in G$ so $\sigma(y)\neq 1$, we have
+            \begin{equation*}
+                \int_G\sigma(x)\d{x}=\ing_G\sigma(yx)\d{x}=\sigma(y)\int_G\sigma(x)\d{x}
+            \end{equation*}
+            so that $\langle\sigma,1\rangle=\int_G\sigma(x)\d{x}=0$.
+            Also, $\langle 1,1\rangle=\int_G 1\d{x}=1$.
+            Hence
+            \begin{equation*}
+                \{\tau\in\widehat{G}:\langle\tau,1\rangle-\langle 1,1\rangle<1/2\}=\{1\}
+            \end{equation*}
+            is $w^*$-open.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    \begin{enumerate}
+        \item Let $G=\Z$.
+            If $\sigma\in\hat{\Z}$, let $z=\sigma(1)$, then $z^n=\sigma(n)$ for any $n\in\Z$.
+            Write $\sigma=\sigma_z$.
+            Then $z\mapsto\sigma_z:\pi\to\widehat{\Z}$ is a bijection.
+            If $f=\sum_{n\in\Z}f(n)\delta_n\in\ell^1(\Z)$, then $\langle f,\sigma_z\rangle=\sum_{n\in\Z}f(n)z^n$, so $z\mapsto\langle f,\sigma_z\rangle$ is continuous, so $z\mapsto\sigma_z:\mathbb{T}\to\widehat{Z}$ is continuous, and thus a homeomorphism.
+        \item Let $G=\R$ and $\sigma\in\widehat{R}$, so $\sigma(0)=1$.
+            Hence there is $y_0>0$ such that $\int_0^y\sigma(x)\d{x}\neq 0$ for $y\in[-y_0,y_0]$.
+            For such $y$,
+            \begin{equation*}
+                0\neq\int_0^y\sigma(x)\d{x}=\int_y^{2y}\sigma(y+x)\d{x}=\sigma(y)\int_y^{2y}\sigma(x)\d{x}
+            \end{equation*}
+            so that
+            \begin{equation*}
+                \sigma(y) = \frac{\int_0^y\sigma(x)\d{x}}{\int_y^{2y}\sigma(x)\d{x}}.
+            \end{equation*}
+            Thus the fundamental theorem of calculus shows that $\sigma$ is differentiable in a neighbourhood of $0$.
+            For $x\in\R$, we have $\sigma'(x)=\sigma(x)\sigma'(0)$.
+            Let $f(x)=e^{-\sigma'(0)x}\sigma(x)$ so $f(0)=1$, $f'(x)=0$, so $f(x)=1$ by the mean value theorem and in fact $\sigma(x)=e^{\sigma'(0)x}$.
+            Since $\sigma(\R)\subseteq\mathbb{T}$, we have that $\sigma'(0)=it\in i\R$.
+            Write $\sigma=\sigma_t$, $\sigma_t(x)=e^{ixt}$.
+
+            The map $t\mapsto\sigma_t:\R\to\widehat{R}$ is an injective homomorphism and surjective, from above.
+            If $t_n\to t_0$ in $\R$, $\sigma_{t_n}\to\sigma_{t_0}$ pointwise so by LDCT,
+            \begin{equation*}
+                \langle f,\sigma_{tn}\rangle=\int_{\R}f(x)e^{it_nx}\d{x}\fto{n\to\infty}\int_{\R}f(x)e^{it_0 x}\d{x}\langle f,\sigma_{t_0}\rangle
+            \end{equation*}
+            so $t\mapsto\sigma_t$ from $\R\to\widehat{R}$ is continuous.
+
+            To see that the map is open, consider a $w^*$-open neighbourhood of $1=\sigma_0$: for $0<\epsilon<1-2/\pi$,
+            \begin{align*}
+                U_\epsilon &= \left\{t\in\R:\left\lvert\langle\idc{[-1,1]},\sigma_t\rangle-\langle\idc{[-1,1]},\sigma_0\rangle\right\rvert<\epsilon\right\}\\
+                           &= \left\{t\in\R:\left\lvert\int_{-1}^1(e^{itx}-1)\d{x}\right\rvert<\epsilon\right\}\\
+                           &= \left\{t\in\R:2\left\lvert\frac{\sin(t)}{t}-1\right\right<\epsilon\rvert\}=(-\delta,\delta)
+            \end{align*}
+            for some $0<\delta<\pi/2$.
+            Thus $t\mapsto\sigma_t:R\to\widehat{\R}$ is open at 1.
+        \item Let $G=\mathbb{T}$.
+            Let $\sigma_1:\R\to\mathbb{T}$ be given by $\sigma_1(x)=e^{ix}$, which is continuous, surjective, and has $\ker\sigma_1=2\pi\Z$.
+            If $\tau\in\widehat{\mathbb{T}}$, then $\tau\circ\sigma\in\widehat{\R}$, so $\tau\circ\sigma_1(x)=e^{itx}$ for all $x\in\R$.
+            Also, $\ker\tau\supseteq\ker\sigma_1=2\pi\Z$, and hence $t\in\Z$.
+            Write $t=n$, and for $z=\sigma_1(x)\in\pi$,
+            \begin{equation*}
+                \tau(z)=\tau\circ\sigma_1(x)=e^{inx}=z^n.
+            \end{equation*}
+            Write $\tau=\sigma_n$ for $n\in\Z$.
+            We have that $n\mapsto\sigma_n$ is a bijection.
+            It is a homeomorphism as both $\Z$ and $\widehat{\mathbb{T}}$ are discrete.
+    \end{enumerate}
+\end{example}
+\begin{definition}[Fourier Transform]
+    If $f\in L^1(G)$, define $\hat{f}:\widehat{G}\to\C$ by
+    \begin{equation*}
+        \hat{f}(\sigma)=\int_G f(x)\overline{\sigma(x)}\d{x}=\langle f,\overline{\sigma}\rangle.
+    \end{equation*}
+\end{definition}
+\begin{proposition}[Riemann-Lebesgue, Gelfand]
+    The map $f\mapsto\hat{f}:L^1(G)\to C_0(\widehat{G})$ is an injective homomorphism with
+    \begin{enumerate}[nl,r]
+        \item $\norm{\hat{f}}_\infty=\lim_{n\to\infty}\norm{f^{*n}}_1^{1/n}\leq\norm{f}_1$
+        \item $\mathcal{A}(\widehat{G}) = \{\hat{f}:f\in L^1(G)\}$ is dense in $C_0(\widehat{G})$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \TODO{show injective}
+
+    Since $\sigma\mapsto\overline{\sigma}$ is continuous on $\widehat{G}$, $\hat{f}$ is continuous.
+    Letting $\hat{f}(0)=0$, we see for $\epsilon>0$, that $g_\epsilon=\max\{|\hat{f}|-\epsilon 1\}$ is supported on
+    \begin{equation*}
+        (\widehat{G}\cup\{0\})\setminus\{\sigma\in\widehat{G}\cup\{0\}:|\hat{f}(\sigma)|=|\langle f,\overline{\sigma}\rangle|<\epsilon\}
+    \end{equation*}
+    and hence compactly supported with $\norm{|\hat{f}|-g_\epsilon}_\infty\leq\epsilon$ so it follows that $\hat{f}\in C_0(\widehat{G})$.
+
+    The formula in (i) is the spectra radius formula.
+    We note that $\mathcal{A}$ is an
+    \begin{itemize}[nl]
+        \item algebra: $\langle f*g,\overline{\sigma}\rangle=\langle f,\overline{\sigma}\rangle\langle g,\overline{\sigma}\rangle$
+        \item conjugate closed: $\widehat{f^*}(\sigma)=\overline{\sigma}_1(f^*)=\overline{\overline{\sigma}_1(f)}=\overline{\hat{f}(\sigma)}$
+        \item point separating: $\sigma\neq\tau$ implies $\overline{\sigma}\neq\overline{\tau}$ so $\langle f,\overline{\sigma}\rangle\neq\langle f,\overline{\tau}\rangle$ for some $f\in L^1(G)$.
+        \item separates points from $0$: $L^1(G)^*\cong L^\infty(G)\supseteq\hat{G}$.
+    \end{itemize}
+    Hence by Stone-Weierstrass, $\mathcal{A}(\widehat{G})$ is dense in $C_0(\widehat{G})$.
+
+    \end{itemize}
+\end{proof}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}
 \end{document}
