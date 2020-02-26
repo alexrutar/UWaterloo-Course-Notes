@@ -1,4 +1,3 @@
-
 % header -----------------------------------------------------------------------
 % Template created by texnew (author: Alex Rutar); info can be found at 'https://github.com/alexrutar/texnew'.
 % version (1.13)
@@ -1660,6 +1659,97 @@ We can extend this to any continuous, $L^2$-bounded martingale.
 
             Thus almost surely, $\{T_t^{\Delta_{n_k}}\}$ is a Cauchy sequence with respect to the sup norm on $[0,a]$.
             Since $T_t^{\Delta_n}$ is continuous for any $n$ by definition, its limit $[M]$ is also continuous.
+        \item We show that $[M]$ is increasing.
+            Obviously, for any $s,t\in\Delta$, $s<t$ for some partition $\Delta$, we have $T_s^{\Delta}\leq T_t^{\Delta}$.
+            The inequality holds passing to the limit.
+        \item $M^2-[M]$ is a martigale.
+            We have seen that $\E(M_t^2-T_t^\Delta(M)|\mathcal{F}_s)=M_s^2-T_s^\Delta(M)$.
+            Pass to the limit.
+            Checking integrability is easy.
+        \item $M^2-[M]$ is uniformly integrable.
+            Since $[M]$ is increasing, $\E([M]_t)=\E(M_t^2)$ is bounded.
+        \item $[M]$ is unique.
+            Suppose $Y_1,Y_2$, both fanishing at $0$, increasing continuous, and have $M^2-Y_i$ a martingale for $i=1,2$.
+            Then $Z:=Y_1-Y_2$ is a continuous martingale vanishing at $0$.
+            Moreover, $Z$ has finite variation.
+            Apply the lemma below.
     \end{enumerate}
+    Finally, we need to generalize the results to $L^2$-bounded continuous martingales.
+    Define $T_n:=\inf\{t\geq 0:|M_t|\geq n\}$.
+    Then $T_n\to\infty$ almost surely.
+    Define the stopped process $X_n:=M^{T_n}$.
+
+    In particular, $X_n$ is a bounded martinale so there exists some $A_n$ continuous, vanishing at $0$, such that $X_n^2-A_n$ is a martingale.
+    Similarly, there exists $A_{n+1}$ such that $X_{n+1}^2-A_{n+1}$ is a martingale.
+    Thus $(X_{n+1}^2-A_{n+1})^{T_n}=X_n^2-A_{n+1}^{T_n}$ is a martingale, and $A_n=A_{n+1}^{T_n}$.
+    This means we can consisdently define $[M]=A_n$ on $[0,T_n]$.
+    Such a defined $[M]$ is clearly continuous, increasing, vanishing at $0$, and unique.
+
+    We postpoine the proof that $M^2-[M]$ is a U.I> martingale to after the next section.
 \end{proof}
+\begin{lemma}
+    Let $Z$ be a continuous martingale, $Z_0=0$ almost surely, and $Z$ has finite variation.
+    Then $Z=0$.
+\end{lemma}
+\begin{proof}
+    By similar arguments as used to derive the quadratic variation of Brownian motion, if $Z$ has finite variation, then $[Z]=0$.
+    Then $Z^2-[Z]=Z^2$ is a martingale, so $\E(Z_t^2)=\E(Z_0^2)=0$ so $Z_t=0$ almost surely.
+\end{proof}
+\section{Local Martingales}
+Recall:
+\begin{definition}
+    An adapted process $\{X_t\}_{t\geq 0}$ is a $(\mathcal{F}_t,\pr)$-local martingale if there exists stopping times $T_n$ such that $T_n$ is increasing, $\lim T_n=\infty$ a.s., and for every $n$, the stopped process $X^{\tau_n}$ is a martingale.
+\end{definition}
+When is a local martingale in fact a martingale?
+We have seen that $\int_0^t X_s\d{B_s}$ is a local martingale.
+If the integrand is in $L^2$, then it is a martingale.
+
+Another criterion:
+\begin{definition}
+    An adapted process $X$ is said to be in class DL if for every $a>0$, $\bigl\{\{X_T\}_{0\leq T\leq a}:T\text{ stopping time}\bigr\}$, is uniformly integrable.
+\end{definition}
+\begin{proposition}
+    A local martingale is a martingale if and only if it is in class DL.
+\end{proposition}
+\begin{proof}
+    \impl
+    Let $\{X_t\}_{t\geq 0}$ be a martingale.
+    Then it is a local martingale.
+    Moreover, we have for stopping time $T$, $0\leq T\leq a$, $X_T=\E(X_a|\mathcal{F}_t)$ by the optional sampling with $T$ and $a$.
+    Thus by the lemma below, $\{X_T\}_{0\leq T\leq a}$ is uniformly integrable, and thus in class DL.
+
+    \impr
+    Let $\{X_t\}$ be a local martingale in class DL with reducing sequence $\{X_t^{T_n}\}_{n=1,2,\ldots}$ is uniformly integrable.
+    Thus $X_{T_n\wedte t}\to X_T$ implies that $X_{T_n\wedge t}\to X_t$ in $L^1$.
+    Thus for all $A\in\mathcal{F}_s$ with $s\in[0,t]$,
+    \begin{equation*}
+        \E(X_t;A)=\lim_{n\to\infty}\E(X_{T_n\wedge t};A)=\lim_{n\to\infty}\E(X_{T_n}\wedge s;A)=\E(X_s;A)
+    \end{equation*}
+    so that $\E(X_t|\mathcal{F}_s)=X_s$ and $X$ is a martingale.
+\end{proof}
+\begin{lemma}
+    Let $X$ be a $(\Omega,\mathcal{F},\pr)$-integrable random variable.
+    Let $\{\mathcal{F}_t\}$ be a collection fo sub-$\sigma$-algebras of $\mathcal{F}$.
+    Then $\{X_T:=\E(X|\mathcal{F}_T)\}$ is uniformly integrable.
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+We can now show that $M^2-[M]$ is a uniformly integrable martingale (when $M$ is an $L^2$-bounded continuous martingale).
+Note that $\sup_t|M_t^2-[M]_t|\leq (M^*_\infty)^2+[M]_\infty$ where $M^*_\infty=\sup_{t\geq 0}|M_t|$.
+We use the following version of Doob's martingale inequality:
+\begin{equation*}
+    \E[(X_\infty^*)^p]\leq\left(\frac{p}{p-1}\right)^p\E(|X_\infty|^p)
+\end{equation*}
+so that $\E(M_\infty^*)<\infty$.
+Also,
+\begin{equation*}
+    \E([M]_\infty)=\E(\lim_{t\to\infty}[M]_t)=\lim_{t\to\infty}\E([M]_t)
+\end{equation*}
+and with $T_n$ stopping times such that $M^{T_n}$ are bounded, so that
+\begin{equation*}
+    \E([M]_t)=\E(\lim_{n\to\infty}[M]^{T_n})=\lim_{n\to\infty}\E([M]_t^{T_n}) = \lim_{n\to\infty}\E[(M_t^{T_n})^2]\leq\E(M_\infty^*)^2<\infty
+\end{equation*}
+so that $(M_\infty^*)^+[M]_\infty$ is integrable.
+Thus $M^2-[M]$ is U.I.
 \end{document}
