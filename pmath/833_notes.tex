@@ -2352,8 +2352,294 @@ Then Schur's lemma tells us that $\widehat{G}$ is the set of all irreducible uni
     \end{itemize}
     Hence by Stone-Weierstrass, $\mathcal{A}(\widehat{G})$ is dense in $C_0(\widehat{G})$.
 
-    \end{itemize}
 \end{proof}
+\begin{theorem}
+    Let $G$ be an abelian locally compact group.
+    There is a bijective correspondence between
+    \begin{enumerate}[nl]
+        \item unitary representations $\pi:G\to\mathcal{U}(\mathcal{H})$, and
+        \item non-degenerate contractive homomorphisms $\Pi:C_0(\widehat{G})\to\mathcal{B}(\mathcal{H})$ such that $\Pi(\overline{f})=\Pi(f)^*$
+    \end{enumerate}
+\end{theorem}
+In the context of this theorem, we will commonly identifty $\pi:G\to\mathcal{U}(\mathcal{H})$ with integrated forms $\pi_1:L^1(G)\to\mathcal{B}(\mathcal{H})$ and $\pi_0:C_0(\widehat{G})\to\mathcal{B}(\mathcal{H})$.
+\begin{proof}
+    \imp{i}{ii}
+    Recall that $\pi_1:L61(G)\to\mathcal{B}(\mathcal{H})$ satisfies that $\pi_1$ is contractive and $\pi_1(f^*)=\pi_1(f)^*$.
+    Notice that $\pi_1(f)^*\pi_1(f)=\pi_1(f^**f)=\pi_1(f*f^*)=\pi(1(f)\pi_1(f)^*$, so $\pi_1(f)$ is normal.
+    Hence
+    \begin{equation*}
+        \norm{\pi_1(f)}=\norm{\pi_1(f)^{2n}}^{1/(2n)}\leq\norm{f^{*(2n)}}_1^{1/(2n)}\to\norm{\hat{f}}_\infty.
+    \end{equation*}
+    Thus we may uniquely define linear continuous $\pi_0:C_0(\widehat{G})\to\mathcal{B}(\mathcal{H})$ such that $\pi_0(\hat{f})=\pi_1(f)$.
+    Notice that $\pi_0(\overline{\hat{f}})=\pi_0(\hat{f^*})=\pi_1(f^*)=\pi_1(f)^*=\pi_0(\hat{f})^*$ and $\pi_0(\overline{\phi})=\pi_0(\phi)^*$ for $\phi\in C_0(\widehat{G})$.
+
+    \imp{ii}{i}
+    We let $\Pi_1:L^1(G)\to\mathcal{B}(\mathcal{H})$ be given by $\Pi_1(f)=\pi(\hat{f})$, so $\Pi_1$ is a homomorphism $(\widehat{f*g}=\hat{f}\hat{g})$ with $\norm{\Pi_1(f)}\leq \norm{\hat{f}}_\infty\leq\norm{f}_1$, and $\Pi_1(f^*)=\pi(\overline{\hat{f}})=\pi(\hat{f})^*=\Pi_1(f)^*$.
+    The density of $A(\widehat{G})$ gives that $\Pi_1$ is non-degenerate.
+    Hence there is $\pi:G\to\mathcal{U}(\mathcal{H})$ such that $\pi_1=\Pi_1$.
+\end{proof}
+\begin{example}
+    Let $\mu\in M_+(\widehat{G})\setminus\{0\}$ and define $\pi_0^\mu:C_0(\widehat{G})\to\mathcal{B}(L^2(\widehat{G},\mu))$ be given by
+    \begin{equation*}
+        \pi_0^\mu(\phi)h=\phi(h),\phi\in C_0(\widehat{G}),h\in L^2(\widehat{G},\mu).
+    \end{equation*}
+    Clearly, $\pi_0^\mu$ is a contractive homomorphism with $\pi_0^\mu(\overline{\phi})=\pi_0^\mu(\phi)^*$.
+    Let
+    \begin{equation*}
+        C_0^+(\widehat{G}) = \{\phi\in C_0^+(\widehat{G}):\phi(1)=1=\norm{\phi}_\infty\}
+    \end{equation*}
+    be directed by pointwise comparison.
+    Then by inner regularity, $\lim\pi_0^\mu(\phi)h=h$: given $\epsilon>0$, let $K\subseteq\widehat{G}$ be compact so $\int_{\widehat{G}\setminus K}|h|^2<\epsilon^2$, eventually $\phi|_K=1$, so
+    \begin{equation*}
+        \left(\int_{\widehat{G}}|\phi h-h|^2\right)^{1/2}=\left(\int_{\widehat{G}}(\phi^2-1)|h|^2\right)^{1/2}\leq\left(\int_K|h|^2\right)^{1/2}<\epsilon.
+    \end{equation*}
+    Hence $\pi_0^\mu$ induces $\pi^\mu:G\to\mathcal{U}(L^2(G,\mu))$ such that $\pi^\mu(x)\pi_0^\mu(\hat{f})=\pi_0^\mu(\widehat{x*f})$.
+    Now,
+    \begin{equation*}
+        \widehat{x*f}(\sigma)=\int_Gf(x^{-1}y)\overline{\sigma(y)}\d{y}=\int_G f(y)\overline{\sigma(xy)}=\overline{\sigma(x)}\hat{f}(\sigma).
+    \end{equation*}
+    Let $\hat{x}:\widehat{G}\to\mathbb{T}$ be given by $\hat{x}(\sigma)=\overline{\sigma(x)}$, so $\widehat{x*f}=\hat{x}\hat{f}$.
+    Thus
+    \begin{equation*}
+        \pi^\mu(x)\pi_0^\mu(\hat{f})h=\pi_0^\mu(\hat{x}\hat{f})h=\hat{x}\hat{f}h
+    \end{equation*}
+    and since $A(\widehat{G})$ is dense in $C_0(\widehat{G})$, and since $\lim\pi_0^\mu(\phi)h=h$, we have
+    \begin{equation*}
+        \pi^\mu(x)h=\hat{x}h=\overline{\sigma(x)}h(\sigma).
+    \end{equation*}
+    Alternatively, we may denote $\pi^\mu=\int_{\widehat{G}}^\oplus\overline{\sigma}\d{\mu(\sigma)}$.
+
+    Since $\mu$ is finite, $j:C_0(\widehat{G})+\C1\to L^2(\widehat{G},\mu)$ is a bounded linear map, putting functions into their $\mu$-a.e. equiv classes.
+    Since $\mu$ is Radin, $j(C_0(\widehat{G}))$ is dense in $L^2(\widehat{G},\mu)$.
+    Furthermore, $\pi_0^\mu(C_0(\widehat{G}))j(1)=j(C_0(\widehat{G}))$ is dense in $L^2(\widehat{G},\mu)$, i.e. $j(1)$ is a \defn{cyclic vector} for $\pi_0^\mu$.
+\end{example}
+\begin{theorem}[Stone]
+    Let $G$ be an abelian locally compact group.
+    Let $\pi:G\to\mathcal{U}(\mathcal{H})$ which admits a cyclic vector $\xi$, i.e. $\overline{\spn}\pi(g)\xi)=\mathcal{H}$.
+    Then there is $\mu\in M_+(\widehat{G})$ and a unitary $U:L^2(\widehat{G},\mu)\to\mathcal{H}$ such that $U\pi^\mu(x)=\pi(x)U$ for $x$ in $G$ and $Uj(1)=\xi$.
+\end{theorem}
+\begin{proof}
+    Let $\mu\in M(\widehat{G})\cong C_0(\widehat{G})^*$ be given by
+    \begin{equation*}
+        \int_{\widehat{G}}\phi\d{\mu}=\langle\pi_0(\phi)\xi|\xi\rangle.
+    \end{equation*}
+    Notice if $\phi\geq 0$, then
+    \begin{equation*}
+        \int_{\widehat{G}}\phi\d{\mu}=\langle\pi_0(\overline{\phi^{1/2}}\phi^{1/2})\xi|\xi\rangle=\norm{\pi_0(\phi^{1/2})\xi}^2\geq 0
+    \end{equation*}
+    so $\mu\in M_+(\widehat{G})$.
+
+    Define $U_0:J(C_0(\widehat{G}))\to\pi_0(C_0(\widehat{G}))\xi$ by $U_0j(\phi)=\pi_0(\phi)\xi$ and note that
+    \begin{equation*}
+        \norm{\pi_0(\phi)\xi}^2=\langle\pi_0(|\phi|^2)\xi|\xi\rangle=\int_{\widehat{G}}|\phi|^2\d{\mu} = \norm{j(\phi)}_2^2.
+    \end{equation*}
+    Now $\overline{\spn}\pi(G)\xi=\mathcal{H}$ so $\overline{\pi_1(L^1(G))\xi}=\mathcal{H}$.
+    To see this, write $h=\sum_{j=1}^n\alpha_j\pi(x_j)\xi$, where $(f_\alpha)$ is a summability kernel in $L^1(G)$, then
+    \begin{equation*}
+        \pi_1(f_\alpha)h=\sum_{j=1}^n\alpha_j\pi_1(f_\alpha*x_j)\xi\to\sum_{j=1}^n\alpha_j\pi(x_j)\xi.
+    \end{equation*}
+
+    Thus, $\overline{\pi_0(C_0(\widehat{G}))\xi}=\mathcal{H}$, i.e. $\xi$ is cyclic for $|pi_0$.
+    Thus $U_0j(C_0(\widehat{G}))=\pi_0(C_0(\widehat{G}))\xi$ is dense in $\mathcal{H}$.
+    Hence $U_0$ uniquely extends to a surjective isometry, i.e. unitary, $U:L^2(\widehat{G},\mu)\to\mathcal{G}$.
+    Now for $\phi\in C_0(\widehat{G})$, $x\in G$,
+    \begin{equation*}
+        \pi(x)Uj(\phi)=\pi(x)\pi_0(\phi)\xi=\pi_0(\hat{x}\phi)\xi=Uj(\hat{x}\phi)=U\pi^\mu(x)j(\phi)
+    \end{equation*}
+    so $\pi(x)U=U\pi^\mu(x)$ on $\mathcal{H}$.
+    Let $(f_\alpha)_\alpha$ be a continuous summability kernel for $L^1(G)$, then for $f\in L^1(G)$, $\hat{f_\alpha}\hat{f}=\widehat{f_\alpha*f}\to\hat{f}$ in $\norm{\cdot}_\infty$ and since $A(\widehat{G})$ is dense in $C_0(\widehat{G})$, $\lim_\alpha\widehat{f_\alpha}\phi=\phi$ uniformly in $C_0(\widehat{G})$ for $\phi$ in $C_0(\widehat{G})$.
+    Hence $j(\widehat{f_\alpha})j(\phi)=j(\hat{f}_\alpha\phi)\to j(\phi)$ in $L^2(\widehat{G},\phi)$ and by density of $j(C_0(\widehat{G}))$ in $L^2(\widehat{G},\mu)$. $j(\hat{f}_\alpha)h\to h$, $h\in L^2(\widehat{G},\mu)$.
+    
+    In particular, $j(\hat{f}_\alpha 1)\to j(1)$.
+    Thus
+    \begin{equation*}
+        Uj(1)=\lim_\alpha Uj(\hat{f}_\alpha)=\lim_\alpha\pi_0(\hat{f}_\alpha)\xi=\lim_\alpha\pi_1(f_\alpha)\xi=\xi
+    \end{equation*}
+\end{proof}
+Reverse transform: if $\mu\in M(\widehat{G})$.
+Define $\mu^\vee:G\to\C$ by $\mu^\vee(x)=\int_{\widehat{G}}\sigma(x)\d{\mu(\sigma)}$.
+\begin{lemma}
+    The map $(x,\sigma)\mapsto\sigma(x):G\times\widehat{G}\to\mathbb{T}$ is continuous.
+\end{lemma}
+\begin{proof}
+    Fix $\sigma\in\widehat{G}$, $x\in G$, and let $f\in L^1(G)$ be so $\widehat{f}(\sigma)=1$.
+    We have for $y\in G$ and $\tau\in\widehat{G}$
+    \begin{align*}
+        |\sigma(x)-\tau(y)| &\leq|f(\sigma)\overline{\sigma(x)}-\hat{f}(\tau)\overline{\tau(y)}| + |\hat{f}(\tau)\overline{\tau(y)}-\hat{f}(\sigma)\overline{\tau(y)}|\\
+                            &= |\widehat{f*x}(\sigma)-\widehat{f*y}(\tau)|+|\hat{f}(\tau)-\hat{f}(\sigma)|\\
+                            &\leq |\widehat{f*x}(\sigma)-\widehat{f*x}(\tau)|+|\widehat{f*x}(\tau)-\widehat{f*y}(\tau)|+|\hat{f}(\tau)-\hat{f}(\sigma)|\\
+                            &\leq \norm{f*x-f*y}_1
+    \end{align*}
+    which converges to $0$.
+\end{proof}
+\begin{theorem}[Bochner]
+    $B^+(G)=\{\check\mu:\mu\in M_+(\widehat{G})\}$.
+    Hence $B(G)=\{\check{\mu}:\mu\in M(\widehat{G})\}$ is an algebra of (uniformly) continuous functions on $G$.
+\end{theorem}
+\begin{proof}
+    Note that $\mu\in B^+(G)$ if and only if $\tilde\mu\in B^+(G)$ where $\tilde\mu(x)=\mu(x^{-1})$ for $x\in G$.
+    If $\mu\in M_+(\widehat{G})$, then for $x\in G$,
+    \begin{equation*}
+        \check\mu(x^{-1})=\int_{\widehat{G}}\sigma(x^{-1})\d{\mu(\sigma)}=\int_{\widehat{G}}\hat{x}\d{\mu}=\langle\pi(x)^Mj(1)|j(1)\rangle
+    \end{equation*}
+    where $\pi^\mu:G\to U(L^2(\widehat{G},\mu))$ is given by $\pi^\mu(x)f=\hat{x}f$, so that $\check{\mu}\in B^+(G)$.
+
+    If $\mu\in B^+(G)$, then Gelfand Naimark provides a representation $\pi:G\to \mathcal{U}(H)$ and $\xi\in H$ (which, by const. is cyclic) such that $u=\langle\pi(\cdot)\xi|\xi\rangle$.
+
+    Let $\mu\in M_+(\widehat{G})$ and $U:L^2(\widehat{G},\mu)\to H$ so $U\pi^M(\cdot)=\pi(\cdot)U$ and $Uj(1)=\xi$.
+    Then for $x\in G$,
+    \begin{align*}
+        u(x) &= \langle\pi(x)\xi|\xi\rangle = \langle\pi(x) Uj(x) | Uj(1)\rangle\\
+             &= \langle U\pi^\mu(x) j(1) |Uj(1)\rangle=\langle\pi^\mu(x) j(1) | j(1)\rangle\\
+             &= \int_G\hat{x}1\overline{1}\d{\mu}=\int_G\overline{\sigma(x)}\d{\mu}=\check{\mu}(x^{-1})
+    \end{align*}
+    i.e. $\tilde{u}=\check{\mu}$.
+
+    We saw $\u\in M_+(\widehat{G})$ implies that $\check{\mu}\in B^+(G)$ and hence uniformly continuous.
+    Hence if $\mu\in M(\widehat{G})=\spn M_+(\widehat{G})$, $\check{\mu}$ is uniformly continuous as well.
+    Note that for $\mu,\nu\in M(G)$,
+    \begin{equation*}
+        (\mu*\nu)^\check(x)=\int_{\widehat{G}}\sigma(x)\d{(\mu*\nu)}=\int_{\widehat{G}}\int_{\widehat{G}}\sigma\tau(x)\d{\mu(\sigma)}\d{\mu(\tau)}=\check{\mu}(x)\check{\nu}(x).
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    The map $\mu\mapsto\check{\mu}:M(\widehat{G})\to B(G)$ is injective.
+\end{proposition}
+\begin{proof}
+    If $f\in L^1(G)$, then for $\mu\in M(\widehat{G})$,
+    \begin{align*}
+        \int_{\widehat{G}}\hat{f}\d{\mu} &= \int_{\widehat{G}}\int_G f(x)\overline{\sigma(x)}\d{x}\d{\mu(\sigma)}\\
+                                         &= \int_Gf(x)\int_{\widehat{G}}\sigma(x^{-1})\d{\mu(\sigma)}\d{x}\\
+                                         &= \int_G f(x)\check{\mu}(x^{-1})\d{x}.
+    \end{align*}
+    Hence if $\check{\mu}=0$, then $\mu=0$ since $A(\widehat{G})=\{\hat{f}:f\in L^(G)\}$ is dense in $C_0(\widehat{G})$.
+    Since $\mu\mapsto\check{\mu}$ is linear, we are done.
+\end{proof}
+\begin{example}
+    \begin{enumerate}[r]
+        \item Let $\lambda:G\to U(L^2(G))$ be given by $\lambda(x)f(y)=f(x^{-1}y)$.
+            Just like to the fact that $x\mapsto x*f$ is continuous, $\lambda$ is continuous.
+
+            Then $\lambda$ is called the \defn{left regular representation}.
+            If $f\in L^2(G)$, $\langle\lambda(\cdot)f|f\rangle\in B^+(G)$.
+            We note
+            \begin{equation*}
+                \langle\lambda(x)f|f\rangle=\int_G f(x^{-1}y)\overline{f(y)}\d{y}=\int_Gf(y)\overline{f(xy)}\d{y}.
+            \end{equation*}
+            If $f\in L^1\cap L^2(G)$, then since $G$ is unimodular,
+            \begin{equation*}
+                \langle\lambda(x)f|f\rangle=\int_Gf(y)\overline{f(xy)}\d{y}=\int_Gf(y)f^*(y^{-1}x^{-1})\d{y}=f^**f(x^{-1})
+            \end{equation*}
+            and $f^**f$ is (a.e. equal to) a continuous function on $G$.
+        \item If $\phi\in C_0^+(G)$< then $U_\phi=\{x\in G:\phi(x)>0\}$ so $\overline{U_\phi}=\supp(\phi)$.
+            Then $\phi^**\phi(x)=\int_G\phi(y)\phi(xy)\d{y}$ has $\phi^*\phi(x)>0$ if $xU_\phi\cap U_\phi\neq\emptyset$, i.e. $x\in U_\phi U_\phi^{-1}$.
+            Furthermore, $\supp(\phi^**\phi)=\overline{U_\phi U_\phi^{-1}}=\supp(\phi)\supp(\phi)^{-1}$.
+    \end{enumerate}
+\end{example}
+\begin{theorem}[Inversion]
+    Let $B^1(G)=B\cap L^1(G)$.
+    \begin{enumerate}[nl,r]
+        \item $f\in B^1(G)$ implies that $\hat{f}\in L^1(\widehat{G})$
+        \item With suitable normalization of Haar measure on $G$, $\widehat{G}$, we have for $f\in B^1(G)$ that $f(x)=\int_{\widehat{G}}\hat{f}(\sigma)\sigma(x)\d{\sigma}$, i.e. $\hat{f}\in L^1(\widehat{G})\cong M_a(\widehat{G})$, so $(\hat{f})^\check=f$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    If $h\in L^1(G)$ and $f=\check{\mu}\in B^1(G)$, then
+    \begin{equation*}
+        \int_{\widehat{G}}\hat{h}\d{\mu}=\int_G h(x)\check{\mu}(x^{-1})\d{x}.
+    \end{equation*}
+    Now if also $g=\check{\nu}\in B^1(G)$, applying Fubini,
+    \begin{align*}
+        \int_{\widehat{G}}\hat{h}(\check{\nu})^\hat{}\d{\mu} &= \int_{\widehat{G}}\widehat{h*\check{\nu}}\d{\mu}=\int_G h*\check{\nu}(x)\check{\mu}(x^{-1})\d{x}\\
+                                                             &= \int_G\int_G h(y)\check{\nu}(y^{-1}x)\check{\mu}(x^{-1})\d{y}\d{x}\\
+                                                             &= \int_G\int_G h(xy)\check{\nu}(y^{-1})
+    \end{align*}
+    Since $A(\widehat{G})$ is dense in $C_0(\widehat{G})$ (and $C_c(G)$ is dense in $L^1(G)$), we find that $(\check{\nu})^{\hat{}}\d{\mu}=(\check{\mu})^{\hat{}}\d{\nu}$.
+
+    We now build the Haar functional on $C_0(\widehat{G})$.
+    Fix $\psi\in C_c(\widehat{G})$.
+    For each $\sigma\in\supp(\psi)$, find $\mu\in C_c(G)\subseteq L^1(G)$ so $\hat{u}(\sigma)\neq 0$.
+    Hence $\widehat{u^**u}=\hat{u^*}\hat{u}=|\hat{u}|>0$ in a neighbourhood of $\sigma$.
+    Hence we can find $u_1,\ldots,u_n$ in $C_c(G)$ so
+    \begin{enumerate}[a]
+        \item $g=\sum_{j=1}^nu_j^**u_j\in B^+(C_c(G))\subseteq B^1(G)$, so $g=\check{\nu}$ for some $\nu\in M_+(\widehat{G})$ by Bochner's theorem.
+        \item $\supp\psi\subseteq U_{\hat{g}}=\{\sigma\in\widehat{G}:\hat{g}(\sigma)>0\}$.
+    \end{enumerate}
+    Now let
+    \begin{equation*}
+        J(\psi) = \int_{\widehat{G}}\frac{\psi}{(\check{\nu})^{\hat{}}}\d{\nu}.
+    \end{equation*}
+    If also $f=\check{\mu}\in B^1(G)$ which satisfies (a),(b) above, then
+    \begin{align*}
+        J(\psi)&= \int_{\widehat{G}}\frac{\psi}{(\check{\nu})^{\hat{}}(\check{\mu})^{\hat{}}}(\check{\mu})^{\hat{}}\d{\nu}\\
+               &= \int_{\widehat{G}}\frac{\psi}{(\check{\nu})^{\hat{}}(\check{\mu})^{\hat{}}}(\check{\nu})^{\hat{}}\d{\nu}\\
+               &= \int_{\widehat{G}}\frac{\psi}{(\check{\mu})^{\hat{}}}\d{\nu}
+    \end{align*}
+    which shows a certain independence of the definition of $J$ from $g=\check{\nu}$.
+
+    If $\phi,\psi\in C_c(\widehat{G})$, then using $g=\check{\nu}\in B^1(G)$, so (a), (b) satisfied for both $\phi,\psi$, linearity of $J$ is clear.
+    Also, if $g=\hat{\nu}\in B^+\cap L^1(G)\setminus\{0\}$, then there is $\psi\in C_c^+(\widehat{G})$ so
+    \begin{equation*}
+        0< \int_{\widehat{G}}\psi\d{\nu} = \int_{\widehat{G}}\frac{\psi}{(\check{\mu})^{\hat{}}}(\check{\mu})^{\hat{}}\d{\nu}=\int_{\widehat{G}}\frac{\psi}{(\check{\mu})^{\hat{}}}(\check{\nu})^{\hat{}}\d{\nu}
+    \end{equation*}
+    and hence $J\neq 0$.
+    Also, initial choice of $g=\hat{\nu}$, given $\psi\in C_c^+(G)$ shows that $J\geq 0$.
+    Now let $\psi\in C_c(\widehat{G})$, $\tau\in\widehat{G}$.
+    Find $g=\hat{\nu}\in B^+\cap L^1(G)$, so $U_{\widehat{g}}\supseteq\supp(\psi)\cup\supp(\psi\tau)$.
+    Then
+    \begin{align*}
+        J(\psi\cdot\tau) = \int_{\widehat{G}}\frac{\psi(\tau\sigma)}{(\check{\nu})^{\hat{}}(\sigma)}\d{\nu(\sigma)}=\int_{\widehat{G}}\frac{\psi(\sigma)}{(\check{\nu})^{\hat{}}(\overline{\tau}\sigma)\d{\nu(\overline{\tau}\sigma)}.
+    \end{align*}
+    If $\mu=\delta_\tau *\nu$, we have
+    \begin{itemize}[nl]
+        \item $\d{\mu(\sigma)}=\d{\nu(\overline{\tau}\sigma)}$
+        \item for $x\in G$, $\check{\mu}(x)=\check{\delta_\tau}(x)\check{\nu}(x)=\int_G\sigma(x)\d{\delta_\tau(\sigma)}\check{\nu}(x)=\tau(x)\chec{\nu}(x)$
+    \end{itemize}
+    so for $\sigma\in\widehat{G}$,
+    \begin{equation*}
+        (\check{\mu})^{\hat{}}(\sigma)=\int_G\overline{\sigma(x)}\check{\mu}(x)\d{x}=\int_G\overline{\sigma(x)}\tau(x)\check{\nu}(x)\d{x}=\int_G\overline{\tau\sigma}(x)\check{\nu}(x)\d{x}=(\check{\nu})^{\hat{}}(\overline{\tau}\sigma).
+    \end{equation*}
+    Thus $J(\psi\tau)=J(\psi)$, so that $J$ is the Haar integral.
+
+    Next, if $f=\check{\mu}\in B^+\cap L^1(G)$, we have for $\psi\in C_c(\widehat{G})$, then a computation similar to above shows
+    \begin{equation*}
+        \int_{\widehat{G}}\psi\d{\mu}=J(\psi(\check{\mu})^{\hat{}}=J(\psi(\check{\mu})^{\hat{}})=\int_{\widehat{G}}\psi(\sigma)(\check{\mu})^{\hat{}}(\sigma)\d{\sigma}
+    \end{equation*}
+    i.e. $\mu\in M_a(\widehat{G})\cong L^1(\widehat{G})$, i.e. $\hat{f}=(\check{\mu})^{\hat{}}\in L^1(\widehat{G})$.
+    Since $B^1(G)=\spn B^+\cap L^1(G)$, this gives (i)
+
+    Finally, we show (ii).
+    From analogy to (**), if $f=\check{\mu}\in B^1(G)$, then
+    \begin{align*}
+        f(x) = \hat{\mu}(x)=\int_{\widehat{G}}\sigma(x)\d{\mu(x)}=\int_{\widehat{G}}\sigma(x)(\check{\mu})^{\hat{}}(\sigma)\d{\sigma}=\int_{\widehat{G}}\sigma(x)\hat{f}(\sigma)\d{\sigma}=(\hat{f})^{\check{}}.
+    \end{align*}
+\end{proof}
+
+\begin{enumerate}[nl]
+    \item If $G$ is compact and $m_G(1)=1$.
+        Then $\hat{1}(\sigma)=1$ if $\sigma=1$, and $0$ if $\sigma\neq 1$ for $\sigma\in\widehat{G}$, i.e $\hat{1}=\idc{\{1\}}$ on $G$.
+        Then by inversion $1=1(e)=\int_G\hat{1}(\sigma)\sigma(e)\d{\sigma}=m_{\widehat{G}}(\{1\})$, i.e. $m_{\widehat{G}}$ is counting measure.
+    \item Suppose $G$ is discrete.
+        Then $\idc{\{e\}}=\idc{\{e\}}^**\idc{\{e\}}\in B^1(G)$.
+        Then
+        \begin{equation*}
+            \widehat{\idc{\{e\}}}(\sigma)=\sum_{x\in G}\overline{\sigma(x)}\idc{\{e\}}(x)=1_{\widehat{G}}(\sigma).
+        \end{equation*}
+        Again, the inversion theorem gives
+        \begin{equation*}
+            m_{\widehat{G}}(\widehat{G}) = \int_{\widehat{G}}\idc{\widehat{G}}\d{m_{\widehat{G}}}=\int_{\widehat{G}}\hat{\idc{\{e\}}}(\sigma)\d{\sigma}=\int_{\widehat{G}}\hat{\idc{\{e\}}}(\sigma)\sigma(e)\d{\sigma}=1.
+        \end{equation*}
+    \item Let $m_{\R}$ be the standard normalization.
+        We let $\alpha,\beta>0$ be so $\alpha m_{\R}$, $\beta m_{\hat{\R}}\cong\beta m_{\R}$ satisfy the inversion theorem.
+        If $s\in\R$,
+        \begin{equation*}
+            \int_{\R}e^{-|x|}e^{-isx}\alpha\d{x}=2\alpha\int_0^\infty e^{-|x|}\cos(sx)\d{x}=\frac{2\alpha}{1+s^2}
+        \end{equation*}
+        so $s\mapsto (2\alpha)/(1+s^2)$ is of positive type, as $e^{-|x|}\d{x}$ is positive (Bochner).
+        Inversion gives $e^{-|x|}=2\alpha\int_{\hat{\R}}\frac{e^{isx}}{1+s^2}B\d{s}$ for $x\in\R$.
+        If $x=0$, we have $1=2\alpha\beta\int_{hat{\R}}\frac{\d{s}}{1+s^2}=2\pialpha\beta$.
+        Typical normalizations give $\alpha=1$, $\beta=1/2\pi$ or $\alpha=\beta=\frac{1}{\sqrt{2\pi}}$.
+\end{enumerate}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}
 \end{document}

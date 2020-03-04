@@ -1503,4 +1503,185 @@ In fact,
     Then $\dim_L X=0$, $\dim_B X=1/2$, and $\dim_A X=1$.
 \end{example}
 If $E$ is a self-similar set in $\R$ that fails the WSC, then $\dim_A E=1$.
+\begin{theorem}
+    Let $X=\{x_j\}_{j=1}^\infty\cup\{0\}\subset\R$ where $\sum_{i=1}^\infty x_j<\infty$, $\{x_j\}$ is decreasing, and $\{x_j-x_{j+1}\}_j$ is decreasing.
+    Then
+    \begin{itemize}[nl]
+        \item if $\{x_j\}$ is \defn{lacunary} (there exists $\lambda>0$ such that $x_j/x_{j+1}\geq\lambda$), then $\dim_A X=0$, and
+        \item $\dim_A X=1$ otherwise.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    Let $a_j=x_j-x_{j+1}$ so $a_j$ is a decreasing sequence, and $x_j=\sum_{i=j}^\infty a_i$.
+    Note that there exists $\epsilon>0$ such that $a_j\geq\epsilon\sum_{j+1}^\infty a_i=\epsilon x_{j+1}$ if and only if $x_j\geq(1+\epsilon)x_{j+1}$ if and only if $(x_j)$ is lacunary with $\lambda=1+\epsilon$.
+
+    First suppose $(x_j)$ not lacunary.
+    Then for each $N_0\in\N$, there exist infinitely many $k$ such that $a_k/x_{k+1}<1/N_0$.
+    Given such $k$, choose $N\in\N$ such that
+    \begin{equation*}
+        \frac{1}{N+1}\leq\frac{a_k}{x_{k+1}}<\frac{1}{N}
+    \end{equation*}
+    Let $R=x_{k+1}$, $r=a_k$ so that $R/r\leq N+1$ and $\frac{x_{k+1}}{N+1}\leq a_k=r<R/N<R$.
+    Look at $B(0,R)\cap X=\{x_j\}_{j=k+1}^\infty\cup\{0\}$.
+    Then the intervals $\{[x_{k+1}-(s+1)r,x_{k+1}-sr]\}_{s=0}^{N-1}$ are each contained in $[0,x_{k+1}]$, and $x_{k+1}-Nr\geq 0$ as $x_{k+1}/N>r$.
+    Since $r=a_k\geq a_i$, each interval contains some $x_j$, so $N_r(B(0,R)\cap X)\geq N/2$ and $R/r=x_{k+1}/a_k>N$.
+
+    Otherwise $(x_j)$ is lacunary.
+    Then there exists $\epsilon>0$ such that $a_j\geq\epsilon\sum_{j+1}^\infty a_j=\epsilon x_{j+1}$.
+    Choose $0<r<R$, $x\in X$, and look at $B(x,R)$.
+    If $x\leq R$, then $B(x,R)\cap X=[0,x+R]\cap X=\{x_j\}_{j=k}^\infty\cup\{0\}$.
+    Choose minimal $k$ such that $x_k\leq x+R$.
+    If $r\leq a_k$, pick $i$ such that $a_i<r\leq a_{i-1}$.
+    Then $r>a_i\geq\epsilon x_{i+1}$.
+    Thus $[0,x_{i+1}]\cap X$ can be covered by $1/\epsilon$ intervals of length $r$.
+    Thus $N_r(B(x,R)\cap X)\leq 1/\epsilon+i-k+1=C+i-k$.
+
+    Compare with $R/r$.
+    Here, $2R\geq x_k$ since $[0,x_k]\subset B(x,R)$ and
+    \begin{equation*}
+        R\geq\frac{x_k}{2}\geq\frac{\lambda}{2}x_{k+1}\geq\cdots\geq\frac{\lambda^{i-k-1}}{2}x_{i-1}
+    \end{equation*}
+    and $r\leq a_{i-1}=x_{i-1}-x_i\leq x_{i-1}$ so that $R/r\geq C_1\lambda^{i-k}$ since $\lambda>1$.
+    Thus
+    \begin{equation*}
+        N_r(B(x,R)\cap X)\leq C+i-k\leq C_\delta'\lambda^{(i-k)\delta}\leq C_0'\left(\frac{R}{r}\right)^\delta
+    \end{equation*}
+    Otherwise, $r>a_k\geq\epsilon x_{k+1}$, then $[0,x_{k+1}]\cap X$ is covered by $\frac{1}{\epsilon}$ intervals of length $r$.
+    Thus $B(x,R)\cap X=[0,x_{k+1}]\cap X\cup\{x_k\}$, so that
+    \begin{equation*}
+        N_r(B(x,r)\cap X)\leq\frac{1}{\epsilon}+1\leq C_\delta\left(\frac{R}{r}\right)^\delta
+    \end{equation*}
+    for any $\delta>0$.
+
+    If $x>R$, then $B(x,R)\cap X=\{x_i\}_{i=J}^k$ where
+    \begin{equation*}
+        2R\geq x_k-x_J\geq\lambda^{k-J}x_J-x_J=(\lambda^{k-J}-1)x_J.
+    \end{equation*}
+    Take $r<R$, so that $r\geq a_k\geq\epsilon x_{k+1}$ and $B(x,R)\cap X=[0,x_{k+1}]\cap X\cup\{x_k\}$, where $x_{k+1}<r/\epsilon$.
+    Thus $N_r(B(x,R)\cap X)\leq 1/\epsilon+1=c_1$.
+    Since $R/r>1$,
+    \begin{equation*}
+        N_r(B(x,R))\leq C_\delta\left(\frac{R}{r}\right)^\delta
+    \end{equation*}
+    for all $\delta>0$.
+    Otherwise, $r\leq a_J$ and $N_r(B(x,R)\cap X)\leq J-k+1$, and $R/r\geq(\lambda^{J-k}-1)x_J/a_J\geq c\lambda^{J-k}$.
+    Finally, if $a_J<r<a_k$, pick $i$ such that $a_J\leq a_i\leq r<a_{i-1}\leq a_j$ and
+    \begin{equation*}
+        N_r(B(x,R)\cap X)\leq N_r([0,x_{i+1}]\cap X\cup\{x_j\}_{j=k}^i)\leq\frac{1}{\epsilon}+i-k+1
+    \end{equation*}
+    and $R/r\geq c\lambda^{i-k}$ so $\dim_A X=0$.
+\end{proof}
+\section{Sizes of Measures}
+We consider the space $M_+(\R^n)$, which is the set of finite, regular Borel measures on $\R^n$ equipped with the convolution product.
+How can we compuare sizes of measures?
+We might say $\dim_H(\supp\mu)$.
+\begin{example}
+    Consider the measure $\mu=\sum_{n=1}^\infty\frac{1}{2^n}\delta_{q_n}$ where $\{q_n\}$ is an enumeration of $\Q\cap[0,1]$.
+    Then $\dim_H(\supp\mu)=1$, which is misleading since $\mu$ is singular with respect to Lebesgue measure.
+\end{example}
+\begin{definition}
+    We define the \defn{Hausdorff dimension of a measure} $\dim_H\mu=\inf\{\dim_H E:\mu(E)>0\}$.
+\end{definition}
+However, this value can be misrepresentative of the measure since it assigns a global value.
+\begin{definition}
+    We define the \defn{upper local dimension} of $\mu$ at $x$ by
+    \begin{equation*}
+        \overline{\dim}_{\loc}\mu(x) = \limsup_{r\to 0}\frac{\log \mu(B(x,r))}{\log r}
+    \end{equation*}
+    and similarly for the \defn{lower local dimension}.
+    If these two values coincide, we call this the \defn{local dimension} of $\mu$ at $x$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nl]
+        \item Suppose $\mu=m|_{[0,1]^n}$.
+            Then $\mu(B(x,r))\sim r^n$, so $\dim_{\loc}m(x)=1$
+        \item If $\mu=\delta_0$, then $\dim_{\loc}\mu(0)=0$.
+        \item Let $E$ be the self-similar set satisfying the WSC, and let $s=\dim_H E$.
+            Then if $\mu=H^s|_E$, we saw $H^s(B(x,R)\cap E)\sim r^s$ where $0<H^s(E)<\infty$.
+            Then $\dim_{\loc}\mu(x)=s$ for all $x\in E$.
+        \item If $x\notin\supp\mu$, then $\dim_{\loc}\mu(x)=+\infty$.
+        \item Let $\mu$ be the uniform Cantor measure on $C(1/3)$,=.
+            If $x\in C_n$, then $\mu(B(x,3^{-n}))=\mu(C_n)=2^{-n}$, so one may compute that the local dimension of $\mu$ at $x$ to be $\log(2)/\log(3)$.
+    \end{enumerate}
+\end{example}
+\begin{example}
+    If $\mu$ is the weight $(p,1-p)$ Cantor measure, given $x\in C(1/3)$ with symbolic representation $(x_i)_i$, one may show that $\dim_{\loc}\mu(x)=\lim_{n\to\infty}\frac{p_{x_1}\cdots p_{x_n}}{n\log 1/3}$.
+    In fact, one may show that the set of local dimensions is the interval $[\log p/\log(1/3),\log(1-p)/\log(1/3)]$ when $p>1-p$.
+\end{example}
+Recall if $\mu(E)>0$ and $\limsup_{r\to 0}\frac{\mu(B(x,r))}{r^s}\leq c$, then for any $x\in E$, $\dim_H E\geq s$.
+Similarly, if $\limsup_{r\to 0}\frac{\mu(B(x,r))}{r^s}\geq c$, then for any $x\in E$, $\dim_HE\leq s$.
+In particular, when $E=\supp\mu$, if $\underline{\dim}_{\loc}\mu(x)\geq s$ for each $x\in E$, then for any $\epsilon>0$, there exists $r_\epsilon>0$ so that for all $r\leq r\epsilon$,
+\begin{equation*}
+    \frac{|\log \mu(B(x,r))|}{|\log r|}\geq s-\epsilon
+\end{equation*}
+so that $|\log \mu(B(x,r))|\geq(s-\epsilon)|\log r|$, so $\mu(B(x,r))\leq r^{s-\epsilon}$.
+Thus $\limsup_{r\to 0}\frac{\log\mu(B(x,r))}{r^{s-\epsilon}}\leq 1$ for all $x\in E$, so $\dim_H E\geq s$.
+In fact, it suffices to show this for $\mu$ a.e. $x$.
+Recall
+\begin{proposition}
+    If $H^s(E)>0$, then there exists $c$ and $F\subseteq E$ compact with $0<H^s<\infty$ and $H^s(F\cap B(x,r))\leq cr^s$ for all $x\in F$ and $r>0$.
+\end{proposition}
+\begin{corollary}
+    If $\dim_H E>s$, then there exists a measure $\mu$ with $0<\mu<\infty$ and $\underline{\dim}_{\loc}\mu(x)\geq s$ for all $x\in E$.
+\end{corollary}
+\begin{proof}
+    Since $\dim_H E>s$, $H^s(E)>0$.
+    Get $F$ from the proposition and take $\mu=H^s|_F$.
+    Then
+    \begin{equation*}
+        \frac{\log\mu(B(x,r))}{\log r}=\frac{\log H^s(B(x,r)\cap E)}{\log r}\geq\frac{\log cr^s}{\log r}.
+    \end{equation*}
+    Thus $\underline{\dim}_{\loc}\mu(x)\geq s$ for all $x\in E$.
+\end{proof}
+\begin{corollary}
+    $\dim_H E=\sup\{s:\exists\mu\text{ with }0<\mu(E)<\infty,\unerline{\dim}_{\loc}\mu(x)\geq s\forall\mu\text{ a.e. }x\in E\}$.
+\end{corollary}
+Recall that $\dim_H\mu=\inf\{\dim_HE:\mu(E)>0\}$.
+\begin{proposition}
+    $\dim_H\mu=\sup\{x:\underline{\dim}_{\loc}\mu(x)\geq s\text{ for }\mu\text{ a.e. }x\}$.
+\end{proposition}
+\begin{proof}
+    Let $d=\dim_H\mu$ and $D$ denote the value of the RHS.
+    Suppose $d<D$, and get $d<s<D$.
+    Then $\underline{\dim}_{\loc}\mu(x)\geq s$ for all $x\in E_s$.
+    Let $\mu(E)>0$, so $\mu(E\cap E_s)>0$ and $\dim_H E\geq s$, a contradiction.
+    Now suppose $D<s<d$, so $\underline{\dim}_{\loc}\mu(x)\geq s$ does not occur for a.e. $x$.
+    Thus $\underline{\dim}_{\loc}\mu(x)\leq s$ for all $x\in F_s$ where $\mu(F_s)>0$, and $\dim_H F_s\leq s<d$, a contradiction.
+\end{proof}
+\begin{example}
+    If $\mu$ is the uniform Cantor measure, then $\dim_{\loc}\mu = \frac{\log 2}{\log 3}$ for all $x\in C(1/3)$.
+    Thus $\dim_H\mu=\frac{\log 2}{\log 3}$.
+    In particular, if $\mu(E)>0$, then $\dim_H E=\frac{\log 2}{\log 3}$.
+\end{example}
+\begin{example}
+    Consider the IFS $F_1(x)=x/2$ and $F_2(x)=x/2+1/2$.
+    Let $p_1=p$ and $p_2=1-p$, and $\mu_p$ the associated Hausdorff measure.
+    However, since the images of $[0,1]$ are not positively separated, it is more challenging to compute $\mu(B(x,2^{-n}))$ for $x\in[0,1]$ and $n\in\N$.
+    Let
+    \begin{equation*}
+        s(p) = \frac{-(p\log p+(1-p)\log(1-p))}{\log 2}.
+    \end{equation*}
+    Note that $s(1/2)=1$ and as $s(p)$ increases as $p$ increases from $1/2$.
+\end{example}
+\begin{theorem}
+    Let $0<p\leq 1/2$ and $\mu_p$ the described measure.
+    Then $\dim_H\mu_p=s(p)=\dim_{\loc}\mu_p(x)$ for $\mu_p$-a.e. $x$.
+\end{theorem}
+\begin{proof}
+    Define $X_k(x)=1$ if $x_k=0$ and $0$ if $x_k=1$, there $x_k$ is the $k$th digit in the binary expansion of $x$.
+    These are i.i.d. random variables (with respect to any $\mu_p$), so by the Strong Law of Large Numbers,
+    \begin{equation*}
+        \frac{1}{n}\sum_{k=1}^n X_k(x)\fto{n\to\infty}\E[X_1]=\mu_p[0,1/2]=p.
+    \end{equation*}
+    Thus for $\mu_p$-a.e. $x$, $\lim S_n^{(0)}(x)/n\to p$ where $S_n^{(0)}(x)=\#\{j\leq n:x_j=0\}$.
+    Similarly, $\lim S_n^{(1)}(x)/n\to 1-p$.
+
+    Let $K_p=\{x\in[0,1]:\lim S_n^{(0)}(x)/n=p\}$, so $\mu_p(K_p)=1$.
+    Note that $K_p=\{x\in[0,1]:\lim S_n^{(1)}(x)/n=1-p\}$.
+    Given $x\in[0,1]$ where $x=(x_j)_j$, $I_n(x)=I_{x_1x_2\ldots x_n}$, $\mu_p(I_{x_1\ldots x_n})=p^{S_n^{(0)}(x)}(1-p)^{S_n^{(1)}(x)}$.
+    Thus
+    \begin{equation*}
+        \frac{\log\mu_p(I_{x_1\ldots x_n})}{\log 2^{-n}}=\frac{S_n^{(0)}(x)\log p+S_n^{(1)}(x)\log(1-p)}{n\log 1/2}\to\frac{-(p\log p+(1-p)\log(1-p))}{\log 2}=s(p)
+    \end{equation*}
+\end{proof}
 \end{document}
