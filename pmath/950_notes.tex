@@ -1683,5 +1683,114 @@ Recall that $\dim_H\mu=\inf\{\dim_HE:\mu(E)>0\}$.
     \begin{equation*}
         \frac{\log\mu_p(I_{x_1\ldots x_n})}{\log 2^{-n}}=\frac{S_n^{(0)}(x)\log p+S_n^{(1)}(x)\log(1-p)}{n\log 1/2}\to\frac{-(p\log p+(1-p)\log(1-p))}{\log 2}=s(p)
     \end{equation*}
+    Given some $B(x,r)$ arbitrary, pick minimal $k$ such that $I_k\subseteq B(x,r)$, where $2^{-(k-1)}=m(I_{k-1})\geq r$ and $(k+1)\log 2\geq|\log r|\geq(k-1)\log 2$, so that
+    \begin{equation*}
+        \frac{|\log\mu_p(B(x,r))|}{|\log r|}\leq\frac{|\log\mu_p(I_k(x))|}{(k-1)\log 2}\to s(p)
+    \end{equation*}
+    as $k\to\infty$ for $\mu_p$-a.e. $x$.
+    \begin{lemma}
+        If $\limsup\frac{\mu(I_k(x))}{|I_k(x)|^t}\leq c$ for all $x\in F$ with $\mu(F)>0$, then $\dim_H F\geq t$.
+    \end{lemma}
+    Assuming this, we note that $\frac{\log\mu_p(I_k(x))}{\log|I_k(x)|}\to s(p)$, so for any $\epsilon>0$ and $k\geq k_\epsilon$, $\mu_p(I_k(x))\leq |I_k(x)|^{s(p)-\epsilon}$ and $\limsup\frac{\mu_p(I_k(x))}{|I_k(x)|^{s(p)-\epsilon}}\leq 1$.
+    Thus $\dim_H K_p\geq s(p)-\epsilon$ for any $\epsilon>0$, so $\dim_H K_p\geq s(p)$.
+    This forces $\dim_H\mu_p\geq s(p)$.
+
+    Let's see a proof of the lemma.
+    Our goal is to show that $H^t(F)>0$ implies that $\dim_H F\geq t$.
+    Let $\epsilon>0$ and set $F_\delta=\{x\in F:\frac{\mu(I_k(x))}{|I_k(x)|^t}\leq(c+\epsilon)\}$ for all $k$ such that $2^{-k}\leq\delta$.
+
+    Since $F_\delta$ increases to $F$ as $\delta\to 0$.
+    Let $\{U_i\}$ be a $\delta/4$-cover of $F$ and choose $x_i\in U_i\cap F_\delta$ and let $B_i=B(x_i,|U_i|)\supseteq U_i$.
+    Choose the minimal integer $k_i$ such that $I_{k_i}(x_i)\subseteq B_i$.
+    Consider $B_i\setminus I_{k_i-1}(x_i)$, and suppose there exists $y_i\in F_\delta\cap(B_i\setminus I_{k_i-1}(x_i))$.
+    Let $I_{k_i-1}(y_i)$ be the diadic unit interval of level $k_i-1$ containing $y$.
+    Then $I_{k_i-1}(x_i)\cup I_{k_i-1}(y_i)\supseteq B_i\cap F_\delta$, and $I_{k_i}(x_i)\subseteq B_i$.
+    Then $2^{-k_i}\leq 2|U_i|\leq 2\frac{\delta}{4}$, so $2^{-(k_i-1)}\leq 4|U_i|\leq\delta$.
+    Thus
+    \begin{align*}
+        \mu(U_i\cap F_\delta) &\leq \mu(B_i\cap F_\delta)\leq\mu(I_{k-1}(x_i)\cup I_{k_i-1}(y_i))\leq 2(2^{-(k_i-1)t})(c+\epsilon
+    \end{align*}
+    so that
+    \begin{equation*}
+        \mu(F_\delta)\leq\sum \mu(F_\delta\cap U_i)\leq c'\sum 2^{-k_it}\leq c''\sum |U_i|^t.
+    \end{equation*}
+    Thus for ay cover $(U_i)$ of $F$, $\mu(F_\delta)\leq c''H^t_{\delta/4}(F)$ so $0<\mu(F)$.
+    Thus $H^t(F)>0$.
 \end{proof}
+In fact, this also shows that $\dim_H K_p=s(p)$.
+Put $F_p=\bigcup_{q\leq p}K_q$, so $\mu_p(F_p)=1$.
+Then
+\begin{align*}
+    \frac{1}{k}\log\left(\frac{\mu_p(I_k(x))}{2^{-kt}}\right)&=\frac{1}{k}\left(\log\mu_p(I_k(x))+lt\log2\right)\\
+                                                             &= \frac{1}{k}\left(S_k^{(0)}\log p+s_k^{(1)}(x)\log(1-p)\right)+t\log 2
+\end{align*}
+If $x\in F_{p}$, then $x\in K_q$ for some $q\leq p$, so as $k\to\infty$, $q\log p+(1-q)\log(1-p)+t\log 2\geq-s(p)\log 2+t\log 2$.
+Fix $\epsilon>0$.
+For large $k$,
+\begin{equation*}
+    \frac{1}{k}\log\left(\frac{\mu_p(I_k(x))}{2^{-kt}}\right)\geq(t-s(p)-\epsilon)\log 2
+\end{equation*}
+In particular,
+\begin{equation*}
+    \frac{\mu_p(I_k(x))}{|I_k(x)|^t}\geq 2^{k(t-s(p)-\epsilon)}\to\infty
+\end{equation*}
+for $t>s(p)+\epsilon$.
+Take any $x\in F_p$, and get minimal $k$ such that $B(x,r)\supseteq I_k(x)$.
+
+\begin{definition}
+    Say that a measure $\mu$ has \defn{exact lower dimension} $s$ if $\underline{\dim}_{\loc}\mu(x)=s$ for $\mu$ a.e. $x$.
+\end{definition}
+\begin{definition}
+    We say that $\mu$ is \defn{invariant} under $f:X\to X$ if whenever $A$ is $\mu$-measurable, then $f^{-1}(A)$ is also $\mu$-measurable and $\mu(A)=\mu(f^{-1}(A))$.
+    We say that $\mu$ is \defn{ergodic under $f$} if whenever $A$ is measurable and $f^{-1}(A)=A$, then $\mu(A)=0$ or $\mu(A^c)=0$.
+\end{definition}
+\begin{example}
+    Let $\mu$ be a self-similar measure from an IFS $\{F_1,\ldots,F_m\}$ satisfying the strong separation condition.
+    Define $f$ by $f(x)=F_i^{-1}(x)$ if $x\in F_i(E)$.
+    One can verify that $\mu$ is invariant and ergodic under $f$.
+\end{example}
+\begin{theorem}
+    Let $f:X\to X$ be Lipschitz and $\mu$ a finite Borel measure that is invariant and ergodic under $f$.
+    Then $\mu$ has exact upper and lower dimensions.
+\end{theorem}
+\begin{proof}
+    Want to understand $\mu(B(x,r))$.
+    Set $G(y)=\idc{B(x,r)}(y)\in L^1(\mu)$.
+    By the ergodic theorem,
+    \begin{align*}
+        \frac{1}{\mu(X)}\int_X\idc{B(x,r)}(z)\d{\mu(z)}&=\frac{\mu(B(x,r))}{\mu(X)}=\lim\frac{1}{k}\sum_{0}^{k-1}\idc{B(x,r)}(f^{(j)}(y))
+    \end{align*}
+    for a.e. $g$.
+    Assume $|f(x)-f(y)|\leq c|x-y|$ for all $x,y\in X$.
+    Then
+    \begin{equation*}
+        |f(x)-f(f^{(j)}(y))|\leq c|x-f^{(j)}(y)|.
+    \end{equation*}
+    Thus if $f^{(j)}\in B(x,r)$, then $f^{(j+1)}(y)\in B(f(x),cr)$ so that $\idc{B(x,r)}(f^{(j)}(y))\leq\idc{B(f(x),cr)}(f^{(j+1)}(y))$.
+    Take $G_1=\idc{B(f(x),cr)}$.
+    Then
+    \begin{equation*}
+        \lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}\idx{B(f(x),cr)}(f^{(j)}(f(x)))=\frac{1}{\mu(X)}\int_X G_1=\frac{\mu(B(f(x),cr))}{\mu(X)}
+    \end{equation*}
+    for a.e. $y$ by $f$ invariance.
+    Thus $\mu(B(x,r))\leq\mu(B(f(x),cr))$.
+    In particular, $\underline{\dim}_{\loc}\mu(f(x))\eq\underline{\dim}_{\loc}\mu(x)$.
+    Since $\mu$ is $f$-invariant, for any Borel function $\Phi$, $\int\Phi(f)\d{\mu}=\int\Phi\d{\mu}$ so that
+    \begin{equation*}
+        \int\underline{\dim}_{\loc}\mu(f(x))\d{\mu(x)}=\int\underline{\dim}_{\loc}\mu(x)\d{\mu(x)}
+    \end{equation*}
+    so that $\underline{\dim}_{\loc}\mu(f(x))=\underline{\dim}_{\loc}\mu(x)$ for $\mu$ a.e. $x$.
+    Let $A_k^{(j)}=\{x\in X:\underline{\dim}_{\loc}\mu(x)\in[j/2^k,(j+1)/2^k)\}$ so that the $A_k^{(j)}$ are $f$-invariant.
+    Then $\mu(A_k^{(j)})=0$ or $\mu((A_k^{(j)})=\mu(X)<\infty$.
+    Then $X=\bigcup_{j=-\infty}^\infty A_k^{(j)}$, so that $\mu(x)=\sum_j\mu(A_k^{(j)})$ for all $k$.
+    Thus there exists a unique $k$ such that $\mu(A_k^{(j)})=\mu(x)$, so that $\underline{\dim}_{\loc}\mu(x)=\bigcap_{k=1}^\infty A_k^{(j(x)}$.
+\end{proof}
+\begin{corollary}
+    Self-similar measures satisfying the SSC are exact.
+\end{corollary}
+\begin{theorem}[Mean Ergodic]
+    Let $f:X\to X$, $\mu$ a finite measure on $X$ which is invariant and ergodic under $f$.
+    Let $G\in L^1(\mu)$.
+    Then $\lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}G(f^{(j)}(g))=\frac{1}{\mu(X)}\int_XG(z)\d{\mu(z)}$.
+\end{theorem}
 \end{document}

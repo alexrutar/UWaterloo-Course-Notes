@@ -1130,8 +1130,8 @@ Moreover,
 \begin{theorem}[Weil Integral Formula]
     Let $N$ be a closed normal subgroup of $G$.
     \begin{enumerate}[nl,r]
-        \item If $f\in C_c(G)$, then $x\mapsto\int_Nf(xn)dn:G\to\C$ is constant on cosets and hence defines a function $T_nf:\quot{G}{N}\to\C$.
-            Furthermore, $T_N(C_c^*(G))\subseteq C_c^+(\quot{G}{N})$ and the operator $T_N:C_c(G)\to C_c(\quot{G}{N})$ is linear and covariant:
+        \item If $f\in C_c(G)$, then $x\mapsto\int_Nf(xn)dn:G\to\C$ is constant on cosets and hence defines a function $T_Nf:\quot{G}{N}\to\C$.
+            Furthermore, $T_N(C_c^+(G))\subseteq C_c^+(\quot{G}{N})$ and the operator $T_N:C_c(G)\to C_c(\quot{G}{N})$ is linear and covariant:
             \begin{equation*}
                 (T_Nf)\cdot(yN)=T_N(f\cdot y)
             \end{equation*}
@@ -2640,6 +2640,158 @@ Define $\mu^\vee:G\to\C$ by $\mu^\vee(x)=\int_{\widehat{G}}\sigma(x)\d{\mu(\sigm
         If $x=0$, we have $1=2\alpha\beta\int_{hat{\R}}\frac{\d{s}}{1+s^2}=2\pialpha\beta$.
         Typical normalizations give $\alpha=1$, $\beta=1/2\pi$ or $\alpha=\beta=\frac{1}{\sqrt{2\pi}}$.
 \end{enumerate}
+Given a relatively compact symmetric neighbourhood $V=V^{-1}$ of $e$ in $G$, let $h_V=\frac{1}{m(V)}\idc{V}^**\idc{V}$.
+Note that
+\begin{equation*}
+    h_V(x) = \frac{1}{m(V)}\int_G\idc{V}(y^{-1})\idc{V}(y^{-1}x)\d{y}=\frac{1}{m(V)}\int_G\idc{V}(y)\idc{xV}(y)\d{y} = \frac{m(V\cap xV)}{m(V)}.
+\end{equation*}
+Then
+\begin{itemize}[nl]
+    \item $h_V\in B^1(G)$,
+    \item $\supp(h_V)\subseteq\overline{V}^2$
+    \item $h_V(e)=1$
+    \item $h_V\geq 0$, $\int_Gh_V\d{m}=m(V)$ (Fubini)
+\end{itemize}
+so that $\left(\frac{1}{m(V)}h_V\right)_{V\in N_e}$ of such neighbourhoods of $e$, preordered by reverse inclusion, is a summability kernel.
+
+We saw that $\lim_{V\to\{e\}}\norm{\frac{1}{m(V)}\widehat{h_V}\phi-\phi}_2=0$ for $\phi\in L^2(G)$.
+Note that
+\begin{equation*}
+    B^1(G)=L^1\cap B(G)\subseteq L^1\cap L^2(G).
+\end{equation*}
+If $f\in B^1(G)$, then $\int_G|f|^2\d{m}\leq\norm{f}_\infty\norm{f}_1$.
+\begin{theorem}[Plancherel]
+    With normalization from the inversion theorem, there is a unique unitary $U:L^2(G)\to L^2(\widehat{G})$ such that $Uf=\hat{f}$ if $f\in L^1\cap L^2(G)$.
+\end{theorem}
+\begin{proof}
+    If $f\in L^1\cap L^2(G)$, then $f^**f\in B^1(G)$, so the inversion theorem holds.
+    Then
+    \begin{align*}
+        \int_G|f|^2\d{m_G}&=\int_Gf^*(x^{-1})f(x)\d{x}=\int_Gf^*(x)f(x^{-1}e)\d{x}\\
+                          &= f^**f(e) = \int_{\widehat{G}}\widehat{f^**f(\sigma)}\sigma(e)\d{\sigma}\\
+                          &= \int_{\widehat{G}}|\hat{f}|^2\d{m_{\widehat{G}}}.
+    \end{align*}
+    Hence $U_0:L^1\cap L^2(G)\to L^2(G)$ by $U_0f=\hat{f}$ is a linear isometry, whose domain is dense in $L^2(G)$, and thus extens uniquely to a linear isometry on $L^2(G)$.
+
+    It remains to show that $\im G=L^2(\widehat{G})$.
+    Let $\phi\in(\im U)^\perp\subseteq L^2(\widehat{G})$.
+    If $f\in L^1\cap L&2(G)$, $x\in G$, $x*f\in L^1\cap L^2(G)$, and then
+    \begin{align*}
+        0&=\int_{\widehat{G}}\overline{\phi}\widehat{x*f}\d{m_{\widehat{G}}}=\int_{\widehat{G}}\overline{\phi}\hat{x}\hat{f}\d{m_{\widehat{G}}}\\
+         &=\int_{\widehat{G}}\overline{\phi}\hat{f}\hat{x}\d{m_{\widehat{G}}}=(\overline{\phi}\hat{f})^\check(x^{-1})
+    \end{align*}
+    so that $\overline{\phi}(\hat{f})\in L^1(G)$, by injectivity of the reverse transform, ie $\overline{\phi}\hat{f}=0$ $m_{\widehat{G}}$-a.e.
+
+    Hence $\overline{\phi}h_V=0$ $m_{\widehat{G}}-$a.e., hence $0$ in $L^2(\widehat{G})$.
+    But $\norm{\frac{1}{m(V)}h_V\overline{\phi}-\overline{\phi}}_2\to 0$, so $\overline{\phi}=0$.
+    Thus $(\im U)^\perp=\{0\}$ so $\im U=L^2(\widehat{G})$.
+\end{proof}
+\begin{lemma}
+    \begin{enumerate}[nl,r]
+        \item If $\phi,\psi\in C_c(\widehat{G})$, then $\phi*\psi=\hat{f}$ for some $f\in B^1(G)$.
+        \item $A^1(\widehat{G})=\{\hat{f}:f\in B^1(G)\subseteq L^1\cap C_0(\widehat{G})\}$ is dense in $L^1(G)$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item As $\phi\in C_c(\widehat{G})\subseteq L^1\cap L^2(G)$, so $\check{\phi}$ and $U^*\phi$ make sense.
+            Then for $f\in C_c(G)\subseteq L^1(G)\cap L^2(G)$, we have
+            \begin{align*}
+                \langle Uf|\phi\rangle&=\int_{\widehat{G}}\int_Gf(x)\overline{\sigma(x)}\d{x}\overline{\phi(\sigma)}\d{\sigma}\\
+                                      &= \int_Gf(x)\overline{\int_{\widehat{G}}\phi(\sigma)\sigma(x)\d{\sigma}}\d{x}\\
+                                      &= \langle f|\check{\phi}\rangle
+            \end{align*}
+            Hence $\check{\phi}=U^*\phi$, so $\check{\psi}=U^*\psi$ as well.
+            Let
+            \begin{equation*}
+                f = (\phi*\psi){\check{}}=\check{\phi}\check{\psi}\in L^1\cap B(G)=B^1(G)
+            \end{equation*}
+            so the inversion theorem tells us that $(\hat{f})^{\check{}}=f=(\phi*\psi)^{\check{}}$ and injectivity of reverse transform tells us that $\hat{f}=\phi*\psi$.
+        \item By (i), it suffices to see that $C_c(\widehat{G})*C_c(\widehat{G})$ is dense in $L^1(\widehat{G})$.
+            Let $(k_\alpha)\alpha$ be a contractive summability kernel for $L^1(\widehat{G})$.
+            Given $f\in L^1(G)$, $\epsilon>0$, let $\alpha$ be so $\norm{k_\alpha*f-f}_1<\epsilon$.
+            We let $\phi\psi\in C_c(G)$ satisfy $\norm{k_\alpha-\psi}_1<\epsilon$, so $\norm{f_\psi}_1<\epsilon$.
+            One then sees that $\norm{\psi*\psi-f}_1<\epsilon(\norm{f}_1+\epsilon)+2\epsilon$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[Pontryagin Duality]
+    The map $x\mapsto\hat{x}:G\to\widehat{\widehat{G}}$ is a bijective homeomorphism.
+\end{theorem}
+\begin{proof}
+    Let $\Gamma=\{\hat{x}:x\in G\}\subseteq\widehat{\widehat{G}}$.
+
+    We first show that $x\mapsto\hat{x}:G\to\Gamma$ is injective.
+    Notice that $x\mapsto\hat{x}$ is a homomorphism.
+    Let $V$ be a symmetric relatively compact neighbourhood of $e$ in $G$, and $h_V$ as above.
+    By the inversion theorem, for $x$ in $G$,
+    \begin{equation*}
+        h_V(x)=\int_{\widehat{G}}\widehat{h_V}(\sigma)\sigma(x)\d{\sigma}=\int_{\widehat{G}}\hat{h}\overline{\hat{x}}\d{m_{\widehat{G}}}.
+    \end{equation*}
+    If $x\neq e$, find $V$ as above so $x\notin V^2$, hence $0=h_V(x)=\int_{\widehat{G}}\hat{h}\overline{\hat{x}}\d{m_{\widehat{G}}}$, while $1=h_V(e)=\int_{\widehat{G}}\hat{h}1_{\widehat{G}}\d{m_{\widehat{G}}}$.
+    Thus $\hat{x}\neq\hat{e}$, i.e. $\ker(x\mapsto\hat{x})=\{e\}$.
+
+    We now verify that $x\mapsto\hat{x}:G\to\Gamma$ is a homeomorphism.
+    Let $(x_\alpha)$ be a net in $G$, $x_0\in G$.
+    Consider the convergences
+    \begin{enumerate}[nl,r]
+        \item $x_\alpha\to x_0$ in $G$
+        \item $f(x_\alpha)\to f(x_0)$ for $f\in B^1(G)$
+        \item $\hat{x}_\alpha\to\hat{x}_0$ in $\Gamma\subseteq\widehat{\widehat{G}}$
+    \end{enumerate}
+    \imp{i}{ii}
+    This follows since $B^1(G)\subseteq B(G)\subseteq C_b(G)$.
+
+    \imp{ii}{i}
+    Given a relatively compact symmetric neighbourhood $V$ of $e$, let $h_V$ be as above.
+    Then $x_0*h_V\in B^1(G)$.
+    If (ii) holds, then
+    \begin{equation*}
+        x_0*h_V(x_\alpha)\to x_0*h_V(x_0)=h_V(x_0^{-1}x_0)=h_V(e)=1
+    \end{equation*}
+    so $x_0^{-1}x_\alpha\to e$ in $G$, i.e. $x_\alpha\to x_0$ in $G$, so (i) holds.
+
+    \impe{ii}{iii}
+    In $\widehat{\widehat{G}}$, the topology is relativized $w^*=\sigma(L^\infty(\widehat{G}),L^1(\widehat{G}))$.
+    Let $\tau=\sigma(L^\infty(\widehat{G}),A^1(\widehat{G}))$, so $\tau\subseteq w^*$ but remains Hausdorff as $\overline{A^1(\widehat{G})}^{\norm{\cdot}_1}=L^1(\widehat{G})$.
+    Since $\widehat{\widehat{G}}\subseteq B(L^\infty(\widehat{G}))$ is a subspace of a compact space, we must have $w^*|_{\widehat{\widehat{G}}}=\tau|_{\widehat{\widehat{G}}}$.
+    Now the inversion theorem gives for $f\in B^1(G)$, i.e. $\hat{f}\in A^1(\widehat{G})$, for $x\in G$
+    \begin{equation*}
+        f(x)=\int_{\widehat{G}}\hat{f}(\sigma)\sigma(x)\d{\sigma}=\int_{\widehat{G}}\hat{f}\overline{\hat{x}}\d{m_{\widehat{G}}}
+    \end{equation*}
+    and hence they are equivalent.
+
+    By A1Q1, $\Gamma\cong G$ being a locally compact group, is closed in $\widehat{\widehat{G}}$.
+
+    Finally, we must show that $\Gamma$ is dense in $\widehat{\widehat{G}}$.
+    If not, there is some $\chi\in\widehat{\widehat{G}}$ and neighbourhood $U$ of $1_{\widehat{G}}$ in $\widehat{\widehat{G}}$ such that $U^2\chi\cap\Gamma=\emptyset$.
+    Hence if $\phi,\psi\in C_c^+(\widehat{\widehat{G}})$ with $\supp\phi\subseteq U$, $\supp\psi\subseteq U\chi$, then $\supp(\phi*\psi)\subseteq U^2\chi$.
+    Hence $\phi*\psi\neq 0$, while $\phi*\psi|_\Gamma=0$.
+    By the last lemma, with $\widehat{G}$ playing the role of $G$, provides $f\in B^1(\widehat{G})$ so $\phi*\psi=\hat{f}:\widehat{\widehat{G}}\to\C$.
+    Thus by the inversion theorem applied to $\widehat{G}$, for $x$ in $G$, i.e. $\hat{x}\in\Gamma$,
+    \begin{align*}
+        0&= \phi*\psi(\hat{x}) = \hat{f}(\hat{x})=\int_{\widehat{G}}f(sigma)\overline{(\hat{x}(\sigma)}\d{\sigma}\\
+         &=\int_G f(\sigma)\sigma(x)\d{\sigma}=\hat{f}(x)
+    \end{align*}
+    and hence $f=0$ by injectivity of reverse transform.
+    This contradiction shows that $\Gamma=\widehat{\widehat{G}}$.
+\end{proof}
+\begin{corollary}
+    $f\mapsto\hat{f}:L^1(G)\to A(\widehat{G})\subseteq C_0(\widehat{G})$ is injective.
+\end{corollary}
+\begin{proof}
+    If $f\in L^1(G)$,
+    \begin{align*}
+        \hat{f}(\sigma)=\int_Gf(x)\overline{\sigma(x)}\d{x}=\int_Gf(x)\hat{x}(\sigma)\d{x}=\int_{\widehat{\widehat{G}}}f(\chi)\chi(\sigma)\d{\chi}=\hat{f}(\sigma)
+    \end{align*}
+    where $f\mapsto\check{f}:L^1(\widehat{\widehat{G}})\to B(\widehat{G})$ is injective.
+\end{proof}
+\begin{remark}
+    If $\mu\in M(G)$, define its \defn{Fourier-Stieltjes transform}:
+    \begin{equation*}
+        \hat{\mu}:\widehat{G}\to\C,\hat{\mu}(\sigma)=\int_G\overline{\sigma(x)}\d{\mu(x)}.
+    \end{equation*}
+    Let $B(\hat{G})=\{\hat{\mu}:\mu\in M(G)\}$ is an algebra of uniformly continuous on $\hat{G}$.
+\end{remark}
 \section{Compact Groups}
 \section{Introduction to Amenability Theory}
 \end{document}

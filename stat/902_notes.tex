@@ -1602,7 +1602,7 @@ We can extend this to any continuous, $L^2$-bounded martingale.
                 X := T^\Delta(M)-T^{\Delta'}(M)=(M^2-T^\Delta(M))-(M^2-T^{\Delta'}(M))
             \end{equation*}
             is a martingale.
-            If we can show that $\E(X_a^2)\t0 0$ as $mesh(\Delta)\to 0$ and $\mesh(\Delta')\to 0$, then $T_a^\Delta(M)$ is a Cauchy sequence in $L^2$ as $\mesh(\Delta)\to 0$, and thus has a limit in $L^2$.
+            If we can show that $\E(X_a^2)\to 0$ as $mesh(\Delta)\to 0$ and $\mesh(\Delta')\to 0$, then $T_a^\Delta(M)$ is a Cauchy sequence in $L^2$ as $\mesh(\Delta)\to 0$, and thus has a limit in $L^2$.
 
             Applying \cref{e:cmart} to $X$, we have $\E(X_a^2)=\E(T_a^{\Delta\Delta'}(X))$.
             To show that $\E(T_a^{\Delta\Delta'}(X))\to 0$, note that
@@ -1617,12 +1617,12 @@ We can extend this to any continuous, $L^2$-bounded martingale.
 
             First note that
             \begin{equation*}
-                T^\Delta_{s_{k+1}}(M)_T^\Delta_{s_k}(M) = (M_{s_{k+1}}-M_{t_1})^2-(M_{s_k}-M_{t_1})^2=(M_{s_{k+1}}-M_{s_k})\cdot(M_{s_{k+1}}+M_{s_k}-2M_{t_i})
+                T^\Delta_{s_{k+1}}(M_T)^\Delta_{s_k}(M) = (M_{s_{k+1}}-M_{t_1})^2-(M_{s_k}-M_{t_1})^2=(M_{s_{k+1}}-M_{s_k})\cdot(M_{s_{k+1}}+M_{s_k}-2M_{t_i})
             \end{equation*}
             so that
             \begin{align*}
                 \E[T_a^{\Delta\Delta'}(T^\Delta(M))] &= \E(\sum(M_{s_{k+1}}-M_{s_k})^2\cdot(M_{s_{k+1}}+M_{s_k}-2M_{t_1})^2)\\
-                                                     &\leq\E[(\sup_k|M_{s_{k+1}}+M_{s_k}-2M_{t_1}|^2)\cdot\sum(M_{s_{k+1}}_M_{s_k})^2)]\\
+                                                     &\leq\E[(\sup_k|M_{s_{k+1}}+M_{s_k}-2M_{t_1}|^2)\cdot\sum(M_{s_{k+1}}-M_{s_k})^2)]\\
                                                      &= ...missed
             \end{align*}
             Note that $\sup_k|M_{s_{k+1}}-M_{s_k}-2M_{t_1}|^4\to 0$ a.s. since $M$ is uniformly continuous over $[0,a]$.
@@ -1651,7 +1651,7 @@ We can extend this to any continuous, $L^2$-bounded martingale.
             \begin{equation*}
                 \pr(\sup_{t\leq a}|T_t^{\Delta_n}-T_t^{\Delta_m}|\geq\lambda)\leq\lambda^{-2}\E((T_a^{\Delta_n}-T_a^{\Delta_m})^2).
             \end{equation*}
-            Since $\E((T_a^{\Delta_n}-T_a^{\Delta_m})^2)\to 0$ almost surely as $\mesh(\Delta_n)\t0 0$, for any $k$, there exists $n_k$ such that for any $n,m\geq n_k$
+            Since $\E((T_a^{\Delta_n}-T_a^{\Delta_m})^2)\to 0$ almost surely as $\mesh(\Delta_n)\to 0$, for any $k$, there exists $n_k$ such that for any $n,m\geq n_k$
             \begin{equation*}
                 \pr(\sup_{t\leq a}|T_t^{\Delta_n}-T_t^{\Delta_m}|\geq 2^{-k})\leq 2^{-k}.
             \end{equation*}
@@ -1720,7 +1720,7 @@ Another criterion:
 
     \impr
     Let $\{X_t\}$ be a local martingale in class DL with reducing sequence $\{X_t^{T_n}\}_{n=1,2,\ldots}$ is uniformly integrable.
-    Thus $X_{T_n\wedte t}\to X_T$ implies that $X_{T_n\wedge t}\to X_t$ in $L^1$.
+    Thus $X_{T_n\wedge t}\to X_T$ implies that $X_{T_n\wedge t}\to X_t$ in $L^1$.
     Thus for all $A\in\mathcal{F}_s$ with $s\in[0,t]$,
     \begin{equation*}
         \E(X_t;A)=\lim_{n\to\infty}\E(X_{T_n\wedge t};A)=\lim_{n\to\infty}\E(X_{T_n}\wedge s;A)=\E(X_s;A)
@@ -1833,5 +1833,81 @@ where $Z_i\in\mathcal{F}_{T_i}$ is bounded.
     What process are previsible?
     By the monotone class theorem, all the cadlag processes are previsible.
 \end{remark}
+
+Define $\norm{H}_M=(\E[\int_0^\infty H_s^2\d{[M]_s})^{1/2}$, and let $L^2(M)$ denote the set of presivible processes $H$ such that $\norm{H}_M<\infty$.
+We have defined $H\cdot M$ for $H\in b\mathcal{E}$.
+Our goal is to show that $\overline{b\mathcal{E}}=L^2(M)$, so we can define $H\cdot M$ for any $H\in L^2(M)$ as limits of $H\cdot M$ for $H\in b\mathcal{E}$.
+Note that
+\begin{enumerate}[nl]
+    \item $\overline{b\mathcal{E}}$ contains all constant functions
+    \item If $H_n\in\overline{b\mathcal{E}}\cap L^2(M)$ for all $n$, the $H_n$ converge uniformly on $(0,\infty)\times\Omega$ to $H$, then $H\in\overline{b\mathcal{E}}\cap L^2(M)$.
+        Indeed, $\norm{H_n-H}_M=(\E\int_0^\infty(H_n(s)-H(s))^2\d{[M]_s})^{1/2}\to 0$.
+    \item $H_n$ is non-negative and $H_n\to H$ increasing, then $H\in\overline{b\mathcal{E}}\cap L^2(M)$>
+        Similar reason as above, since $\norm{H_n-H}_M\to 0$, and apply monotone convergence.
+\end{enumerate}
+\begin{theorem}[Monotone Class]
+    Let $X$ be a topological space.
+    Suppose
+    \begin{enumerate}[nl,r]
+        \item $C_b(X)$ contains all constant functions,
+        \item $C_b(X)$ is closed under uniform convergence, and
+        \item If $f_n\to f$ is an increasing sequence of non-negative functions with $f_n\in C_b(X)$, and $f$ is bounded, then $f\in C_b(X)$.
+    \end{enumerate}
+    Then for any subset $C\subset C_b(X)$ that is closed under multiplication, $C_b(X)$ contains every bounded $\sigma(C)$-measurable function from $X$ to $\R$.
+\end{theorem}
+Applying this theorem, we get that $\overline{b\mathcal{E}}\cap L^2(M)$ contains all the bounded previsible processes.
+For general elements, $H\in L^2(M)$, not necesarily bounded, take $H)n:=H\idc{\{|H|\leq n\}}$, so
+\begin{equation*}
+    (\E\int_0^\infty H_s^2\idc{\{|H_s|>n\}}\d{[M]_s})^{1/2}\to 0
+\end{equation*}
+as $n\to\infty$.
+Thus, we conclude that $\overline{b\mathcal{E}}\cap L^2(M)=L^2(M)$ so $\overline{b\mathcal{E}}=L^2(M)$.
+Therefore $b\mathcal{E}$ is dense in $L^2(M)$.
+
+We have seen that $\E((H\cdot M)_\infty^2)=\E\int_0^\infty H_s^2\d{[M]_s}$ for all $H\in b\mathcal{E}$, so that the mapping $I:b\mathcal{E}\cap L^2(M)\to L^2(\mathcal{F}_\infty)$ defined by $I(H)=(H\cdot M)_\infty$ for $H\in b\mathcal{E}$ is an isometry.
+
+Since $b\mathcal{E}$ is dense in $L^2(M)$, this isometry extends uniqely to $\overline{b\mathcal{E}}=L^2(M)$.
+That is, one can define the stochastic integral of any previsible process $H$ such that $\norm{H}_M<\infty$.
+\begin{theorem}
+    Let $M$ be a continuous bounded martingale vanishing at $0$, and $H\in L^2(M)$.
+    Then the stochastic integral $H\cdot M$, or $\int H\d{M}$, is the image of $H$ under the extension of the isometry $I$ to $L^2(M)$.
+    In particular,
+    \begin{equation*}
+        \E((H\cdot M)_\infty^2)=\E(\int_0^\infty H_s^2\d{[M]_s})
+    \end{equation*}
+    is the stochastic integral with respect to a continuous semimartingale.
+\end{theorem}
+We can extend the definition of the above integral by localication.
+Let $lb\mathcal{P}$ denote the set of locally bounded previsible processes, in other words the set of processes $H$ for which for which there exists a sequence of stopping times increasing to infinity such that $H\idc{(0,T_n]}\in b\mathcal{P}$ where $b\mathcal{P}$ is the space of bounded previsible processes.
+Let
+\begin{equation*}
+    M^2_{0,loc}:=\{M:\exists(T_n)_{n=1}^\infty\to\infty\text{a.s., s.t.} M^{T_n}\in M_0^2\}
+\end{equation*}
+where $M_0^2$ is the set of $L^2$-bounded martingales vanishing at $0$.
+One can choose $T_1,\ldots,T_n$ to be the same for two processes (take the minimum).
+Define $H\cdot M$ up to $T_n$ by $H\idc{(0,T_n]}\cdot M^{T_n}$.
+This definition can be shown to be consistent.
+Then $H\cdot M^{T_n}(t)=H\cdot M^{T_m}(t)$ on $\{t\leq T_m\wedge T_m\}$.
+\begin{definition}
+    A stochastic processes $X$ is called a \defn{semimartingale} if $X=X_0+M+A$ where $X_0\in\mathcal{F}_0$, $M$ is a local martingale vanishing at $0$, $A$ is an adapted process with paths of finite variation vanishing at $0$.
+\end{definition}
+Let $X=X_0+M+A$ be a semimartingale, $H\in lb\mathcal{P}$.
+Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral and $H\cdot A$ is the pathwise Lebesgue-Stieltjes integral.
+\begin{theorem}
+    Let $X,Y$ be continuous semimartingales.
+    Then
+    \begin{equation*}
+        X_tY_t-X_0Y_0=\int_0^tX_s\d{Y_s}+\int_0^t Y_s\d{X_s}+[X,Y]_t
+    \end{equation*}
+    where $[X,Y]_t$.
+\end{theorem}
+\begin{lemma}
+    Let $M$ be a bounded continuosu martingale, vanishing at $0$, and $V$ a continuous adapted process with finite variation, vanishing at $0$.
+    Then
+    \begin{align*}
+        M_t^2 &= \int_0^t2M_s\d{M_s}+[M]_t\\
+        M_tV_t=\int_0^tM_s\d{V_s}+\int_0^tV_s\d{M_s}
+    \end{align*}
+\end{lemma}
 
 \end{document}
