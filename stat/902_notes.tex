@@ -1893,14 +1893,6 @@ Then $H\cdot M^{T_n}(t)=H\cdot M^{T_m}(t)$ on $\{t\leq T_m\wedge T_m\}$.
 \end{definition}
 Let $X=X_0+M+A$ be a semimartingale, $H\in lb\mathcal{P}$.
 Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral and $H\cdot A$ is the pathwise Lebesgue-Stieltjes integral.
-\begin{theorem}
-    Let $X,Y$ be continuous semimartingales.
-    Then
-    \begin{equation*}
-        X_tY_t-X_0Y_0=\int_0^tX_s\d{Y_s}+\int_0^t Y_s\d{X_s}+[X,Y]_t
-    \end{equation*}
-    where $[X,Y]_t$.
-\end{theorem}
 \begin{lemma}
     Let $M$ be a bounded continuosu martingale, vanishing at $0$, and $V$ a continuous adapted process with finite variation, vanishing at $0$.
     Then
@@ -1909,5 +1901,117 @@ Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral a
         M_tV_t=\int_0^tM_s\d{V_s}+\int_0^tV_s\d{M_s}
     \end{align*}
 \end{lemma}
+\begin{proof}
+    For $n=1,2,\ldots$, define stopping times $T_0^n$, $T_{k+1}^n:=\inf\{t:T_k^n:|M(t)-M(T_k^n)|>2^{-n}\}$ and $t_k^n=t\wedge T_k^n$.
+    Then
+    \begin{align*}
+        M_t^2 &= \sum_{k\geq 1}(M(t_k^n)^2-M(t_{k-1}^n)^2)\\
+              &= 2\sum_{k\geq 1}M(t_{k-1}^n)(M(t_k^n)-M(t_{k-1}^n))+\sum_{k\geq 1}(M(t_k^n)-M(t_{k-1})^n)^2.
+    \end{align*}
+    Set
+    \begin{align*}
+        H_t^n &= \sum_{k\geq 1}M(T_{k-1}^n)\cdot\idc{(T_{k-1}^n,T_k^n]}\\
+        A_t^n &= \sum_{k\geq 1}(M(t_k^n)-M(t_{k-1}^n))^2
+    \end{align*}
+    so that $M_t^2=2(H^n\cdot M)_t+A_t^n$.
+    Then as $n\to\infty$, $H^n\cdt M\to M\cdot M$ and $A^n\to [M]$.
+    For the second equality, define $t_i^n=i2^{-n}\wedge t$.
+    Then
+    \begin{equation*}
+        M_tV_t = \sum_{i\geq 1}M(t_i^n)(V(t_i^n)-V(t_{i-1}^n))+\sum_{i\geq 1}V(t_{i-1}^n)(M(t_i^n)-M(t_{i=1}^n))
+    \end{equation*}
+    and pass to the limit as $n\to\infty$.
+    But the first term converges t $\int_0^t M_s\d{V_s}$ and the second term converges to $\int_0^t V_s\d{M_s}$.
+\end{proof}
+\begin{theorem}
+    Let $X,Y$ be continuous semimartingales.
+    Then
+    \begin{equation*}
+        X_tY_t-X_0Y_0=\int_0^tX_s\d{Y_s}+\int_0^t Y_s\d{X_s}+[X,Y]_t
+    \end{equation*}
+    where $[X,Y]_t$.
+\end{theorem}
+\begin{proof}
+    Without loss of generality, $X_0=Y_0=0$.
+    Let $X=M+A$, $Y=N+B$.
+    By localization, we can further assume that $M$, $N$ are bouded martingales.
+    By the previous lemma,
+    \begin{align*}
+        (M+N)_t^2 &= \int_0^t2(M+N)_s\d{(M+N)_s}+[M+N]_t\\
+        (M-N)_t^2 &= \int_0^t 2(M-N)_s\d{(M-N)_s}+[M-N]_T
+    \end{align*}
+    and taking differences, we have
+    \begin{equation*}
+        (MN)_t = \int_0^t M_s\d{N_s} + \int_0^t N_s\d{M_s}+[M,N]_t
+    \end{equation*}
+    We also have $A+B_t=\int_0^tA_s\d{B_s}+\int_0^t B_s\d{A_s}$, so that
+    \begin{align*}
+        X_tY_t &= M_tN_t + M_tB_t+N_tA_t+A_tB_t\\
+               &= \int_0^t(M+A)_s\d{(N+B)_s}+\int_0^t(N+B)_s\d{(M+A)_s}+[X,Y]_t\\
+               &= \int_0^t X_s\d{Y_s}+\int_0^t Y_s\d{X_s}+[X,Y]_t.
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Let $M,N$ be continuous local martingales and $H,K$ be locally bounded previsible processes.
+    Then
+    \begin{equation*}
+        [H\cdot M,K\cdot N]_t = \int_0^t A_sK_s\d{[M,N]_s}
+    \end{equation*}
+    or equivalently $\d{[H\cdot M,K\cdot N]}=HK\d{[M,N]}$.
+\end{proposition}
+\begin{proposition}
+    \begin{enumerate}[nl]
+        \item $(H\cdot M)^T=H\idc{(0,T]}\cdot M=H\cdot M^T$ for stopping time $T$.
+        \item If $H,K\in lb\mathcal{P}$, then $H\cdot(K\cdot M)=(HK)\cdot M$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We only prove the results for $M$ being $L^2$-bounded martingale and $H,K\in b\mathcal{P}$.
+    The general case can be done by localization.
+    \begin{enumerate}
+        \item Given a stopping time $T$, we define
+            \begin{align*}
+                f_1: L^2(\mathcal{F}_\infty) &\to L^1(\mathcal{F}_\infty) & I:L^2(M) &\to L^2(\mathcal{F}_\infty)\\
+                Y &\mapsto \E(Y|\mathcal{F}_T) & H &\mapsto (H\cdot M)_\infty\\
+                f_2: L^2(M) &\to L^2(M) & I^{(T)}:L^2(M^T) &\to L^2(\mathcal{F}_\infty)\\
+                H &\mapsto H\idc{(0,T]} & H &\mapsto (H\cdot M^T)_\infty\\
+                f_3 : L^2(M) &\to L^2(M^T)\\
+                H &\mapsto H
+            \end{align*}
+            Then
+            \begin{align*}
+                (H\cdot M)_\infty^T &= \E((H\cdot M)_\infty|\mathcal{F}_T) = f_1\circ I(H)\\
+                H\idc{(0,T]}\cdot M&=I\circ f_2(H)\\
+                H\cdot M^T &= I^{(T)}\circ f_3(H)
+            \end{align*}
+            where $f_1,f_2,f_3$ are all linear contractions, so that $f_1\circ I$, $I\circ F_2$, and $I^{(T)}\circ f_3$ are continuous linear maps.
+            It is easy to check that they agree on $b\mathcal{E}$, so they also agree on $L^2(M)$.
+        \item The identity clearly holds if $H,K\in b\mathcal{E}$.
+            For $k\in b\mathcal{P}$, let $K^n$ be a uniformly bounded sequence in $b\mathcal{E}$ such that $K^n\to K$ in $L^2(M)$.
+            Then for $H\in b\mathcal{E}$, $(H\cdot M)^T=H\idc{(0,T]}\cdot M=H\cdot M^T$, and if $H,K\in lb\mathcal{P}$, then $H\cdot(K\cdot M)=(HK)\cdot M$ and thus
+            \begin{align*}
+                \E[(H\cdot(K\cdot M)-H\cdot(K^n-M))^2_\infty] &= \E[(H\cdot(K-K^n))\cdot M)^2_\infty]\\
+                                                              &= \E[\int_0^\infty H_s^2\d{[(K-K^n)\cdot M]_s}\\
+                                                              &= \E\int_0^\infty H_s^2(K_s-K_s^n)^2\d{[M]_s}\\
+                                                              &= \E((HK-HK^n)\cdot M)_\infty^2
+            \end{align*}
+            and as $n\to\infty$, $H\cdot(K^n\cdot M)\to H\cdot(K\cdot M)$ while $(HK^n)\cdot M\to (HK)\cdot M$.
+            Thus the identity holds for $k\in b\mathcal{P}$.
+            The argument for $H\in b\mathcal{P}$ is similar.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Let $f:\R^n\to\R$ be $C^2$ and $X_t^1,\ldots,X_t^n$ be continuous semimartingales.
+    Then
+    \begin{align*}
+        f(X_t^1,\ldots,X_t^n)-f(X_0^1,\ldots,X_0^n) &= \sum_{i=1}^n\int_0^t\frac{\partial}{\partial i}f(X_s^1,\ldots,X_s^n)\d{X_s^i}\\
+                                                    &\agspace+\frac{1}{2}\sum_{i,j=1}^n\int_0^t\frac{\partial^2}{\partial i\partial j}f(X_s^1,\ldots,X_s^n)\d{[X^i,X^j]_s}
+    \end{align*}
+\end{theorem}
+This is essentially the same as the Ito's formula for brownian motion, with the main difference that $\d{[X^i,X^j]}$ replaces $\d{B_i}\d{B_j}$, and is typically not $\delta_{ij}\d{t}$.
+\begin{proof}
+    ...
+\end{proof}
 
 \end{document}

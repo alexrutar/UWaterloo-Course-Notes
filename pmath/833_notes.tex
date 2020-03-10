@@ -2793,5 +2793,201 @@ If $f\in B^1(G)$, then $\int_G|f|^2\d{m}\leq\norm{f}_\infty\norm{f}_1$.
     Let $B(\hat{G})=\{\hat{\mu}:\mu\in M(G)\}$ is an algebra of uniformly continuous on $\hat{G}$.
 \end{remark}
 \section{Compact Groups}
+Let $G$ be a compact group and $m$ the normalized Haar measure on $G$, i.e. $m(G)=1$.
+\begin{remark}
+    Let $H$ be a Hilbert space.
+    \begin{enumerate}[nl,r]
+        \item If $\xi\in H$ with $\norm{\xi}=1$, then $P_\xi=\langle\cdot|\xi\rangle\xi$ is the orthogonal projection onto $\C\xi$.
+        \item If $\xi,\eta\in H$, $\norm{\xi}=1=\norm{\eta}$, then
+            \begin{equation*}
+                \norm{P_\xi-P_\eta}=\norm{\langle\cdot|\xi\rangle\xi-\langle\cdot|\eta\rangle\eta}\leq 2\norm{\xi-\eta}
+            \end{equation*}
+            so $\xi\mapsto P_\xi$ is continuous.
+    \end{enumerate}
+\end{remark}
+\begin{definition}
+    Let $\pi:G\to\mathcal{U}(H)$ be a unitary representation.
+    We say that $\pi$ is \defn{completely reducible} if there is a family $\{L_\alpha\}_{\alpha\in A}$ of subspaces of $H$ such that each
+    \begin{enumerate}[nl,a]
+        \item $L_\alpha$ is $\pi$-invariant
+        \item $\pi(\cdot)|_{L_\alpha}$, hence $\dim L_\alpha<\infty$
+        \item $L_\alpha\perp L_\beta$ if $\alpha\neq\beta$
+        \item $\bigoplus_{\alpha\in A}L_\alpha=\spn\bigcup_{\alpha\in A}L_\alpha$ is dense in $H$
+    \end{enumerate}
+    Hence we write $H=\bigoplus_{\alpha\in A}L_\alpha$ and $\pi=\bigoplus_{\alpha\in A}\pi(\cdot)|_{L_{\alpha}}$.
+\end{definition}
+\begin{theorem}
+    Let $G$ be a compact group and $\pi:G\to\mathcal{U}(H)$ a unitary representation.
+    Then
+    \begin{enumerate}[nl,r]
+        \item $\pi$ admits a finite-dimensional non-zero invariant subspace
+        \item If $\pi$ is irreducible, then $\pi$ is finite dimensional
+        \item $\pi$ is completely reducible.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[r]
+        \item Let $\xi\in H$ have $\norm{\xi}=1$ and let $K_\xi=\int_G P_{\pi(x)\xi}\d{x}$ (vector valued integral) which is a compact operator since each $P_{\pi(x)\xi}$ is of finite rank.
+            Our goal is to show that $K_\xi$ is also Hermitian, so that we can apply the spectral theorem for compact Hermitian operators.
+
+            By continuity of the adjoint,
+            \begin{equation*}
+                K_\xi^*=\int_G P_{\pi(x)\xi}^*\d{x}=\int_GP_{\pi(x)\xi}\d{x}=K_\xi.
+            \end{equation*}
+            Since $1=\langle\pi(x)\xi|\xi\rangle=\norm{\xi}^2$ so
+            \begin{align*}
+                \langle K_\xi\xi|\xi\rangle &= \int_\langle P_{\pi(x)\xi}\xi|\xi\rangle\d{x} = \int_G\left\langle\langle\xi|\pi(x)\xi\rangle\pi(x)\xi|\xi\right\rangle\d{x}\\
+                                            &= \int_G |\langle\pi(x)\xi|\xi\rangle|^2\d{x}>0
+            \end{align*}
+            by non-degeneracy of $\pi$, so $K_\xi\neq 0$.
+            Finally, for $y\in G$ and $\eta\in H$, since $\pi$ is unitary, $\pi(y^{-1})=\pi(y)^*$ and thus
+            \begin{align*}
+                \pi(y)K_\xi\eta &= \int_G\langle\eta|\pi(x)\xi\rangle\pi(yx)\xi\d{x}\\
+                                &= \int_G\langle\eta|\pi(y^{-1}x)\xi\rangle\pi(x)\xi\d{x}\\
+                                &= \int_G\langle\pi(y)\eta|\pi(x)\xi\rangle\pi(x)\xi\d{x}\\
+                                &= K_\xi\pi(y)\eta
+            \end{align*}
+            so $\pi(y)K_\xi=K_\xi\pi(y)$.
+
+            Now, the spectral theorem for compact Hermitian operators provides sequences $P_1,P_2,\ldots$ of orthogonalprojections $c_1,c_2,\ldots\in\R$ with $\lim x_n=0$ such that
+            \begin{itemize}[nl]
+                \item $K_\xi=\sum_{n=1}^\infty c_nP_n$
+                \item each $\dim P_nH<\infty$
+                \item $P_nP_m=0$ if $n\neq m$, i.e. $P_nH\perp P_mH$
+                \item for $T\in \mathcal{B}(H)$, $TK_\xi=K_\xi T$ if and only if $TP_n=P_nT$ for all $n$.
+            \end{itemize}
+            Then each $P_n\in\pi(G)'$ (commutant) so $P_NH$ is a $\pi$-invariant subspace.
+        \item If $\pi$ is irreducible, then $K_\xi$, above, satisfies that $K_\xi=cI$ where $c>0$, and is compact.
+            Hence $\dim H<\infty$.
+        \item We use Zorn's lemma.
+            Let
+            \begin{equation*}
+                \Lambda=\{\lambda=\{L_\alpha\}_{\alpha\in A_\lambda}:\lambda\text{ satisfies (a)-(c) above}\}.
+            \end{equation*}
+            Notice that since $\pi$ admits a non-zero finite dimensional invariant subspace, it must admit an irreducible invariant subspace (if the subspace $\mathcal{L}$ is $\pi$-invariant, we are due, otherwise $\mathcal{L}\supsetneq\mathcal{L}_1\supsetneq\cdots$ of $\pi$-invariant subspaces, which must terminate).
+            Hence $\Lambda\neq\emptyset$.
+            Partially order $\Lambda$ by inclusion, and if $\Gamma\subseteq\Lambda$ is a chain, then $\bigcup_{\lambda\in\Gamma}\lambda\in\Lambda$ (check!).
+            Hence $\Lambda$ admits a maximal element $\mu=\{L_\alpha\}_{\alpha\in A}$.
+            If $\mathcal{L}=\overline{\bigoplus_{\alpha\in A}L_\alpha}\subsetneq H$, then $L^\perp$ is $\pi$-invariant, and hence admits a finite dimensional (irreducible) $\pi$-invariant subspace.
+            This contradicts maximality of $\mu$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    \begin{enumerate}[nl,r]
+        \item Let $\pi:G\to \mathcal{U}(H)$, $\pi':G\to\mathcal{U}(H')$ be unitary representations.
+            We say that $\pi,\pi'$ are \defn{(unitarily) equivalent}, $\pi\approx\pi'$, if there is a unitary $U:H\to H'$ such that $U\pi=\pi'U$.
+        \item Let $\Irr(G)=\{\pi:G\to U(d):d\in\N,\pi\text{ repn}\}$, where $U(d)\cong U(\C^d)$.
+            Then let $\widehat{G}=\Irr(\widehat{G})/\approx$.
+            A standard abuse of notation, we denote elements of $\widehat{G}$ by representations in $\Irr(G)$.
+    \end{enumerate}
+\end{definition}
+\subsection{Matrix Coefficient Functions}
+Let $\pi\in\Irr(G)$, and let $d_\pi=\dim H_\pi$ where $\pi:G\to \mathcal{U}(H_\pi)$.
+Let
+\begin{equation*}
+    T_\pi=\spn\{\langle\pi(\cdot)\xi|\eta\rangle:\xi,\eta\in H_\pi\}\subseteq C(G)\subseteq L^2(G)
+\end{equation*}
+since $G$ is compact.
+If $\pi\in\Irr(G)$, $U:H_\pi\to H_{\pi'}$ satisfies $U\pi(\cdot)=\pi'(\cdot)U$, then
+\begin{equation*}
+    \langle\pi(\cdot)\xi|\eta\rangle = \langle U\pi(\cdot)\xi|U\eta\rangle=\langle \pi'(\cdot)U\xi|U\eta\rangle
+\end{equation*}
+so $T_\pi=T_{\pi'}$.
+Hence $[\pi]\mapsto T_\pi$ is injective.
+If $(e_1,\ldots,e_{d_\pi})$ is an orthonormal basis for $H_\pi$,
+\begin{equation*}
+    \langle\pi(\cdot)\xi|\eta\rangle &=\left\langle\pi(\cdot)\sum_{j=1}^{d_\pi}\langle\xi|e_j\rangle e_j\middle|\sum_{i=1}^{d_\pi}\langle\eta|e_i\ranglee_\right\rangle\\
+                                     &= \sum_{i,j=1}^{d_\pi}\langle\xi|e_j\rangle\langle e_i|\eta\rangle\langle\pi(\cdot)e_j|e_j\rangle
+\end{equation*}
+so that $\spn\{\langle\pi(\cdot)e_j|e_i\rangle:i,j=1,\ldots,d_\pi\}=T_\pi$.
+\begin{lemma}[Schur]
+    Let $\pi,\pi'$ be elements of $\Irr(G)$, $A\in\mathcal{B}(H_\pi,H_{\pi'})$ so $A\pi(\cdot)=\pi'(\cdot)A$.
+    If $\pi\not\approx\pi'$, then $A=0$.
+    Otherwise, if $\pi\approx\pi'$, then $A$ is a scalar multiple of a unitary.
+\end{lemma}
+\begin{proof}
+    We know $\pi(G)'=\CI$.
+    For $x\in G$, we have
+    \begin{equation*}
+        A^*A\pi(x)=A^*\pi'(x)A=(\pi'(x^{-1})A)^*A=(A\pi(x^{-1}))^*A=\pi(x)A^*A
+    \end{equation*}
+    so $A^*A=cI$ where $c\in\C$.
+    In fact, if $\xi\in H\setminus\{0\}$, $c\langle\xi|\xi\rangle=\langle A^*A\xi|\xi\rangle=\norm{A\xi}^2\geq 0$, so $c\geq 0$.
+    Hence if $c>0$, $\frac{1}{c}A$ is unitary and $\pi\approx\pi'$.
+    Hence if $\pi\not\approx\pi'$, we must have $c=0$.
+\end{proof}
+\begin{theorem}[Schur Orthogonality]
+    Let $\pi,\pi'\in\widehat{G}$.
+    \begin{enumerate}[nl,r]
+        \item If $\pi\neq \pi'$, then $T_\pi\perp T_{\pi'}$ in $L^2(G)$.
+        \item If $\xi,\eta,\zeta,\omega\in H_\pi$, then
+            \begin{align*}
+                \int_G\langle\pi(x)\xi|\eta\rangle\overline{\langle \pi(x)\zeta|\omega\rangle\d{x}=\frac{1}{d_\pi}\langle\xi|\zeta\rangle\langle\omega|\eta\rangle.
+            \end{align*}
+            Hence $\{\sqrt{d_\pi}\langle \pi(\cdot)e_j|e_i\rangle:i,j=1,\ldots,d_\pi\}$, where $(e_1,\ldots,e_{d\pi})$ is an orthonormal basis for $H_\pi$, is an orthonormal basis for $T_\pi\subseteq L^2(G)$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    If $A\in\mathcal{B}(H_\pi,H_{\pi'})$, let
+    \begin{equation*}
+        \tilde{A}=\int_G\pi'(x)A\pi(x^{-1})\d{x}\in\mathcal{B}(H_\pi,H_{\pi'}).
+    \end{equation*}
+    Then for $y\in G$,
+    \begin{align*}
+        \tilde{A}\pi(y) &= \int_G\pi'(x)A\pi(x^{-1}y)\d{y} = \int_G\pi'(yx)A\pi(x^{-1})\d{x}\\
+                        &= \pi'(y)A
+    \end{align*}
+    and so $\tilde{A}=0$ if $\pi\neq\pi'$, and $\tilde{A}=cI$ if $\pi=\pi'$ by Schur's lemma.
+
+    Now let $\xi,\eta\in H_\pi$, $\zeta,\omega\in H_{\pi'}$, $A=\langle\cdot|\eta\rangle\omega\in\mathcal{B}(H_\pi,H_{\pi'})$.
+    Then
+    \begin{align*}
+        \langle\tilde{A}\xi|\zeta\rangle &= \int_G\langle\pi'(x)A\pi(x^{-1})\xi|\zeta\rangle\d{x}\\
+                                         &= \int_G\langle\langle\pi(x^{-1})\xi|\eta\rangle\omega|\pi'(x^{-1})\zeta\rangle\d{x}\\
+                                         &= \int_G\langle\pi(x^{-1}\xi|\eta)\overline{\langle\pi'(x^{-1})\zeta|\omega\rangle}\d{x}.
+    \end{align*}
+    If $\pi\neq \pi'$, we get $(i)$.
+    If $\pi=\pi'$, then $\tilde{A}=cI$ and we have
+    \begin{align*}
+        c=\frac{1}{d_\pi}\Tr(\tilde{A}) &= \frac{1}{d_\pi}\int_G\Tr(\pi(x)A\pi(x^{-1}))\d{x}\\
+                                        &= \frac{1}{d_\pi}\int_G\Tr(A)\d{x}=\frac{1}{d_\pi}\Tr(A)\\
+                                        &= \frac{1}{d_\pi}\sum_{i=1}^{d_\pi}\langle Ae_i|e_i\rangle\\
+                                        &= \frac{1}{d_\pi}\sum_{i=1}^{d_\pi}\langle\langle e_i|\eta\rangle\omega|e_i\rangle=\frac{1}{d_\pi}\langle\omega|\eta\rangle.
+    \end{align*}
+    Hence
+    \begin{equation*}
+        \langle\tilde{A}\xi|\zeta\rangle = \langle c\xi|\eta\rangle= \frac{1}{d_\pi}\langle\xi|\eta\rangle\langle\omega|\eta\rangle.
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    If $G$ is abelian and compact, then $\widehat{G}$ is an orthonormal set in $L^2(G)$.
+\end{remark}
+Let $H$ be a hilbert space and let $\overline{H}=\{\overline{\xi}:\xi\in H\}$.
+Then
+\begin{itemize}[nl]
+    \item $\overline{\xi}+\overline{\eta}=\overline{\xi+\eta}$
+    \item $\alpha\overline{\xi}=\overline{\alpha\xi}$
+    \item $\langle\ol{\xi}|\ol{\eta}\rangle=\langle\xi|\eta\rangle$
+\end{itemize}
+Riesz-Fischer states that $\overline{H}\cong H^*$ through the pairing $\langle\xi,\overline{\eta}\rangle\mapsto\langle\xi|\eta\rangle$.
+
+We can take tensor products of Hilbert spaces.
+Let $H,H'$ be Hilbert spaces and define $\langle\cdot,\cdot\rangle$ on $(H\times H')\times(H\otimes H')$ by
+\begin{equation*}
+    \left\langle\sum_{i=1}^n\xi_i\otimes\xi_i'\middle|\sum_{i=1}^m\eta)i\otimes\eta_i'\right\rangle=\sum_{i=1}^n\sum_{j=1}^n\langle\xi_i|\eta_j\rangle\langle\xi_i'|\eta_j'\rangle
+\end{equation*}
+Plainly, if $E$ and $E'$ are orthogonal in $H$, $H'$, then $\{e\otimes e':(e,e')\in E\times E'\}$ is orthonormal with respect to $\langle\cdot|\cdot\rangle$.
+Now if $\omega=\sum_{i=1}^n\xi_i\otiems\xi_i'\neq 0$, there are finite orthnormal $E,E'$ so each $\xi_i\in\spn E_i$, $\xi_i'\in\spn E'$, then
+\begin{equation*}
+    \omega=\sum_{(e,e')\in E\times E'}\sum_{i=1}^n\langle\xi_i|e\rangle\langle\xi_i'|e'\rangle e\otimes e'\neq 0
+\end{equation*}
+with
+\begin{equation*}
+    \langle\omega|\omega\rangle=\sum_{(e,e')\in E\times E'}\left\lvert\sum_{i=1}^n\langle\xi|e\rangle\langle\xi_i'|e_i\rangle\right\rvert^2>0
+\end{equation*}
+so $\langle\cdot|\cdot$ is an inner product on $H\otimes H'$.
+Let $H\otimes^2 H'$ denote the completion, which is a Hilbert space.
+If $E,E'$ are orthonormal bases for $H,H'$, then $\spn\{e\otimes e':e\in E,e'\in E'\}$ is dense in $H\otimes^2 H'$ and thus an orthonormal basis.
+which is well-defined as it is bilinear.
 \section{Introduction to Amenability Theory}
 \end{document}

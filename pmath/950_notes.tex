@@ -249,6 +249,7 @@
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\loc}{loc}
 \DeclareMathOperator{\vol}{vol}
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dist}{dist}
@@ -1196,7 +1197,7 @@ If $F_i(A)\subseteq A$, then $E=\bigcap_{k=0}^\infty F^{(k)}(A)$.
     \begin{align*}
         d(H_\mu,H_\nu) &= \sup\left\{\left|\int_g\d{H_\mu}-\int_G\d{H_\nu}\right|:\Lip(g)\leq 1\right\}\\
                        &= \sup_{\Lip(g)\leq 1}\left|\sum_{i=1}^m\left(\int g(F_i(x))\d{\mu(x)}-\int g(F_i(x))\d{\nu(x)}\right)\right|\\
-                       &\leq \sup_{\Lip(g)\leq 1}\left|\sum_{i=1}^m p_ir_i\left|\int r_i^{-1}g(F_i(x))\d{(\mu-\nu)(x)}\right|
+                       &\leq \sup_{\Lip(g)\leq 1}\sum_{i=1}^m p_ir_i\left|\int r_i^{-1}g(F_i(x))\d{(\mu-\nu)(x)}\right|
     \end{align*}
     where $r_i$ is the contraction factor of $F_i$.
     Moreover, notice that
@@ -1236,7 +1237,7 @@ If $F_i(A)\subseteq A$, then $E=\bigcap_{k=0}^\infty F^{(k)}(A)$.
             \begin{align*}
                 \mu(E_\sigma) &=\sum_{i=1}^mp_i\mu(F_i^{-1}(E_\sigma))\\
                               &\geq p_{\sigma_1}\mu(E_{\sigma_2\ldots \sigma_k})\\
-                              &= p_{\sigma_1}\left(\sum_{i=1}^m p_i\mu(F_i^{-1}(E_{\sigma_2\ldots\sigma_k}))\\
+                              &= p_{\sigma_1}\left(\sum_{i=1}^m p_i\mu(F_i^{-1}(E_{\sigma_2\ldots\sigma_k}))\right)\\
                               &\geq\cdots\geq p_\sigma
             \end{align*}
             On the other hand, since $E=\bigcup_{\sigma\in\Sigma^k}E_\sigma$ disjointly,
@@ -1323,7 +1324,7 @@ The strong separation condition implies the open set condition by taking, say, $
     Therefore $N-r(E)\leq a^{-s}r^{-s}$ for all small $r$.
     We may now compute
     \begin{align*}
-        \overline{\dim}_BE = \limsup_{r\to 0}\frac{\log N_r(E)}{|\log r|}\leq\limsup_{r\to g\frac{\log a^{-s}r^{-s}}}{\log r^{-1}}=s
+        \overline{\dim}_BE = \limsup_{r\to 0}\frac{\log N_r(E)}{|\log r|}\leq\limsup_{r\to 0}\frac{\log a^{-s}r^{-s}}{\log r^{-1}}=s
     \end{align*}
     so that $\overline{\dim}_BE\geq\underline{\dim}_BE\geq\dim_HE=s$.
     In particular, $\mathcal{H}^s_{2r}(E)$ is bounded above by the sum of the covering balls of radius $2r$, so $\mathcal{H}^s_{2r}(E)\leq 4^sa^{-s}$.
@@ -1354,7 +1355,7 @@ Choose some $\sigma\in\Lambda_r(x)$ with maximal length.
 Pick some index $i$ such that if $\lambda\in\Lambda_r(x)$, then $\lambda=(\sigma_1\ldots,\sigma_i,\lambda_{i+1},\ldots,\Lambda_N)$.
 But then
 \begin{align*}
-    2r\geq d(F_\sigma(E),F_\lambda(E)) &= r_{\sigma_1}\cdots r_{\sigma_k}d(F_{\sigma_{i+1}}\circ\cdots\circ F_{\sigma_L}(E),F_{\lambda_{i+1}}\circ\cdots\circF_{\lambda_N})\\
+    2r\geq d(F_\sigma(E),F_\lambda(E)) &= r_{\sigma_1}\cdots r_{\sigma_k}d(F_{\sigma_{i+1}}\circ\cdots\circ F_{\sigma_L}(E),F_{\lambda_{i+1}}\circ\cdots\circ F_{\lambda_N})\\
                                        &\geq r_{\sigma_1}\cdots r_{\sigma_i}d_0
 \end{align*}
 so that $2r\geq r_{\sigma_1}\cdots r_{\sigma_i}d_0$.
@@ -1634,7 +1635,7 @@ Recall
     Thus $\underline{\dim}_{\loc}\mu(x)\geq s$ for all $x\in E$.
 \end{proof}
 \begin{corollary}
-    $\dim_H E=\sup\{s:\exists\mu\text{ with }0<\mu(E)<\infty,\unerline{\dim}_{\loc}\mu(x)\geq s\forall\mu\text{ a.e. }x\in E\}$.
+    $\dim_H E=\sup\{s:\exists\mu\text{ with }0<\mu(E)<\infty,\underline{\dim}_{\loc}\mu(x)\geq s\forall\mu\text{ a.e. }x\in E\}$.
 \end{corollary}
 Recall that $\dim_H\mu=\inf\{\dim_HE:\mu(E)>0\}$.
 \begin{proposition}
@@ -1749,6 +1750,11 @@ Take any $x\in F_p$, and get minimal $k$ such that $B(x,r)\supseteq I_k(x)$.
     Define $f$ by $f(x)=F_i^{-1}(x)$ if $x\in F_i(E)$.
     One can verify that $\mu$ is invariant and ergodic under $f$.
 \end{example}
+\begin{theorem}[Mean Ergodic]
+    Let $f:X\to X$, $\mu$ a finite measure on $X$ which is invariant and ergodic under $f$.
+    Let $G\in L^1(\mu)$.
+    Then $\lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}G(f^{(j)}(g))=\frac{1}{\mu(X)}\int_XG(z)\d{\mu(z)}$.
+\end{theorem}
 \begin{theorem}
     Let $f:X\to X$ be Lipschitz and $\mu$ a finite Borel measure that is invariant and ergodic under $f$.
     Then $\mu$ has exact upper and lower dimensions.
@@ -1770,11 +1776,11 @@ Take any $x\in F_p$, and get minimal $k$ such that $B(x,r)\supseteq I_k(x)$.
     Take $G_1=\idc{B(f(x),cr)}$.
     Then
     \begin{equation*}
-        \lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}\idx{B(f(x),cr)}(f^{(j)}(f(x)))=\frac{1}{\mu(X)}\int_X G_1=\frac{\mu(B(f(x),cr))}{\mu(X)}
+        \lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}\idc{B(f(x),cr)}(f^{(j)}(f(x)))=\frac{1}{\mu(X)}\int_X G_1=\frac{\mu(B(f(x),cr))}{\mu(X)}
     \end{equation*}
     for a.e. $y$ by $f$ invariance.
     Thus $\mu(B(x,r))\leq\mu(B(f(x),cr))$.
-    In particular, $\underline{\dim}_{\loc}\mu(f(x))\eq\underline{\dim}_{\loc}\mu(x)$.
+    In particular, $\underline{\dim}_{\loc}\mu(f(x))\leq\underline{\dim}_{\loc}\mu(x)$.
     Since $\mu$ is $f$-invariant, for any Borel function $\Phi$, $\int\Phi(f)\d{\mu}=\int\Phi\d{\mu}$ so that
     \begin{equation*}
         \int\underline{\dim}_{\loc}\mu(f(x))\d{\mu(x)}=\int\underline{\dim}_{\loc}\mu(x)\d{\mu(x)}
@@ -1788,9 +1794,124 @@ Take any $x\in F_p$, and get minimal $k$ such that $B(x,r)\supseteq I_k(x)$.
 \begin{corollary}
     Self-similar measures satisfying the SSC are exact.
 \end{corollary}
-\begin{theorem}[Mean Ergodic]
-    Let $f:X\to X$, $\mu$ a finite measure on $X$ which is invariant and ergodic under $f$.
-    Let $G\in L^1(\mu)$.
-    Then $\lim_{k\to\infty}\frac{1}{k}\sum_{j=0}^{k-1}G(f^{(j)}(g))=\frac{1}{\mu(X)}\int_XG(z)\d{\mu(z)}$.
-\end{theorem}
+\section{Multifractal Analysis}
+In general, we are interested in the sets $E_\alpha=\{x:\dim_{\loc}\mu(x)=\alpha\}\subseteq\supp\mu$.
+We are interested in $\dim_HE_\alpha=f_H(\alpha)$.
+Clearly $0\leq f_H(\alpha)\leq\dim_H\supp\mu$.
+We have already seen if $\dim_{\loc}\mu(x)\leq\alpha$ for all $x\in F$, then $\dim_HF\leq\alpha$; thus, $f_H(\alpha)\leq\alpha$.
+\subsection{Coarse Theory}
+Let $N_r(\alpha)$ denote the number of $r$-mesh cubes $A$ with $\mu(A)>r^\alpha$.
+The coarse multifractal spectrum of $\mu$ is given by
+\begin{equation*}
+    f_c(\alpha) = \lim_{\epsilon\to 0}\left(\lim_{r\to 0}\frac{\log^+(N_r(\alpha+\epsilon)-N_r(\alpha-\epsilon))}{-\log r}\right)
+\end{equation*}
+where $\log^+(x)=\max\{0,\log x\}$ and $f_c(\alpha)\geq 0$.
+For small $r,\epsilon>0$, we have
+\begin{equation*}
+    r^{-(f_c(\alpha)-n)}\leq N_r(\alpha+\epsilon)-N_r(\alpha-\epsilon)\leq r^{-(f_c(\alpha)+n)}
+\end{equation*}
+which means roughly that the number of $r$-mesh cubes with measure $\approx r^\alpha$ is about $r^{-f_c(\alpha)}$.
+We write $\underline{f}_c$ and $\overline{f}_c$ with respect to the limit infimum / supremum.
+\begin{proposition}
+    $f_H(\alpha)\leq\underline{f}_c(\alpha)$.
+\end{proposition}
+\begin{proof}
+    We do this in $\R$.
+    Assume $f_H(\alpha)>0$.
+    Let $0<\epsilon<f_H(\alpha)$, $t=f_H(\alpha)-\epsilon$, so that $H^t(E_\alpha)=\infty$.
+    Observe that $\lim_{r\to 0}\frac{\log\mu(B(x,r))}{\log r}=\alpha$ for all $x\in E_\alpha$.
+    In particular, there exists $r_\epsilon$ such that for all $r\leq r_\epsilon$
+    \begin{equation*}
+        (\alpha-\epsilon)|\log k_2r|\leq |\log\mu(B(x,r))|\leq(\alpha+\epsilon)|\log(k_1r)
+    \end{equation*}
+    so that $(k_2r)^{-\alpha-\epsilon}\geq\mu(B(x,r))\geq(k_1r)^{\alpha+\epsilon}$, for fixed $k_1,k_2$.
+    In particular, take $k_1=3$ and $k_2=1/2$ so $3r^{\alpha+\epsilon}\leq \mu(B(x,r))\leq 2^{\epsilon-\alpha}r^{\alpha-\epsilon}$ for sufficiently small $r$.
+    Let
+    \begin{equation*}
+        F_n = \left\{x\in E_\alpha:3r^{\alpha+\epsilon}\leq \mu(B(x,r))\leq 2^{\epsilon-\alpha}r^{\alpha-\epsilon}\text{ for all }r\leq\frac{1}{n}\right\}
+    \end{equation*}
+    so that $F_n\to E_\alpha$.
+    Thus there exists $N$ such that $H^t(F_N)>1$.
+    For $\delta$ sufficiently small, say $\delta\leq 1/(2N)$, $H_\delta^t(F_N)\geq 1$.
+    Think about the $r$-mesh intervals that intersect $F_N$.
+    For some fixed $x\in F_N$ and let $A$ be the $r$-mesh interval containing $x$, with adjacent intervals $A_R$ and $A_L$.
+    Then $A\subseteq B(x,r)\subseteq A_R\cup A\cup A_L\subseteq B(x,r2)$ so that
+    \begin{equation*}
+        3r^{\alpha+\epsilon}  \leq \mu(B(x,r))\leq \mu(A\cup A_R\cup A_L)\leq \mu(B(x,2r))\leq r^{\alpha-\epsilon}.
+    \end{equation*}
+    Then there exists some $A_0\in\{A,A_R,A_L\}$ such that $r^{\alpha+\epsilon}\leq\mu(A_0)\leq r^{\alpha-\epsilon}$.
+    Thus the number of mesh intervals with $\mu$-measure in $[r^{\alpha+\epsilon},r^{\alpha-\epsilon}]\geq 1/3r^{-(f_H(\alpha)-\epsilon)}$.
+    In particular,
+    \begin{align*}
+        \frac{\log^+(N_r(\alpha+\epsilon)-N_r(\alpha-\epsilon))}{-\log r}\geq\frac{\log(\frac{1}{3}r^{-(f_H(\alpha)-\epsilon)})}{-\log r}\to f_H(\alpha)-\epsilon
+    \end{align*}
+    and let $\epsilon\to 0$.
+\end{proof}
+\subsection{Legendre Transform}
+Let $\beta:\R\to\R$ be convex.
+We define $f(\alpha)=\int_{q\in\R}(\beta(q)+\alpha q)$; we are interested in the case as $\beta\to 0$.
+When $\beta$ is differentiable, $\beta'(q)+\alpha=0$ if and only if $\alpha=-\beta'(q)$.
+This $q$ gives the global minimum.
+Thus $f(\alpha)=\beta(q_\alpha)+\alpha q_\alpha$ where $\alpha=-\beta'(q_\alpha)$.
+Equivalently, $f(\alpha)$ is the $y$-intercept to the curve $\beta$ at $q_\alpha$.
+
+Let $\mathcal{Q}$ denote the set of $r$-mesh cubes $A$ with $\mu(A)>0$, and let $M_r(q)=\sum_{A\in\mathcal{Q}}\mu(A)^q$.
+If $q\geq 0$ and $\mu(A)\geq r^\alpha$, then $\mu(A)^q\geq r^{\alpha q}$ so
+\begin{equation*}
+    M_r(q)\geq
+    \begin{cases}
+        r^{\alpha q}N_r(\alpha) &: q\geq 0\\
+        r^{\alpha q}\cdot(\#r-\text{mesh cubes with }\mu(\cdot)\leq r^\alpha &: q<0
+    \end{cases}.
+\end{equation*}
+Put $\underline{\beta}(q)=\liminf_r\frac{\log M_r(q)}{-\log r}$.
+\begin{proposition}
+    $f_C(\alpha)\leq\inf_q\{\beta(q)+\alpha q\}$.
+\end{proposition}
+\begin{proof}
+    First suppose $q\geq 0$ and fix $n>0$.
+    Then
+    \begin{align*}
+        M_r(q) &\geq r^{(\alpha+\epsilon)q}N_r(\alpha+\epsilon)\geq r^{(\alpha+\epsilon)q}(N_r(\alpha+\epsilon)-N_r(\alpha-\epsilon))\\
+               &\geq r^{(\alpha+\epsilon)q}{r^{-(f_c(\alpha)-n)}}=r^{(\alpha+\epsilon)q-f_c(\alpha)+n}.
+    \end{align*}
+    In particular,
+    \begin{align*}
+        \frac{\log M_r(q)}{-\log r} &\geq\frac{\left((\alpha+\epsilon)q-\underline{f}_c(\alpha)+n\right)\log r}{-\log r}\\
+                                    &= -(\alpha+\epsilon)q+\underline{f}_c(\alpha)-n
+    \end{align*}
+    so that $\underline{\beta}(q)\geq-(\alpha+\epsilon)q+\underline{f}_c(\alpha)-n$.
+    Thus $\underline{f}_c(\alpha)\leq\underline{\beta}(q)+\alpha q$.
+
+    For $q<0$,
+    \begin{align*}
+        M_r(q)&\geq r^{q(\alpha-\epsilon)}(N_r(\alpha+\epsilon)-N_r(\alpha-\epsilon))\\
+              &\geq r^{q(\alpha-\epsilon)}r^{-(\underline{f}_c(\alpha)-n)}
+    \end{align*}
+    and the argument proceeds as before.
+\end{proof}
+\subsection{Fine Theory}
+Let $E_\alpha$ be as before.
+Suppose we are given similarities $\{F_i\}$, probabilities $\{p_i\}$, and contraction factors $\{r_i\}$ as $i$ ranges over $\Lambda$.
+We also assume that this IFS satisfies the strong separation condition, i.e. its invariant compact set $K$ satisfies $K=\bigcupdot_{i\in\Lambda}F_i(K)$.
+Define $\beta(q)$ by $\sum_{i\in\Lambda}p_i^q r_i^{\beta(q)}=1$.
+By the implicit function theorem, $\beta$ is well-defined and differentiable of all orders.
+Let $q\to-\infty$, so $\beta(q)\to+\infty$, and as $q\to +\infty$, $\beta(q)\to -\infty$.
+As well, $\beta$ is a strictly decreasing function.
+Differentiating, we have
+\begin{align*}
+    0 &= \sum\log p_i p_i^qr_i^{\beta(q)}+p_i^qr_i^{\beta(q)}\log r_ibeta'(q)\\
+      &= \sum p_i^qr_i^{\beta(q)}(\log p_i+\beta'(q)\log r_i)
+\end{align*}
+and differentiating again,
+\begin{align*}
+    0 &= \sum p_i^qr_i^{\beta(q)}(\log p_i+\beta'(q)\log r_i)^2+p_i^qr_i^{\beta(q)}\beta''(q)\log r_i
+\end{align*}
+so that
+\begin{equation*}
+    \beta''(q)\sum p_i^qr_i^{\beta(q)}(-\log r_i)=\sum p_i^qr_i^{\beta(q)}(\cdot)^2
+\end{equation*}
+so that $\beta''(q)>0$ and $\beta$ is convex.
+If there exists $i$ such that $\log p_i+\beta'(q)\log r_i\neq 0$, then $\beta''(q)>0$ for all $q$.
+This happens if $\frac{\log p_i}{\log r_i}$ is not constant over $i$, so we assume we are in this case.
 \end{document}
