@@ -1350,9 +1350,9 @@ for any $a<d<b$.
 \subsection{Extensions of Itô's Integral}
 Stochastic integral with stopping time
 \begin{lemma}
-    Let $f\in V(0,T)$ and $T$ a stopping time.
-    Set $m(t)=\int_0^Tf_s\d{B_s}$.
-    Then $M(T)=\int_0^Tf(s)\d{B_s}=\int_0^Tf(s)\idc{s<T}\d{B_s}$.
+    Let $f\in V(0,T)$ and $\tau$ a stopping time.
+    Set $M(t)=\int_0^tf_s\d{B_s}$.
+    Then $M(\tau):=\int_0^\tau f(s)\d{B_s}=\int_0^Tf(s)\idc_{s<\tau}\d{B_s}$.
 \end{lemma}
 \begin{proof}
     The proof clearly holds when $f$ is an elementary process and $\tau$ is simple.
@@ -1914,7 +1914,7 @@ Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral a
         A_t^n &= \sum_{k\geq 1}(M(t_k^n)-M(t_{k-1}^n))^2
     \end{align*}
     so that $M_t^2=2(H^n\cdot M)_t+A_t^n$.
-    Then as $n\to\infty$, $H^n\cdt M\to M\cdot M$ and $A^n\to [M]$.
+    Then as $n\to\infty$, $H^n\cdot M\to M\cdot M$ and $A^n\to [M]$.
     For the second equality, define $t_i^n=i2^{-n}\wedge t$.
     Then
     \begin{equation*}
@@ -1934,7 +1934,7 @@ Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral a
 \begin{proof}
     Without loss of generality, $X_0=Y_0=0$.
     Let $X=M+A$, $Y=N+B$.
-    By localization, we can further assume that $M$, $N$ are bouded martingales.
+    By localization, we can further assume that $M$, $N$ are bounded martingales.
     By the previous lemma,
     \begin{align*}
         (M+N)_t^2 &= \int_0^t2(M+N)_s\d{(M+N)_s}+[M+N]_t\\
@@ -2011,7 +2011,91 @@ Then $H\cdot X=H\cdot M+H\cdot A$, where $H\cdot M$ is the stochastic integral a
 \end{theorem}
 This is essentially the same as the Ito's formula for brownian motion, with the main difference that $\d{[X^i,X^j]}$ replaces $\d{B_i}\d{B_j}$, and is typically not $\delta_{ij}\d{t}$.
 \begin{proof}
-    ...
-\end{proof}
+    Let $\mathcal{A}$ denote the set of all $c^2$ functions for which Itô's formula holds.
+    In particular, if $f,g\in\mathcal{G}$ and $c$ is some constant, we will show that $fg$, $f+g$, and $cf$ are also elements of $\mathcal{A}$.
 
+    Define $F_t=f(X_t)$ and $G_t=g(X_t)$, so that $F$ and $G$ are semimartingales where
+    \begin{align*}
+        f(X_t) &= f(X_0) + \int_0^tf'(X_s)\d{(M+A)_s}+\frac{1}{2}\int_0^tf''(X_s)\d{[M+A]_s}\\
+               &= f(X_0)+\int_0^tf'(X_s)\d{M_s}+\int_0^tf'(X_s)\d{A_s}+\frac{1}{2}\int_0^tf''(X_s)\d{[M]_s}.
+    \end{align*}
+    Also, we know from above that
+    \begin{align*}
+        [F,G]_t &= [\int_0^\cdot f'(X_t)\d{M_s},\int_0^\cdot g'(X_S)\d{M_s}]_t\\
+                &= \int_0^t f'(X_s)g'(X_s)\d{[M]_s}
+    \end{align*}
+    since $[H\cdot M,K\cdot N]_t=\int_0^tH_sK_s\d{[M,N]}_s$ and $\d{[H\cdot M,K\cdot N]}=HK\d{[M,N]}$.
+    Then integration by parts implies that
+    \begin{equation*}
+        F_tG_t-F_0G_0 = \int_0^t F_s\d{G_s}+\int_0^t G_s\d{F_s}+[F,G]_t.
+    \end{equation*}
+    Since $G=g'(X)\cdot X+\frac{1}{2}g''(X)\cdot[X]$,
+    \begin{align*}
+        \int_0^t F_s\d{G_s} &= (F\cdot G)_t=(F\cdot(g'(X)\cdot X))_t+\frac{1}{2}(F(g''(X)\cdot[X]))_t\\
+                            &= (fg'(X)\cdot X)_t+\frac{1}{2}(fg''(X)\cdot[X])_t\\
+                            &= \int_0^t F_sg'(X_s)\d{X_s}+\frac{1}{2}\int_0^tF_sg''(X_s)\d{[M]}
+    \end{align*}
+    and similar results hold for $\int_0^t G_s\d{F_s}$.
+    \begin{equation*}
+        F_tG_t-F_0G_0 = \int_0^t(F_sg'(X_s)+f'(X_s)G_s)\d{X_s}+\frac{1}{2}\int_0^tF_sg''(X_s)+2f'g'(X_s)+f''(X_s)G_s\d{[M]_s}
+    \end{equation*}
+    which is exactly what Itô's formula states for $fg$.
+    Thus $\mathcal{A}$ is an algebra, and clearly $\mathcal{A}$ contains $f(x)=x$, so that $\mathcal{A}$ separates points.
+    Define $U_n:=\inf\{t:|X_t|+[M]_t>n\}$, so $U_n\to\infty$.
+    It suffices to prove Itô's formula for arbitrary $f\in C^2$ on $[0,U_n]$.
+    By Stone-Weierstrass, $\mathcal{A}$ is uniformly dense so there exists polynomials $f_k$ such that the 1st and 2nd derivatives also converge uniformly to $f$ on compact intervals.
+    For $f_k$, we have
+    \begin{align*}
+        f_k(X_{t\wedge U_n}) - f_k(X_0) &= I_{1,k}(t)+I_{2,k}(t)+I_{3,k}(t)
+    \end{align*}
+    where
+    \begin{align*}
+        I_{1,k}(t) &= \int_0^tf'_k(X_s)\idc{0,U_n}\d{M_s}\\
+        I_{2,k}(t) &= \int_0^tf'_k(X_s)\idc{0,U_n}\d{A_s}\\
+        I_{3,k}(t) &= \int_0^t\frac{1}{2}f''_k(X_s)\idc{0,U_n}\d{[M]_s}.
+    \end{align*}
+    Define the corresponding terms for $f$ as $I_1(t)$, $I_2(t)$, and $I_3(t)$.
+    Since $A$ and $[M]$ have finite variation, $I_{2,k}(t)\to I_2(t)$ and $I_{3,k}(t)\to I_3(t)$.
+
+    For $I_{1,k}(t)$, by isometry, note that $\E(I_{1,k}(t)-I_1(t))^2=\int_0^t(f_k'(X_s)-f'(X_s)^2\d{[M]_s}\to 0$.
+    By Doob's martingale inequality,
+    \begin{equation*}
+        \sup_{0\leq s\leq t}|I_{1,k}(s)-I_1(s)|\to 0
+    \end{equation*}
+    for $t>0$, so there exists a subsequence suc that the above convergence holds almost surely.
+
+    Thus $f$ also satisfies Itô's formula.
+    Hence Itô's formula holds for all $f\in C^2$.
+\end{proof}
+In differential notation, $df(X_t)=f'(X_t)\d{X_t}+\frac{1}{2}f''(X_t)\d{[X]_t}$.
+\subsection{Stochastic Exponential / Doleáns-Dade (semi) martingale}
+Let $X$ be a continuous semimartingale vanishing at $0$.
+Then there exists a unique (continuous) semimartingale $z$ such that $Z_0=1$ and $Z_t=\int_0^tZ_s\d{X_s}$.
+$Z$ is called the stochastic exponential of $X$.
+\begin{proposition}
+    The explicit solution is given by $\mathcal{E}(X)_t=\exp(X_t-\frac{1}{2}[X]_t)$.
+\end{proposition}
+\begin{proof}
+    That $Z_t$ given as such satisfies $Z_t=\int_0^t Z_s\d{X_s}$ is an immediate result of Itô's formula.
+    It remains to show uniqueness.
+    Consider $Y_t=\exp(-X_t+\frac{1}{2}[X]_t)$.
+    Then Itô's formula implies that $\d{Y_t}=-Y_t\d{X_t}+Y_t\d{[X]_t}$.
+    Let $Z$ be any solution of $Z_t=\int_0^t Z_s\d{X_s}$ and consider $Y_tZ_t$.
+    We have
+    \begin{align*}
+        \d{(YZ)_t} &= Y_t\d{Z_t}+Z_t\d{Y_t}+[Y,Z]_t\\
+                   &= Y_tZ_t\d{X_t}+Z_t(-Y_t\d{X_t}+Y_t\d{[X]_t})-Y_tZ_t\d{[X]_t}=0.
+    \end{align*}
+    Thus $Y_tZ_t$ is constant, and since $Y_0=Z_0=1$, $Z_t=1/Y_t=\exp(X_t-1/2[X]_t)$.
+\end{proof}
+\begin{theorem}
+    The Brownian motion is the only continuous local martingale such that $B_0=0$ and $[B]_t=t$.
+\end{theorem}
+\begin{proof}
+    Consider $M_t^\theta=e^{i\theta B_t+\frac{1}{2}B_t^2}$.
+    Apply Itô's formula so $\d{M_t^\theta}=i\theta M_t^\theta\d{B_t}$, so $M^\theta$ is a continuous local martingale.
+    Moreover, since $|M_t^\theta|=e^{\frac{1}{2}\theta t}<\infty$ for each $t$, $M^\theta$ is a martingale.
+    Thus for $s<t$, $\E(e^{i\theta B_t}e^{\frac{1}{2}\theta^2 t}|\mathcal{F}_s)=e^{i\theta B_s}\cdot e^{\frac{1}{2}\theta^2s}$, that is $\E(e^{i\theta(B_t-B_s)}|\mathcal{F}_s)=e^{-\frac{1}{2}B^2(t-s)}$, so that $B$ has independent increments and $B_t-B_s\sim N(0,t-s)$.
+    Therefore $B$ is a Brownian motion.
+\end{proof}
 \end{document}

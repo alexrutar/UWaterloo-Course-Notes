@@ -2989,5 +2989,144 @@ so $\langle\cdot|\cdot$ is an inner product on $H\otimes H'$.
 Let $H\otimes^2 H'$ denote the completion, which is a Hilbert space.
 If $E,E'$ are orthonormal bases for $H,H'$, then $\spn\{e\otimes e':e\in E,e'\in E'\}$ is dense in $H\otimes^2 H'$ and thus an orthonormal basis.
 which is well-defined as it is bilinear.
+\begin{definition}
+    Given a unitary representation $\pi:G\to\mathcal{U}(H)$, we define $\overline{\pi}:G\to\mathcal{U}(\overline{H})$ by $\overline{\pi}(x)=\overline{\pi(x)}$ for $x\in G$.
+\end{definition}
+Note that if $\xi,\eta\in H$, then
+\begin{equation*}
+    \langle\overline{\pi}(\cdot)\overline{\xi}|\overline{\eta}\rangle=\langle\eta|\pi(\cdot)\xi\rangle=\overline{\langle\pi(\cdot)\xi|\eta\rangle}.
+\end{equation*}
+Hence if $G$ is compact, then $\pi\in\widehat{G}$ and $T_{\overline{\pi}}=\overline{T_\pi}$.
+Now, if $U\in\mathcal{U}(H)$ and $U'\in\mathcal{U}(H')$, the map $U\otimes U'(\xi\otimes\xi')=U\xi\otimes U'\xi'$ is a surjective linear isometry, hence extends to a unitary isometry $U\otimes U'\in\mathcal{U}(H\otimes^2 H')$.
+
+In particular, if $\pi,\pi'$ are unitary representations of $G$ on $H$, $H'$, define $\pi\otimes\pi':G\to\mathcal{U}(H\otimes^2 H')$ by $\pi\otimes\pi'(x)=\pi(x)\otimes\pi'(x)$.
+
+We may also define the \defn{Kronecker product} given by $\pi\times\pi':G\times G'\to\mathcal{U}(H\otimes H')$ by $\pi\times\pi'(x,y)=pi(x)\otimes\pi'(y)$.
+
+Note that if $\pi,\pi'$ are as above, then $\pi\times\pi'$ is an irreducible representation of $G\times G'$.
+However, if $G=G'$, there is no reason to expect that $\pi\otimes\pi'$ is irreducible.
+
+In particular, if $G$ is a copact group, let $T(G)=\spn\bigcup_{\pi\in\hat{G}}T_\pi$.
+Then $T(G)$ is a conjugate-closed subalgebra of $C(G)$, i.e. if $\pi,\pi'\in\widehat{G}$, complete reducibility and finite dimensionality,
+\begin{align*}
+    \pi\otimes\pi'=\bigoplus_{i=1}^n\pi_i^{(m_i)},\pi_i\in\widehat{G},m_i\text{-multiplicity of }\pi_i
+\end{align*}
+Let $P_{ij}$ denote the orthogonal projection from $H_\pi\otimes H_{\pi'}$ onto the subspace associated with the $j$-th copy of $\pi_i$.
+Then for $\xi,\eta\in H_\pi\otimes H_{\pi'}$, we have
+\begin{align*}
+    \langle\pi\otimes\pi'(\cdot)\xi|\eta\rangle &= \langle\pi\otimes\pi'(\cdot)\sum_{i=1}^n\sum_{j=1}^{m_i}P_{ij}\xi|\eta\rangle\\
+                                                &= \sum_{i=1}^n\sum_{j=1}^{m_i}\langle\pi(\cdot)P_{ij}\xi|P_{ij}\eta\rangle\in\bigoplus_{i=1}^n T_{\pi_i}\subseteq T(G).
+\end{align*}
+Recall that the left regular representation $\lambda:G\to\mathcal{U}(L^2(G))$ is given by $\lambda(x)f(y)=f(x^{-1}y)$ for all $x$ and $m$-a.e. $y$ in $G$.
+If $x\neq e$, find a compact neighbourhood $V$ of $e$ such that $x\notin V^2$.
+Then $\lambda(x)\idc{V}=\idc{xV}\neq\idc{V}=\lambda(e)\idc{V}$, so $\ker\lambda=\{e\}$.
+Notice that $C(G)\subseteq L^2(G)$ is a dense subset.
+\begin{theorem}[Peter-Weyl]
+    Let $G$ be a compact group.
+    \begin{enumerate}[nl,r]
+        \item For $\pi\in\widehat{G}$, let $(e_1^\pi,\ldots,e_{d_\pi}^\pi)$ be an orthonormal basis for $H_\pi$, and let $\pi_{ij}=\langle\pi(\cdot)e_j^\pi|e_i^\pi\rangle$.
+            Then $T_{\pi,i}=\spn\{\pi_{ij}:j=1,\ldots,d_\pi\}$ is $\pi$-invariant, with
+            \begin{equation*}
+                \lambda_{\pi,i}=\lambda(\cdot)|_{T_{\pi,i}}\approx\overline{\pi}
+            \end{equation*}
+        \item $T(G)=\bigoplus_{\pi\in\widehat{G}}T_\pi$ is uniformly dense in $C(G)$, and hence in $L^2(G)$.
+        \item $L^2(G)=\bigoplus_{\pi\in\widehat{G}}T_\pi\cong\bigoplus_{\pi\in\widehat{G}}H_{\overline{\pi}}^{d_\pi}$ and $\lambda\approx\bigoplus_{\pi\in\widehat{G}}\overline{\pi}^{(d_\pi)}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[nl,r]
+        \item Let $x,y\in G$.
+            We use matrix products to see
+            \begin{align*}
+                \lambda(x)\pi_{ij}(y) =\pi_{ij}(x^{-1}y)=\sum_{k=1}^{d_\pi}\pi_{ij}(x^{-1}\pi_{kj}(y)
+            \end{align*}
+            so that $\lambda(x)\pi_{ij}=\sum_{k=1}^{d_\pi}\overline{\pi_{ki}}(x)\pi_{kj}$.
+            Let $U:H_\pi\to T_{\pi,i}$ be given by $Ie_j^{\pi}=\sqrt{d_\pi}\pi_{ij}$.
+            Then
+            \begin{align*}
+                U^*\lambda_{\pi,i}(x) Ue_j^\pi &= U^*\lambda_{\pi,i}(x)\sqrt{d_\pi}\pi_{ij}\\
+                                               &= \sqrt{d_\pi}U^*\sum_{j=1}^{d_\pi}\overline{\pi_{ki}}(x)\pi_{kj}\\
+                                               &= \sum_{j=1}^{d_\pi}\overline{\pi_{ki}}(x)e_k^\pi=\overline{\pi}(x)e_i^\pi
+            \end{align*}
+            so that $U^*\lambda_{\pi,i}(\cdot)U=\overline{\pi}$.
+        \item Since $\lambda$ is injective and completely reducible, we see that $T(G)$ is point-separating: $\lambda=\bigoplus_{\alpha\in A}\pi_\alpha$, each $\pi_\alpha\in\widehat{G}$, $\ker\lambda=\bigcap_{\alpha\in A}\ker\pi_\alpha$.
+            Thus by Stone-Weierstrass, $\overline{T(G)}=C(G)$.
+            Finally, $\norm{\cdot}_\infty\geq\norm{\cdot}_2$ since $m(G)=1$, so $\overline{T(G)}^{\norm{\cdot}_2}=L^2(G)$.
+        \item By Schur orthogonality, $T_{\pi,i}\perp T_{\pi,k}$ for $i\neq k$ in $1,\ldots,d_{\pi}$.
+            Thus combining (i) and (ii), $\{\sqrt{d_\pi}\pi_{ij}:\pi\in\widehat{G},i,j=1,\ldots,d_\pi\}$ is an orthonormal basis for $L^2(G)$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    A \defn{hypergroup} in $\widehat{G}$ is a subset $S\subseteq\widehat{G}$ such that
+    \begin{enumerate}[nl,a]
+        \item $S$ is conjugate closed: $\overline{\pi}\in\widehat{G}$ if $\pi\in\widehat{G}$
+        \item $S$ is closed under tensor products: $\pi,\pi'\in S$, $\pi\otimes\pi'=\bigoplus_{i=1}^\infty\pi_i^{(m_i)}$, then each $\pi_i\in S$
+    \end{enumerate}
+\end{definition}
+\begin{corollary}
+    Let $S\subseteq\widehat{G}$ be a hypergroup.
+    Then $S=\widehat{G}$ if and only if $\{e\}=\bigcap_{\pi\in S}\ker\pi$ ($S$ is point separating).
+\end{corollary}
+\begin{proof}
+    \impl
+    We have $T_S=\spn\bigcup_{\pi\in S}T_\pi$ is a conjugate-closed, point-separating subalgebra of $C(G)$, and thus dense.
+    Hence $\{\sqrt{d_\pi}\pi_{ij}:\pi\in S,i,j=1,\ldots,d_\pi\}$ is an orthonormal basis for $L^2(G)$, so $S=\widehat{G}$.
+\end{proof}
+\begin{corollary}
+    $x\mapsto(\pi(x))_{\pi\in\widehat{G}}:G\to\prod_{\pi\in \widehat{G}}U(d_\pi)$ where $U(d_\pi):=U(H_\pi)$ is a homeomorphism onto its range.
+\end{corollary}
+\begin{theorem}[Lie Dichotomy]
+    Either
+    \begin{enumerate}[nl,r]
+        \item $\widehat{G}=\langle\pi_1,\ldots,\pi_n\rangle$ (finitely generated is a hypergroup), in which case $\iota=\bigoplus_{i=1}^n\pi_n:G\to U(d_{\pi_1}+\cdots+d_{\pi_n})$ is injective, i.e. $G\cong\iota(G)\subseteq U(d)$ (compact Lie group)
+        \item Every neighbourhood $V$ of $e$ contains a non-trivial closed normal subgroup.
+    \end{enumerate}
+\end{theorem}
+\begin{example}
+    \begin{enumerate}[nl,r]
+        \item All compact subgroups of $\GL_n(\R)$
+        \item
+            \begin{itemize}[nl]
+                \item $\mathbb{T}^{\N}$, each $N=\{e\}\times\cdots\times\{e\}\times\mathbb{T}\times\mathbb{T}\times\cdots$
+                \item totally disconnected infinite compact groups (A1)
+                \item $\prod_{d\in D}U(d)$, $D\subseteq\N$ infinite,
+            \end{itemize}
+    \end{enumerate}
+\end{example}
+\subsection{Fourier Analysis on Compact Groups}
+For $f\in L^1(G)$ and $\pi\in\widehat{G}$, define
+\begin{align*}
+    \hat{f}(\pi) &= \int_G f(x)\pi(x^{-1})\d{x}\cong\int_Gf(x)\overline{\pi_{ji}(x)}\d{x}
+\end{align*}
+and $f\mapsto\hat{f}$ is called the Fourier transform.
+If $f\in L^2(G)\subseteq L^1(G)$, we get $L^2$-converging series
+\begin{align*}
+    f &= \sum_{\pi\in\widehat{G}}\sum_{i,j=1}^{d_\pi}\langle f,\sqrt{d_\pi}\pi_{ij}\rangle\sqrt{d_\pi}\pi_{ij}\\
+      &= \sum_{\pi\in\widehat{G}}d_\pi\left[\sum_{i,j=1}^{d_\pi}\int_G f\overline{\pi_{ij}}\d{m}\right]\pi_{ij}\\
+      &= \sum_{\pi\in\widehat{G}}d_\pi\tr(\hat{f}(\pi)\pi(\cdot)
+\end{align*}
+\begin{theorem}[Plancherel]
+    If $f\in L^1(G)$, then
+    \begin{equation*}
+        f\in L^2(G)\iff\sum_{\pi\in\widehat{G}}dd_\pi\norm{\hat{f}(\pi)}_2^2
+    \end{equation*}
+    where $\norm{A}_2^2=\sum_{i,j=1}^d|A_{ij}|^2$ for $A\in M_d(\C)$.
+\end{theorem}
+\begin{proof}
+    Apply Riesz-Fischer to basis $\{\sqrt{d_\pi}\pi_{ij}:\pi\in\widehat{G},i,j=1,\ldots,d_\pi\}$.
+\end{proof}
+\begin{proposition}[Parseval's Formula]
+    If $f,g\in L^2(G)$, then
+    \begin{equation*}
+        \int_Gf\overline{g}\d{m}=\sum_{\pi\in\widehat{G}}d_{\pi}\tr(\hat{f}(\pi)\hat{g}(\pi)^*).
+    \end{equation*}
+\end{proposition}
+\begin{proposition}
+    For $\mu\in M(G)$, $\pi\in\widehat{G}$, $\hat{\mu}(\pi)=\int_G\pi(x^{-1})\d{\mu(x)}$, then $\hat{\mu(\pi)}=0$ for all $\pi\in\widehat{G}$ if and only if $\mu=0$.
+\end{proposition}
+\begin{proof}
+    If $\hat{\mu}(\pi)=0$, then $\int_G f\d{\mu}=0$ for all $f\in T_{\overline{\pi}}$.
+    Since $\overline{T(G)}=C(G)$, $\hat{\mu}(\pi)=0$ for all $\pi\in\widehat{G}$ implies that $\mu=0$.
+\end{proof}
 \section{Introduction to Amenability Theory}
 \end{document}

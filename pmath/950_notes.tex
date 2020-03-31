@@ -1914,4 +1914,88 @@ so that
 so that $\beta''(q)>0$ and $\beta$ is convex.
 If there exists $i$ such that $\log p_i+\beta'(q)\log r_i\neq 0$, then $\beta''(q)>0$ for all $q$.
 This happens if $\frac{\log p_i}{\log r_i}$ is not constant over $i$, so we assume we are in this case.
+
+Recall that $q=(\beta')^{-1}(-\alpha)$ is continuous in alpha, so that
+\begin{equation*}
+    f(\alpha)=\beta(q(\alpha))-\beta'(q(\alpha))\cdot q(\alpha)
+\end{equation*}
+If $q(\alpha)=0$, then $f(\alpha)=\beta(0)$ where $\sum_{i=1}^mr+i^{\beta(0)}=1$, so that $\beta(0)=\dim_H X$.
+If $q(\alpha)=1$, then $\beta(q)=0$.
+Since $\sum p_i=1$, we have $f(\alpha)=\beta(1)-\beta'(1)=-\beta'(1)=\alpha$.
+\begin{theorem}
+    $\dim_H E_\alpha=f(\alpha)$.
+\end{theorem}
+\begin{proof}
+    Our goal is to construct probability measures $\nu_\alpha$ concentrated on $E_\alpha$ and having $\dim_{\loc}\nu_\alpha(x)=f(\alpha)$ for all $x\in E_\alpha$, so $\dim_H E_\alpha=f(\alpha)$ from previous results.
+    Fix $\alpha$ and take $q(\alpha)$ such that $\beta=\beta(q(\alpha))$.
+    Define $\nu_\alpha(X_{i_1\cdots i_k})=(p_{i_1}\cdots p_{i_k})^q(r_{i_1}\cdots r_{i_k})^{\beta(q)}$ where $X_{i_1\cdots i_k}=F_{i_1}\circ\cdots\circ F_{i_k}(E)$; one can use the subdivision method to see that this defines a measure.
+
+    We first note that for any $\sigma\in\Sigma^*$
+    \begin{align*}
+        \frac{\log\nu_\alpha(X_\sigma)}{\log|X_\sigma|}&=\frac{\log(p_\sima^qr_\sigma^\beta)}{\log r_\sigma}=\frac{q\log p_\sigma+\beta\log r_\sigma}{\log r_\sigma}\\
+                                                       &= q\frac{\log p_\sigma}{\log r_\sigma}+\beta=q\frac{\log \mu(X_\sigma)}{\log|X_\sigma|}+\beta
+    \end{align*}
+    so that $\frac{\log\mu(X_\sigma)}{\log|X_\sigma|}\to\alpha$ if and only if $\frac{\log\nu_\alpha(X_\sigma)}{\log r_\sigma}\to q\alpha+\beta=f(\alpha)$.
+
+    We now proceed with an argument from befre and show that $\frac{\log\mu(B(x,r))}{\log r}\to \alpha$ if and only if $\frac{\log\mu(X_k(x))}{\log|X_k(x)|}\to\alpha$ as $k\to\infty$, and similarly for $\nu_\alpha$.
+    Given $B(x,r)$, choose $k$ minimal such that $X_k(x)\subseteq B(x,r)$.
+    Then
+    \begin{align*}
+        \frac{|\log\mu(B(x,r))|}{|\log r|}\leq\frac{|\log \mu(X_k(x))|}{|\log|X_{k-1}(x)||}\sim\frac{|\log\mu(X_k(x))|}{|\log|X_k(x)||}.
+    \end{align*}
+    By the strong separation condition, $\min_{i\neq j}d(F_i(X),F_j(X))=\lambda>0$ so for $\sigma,\tau\in\Sigma^k$, for some $J<k$,
+    \begin{align*}
+        d(X_\sigma,X_\tau)  &= d(F_{\sigma|J}(\cdot),F_{\sigma|J}(\cdot))\\
+                            &= r_{\sigma|J}d(F_{\sigma_{J+1}}(\cdot),F_{\sigma_{J+1}}(\cdot))\geq\lambda r_{\sigma|J}\\
+                            &\geq \lambda r_{\sigma|(k-1)}=\lambda|X_{k-1}(x)|
+    \end{align*}
+    Let $x\in X_k(x)$ and take $y\in B(x,r)\cap X$.
+    Then $y\in X_{\tau}$ with $X_\tau\neq X_\sigma$, so
+    \begin{equation*}
+        d(x,y)\geq d(X_k(x),X_\sigma)\geq\lambda|X_{k-1}(x)|.
+    \end{equation*}
+    Given $x=(i_1,i_2,\ldots)$, pick maximal $k$ such that $x\in X_{i_1\cdots i_k}$.
+    Then $r<\lambda|X_{k-1}(x)|$, so $d(x,y)>r$, a contradiction, so $y\in X_{i_1\cdots i_k}=X_k(x)$.
+    Thus $B(x,r)\cap X\subseteq I_k(x)$.
+    We can then use this to show
+    \begin{equation*}
+        \frac{|\log\mu(B(x,r))|}{\log r}\geq\frac{\log\mu(X_k(x))}{|\log X_k(y)|}
+    \end{equation*}
+
+    We now want to show that $\nu_\alpha(E_\alpha)=1$.
+    Note that if $x\in E_\alpha$, then $\frac{\log\mu(X_k(x))}{\log|X_k(x)|}\to\alpha$, so $\frac{\log\nu_\alpha(X_k(x))}{\log|X_k(x)|}\to f(\alpha)$ and $\dim_{\loc}\nu_\alpha(x)=f(\alpha)$ for all $x\in E_\alpha$.
+
+    Define $\Phi(q,\beta)=\sum_{i=1}^m p_i^qr_i^\beta$, and $\beta(q)$ is defined implicitly by $\Phi(q,\beta(q))=1$.
+    Let $\epsilon>0$ and $q=q(\alpha)$.
+    Then there exists $\delta>0$ such that
+    \begin{enumerate}[nl,r]
+        \item $\Phi(q+\delta,\beta(q)+(\epsilon-\alpha)\delta)<1$
+        \item $\Phi(q-\delta,\beta(q)+(\alpha+\epsilon)\delta)<1$
+    \end{enumerate}
+
+    Our last step is to show that $\nu_\alpha(E_\alpha)=1$.
+    We show that for any $\epsilon>0$
+    \begin{equation*}
+        \liminf_{k\to\infty}\frac{\log\mu(X_k(x))}{\log|X_k(x)|}\geq\alpha-\epsilon
+    \end{equation*}
+    and
+    \begin{equation*}
+        \limsup_{k\to\infty}\frac{\log\mu(X_k(x))}{\log|X_k(x)|}\leq\alpha+\epsilon
+    \end{equation*}
+    so that $\dim_{\loc}\mu=\alpha$ $\nu_\alpha$-a.e., and $\nu_\alpha\{x:\dim_{\loc}mu(x)=\alpha\}$.
+    Then for $\delta$ sufficiently small so that the lemma applies,
+    \begin{align*}
+        \nu_\alpha\{x:\mu(X_k(x))\geq|X_k(x)|^{\alpha-\epsilon}\} &= \nu_\alpha\{x:\mu(X_k(x))^\delta\geq|X_k(x)|^{\delta(\alpha-\epsilon)}\}\\
+                                                                  &= \nu_\alpha\{x:\mu(X_k)^\delta|X_k|^{\delta(\epsilon-\alpha)}\geq 1\}\\
+                                                                  &\leq \int_{\{x:\mu(X_k)^\delta|X_k|^{\delta(\epsilon-\alpha)}\geq 1\}}\mu(X_j)^\delta|X_k|^{\delta(\epsilon-\alpha)}\\
+                                                                  &\leq \int_X\mu(X_k(x))^\delta|X_k(x)|^{\delta(\epsilon-\alpha)}\d{\nu_\alpha(x)}\\
+                                                                  &= \sum_{\sigma\in\Sigma^k}\int_{x\in X_\sigma}\mu(X_\sigma)^\delta|X_\sigma|^{\delta(\epsilon-\alpha)}\d{\nu_\alpha}\\
+                                                                  &=\sum_{\sigma\in\Sigma^k}p_\sigma^{\delta+q}r_\sigma^{\beta(q)+\delta(\epsilon-\alpha)}=\left(\sum_{i=1}^m p_i^{\delta+q}r_i^{\beta(q)+\delta(\epsilon-\alpha)}\right)^k\\
+                                                                  &= \left(\Phi(q+\delta,\beta+\delta(\epsilon-\alpha))\right)^k=\gamma^k
+    \end{align*}
+    for some $\gamma<1$.
+    Thus $\sum_{k=1}^\infty\nu_\alpha\{x:\mu(X_k(x))\geq|X_k(x)|^{\alpha-\epsilon}\}\leq\sum_{i=1}^\infty\gamma^k$, and the result follows by the Borel-Cantelli lemma.
+
+    To attain the upper bound, the same argument works using (ii) of the lemma.
+\end{proof}
 \end{document}
